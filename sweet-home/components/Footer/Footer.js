@@ -1,17 +1,9 @@
 const { Component } = require("react");
-import FooterStyle from '../styles/Footer.css'
 
-class Footer extends Component{
+export default function Footer({ children }){
     
-    constructor(props){
-        super(props);
-        this.state = { year: new Date().getFullYear()};
-    }
-
-    render(){
-
         return (
-            <div className = {FooterStyle}>
+            <div>
                 <ul>
                     <li><a href ='../pages/Info'>Información</a></li>
                     <li><a href ='../pages/Privacy'>Privacidad</a></li>
@@ -19,13 +11,33 @@ class Footer extends Component{
                     <li><a href ='../pages/Language'>Idioma</a></li>
                     <div><li> &copy; {this.state.year} Sweet Home Corp </li></div>
                 </ul>
+                <style jsx>{`
+
+                        div{
+
+                            display: flex;
+                            font-family: 'Poppins', Arial, Helvetica, sans-serif;
+                            color: #f0810f;
+
+                            }
+
+                            div ul{
+
+                            flex-direction: row;
+                            justify-content: flex-start;
+
+                            }
+
+                            div ul div{
+
+                            justify-content: flex-end;
+
+                        }
+                    
+                `}
+                </style>
             </div>
 
         );
 
-    }
-
 }
-
-
-export default Footer;

@@ -1,17 +1,12 @@
 const { Component } = require("react");
-import HeaderStyle from '../styles/Header.css'
+import LogoWeb from '../../public/LogoWeb.png'
 
-class Header extends Component{
-    
-    constructor(props){
-        super(props);
-    }
-
-    render(){
+export default function Header({ children }){
 
         return (
-            <div className = {HeaderStyle}>
+            <div>
                 <ul>
+                    <li><a href  ='../../'><img src={LogoWeb}>Imagen LogoWeb</img></a></li>
                     <li><a href ='../pages/Home'>Inicio</a></li>
                     <li><a href ='../pages/Attendances'>Cuidados</a></li>
                     <li><a href ='../pages/AboutUs'>¿Quiénes somos?</a></li>
@@ -22,13 +17,22 @@ class Header extends Component{
                         </a>
                     </li>
                 </ul>
+                <style jsx>{`
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                `}</style>
             </div>
 
         );
 
-    }
 
 }
 
-
-export default Header;

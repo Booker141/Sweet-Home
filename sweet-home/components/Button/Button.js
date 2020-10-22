@@ -1,18 +1,33 @@
-import { Component } from "react";
-import { render } from "react-dom";
-import ButtonStyle from "../styles/Button.css"
 
-class Button extends Component{
+export default function Button({ children }){
 
-    constructor(props){
-        super(props);
-    }
-
-    render(){
         return (
-            <button className = {ButtonStyle}>Prueba</button>
+            <div>
+                <button>{ children }</button>
+                <style jsx>
+                {`
+                             
+                    button{
+
+                            height: 60px;
+                            width: 250px;
+                            padding: 4px;
+                            position: relative;
+                            margin: 0 auto;
+                            background-image: linear-gradient(to right, #f0810f 30%, #f9A603 70%);
+                            border-radius: 40px;
+                            box-sizing: border-box;
+                            color: #f0810f;
+                            display: block;
+                            font-family:'Poppins', Arial, Helvetica, sans-serif;
+
+                    }
+
+                `}
+                </style>
+            </div>
         );
-    }
+
 }
 
 export default Button;
