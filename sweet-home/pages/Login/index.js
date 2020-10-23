@@ -1,9 +1,7 @@
 import styles from '../styles/globals.css' 
 
-export default function Contact(){
+export default function Login(){
 
-    return()
-
-   
+    return(<div>Hola</div>);
 
 }
