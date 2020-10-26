@@ -1,5 +1,8 @@
+//Style
+import {fonts} from '../../styles/frontend-conf.js'
+import {colors} from '../../styles/frontend-conf.js'
 
-export default class Footer extends Component{
+export default class Footer extends React.Component{
     
     constructor(props){
         super(props);
@@ -7,7 +10,7 @@ export default class Footer extends Component{
     }
 
 
-    render({ children }){
+    render(){
         return (
         <div>
             <ul>
@@ -15,15 +18,15 @@ export default class Footer extends Component{
                 <li><a href ='../pages/Privacy'>Privacidad</a></li>
                 <li><a href ='../pages/Conditions'>Condiciones</a></li>
                 <li><a href ='../pages/Language'>Idioma</a></li>
-                <div><li> &copy; {this.state.year} Sweet Home Corp </li></div>
+                <div><li> &copy; 2021 Sweet Home Corp </li></div>
             </ul>
             <style jsx>{`
 
                     div{
 
                         display: flex;
-                        font-family: 'Poppins', Arial, Helvetica, sans-serif;
-                        color: #f0810f;
+                        font-family: ${fonts.default};
+                        color: ${colors.primary};
 
                         }
 

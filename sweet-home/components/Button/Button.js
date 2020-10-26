@@ -1,13 +1,13 @@
 
-export default class Button extends Component(){
+export default class Button extends React.Component(){
 
     constructor(props){
         super(props);
         this.props = props;
     }
 
-    render({ children }){
-
+    render(){
+        const { children } = this.props;
         return (
         <div>
             <button>{ children }</button>
@@ -26,7 +26,7 @@ export default class Button extends Component(){
                         box-sizing: border-box;
                         color: #f0810f;
                         display: block;
-                        font-family:'Poppins', Arial, Helvetica, sans-serif;
+                        font-family:'Poppins-Light';
 
                 }
 

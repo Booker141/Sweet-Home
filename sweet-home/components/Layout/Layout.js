@@ -1,23 +1,20 @@
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
+import theme from '../../styles/layout-theme'
 
-
-export default class Layout extends Component{
+export default class Layout extends React.Component{
 
     constructor(props){
         super(props);
         this.props = props;
     }
     
-    render({ children }){
-        
+    render(){
+        const { children } = this.props;
         return(
             <div>
-                <Header />
                 <main>
                     { children }
                 </main>
-                <Footer />
+                <style jsx>{theme}</style>
             </div>
         );
     }

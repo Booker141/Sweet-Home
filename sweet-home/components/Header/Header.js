@@ -1,32 +1,38 @@
+//Style
+
+import {fonts} from '../../styles/frontend-conf.js'
+import {colors} from '../../styles/frontend-conf.js'
+
 const { Component } = require("react");
-import LogoWeb from '../../public/LogoWeb.png'
 
-export default class Header extends Component{
-    render({ children }){
+export default class Header extends React.Component{
+    
+    constructor(props){
+        super(props);
+        this.props = props;
+    }
 
+    render(){
         return (
-            <div>
+            <div class = "header">
                 <ul>
-                    //<li><a href  ='../../'><img src={LogoWeb}>Imagen LogoWeb</img></a></li>
                     <li><a href ='../pages/Home'>Inicio</a></li>
                     <li><a href ='../pages/Attendances'>Cuidados</a></li>
                     <li><a href ='../pages/AboutUs'>¿Quiénes somos?</a></li>
                     <li><a href ='../pages/Contact'>Contacto</a></li>
-                    <li>
-                        <a>
-                            <img>Icono de búsqueda</img>
-                        </a>
-                    </li>
                 </ul>
                 <style jsx>{`
-                
-                
-                
-                
-                
-                
-                
-                
+
+                    header{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                    }
+
+                    div li {
+                        color: ${colors.primary};
+                        font-family: ${fonts.default}
+                    }
                 
                 
                 `}</style>
