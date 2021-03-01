@@ -1,16 +1,9 @@
 
-export default class Button extends React.Component(){
+export default function Button(props){
 
-    constructor(props){
-        super(props);
-        this.props = props;
-    }
-
-    render(){
-        const { children } = this.props;
         return (
         <div>
-            <button>{ children }</button>
+            <button>{props.text}</button>
             <style jsx>
             {`
                          
@@ -33,7 +26,7 @@ export default class Button extends React.Component(){
             `}
             </style>
         </div>
-    );}
+    )
        
 
 }

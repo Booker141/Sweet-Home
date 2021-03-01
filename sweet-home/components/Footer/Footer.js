@@ -2,15 +2,8 @@
 import {fonts} from '../../styles/frontend-conf.js'
 import {colors} from '../../styles/frontend-conf.js'
 
-export default class Footer extends React.Component{
+export default function Footer (props){
     
-    constructor(props){
-        super(props);
-        this.props = props;
-    }
-
-
-    render(){
         return (
         <div>
             <ul>
@@ -47,6 +40,6 @@ export default class Footer extends React.Component{
             </style>
         </div>
 
-    );}
+    )
        
 }

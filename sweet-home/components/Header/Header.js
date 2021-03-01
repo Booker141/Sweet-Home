@@ -3,18 +3,10 @@
 import {fonts} from '../../styles/frontend-conf.js'
 import {colors} from '../../styles/frontend-conf.js'
 
-const { Component } = require("react");
-
-export default class Header extends React.Component{
+export default function Header(props){
     
-    constructor(props){
-        super(props);
-        this.props = props;
-    }
-
-    render(){
         return (
-            <div class = "header">
+            <div className = "header">
                 <ul>
                     <li><a href ='../pages/Home'>Inicio</a></li>
                     <li><a href ='../pages/Attendances'>Cuidados</a></li>
@@ -39,7 +31,5 @@ export default class Header extends React.Component{
             </div>
 
         );
-
-    }
 }
 
