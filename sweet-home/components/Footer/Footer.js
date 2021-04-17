@@ -5,12 +5,13 @@ import {colors} from '../../styles/frontend-conf.js'
 export default function Footer (props){
     
         return (
+
         <div>
             <ul>
-                <li><a href ='../pages/Info'>Información</a></li>
-                <li><a href ='../pages/Privacy'>Privacidad</a></li>
-                <li><a href ='../pages/Conditions'>Condiciones</a></li>
-                <li><a href ='../pages/Language'>Idioma</a></li>
+                <li><a href ={props.url1}>{props.text1}</a></li>
+                <li><a href ={props.url2}>{props.text2}</a></li>
+                <li><a href ={props.url3}>{props.text3}</a></li>
+                <li><a href ={props.url4}>{props.text4}</a></li>
                 <div><li> &copy; 2021 Sweet Home Corp </li></div>
             </ul>
             <style jsx>{`

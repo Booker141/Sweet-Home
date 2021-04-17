@@ -6,8 +6,12 @@ import Layout from '../components/Layout/Layout'
 
 export default function Home() {
   return (
+
     <div>
-      <Header />
+
+      <Header url1='index.js' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
+      text1='Inicio' text2='Cuidados' text3='Información' text4='Contacto' />
+
       <Layout>
         <Head>
           <title>Sweet Home</title>
@@ -15,7 +19,11 @@ export default function Home() {
           <img src="/LogoWeb.png" alt="Logo de la página"></img>
         </Head>
       </Layout>
-      <Footer />
+
+      <Footer url1='pages/Info' url2='pages/Privacy' url3='pages/Conditions' url4='pages/Language' 
+      text1='Información' text2='Privacidad' text3='Condiciones' text4='Idioma'/>
+
     </div>
+    
   )
 }

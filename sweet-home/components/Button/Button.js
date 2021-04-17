@@ -1,9 +1,10 @@
 
-export default function Button(props){
+export default function Button({children}){
 
         return (
+
         <div>
-            <button>{props.text}</button>
+            <button>{children}</button>
             <style jsx>
             {`
                          
@@ -26,6 +27,7 @@ export default function Button(props){
             `}
             </style>
         </div>
+        
     )
        
 

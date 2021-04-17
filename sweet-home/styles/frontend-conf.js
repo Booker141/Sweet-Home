@@ -6,6 +6,7 @@
  * secondary - white
  * tertiary - yellow
  */
+
 export const colors = {
 
     primary: '#f0810f',
@@ -19,6 +20,7 @@ export const colors = {
  * default - default font (Poppins)
  * secondary - secondary font (Raleway)
  */
+
 export const fonts = {
     default:'Poppins',
     secondary:'Raleway'
@@ -28,6 +30,7 @@ export const fonts = {
  * MEDIA QUERIES BREAKPOINTS 2020
  * Average screen size
  */
+
 export const queriesBreakpoints = {
     mobile: '400px',
     tablet: '625px',

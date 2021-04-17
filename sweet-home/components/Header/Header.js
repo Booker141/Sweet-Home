@@ -6,12 +6,16 @@ import {colors} from '../../styles/frontend-conf.js'
 export default function Header(props){
     
         return (
+
             <div className = "header">
                 <ul>
-                    <li><a href ='../pages/Home'>Inicio</a></li>
-                    <li><a href ='../pages/Attendances'>Cuidados</a></li>
-                    <li><a href ='../pages/AboutUs'>¿Quiénes somos?</a></li>
-                    <li><a href ='../pages/Contact'>Contacto</a></li>
+                    <div>
+                        <img src="../public/LogoWeb.png" alt="Logo de la web" />
+                    </div>
+                    <li><a href ={props.url1}>{props.text1}</a></li>
+                    <li><a href ={props.url2}>{props.text2}</a></li>
+                    <li><a href ={props.url3}>{props.text3}</a></li>
+                    <li><a href ={props.url4}>{props.text4}</a></li>
                 </ul>
                 <style jsx>{`
 
