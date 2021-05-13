@@ -6,6 +6,7 @@ import {colors} from '../../styles/frontend-conf.js'
 export default function Header(props){
     
         return (
+
             <>
                 <div className = "header">
                     <ul>
@@ -33,7 +34,7 @@ export default function Header(props){
                     
                     `}</style>
                 </div>
-            </>            
+            </>
         );
 }
 

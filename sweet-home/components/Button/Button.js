@@ -1,11 +1,10 @@
 
-export default function Button({children}){
+export default function Button({children, onClick}){
 
         return (
-
             <>
                 <div>
-                    <button>{children}</button>
+                    <button onClick={onClick}>{children}</button>
                     <style jsx>
                     {`
                                 
@@ -29,8 +28,7 @@ export default function Button({children}){
                     </style>
                 </div>
 
-            </>
-                
+            </>        
     )
        
 
