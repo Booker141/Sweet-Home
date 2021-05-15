@@ -21,14 +21,20 @@ export default function Header(props){
                     <style jsx>{`
 
                         header{
+
                             display: flex;
                             flex-direction: row;
-                            align-items: flex-start;
+                            min-height: 50px;
+                            background-color: white;
+
                         }
 
                         div li {
+                            
+                            list-style: none;
                             color: ${colors.primary};
-                            font-family: ${fonts.default}
+                            font-family: ${fonts.default};
+
                         }
                     
                     

@@ -19,24 +19,21 @@ export default function Footer (props){
 
                             div{
 
-                                display: flex;
                                 font-family: ${fonts.default};
                                 color: ${colors.primary};
+                                background-color: ${colors.secondary}
 
                                 }
 
                                 div ul{
-
+                                
+                                display: flex;
                                 flex-direction: row;
-                                justify-content: flex-start;
+                                min-height: 100vh;
+                                flex-direction: row;
+                                flex-shrink: 0;
 
                                 }
-
-                                div ul div{
-
-                                justify-content: flex-end;
-
-                            }
                         
                     `}
                     </style>
