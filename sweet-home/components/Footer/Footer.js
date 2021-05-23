@@ -7,7 +7,7 @@ export default function Footer (props){
         return (
             
             <>
-                <div>
+                <nav>
                     <ul>
                         <li><a href ={props.url1}>{props.text1}</a></li>
                         <li><a href ={props.url2}>{props.text2}</a></li>
@@ -17,27 +17,36 @@ export default function Footer (props){
                     </ul>
                     <style jsx>{`
 
-                            div{
+                            nav{
 
                                 font-family: ${fonts.default};
                                 color: ${colors.primary};
                                 background-color: ${colors.secondary}
 
-                                }
+                            }
 
-                                div ul{
+                            nav ul{
                                 
-                                display: flex;
-                                flex-direction: row;
-                                min-height: 100vh;
-                                flex-direction: row;
-                                flex-shrink: 0;
+                                position:fixed;
+                                padding: 10px 10px 0px 10px;
+                                bottom: 0;
+                                height: 100px;
+                                float: left;
 
-                                }
+                            }
+
+                            nav li{
+                                
+                                margin: 10px;
+                                padding: 10px;
+                                display: inline-block;
+                                list-style: none;
+
+                            }
                         
                     `}
                     </style>
-                </div>
+                </nav>
             </>                        
     )
        

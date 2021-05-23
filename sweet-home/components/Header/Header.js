@@ -22,18 +22,17 @@ export default function Header(props){
 
                         header{
 
-                            display: flex;
-                            flex-direction: row;
+                            position: fixed;
+                            top: 0;
                             min-height: 50px;
-                            background-color: white;
 
                         }
 
                         div li {
                             
                             list-style: none;
-                            color: ${colors.primary};
                             font-family: ${fonts.default};
+                            color: ${colors.secondary}
 
                         }
                     

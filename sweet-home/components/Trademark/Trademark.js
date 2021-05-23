@@ -8,8 +8,11 @@ export default function Trademark(){
             <style jsx>{`
                                 
                 img{
-                    height: 90px;
+
+                    background-color: white;
+                    height: 100px;
                     weight: 300px;
+
                 }
 
             `}</style>
