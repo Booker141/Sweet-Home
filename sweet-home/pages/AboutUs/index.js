@@ -1,5 +1,10 @@
 import Layout from '../components/Layout/Layout';
 import Head from 'next/head'
+
+/**
+ * @author Sergio García Navarro
+ * @returns about page
+ */
 export default function About () {
 
     return(

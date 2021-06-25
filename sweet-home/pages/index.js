@@ -4,9 +4,13 @@ import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 import Layout from '../components/Layout/Layout'
 
+/**
+ * @author Sergio García Navarro
+ * @returns Home page
+ */
 export default function Home() {
 
-  return (
+  return(
 
     <Layout>
       <>

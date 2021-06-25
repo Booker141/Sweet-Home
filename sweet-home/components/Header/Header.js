@@ -1,8 +1,11 @@
-//Style
-
 import {fonts} from '../../styles/frontend-conf.js'
 import {colors} from '../../styles/frontend-conf.js'
 
+/**
+ * @author Sergio García Navarro
+ * @param {*} props - different params tag receives
+ * @returns header of sweet home page
+ */
 export default function Header(props){
     
         return (
