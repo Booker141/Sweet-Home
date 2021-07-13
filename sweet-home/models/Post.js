@@ -9,7 +9,8 @@ const postsSchema = new mongoose.Schema({
 
     userImage: {
         type: String,
-        required: true
+        required: true,
+        default: "https://www.sogapar.info/wp-content/uploads/2015/12/default-user-image.png"
     },
 
     username: {

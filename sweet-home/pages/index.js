@@ -4,11 +4,10 @@ import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 import Layout from '../components/Layout/Layout'
 
-/**
- * @author Sergio García Navarro
- * @returns Home page
- */
-export default function Home() {
+
+export default function Home({posts}) {
+
+  console.log(posts);
 
   return(
 
@@ -28,11 +27,48 @@ export default function Home() {
 
         <Header url1='index.js' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
           text1='Inicio' text2='Cuidados' text3='Información' text4='Contacto' />
-      
+
+        <div>
+          {
+            posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+              return (
+                <>
+                  <div key={_id}>
+                    {username}
+                  </div>
+                  <div>
+                    {location}
+                  </div>
+                  <div>
+                    {mediaUrl}
+                  </div>
+                  <div>
+                    {description}
+                  </div>
+                  <div>
+                    {comments}
+                  </div>
+                </>
+              )
+            })
+          }
+        </div>
         <Footer url1='pages/Info' url2='pages/Privacy' url3='pages/Conditions' url4='pages/Language' 
           text1='Información' text2='Privacidad' text3='Condiciones' text4='Idioma'/>
       </>
     </Layout>
 
   )
+}
+
+export async function getStaticProps(context){
+  const res = await fetch("http://localhost:3000/api/posts");
+  const data = await res.json();
+
+  return {
+
+      props: {posts: data}
+
+  }
+
 }
