@@ -1,10 +1,11 @@
-
-export default function Button({children, onClick}){
+import Link from "next/link"
+export default function Button(props){
 
         return (
+
             <>
-                <div>
-                    <button onClick={onClick}>{children}</button>
+
+                    <Link href={props.href}>{props.name}</Link>
                     <style jsx>
                     {`
                                 
@@ -12,8 +13,9 @@ export default function Button({children, onClick}){
 
                                 height: 60px;
                                 width: 250px;
-                                padding: 4px;
+                                padding: 8px 24px;
                                 position: relative;
+                                cursor: pointer;
                                 margin: 0 auto;
                                 background-image: linear-gradient(to right, #f0810f 30%, #f9A603 70%);
                                 border-radius: 40px;
@@ -26,10 +28,8 @@ export default function Button({children, onClick}){
 
                     `}
                     </style>
-                </div>
 
             </>        
     )
        
-
 }

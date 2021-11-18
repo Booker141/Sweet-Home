@@ -3,7 +3,7 @@ import Trademark from '../components/Trademark/Trademark'
 import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 import Layout from '../components/Layout/Layout'
-
+import Button from '../components/Button/Button'
 
 export default function Home({posts}) {
 
@@ -27,9 +27,10 @@ export default function Home({posts}) {
 
         <Header url1='index.js' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
           text1='Inicio' text2='Cuidados' text3='Información' text4='Contacto' />
+        <Button href = "/Login">Iniciar sesión</Button>
 
         <div>
-          {
+          {/*
             posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
               return (
                 <>
@@ -50,7 +51,7 @@ export default function Home({posts}) {
                   </div>
                 </>
               )
-            })
+            })*/
           }
         </div>
         <Footer url1='pages/Info' url2='pages/Privacy' url3='pages/Conditions' url4='pages/Language' 
@@ -60,15 +61,21 @@ export default function Home({posts}) {
 
   )
 }
-
+/*
 export async function getStaticProps(context){
   const res = await fetch("http://localhost:3000/api/posts");
   const data = await res.json();
 
+  if(!data){
+    return{
+      notFound: true,
+    }
+
+  }
   return {
 
       props: {posts: data}
 
   }
 
-}
+}*/
