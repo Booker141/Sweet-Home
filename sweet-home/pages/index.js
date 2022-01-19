@@ -62,19 +62,11 @@ export default function Home({posts}) {
   )
 }
 /*
-export async function getStaticProps(context){
-  const res = await fetch("http://localhost:3000/api/posts");
-  const data = await res.json();
-
-  if(!data){
-    return{
-      notFound: true,
-    }
-
-  }
+export function getServerSideProps(context){
+ 
   return {
 
-      props: {posts: data}
+      props: {}
 
   }
 

@@ -1,11 +1,11 @@
 import Link from "next/link"
-export default function Button(props){
+export default function Button({href, name}){
 
         return (
 
             <>
 
-                    <Link href={props.href}>{props.name}</Link>
+                    <Link href={href}>{name}</Link>
                     <style jsx>
                     {`
                                 
