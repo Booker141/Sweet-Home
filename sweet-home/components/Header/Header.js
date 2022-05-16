@@ -1,5 +1,5 @@
-import {fonts} from '../../styles/frontend-conf.js'
-import {colors} from '../../styles/frontend-conf.js'
+import {fonts} from 'styles/frontend-conf.js'
+import {colors} from 'styles/frontend-conf.js'
 
 /**
  * @author Sergio García Navarro

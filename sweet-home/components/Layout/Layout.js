@@ -1,4 +1,4 @@
-import theme from '../../styles/layout-theme'
+import theme from 'styles/layout-theme'
 
 export default function Layout ({children}){
 

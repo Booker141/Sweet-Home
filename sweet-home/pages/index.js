@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import Trademark from '../components/Trademark/Trademark'
-import Header from '../components/Header/Header'
-import Footer from '../components/Footer/Footer'
-import Layout from '../components/Layout/Layout'
-import Button from '../components/Button/Button'
+import Trademark from 'components/Trademark/Trademark'
+import Header from 'components/Header/Header'
+import Footer from 'components/Footer/Footer'
+import Layout from 'components/Layout/Layout'
+import Button from 'components/Button/Button'
 
 export default function Home({posts}) {
 
