@@ -2,8 +2,8 @@ function Error({ statusCode }) {
     return (
       <p>
         {statusCode
-          ? `An error ${statusCode} occurred on server`
-          : 'An error occurred on client'}
+          ? `Un error ${statusCode} ha ocurrido en el servidor`
+          : 'Ha ocurrido un error en el cliente'}
       </p>
     )
   }
