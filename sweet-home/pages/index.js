@@ -3,7 +3,7 @@ import Trademark from 'components/Trademark/Trademark'
 import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
 import Layout from 'components/Layout/Layout'
-import Button from 'scomponents/Button/Button'
+import Button from 'components/Button/Button'
 
 export default function Home({posts}) {
 

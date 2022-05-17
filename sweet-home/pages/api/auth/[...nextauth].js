@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+/*import NextAuth from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import Facebook from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -102,4 +102,4 @@ export default NextAuth({
     },
   },
   adapter: MongoDBAdapter(clientPromise)
-})
+})*/
