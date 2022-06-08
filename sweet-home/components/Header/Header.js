@@ -1,5 +1,6 @@
 import {fonts} from 'styles/frontend-conf.js'
 import {colors} from 'styles/frontend-conf.js'
+import Trademark from 'components/Trademark/Trademark'
 
 /**
  * @author Sergio García Navarro
@@ -11,37 +12,52 @@ export default function Header(props){
         return (
 
             <>
-                <div className = "header">
-                    <ul>
-                        <div>
-                            <img src="../public/LogoWeb.png" alt="Logo de la web" />
-                        </div>
-                        <li><a href ={props.url1}>{props.text1}</a></li>
-                        <li><a href ={props.url2}>{props.text2}</a></li>
-                        <li><a href ={props.url3}>{props.text3}</a></li>
-                        <li><a href ={props.url4}>{props.text4}</a></li>
-                    </ul>
-                    <style jsx>{`
+                <header>
+                    <nav class="header">
+                        
+                        <ul>
+                            <Trademark class="logo"/>
+                            <li><a href ={props.url1}>{props.text1}</a></li>
+                            <li><a href ={props.url2}>{props.text2}</a></li>
+                            <li><a href ={props.url3}>{props.text3}</a></li>
+                            <li><a href ={props.url4}>{props.text4}</a></li>
+                        </ul>
+                    </nav>
+                </header>
+                <style jsx>{`
 
-                        header{
+                        .logo{
 
-                            position: fixed;
-                            top: 0;
-                            min-height: 50px;
+                            margin-left: 50px;
+                            
+                        }
+
+                        .header{
+
+                            display: flex;
+                            justify-content: flex-end;
+                            align-items: center;
+                            padding: 20px 50px;
+                            
 
                         }
 
-                        div li {
+                        li {
                             
+                            display: inline-block;
+                            margin: 80px;
                             list-style: none;
+                         
+                        }
+
+                        a{
                             font-family: ${fonts.default};
                             color: ${colors.secondary}
-
+                            text-decoration: none;
                         }
                     
                     
                     `}</style>
-                </div>
             </>
         );
 }

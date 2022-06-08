@@ -1,5 +1,5 @@
 import Link from "next/link"
-
+import {colors} from 'styles/frontend-conf.js'
 
 export default function Button({href, name}){
 
@@ -17,14 +17,13 @@ export default function Button({href, name}){
                                 width: 250px;
                                 padding: 8px 24px;
                                 position: relative;
-                                cursor: pointer;
                                 margin: 0 auto;
-                                background-image: linear-gradient(to right, #f0810f 30%, #f9A603 70%);
+                                background-color: ${colors.tertiary};
                                 border-radius: 40px;
-                                box-sizing: border-box;
-                                color: #f0810f;
+                                border: none;
+                                color: ${colors.secondary};
                                 display: block;
-                                font-family:'Poppins-Light';
+                                font-family: "Poppins-Light";
 
                         }
 

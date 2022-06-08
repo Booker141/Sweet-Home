@@ -17,36 +17,32 @@ export default function Footer (props){
                         <li><a href ={props.url2}>{props.text2}</a></li>
                         <li><a href ={props.url3}>{props.text3}</a></li>
                         <li><a href ={props.url4}>{props.text4}</a></li>
-                        <div><li> &copy; 2021 Sweet Home Corp </li></div>
+                        <li> &copy; 2021 Sweet Home Corp </li>
                     </ul>
                     <style jsx>{`
 
-                            nav{
-
-                                font-family: ${fonts.default};
-                                color: ${colors.primary};
-                                background-color: ${colors.secondary}
-
-                            }
-
                             nav ul{
                                 
-                                position:fixed;
+                                display: flex;
+                                flex-direction: row;
+                                flex-wrap: wrap;
+                                align-self: flex-end;
                                 padding: 10px 10px 0px 10px;
-                                bottom: 0;
                                 height: 100px;
-                                float: left;
-
+                                width: 100%;    
                             }
 
                             nav li{
                                 
+                                font-family: ${fonts.default};
+                                color: ${colors.primary};
                                 margin: 10px;
                                 padding: 10px;
-                                display: inline-block;
                                 list-style: none;
+                                text-decoration: none;
 
                             }
+
                         
                     `}
                     </style>
