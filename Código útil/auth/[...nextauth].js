@@ -101,5 +101,9 @@ export default NextAuth({
       },
     },
   },
-  adapter: MongoDBAdapter(clientPromise)
+  adapter: MongoDBAdapter(clientPromise),
+  database: process.env.MONGODB_URI,
+  session: {
+    jwt:true
+  }
 })*/

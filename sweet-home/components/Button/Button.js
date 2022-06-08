@@ -5,7 +5,7 @@ export default function Button({href, name}){
 
             <>
 
-                    <Link href={href}>{name}</Link>
+                    <Link href={href}><a>{name}</a></Link>
                     <style jsx>
                     {`
                                 
