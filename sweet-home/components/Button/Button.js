@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from 'next/link'
 import {colors} from 'styles/frontend-conf.js'
 
 export default function Button({href, name}){

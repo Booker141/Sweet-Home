@@ -12,9 +12,11 @@ export default function Trademark(){
                                 
                 img{
 
+                    float: left;
                     background-color: white;
                     height: 15vh;
                     weight: 15vw;
+                    margin: 0 10px 0 0;
 
                 }
 
