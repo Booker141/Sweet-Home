@@ -2,7 +2,7 @@ import Layout from 'components/Layout/Layout';
 import Header from 'components/Header/Header';
 import {fonts} from 'styles/frontend-conf.js'
 import {colors} from 'styles/frontend-conf.js'
-
+import Head from 'next/head';
 
 /**
  * @author Sergio García Navarro
@@ -14,7 +14,9 @@ export default function About () {
 
             <Layout>
                 <>
-
+                    <Head>
+                        <title>Sobre nosotros</title>
+                    </Head>
                     <Header url1='index.js' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
                         text1='Inicio' text2='Cuidados' text3='Quiénes somos' text4='Contacto' />
                     

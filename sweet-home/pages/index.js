@@ -3,6 +3,7 @@ import Footer from 'components/Footer/Footer'
 import Layout from 'components/Layout/Layout'
 import FormLogin from 'components/FormLogin/Form'
 import Image from 'next/image'
+import Head from 'next/head'
 
 export default function Login() {
 
@@ -10,6 +11,9 @@ export default function Login() {
 
     <Layout>
       <>
+        <Head>
+          <title>Inicio sesión</title>
+        </Head>
         <Header url1='index.js' url2='/attendances' url3='/info' url4='/contact' 
                         text1="Inicio" text2="Cuidados" text3="Quiénes somos" text4="Contacto"/>
         <Image src="/Cats-and-Dogs.jpg" width="500" height="300" class="imagen"/>
