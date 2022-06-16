@@ -1,63 +1,50 @@
-import {fonts} from 'styles/frontend-conf.js'
-import {colors} from 'styles/frontend-conf.js'
-
-/**
- * @author Sergio García Navarro
- * @param {*} props - different params tag receives
- * @returns footer of sweet home page
- */
+import {colors} from "styles/frontend-conf.js"
+import {fonts} from "styles/frontend-conf.js"
 export default function Footer(props){
-    
-        return (
-            
-            <>
-                <nav>
-                    <ul>
-                        <li><a href={props.url1}>{props.text1}</a></li>
-                        <li><a href={props.url2}>{props.text2}</a></li>
-                        <li><a href={props.url3}>{props.text3}</a></li>
-                        <li><a href={props.url4}>{props.text4}</a></li>
-                        <li><p>&copy; 2021 Sweet Home Corp </p></li>
-                    </ul>
-                </nav>
-                    <style jsx>{`
 
+    return(
 
-                            nav{
+        <>
+            <div className="footer">
+                <a href={props.url1}>{props.text1}</a>
+                <a href={props.url2}>{props.text2}</a>
+                <a href={props.url3}>{props.text3}</a>
+                <p> &copy; Sweet Home Corporation 2022</p>
+            </div>
+            <style jsx>{`
 
-                                display: flex;
-                                flex-direction: row;
-                                flex-wrap: wrap;
-                                padding: 10px 10px 0px 10px;
-                                height: 100px;
-                                width: 100%; 
-                                font-family: ${fonts.default};
-                                color: ${colors.primary};
-                                margin: 50px;
-                                padding: 10px;
-                                
+                .footer{
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    background-color: ${props.color};
+                    height: 3rem;
+                    width: 100%;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 1;
+                    font-family: ${fonts.primary};
+                }
 
-                            }
+                p{
+                    color: ${colors.primary};
+                    font-size: 1rem;
+                    font-family: ${fonts.default};
+                }
 
-                            li{
-                                display: inline-block;
-                                margin: 5vw;
-                                list-style: none;
-                            }
-                            
-                            a{
-                                font-family: ${fonts.default};
-                                color: ${colors.primary};
-                            }
+                a{
+                    text-decoration: none;
+                    color: ${colors.primary};
+                    font-size: 1rem;
+                    font-family: ${fonts.default};
+                }
 
-                            a:link{
-                                text-decoration: none;
-                            }
-
-                        
-                    `}
-                    </style>
-            </>                        
+                a:hover{
+                    color: ${colors.tertiary};
+                }
+            `}</style>
+        </>
     )
-       
 }

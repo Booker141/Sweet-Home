@@ -1,71 +1,44 @@
-import { fonts } from "styles/frontend-conf.js";
-import { colors } from "styles/frontend-conf.js";
-import Trademark from "components/Trademark/Trademark";
+import Trademark from "components/Trademark/Trademark"
+import {colors} from "/styles/frontend-conf.js"
+import {fonts} from "styles/frontend-conf.js"
+export default function Header(props){
+    
+        return(
+    
+            <>
+                <div className="header">
+                    <Trademark/>
+                    <a href={props.url1}>{props.text1}</a>
+                    <a href={props.url2}>{props.text2}</a>
+                    <a href={props.url3}>{props.text3}</a>
+                    <a href={props.url4}>{props.text4}</a>
+                </div>
+                <style jsx>{`
+                    .header{
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        background-color: ${props.color};
+                        height: 2rem;
+                        width: 100%;
+                        position: relative;
+                        top: 2rem;
+                        left: 0;
+                        z-index: 1;
+                    }
 
-/**
- * @author Sergio García Navarro
- * @param {*} props - different params tag receives
- * @returns header of sweet home page
- */
-export default function Header(props) {
-  return (
-    <>
-     
-      <header>
-        <Trademark class="logo"/>
-        <nav class="main-header">
+                    a{
+                        text-decoration: none;
+                        color: ${colors.primary};
+                        font-size: 1.2rem;
+                        font-family: ${fonts.default};
+                    }
 
-            <li>
-              <a href={props.url1}>{props.text1}</a>
-            </li>
-            <li>
-              <a href={props.url2}>{props.text2}</a>
-            </li>
-            <li>
-              <a href={props.url3}>{props.text3}</a>
-            </li>
-            <li>
-              <a href={props.url4}>{props.text4}</a>
-            </li>
+                    a:hover{
+                        color: ${colors.tertiary};
+                    }
 
-        </nav>
-      </header>
-      <style jsx>{`
-
-
-        .logo{
-            height: 100%;
-            width: 10%;
-            margin-left: 1rem;
-        }
-
-        .main-header{
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            
-        }
-
-        li{
-            list-style: none;
-            margin: 2rem;
-            font-family: ${fonts.primary};
-        }
-
-        a{
-            text-decoration: none;
-            color: ${colors.primary};
-            font-size: 1.5rem;
-            list-style-type: none;
-        }
-
-        a:hover{
-            color: ${colors.tertiary};
-        }
-
-      `}</style>
-    </>
-  );
-}
+                `}</style>
+            </>
+        )
+    }

@@ -6,10 +6,12 @@ export default function FormButton({ name }) {
       <input type="submit" value={name}></input>
       <style jsx>
         {`
+        
           input {
-            height: 60px;
-            width: 250px;
-            padding: 8px 24px;
+
+            height: 4rem;
+            width: 10rem;
+            padding: 0.5rem 2rem;
             position: relative;
             margin: 0 auto;
             background-color: ${colors.tertiary};
@@ -18,6 +20,7 @@ export default function FormButton({ name }) {
             color: ${colors.secondary};
             display: block;
             font-family: "Poppins-Light";
+            font-style: bold;
           }
         `}
       </style>
