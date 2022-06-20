@@ -12,6 +12,7 @@ export default function Header(props){
                     <a href={props.url2}>{props.text2}</a>
                     <a href={props.url3}>{props.text3}</a>
                     <a href={props.url4}>{props.text4}</a>
+                    <a href ={props.url5}>{props.text5}</a>
                 </div>
                 <style jsx>{`
                     .header{

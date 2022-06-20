@@ -1,10 +1,69 @@
+import {colors} from '/styles/frontend-conf.js'
+import {fonts} from '/styles/frontend-conf.js'
+import {MdPets} from 'react-icons/md'
+import Image from 'next/image'
+import Head from 'next/head'
+
 function Error({ statusCode }) {
     return (
-      <p>
-        {statusCode
-          ? `Un error ${statusCode} ha ocurrido en el servidor`
-          : 'Ha ocurrido un error en el cliente'}
-      </p>
+      <>
+        <Head>
+          <title>Error {statusCode}</title>
+        </Head>
+        <div classname="background">
+          <div className="error">
+            <div className="first-line">
+              <MdPets size={35} color={colors.primary} />
+
+              <h1 className="text">
+                Vaya... ha ocurrido un error {statusCode}
+              </h1>
+              <MdPets size={35} color={colors.primary}/>
+            </div>
+  
+            <h2>Contacte con nuestro departamento de IT</h2>
+            <Image src="/public/animales-buscando.png" width="300" height="300"/>
+          </div>
+        </div>
+        <style jsx>{`
+          .background{  
+            background: url('/public/Orange-blur.jpeg');
+          }
+          .text{
+            margin: 1.5rem;
+          }
+          .first-line{
+            display: flex;
+            flex-direction: row;
+            align-items: center; 
+            justify-content: center; 
+          }
+          .error {
+            display: block;
+            margin: auto;
+            text-align: center;
+            height: 50%;
+
+          }
+          h1{
+            font-size: 2.5rem;
+            font-family: ${fonts.default};
+            color: ${colors.primary};
+            text-align: center;
+            height: 50%;
+          }
+
+          h2{ 
+            font-size: 1rem;
+            font-family: ${fonts.default};
+            color: ${colors.primary};
+            text-align: center;
+            height: 50%;
+          }
+          
+          
+        `}</style>
+      </>
     )
   }
   

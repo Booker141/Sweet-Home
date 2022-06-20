@@ -1,7 +1,10 @@
-export default function Footer(props){
+import {colors} from "styles/frontend-conf.js"
+import {fonts} from "styles/frontend-conf.js"
+export default function BasicFooter(props){
 
     return(
-            <>
+
+        <>
             <div className="footer">
                 <a href={props.url1}>{props.text1}</a>
                 <a href={props.url2}>{props.text2}</a>

@@ -7,11 +7,11 @@ export default function Info() {
         <Layout>
             <>
                 <Head>
-                    <title>Quiénes somos</title>
+                    <title>Información</title>
                 </Head>
-                <Header url1='index.js' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact'
+                <Header url1='/' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact'
                     text1='Inicio' text2='Cuidados' text3='Quiénes somos' text4='Contacto' />
-                <h1 class="title">Quiénes somos</h1>
+                <h1 class="title">Información</h1>
             </>
         </Layout>
     )

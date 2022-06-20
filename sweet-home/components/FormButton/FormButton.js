@@ -9,9 +9,9 @@ export default function FormButton({ name }) {
         
           input {
 
-            height: 4rem;
-            width: 10rem;
-            padding: 0.5rem 2rem;
+            height: 7vh;
+            width: 16vw;
+            padding: 1vh 2vh;
             position: relative;
             margin: 0 auto;
             background-color: ${colors.tertiary};

@@ -1,5 +1,6 @@
 import Layout from 'components/Layout/Layout';
 import Header from 'components/Header/Header';
+import Footer from 'components/BasicFooter/BasicFooter';
 import {fonts} from 'styles/frontend-conf.js'
 import {colors} from 'styles/frontend-conf.js'
 import Head from 'next/head';
@@ -17,7 +18,7 @@ export default function About () {
                     <Head>
                         <title>Sobre nosotros</title>
                     </Head>
-                    <Header url1='index.js' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
+                    <Header url1='/' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
                         text1='Inicio' text2='Cuidados' text3='Quiénes somos' text4='Contacto' />
                     
                     <h1 class="title">Sobre nosotros</h1>
@@ -28,6 +29,8 @@ export default function About () {
                     <p class="text">Desde 2022 estamos intentando facilitar el proceso de adopción y las tareas diarias
                     para las personas que posean mascotas o bien tienen planteado tener alguna en el futuro. Desde crear el
                     una publicación contando que has perdido a tu mascota o para compartir con el mundo los cuidados que les aplicas diariamente </p>
+                    <Footer url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+                        url3="/conditions" text3="Condiciones"/>
                     <style jsx>{`
 
                             .title{

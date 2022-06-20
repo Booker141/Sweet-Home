@@ -1,7 +1,7 @@
 import Header from 'components/Header/Header'
 import Footer from 'components/BasicFooter/BasicFooter'
 import Layout from 'components/Layout/Layout'
-import FormLogin from 'components/FormLogin/Form'
+import FormRegister from 'components/FormRegister/Register'
 import Image from 'next/image'
 import Head from 'next/head'
 
@@ -13,7 +13,7 @@ import Head from 'next/head'
         width={700} 
         height={300} 
         class="image"/>*/
-export default function Login() {
+export default function SignUp() {
 
   return(
 
@@ -25,7 +25,7 @@ export default function Login() {
         <Header url1="/" url2="/attendances" url3="/info" url4="/contact" 
                         text1="Inicio" text2="Cuidados" text3="Quiénes somos" text4="Contacto"/>
 
-        <FormLogin class="form"/>
+        <FormRegister class="form"/>
       
         <Footer url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                         url3="/conditions" text3="Condiciones"/>
