@@ -1,16 +1,23 @@
 import {colors} from '/styles/frontend-conf.js'
 import {fonts} from '/styles/frontend-conf.js'
 import {MdPets} from 'react-icons/md'
+import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Head from 'next/head'
+import urlImage from '/public/PerroError.png'
+import Button from '/components/Button/Button'
+
 
 function Error({ statusCode }) {
+    const router = useRouter();
+  
     return (
       <>
         <Head>
           <title>Error {statusCode}</title>
         </Head>
-        <div classname="background">
+
+          <Button className="button" size='10vw' onClick={() => router.back()}>Volver</Button>
           <div className="error">
             <div className="first-line">
               <MdPets size={35} color={colors.primary} />
@@ -22,12 +29,12 @@ function Error({ statusCode }) {
             </div>
   
             <h2>Contacte con nuestro departamento de IT</h2>
-            <Image src="/public/animales-buscando.png" width="300" height="300"/>
+            <Image src={urlImage} width="350" height="400"/>
           </div>
-        </div>
+
         <style jsx>{`
-          .background{  
-            background: url('/public/Orange-blur.jpeg');
+          .button{
+            
           }
           .text{
             margin: 1.5rem;
