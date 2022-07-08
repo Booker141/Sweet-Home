@@ -1,5 +1,5 @@
 import Layout from 'components/Layout/Layout';
-import 'styles/styles.module.css'
+import styles from 'styles/global.css'
 import {SessionProvider} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
