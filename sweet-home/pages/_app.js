@@ -23,6 +23,7 @@ function Loading(){
     }
 
   })
+  /* Bloque logo*/
   return loading ? <div className="loading">
     <div className="loading">
     </div>

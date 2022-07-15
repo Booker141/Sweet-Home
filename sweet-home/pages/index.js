@@ -20,7 +20,7 @@ export default function Login() {
     <Layout>
       <>
         <Head>
-          <title>Inicio sesión</title>
+          <title>Inicio de sesión</title>
         </Head>
         <Header url1="/" url2="/attendances" url3="/info" url4="/contact" 
                         text1="Inicio" text2="Cuidados" text3="Quiénes somos" text4="Contacto"/>
