@@ -7,7 +7,7 @@ export default function Header(props){
     
             <>
                 <div className="header">
-                    <Trademark/>
+                    <Trademark link="/"/>
                     <a href={props.url1}>{props.text1}</a>
                     <a href={props.url2}>{props.text2}</a>
                     <a href={props.url3}>{props.text3}</a>

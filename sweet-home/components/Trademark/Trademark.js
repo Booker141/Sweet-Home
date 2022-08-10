@@ -2,12 +2,12 @@
  * @author Sergio García Navarro
  * @returns rendered website logo
  */
-export default function Trademark(){
+export default function Trademark({link}){
 
     return(
 
         <>
-            <img src="/LogoWeb.png"></img>
+            <a href={link}><img src="/LogoWeb.png"></img></a>
             <style jsx>{`
                                 
                 img{
