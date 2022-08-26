@@ -27,8 +27,7 @@ export default function SignUp() {
 
         <FormRegister class="form"/>
       
-        <Footer url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
-                        url3="/conditions" text3="Condiciones"/>
+        <Footer />
         <style jsx>{`
      
         

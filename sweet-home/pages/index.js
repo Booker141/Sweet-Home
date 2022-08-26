@@ -1,5 +1,5 @@
 import Header from 'components/Header/Header'
-import Footer from 'components/BasicFooter/BasicFooter'
+import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Layout from 'components/Layout/Layout'
 import styles from 'styles/index.module.css'
 import FormLogin from 'components/FormLogin/Form'
@@ -21,7 +21,7 @@ export default function Login() {
 
         <FormLogin class="form"/>
       
-        <Footer url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+        <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                         url3="/conditions" text3="Condiciones"/>
 
       </>

@@ -1,7 +1,7 @@
 import FormButton from "/components/FormButton/FormButton";
+import Link from 'next/link'
 import { colors } from "styles/frontend-conf.js";
 import { fonts } from "styles/frontend-conf.js";
-import Image from "next/image";
 import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
@@ -12,7 +12,7 @@ export default function FormRegister() {
   return (
     <>
       <form className="form-vertical">
-      <div classname="correo">
+      <div className="correo">
           <MdEmail size={20} color={colors.secondary} />
           <input
             type="email"
@@ -20,7 +20,7 @@ export default function FormRegister() {
             placeholder="E-mail"
           ></input>
         </div>
-        <div classname="nombre">
+        <div className="nombre">
           <FaUser size={20} color={colors.secondary} />
           <input
             type="text"
@@ -28,7 +28,7 @@ export default function FormRegister() {
             placeholder="Nombre de usuario"
           ></input>
         </div>
-        <div classname="nombrec">
+        <div className="nombrec">
           <FaUserPlus size={20} color={colors.secondary} />
           <input
             type="text"
@@ -36,7 +36,7 @@ export default function FormRegister() {
             placeholder="Nombre completo"
           ></input>
         </div>
-        <div classname="contraseña">
+        <div className="contraseña">
           <BsFillLockFill size={20} color={colors.secondary} />
           <input
             type="password"
@@ -49,7 +49,7 @@ export default function FormRegister() {
       </form>
       <div className="form-login">
         <p>¿Ya tienes una cuenta?</p>
-        <a href="/signIn">Entrar</a>
+        <Link href="index.js"><a>Entrar</a></Link>
       </div>
       <style jsx>{`
         p {

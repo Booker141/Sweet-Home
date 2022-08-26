@@ -1,15 +1,18 @@
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Image from 'next/image'
+import Link from 'next/link'
 export default function BasicFooter(props){
+
+    const {url1, url2, url3, text1, text2, text3} = props;
 
     return(
 
         <>
             <div className="footer">
-                <a href={props.url1}>{props.text1}</a>
-                <a href={props.url2}>{props.text2}</a>
-                <a href={props.url3}>{props.text3}</a>
+                <Link href={'${url1}'}><a>{text1}</a></Link>
+                <Link href={'${url2}'}><a>{text2}</a></Link>
+                <Link href={'${url3}'}><a>{text3}</a></Link>
                 <div className="copyright">
                     <Image src="/public/LogoApp.png" width="20" height="20"/>
                     <p> Copyright &copy; 2022 Sweet Home Corporation</p>

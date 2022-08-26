@@ -1,18 +1,20 @@
 import Trademark from "components/Trademark/Trademark"
+import Link from 'next/link'
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 export default function Header(props){
+
+    const {url1, url2, url3, url4, text1, text2, text3, text4} = props;
     
         return(
-    
+            
             <>
                 <div className="header">
                     <Trademark link="/"/>
-                    <a href={props.url1}>{props.text1}</a>
-                    <a href={props.url2}>{props.text2}</a>
-                    <a href={props.url3}>{props.text3}</a>
-                    <a href={props.url4}>{props.text4}</a>
-                    <a href ={props.url5}>{props.text5}</a>
+                    <Link href={'${url1}'}><a>{text1}</a></Link>
+                    <Link href={'${url2}'}><a>{text2}</a></Link>
+                    <Link href={'${url3}'}><a>{text3}</a></Link>
+                    <Link href={'${url4}'}><a>{text4}</a></Link>       
                 </div>
                 <style jsx>{`
                     .header{
@@ -38,7 +40,7 @@ export default function Header(props){
                     a:hover{
                         color: ${colors.tertiary};
                     }
-
+            
                 `}</style>
             </>
         )

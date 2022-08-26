@@ -1,7 +1,7 @@
 import FormButton from "/components/FormButton/FormButton";
+import Link from 'next/link'
 import { colors } from "styles/frontend-conf.js";
 import { fonts } from "styles/frontend-conf.js";
-import Image from "next/image";
 import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
 
@@ -30,7 +30,7 @@ export default function FormLogin() {
       </form>
       <div className="form-register">
         <p>¿No tiene una cuenta?</p>
-        <a href="/signUp">Registrarse</a>
+        <Link href="/signUp"><a>Registrarse</a></Link>
       </div>
       <style jsx>{`
         p {

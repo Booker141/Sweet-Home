@@ -21,16 +21,15 @@ export default function About () {
                     <Header url1='/' url2='pages/Attendances' url3='pages/Info' url4='pages/Contact' 
                         text1='Inicio' text2='Cuidados' text3='Quiénes somos' text4='Contacto' />
                     
-                    <h1 class="title">Sobre nosotros</h1>
-                    <h2 class="secondary">Somos una empresa que se preocupa desde primera instancia por los 
+                    <h1 className="title">Sobre nosotros</h1>
+                    <h2 className="secondary">Somos una empresa que se preocupa desde primera instancia por los 
                     cuidados animales y su bienestar, por lo que decidimos desarrollar un 
                     espacio exclusivamente para ellos</h2>
 
-                    <p class="text">Desde 2022 estamos intentando facilitar el proceso de adopción y las tareas diarias
+                    <p className="text">Desde 2022 estamos intentando facilitar el proceso de adopción y las tareas diarias
                     para las personas que posean mascotas o bien tienen planteado tener alguna en el futuro. Desde crear el
                     una publicación contando que has perdido a tu mascota o para compartir con el mundo los cuidados que les aplicas diariamente </p>
-                    <Footer url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
-                        url3="/conditions" text3="Condiciones"/>
+                    <Footer />
                     <style jsx>{`
 
                             .title{

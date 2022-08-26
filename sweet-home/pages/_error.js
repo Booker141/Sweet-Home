@@ -17,7 +17,7 @@ function Error({ statusCode }) {
           <title>Error {statusCode}</title>
         </Head>
 
-          <Button className="button" size='10vw' onClick={() => router.back()}>Volver</Button>
+          <Button size='10vw' onClick={() => router.back()}>Volver</Button>
           <div className="error">
             <div className="first-line">
               <MdPets size={35} color={colors.primary} />
@@ -33,9 +33,7 @@ function Error({ statusCode }) {
           </div>
 
         <style jsx>{`
-          .button{
-            
-          }
+
           .text{
             margin: 1.5rem;
           }

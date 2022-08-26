@@ -1,12 +1,12 @@
 import { colors } from "styles/frontend-conf.js";
 
-export default function Button({ href, name, size}) {
+export default function Button({ onClick, description, size}) {
   return (
     <>
-      <a onClick={href}>{name}</a>
+      <button onClick={onClick} size={size}>{description}</button>
       <style jsx>
         {`
-          a {
+          button {
             height: 7vh;
             width: ${size};
             padding: 1vh 2vh;
