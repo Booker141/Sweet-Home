@@ -7,7 +7,10 @@ import { BsFillLockFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import {FaUserPlus} from "react-icons/fa";
 
-
+/**
+ * 
+ * @returns {Form} - form to register
+ */
 export default function FormRegister() {
   return (
     <>

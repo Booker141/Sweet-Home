@@ -1,7 +1,13 @@
 import Head from 'next/head'
 import Layout from "/components/Layout/Layout"
-import Header from "/components/Header/Header"
-import Footer from "/components/Footer/Footer"
+
+/*
+    * @author Sergio García Navarro
+    * @returns attendances page
+    * @version 1.0
+    * @date 13/12/2020
+    * @description This page is the attendances page of the application
+*/
 export default function Attendances() {
     return (
         <Layout>

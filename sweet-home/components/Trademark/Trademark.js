@@ -1,7 +1,4 @@
-/**
- * @author Sergio García Navarro
- * @returns rendered website logo
- */
+
 export default function Trademark({link}){
 
     return(

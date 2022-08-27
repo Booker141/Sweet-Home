@@ -1,5 +1,3 @@
-import Layout from 'components/Layout/Layout';
-import styles from 'styles/global.css'
 import {SessionProvider} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
@@ -35,9 +33,7 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }) {
     
       <SessionProvider session={session}>
         <Loading/>
-        <Layout>
           <Component {...pageProps} />
-        </Layout>
       </SessionProvider>
       
   );

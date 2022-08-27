@@ -5,6 +5,9 @@ import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Link from 'next/link'
+/**
+    * This component is the full footer of the application
+*/
 export default function Footer(){
 
     return(
@@ -46,7 +49,7 @@ export default function Footer(){
                     <a className="twitter"><BsTwitter/></a>
                 </div>
                 <hr></hr>
-                <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+                <BasicFooter url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
                         url3="/conditions" text3="Condiciones"/>
                 
             </div>

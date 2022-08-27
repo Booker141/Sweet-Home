@@ -1,6 +1,5 @@
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
-import Layout from 'components/Layout/Layout'
 import styles from 'styles/index.module.css'
 import FormLogin from 'components/FormLogin/Form'
 import Head from 'next/head'
@@ -11,7 +10,6 @@ export default function Login() {
 
   return(
 
-    <Layout>
       <>
         <Head>
           <title>Inicio de sesión</title>
@@ -25,7 +23,6 @@ export default function Login() {
                         url3="/conditions" text3="Condiciones"/>
 
       </>
-    </Layout>
 
 
 

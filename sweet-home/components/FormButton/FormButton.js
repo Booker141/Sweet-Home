@@ -1,5 +1,9 @@
 import { colors } from "styles/frontend-conf";
 import {fonts} from "styles/frontend-conf";
+/** 
+    * This component is the button of all application forms
+    * @param {name} - text of the button
+*/
 export default function FormButton({ name }) {
   return (
     <>
@@ -19,7 +23,7 @@ export default function FormButton({ name }) {
             border: none;
             color: ${colors.secondary};
             display: block;
-            font-family: "Poppins-Light";
+            font-family: ${fonts.default} + 'Light';
             font-style: bold;
           }
         `}

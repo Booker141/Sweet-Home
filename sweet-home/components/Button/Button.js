@@ -1,5 +1,10 @@
 import { colors } from "styles/frontend-conf.js";
-
+/** 
+    * This component is a button with styles
+    * @param {onClick} - function with the action to do when the button is clicked
+    * @param {description} - text of the button
+    * @param {size} - size of the button
+*/
 export default function Button({ onClick, description, size}) {
   return (
     <>

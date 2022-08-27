@@ -2,6 +2,15 @@ import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Image from 'next/image'
 import Link from 'next/link'
+/** 
+    * This component is a footer with basic information
+    * @param {props} url1 - url of the first link
+    * @param {props} url2 - url of the second link
+    * @param {props} url3 - url of the third link
+    * @param {props} text1 - text of the first link
+    * @param {props} text2 - text of the second link
+    * @param {props} text3 - text of the third link
+*/   
 export default function BasicFooter(props){
 
     const {url1, url2, url3, text1, text2, text3} = props;
