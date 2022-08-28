@@ -2,8 +2,16 @@ import Trademark from "components/Trademark/Trademark"
 import Link from 'next/link'
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+/*
+    * @author Sergio García Navarro
+    * @returns Header component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Header component
+*/
 /**
- * 
+ * This function returns a div with a class of header, which contains a Trademark component, and four
+ * links
  * @param {url1} url1 - url of the first link
  * @param {url2} url2 - url of the second link
  * @param {url3} url3 - url of the third link
@@ -14,6 +22,7 @@ import {fonts} from "styles/frontend-conf.js"
  * @param {text4} text4 - text of the fourth link
  * @returns {Header} - header with basic information
  */
+
 export default function Header(props){
 
     const {url1, url2, url3, url4, text1, text2, text3, text4} = props;

@@ -1,14 +1,22 @@
 import Layout from 'components/Layout/Layout';
-import {fonts} from 'styles/frontend-conf.js'
-import {colors} from 'styles/frontend-conf.js'
 import Head from 'next/head';
+import '/styles/about.module.css';
 /*
     * @author Sergio García Navarro
-    * @returns about page
+    * @returns About page
     * @version 1.0
     * @date 13/12/2020
     * @description This page is the about page of the application
 */
+/**
+ * It returns a Layout component with a Head component inside it, which has a title of "Sobre
+ * nosotros", and a h1 component with a className of "title" and the text "Sobre nosotros", and a h2
+ * component with a className of "secondary" and the text "Sweet Home", and a p component with a
+ * className of "text" and the text "Es una red social que abarca el mundo animal y trata de facilitar
+ * su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.", and a h2
+ * component with a className of "secondary" and the text "Nuestra misión", and a p component with a
+ * className of "text" and the text "¿Alguna vez has sentido rechazo o ignorancia
+ */
 export default function About () {
 
     return(
@@ -37,31 +45,6 @@ export default function About () {
                         <h2 className="secondary">Modifica el perfil a tu gusto</h2>
                         <p className="text">¡Sweet Home permite modificar el perfil para que puedas añadir información sobre ti y tu mascota a tu gusto!</p>
                     </div>
-                    <style jsx>{`
-
-                            .title{
-                                color:'${colors.primary}';
-                                align-items: center;
-                                font-family: ${fonts.default};
-                            }
-
-                            .secondary{
-
-                                color:'${colors.quaternary}';
-                                align-items: center;
-                                font-family: '${fonts.secondary}';
-
-                            }
-
-                            .text{
-
-                                display:block;
-                                font-family: '${fonts.secondary}'; 
-
-                            }
-
-            
-                    `}</style>
                 </>
             </Layout>
 

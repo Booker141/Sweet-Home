@@ -7,6 +7,10 @@ import Footer from "/components/Footer/Footer";
     * @date 13/01/2020
     * @description Layout component
 */
+/**
+ * It's a function that returns a component that renders a header, a main and a footer
+ * @returns The Header, Footer and the children of the Layout component.
+ */
 export default function Layout ({children}){
 
         return(

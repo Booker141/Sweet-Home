@@ -4,8 +4,19 @@ import styles from 'styles/index.module.css'
 import FormLogin from 'components/FormLogin/Form'
 import Head from 'next/head'
 
+/*
+    * @author Sergio García Navarro
+    * @returns Login page
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Login page
+*/
 
-
+/**
+ * It returns a JSX element that contains a Head component, a Header component, a FormLogin component
+ * and a BasicFooter component
+ * @returns A React component.
+ */
 export default function Login() {
 
   return(

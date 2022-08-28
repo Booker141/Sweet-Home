@@ -6,6 +6,10 @@ import Head from 'next/head'
     * @date 13/12/2020
     * @description Change password page
 */
+/**
+ * It returns a div with a form inside of it
+ * @returns A form with two inputs and a submit button.
+ */
 export default function CPassword(){
     return(
         <>

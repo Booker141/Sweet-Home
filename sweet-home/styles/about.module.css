@@ -1,0 +1,24 @@
+@import "/styles/frontend-conf.js" frontendConf;
+
+    .title{
+        color:'${frontendConf.colors.primary}';
+        align-items: center;
+        font-family: '${frontendConf.fonts.default}';
+    }
+
+    .secondary{
+
+        color:'${frontendConf.colors.quaternary}';
+        align-items: center;
+        font-family: '${frontendConf.fonts.secondary}';
+
+    }
+
+    .text{
+
+        display:block;
+        font-family: '${frontendConf.fonts.secondary}'; 
+
+    }
+
+

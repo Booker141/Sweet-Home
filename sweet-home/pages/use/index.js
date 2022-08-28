@@ -6,6 +6,10 @@ import Head from 'next/head'
     * @date 13/12/2020
     * @description Use page
 */
+/**
+ * It returns a div with a title
+ * @returns A React element.
+ */
 export default function Use(){
     return(
         <>

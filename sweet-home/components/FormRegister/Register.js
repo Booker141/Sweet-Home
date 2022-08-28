@@ -6,10 +6,16 @@ import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import {FaUserPlus} from "react-icons/fa";
-
+/*
+    * @author Sergio García Navarro
+    * @returns Form Register component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Form Register component
+*/
 /**
- * 
- * @returns {Form} - form to register
+ * A function that returns a form with the information that the user must enter to register.
+ * @returns A form with a button and a link to the login page.
  */
 export default function FormRegister() {
   return (

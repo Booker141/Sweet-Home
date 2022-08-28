@@ -7,6 +7,11 @@ import Head from 'next/head'
     * @date 13/12/2020
     * @description Contact page
 */
+/**
+ * It returns the layout of the contact page.
+ * @returns the Layout component, which is a component that contains the header, footer and the content
+ * of the page.
+ */
 export default function Contact(){
 
     return(

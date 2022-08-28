@@ -1,6 +1,13 @@
 import Layout from "components/Layout/Layout"
 import Head from 'next/head'
 /*
+    * @author Sergio García Navarro
+    * @returns Rules page
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Rules page
+*/
+/*
     * This is the rules page.
     * It contains the rules and policies of Sweet Home.
     * The purpose of Sweet Home is to provide the services implemented, setting rules and policies that promote the security until the end of the activity.

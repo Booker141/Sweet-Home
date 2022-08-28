@@ -7,7 +7,16 @@ import Head from 'next/head'
 import urlImage from '/public/PerroError.png'
 import Button from '/components/Button/Button'
 
-
+/*
+    * @author Sergio García Navarro
+    * @returns Error page
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Error page
+*/
+/**
+ * A function that returns an error message if the page is not found.
+ */
 function Error({ statusCode }) {
     const router = useRouter();
   

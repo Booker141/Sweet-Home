@@ -5,9 +5,17 @@ import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Link from 'next/link'
-/**
-    * This component is the full footer of the application
+/*
+    * @author Sergio García Navarro
+    * @returns Footer component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Footer component
 */
+/**
+ * It returns a div with a svg, four divs, a hr and a BasicFooter component
+ * @returns A component with a footer.
+ */
 export default function Footer(){
 
     return(

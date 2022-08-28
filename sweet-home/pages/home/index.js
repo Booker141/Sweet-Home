@@ -6,6 +6,11 @@ import Head from 'next/head'
     * @date 13/12/2020
     * @description Posts page
 */
+/**
+ * It returns a React fragment that contains a Head component with a title of "Reciente" and a div
+ * that contains a list of posts
+ * @returns An array of objects.
+ */
 export default function PostList () {
     return (
         <>

@@ -4,10 +4,18 @@ import { colors } from "styles/frontend-conf.js";
 import { fonts } from "styles/frontend-conf.js";
 import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
+/*
+    * @author Sergio García Navarro
+    * @returns Form component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Form component
+*/
 /**
  * FormLogin is the component that contains the form to login
  * @returns {Form} - form to login
  */
+
 export default function FormLogin() {
   return (
     <>

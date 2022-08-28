@@ -4,6 +4,11 @@ import {useEffect} from 'react'
 import {useState} from 'react'
 
 /* Animación de carga entre páginas*/
+/**
+ * It's a React Hook that listens to the router events and sets the loading state to true when a route
+ * change starts and to false when it ends
+ * @returns A div with a class of loading.
+ */
 function Loading(){
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -27,6 +32,11 @@ function Loading(){
     </div>
   </div> : null;
 }
+/**
+ * The MyApp function is a component that takes in a Component and pageProps as props. It then returns
+ * a SessionProvider component that takes in the session prop and returns a Loading component and the
+ * Component prop
+ */
 function MyApp({ Component, pageProps: {session, ...pageProps} }) {
 
   return(

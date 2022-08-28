@@ -1,9 +1,17 @@
 import { colors } from "styles/frontend-conf";
 import {fonts} from "styles/frontend-conf";
-/** 
-    * This component is the button of all application forms
-    * @param {name} - text of the button
+/*
+    * @author Sergio García Navarro
+    * @returns Form Button component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Form Button component
 */
+/**
+ * This function takes in a name prop and returns a styled input element with the value of the name
+ * prop
+ * @returns A styled input element.
+ */
 export default function FormButton({ name }) {
   return (
     <>

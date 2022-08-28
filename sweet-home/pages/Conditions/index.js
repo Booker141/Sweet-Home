@@ -3,11 +3,17 @@ import Head from 'next/head'
 
 /*
     * @author Sergio García Navarro
-    * @returns conditions page
+    * @returns Conditions page
     * @version 1.0
     * @date 13/12/2020
     * @description This page is the conditions page of the application
 */
+/**
+ * It returns a Layout component with a Head component inside it, which sets the title of the page to
+ * "Condiciones", and a bunch of other components inside it, which display the terms and conditions of
+ * the app
+ * @returns the Layout component with the children props being the <> component.
+ */
 export default function Conditions() {
     return (
         <Layout>

@@ -1,11 +1,15 @@
-import Header from 'components/Header/Header'
-import Footer from 'components/BasicFooter/BasicFooter'
 import Layout from 'components/Layout/Layout'
 import FormRegister from 'components/FormRegister/Register'
 import Image from 'next/image'
 import Head from 'next/head'
 
-
+/*
+    * @author Sergio García Navarro
+    * @returns Sign up page
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Sign up page
+*/
    /*<Image 
         src="/public/Cats-and-Dogs.jpg" 
         placeholder="blur" 

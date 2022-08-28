@@ -8,6 +8,10 @@ import Head from 'next/head'
     * @date 13/12/2020
     * @description Privacy page
 */
+/**
+ * It returns a Layout component with a Head component and a few other components inside of it
+ * @returns the JSX code that is inside the return statement.
+ */
 export default function Privacy() {
     return (
         <Layout>

@@ -2,15 +2,24 @@ import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Image from 'next/image'
 import Link from 'next/link'
-/** 
-    * This component is a footer with basic information
-    * @param {props} url1 - url of the first link
-    * @param {props} url2 - url of the second link
-    * @param {props} url3 - url of the third link
-    * @param {props} text1 - text of the first link
-    * @param {props} text2 - text of the second link
-    * @param {props} text3 - text of the third link
-*/   
+/*
+    * @author Sergio García Navarro
+    * @returns Basic Footer component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Basic Footer component
+*/
+/**
+ * This function is a basic footer component that takes in three urls and three texts and displays them
+ * in a footer
+ * @param {props} url1 - url of the first link
+ * @param {props} url2 - url of the second link
+ * @param {props} url3 - url of the third link
+ * @param {props} text1 - text of the first link
+ * @param {props} text2 - text of the second link
+ * @param {props} text3 - text of the third link
+ * @returns A footer with three links and a copyright.
+ */
 export default function BasicFooter(props){
 
     const {url1, url2, url3, text1, text2, text3} = props;
