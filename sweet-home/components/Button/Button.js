@@ -1,4 +1,5 @@
 import { colors } from "styles/frontend-conf.js";
+import { fonts } from "styles/frontend-conf"
 /*
     * @author Sergio García Navarro
     * @returns Button component
@@ -31,7 +32,7 @@ export default function Button({ onClick, description, size}) {
             border: none;
             color: ${colors.secondary};
             display: block;
-            font-family: "Poppins-Light";
+            font-family: ${fonts.default} + "-Light";
             font-style: bold;
           }
         `}

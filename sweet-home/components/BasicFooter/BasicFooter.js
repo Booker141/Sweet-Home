@@ -1,6 +1,5 @@
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
-import Image from 'next/image'
 import Link from 'next/link'
 /*
     * @author Sergio García Navarro
@@ -22,7 +21,7 @@ import Link from 'next/link'
  */
 export default function BasicFooter(props){
 
-    const {url1, url2, url3, text1, text2, text3} = props;
+    const {url1, url2, url3, text1, text2, text3, marginTop} = props;
 
     return(
 
@@ -32,7 +31,6 @@ export default function BasicFooter(props){
                 <Link href={'${url2}'}><a>{text2}</a></Link>
                 <Link href={'${url3}'}><a>{text3}</a></Link>
                 <div className="copyright">
-                    <Image src="/public/LogoApp.png" width="20" height="20"/>
                     <p> Copyright &copy; 2022 Sweet Home Corporation</p>
                 </div>
                 
@@ -45,9 +43,9 @@ export default function BasicFooter(props){
                     align-items: center;
                     background-color: ${props.color};
                     width: 100%;
+                    height: 10%;
                     position: absolute;
-                    bottom: 0;
-                    margin-bottom: 0rem;
+                    margin-top: ${marginTop};
                     font-family: ${fonts.primary};
                 }
 
@@ -62,13 +60,7 @@ export default function BasicFooter(props){
                     font-size: 1rem;
                     font-family: ${fonts.default};
                 }
-
-                img{
-                    height: 0.2vh;
-                    weight: 0.2vw;
                 
-                }
-
                 a{
                     text-decoration: none;
                     color: ${colors.primary};

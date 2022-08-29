@@ -1,41 +1,27 @@
-import Header from 'components/Header/Header'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
-import styles from 'styles/index.module.css'
-import FormLogin from 'components/FormLogin/Form'
 import Head from 'next/head'
-
-/*
-    * @author Sergio García Navarro
-    * @returns Login page
-    * @version 1.0
-    * @date 13/01/2020
-    * @description Login page
-*/
-
-/**
- * It returns a JSX element that contains a Head component, a Header component, a FormLogin component
- * and a BasicFooter component
- * @returns A React component.
- */
-export default function Login() {
-
+import Header from "components/Header/Header"
+import BasicFooter from "components/BasicFooter/BasicFooter"
+export default function Principal(){
   return(
+    <>
+      <Head><title>Sweet Home</title></Head>
+      <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
+                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/>
+      <div className="content">
+            <h2 className="secondary">Sweet Home</h2>
+            <p className="text">Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
 
-      <>
-        <Head>
-          <title>Inicio de sesión</title>
-        </Head>
-        <Header url2="/attendances" url3="/info" url4="/contact" 
-                         text2="Cuidados" text3="Quiénes somos" text4="Contacto"/>
+            <h2 className="secondary">Nuestra misión</h2>
+            <p className="text">¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.
+            El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
+            <h2 className="secondary">Ventajas</h2>
 
-        <FormLogin class="form"/>
-      
-        <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
-                        url3="/conditions" text3="Condiciones"/>
-
-      </>
-
-
-
+            <h2 className="secondary">¿Cómo funciona?</h2>
+            /*Añadir funcionalidad resumida*/
+      </div>
+      <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+                   url3="/conditions" text3="Condiciones" marginTop='10rem'/>
+    </>
   )
+
 }

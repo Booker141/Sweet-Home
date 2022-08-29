@@ -3,7 +3,6 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useState} from 'react'
 
-/* Animación de carga entre páginas*/
 /**
  * It's a React Hook that listens to the router events and sets the loading state to true when a route
  * change starts and to false when it ends
@@ -26,7 +25,6 @@ function Loading(){
     }
 
   })
-  /* Bloque logo*/
   return loading ? <div className="loading">
     <div className="loading">
     </div>

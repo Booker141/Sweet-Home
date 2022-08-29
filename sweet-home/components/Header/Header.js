@@ -32,10 +32,10 @@ export default function Header(props){
             <>
                 <div className="header">
                     <Trademark link="/"/>
-                    <Link href={'${url1}'}><a>{text1}</a></Link>
-                    <Link href={'${url2}'}><a>{text2}</a></Link>
-                    <Link href={'${url3}'}><a>{text3}</a></Link>
-                    <Link href={'${url4}'}><a>{text4}</a></Link>       
+                    <Link href={'${url1}'} as="/attendances"><a>{text1}</a></Link>
+                    <Link href={'${url2}'} as="/info"><a>{text2}</a></Link>
+                    <Link href={'${url3}'} as="/contact"><a>{text3}</a></Link>
+                    <Link href={'${url4}'}><a>{text4}</a></Link>     
                 </div>
                 <style jsx>{`
                     .header{
@@ -48,6 +48,8 @@ export default function Header(props){
                         position: relative;
                         top: 2rem;
                         left: 0;
+                        margin-bottom: 8rem;
+                        margin-left: 0.1rem;
                         z-index: 1;
                     }
 

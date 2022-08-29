@@ -31,6 +31,9 @@ export default function Rules(){
                 <p className="text">En Sweet Home está prohibido la publicación de información personal de otro usuario sin el consentimiento previo del mismo.</p>
                 <h2 className="secondary">Publicidad</h2>
                 <p className="text">Otras empresas o usuarios no podrán realizar spam de ningún tipo, puesto que puede obstaculizar las funciones de los usuarios y afectar directamente a la experiencia de los mismos mientras hacen uso de la aplicación. Además, no se puede divulgar a través de las publicaciones contenido engañoso o alterado con el fin de engañar al usuario y obtener beneficio.</p>
+                <h2 className="secondary">Especies exóticas invasoras</h2>
+                <p className="text">En Sweet Home nos preocupamos por la diversidad, por ello nos hacemos cargo de la prohibición de la difusión de especies exóticas invasoras o EEI en nuestra aplicación. En nuestro país, entre las especies exóticas podemos encontrar el Mapache, este está prohibido como animal de compañía y es un factor que tenemos en cuenta en nuestra aplicación.
+                Respetamos la Ley 42/2007 que define una especie exótica invasora como “aquella que se introduce o establece en un ecosistema o hábitat natural o seminatural y que es un agente de cambio y amenaza para la diversidad biológica nativa, ya sea por su comportamiento invasor, o por el riesgo de contaminación genética”.</p>
 
             </>
         </Layout>
