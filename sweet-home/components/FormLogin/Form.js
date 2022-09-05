@@ -20,7 +20,7 @@ export default function FormLogin() {
   return (
     <>
       <form className="form-vertical">
-        <div classname="nombre">
+        <div classname="name">
           <FaUser size={20} color={colors.secondary} />
           <input
             type="text"
@@ -28,7 +28,7 @@ export default function FormLogin() {
             placeholder="Nombre de usuario"
           ></input>
         </div>
-        <div classname="contraseña">
+        <div classname="password">
           <BsFillLockFill size={20} color={colors.secondary} />
           <input
             type="password"
@@ -45,95 +45,165 @@ export default function FormLogin() {
       </div>
       <style jsx>{`
         p {
+
+          /*Box model*/
+
           margin-right: 1rem;
+
+          /*Text*/
+
           font-size: 0.8rem;
           font-family: ${fonts.default};
           color: ${colors.primary};
+          
         }
 
         a {
+
+          /*Box model*/
+
+          margin-bottom: 2rem;
+
+          /*Text*/
+
           font-family: ${fonts.default};
           font-size: 0.8rem;
-          margin-bottom: 2rem;
           color: ${colors.secondary};
           text-decoration: none;
         }
 
         a[href="/signUp"] {
+          /*Box model*/
+
+          margin-top: 5vh;
+
+          /*Text*/
+
           color: ${colors.primary};
           font-size: 0.9rem;
           font-family: ${fonts.default};
-          margin-top: 5vh;
           font-weight: bold;
         }
         a:hover{
+
+          /*Text*/
+
           color: ${colors.tertiary};
         }
         ::placeholder {
+
+          /*Text*/
+
           color: ${colors.primary};
         }
         input[type="text"] {
+
+          /*Box model*/
+
           width: 100%;
           height: 2rem;
-          border-radius: 40px;
-          border: 0;
           padding: 0.2rem;
           margin-bottom: 1rem;
+          margin-left: 0.2rem;
+
+          /*Text*/
+
           font-family: ${fonts.default};
           font-size: 1rem;
-          margin-left: 0.2rem;
+
+          /*Visuals*/
+
+          border-radius: 40px;
+          border: 0;
+
         }
 
         input[type="password"] {
+
+          /*Box model*/
+
           width: 100%;
           height: 2rem;
-          border-radius: 40px;
-          border: 0;
           padding: 0.2rem;
           margin-bottom: 2.2rem;
+
+          /*Text*/
+
           font-family: ${fonts.default};
           font-size: 1rem;
+
+          /*Visuals*/
+
+          border-radius: 40px;
+          border: 0;
+
         }
         .form-register {
+
+          /*Position*/
+
+          position: relative;
+          top: 10vh;
+          left: 33vw;
+
+          /*Box model*/
+
           display: flex;
           flex-direction: row;
           justify-content: center;
           align-items: center;
           margin-top: 1rem;
-          position: relative;
-          top: 10vh;
-          left: 33vw;
+
         }
-        .nombre {
+        .name {
+
+          /*Box model*/
+
           display: flex;
           flex-direction: row;
         }
 
-        .contraseña {
+        .password {
+
+          /*Box model*/
+
           display: flex;
           flex-direction: row;
         }
 
         .buttom {
+
+          /*Box model*/
+
           width: 70%;
           padding: 0.5rem;
           margin-top: 2rem;
         }
 
         .form-vertical {
+
+          /*Position*/
+   
+          position: relative;
+          top: 6rem;
+          left: 70vw;
+
+          /*Box model*/
+
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           width: 20vw;
           height: 50vh;
-          background-color: ${colors.primary};
-          border-radius: 10px;
           padding: 1rem;
           margin: 1rem;
-          position: relative;
-          top: 6rem;
-          left: 70vw;
+
+          /*Visuals*/
+
+          background-color: ${colors.primary};
+          border-radius: 10px;
+
         }
       `}</style>
     </>

@@ -19,8 +19,10 @@ export default function Trademark({link}){
                                 
                 img{
 
-                    height: 13vh;
-                    weight: 13vw;
+                    /*Box model*/
+                    
+                    height: 70px;
+                    weight: 70px;
 
                 }
 

@@ -39,21 +39,34 @@ export default function Header(props){
                 </div>
                 <style jsx>{`
                     .header{
-                        display: flex;
-                        justify-content: space-around;
-                        align-items: center;
-                        background-color: ${props.color};
-                        height: 2rem;
-                        width: 100%;
+
+                        /*Position*/
+
                         position: relative;
                         top: 2rem;
                         left: 0;
+                        z-index: 1;
+
+                        /*Box model*/
+
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        height: 2rem;
+                        width: 100%;                  
                         margin-bottom: 8rem;
                         margin-left: 0.1rem;
-                        z-index: 1;
+
+                        /*Visuals*/
+                       
+                        background-color: ${props.color};
+                        
                     }
 
                     a{
+
+                        /*Text*/
+
                         text-decoration: none;
                         color: ${colors.primary};
                         font-size: 1.2rem;
@@ -61,6 +74,9 @@ export default function Header(props){
                     }
 
                     a:hover{
+
+                        /*Text*/
+                        
                         color: ${colors.tertiary};
                     }
             

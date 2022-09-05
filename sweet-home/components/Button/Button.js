@@ -22,18 +22,31 @@ export default function Button({ onClick, description, size}) {
       <style jsx>
         {`
           button {
+
+            /*Position*/
+
+            position: relative;
+            margin: 0 auto;
+
+            /*Box model*/
+
+            display: block;
             height: 7vh;
             width: ${size};
             padding: 1vh 2vh;
-            position: relative;
-            margin: 0 auto;
+
+            /*Text*/
+
+            color: ${colors.secondary};
+            font-family: ${fonts.default} + "-Light";
+            font-style: bold;
+
+            /*Visuals*/
+
             background-color: ${colors.tertiary};
             border-radius: 40px;
             border: none;
-            color: ${colors.secondary};
-            display: block;
-            font-family: ${fonts.default} + "-Light";
-            font-style: bold;
+
           }
         `}
       </style>

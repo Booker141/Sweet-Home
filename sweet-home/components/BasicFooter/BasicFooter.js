@@ -38,30 +38,53 @@ export default function BasicFooter(props){
             <style jsx>{`
 
                 .footer{
+
+                    /*Position*/
+
+                    position: absolute;
+                    margin-top: ${marginTop};
+
+                    /*Box model*/
+
                     display: flex;
                     justify-content: space-around;
                     align-items: center;
-                    background-color: ${props.color};
                     width: 100%;
                     height: 10%;
-                    position: absolute;
-                    margin-top: ${marginTop};
+
+                    /*Text*/
+
                     font-family: ${fonts.primary};
+
+                    /*Visuals*/
+
+                    background-color: ${props.color};
+                       
                 }
 
                 .copyright{
+
+                    /*Box model*/
+   
                     display: flex;
                     flex-direction: column;
                     align-items: flex-end;
                 }
 
                 p{
+
+                    /*Text*/
+
                     color: ${colors.primary};
                     font-size: 1rem;
                     font-family: ${fonts.default};
+
                 }
                 
                 a{
+
+                    /*Text*/
+  
                     text-decoration: none;
                     color: ${colors.primary};
                     font-size: 1rem;
@@ -69,6 +92,7 @@ export default function BasicFooter(props){
                 }
 
                 a:hover{
+                    /*Visuals*/
                     color: ${colors.tertiary};
                 }
             `}</style>

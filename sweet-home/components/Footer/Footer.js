@@ -21,7 +21,7 @@ export default function Footer(){
     return(
             <>
             <div className="content-footer">
-                <svg className="olas" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <svg className="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                         <path fill="#f0810f" fill-opacity="1" d="M0,128L20,138.7C40,
                         149,80,171,120,170.7C160,171,200,149,240,170.7C280,192,320,
                         256,360,245.3C400,235,440,149,480,128C520,107,560,149,600,
@@ -37,30 +37,30 @@ export default function Footer(){
                 </svg>
                 <div className="footer">
                     
-                    <div className="columna1">
-                        <h3 className="titulo1">Sweet Home</h3>
+                    <div className="column">
+                        <h3 className="title1">Sweet Home</h3>
                         <div className="links1">
                             <Link href="/about"><a>Sobre nosotros</a></Link>
                             <Link href="/contact"><a>Contáctanos</a></Link>
                         </div>
                     </div>
-                    <div className="columna2">
-                        <h3 className="titulo2">Ayuda</h3>
+                    <div className="column2">
+                        <h3 className="title2">Ayuda</h3>
                         <div className="links2">
                             <Link href="/use"><a>Uso de Sweet Home</a></Link>
                             <Link href="/rules"><a>Reglas y políticas</a></Link>
                         </div>
                     </div>
-                    <div className="columna3">
-                        <h3 className="titulo3">Encuentra en Sweet Home</h3>
+                    <div className="column3">
+                        <h3 className="title3">Encuentra en Sweet Home</h3>
                         <div className="links3">
                             <Link href="/attendances"><a>Cuidados</a></Link>
                         </div>
                     </div>       
                 </div>
-                <div className="columna4">
-                        <h3 className="titulo4">Síguenos</h3>
-                        <div className="iconos">
+                <div className="column4">
+                        <h3 className="title4">Síguenos</h3>
+                        <div className="icons">
                             <a className="instagram"><BsInstagram/></a>
                             <a className="facebook"><BsFacebook/></a>
                             <a className="twitter"><BsTwitter/></a>
@@ -76,24 +76,58 @@ export default function Footer(){
             <style jsx>{`
 
                 .content-footer{
+
+                    /*Position*/
+
+                    bottom: 0;
+
+                    /*Box model*/
+
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    margin-top: 4rem;
-                    bottom: 0;
+                    margin-top: 3rem;
+                    
                 }
 
                 .footer{
+
+                    /*Box model*/
+
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-between;
-                    margin-top: 0.5rem;
+                    justify-content: space-around;
+                    align-items: center;
                     width: 100%;
+                    margin-top: 0.5rem;
+                    margin-bottom: 3rem;
                     height: 20vh;
+                    
+                }
+
+                .column2{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                }
+
+                .column4{
+
+                    /*Box model*/
+
+                    margin-bottom: 1rem;
                 }
 
                 .links1{
+
+                    /*Box model*/
+
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -101,18 +135,27 @@ export default function Footer(){
                 }
                 
                 .links2{
+
+                    /*Box model*/
+
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                 }
 
                 .links3{
+
+                    /*Box model*/
+
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                 }
 
-                .iconos{
+                .icons{
+
+                    /*Box model*/
+
                     display: flex;
                     flex-direction: row;
                     justify-content: space-around;
@@ -121,25 +164,45 @@ export default function Footer(){
  
 
                 h3{
+                    /*Box model*/
+
+                    margin-bottom: 0.5rem;
+
+                    /*Text*/
+
                     color: ${colors.primary};
                     font-size: 1rem;
                     font-family: ${fonts.default};
-                    margin-bottom: 0.5rem;
                     font-weight: bold;
                 }
+
                 p{
+
+                    /*Text*/
+
                     color: ${colors.primary};
                     font-size: 1rem;
                     font-family: ${fonts.default};
                 }
 
                 hr{
+
+                    /*Box model*/
+
+                    width: 97%;
+                    height: 0.09rem;
+
+                    /*Visuals*/
+
                     background-color: ${colors.primary};
-                    width: 100%;
-                    height: 0.1rem;
-                    opacity: 0.4;
+                    border: none;
+                    opacity: 0.6;
                 }
+
                 a{
+
+                    /*Text*/
+
                     text-decoration: none;
                     color: ${colors.primary};
                     font-size: 1rem;
@@ -147,8 +210,12 @@ export default function Footer(){
                 }
 
                 a:hover{
+
+                    /*Text*/
+                    
                     color: ${colors.tertiary};
                 }
+                
             `}</style>
         </>
     )
