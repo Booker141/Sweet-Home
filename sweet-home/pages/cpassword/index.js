@@ -21,6 +21,8 @@ export default function CPassword(){
                     <input type="submit" value="Cambiar contraseña"></input>
                 </form>    
             </div>
+            <style jsx>{`
+            `}</style>
         </>
     )
 

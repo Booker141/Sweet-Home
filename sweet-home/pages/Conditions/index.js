@@ -1,5 +1,6 @@
 import Layout from "components/Layout/Layout"
 import Head from 'next/head'
+import styles from "styles/global.module.css"
 
 /*
     * @author Sergio García Navarro
@@ -19,35 +20,36 @@ export default function Conditions() {
         <Layout>
             <>
                 <Head><title>Condiciones</title></Head>
-                <h2 className="secondary">5 de agosto de 2022</h2>
-                <h1 className="title">Términos y condiciones de Sweet Home</h1>
-                <h2 className="secondary">1. ¿QUÉ ES SWEET HOME?</h2>
-                <p className="text">Sweet Home es una red social desarrollada por Sweet Home Corporation que se encarga de reunir a todas las personas interesadas en el mundo de la adopción animal y de animales perdidos o abandonados para darles las mejores comodidades y cuidados posibles.
+                <h2 className={styles.secondary}>5 de agosto de 2022</h2>
+                <h1 className={styles.title}>Términos y condiciones de Sweet Home</h1>
+                <h2 className={styles.secondary}>1. ¿QUÉ ES SWEET HOME?</h2>
+                <p className={styles.text}>Sweet Home es una red social desarrollada por Sweet Home Corporation que se encarga de reunir a todas las personas interesadas en el mundo de la adopción animal y de animales perdidos o abandonados para darles las mejores comodidades y cuidados posibles.
                 Además, los usuarios podrán publicar fotos e información de los animales, teniendo un contacto inmediato con otros usuarios de la aplicación. A estos usuarios se les puede seguir para enterarte de las últimas novedades.</p>
 
-                <h2 className="secondary">2. ¿CUÁL ES EL ALCANCE DE LA APLICACIÓN?</h2>
-                <p className="text">Sweet Home contempla una gran diversidad de usuarios eludiendo la restricción de edades, usada en su mayoría en otras aplicaciones similares. Podrá ser usada por adultos y niños, estos últimos con previo consentimiento de sus tutores legales.
+                <h2 className={styles.secondary}>2. ¿CUÁL ES EL ALCANCE DE LA APLICACIÓN?</h2>
+                <p className={styles.text}>Sweet Home contempla una gran diversidad de usuarios eludiendo la restricción de edades, usada en su mayoría en otras aplicaciones similares. Podrá ser usada por adultos y niños, estos últimos con previo consentimiento de sus tutores legales.
                 Además, tiene como objetivo facilitar el proceso de adopción, búsqueda y publicación de cuidados en un foro, por lo que el target de la aplicación son aquellas que la vayan a usar con dichos propósitos.
                 Por último, es importante destacar que los centros de recogida pueden crearse un perfil adaptado en la aplicación, por lo que también fue pensada para este perfil de usuario desde los inicios.</p>
 
-                <h2 className="secondary">3. USO DE LA APLICACIÓN COMO USUARIO REGISTRADO</h2>
-                <p className="text">Para acceder a las funciones de la aplicación, necesita crear una cuenta y acceder como usuario. Aparte de las garantías de seguridad que proporciona Sweet Home, debe ser responsable de la seguridad de su cuenta, haciendo uso de una contraseña robusta y limitando el acceso a su persona. 
+                <h2 className={styles.secondary}>3. USO DE LA APLICACIÓN COMO USUARIO REGISTRADO</h2>
+                <p className={styles.text}>Para acceder a las funciones de la aplicación, necesita crear una cuenta y acceder como usuario. Aparte de las garantías de seguridad que proporciona Sweet Home, debe ser responsable de la seguridad de su cuenta, haciendo uso de una contraseña robusta y limitando el acceso a su persona. 
                 El usuario registrado podrá utilizar todas las funciones que ofrece Sweet Home, publicación de información y contenido multimedia e interacción con los usuarios.</p>
 
-                <h2 className="secondary">4. POLÍTICA DE DATOS</h2>
-                <p className="text">Para llevar a cabo todas las funciones, Sweet Home recopila datos y usa esa información para diversos fines. En el apartado “enlace a política de privacidad” describimos las formas de recopilación y uso de los datos proporcionados.</p>
+                <h2 className={styles.secondary}>4. POLÍTICA DE DATOS</h2>
+                <p className={styles.text}>Para llevar a cabo todas las funciones, Sweet Home recopila datos y usa esa información para diversos fines. En el apartado “enlace a política de privacidad” describimos las formas de recopilación y uso de los datos proporcionados.</p>
 
-                <h2 className="secondary">5. ¿CÓMO ELIMINAR MI CUENTA EN LA APLICACIÓN?</h2>
-                <p className="text">Todos los usuarios pueden eliminar su cuenta desde la configuración de su perfil. 
+                <h2 className={styles.secondary}>5. ¿CÓMO ELIMINAR MI CUENTA EN LA APLICACIÓN?</h2>
+                <p className={styles.text}>Todos los usuarios pueden eliminar su cuenta desde la configuración de su perfil. 
                 Sweet Home recomienda el uso adecuado de esta función ya que no se hace cargo de las eliminaciones accidentales. Si la cuenta ya ha sido eliminada no podrá ser recuperada</p>
 
-                <h2 className="secondary">6. RESPONSABILIDAD DE SWEET HOME</h2>
-                <p className="text">Sweet Home garantiza la seguridad del uso de su aplicación así como un tratamiento correcto de los datos.
+                <h2 className={styles.secondary}>6. RESPONSABILIDAD DE SWEET HOME</h2>
+                <p className={styles.text}>Sweet Home garantiza la seguridad del uso de su aplicación así como un tratamiento correcto de los datos.
                 El usuario es el responsable de los dispositivos electrónicos y servicios que debe poseer para hacer uso de la aplicación. Los costes de estos servicios son responsabilidad del usuario.
                 La aplicación incluye enlaces a sitios web de terceros, redes sociales de la empresa en su totalidad. Si el usuario hace uso de estos enlaces, deberá revisar los términos y condiciones de estos sitios web. Sweet Home no ha sido patrocinado por ninguno de estas aplicaciones de terceros.
                 Si se produce alguna actividad ilegal dentro de la app que afecte al funcionamiento de la app, Sweet Home tiene el derecho de cerrar dicha aplicación sin deber nada a los usuarios.
                 </p>
-
+                <style jsx>{`
+                `}</style>
             </>
         </Layout>
     )
