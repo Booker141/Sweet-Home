@@ -4,7 +4,7 @@ import {MdPets} from 'react-icons/md'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Head from 'next/head'
-import urlImage from '/public/PerroError.png'
+import urlImage from '/public/PerroError.jpg'
 import Button from '/components/Button/Button'
 
 /*
