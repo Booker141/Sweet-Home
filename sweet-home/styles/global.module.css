@@ -1,13 +1,25 @@
+
+.content{
+
+    /*Box model*/
+
+    height: 100%;
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+
 .title{
 
     /*Text*/
 
     font-family: 'Poppins', sans-serif;
-    font-size: 2.2rem;
-    font-weight: bold;
-    color: #1C1C1C;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #f0810f;
 
 }
+
+
 
 .secondary{
 
@@ -15,7 +27,7 @@
 
     font-family: 'Raleway', sans-serif;
     font-size: 1.7rem;
-    font-weight: bold;
+    font-weight: 500;
     color: #1C1C1C;
 
 }
@@ -28,5 +40,52 @@
     font-size: 1rem;
     font-weight: 400;
     color: #1C1C1C;
+    
+}
+
+.list{
+    /*Text*/
+
+    font-family: 'Raleway', sans-serif;
+
+    /*Visuals*/
+
+    list-style-type: circle;
+}
+
+.line{
+    
+    /*Box model*/
+
+    width: 97%;
+    height: 0.09rem;
+    
+    /*Visuals*/
+    
+    background-color: #f0810f;
+    border: none;
+    opacity: 0.6;
+}
+
+.link{
+
+    /*Text*/
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #f0810f;
+
+    /*Visuals*/
+
+    text-decoration: none;
+    
+}
+
+.link:hover{
+
+    /*Text*/
+
+    color: #f9A603;
     
 }

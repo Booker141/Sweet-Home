@@ -19,8 +19,9 @@ import { BsFillLockFill } from "react-icons/bs";
 export default function FormLogin() {
   return (
     <>
+    <div className="content">
       <form className="form-vertical">
-        <div classname="name">
+        <div classname="form-vertical__name">
           <FaUser size={20} color={colors.secondary} />
           <input
             type="text"
@@ -28,7 +29,7 @@ export default function FormLogin() {
             placeholder="Nombre de usuario"
           ></input>
         </div>
-        <div classname="password">
+        <div classname="form-vertical__password">
           <BsFillLockFill size={20} color={colors.secondary} />
           <input
             type="password"
@@ -37,13 +38,90 @@ export default function FormLogin() {
           ></input>
         </div>
         <a href="/cpassword">¿Has olvidado la contraseña?</a>
-        <FormButton class="buttom" name="Iniciar sesión" />
+        <FormButton className="form-vertical__buttom" name="Iniciar sesión" />
       </form>
       <div className="form-register">
         <p>¿No tiene una cuenta?</p>
         <Link href="/signUp"><a>Registrarse</a></Link>
       </div>
+    </div>
       <style jsx>{`
+
+      .content {
+        height: 100%;
+        margin-bottom: 5rem;
+      }
+
+      .form-register {
+
+          /*Position*/
+
+          position: relative;
+          top: 10vh;
+          left: 33vw;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          margin-top: 1rem;
+
+        }
+
+        .form-vertical {
+
+            /*Position*/
+
+            position: relative;
+            top: 6rem;
+            left: 70vw;
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 20vw;
+            height: 50vh;
+            padding: 1rem;
+            margin: 1rem;
+
+            /*Visuals*/
+
+            background-color: ${colors.primary};
+            border-radius: 10px;
+
+        }
+
+        .form-vertical__name {
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+        }
+
+        .form-vertical__password {
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+        }
+
+        .form-vertical__buttom {
+
+          /*Box model*/
+
+          width: 70%;
+          padding: 0.5rem;
+          margin-top: 2rem;
+        }
+
+        
         p {
 
           /*Box model*/
@@ -138,73 +216,7 @@ export default function FormLogin() {
           border: 0;
 
         }
-        .form-register {
-
-          /*Position*/
-
-          position: relative;
-          top: 10vh;
-          left: 33vw;
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          margin-top: 1rem;
-
-        }
-        .name {
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-        }
-
-        .password {
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-        }
-
-        .buttom {
-
-          /*Box model*/
-
-          width: 70%;
-          padding: 0.5rem;
-          margin-top: 2rem;
-        }
-
-        .form-vertical {
-
-          /*Position*/
-   
-          position: relative;
-          top: 6rem;
-          left: 70vw;
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 20vw;
-          height: 50vh;
-          padding: 1rem;
-          margin: 1rem;
-
-          /*Visuals*/
-
-          background-color: ${colors.primary};
-          border-radius: 10px;
-
-        }
+        
       `}</style>
     </>
   );

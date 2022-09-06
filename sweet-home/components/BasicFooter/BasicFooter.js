@@ -1,5 +1,6 @@
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import styles from "styles/global.module.css"
 import Link from 'next/link'
 /*
     * @author Sergio García Navarro
@@ -21,19 +22,19 @@ import Link from 'next/link'
  */
 export default function BasicFooter(props){
 
-    const {url1, url2, url3, text1, text2, text3, marginTop} = props;
+    const {url1, url2, url3, text1, text2, text3} = props;
 
     return(
 
         <>
+            <hr className={styles.line}></hr>
             <div className="footer">
-                <Link href={'${url1}'}><a>{text1}</a></Link>
-                <Link href={'${url2}'}><a>{text2}</a></Link>
-                <Link href={'${url3}'}><a>{text3}</a></Link>
+                <Link className={styles.link} href={'${url1}'}><a>{text1}</a></Link>
+                <Link className={styles.link} href={'${url2}'}><a>{text2}</a></Link>
+                <Link className={styles.link} href={'${url3}'}><a>{text3}</a></Link>
                 <div className="copyright">
                     <p> Copyright &copy; 2022 Sweet Home Corporation</p>
                 </div>
-                
             </div>
             <style jsx>{`
 
@@ -42,7 +43,7 @@ export default function BasicFooter(props){
                     /*Position*/
 
                     position: absolute;
-                    margin-top: ${marginTop};
+                    margin-top: 0.6rem;
 
                     /*Box model*/
 
@@ -62,6 +63,7 @@ export default function BasicFooter(props){
                        
                 }
 
+               
                 .copyright{
 
                     /*Box model*/
@@ -70,6 +72,7 @@ export default function BasicFooter(props){
                     flex-direction: column;
                     align-items: flex-end;
                 }
+
 
                 p{
 

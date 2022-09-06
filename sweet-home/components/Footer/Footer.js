@@ -5,6 +5,7 @@ import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Link from 'next/link'
+import styles from "styles/global.module.css"
 /*
     * @author Sergio García Navarro
     * @returns Footer component
@@ -38,29 +39,29 @@ export default function Footer(){
                 <div className="footer">
                     
                     <div className="column">
-                        <h3 className="title1">Sweet Home</h3>
-                        <div className="links1">
-                            <Link href="/about"><a>Sobre nosotros</a></Link>
-                            <Link href="/contact"><a>Contáctanos</a></Link>
+                        <h3 className="column__title">Sweet Home</h3>
+                        <div className="column__links">
+                            <Link className={styles.link} href="/about"><a>Sobre nosotros</a></Link>
+                            <Link className={styles.link} href="/contact"><a>Contáctanos</a></Link>
                         </div>
                     </div>
                     <div className="column2">
-                        <h3 className="title2">Ayuda</h3>
-                        <div className="links2">
-                            <Link href="/use"><a>Uso de Sweet Home</a></Link>
-                            <Link href="/rules"><a>Reglas y políticas</a></Link>
+                        <h3 className="column2__title">Ayuda</h3>
+                        <div className="column2__links">
+                            <Link className={styles.link} href="/use"><a>Uso de Sweet Home</a></Link>
+                            <Link className={styles.link} href="/rules"><a>Reglas y políticas</a></Link>
                         </div>
                     </div>
                     <div className="column3">
-                        <h3 className="title3">Encuentra en Sweet Home</h3>
-                        <div className="links3">
-                            <Link href="/attendances"><a>Cuidados</a></Link>
+                        <h3 className="column3__title">Encuentra en Sweet Home</h3>
+                        <div className="column3__links">
+                            <Link className={styles.link} href="/attendances"><a>Cuidados</a></Link>
                         </div>
                     </div>       
                 </div>
                 <div className="column4">
-                        <h3 className="title4">Síguenos</h3>
-                        <div className="icons">
+                        <h3 className="column4__title">Síguenos</h3>
+                        <div className="column4__icons">
                             <a className="instagram"><BsInstagram/></a>
                             <a className="facebook"><BsFacebook/></a>
                             <a className="twitter"><BsTwitter/></a>
@@ -68,9 +69,9 @@ export default function Footer(){
                     </div> 
             </div>
             <div className="basicFooter">
-                <hr></hr>
+                
                 <BasicFooter url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
-                        url3="/conditions" text3="Condiciones" marginTop='0.6rem'/>
+                        url3="/conditions" text3="Condiciones"/>
             </div>   
             
             <style jsx>{`
@@ -101,11 +102,21 @@ export default function Footer(){
                     align-items: center;
                     width: 100%;
                     margin-top: 0.5rem;
-                    margin-bottom: 3rem;
                     height: 20vh;
                     
                 }
 
+                .column{
+
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+            }
                 .column2{
 
                     /*Box model*/
@@ -117,14 +128,26 @@ export default function Footer(){
 
                 }
 
+                .column3{
+
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                }
                 .column4{
 
                     /*Box model*/
 
+                    margin-top: 3rem;
                     margin-bottom: 1rem;
                 }
 
-                .links1{
+                .column1__links{
 
                     /*Box model*/
 
@@ -134,7 +157,7 @@ export default function Footer(){
 
                 }
                 
-                .links2{
+                .column2__links{
 
                     /*Box model*/
 
@@ -143,7 +166,7 @@ export default function Footer(){
                     justify-content: center;
                 }
 
-                .links3{
+                .column3__links{
 
                     /*Box model*/
 
@@ -152,7 +175,7 @@ export default function Footer(){
                     justify-content: center;
                 }
 
-                .icons{
+                .column4__icons{
 
                     /*Box model*/
 
@@ -185,19 +208,7 @@ export default function Footer(){
                     font-family: ${fonts.default};
                 }
 
-                hr{
 
-                    /*Box model*/
-
-                    width: 97%;
-                    height: 0.09rem;
-
-                    /*Visuals*/
-
-                    background-color: ${colors.primary};
-                    border: none;
-                    opacity: 0.6;
-                }
 
                 a{
 
