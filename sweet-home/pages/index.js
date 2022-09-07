@@ -30,7 +30,7 @@ export default function Principal(){
             <h2 className={styles.secondary}>¿Cómo funciona?</h2>
       </div>
       <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
-                   url3="/conditions" text3="Condiciones" marginTop='10rem'/>
+                   url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
       <style jsx>{`
       
           .content__container1{

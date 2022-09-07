@@ -33,7 +33,7 @@ export default function Contact(){
                 <Head>
                     <title>Contacto</title>
                 </Head>
-                <div className="contact">
+                <div className={styles.content}>
                     <h1 className={styles.title}>Contacto</h1>
                     <div className="contact__container">
                         <div className="contact__container--info">
@@ -119,12 +119,6 @@ export default function Contact(){
                     </form>
                 </div>
                 <style jsx>{`
-                    .contact{
- 
-                        /*Box model*/
-   
-                        height:100%;
-                    }
 
                     .contact__container{
 

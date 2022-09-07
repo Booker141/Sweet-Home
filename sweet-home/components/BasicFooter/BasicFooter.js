@@ -22,7 +22,7 @@ import Link from 'next/link'
  */
 export default function BasicFooter(props){
 
-    const {url1, url2, url3, text1, text2, text3} = props;
+    const {url1, url2, url3, url4, text1, text2, text3, text4} = props;
 
     return(
 
@@ -32,6 +32,7 @@ export default function BasicFooter(props){
                 <Link className={styles.link} href={'${url1}'}><a>{text1}</a></Link>
                 <Link className={styles.link} href={'${url2}'}><a>{text2}</a></Link>
                 <Link className={styles.link} href={'${url3}'}><a>{text3}</a></Link>
+                <Link className={styles.link} href={'${url4}'}><a>{text4}</a></Link>
                 <div className="copyright">
                     <p> Copyright &copy; 2022 Sweet Home Corporation</p>
                 </div>

@@ -71,7 +71,7 @@ export default function Footer(){
             <div className="basicFooter">
                 
                 <BasicFooter url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
-                        url3="/conditions" text3="Condiciones"/>
+                        url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
             </div>   
             
             <style jsx>{`

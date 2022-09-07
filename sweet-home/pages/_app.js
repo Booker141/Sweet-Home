@@ -2,6 +2,7 @@ import {SessionProvider} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {useState} from 'react'
+import styles from "styles/global.module.css"
 
 /**
  * It's a React Hook that listens to the router events and sets the loading state to true when a route
@@ -25,9 +26,8 @@ function Loading(){
     }
 
   })
-  return loading ? <div className="loading">
-    <div className="loading">
-    </div>
+  return loading ? <div className={styles.loading}>
+      <span className={styles.loader}></span>
   </div> : null;
 }
 /**
@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }) {
         <Loading/>
           <Component {...pageProps} />
       </SessionProvider>
-      
+
   );
 }
 
