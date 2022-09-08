@@ -15,39 +15,43 @@ import { fonts } from "styles/frontend-conf"
  * @param {size} - size of the button
  * @returns A button with a description and size.
  */
-export default function Button({ onClick, description, size}) {
+export default function Button({ onClick, children}) {
   return (
     <>
-      <button onClick={onClick} size={size}>{description}</button>
+      <button onClick={onClick}>{children}</button>
       <style jsx>
         {`
           button {
-
-            /*Position*/
-
-            position: relative;
-            margin: 0 auto;
 
             /*Box model*/
 
             display: block;
             height: 7vh;
-            width: ${size};
+            width: 10vw;
             padding: 1vh 2vh;
 
             /*Text*/
 
             color: ${colors.secondary};
-            font-family: ${fonts.default} + "-Light";
+            font-family: ${fonts.default} ;
             font-style: bold;
 
             /*Visuals*/
 
-            background-color: ${colors.tertiary};
+            background-color: ${colors.primary};
             border-radius: 40px;
             border: none;
 
+            /*Misc*/
+
+            transition: all 0.3s ease-in-out;
+
           }
+
+          button:hover {
+            background-color: ${colors.tertiary};
+          }
+
         `}
       </style>
     </>

@@ -43,12 +43,12 @@
     
 }
 
-.img{
+.imgAccessibility{
 
     /*Box model*/
 
-    height: 50rem;
-    width: 50rem;
+    height: 30rem;
+    width: 30rem;
 
     /*Visuals*/
 
@@ -108,7 +108,7 @@
     /*Position*/
 
     position: relative;
-    top: 50%;
+    transform: translate(-50%, -50%);
 
 
     /*Box model*/

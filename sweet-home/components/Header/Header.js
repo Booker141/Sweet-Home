@@ -34,8 +34,9 @@ export default function Header(props){
                     <Trademark link="/"/>
                     <Link href={'${url1}'} as="/attendances"><a>{text1}</a></Link>
                     <Link href={'${url2}'} as="/info"><a>{text2}</a></Link>
-                    <Link href={'${url3}'} as="/contact"><a>{text3}</a></Link>
-                    <Link href={'${url4}'}><a>{text4}</a></Link>     
+                    <Link href={'${url3}'} as="/about"><a>{text3}</a></Link>
+                    <Link href={'${url4}'} as="/contact"><a>{text4}</a></Link>   
+
                 </div>
                 <style jsx>{`
                     .header{
@@ -71,6 +72,10 @@ export default function Header(props){
                         color: ${colors.primary};
                         font-size: 1.2rem;
                         font-family: ${fonts.default};
+
+                        /*Animation*/
+                        
+                        transition: all 0.3s ease-in-out;
                     }
 
                     a:hover{
@@ -78,8 +83,13 @@ export default function Header(props){
                         /*Text*/
                         
                         color: ${colors.tertiary};
+                        font-size: 1.5rem;
+                        
+                        
                     }
-            
+                    
+
+
                 `}</style>
             </>
         )

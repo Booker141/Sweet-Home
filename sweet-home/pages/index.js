@@ -3,6 +3,7 @@ import Header from "components/Header/Header"
 import BasicFooter from "components/BasicFooter/BasicFooter"
 import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
+import {fonts} from "styles/frontend-conf.js"
 import {MdPets} from 'react-icons/md'
 export default function Principal(){
   return(
@@ -13,7 +14,20 @@ export default function Principal(){
       <div className={styles.content}>
         <div className="content__container1">
           <div className="content__container1__title">
-            <MdPets className="icon"></MdPets><h2 className={styles.title}>Sweet Home</h2><MdPets className="icon"></MdPets>
+            <h1 className="title">
+              <span>
+                <span>S</span>
+                <span>w</span>
+                <span>e</span>
+                <span>e</span>
+                <span>t</span>
+                <span>&nbsp;</span>
+                <span>H</span>
+                <span>o</span>
+                <span>m</span>
+                <span>e</span>
+              </span>
+            </h1>
           </div>
             <p className={styles.text}>Somos una empresa dedicada a la atención de mascotas, brindando servicios de cuidado y hospedaje para todo tipos de mascotas.</p>
         </div>
@@ -46,12 +60,32 @@ export default function Principal(){
           }
           
           .content__container1__title{
+
             /*Box model*/
             display: flex;
             flex-direction: row;
             align-items: center;
 
           }
+
+          .title{
+            /*Text*/
+            font-size: 3rem;
+            font-weight: 500;
+            color: ${colors.primary};
+            font-family: ${fonts.default};
+            text-align: center;
+            margin: 0;
+            padding: 0;
+          }
+
+          .content__container1 p, h1 span span{
+            opacity: 0;
+            position: relative;
+            bottom: -1em;
+            animation: texto 1.5s linear forwards;
+          }
+
 
           .content__container2{
 
@@ -64,13 +98,14 @@ export default function Principal(){
 
             /*Text*/
 
-            color: ${colors.white};
+            color: ${colors.secondary};
             
             /*Visuals*/
 
             background-color: ${colors.primary};
             border-radius: 10px;
           }
+
 
           .content__container3{
             /*Box model*/
@@ -113,18 +148,32 @@ export default function Principal(){
 
           .imagen-inicio1{
 
-            /*Box model*/
-
-            margin: 0 auto;
-            margin-bottom: 3rem;
-
             /*Visuals*/
 
+            width: 100%;
+            height: 100%;
             border-radius: 10px;
 
+            /*Misc*/
+
+            animation: imagen 2s linear forwards;
+
           }
+
       
-      
+          @keyframes texto {
+            0% { bottom: -1em; opacity: 0.3; }
+            30% { bottom: 0.5em; opacity: 0.5;}
+            50% { bottom: 1em; opacity: 0.8;}
+            70% { bottom: 0.5em; opacity: 0.9;}
+            100% { bottom: 0em; opacity: 1; }
+          }
+
+          @keyframes imagen {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+
       `}</style>
     </>
   )

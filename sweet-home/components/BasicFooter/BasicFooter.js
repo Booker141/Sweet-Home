@@ -93,10 +93,16 @@ export default function BasicFooter(props){
                     color: ${colors.primary};
                     font-size: 1rem;
                     font-family: ${fonts.default};
+
+                    /*Animation*/
+
+                    transition: all 0.3s ease-in-out;
                 }
 
                 a:hover{
-                    /*Visuals*/
+
+                    /*Text*/
+
                     color: ${colors.tertiary};
                 }
             `}</style>
