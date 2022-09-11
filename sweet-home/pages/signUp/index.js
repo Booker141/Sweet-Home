@@ -1,6 +1,6 @@
-import Layout from 'components/Layout/Layout'
 import FormRegister from 'components/FormRegister/Register'
-import Image from 'next/image'
+import Header from "components/Header/Header"
+import BasicFooter from "components/BasicFooter/BasicFooter"
 import Head from 'next/head'
 
 /*
@@ -10,32 +10,29 @@ import Head from 'next/head'
     * @date 13/01/2020
     * @description Sign up page
 */
-   /*<Image 
-        src="/public/Cats-and-Dogs.jpg" 
-        placeholder="blur" 
-        blurDataURL="/public/Orange-blur.jpeg" 
-        width={700} 
-        height={300} 
-        class="image"/>*/
+
 export default function SignUp() {
 
   return(
 
-    <Layout>
       <>
         <Head>
           <title>Registro</title>
         </Head>
         
-        <FormRegister class="form"/>
+        <Header url1="/attendances" url2="/info" url3="/contact" url4="/signUp"
+                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
+                          
+          <FormRegister class="form"/>
       
+        <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+                          url3="/conditions" text3="Condiciones" marginTop='10rem'/>
 
         <style jsx>{`
      
         
         `}</style>
       </>
-    </Layout>
 
 
 

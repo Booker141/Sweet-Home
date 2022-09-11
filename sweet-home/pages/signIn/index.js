@@ -2,7 +2,7 @@ import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import FormLogin from 'components/FormLogin/Form'
 import Head from 'next/head'
-import Image from 'next/image'
+import styles from "styles/global.module.css"
 
 /*
     * @author Sergio García Navarro
@@ -28,18 +28,12 @@ export default function SignIn() {
           </Head>
           <Header url1="/attendances" url2="/info" url3="/contact" url4="/signUp"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
-          <div className="content">
-            <Image
-              src="/Cats-and-Dogs.jpg"
-              alt="Imagen de animales en fila"
-              width={800}
-              height={500}
-            />
+          <div className={styles.content}>
 
             <FormLogin class="form"/>
 
           </div>
-          <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+          <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                           url3="/conditions" text3="Condiciones" marginTop='10rem'/>
           <style jsx>{`
             .content{

@@ -43,7 +43,7 @@ export default function Principal(){
         </div>
             <h2 className={styles.secondary}>¿Cómo funciona?</h2>
       </div>
-      <BasicFooter url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+      <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
       <style jsx>{`
       

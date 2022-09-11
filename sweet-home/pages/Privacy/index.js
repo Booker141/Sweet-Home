@@ -86,7 +86,7 @@ export default function Privacy() {
                 <h2 className={styles.secondary}>7. Cambios en la política de privacidad</h2>
                 <hr className={styles.line}></hr>
                 <p className={styles.text}>Esta política de privacidad es posible que sufra modificaciones a lo largo del tiempo. Si se realiza alguna modificación, el usuario será informado y el cambio correspondiente se verá reflejado en esta página, así como la modificación de la fecha en la que entra en vigor dicha política.</p>
-                <p className="last-line">Si presenta alguna duda con respecto a la política de privacidad, tiene la información para contactar con nosotros en el siguiente enlace: <a className={styles.link} href="/contact">Contacta con nosotros</a></p>
+                <p className="last-line">Si presenta alguna duda con respecto a la política de privacidad, tiene la información para contactar con nosotros en el siguiente enlace: <a className={styles.link} href="/contact">Contacta con nosotros</a>.</p>
             </div>
                 <style jsx>{`
 

@@ -4,6 +4,7 @@ import { colors } from "styles/frontend-conf.js";
 import { fonts } from "styles/frontend-conf.js";
 import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
+import styles from "styles/global.module.css"
 /*
     * @author Sergio García Navarro
     * @returns Form component
@@ -19,203 +20,277 @@ import { BsFillLockFill } from "react-icons/bs";
 export default function FormLogin() {
   return (
     <>
-    <div className="content">
-      <form className="form-vertical">
-        <div classname="form-vertical__name">
-          <FaUser size={20} color={colors.secondary} />
-          <input
-            type="text"
-            name="Nombre"
-            placeholder="Nombre de usuario"
-          ></input>
+    <div className={styles.content}>
+      <div className="page">
+        <img className="signIn-image" src="/signIn-1.svg" alt="Imagen de inicio de sesión"/>
+        <div className="form-page">
+          <div className="text">
+            <h2>¡Bienvenido de nuevo!</h2>
+            <p className={styles.text}>Le estábamos esperando</p>
+          </div>
+          <form className="form-vertical">
+            <div classname="form-vertical__name">
+              <FaUser size={20} color={colors.secondary} />
+              <input
+                type="text"
+                name="Nombre"
+                placeholder="Nombre de usuario"
+                className="input"
+              ></input>
+            </div>
+            <div classname="form-vertical__password">
+              <BsFillLockFill size={25} color={colors.secondary} />
+              <input
+                type="password"
+                name="Contraseña"
+                placeholder="Contraseña"
+                className="input"
+              ></input>
+            </div>
+            <a href="/cpassword">¿Has olvidado la contraseña?</a>
+            <FormButton className="form-vertical__button" name="Iniciar sesión" />
+          </form>
+          <div className="form-register">
+            <h6>¿No tiene una cuenta?</h6>
+            <Link href="/signUp"><a>Registrarse</a></Link>
+          </div>
         </div>
-        <div classname="form-vertical__password">
-          <BsFillLockFill size={20} color={colors.secondary} />
-          <input
-            type="password"
-            name="Contraseña"
-            placeholder="Contraseña"
-          ></input>
-        </div>
-        <a href="/cpassword">¿Has olvidado la contraseña?</a>
-        <FormButton className="form-vertical__buttom" name="Iniciar sesión" />
-      </form>
-      <div className="form-register">
-        <p>¿No tiene una cuenta?</p>
-        <Link href="/signUp"><a>Registrarse</a></Link>
       </div>
     </div>
       <style jsx>{`
 
-      .content {
-        height: 100%;
-        margin-bottom: 5rem;
-      }
-
-      .form-register {
-
-          /*Position*/
-
-          position: relative;
-          top: 10vh;
-          left: 33vw;
-
+        .page {
           /*Box model*/
 
           display: flex;
           flex-direction: row;
-          justify-content: center;
           align-items: center;
-          margin-top: 1rem;
+          margin-bottom: 3rem;
+
+          /*Visuals*/
+
+          background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+          background-size: 100% 100%;
+          border-radius: 1rem;
+
+        }
+        
+        .text{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top:2rem;
+
+        }
+
+        .form-page{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+        }
+
+        .form-register{
+
+          /*Box model*/
+          
+          display: flex;
+          flex-direction: row;
+          align-items: center;
 
         }
 
         .form-vertical {
 
-            /*Position*/
+              /*Position*/
 
-            position: relative;
-            top: 6rem;
-            left: 70vw;
+              position: relative;
 
-            /*Box model*/
+              /*Box model*/
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 20vw;
-            height: 50vh;
-            padding: 1rem;
-            margin: 1rem;
-
-            /*Visuals*/
-
-            background-color: ${colors.primary};
-            border-radius: 10px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              width: 20vw;
+              height: 50vh;
+              padding: 1vh 2vh;
 
         }
 
         .form-vertical__name {
 
-          /*Box model*/
+            /*Box model*/
 
-          display: flex;
-          flex-direction: row;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
         }
 
         .form-vertical__password {
 
-          /*Box model*/
+            /*Box model*/
 
-          display: flex;
-          flex-direction: row;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
         }
 
-        .form-vertical__buttom {
+        .form-vertical__button {
 
-          /*Box model*/
+            /*Box model*/
 
-          width: 70%;
-          padding: 0.5rem;
-          margin-top: 2rem;
+            width: 70%;
+            padding: 0.5rem;
+            margin-top: 2rem;
         }
 
-        
+        .signIn-image{
+
+             /*Box model*/
+
+              height: 30rem;
+              width: 50rem;
+
+        }
+
+        h2{
+
+            /*Text*/
+
+            color: ${colors.secondary};
+            font-family: ${fonts.secondary};
+            font-weight: 600;
+            font-size: 2rem;
+        }
+
         p {
 
-          /*Box model*/
+            /*Box model*/
 
-          margin-right: 1rem;
+            margin-right: 1rem;
 
-          /*Text*/
+            /*Text*/
 
-          font-size: 0.8rem;
-          font-family: ${fonts.default};
-          color: ${colors.primary};
-          
+            font-size: 1rem;
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
+            
         }
 
-        a {
+        h6{
 
-          /*Box model*/
+            /*Box model*/
 
-          margin-bottom: 2rem;
+            margin-right: 1rem;
 
-          /*Text*/
+            /*Text*/
 
-          font-family: ${fonts.default};
-          font-size: 0.8rem;
-          color: ${colors.secondary};
-          text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
         }
 
-        a[href="/signUp"] {
-          /*Box model*/
+          a {
 
-          margin-top: 5vh;
+            /*Box model*/
 
-          /*Text*/
+            margin-bottom: 2rem;
 
-          color: ${colors.primary};
-          font-size: 0.9rem;
-          font-family: ${fonts.default};
-          font-weight: bold;
-        }
-        a:hover{
+            /*Text*/
 
-          /*Text*/
+            font-family: ${fonts.default};
+            font-size: 0.8rem;
+            color: ${colors.secondary};
+            text-decoration: none;
+          }
 
-          color: ${colors.tertiary};
-        }
-        ::placeholder {
+          a[href="/signUp"] {
+            /*Box model*/
 
-          /*Text*/
+            margin-top: 2rem;
 
-          color: ${colors.primary};
-        }
-        input[type="text"] {
+            /*Text*/
 
-          /*Box model*/
+            color: ${colors.secondary};
+            font-size: 0.9rem;
+            font-family: ${fonts.default};
+            font-weight: bold;
+          }
 
-          width: 100%;
-          height: 2rem;
-          padding: 0.2rem;
-          margin-bottom: 1rem;
-          margin-left: 0.2rem;
+          a:hover{
 
-          /*Text*/
+            /*Text*/
 
-          font-family: ${fonts.default};
-          font-size: 1rem;
+            font-size: 1rem;
 
-          /*Visuals*/
+            /*Visuals*/
 
-          border-radius: 40px;
-          border: 0;
+            transition: font-size 0.8s ease-out;
+          }
 
-        }
+          ::placeholder {
 
-        input[type="password"] {
+            /*Text*/
 
-          /*Box model*/
+            color: ${colors.primary};
+          }
 
-          width: 100%;
-          height: 2rem;
-          padding: 0.2rem;
-          margin-bottom: 2.2rem;
+          input[type="text"] {
 
-          /*Text*/
+            /*Box model*/
 
-          font-family: ${fonts.default};
-          font-size: 1rem;
+            width: 75%;
+            height: 2rem;
+            padding: 0.4rem;
+            margin-bottom: 1rem;
+            margin-left: 1rem;
 
-          /*Visuals*/
+            /*Text*/
 
-          border-radius: 40px;
-          border: 0;
+            font-family: ${fonts.default};
+            font-size: 1rem;
 
-        }
+            /*Visuals*/
+
+            border-radius: 5px;
+            border: 0;
+
+          }
+
+          input[type="password"] {
+
+            /*Box model*/
+
+            width: 75%;
+            height: 2rem;
+            padding: 0.4rem;
+            margin-bottom: 2rem;
+            margin-left: 0.7rem;
+
+            /*Text*/
+
+            font-family: ${fonts.default};
+            font-size: 1rem;
+
+            /*Visuals*/
+
+            border-radius: 5px;
+            border: 0;
+
+          }
         
       `}</style>
     </>
