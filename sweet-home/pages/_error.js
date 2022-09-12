@@ -3,7 +3,7 @@ import {fonts} from '/styles/frontend-conf.js'
 import {MdPets} from 'react-icons/md'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
-import Button from "/components/Button/Button"
+import ButtonPrimary from "/components/ButtonPrimary/ButtonPrimary"
 import styles from "styles/global.module.css"
 
 /*
@@ -38,7 +38,7 @@ function Error({ statusCode }) {
 
             <div className="second-line">
               <h2 className={styles.secondary}>Contacte con nuestro departamento de IT</h2>
-              <Button className="button" onClick={() => router.back()}>Volver</Button>
+              <ButtonPrimary className="button" onClick={() => router.back()}>Volver</ButtonPrimary>
             </div>
             <img src="/error-1.jpg" alt="Imagen de perro curándose"/>
           </div>
@@ -85,7 +85,7 @@ function Error({ statusCode }) {
             display: block;
             margin: auto;
             text-align: center;
-            height: 50%;
+            height: 30%;
 
           }
 

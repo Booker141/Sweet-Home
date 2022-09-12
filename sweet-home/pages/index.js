@@ -5,6 +5,8 @@ import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {MdPets} from 'react-icons/md'
+import router from 'next/router'
+import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary"
 export default function Principal(){
   return(
     <>
@@ -12,6 +14,14 @@ export default function Principal(){
       <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/>
       <div className={styles.content}>
+        <div className="carousel">
+          <div className="carousel__container">
+            <h2 className={styles.secondary}>Noticia 1</h2>
+            <p className={styles.text}>Texto de noticia 1</p>
+            <ButtonTertiary onClick={()=>{router.push("/news")}} children="Saber más"/>
+          </div>
+          <img className="new-image" src="/New app.svg"/>
+        </div>
         <div className="content__container1">
           <div className="content__container1__title">
             <h1 className="title">
@@ -46,7 +56,42 @@ export default function Principal(){
       <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
       <style jsx>{`
-      
+
+          .carousel{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            padding: 2rem;
+            margin-bottom: 3rem;
+
+            /*Text*/
+
+            color: #ffffff;
+            
+            /*Visuals*/
+
+            background-color: ${colors.primary};
+            border-radius: 10px;
+          
+          }
+
+          .new-image{
+
+              /*Box model*/
+
+              height: 40rem;
+              width: 40rem;
+
+              /*Visuals*/
+
+              border-radius: 15px;
+
+          }
+
           .content__container1{
             /*Box model*/
             display: flex;

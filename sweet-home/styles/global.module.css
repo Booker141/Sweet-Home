@@ -1,4 +1,6 @@
 
+/*==========Components==========*/
+
 .content{
 
     /*Box model*/
@@ -143,3 +145,109 @@
       box-shadow: -24px 0 #FFF, 24px 0 #f0810f;
     }
   }
+
+/*==========Buttons==========*/
+
+.buttonPrimary{
+
+    /*Box model*/
+
+    display: block;
+    height: 7vh;
+    width: 10vw;
+    padding: 1vh 2vh;
+
+    /*Text*/
+
+    color: #fafafa;
+    font-family: 'Poppins', sans-serif;
+    font-style: bold;
+
+    /*Visuals*/
+
+    background-color: #f0810f;
+    border-radius: 40px;
+    border: none;
+
+    /*Misc*/
+
+    transition: all 0.3s ease-in-out;
+
+}
+
+.buttonSecondary{
+
+    /*Box model*/
+
+    display: block;
+    height: 7vh;
+    width: 10vw;
+    padding: 1vh 2vh;
+
+    /*Text*/
+
+    color: #fafafa;
+    font-family: 'Poppins', sans-serif;
+    font-style: bold;
+
+    /*Visuals*/
+
+    background-color: #fab169;
+    border-radius: 40px;
+    border: none;
+
+    /*Misc*/
+
+    transition: all 0.3s ease-in-out;
+
+}
+
+.buttonTertiary{
+
+    /*Box model*/
+
+    display: block;
+    height: 7vh;
+    width: 10vw;
+    padding: 1vh 2vh;
+
+    /*Text*/
+
+    color: #f0810f;
+    font-family: 'Poppins', sans-serif;
+    font-style: bold;
+
+    /*Visuals*/
+    
+    background-color: #fafafa;
+    border-radius: 40px;
+    border: 1px solid #f0810f;
+
+    /*Misc*/
+
+    transition: all 0.3s ease-in-out;
+
+}
+
+.buttonPrimary:hover {
+
+    /*Visuals*/
+
+    background-color: #f9A603;
+}
+
+.buttonSecondary:hover{
+
+    /*Visuals*/
+
+    background-color: #f9A603;
+}
+
+.buttonTertiary{
+
+    /*Visuals*/
+
+    background-color: #f0810f;
+}
+
+
