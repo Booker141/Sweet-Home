@@ -11,7 +11,7 @@ import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
 import {BsFillTelephoneFill} from 'react-icons/bs'
 import {BsPencilFill} from 'react-icons/bs'
-import FormButton from "components/FormButton/FormButton"
+import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary"
 
 /* 
     * @author Sergio García Navarro
@@ -34,6 +34,7 @@ export default function Contact(){
                     <title>Contacto</title>
                 </Head>
                 <div className={styles.content}>
+                    <a name="top"></a>
                     <h1 className={styles.title}>Contacto</h1>
                     <div className="contact__container">
                         <div className="contact__container--info">
@@ -115,9 +116,10 @@ export default function Contact(){
                             <label for="finalcheckbox">Acepto la <a className="privacidad" href="/privacy">Privacidad</a></label>
                             </div>
 
-                            <FormButton class="buttom" name="Enviar" />
+                            <ButtonTertiary className={styles.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
                     </form>
                 </div>
+                <a href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{`
 
                     .contact__container{

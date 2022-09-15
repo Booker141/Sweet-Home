@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import styles from "styles/global.module.css"
 /* 
     * @author Sergio García Navarro
     * @returns Posts page
@@ -15,6 +16,7 @@ export default function PostList () {
     return (
         <>
           <Head><title>Reciente</title></Head>
+          <a name="top"></a>
           <div>
           {/*
             posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
@@ -40,6 +42,7 @@ export default function PostList () {
             })*/
           }
         </div>
+        <a href="#top" className={styles.buttonTo}>↑</a>
       </>
     )
 }

@@ -23,6 +23,7 @@ export default function Conditions() {
             <>
             <Head><title>Condiciones</title></Head>
             <div className={styles.content}>
+                <a name="top"></a>
                 <h2 className="first-line">5 de agosto de 2022</h2>
                 <hr className={styles.line}></hr>
                 <h1 className={styles.title}>Términos y condiciones de Sweet Home ☑︎</h1>
@@ -58,7 +59,8 @@ export default function Conditions() {
                 Si se produce alguna actividad ilegal dentro de la app que afecte al funcionamiento de la app, Sweet Home tiene el derecho de cerrar dicha aplicación sin deber nada a los usuarios.
                 </p>
             </div>
-                <style jsx>{`
+            <a href="#top" className={styles.buttonTo}>↑</a>
+            <style jsx>{`
 
 
                     .first-line{

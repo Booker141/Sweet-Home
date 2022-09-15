@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Layout from "/components/Layout/Layout"
+import styles from "styles/frontend-conf.js"
 
 
 /*
@@ -22,6 +23,8 @@ export default function Attendances() {
                 <Head>
                     <title>Cuidados</title>
                 </Head>
+                <a name="top"></a>
+                <a href="#top" className={styles.buttonTo}>↑</a>
             </>
         </Layout>      
     )   

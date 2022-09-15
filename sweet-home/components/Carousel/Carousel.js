@@ -16,7 +16,7 @@ export default function Carousel(){
                         <h2 className={styles.secondary}>Carlota nos cuenta su experiencia en Sweet Home</h2>
                         <h3 className={styles.tertiary}>18/08/2022</h3>
                         <p className={styles.text}>Hace unos meses, estuvo pensando en regalarle a su hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.</p>
-                        <ButtonTertiary onClick={() => router.push("/news")} children="Saber más"/>
+                        <ButtonTertiary onClick={() => {router.push("/news")}}>Saber más</ButtonTertiary>
                     </div>
                     <img className="image" src="/New app.svg"/>
                 </div>
@@ -25,7 +25,7 @@ export default function Carousel(){
                         <h2 className={styles.secondary}>Nueva actualización v1.0.0</h2>
                         <h3 className={styles.tertiary}>20/08/2022</h3>
                         <p className={styles.text}>Entérate de las nuevas características que han sido introducidas junto a la nueva versión</p>
-                        <ButtonTertiary onClick={() => router.push("/news")}>Saber más</ButtonTertiary>
+                        <ButtonTertiary onClick={() => {router.push("/news")}}>Saber más</ButtonTertiary>
                     </div>
                 </div>
                 <div className="carousel__item">
@@ -34,7 +34,7 @@ export default function Carousel(){
                         <h3 className={styles.tertiary}>21/08/2022</h3>
                         <p className={styles.text}>Entérate de cómo funciona Sweet Home en esta entrevista con su creador</p>
                     </div>
-                    <ButtonTertiary onClick={() => router.push("/news")} children="Saber más"/>
+                    <ButtonTertiary onClick={() => router.push("/news")}>Saber más</ButtonTertiary>
                 </div>
             </div>
 
@@ -125,9 +125,9 @@ export default function Carousel(){
 
                     display: flex;
                     flex-direction: column;
-                    align-items: center;
                     justify-content: center;
                 }
+
             `}</style>
 
 

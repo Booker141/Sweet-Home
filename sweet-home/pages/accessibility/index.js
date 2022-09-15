@@ -20,7 +20,8 @@ export default function Accessibility(){
         <>
             <Head><title>Accesibilidad</title></Head>
             <Layout>
-                <div className={styles.content}>
+                <div className={styles.content}>    
+                    <a name="top"></a>
                     <h1 className={styles.title}>Accesibilidad ⦿</h1>
                     <p className={styles.text}>En Sweet Home, velamos por aquellos usuarios 
                     que puedan tener dificultades a la hora de utilizar la aplicación. 
@@ -74,7 +75,7 @@ export default function Accessibility(){
                     </div>
                 </div>
 
-
+                <a href="#top" className={styles.buttonTo}>↑</a>
 
             </Layout>
             <style jsx>{`
@@ -145,8 +146,6 @@ export default function Accessibility(){
             `}</style>
         </>
     )
-
-
 
 
 

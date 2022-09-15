@@ -13,7 +13,7 @@ export default function Principal(){
       <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/>
       <div className={styles.content}>
-        
+        <a name="top"></a>
         <div className="content__container1">
           <div className="content__container1__title">
             <h1 className="title">
@@ -45,7 +45,11 @@ export default function Principal(){
             El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
         </div>
             <h2 className={styles.secondary}>¿Cómo funciona?</h2>
+       
       </div>
+
+      <a href="#top" className={styles.buttonTo}>↑</a>
+
       <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
       <style jsx>{`
@@ -95,11 +99,13 @@ export default function Principal(){
           }
 
           .title{
+
             /*Text*/
-            font-size: 3rem;
+
+            font-size: 5rem;
             font-weight: 500;
             color: ${colors.primary};
-            font-family: ${fonts.default};
+            font-family: 'Satisfy';
             text-align: center;
             margin: 0;
             padding: 0;

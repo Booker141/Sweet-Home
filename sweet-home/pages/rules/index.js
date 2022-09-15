@@ -21,6 +21,7 @@ export default function Rules(){
         <Layout>
             <>
                 <Head><title>Reglas y políticas</title></Head>
+                <a name="top"></a>
                 <h1 className={styles.title}>Reglas y políticas</h1>
                 <p className={styles.text}>En este apartado, conocerá las reglas de Sweet Home. El propósito de Sweet Home es proveer los servicios implementados, estableciendo reglas y políticas que promuevan la seguridad hasta la finalización de su actividad. Es por ello que el acoso y otros tipos de comportamiento que no sigan la moral de Sweet Home serán restringidos. 
                 Estas reglas y políticas tienen como objetivo garantizar la seguridad de todo tipo de actividad que transcurra dentro de Sweet Home, impidiendo que el usuario se sienta desconforme durante su uso:</p>
@@ -35,6 +36,7 @@ export default function Rules(){
                 <h2 className={styles.secondary}>Especies exóticas invasoras</h2>
                 <p className={styles.text}>En Sweet Home nos preocupamos por la diversidad, por ello nos hacemos cargo de la prohibición de la difusión de especies exóticas invasoras o EEI en nuestra aplicación. En nuestro país, entre las especies exóticas podemos encontrar el Mapache, este está prohibido como animal de compañía y es un factor que tenemos en cuenta en nuestra aplicación.
                 Respetamos la Ley 42/2007 que define una especie exótica invasora como “aquella que se introduce o establece en un ecosistema o hábitat natural o seminatural y que es un agente de cambio y amenaza para la diversidad biológica nativa, ya sea por su comportamiento invasor, o por el riesgo de contaminación genética”.</p>
+                <a href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{``}</style>
             </>
         </Layout>

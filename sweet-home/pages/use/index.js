@@ -19,6 +19,7 @@ export default function Use(){
             <Layout>
                 <Head><title>Ayuda</title></Head>
                 <div className={styles.content}>
+                    <a name="top"></a>
                     <div className="faq">
                         <h1 id="title" className={styles.title}>Preguntas frecuentes</h1>
                         <img src="/faq-1.jpg" alt="Patrones de animales"></img>
@@ -106,7 +107,7 @@ export default function Use(){
                     </div>
 
                 </div>
-
+                <a href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{`
 
                 #title{

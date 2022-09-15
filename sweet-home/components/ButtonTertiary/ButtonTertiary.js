@@ -14,7 +14,7 @@ import styles from "styles/global.module.css"
  * @param {size} - size of the button
  * @returns A button with a description and size.
  */
-export default function ButtonTertiary({ onClick, children}) {
+export default function ButtonTertiary({onClick, children}) {
   return (
     <>
       <button className={styles.buttonTertiary} onClick={onClick}>{children}</button>
