@@ -5,8 +5,7 @@ import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {MdPets} from 'react-icons/md'
-import router from 'next/router'
-import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary"
+import Carousel from "components/Carousel/Carousel"
 export default function Principal(){
   return(
     <>
@@ -14,14 +13,7 @@ export default function Principal(){
       <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/>
       <div className={styles.content}>
-        <div className="carousel">
-          <div className="carousel__container">
-            <h2 className={styles.secondary}>Noticia 1</h2>
-            <p className={styles.text}>Texto de noticia 1</p>
-            <ButtonTertiary onClick={()=>{router.push("/news")}} children="Saber más"/>
-          </div>
-          <img className="new-image" src="/New app.svg"/>
-        </div>
+        
         <div className="content__container1">
           <div className="content__container1__title">
             <h1 className="title">
@@ -42,6 +34,7 @@ export default function Principal(){
             <p className={styles.text}>Somos una empresa dedicada a la atención de mascotas, brindando servicios de cuidado y hospedaje para todo tipos de mascotas.</p>
         </div>
         <img src="/inicio-1.jpg" alt="Imagen de un perro y un gato" className="imagen-inicio1"></img>
+        <Carousel/>
         <div className="content__container2">
             <h2 className={styles.secondary}>¿Qué es Sweet Home?</h2>
             <p className={styles.text}>Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
@@ -79,18 +72,6 @@ export default function Principal(){
           
           }
 
-          .new-image{
-
-              /*Box model*/
-
-              height: 40rem;
-              width: 40rem;
-
-              /*Visuals*/
-
-              border-radius: 15px;
-
-          }
 
           .content__container1{
             /*Box model*/
