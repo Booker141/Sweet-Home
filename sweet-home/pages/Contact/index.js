@@ -39,7 +39,9 @@ export default function Contact(){
                     <div className="contact__container">
                         <div className="contact__container--info">
                             <h2 className={styles.secondary}>¿Quieres contactar con nosotros?</h2>
-                            <p className={styles.text}>Para contactar con Sweet Home y así recoger feedback para mejorar nuestro servicio, puede hacerlo a través de las siguientes redes sociales:</p>
+                            <p className={styles.text}>Para contactar con Sweet Home y 
+                            así recoger feedback para mejorar nuestro servicio, puede hacerlo
+                            a través de las siguientes redes sociales:</p>
                         </div>
                         <div className="social">
                             <a href="https://www.facebook.com/sweethome.es/">
@@ -55,7 +57,7 @@ export default function Contact(){
                     </div>
                     <div className="email">
                         <p className={styles.text}>O a través del siguiente correo electrónico: </p>
-                        <a href="mailto:atenciónSH@gmail.com">atenciónSH@gmail.com</a>
+                        <a title="Enviar correo" href="mailto:atenciónSH@gmail.com">atenciónSH@gmail.com</a>
                     </div>
                     <h2 className={styles.secondary}>Información personal</h2>
                     <p className={styles.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
@@ -63,6 +65,7 @@ export default function Contact(){
                         <div className="email">
                             <MdEmail size={20} color={colors.secondary} />
                             <input
+                                title="Introducir email"
                                 type="email"
                                 name="Correo*"
                                 placeholder="E-mail"
@@ -71,6 +74,7 @@ export default function Contact(){
                             <div className="name">
                             <FaUser size={20} color={colors.secondary} />
                             <input
+                                title="Introducir nombre"
                                 type="text"
                                 name="Nombre*"
                                 placeholder="Nombre"
@@ -79,6 +83,7 @@ export default function Contact(){
                             <div className="surnames">
                             <FaUser size={20} color={colors.secondary} />
                             <input
+                                title="Introducir apellidos"
                                 type="text"
                                 name="Apellidos*"
                                 placeholder="Apellidos"
@@ -86,6 +91,7 @@ export default function Contact(){
                             </div>
                             <div className="address">
                             <input
+                                title="Introducir dirección"
                                 type="text"
                                 name="Dirección*"
                                 placeholder="Dirección"
@@ -94,6 +100,7 @@ export default function Contact(){
                             <div className="phone">
                             <FaUser size={20} color={colors.secondary} />
                             <input
+                                title="Introducir teléfono"
                                 type="phone"
                                 name="Teléfono*"
                                 placeholder="Teléfono"
@@ -102,6 +109,7 @@ export default function Contact(){
                             <div className="comment">
                             <FaUser size={20} color={colors.secondary} />
                             <input
+                                title="Introducir comentario"
                                 type="text"
                                 name="Comentario*"
                                 placeholder="Comentario"
@@ -110,6 +118,7 @@ export default function Contact(){
                             <div className="checkbox">
                             <FaUser size={20} color={colors.secondary} />
                             <input
+                                title="Introducir comentario"
                                 type="checkbox"
                                 id="finalcheckbox"
                             ></input>

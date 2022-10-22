@@ -42,6 +42,7 @@ export default function SignUp() {
               <div className="form-vertical__email">
                 <MdEmail size={20} color={colors.secondary} />
                 <input
+                  title="Introducir email"
                   type="email"
                   name="Correo"
                   placeholder="E-mail"
@@ -50,6 +51,7 @@ export default function SignUp() {
               <div className="name">
                 <FaUser size={20} color={colors.secondary} />
                 <input
+                  title="Introducir nombre"
                   type="text"
                   name="Nombre"
                   placeholder="Nombre de usuario"
@@ -58,6 +60,7 @@ export default function SignUp() {
               <div className="form-vertical__namec">
                 <FaUserPlus size={20} color={colors.secondary} />
                 <input
+                  title="Introducir nombre completo"
                   type="text"
                   name="Nombrec"
                   placeholder="Nombre completo"
@@ -66,6 +69,7 @@ export default function SignUp() {
               <div classname="form-vertical__name">
                 <FaUser size={20} color={colors.secondary} />
                 <input
+                  title="Introducir nombre"
                   type="text"
                   name="Nombre"
                   placeholder="Nombre de usuario"
@@ -75,6 +79,7 @@ export default function SignUp() {
               <div classname="form-vertical__password">
                 <BsFillLockFill size={25} color={colors.secondary} />
                 <input
+                  title="Introducir contraseña"
                   type="password"
                   name="Contraseña"
                   placeholder="Contraseña"
@@ -86,7 +91,7 @@ export default function SignUp() {
 
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
-              <Link href="/home"><a>Entrar</a></Link>
+              <Link title="Ir a iniciar sesión" href="/home"><a>Entrar</a></Link>
             </div>
           </div>
         </div>

@@ -16,8 +16,18 @@ export default function CPassword(){
             <Head><title>Cambiar contraseña</title></Head>
             <div className="form-cpassword">
                 <form className="form-vertical">
-                    <input type="password" name="Contraseña" placeholder="Contraseña"></input>
-                    <input type="password" name="Contraseña" placeholder="Confirmar contraseña"></input>
+                    <input 
+                        title="Introducir contraseña antigua"
+                        type="password" 
+                        name="Contraseña" 
+                        placeholder="Contraseña">
+                    </input>
+                    <input  
+                        title="Introducir contraseña nueva"
+                        type="password" 
+                        name="Contraseña" 
+                        placeholder="Confirmar contraseña">       
+                    </input>
                     <input type="submit" value="Cambiar contraseña"></input>
                 </form>    
             </div>

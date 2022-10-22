@@ -63,7 +63,7 @@ export default function Principal(){
        
       </div>
 
-      <a href="#top" className={styles.buttonTo}>↑</a>
+      <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
 
       <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>

@@ -29,9 +29,11 @@ export default function News() {
                     <article>
                         <h2 className={styles.secondary}>Carlota nos cuenta su experiencia en Sweet Home</h2>
                         <h3 className={styles.tertiary}>18/08/2022</h3>
-                        <p className={styles.text}>Hace unos meses, estuvo pensando en regalarle a su hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.
+                        <p className={styles.text}>Hace unos meses, estuvo pensando en regalarle a su 
+                        hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.
 
-                        A mediados del año pasado, Carlota decidió adoptar un gato a través de Sweet Home y hoy nos cuenta como fue su experiencia a través de la aplicación:</p>
+                        A mediados del año pasado, Carlota decidió adoptar un gato a través de Sweet 
+                        Home y hoy nos cuenta como fue su experiencia a través de la aplicación:</p>
 
                         <h3 className="highlighted">1º ¿Por qué decidiste usar Sweet Home?</h3>
 
@@ -123,7 +125,7 @@ export default function News() {
                         
                     </article>
                 </section>
-                <a href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
             </div>
             
             <style jsx>{`

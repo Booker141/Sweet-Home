@@ -43,6 +43,7 @@ export default function SignIn() {
                   <div classname="form-vertical__name">
                     <FaUser size={20} color={colors.secondary} />
                     <input
+                      title="Introducir nombre de usuario"
                       type="text"
                       name="Nombre"
                       placeholder="Nombre de usuario"
@@ -52,13 +53,14 @@ export default function SignIn() {
                   <div classname="form-vertical__password">
                     <BsFillLockFill size={25} color={colors.secondary} />
                     <input
+                      title="Introducir contraseña"
                       type="password"
                       name="Contraseña"
                       placeholder="Contraseña"
                       className="input"
                     ></input>
                   </div>
-                  <a href="/cpassword">¿Has olvidado la contraseña?</a>
+                  <a title="Ir a la página para cambiar la contraseña" href="/cpassword">¿Has olvidado la contraseña?</a>
                   <FormButton className="form-vertical__button" name="Iniciar sesión" />
                 </form>
                 <div className="form-register">

@@ -42,7 +42,7 @@ export default function PostList () {
             })*/
           }
         </div>
-        <a href="#top" className={styles.buttonTo}>↑</a>
+        <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
       </>
     )
 }
