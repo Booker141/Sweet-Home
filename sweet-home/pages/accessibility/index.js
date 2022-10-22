@@ -23,17 +23,18 @@ export default function Accessibility(){
                 <div className={styles.content}>    
                     <a name="top"></a>
                     <h1 className={styles.title}>Accesibilidad ⦿</h1>
-                    <p className={styles.text}>En Sweet Home, velamos por aquellos usuarios 
-                    que puedan tener dificultades a la hora de utilizar la aplicación. 
-                    Por ello, hemos pensado desde el primer minuto en facilitar su adaptación 
-                    a la aplicación diseñando desde cero todos los componentes y páginas teniendo 
+                    <p className={styles.text}>En Sweet Home, velamos por 
+                    aquellos usuarios que puedan tener dificultades a la hora 
+                    de utilizar la aplicación. Por ello, hemos pensado desde el primer minuto en facilitar 
+                    su adaptación a la aplicación diseñando desde cero todos los componentes y páginas teniendo 
                     en cuenta las siguientes características:</p>
                     
                     <div className="content__container1">
                         <h2 className={styles.secondary}>Color y contraste</h2>
                         <hr className="discontinuous"></hr>
-                        <p className={styles.text}>Hemos elegido colores con mucho contraste con el fondo para una 
-                        fácil lectura e interacción, ya que el uso de colores poco contrastados 
+                        <p className={styles.text}>Hemos elegido colores con 
+                        mucho contraste con el fondo para una fácil lectura e 
+                        interacción, ya que el uso de colores poco contrastados 
                         puede ocasionar dolores de cabeza.</p>
                        
                     </div>

@@ -22,21 +22,21 @@ function Error({ statusCode }) {
     return (
       <>
         <Head>
-          <title>Error {statusCode}</title>
+          <title>¡Ups! Algo ha salido mal.. Error {statusCode}</title>
         </Head>
         <div className={styles.content}>
 
           <div className="error">
             <div className="first-line">
               <MdPets size={35} color={colors.primary} className="icon"/>
-
-              <h1 className={styles.title}>
-                Vaya... este perro se ha comido la página | Error {statusCode}
-              </h1>
+              <h1 className={styles.title}>Error {statusCode}</h1>
               <MdPets size={35} color={colors.primary} className="icon"/>
             </div>
 
             <div className="second-line">
+              <h1 className={styles.title}>
+                Vaya... este perro se ha comido la página 
+              </h1>
               <h2 className={styles.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas, un momento ¿dónde están mis zapatos?</h2>
               <ButtonPrimary className="button" onClick={() => router.back()}>Volver</ButtonPrimary>
             </div>
@@ -110,6 +110,7 @@ function Error({ statusCode }) {
             /*Box model*/
 
             height: 50%;
+            margin-bottom: 2rem;
 
             /*Text*/
 

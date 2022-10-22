@@ -223,8 +223,7 @@ export default function Footer(){
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
-                    align-items: space-around;
+                    justify-content: space-between;
 
                 }
 

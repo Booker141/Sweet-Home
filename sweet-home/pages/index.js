@@ -1,12 +1,17 @@
 import Head from 'next/head'
 import Header from "components/Header/Header"
 import BasicFooter from "components/BasicFooter/BasicFooter"
+import ButtonPrimary from "components/ButtonPrimary/ButtonPrimary"
 import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
+import {useRouter} from 'next/router'
 import {fonts} from "styles/frontend-conf.js"
 import {MdPets} from 'react-icons/md'
 import Carousel from "components/Carousel/Carousel"
 export default function Principal(){
+
+  const router = useRouter();
+
   return(
     <>
       <Head><title>Sweet Home</title></Head>
@@ -34,12 +39,22 @@ export default function Principal(){
             <p className={styles.text}>Somos una empresa dedicada a la atención de mascotas, brindando servicios de cuidado y hospedaje para todo tipos de mascotas.</p>
         </div>
         <img src="/inicio-1.jpg" alt="Imagen de un perro y un gato" className="imagen-inicio1"></img>
-        <Carousel/>
         <div className="content__container2">
+          <div className="content__row1">
+            <h1>¡Únete ahora mismo a nuestra comunidad!</h1>
+            <ButtonPrimary onClick={() => router.push('/signUp')}>Regístrate</ButtonPrimary>
+            <p>La mayor comunidad de amantes de los animales 🐾</p>
+          </div>
+          <div className="content__row2">
+          </div>
+
+        </div>
+        <Carousel/>
+        <div className="content__container3">
             <h2 className={styles.secondary}>¿Qué es Sweet Home?</h2>
             <p className={styles.text}>Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
         </div>
-        <div className="content__container3">
+        <div className="content__container4">
             <h2 className={styles.secondary}>Nuestra misión</h2>
             <p className={styles.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.
             El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
@@ -78,7 +93,9 @@ export default function Principal(){
 
 
           .content__container1{
+
             /*Box model*/
+
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -109,17 +126,32 @@ export default function Principal(){
             text-align: center;
             margin: 0;
             padding: 0;
+
           }
 
           .content__container1 p, h1 span span{
+
             opacity: 0;
             position: relative;
             bottom: -1em;
             animation: texto 1.5s linear forwards;
+
           }
 
-
           .content__container2{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            /*Text*/
+
+            font-family: ${fonts.default};
+
+          }
+          .content__container3{
 
             /*Box model*/
 
@@ -139,7 +171,7 @@ export default function Principal(){
           }
 
 
-          .content__container3{
+          .content__container4{
             /*Box model*/
 
             padding: 1rem;

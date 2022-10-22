@@ -28,10 +28,20 @@ export default function About () {
                     </Head>
                     <div className={styles.content}>
                         <a name="top"></a>
-                        <h1 className={styles.title}>Sobre nosotros</h1>
-                        <h2 className={styles.secondary}>Sweet Home</h2>
-                        <p className={styles.text}>Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
+                        <h1 className={styles.title}>¿Quiénes somos?</h1>
 
+                        <div className="title">
+                            <h2 className={styles.secondary}>Sweet Home</h2>
+                            <h2 className={styles.secondary}>Más que una aplicación</h2>
+                        </div>
+                        
+                        <div className="banner">
+                            <p className={styles.text}>Sweet Home es una red 
+                            social que abarca el mundo animal y trata de facilitar 
+                            su adaptación a nuevos cuidados, a nuevos dueños y a 
+                            una mejora diaria de su vida.</p>
+                        </div>
+                        
                         <h2 className={styles.secondary}>Nuestra misión</h2>
                         <p className={styles.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.
                         El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
