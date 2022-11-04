@@ -138,6 +138,7 @@ export default function Privacy() {
                     siguiente enlace: <a className={styles.link} href="/contact">Contacta con nosotros</a>.</p>
                 </div>
                 <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+                
                 <style jsx>{`
 
                     .first-line{

@@ -20,7 +20,6 @@ export const colors = {
  * THEME FONTS
  * default - default font (Poppins)
  * secondary - secondary font (Raleway)
- * Tertiary - tertiary font (Okine)
  */
 
 export const fonts = {

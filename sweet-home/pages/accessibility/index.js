@@ -83,6 +83,7 @@ export default function Accessibility(){
                 <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
 
             </Layout>
+
             <style jsx>{`
 
                 .content__container1{
@@ -129,15 +130,13 @@ export default function Accessibility(){
 
                 }
 
-
-
                 .discontinuous{
+
                     /*Box model*/
                     
                     width: 20rem;
 
                     /*Visuals*/
-                    
                 
                     border-top: dotted 1rem ${colors.primary};
                     border-bottom: none;

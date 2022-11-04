@@ -86,7 +86,7 @@ export default function Use(){
                             <div className="text">
                                 <h2 className={styles.secondary}>¿Cómo puedo denunciar a un usuario que hace spam?</h2>
                                 <p className={styles.text}>De la misma forma que ha explicado en la anterior 
-                                pregunta(incluir un enlace que enfoque la página en esa pregunta).</p> 
+                                pregunta (incluir un enlace que enfoque la página en esa pregunta).</p> 
                             </div>    
                         </div>
 

@@ -6,6 +6,7 @@ import {BsTwitter} from 'react-icons/bs'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Link from 'next/link'
 import styles from "styles/global.module.css"
+
 /*
     * @author Sergio García Navarro
     * @returns Footer component

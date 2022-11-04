@@ -60,11 +60,13 @@ export default function About () {
                     </div>
                     <a href="#top" className={styles.buttonTo}>↑</a>
                     <style jsx>{`
+
                         .benefits {
                             display: flex;
                             flex-direction: column;
                             align-items: center;
                         }
+                        
                     `}</style>
                 </>
             </Layout>

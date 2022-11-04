@@ -91,7 +91,6 @@ export default function Conditions() {
             <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
             <style jsx>{`
 
-
                     .first-line{
 
                         /*Text*/
@@ -99,7 +98,8 @@ export default function Conditions() {
                         font-family: ${fonts.default};
                         font-size: 0.9rem;
                         font-weight: bold;
-                        }
+
+                    }
 
                     .last-line{
 
@@ -111,7 +111,9 @@ export default function Conditions() {
 
                         font-weight: 350;
                         font-family: ${fonts.default};
+
                     }
+
                     .list{
                         /*Text*/
 
@@ -120,12 +122,16 @@ export default function Conditions() {
                         /*Visuals*/
 
                         list-style-type: circle;
+
                     }
+
                     .black-line{
                         /*Box model*/
 
                         margin-bottom: 3rem;
+
                     }
+
                     hr{
                         /*Box model*/
 
@@ -137,6 +143,7 @@ export default function Conditions() {
 
                         margin-bottom: 4rem;
                     }
+                    
                     h2{
 
                         /*Visuals*/

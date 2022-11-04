@@ -69,6 +69,7 @@ export default function Rules(){
                     genética”.</p>
                     <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
                 </div>
+                
                     <style jsx>{`
 
                         h1{

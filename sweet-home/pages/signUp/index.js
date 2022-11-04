@@ -125,6 +125,7 @@ export default function SignUp() {
         }
 
         @keyframes gradient {
+          
                   0%{
                     background-position:0% 70%
                   }

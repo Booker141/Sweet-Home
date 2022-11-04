@@ -4,8 +4,19 @@ import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 
 
-export default function Carousel(){
+/*
+    * @author Sergio García Navarro
+    * @returns Carousel component
+    * @version 1.0
+    * @date 13/01/2020
+    * @description Carousel component
+*/
 
+/**
+ * This function returns a fixed carousel with pre-established information.
+ * @returns A fixed carousel.
+ */
+export default function Carousel(){
 
     return (
 

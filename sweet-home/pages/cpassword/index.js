@@ -32,6 +32,8 @@ export default function CPassword(){
                 </form>    
             </div>
             <style jsx>{`
+
+            
             `}</style>
         </>
     )

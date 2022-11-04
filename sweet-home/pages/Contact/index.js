@@ -155,8 +155,7 @@ export default function Contact(){
                         color: ${colors.secondary};
                         
                     }
-
-                    
+    
                     .social{
 
                         /*Box model*/
@@ -187,8 +186,7 @@ export default function Contact(){
                         border-radius: 10px;
 
                     }
-                    
-                                       
+                                             
                     .privacidad{
 
                         /*Visuals*/

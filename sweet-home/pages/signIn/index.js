@@ -98,9 +98,11 @@ export default function SignIn() {
             }
 
             @keyframes gradient {
+
                   0%{
                     background-position:0% 70%
                   }
+                  
                   50%{
                     background-position:100% 60%
                   }
