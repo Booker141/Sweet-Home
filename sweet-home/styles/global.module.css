@@ -77,6 +77,11 @@
     list-style-type: circle;
 }
 
+.list li::before{
+
+    color: #f0810f;
+}
+
 .line{
     
     /*Box model*/
@@ -168,6 +173,7 @@
     height: 7vh;
     width: 10vw;
     padding: 1vh 2vh;
+    margin-bottom: 1.5rem;
 
     /*Text*/
 

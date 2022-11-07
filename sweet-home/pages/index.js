@@ -40,14 +40,16 @@ export default function Principal(){
         </div>
         <img src="/inicio-1.jpg" alt="Imagen de un perro y un gato" className="imagen-inicio1"></img>
         <div className="content__container2">
-          <div className="content__row1">
+          <div className="content__container2__column1">
             <h1>¡Únete ahora mismo a nuestra comunidad!</h1>
             <ButtonPrimary onClick={() => router.push('/signUp')}>Regístrate</ButtonPrimary>
-            <p>La mayor comunidad de amantes de los animales 🐾</p>
+            <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
-          <div className="content__row2">
+          <div className="content__container2__column2">
+            <img src="/component1-home.svg" alt="Opinion 1" className="component"/>
+            <img src="/component2-home.svg" alt="Opinion 2" className="component"/>
+            <img src="/component3-home.svg" alt="Opinion 3" className="component"/>
           </div>
-
         </div>
         <Carousel/>
         <div className="content__container3">
@@ -115,19 +117,7 @@ export default function Principal(){
 
           }
 
-          .title{
-
-            /*Text*/
-
-            font-size: 5rem;
-            font-weight: 500;
-            color: ${colors.primary};
-            font-family: 'Satisfy';
-            text-align: center;
-            margin: 0;
-            padding: 0;
-
-          }
+         
 
           .content__container1 p, h1 span span{
 
@@ -143,14 +133,53 @@ export default function Principal(){
             /*Box model*/
 
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
+            margin-bottom: 3rem;
 
             /*Text*/
 
             font-family: ${fonts.default};
 
           }
+
+          .content__container2__column1{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-right: 10rem;
+            margin-left: 4rem;
+
+          }
+
+          .content__container2__column1 h1{
+
+            /*Box model*/
+
+            margin-bottom: 2.5rem;
+
+            /*Text*/
+
+            font-size: 2.5rem;
+
+
+          }
+
+          .content__container2__column2{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+
+          }
+
           .content__container3{
 
             /*Box model*/
@@ -189,6 +218,29 @@ export default function Principal(){
             border-radius: 10px;
           }
 
+          .title{
+
+              /*Text*/
+
+              font-size: 5rem;
+              font-weight: 500;
+              color: ${colors.primary};
+              font-family: 'Satisfy';
+              text-align: center;
+              margin: 0;
+              padding: 0;
+
+          }
+          
+          .component{
+
+            /*Box model*/
+
+            margin-bottom: 1rem;
+            width: 30rem;
+
+          }
+
           .icon{
 
             /*Text*/
@@ -209,6 +261,13 @@ export default function Principal(){
 
           }
 
+          .subtext{
+
+            /*Text*/
+
+            font-size: 0.9rem;
+
+          }
 
           .imagen-inicio1{
 

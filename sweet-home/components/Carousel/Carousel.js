@@ -137,6 +137,8 @@ export default function Carousel(){
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
+
+                    margin-left: 3.5rem;
                 }
 
             `}</style>
