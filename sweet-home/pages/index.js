@@ -53,15 +53,15 @@ export default function Principal(){
         </div>
         <Carousel/>
         <div className="content__container3">
-            <h2 className={styles.secondary}>¿Qué es Sweet Home?</h2>
-            <p className={styles.text}>Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
+            <h2 className="title2">¿Qué es Sweet Home?</h2>
+            <p className="text2">Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
         </div>
         <div className="content__container4">
-            <h2 className={styles.secondary}>Nuestra misión</h2>
-            <p className={styles.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.
-            El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
+            <h2 className="title2">Nuestra misión</h2>
+            <p className="text2">¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.</p>
+            <p className="text2">El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
         </div>
-            <h2 className={styles.secondary}>¿Cómo funciona?</h2>
+            <h2 className="title2">¿Cómo funciona?</h2>
        
       </div>
 
@@ -69,6 +69,7 @@ export default function Principal(){
 
       <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
+
       <style jsx>{`
 
           .carousel{
@@ -188,11 +189,11 @@ export default function Principal(){
             max-width: 1200px;
             margin-bottom: 2rem;
             padding: 1rem;
-
+            
             /*Text*/
 
             color: ${colors.secondary};
-            
+
             /*Visuals*/
 
             background-color: ${colors.primary};
@@ -201,6 +202,7 @@ export default function Principal(){
 
 
           .content__container4{
+
             /*Box model*/
 
             padding: 1rem;
@@ -210,7 +212,7 @@ export default function Principal(){
 
             /*Text*/
 
-            color: ${colors.white};
+            color: ${colors.secondary};
 
             /*Visuals*/
 
@@ -232,6 +234,14 @@ export default function Principal(){
 
           }
           
+          .title2{
+
+            /*Text*/
+
+            font-size: 2rem;
+            font-family: ${fonts.default};
+
+          }
           .component{
 
             /*Box model*/
@@ -258,6 +268,20 @@ export default function Principal(){
             /*Box model*/
 
             margin-bottom: 2rem;
+
+          }
+
+          .text2{
+
+            /*Box model*/
+
+            margin-bottom: 1.5rem;
+            
+            /*Text*/
+
+            font-size: 1rem;
+            font-family: ${fonts.secondary};
+            color: ${colors.secondary};
 
           }
 

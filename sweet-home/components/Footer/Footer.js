@@ -22,7 +22,7 @@ export default function Footer(){
 
     return(
             <>
-            <div className="content-footer">
+            <div className="content__footer">
                 <svg className="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                         <path fill="#ffffff" fill-opacity="1" d="M0,128L20,138.7C40,
                         149,80,171,120,170.7C160,171,200,149,240,170.7C280,192,320,
@@ -42,22 +42,22 @@ export default function Footer(){
                     
                     <div className="columns">
                         <div className="columns__column1">
-                            <h3 className="columns__column1__title">Sweet Home</h3>
-                            <div className="columns__column1__links">
+                            <h3 className="column1__title">Sweet Home</h3>
+                            <div className="column1__links">
                                 <Link className={styles.link} href="/about"><a>Sobre nosotros</a></Link>
                                 <Link className={styles.link} href="/contact"><a>Contáctanos</a></Link>
                             </div>
                         </div>
                         <div className="columns__column2">
-                            <h3 className="columns__column2__title">Ayuda</h3>
-                            <div className="columns__column2__links">
+                            <h3 className="column2__title">Ayuda</h3>
+                            <div className="column2__links">
                                 <Link className={styles.link} href="/use"><a>Uso de Sweet Home</a></Link>
                                 <Link className={styles.link} href="/rules"><a>Reglas y políticas</a></Link>
                             </div>
                         </div>
                         <div className="columns__column3">
-                            <h3 className="columns__column3__title">Encuentra en Sweet Home</h3>
-                            <div className="columns__column3__links">
+                            <h3 className="column3__title">Encuentra en Sweet Home</h3>
+                            <div className="column3__links">
                                 <Link className={styles.link} href="/attendances"><a>Cuidados</a></Link>
                             </div>
                         </div>       
@@ -65,11 +65,11 @@ export default function Footer(){
                     </div>
 
                     <div className="columns__column4">
-                        <h3 className="columns__column4__title">Síguenos</h3>
-                        <div className="columns__column4__icons">
-                            <a className="instagram"><BsInstagram/></a>
-                            <a className="facebook"><BsFacebook/></a>
-                            <a className="twitter"><BsTwitter/></a>
+                        <h3 className="column4__title">Síguenos</h3>
+                        <div className="column4__icons">
+                            <a className="icons__instagram"><BsInstagram/></a>
+                            <a className="icons__facebook"><BsFacebook/></a>
+                            <a className="icons__twitter"><BsTwitter/></a>
                         </div>
                     </div> 
 
@@ -84,7 +84,7 @@ export default function Footer(){
             
             <style jsx>{`
 
-                .content-footer{
+                .content__footer{
 
                     /*Box model*/
 
@@ -190,7 +190,7 @@ export default function Footer(){
 
                 }
 
-                .columns__column1__links{
+                .column1__links{
 
                     /*Box model*/
 
@@ -200,7 +200,7 @@ export default function Footer(){
 
                 }
                 
-                .columns__column2__links{
+                .column2__links{
 
                     /*Box model*/
 
@@ -209,7 +209,7 @@ export default function Footer(){
                     align-items: center;
                 }
 
-                .columns__column3__links{
+                .column3__links{
 
                     /*Box model*/
 
@@ -218,13 +218,15 @@ export default function Footer(){
                     align-items: center;
                 }
 
-                .columns__column4__icons{
+                .column4__icons{
 
                     /*Box model*/
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-between;
+                    justify-content: space-around;
+                    width: 10%;
+
 
                 }
 

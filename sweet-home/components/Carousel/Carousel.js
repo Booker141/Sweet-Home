@@ -2,6 +2,7 @@ import router from "next/router";
 import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary";
 import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
+import {fonts} from "styles/frontend-conf.js"
 
 
 /*
@@ -23,25 +24,25 @@ export default function Carousel(){
         <>
             <div className="carousel">
                 <div className="carousel__item">
-                    <div className="text">
-                        <h2 className={styles.secondary}>Carlota nos cuenta su experiencia en Sweet Home</h2>
+                    <div className="item__text">
+                        <h2 className="item__title">Carlota nos cuenta su experiencia en Sweet Home</h2>
                         <h3 className={styles.tertiary}>18/08/2022</h3>
                         <p className={styles.text}>Hace unos meses, estuvo pensando en regalarle a su hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.</p>
                         <ButtonTertiary onClick={() => {router.push("/news")}}>Saber más</ButtonTertiary>
                     </div>
-                    <img className="image" src="/New app.svg"/>
+                    <img className="item__image" src="/New app.svg"/>
                 </div>
                 <div className="carousel__item">
-                    <div className="text">
-                        <h2 className={styles.secondary}>Nueva actualización v1.0.0</h2>
+                    <div className="item__text">
+                        <h2 className="item__title">Nueva actualización v1.0.0</h2>
                         <h3 className={styles.tertiary}>20/08/2022</h3>
                         <p className={styles.text}>Entérate de las nuevas características que han sido introducidas junto a la nueva versión</p>
                         <ButtonTertiary onClick={() => {router.push("/news")}}>Saber más</ButtonTertiary>
                     </div>
                 </div>
                 <div className="carousel__item">
-                    <div className="text">
-                        <h2 className={styles.secondary}>¿Estás perdido?</h2>
+                    <div className="item__text">
+                        <h2 className="item__title">¿Estás perdido?</h2>
                         <h3 className={styles.tertiary}>21/08/2022</h3>
                         <p className={styles.text}>Entérate de cómo funciona Sweet Home en esta entrevista con su creador</p>
                     </div>
@@ -51,6 +52,7 @@ export default function Carousel(){
 
             <style jsx>{`
 
+              
                 .carousel{
 
                     /*Box model*/
@@ -117,7 +119,7 @@ export default function Carousel(){
 
                 }
 
-                .image{
+                .item__image{
 
                     /*Box model*/
 
@@ -130,7 +132,7 @@ export default function Carousel(){
 
                 }
 
-                .text{
+                .item__text{
 
                     /*Box model*/
 
@@ -139,8 +141,18 @@ export default function Carousel(){
                     justify-content: center;
 
                     margin-left: 3.5rem;
+
+                    /*Text*/
+
                 }
 
+                .item__title{
+
+                    /*Text*/
+
+                    font-size: 2rem;
+                    font-family: ${fonts.default};
+                }
             `}</style>
 
 

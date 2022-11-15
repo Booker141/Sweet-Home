@@ -12,10 +12,12 @@ import Head from 'next/head'
  */
 export default function CPassword(){
     return(
+
+        <Layout>
         <>
             <Head><title>Cambiar contraseña</title></Head>
-            <div className="form-cpassword">
-                <form className="form-vertical">
+            <div className="form">
+                <form>
                     <input 
                         title="Introducir contraseña antigua"
                         type="password" 
@@ -31,11 +33,15 @@ export default function CPassword(){
                     <input type="submit" value="Cambiar contraseña"></input>
                 </form>    
             </div>
-            <style jsx>{`
 
+            <style jsx>{`
+                .form{
+
+                }
             
             `}</style>
         </>
+        </Layout>
     )
 
 }

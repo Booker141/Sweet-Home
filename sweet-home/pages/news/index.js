@@ -38,8 +38,8 @@ export default function News() {
                         <h3 className="highlighted">1º ¿Por qué decidiste usar Sweet Home?</h3>
 
                         <div className="dialog">
-                            <p className="name">Carlota:&nbsp;</p>
-                            <p className="italic"> “Me la recomendaron unos amigos 
+                            <p className="dialog__name">Carlota:&nbsp;</p>
+                            <p className="dialog__italic"> “Me la recomendaron unos amigos 
                             por su facilidad cuando les conté lo que iba a hacer, y 
                             me ha sorprendido gratamente la verdad”</p>    
                         </div>
@@ -48,8 +48,8 @@ export default function News() {
                         <h3 className="highlighted">2º ¿Cómo fue el proceso de adopción?</h3>
 
                         <div className="dialog">
-                            <p className="name">Carlota:&nbsp;</p>
-                            <p className="italic">“Sinceramente fue muy fácil, 
+                            <p className="dialog__name">Carlota:&nbsp;</p>
+                            <p className="dialog__italic">“Sinceramente fue muy fácil, 
                             simplemente seguí y contacté con un centro de acogida 
                             que tengo cerca de casa a través de la aplicación y 
                             me explicaron como iba a ser todo el proceso”</p>
@@ -59,8 +59,8 @@ export default function News() {
                         <h3 className="highlighted">3º ¿Recomendarías a otros amigos la aplicación?</h3>
 
                         <div className="dialog">
-                            <p className="name">Carlota:&nbsp;</p>
-                            <p className="italic">“Por supuesto, pensaba que el 
+                            <p className="dialog__name">Carlota:&nbsp;</p>
+                            <p className="dialog__italic">“Por supuesto, pensaba que el 
                             proceso iba a ser muy tedioso porque no suelo usar 
                             mucho la tecnología, me alejo mucho de estos temas 
                             jajaja .. pero me ha sorprendido mucho lo sencillo 
@@ -93,8 +93,8 @@ export default function News() {
 
                         <h3 className="highlighted">1º¿Qué van a traer las nuevas actualizaciones?</h3>
                         <div className="dialog">
-                            <p className="name">Sergio:&nbsp;</p>
-                            <p className="italic"> “Las próximas 
+                            <p className="dialog__name">Sergio:&nbsp;</p>
+                            <p className="dialog__italic"> “Las próximas 
                             actualizaciones se basarán en la accesibilidad de la 
                             aplicación, queremos que personas con discapacidad 
                             puedan usarla completamente, así que facilitaremos 
@@ -106,8 +106,8 @@ export default function News() {
                         <h3 className="highlighted">2º ¿Cómo explicarías el funcionamiento de la aplicación a un nuevo usuario?</h3>
 
                         <div className="dialog">
-                            <p className="name">Sergio:&nbsp;</p>
-                            <p className="italic"> “Bien, Sweet Home es facil de 
+                            <p className="dialog__name">Sergio:&nbsp;</p>
+                            <p className="dialog__italic"> “Bien, Sweet Home es facil de 
                             utilizar desde un principio debido a su diseño 
                             minimalista y una clara separación de sus 
                             funcionalidades más importantes. En la página principal 
@@ -130,13 +130,6 @@ export default function News() {
             
             <style jsx>{`
 
-                    .name{
-
-                        /*Text*/
-
-                        font-family: 'Poppins', sans-serif;
-                        font-weight: 450;
-                    }
 
                     .dialog{
 
@@ -146,7 +139,16 @@ export default function News() {
                         flex-direction: row;
                     }
 
-                    .italic{
+
+                    .dialog__name{
+
+                        /*Text*/
+
+                        font-family: 'Poppins', sans-serif;
+                        font-weight: 450;
+                    }
+                    
+                    .dialog__italic{
 
                         /*Text*/
                         

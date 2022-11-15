@@ -2,6 +2,10 @@ import Layout from 'components/Layout/Layout';
 import Head from 'next/head';
 import styles from "styles/global.module.css";
 import {colors} from "styles/frontend-conf.js";
+import {BsChatRightText} from "react-icons/bs"
+import {FaSlideshare} from "react-icons/fa"
+import {AiOutlineEdit} from "react-icons/ai"
+import {MdPets} from "react-icons/md"
 
 /*
     * @author Sergio García Navarro
@@ -45,7 +49,7 @@ export default function About () {
                         
                         <div className="container1">   
                             <div className="container1__column1">
-                                <h2 className={styles.secondary}>Nuestra misión</h2>
+                                <h2 className={styles.title}>Nuestra misión</h2>
                                 <p className={styles.text}>¿Alguna vez has sentido rechazo o ignorancia
                                 en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales 
                                 perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se 
@@ -66,7 +70,7 @@ export default function About () {
                                 </ul>
                             </div>
                             <div className="container1__column2">
-                                <img className="container1__column2__img" src="/about-1.jpg" alt="Persona jugando con su perro" />
+                                <img className="column2__img" src="/about-1.jpg" alt="Persona jugando con su perro" />
                             </div>
                         </div>
 
@@ -76,30 +80,45 @@ export default function About () {
                         
 
                         <div className="benefits">
-                            <div className="card">
+                            <div className="benefits__card">
+                                <div style={{color: '#f0810f'}}>
+                                    <MdPets size={37}/>
+                                </div>             
                                 <h2 className={styles.secondary}>Promover el derecho de los animales</h2>
-                                <p className={styles.text}>La libertad y los derechos de los animales son la base de Sweet Home. En nuestro planeta habitan una gran variedad de animales pero solo un pequeño porcentaje convive con nosotros, así que debemos darles el mejor cuidado posible.</p>
+                                <p className={styles.text}>La libertad y los derechos de los animales son la base de Sweet Home. </p>
+                                <p className={styles.text}>En nuestro planeta habitan una gran variedad de animales pero solo un pequeño 
+                                porcentaje convive con nosotros, así que debemos darles el mejor cuidado 
+                                posible.</p>
                             </div>
-                            <div className="card">
+                            <div className="benefits__card">
+                                <div style={{color: '#f0810f'}}>
+                                    <FaSlideshare size={37}/>
+                                </div>   
                                 <h2 className={styles.secondary}>Compartir de forma rápida y segura</h2>
                                 <p className={styles.text}>Con Sweet Home puedes compartir 
                                 información sin tener que preocuparte de la inmediatez o de la 
-                                seguridad. Comparte el alimento favorito de tu mascota o un tip 
+                                seguridad. </p>
+                                <p className={styles.text}>Comparte el alimento favorito de tu mascota o un tip 
                                 que te haya cambiado la forma de interacuar con ella.</p>
                             </div>
-                            <div className="card">
+                            <div className="benefits__card">
+                                <div style={{color: '#f0810f'}}>
+                                    <BsChatRightText size={37}/>
+                                </div>   
                                 <h2 className={styles.secondary}>Chatea con gente de todo el mundo</h2>
                                 <p className={styles.text}>Dispones de una función de chat para 
                                 conectar con gente de tu mismo entorno o gente a kilómetros de 
                                 distancia para preguntarles dudas o consejos.</p>
                             </div>
-                            <div className="card">
+                            <div className="benefits__card">
+                                <div style={{color: '#f0810f'}}>
+                                    <AiOutlineEdit size={37}/>
+                                </div>  
                                 <h2 className={styles.secondary}>Modifica el perfil a tu gusto</h2>
                                 <p className={styles.text}>¡Sweet Home permite modificar el 
                                 perfil para que puedas añadir información sobre ti y tu mascota 
                                 a tu gusto!</p>
-                            </div>
-                            
+                            </div>            
                         </div>
                     </div>
                     <a href="#top" className={styles.buttonTo}>↑</a>
@@ -145,7 +164,7 @@ export default function About () {
                             align-items: center;
                         }
 
-                        .container1__column2__img{
+                        .column2__img{
 
                             /*Box model*/
 
@@ -172,24 +191,26 @@ export default function About () {
                         
                         }
 
-                        .card {
+                        .benefits__card {
 
                             /*Box model*/
 
                             display: flex;
                             flex-direction: column;
-                            justify-content: center;
                             align-items: center;
                             margin-right: 2.5rem;
-                            width: 50rem;
-                            height: 25rem;
+                            width: 80rem;
+                            height: 35rem;
+                            padding: 1rem;
 
                             /*Visuals*/
 
+                            border: 2px solid #f0810f;
                             border-radius: 10px;
                             box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
 
                         }
+
 
                         .title{
 
@@ -234,6 +255,12 @@ export default function About () {
                         
                         }
                         
+                        p{
+
+                            /*Box model*/
+
+                            margin-bottom: 1rem;
+                        }
                     `}</style>
                 </>
             </Layout>

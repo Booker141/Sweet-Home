@@ -34,9 +34,9 @@ export default function SignIn() {
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={styles.content}>
             <div className="page">
-              <img className="signIn-image" src="/signIn-1.svg" alt="Imagen de inicio de sesión"/>
-              <div className="form-page">
-                <div className="text">
+              <img className="page__image" src="/signIn-1.svg" alt="Imagen de inicio de sesión"/>
+              <div className="page__form">
+                <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>
                 </div>
                 <form className="form-vertical">
@@ -112,7 +112,7 @@ export default function SignIn() {
                   }
             }
 
-            .text{
+            .form__text{
 
               /*Box model*/
 
@@ -123,7 +123,7 @@ export default function SignIn() {
 
             }
 
-            .form-page{
+            .page__form{
 
               /*Box model*/
 
@@ -193,7 +193,7 @@ export default function SignIn() {
                 margin-top: 2rem;
             }
 
-            .signIn-image{
+            .page__image{
 
                 /*Box model*/
 

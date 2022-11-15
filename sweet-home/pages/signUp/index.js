@@ -32,9 +32,9 @@ export default function SignUp() {
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
         <div className={styles.content}>
         <div className="page">
-          <img className="signUp-image" src="/signUp-1.svg" alt="Imagen de registro"/>
-          <div className="form-page">
-            <div className="text">
+          <img className="page__image" src="/signUp-1.svg" alt="Imagen de registro"/>
+          <div className="page__form">
+            <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>
               <p className={styles.text}>Introduzca los siguientes datos:</p>
             </div>
@@ -46,15 +46,6 @@ export default function SignUp() {
                   type="email"
                   name="Correo"
                   placeholder="E-mail"
-                ></input>
-              </div>
-              <div className="name">
-                <FaUser size={20} color={colors.secondary} />
-                <input
-                  title="Introducir nombre"
-                  type="text"
-                  name="Nombre"
-                  placeholder="Nombre de usuario"
                 ></input>
               </div>
               <div className="form-vertical__namec">
@@ -139,7 +130,7 @@ export default function SignUp() {
                   }
           }
 
-        .text{
+        .form__text{
 
           /*Box model*/
 
@@ -220,7 +211,7 @@ export default function SignUp() {
             margin-top: 2rem;
         }
 
-        .signUp-image{
+        .page__image{
 
             /*Box model*/
 
