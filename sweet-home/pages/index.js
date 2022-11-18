@@ -15,12 +15,12 @@ export default function Principal(){
   return(
     <>
       <Head><title>Sweet Home</title></Head>
-      <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
+      <Header url1="/attendances" url2="/about" url3="/contact" url4="/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/>
       <div className={styles.content}>
         <a name="top"></a>
         <div className="content__container1">
-          <div className="content__container1__title">
+          <div className="container1__title">
             <h1 className="title">
               <span>
                 <span>S</span>
@@ -36,38 +36,36 @@ export default function Principal(){
               </span>
             </h1>
           </div>
-            <p className={styles.text}>Somos una empresa dedicada a la atención de mascotas, brindando servicios de cuidado y hospedaje para todo tipos de mascotas.</p>
+            <p className={styles.text}>Somos una empresa dedicada a la <span className={styles.strong}> &nbsp; atención de mascotas</span>, brindando servicios de cuidado y hospedaje para todo tipos de mascotas.</p>
         </div>
         <img src="/inicio-1.jpg" alt="Imagen de un perro y un gato" className="imagen-inicio1"></img>
         <div className="content__container2">
-          <div className="content__container2__column1">
+          <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra comunidad!</h1>
             <ButtonPrimary onClick={() => router.push('/signUp')}>Regístrate</ButtonPrimary>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
-          <div className="content__container2__column2">
-            <img src="/component1-home.svg" alt="Opinion 1" className="component"/>
-            <img src="/component2-home.svg" alt="Opinion 2" className="component"/>
-            <img src="/component3-home.svg" alt="Opinion 3" className="component"/>
+          <div className="container2__column2">
+            <img src="/component1-home.svg" alt="Opinion 1" className="column2__component"/>
+            <img src="/component2-home.svg" alt="Opinion 2" className="column2__component"/>
+            <img src="/component3-home.svg" alt="Opinion 3" className="column2__component"/>
           </div>
         </div>
         <Carousel/>
         <div className="content__container3">
-            <h2 className="title2">¿Qué es Sweet Home?</h2>
-            <p className="text2">Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
+            <h2 className={styles.title2}>¿Qué es Sweet Home?</h2>
+            <p className={styles.text2}>Es una red social que abarca el mundo animal y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.</p>
         </div>
         <div className="content__container4">
-            <h2 className="title2">Nuestra misión</h2>
-            <p className="text2">¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.</p>
-            <p className="text2">El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
+            <h2 className={styles.title2}>Nuestra misión</h2>
+            <p className={styles.text2}>¿Alguna vez has sentido rechazo o ignorancia en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas preguntas.</p>
+            <p className={styles.text2}>El objetivo principal de Sweet Home es mejorar la calidad de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
         </div>
-            <h2 className="title2">¿Cómo funciona?</h2>
-       
       </div>
 
       <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
 
-      <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
+      <BasicFooter color='#f0810f' hover='#f9A603' url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
 
       <style jsx>{`
@@ -109,7 +107,7 @@ export default function Principal(){
 
           }
           
-          .content__container1__title{
+          .container1__title{
 
             /*Box model*/
             display: flex;
@@ -144,7 +142,7 @@ export default function Principal(){
 
           }
 
-          .content__container2__column1{
+          .container2__column1{
 
             /*Box model*/
 
@@ -156,7 +154,7 @@ export default function Principal(){
 
           }
 
-          .content__container2__column1 h1{
+          .container2__column1 h1{
 
             /*Box model*/
 
@@ -169,7 +167,7 @@ export default function Principal(){
 
           }
 
-          .content__container2__column2{
+          .container2__column2{
 
             /*Box model*/
 
@@ -200,6 +198,15 @@ export default function Principal(){
             border-radius: 10px;
           }
 
+          .content__container3 h2, p{
+
+            /*Box model*/
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+          }
 
           .content__container4{
 
@@ -220,6 +227,16 @@ export default function Principal(){
             border-radius: 10px;
           }
 
+          .content__container4 h2, p{
+
+            /*Box model*/
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+          }
+
           .title{
 
               /*Text*/
@@ -234,15 +251,8 @@ export default function Principal(){
 
           }
           
-          .title2{
-
-            /*Text*/
-
-            font-size: 2rem;
-            font-family: ${fonts.default};
-
-          }
-          .component{
+          
+          .column2__component{
 
             /*Box model*/
 
@@ -271,19 +281,6 @@ export default function Principal(){
 
           }
 
-          .text2{
-
-            /*Box model*/
-
-            margin-bottom: 1.5rem;
-            
-            /*Text*/
-
-            font-size: 1rem;
-            font-family: ${fonts.secondary};
-            color: ${colors.secondary};
-
-          }
 
           .subtext{
 

@@ -41,13 +41,13 @@ export default function Privacy() {
                     Por favor lea detenidamente la correspondiente política para obtener 
                     más información.</h6>
                     <ul className={styles.list}>
-                        <li>1. Información personal</li>
-                        <li>2. Uso de la información</li>
-                        <li>3. Información sobre la privacidad de los niños</li>
-                        <li>4. Enlace a redes sociales</li>
-                        <li>5. Seguridad de la información</li>
-                        <li>6. Conservación</li>
-                        <li>7. Cambios en la política de privacidad</li>
+                        <li className={styles.list__item}> Información personal</li>
+                        <li className={styles.list__item}> Uso de la información</li>
+                        <li className={styles.list__item}> Información sobre la privacidad de los niños</li>
+                        <li className={styles.list__item}> Enlace a redes sociales</li>
+                        <li className={styles.list__item}> Seguridad de la información</li>
+                        <li className={styles.list__item}> Conservación</li>
+                        <li className={styles.list__item}> Cambios en la política de privacidad</li>
                     </ul>
 
                     <h2 className={styles.secondary}>1. Información personal</h2>
@@ -65,11 +65,11 @@ export default function Privacy() {
                     Podemos categorizar la información que nos proporciona mientras 
                     hace uso de la aplicación en:</h6>
                     <ul className={styles.list}>
-                        <li>Nombre, correo electrónico, teléfono, fecha de cumpleaños, 
+                        <li className={styles.list__item}> Nombre, correo electrónico, teléfono, fecha de cumpleaños, 
                         género y otros datos que proporciona en el formulario de registro.</li>
-                        <li>Información demográfica como edad o género.</li>
-                        <li>Información relativa a su cuenta como nombre de usuario y contraseña.</li>
-                        <li>Información sobre su perfil</li>
+                        <li className={styles.list__item}> Información demográfica como edad o género.</li>
+                        <li className={styles.list__item}> Información relativa a su cuenta como nombre de usuario y contraseña.</li>
+                        <li className={styles.list__item}> Información sobre su perfil</li>
                     </ul>
                     <p className={styles.text}>Con métodos automatizados solo recogemos información relativa a su perfil y haya sido introducida en nuestra aplicación. No recogeremos información sobre su dirección IP, sistema operativo y dispositivo utilizados, etc.</p>
 

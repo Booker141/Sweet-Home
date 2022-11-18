@@ -29,10 +29,10 @@ export default function BasicFooter(props){
             <div className="footer">
                 <hr className={styles.line}></hr>
                 <div className="footer__links">
-                    <Link className={styles.link} href={'${url1}'}><a>{text1}</a></Link>
-                    <Link className={styles.link} href={'${url2}'}><a>{text2}</a></Link>
-                    <Link className={styles.link} href={'${url3}'}><a>{text3}</a></Link>
-                    <Link className={styles.link} href={'${url4}'}><a>{text4}</a></Link>
+                    <Link className={styles.link} href={url1} passHref><a>{text1}</a></Link>
+                    <Link className={styles.link} href={url2} passHref><a>{text2}</a></Link>
+                    <Link className={styles.link} href={url3} passHref><a>{text3}</a></Link>
+                    <Link className={styles.link} href={url4} passHref><a>{text4}</a></Link>
                     <div className="copyright">
                         <p> Copyright &copy; 2022 Sweet Home Corporation</p>
                     </div>

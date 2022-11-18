@@ -17,6 +17,15 @@
   color: #f0810f;
 }
 
+.title2{
+
+  /*Text*/
+
+  font-size: 2rem;
+  font-family: "Poppins", sans-serif;
+
+}
+
 .secondary {
   /*Text*/
 
@@ -44,11 +53,25 @@
   color: #1c1c1c;
 }
 
+.text2{
+
+  /*Box model*/
+
+  margin-bottom: 1.5rem;
+  
+  /*Text*/
+
+  font-size: 1rem;
+  font-family: 'Raleway', sans-serif;
+  color: #fafafa;
+
+}
+
 .imgAccessibility {
   /*Box model*/
 
-  height: 30rem;
-  width: 30rem;
+  height: 40rem;
+  width: 40rem;
 
   /*Visuals*/
 
@@ -62,10 +85,15 @@
 
   /*Visuals*/
 
-  list-style-type: circle;
+  list-style-type: none;
+  
 }
 
-.list li::before {
+.list__item::before {
+
+  /*Text*/
+  
+  content: "○";
   color: #f0810f;
 }
 
@@ -99,6 +127,16 @@
   /*Text*/
 
   color: #f9a603;
+}
+
+.strong{
+
+  /*Text*/
+
+  font-size: 1rem;
+  font-weight: bold;
+  color: #f0810f;
+
 }
 
 .loader {

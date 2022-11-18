@@ -32,10 +32,10 @@ export default function Header(props){
             <>
                 <div className="header">
                     <Trademark link="/"/>
-                    <Link href={'${url1}'} as={'${url1}'}><a>{text1}</a></Link>
-                    <Link href={'${url2}'} as={'${url2}'}><a>{text2}</a></Link>
-                    <Link href={'${url3}'} as={'${url3}'}><a>{text3}</a></Link>
-                    <Link href={'${url4}'} as={'${url4}'}><a>{text4}</a></Link>   
+                    <Link href={url1} as={url1} passHref><a>{text1}</a></Link>
+                    <Link href={url2} as={url2} passHref><a>{text2}</a></Link>
+                    <Link href={url3} as={url3} passHref><a>{text3}</a></Link>
+                    <Link href={url4} as={url4} passHref><a>{text4}</a></Link>   
                 </div>
                 <style jsx>{`
                     .header{

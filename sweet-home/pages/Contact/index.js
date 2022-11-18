@@ -38,12 +38,13 @@ export default function Contact(){
                     <h1 className={styles.title}>Contacto</h1>
                     <div className="contact__container">
                         <div className="container__info">
-                            <h2 className={styles.secondary}>¿Quieres contactar con nosotros?</h2>
-                            <p className={styles.text}>Para contactar con Sweet Home y 
+                            <h2 className={styles.title2}>¿Quieres contactar con nosotros?</h2>
+                            <p className={styles.text2}>Para contactar con Sweet Home y 
                             así recoger feedback para mejorar nuestro servicio, puede hacerlo
-                            a través de las siguientes redes sociales:</p>
+                            a través de nuestras redes sociales.</p>
                         </div>
                         <div className="container__social">
+                            <h2 className={styles.title2}>Redes sociales</h2>
                             <a href="https://www.facebook.com/sweethome.es/">
                                 Facebook <BsFacebook className="icon"/>
                             </a>
@@ -56,14 +57,16 @@ export default function Contact(){
                         </div>
                     </div>
                     <div className="email">
-                        <p className={styles.text}>O a través del siguiente correo electrónico: </p>
-                        <a title="Enviar correo" href="mailto:atenciónSH@gmail.com">atenciónSH@gmail.com</a>
+                        <p className={styles.text}>O a través del siguiente correo electrónico:  </p>
+                        <a title="Enviar correo" href="mailto:atenciónSH@gmail.com"> &nbsp; atenciónSH@gmail.com</a>
                     </div>
-                    <h2 className={styles.secondary}>Información personal</h2>
-                    <p className={styles.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
+                    <div className="personal__container">
+                        <h2 className={styles.title2}>Información personal</h2>
+                        <p className={styles.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
+                    </div>
                     <form className="form">
                         <div className="form__email">
-                            <MdEmail size={20} color={colors.secondary} />
+                            <MdEmail size={30} color={colors.secondary} />
                             <input
                                 title="Introducir email"
                                 type="email"
@@ -72,7 +75,7 @@ export default function Contact(){
                             ></input>
                             </div>
                             <div className="form__name">
-                            <FaUser size={20} color={colors.secondary} />
+                            <FaUser size={30} color={colors.secondary} />
                             <input
                                 title="Introducir nombre"
                                 type="text"
@@ -81,7 +84,7 @@ export default function Contact(){
                             ></input>
                             </div>
                             <div className="form__surnames">
-                            <FaUser size={20} color={colors.secondary} />
+                            <FaUser size={30} color={colors.secondary} />
                             <input
                                 title="Introducir apellidos"
                                 type="text"
@@ -90,6 +93,7 @@ export default function Contact(){
                             ></input>
                             </div>
                             <div className="form__address">
+                            <FaAddressBook size={30} color={colors.secondary} />
                             <input
                                 title="Introducir dirección"
                                 type="text"
@@ -98,7 +102,7 @@ export default function Contact(){
                             ></input>
                             </div>
                             <div className="form__phone">
-                            <FaUser size={20} color={colors.secondary} />
+                            <BsFillTelephoneFill size={30} color={colors.secondary} />
                             <input
                                 title="Introducir teléfono"
                                 type="phone"
@@ -107,7 +111,7 @@ export default function Contact(){
                             ></input>
                             </div>
                             <div className="form__comment">
-                            <FaUser size={20} color={colors.secondary} />
+                            <BsPencilFill size={30} color={colors.secondary} />
                             <input
                                 title="Introducir comentario"
                                 type="text"
@@ -116,7 +120,6 @@ export default function Contact(){
                             ></input>
                             </div>
                             <div className="form__checkbox">
-                            <FaUser size={20} color={colors.secondary} />
                             <input
                                 title="Introducir comentario"
                                 type="checkbox"
@@ -128,14 +131,18 @@ export default function Contact(){
                             <ButtonTertiary className={styles.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
                     </form>
                 </div>
-                <a href="#top" className={styles.buttonTo}>↑</a>
+                
+                <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{`
 
                     .contact__container{
 
                         /*Box model*/
 
-                        display: inline-block;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+
 
                         /*Visuals*/
 
@@ -148,7 +155,7 @@ export default function Contact(){
 
                         /*Box model*/
 
-                        padding: 20px;
+                        padding: 5rem;
 
                         /*Text*/
 
@@ -161,24 +168,73 @@ export default function Contact(){
                         /*Box model*/
 
                         display: flex;
-                        align-items: flex-end;
-                        justify-content: space-around;
-                        width: 100%;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        width: 50%;
+
+                        /*Visuals*/
+
+                        border-radius: 10px;
+                        background-image: url("/contact-1.jpg");
+                        background-size: 150%;
+
+                        
                     }
 
+                    .container__social a{
+
+                        /*Box model*/
+
+                        margin-bottom: 2rem;
+
+                        color: ${colors.quaternary};
+                    }
+
+                    .personal__container{
+
+                        /*Box model*/
+
+                        display: flex;  
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
+
+                    .personal__container p{
+
+                        /*Box model*/
+
+                        margin-bottom: 2rem;
+
+                    }
+                    .email{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                    }
 
                     .form{
+
+                        /*Position*/
+
+                        position: relative;
+                        left: 35%;
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
-                        align-items: center;
                         justify-content: center;
-                        width: 20vw;
-                        height: 50vh;
-                        padding: 1rem;
-                        margin: 1rem;
+                        align-items: center;
+                        width: 20%;
+                        height: 15%;
+                        padding: 5rem;
+                        margin-bottom: 2rem;
 
                         /*Visuals*/
                         
@@ -186,10 +242,97 @@ export default function Contact(){
                         border-radius: 10px;
 
                     }
-                                             
+
+                    .form__email{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 120%;
+
+                    }
+
+                    .form__name{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 120%;
+
+                    }
+
+                    .form__surnames{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 120%;
+
+                    }
+
+                    .form__address{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 120%;
+
+                    }
+
+                    .form__phone{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 120%;
+
+                    }
+
+                    .form__comment{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 120%;
+
+                    }
+                    .form__checkbox{
+
+                        /*Box model*/
+
+                        margin-top: 2rem;
+                        margin-bottom: 1.5rem;
+                    }    
+
                     .privacidad{
 
-                        /*Visuals*/
+                        /*Text*/
+
+                        font-family: ${fonts.default};
                         color: ${colors.secondary};
 
                     }
@@ -200,7 +343,7 @@ export default function Contact(){
 
                         width: 100%;
                         height: 2rem;
-                        padding: 0.2rem;
+                        padding: 0.5rem;
                         margin-bottom: 1rem;
                         margin-left: 0.2rem;
 

@@ -32,7 +32,7 @@ export default function Conditions() {
                 desarrollada por Sweet Home Corporation que se encarga de reunir 
                 a todas las personas interesadas en el mundo de la adopción animal
                 y de animales perdidos o abandonados para darles las mejores 
-                comodidades y cuidados posibles.Además, los usuarios podrán publicar fotos e información de los 
+                comodidades y cuidados posibles. Además, los usuarios podrán publicar fotos e información de los 
                 animales, teniendo un contacto inmediato con otros usuarios de la 
                 aplicación. A estos usuarios se les puede seguir para enterarte 
                 de las últimas novedades.</p>
@@ -42,8 +42,7 @@ export default function Conditions() {
                 <p className={styles.text}>Sweet Home contempla una gran diversidad 
                 de usuarios eludiendo la restricción de edades, usada en su mayoría 
                 en otras aplicaciones similares. Podrá ser usada por adultos y niños, 
-                estos últimos con previo consentimiento de sus tutores legales.
-                Además, tiene como objetivo facilitar el proceso de adopción, búsqueda y 
+                estos últimos con previo consentimiento de sus tutores legales. Además, tiene como objetivo facilitar el proceso de adopción, búsqueda y 
                 publicación de cuidados en un foro, por lo que el target de la aplicación 
                 son aquellas que la vayan a usar con dichos propósitos.
                 Por último, es importante destacar que los centros de recogida pueden 
@@ -55,7 +54,7 @@ export default function Conditions() {
                 <p className={styles.text}>Para acceder a las funciones de la aplicación, 
                 necesita crear una cuenta y acceder como usuario. Aparte de las garantías 
                 de seguridad que proporciona Sweet Home, debe ser responsable de la seguridad 
-                de su cuenta, haciendo uso de una contraseña robusta y limitando el acceso a su persona. 
+                de su cuenta, haciendo uso de una contraseña robusta y limitando el acceso a su persona.  
                 El usuario registrado podrá utilizar todas las funciones que ofrece Sweet Home,
                 publicación de información y contenido multimedia e interacción con los usuarios.</p>
                 <hr className="black-line"></hr>
@@ -76,14 +75,14 @@ export default function Conditions() {
 
                 <h2 className={styles.secondary}>6. Responsabilidad de Sweet Home</h2>
                 <p className={styles.text}>Sweet Home garantiza la seguridad del uso de su aplicación 
-                así como un tratamiento correcto de los datos.El usuario es el 
+                así como un tratamiento correcto de los datos. El usuario es el 
                 responsable de los dispositivos electrónicos y servicios que debe 
                 poseer para hacer uso de la aplicación. Los costes de estos servicios 
-                son responsabilidad del usuario.La aplicación incluye enlaces a 
+                son responsabilidad del usuario. La aplicación incluye enlaces a 
                 sitios web de terceros, redes sociales de la empresa en su totalidad. 
                 Si el usuario hace uso de estos enlaces, deberá revisar los términos y 
                 condiciones de estos sitios web. Sweet Home no ha sido patrocinado por 
-                ninguno de estas aplicaciones de terceros.Si se produce alguna actividad ilegal 
+                ninguno de estas aplicaciones de terceros. Si se produce alguna actividad ilegal 
                 dentro de la app que afecte al funcionamiento de la app, Sweet Home tiene el 
                 derecho de cerrar dicha aplicación sin deber nada a los usuarios.
                 </p>
