@@ -19,7 +19,7 @@ import {FaUserPlus} from "react-icons/fa";
     * @description Sign up page
 */
 
-export default function SignUp() {
+export default function signUp() {
 
   return(
 
@@ -82,13 +82,13 @@ export default function SignUp() {
 
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
-              <Link title="Ir a iniciar sesión" href="/home"><a>Entrar</a></Link>
+              <Link href="/signIn"><a>Entrar</a></Link>
             </div>
           </div>
         </div>
       </div>
-        <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
-                          url3="/conditions" text3="Condiciones" marginTop='10rem'/>
+        <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
+                   url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
       <style jsx>{`
 
         .page {

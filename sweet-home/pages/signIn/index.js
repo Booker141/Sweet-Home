@@ -21,7 +21,7 @@ import { BsFillLockFill } from "react-icons/bs";
  * and a BasicFooter component
  * @returns A React component.
  */
-export default function SignIn() {
+export default function signIn() {
 
   return(
 
@@ -60,7 +60,7 @@ export default function SignIn() {
                       className="input"
                     ></input>
                   </div>
-                  <a title="Ir a la página para cambiar la contraseña" href="/cpassword">¿Has olvidado la contraseña?</a>
+                  <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña">¿Has olvidado la contraseña?</a></Link>
                   <FormButton className="form-vertical__button" name="Iniciar sesión" />
                 </form>
                 <div className="form-register">
@@ -70,8 +70,8 @@ export default function SignIn() {
               </div>
             </div>
           </div>
-          <BasicFooter color='#f0810f' hover='#f9A603' url1="/info" text1="Información" url2="/privacy" text2="Privacidad"
-                          url3="/conditions" text3="Condiciones" marginTop='10rem'/>
+          <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
+                   url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
           <style jsx>{`
 
             .page {

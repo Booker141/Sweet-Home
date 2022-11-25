@@ -63,77 +63,78 @@ export default function Contact(){
                     <div className="personal__container">
                         <h2 className={styles.title2}>Información personal</h2>
                         <p className={styles.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
-                    </div>
-                    <form className="form">
-                        <div className="form__email">
-                            <MdEmail size={30} color={colors.secondary} />
-                            <input
-                                title="Introducir email"
-                                type="email"
-                                name="Correo*"
-                                placeholder="E-mail"
-                            ></input>
-                            </div>
-                            <div className="form__name">
-                            <FaUser size={30} color={colors.secondary} />
-                            <input
-                                title="Introducir nombre"
-                                type="text"
-                                name="Nombre*"
-                                placeholder="Nombre"
-                            ></input>
-                            </div>
-                            <div className="form__surnames">
-                            <FaUser size={30} color={colors.secondary} />
-                            <input
-                                title="Introducir apellidos"
-                                type="text"
-                                name="Apellidos*"
-                                placeholder="Apellidos"
-                            ></input>
-                            </div>
-                            <div className="form__address">
-                            <FaAddressBook size={30} color={colors.secondary} />
-                            <input
-                                title="Introducir dirección"
-                                type="text"
-                                name="Dirección*"
-                                placeholder="Dirección"
-                            ></input>
-                            </div>
-                            <div className="form__phone">
-                            <BsFillTelephoneFill size={30} color={colors.secondary} />
-                            <input
-                                title="Introducir teléfono"
-                                type="phone"
-                                name="Teléfono*"
-                                placeholder="Teléfono"
-                            ></input>
-                            </div>
-                            <div className="form__comment">
-                            <BsPencilFill size={30} color={colors.secondary} />
-                            <input
-                                title="Introducir comentario"
-                                type="text"
-                                name="Comentario*"
-                                placeholder="Comentario"
-                            ></input>
-                            </div>
-                            <div className="form__checkbox">
-                            <input
-                                title="Introducir comentario"
-                                type="checkbox"
-                                id="finalcheckbox"
-                            ></input>
-                            <label for="finalcheckbox">Acepto la <a className="privacidad" href="/privacy">Privacidad</a></label>
-                            </div>
+           
+                        <form className="form">
+                            <div className="form__email">
+                                <MdEmail size={30} color={colors.secondary} />
+                                <input
+                                    title="Introducir email"
+                                    type="email"
+                                    name="Correo*"
+                                    placeholder="E-mail"
+                                ></input>
+                                </div>
+                                <div className="form__name">
+                                <FaUser size={30} color={colors.secondary} />
+                                <input
+                                    title="Introducir nombre"
+                                    type="text"
+                                    name="Nombre*"
+                                    placeholder="Nombre"
+                                ></input>
+                                </div>
+                                <div className="form__surnames">
+                                <FaUser size={30} color={colors.secondary} />
+                                <input
+                                    title="Introducir apellidos"
+                                    type="text"
+                                    name="Apellidos*"
+                                    placeholder="Apellidos"
+                                ></input>
+                                </div>
+                                <div className="form__address">
+                                <FaAddressBook size={30} color={colors.secondary} />
+                                <input
+                                    title="Introducir dirección"
+                                    type="text"
+                                    name="Dirección*"
+                                    placeholder="Dirección"
+                                ></input>
+                                </div>
+                                <div className="form__phone">
+                                <BsFillTelephoneFill size={30} color={colors.secondary} />
+                                <input
+                                    title="Introducir teléfono"
+                                    type="phone"
+                                    name="Teléfono*"
+                                    placeholder="Teléfono"
+                                ></input>
+                                </div>
+                                <div className="form__comment">
+                                <BsPencilFill size={30} color={colors.secondary} />
+                                <input
+                                    title="Introducir comentario"
+                                    type="text"
+                                    name="Comentario*"
+                                    placeholder="Comentario"
+                                ></input>
+                                </div>
+                                <div className="form__checkbox">
+                                <input
+                                    title="Introducir comentario"
+                                    type="checkbox"
+                                    id="finalcheckbox"
+                                ></input>
+                                <label for="finalcheckbox" class="check">Acepto la <a className="privacidad" href="/privacy">Privacidad</a></label>
+                                </div>
 
-                            <ButtonTertiary className={styles.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
-                    </form>
+                                <ButtonTertiary className={styles.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
+                        </form>
+                    </div>
                 </div>
-                
                 <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{`
+
 
                     .contact__container{
 
@@ -223,7 +224,6 @@ export default function Contact(){
                         /*Position*/
 
                         position: relative;
-                        left: 35%;
 
                         /*Box model*/
 

@@ -79,8 +79,8 @@ export default function About () {
                         </div>
                         
 
-                        <div className="benefits">
-                            <div className="benefits__card">
+                        <div className={styles.cards}>
+                            <div className={styles.card__large}>
                                 <div style={{color: '#f0810f'}}>
                                     <MdPets size={37}/>
                                 </div>             
@@ -90,7 +90,7 @@ export default function About () {
                                 porcentaje convive con nosotros, así que debemos darles el mejor cuidado 
                                 posible.</p>
                             </div>
-                            <div className="benefits__card">
+                            <div className={styles.card__large}>
                                 <div style={{color: '#f0810f'}}>
                                     <FaSlideshare size={37}/>
                                 </div>   
@@ -101,7 +101,7 @@ export default function About () {
                                 <p className={styles.text}>Comparte el alimento favorito de tu mascota o un tip 
                                 que te haya cambiado la forma de interacuar con ella.</p>
                             </div>
-                            <div className="benefits__card">
+                            <div className={styles.card__large}>
                                 <div style={{color: '#f0810f'}}>
                                     <BsChatRightText size={37}/>
                                 </div>   
@@ -110,7 +110,7 @@ export default function About () {
                                 conectar con gente de tu mismo entorno o gente a kilómetros de 
                                 distancia para preguntarles dudas o consejos.</p>
                             </div>
-                            <div className="benefits__card">
+                            <div className={styles.card__large}>
                                 <div style={{color: '#f0810f'}}>
                                     <AiOutlineEdit size={37}/>
                                 </div>  
@@ -173,14 +173,7 @@ export default function About () {
                         
                         }
 
-                        .benefits {
 
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            justify-content: space-around;
-
-                        }
 
                         .benefits-title{
 
@@ -189,26 +182,6 @@ export default function About () {
                             justify-content: center;
                             align-items: center;
                         
-                        }
-
-                        .benefits__card {
-
-                            /*Box model*/
-
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            margin-right: 2.5rem;
-                            width: 80rem;
-                            height: 35rem;
-                            padding: 1rem;
-
-                            /*Visuals*/
-
-                            border: 2px solid #f0810f;
-                            border-radius: 10px;
-                            box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
-
                         }
 
 

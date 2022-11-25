@@ -76,7 +76,7 @@ export default function Footer(){
                 </div>
 
                  <hr className="footer__line"></hr>
-                    <BasicFooter color='#fafafa' hover='#f5d533' url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
+                    <BasicFooter color="#fafafa" hover="#e8cd43" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
                             url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>   
             </div>
 

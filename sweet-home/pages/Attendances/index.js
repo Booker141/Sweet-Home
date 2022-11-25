@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Layout from "/components/Layout/Layout"
-import styles from "styles/frontend-conf.js"
+import styles from "styles/global.module.css"
 
 
 /*

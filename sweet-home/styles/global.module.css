@@ -6,6 +6,8 @@
   height: 100%;
   margin-left: 4rem;
   margin-right: 4rem;
+
+
 }
 
 .title {
@@ -45,12 +47,14 @@
 }
 
 .text {
+
   /*Text*/
 
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   color: #1c1c1c;
+
 }
 
 .text2{
@@ -66,6 +70,7 @@
   color: #fafafa;
 
 }
+
 
 .imgAccessibility {
   /*Box model*/
@@ -95,6 +100,56 @@
   
   content: "○";
   color: #f0810f;
+}
+.cards{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
+.card__large{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2.5rem;
+  width: 80rem;
+  height: 35rem;
+  padding: 1rem;
+
+  /*Visuals*/
+
+  border: 2px solid #f0810f;
+  border-radius: 10px;
+  box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
+
+}
+
+.card__short{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2.5rem;
+  width: 80rem;
+  height: 20rem;
+  padding: 1rem;
+
+  /*Visuals*/
+
+  border: 2px solid #f0810f;
+  border-radius: 10px;
+  box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
+
 }
 
 .line {
@@ -131,11 +186,21 @@
 
 .strong{
 
+  display: inline-block;
+  position:relative;
+
   /*Text*/
 
-  font-size: 1rem;
   font-weight: bold;
-  color: #f0810f;
+  color: #f9a603;
+
+}
+
+.colorized{
+
+  /*Text*/
+
+  color: #f9a603;
 
 }
 
@@ -209,6 +274,7 @@
 }
 
 .buttonSecondary {
+
   /*Box model*/
 
   display: flex;
@@ -234,9 +300,11 @@
   /*Misc*/
 
   transition: all 0.3s ease-in-out;
+
 }
 
 .buttonTertiary {
+
   /*Box model*/
 
   display: flex;
@@ -262,21 +330,27 @@
   /*Misc*/
 
   transition: all 0.3s ease-in-out;
+
 }
 
 .buttonPrimary:hover {
+
   /*Visuals*/
 
   background-color: #f9a603;
+
 }
 
 .buttonSecondary:hover {
+
   /*Visuals*/
 
   background-color: #f9a603;
+
 }
 
 .buttonTertiary:hover {
+
   /*Text*/
 
   color: #fafafa;
@@ -285,14 +359,16 @@
   /*Visuals*/
 
   background-color: #f9a603;
+
 }
 
 .buttonTo {
+
   /*Position*/
 
   position: sticky;
   bottom: 0;
-  left: 0;
+  right: 0;
 
   /*Box model*/
 

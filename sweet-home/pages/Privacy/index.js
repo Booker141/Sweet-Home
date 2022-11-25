@@ -34,7 +34,7 @@ export default function Privacy() {
                     inserción de datos así como la interacción con las funciones 
                     que ofrece la aplicación.La presente política de privacidad 
                     tiene una aplicación a nivel mundial.</p>
-                    <h2 className={styles.secondary}>Política de Privacidad de Sweet Home 🐾</h2>
+                    <h2 className={styles.secondary}>Política de Privacidad de Sweet Home ⚠︎</h2>
                     <hr className={styles.line}></hr>
                     <h6 className={styles.text}>Sweet Home es responsable del 
                     tratamiento de los datos personales de los usuarios. 
