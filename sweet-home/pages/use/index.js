@@ -1,7 +1,10 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import styles from "styles/global.module.css"
-import Layout from "components/Layout/Layout"
 import {colors} from "/styles/frontend-conf.js"
+import Layout from "components/Layout/Layout"
+import faq1 from "../../public/faq-1.jpg"
+
 /*
     * @author Sergio García Navarro
     * @returns Use page
@@ -22,7 +25,7 @@ export default function Use(){
                     <a name="top"></a>
                     <div className="faq">
                         <h1 id="title" className={styles.title}>Preguntas frecuentes</h1>
-                        <img src="/faq-1.jpg" alt="Patrones de animales"></img>
+                        <Image src={faq1} alt="Patrones de animales" priority/>
                         <div className="faq__item1">
                             <div className="text">
                                 <h2 className={styles.secondary}><strong>¿Qué es Sweet Home?</strong></h2>

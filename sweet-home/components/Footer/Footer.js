@@ -1,11 +1,12 @@
+import Link from 'next/link'
+import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import BasicFooter from 'components/BasicFooter/BasicFooter'
 import {BsInstagram} from 'react-icons/bs'
 import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
-import Link from 'next/link'
-import styles from "styles/global.module.css"
+
 
 /*
     * @author Sergio García Navarro

@@ -1,7 +1,12 @@
-import router from "next/router";
-import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary";
+import router from 'next/router'
+import Image from 'next/image'
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary";
+import carousel1 from "../../public/carousel-1.svg"
+import carousel2 from "../../public/carousel-2.svg"
+import carousel3 from "../../public/carousel-3.svg"
+
 
 
 /*
@@ -29,7 +34,9 @@ export default function Carousel(){
                         <p className="text__paragraph">Hace unos meses, estuvo pensando en regalarle a su hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.</p>
                         <ButtonTertiary onClick={() => {router.push("/news")}}>Saber más</ButtonTertiary>
                     </div>
-                    <img className="item__image" src="/carousel-1.svg"/>
+                    <div className="item__image1">
+                        <Image src={carousel1}/>
+                    </div>
                 </div>
                 <div className="carousel__item">
                     <div className="item__text">
@@ -38,7 +45,9 @@ export default function Carousel(){
                         <p className="text__paragraph">Entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
                         <ButtonTertiary onClick={() => {router.push("/news")}}>Saber más</ButtonTertiary>
                     </div>
-                    <img className="item__image" src="/carousel-2.svg"/>
+                    <div className="item__image2">
+                        <Image src={carousel2}/>
+                    </div>
                 </div>
                 <div className="carousel__item">
                     <div className="item__text">
@@ -47,7 +56,9 @@ export default function Carousel(){
                         <p className="text__paragraph">Entérate de cómo funciona Sweet Home en esta entrevista con su creador.</p>
                         <ButtonTertiary onClick={() => router.push("/news")}>Saber más</ButtonTertiary>
                     </div>
-                    <img className="item__image" src="/carousel-1.svg"/>
+                    <div className="item__image3">
+                        <Image src={carousel3}/>
+                    </div>
                 </div>
             </div>
 
@@ -124,18 +135,46 @@ export default function Carousel(){
 
                 }
 
-                .item__image{
+                .item__image1{
 
                     /*Box model*/
 
-                    height: 40rem;
-                    width: 40rem;
+                    width: 268%;
+                    height: 268%;
 
                     /*Visuals*/
 
                     border-radius: 15px;
 
                 }
+
+                .item__image2{
+
+                    /*Box model*/
+
+                    width: 180%;
+                    height: 180%;
+
+                    /*Visuals*/
+
+                    border-radius: 15px;
+
+                }
+
+                .item__image3{
+
+                    /*Box model*/
+
+                    width: 150%;
+                    height: 150%;
+
+                    /*Visuals*/
+
+                    border-radius: 15px;
+
+                }
+
+                
 
                 .item__text{
 

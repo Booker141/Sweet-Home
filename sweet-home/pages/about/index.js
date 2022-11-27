@@ -1,11 +1,13 @@
-import Layout from 'components/Layout/Layout';
 import Head from 'next/head';
+import Image from 'next/image'
 import styles from "styles/global.module.css";
 import {colors} from "styles/frontend-conf.js";
+import Layout from 'components/Layout/Layout';
 import {BsChatRightText} from "react-icons/bs"
 import {FaSlideshare} from "react-icons/fa"
 import {AiOutlineEdit} from "react-icons/ai"
 import {MdPets} from "react-icons/md"
+import about1 from "../../public/about-1.jpg"
 
 /*
     * @author Sergio García Navarro
@@ -42,9 +44,9 @@ export default function About () {
                         
                         <div className="banner">
                             <p className={styles.text}>Sweet Home es una red 
-                            social que abarca el mundo animal y trata de <span className={styles.strong}>facilitar 
+                            social que abarca el mundo animal y trata de facilitar 
                             su adaptación a nuevos cuidados, a nuevos dueños y a 
-                            una mejora diaria de su vida.</span></p>
+                            una mejora diaria de su vida.</p>
                         </div>
                         
                         <div className="container1">   
@@ -70,7 +72,9 @@ export default function About () {
                                 </ul>
                             </div>
                             <div className="container1__column2">
-                                <img className="column2__img" src="/about-1.jpg" alt="Persona jugando con su perro" />
+                                <div className="column2__img">
+                                    <Image src={about1} alt="Persona jugando con su perro" priority/>
+                                </div>
                             </div>
                         </div>
 

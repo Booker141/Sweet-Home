@@ -1,6 +1,7 @@
-import Layout from "components/Layout/Layout"
 import Head from 'next/head'
 import styles from "styles/global.module.css"
+import Layout from "components/Layout/Layout"
+
 /*
     * @author Sergio García Navarro
     * @returns Rules page

@@ -1,7 +1,8 @@
-import Trademark from "components/Trademark/Trademark"
 import Link from 'next/link'
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import Trademark from "components/Trademark/Trademark"
+
 /*
     * @author Sergio García Navarro
     * @returns Header component
@@ -38,6 +39,7 @@ export default function Header(props){
                     <Link href={url4} as={url4} passHref><a>{text4}</a></Link>   
                 </div>
                 <style jsx>{`
+                
                     .header{
 
                         /*Position*/

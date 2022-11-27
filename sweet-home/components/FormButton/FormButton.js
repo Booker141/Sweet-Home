@@ -1,4 +1,4 @@
-import { colors } from "styles/frontend-conf";
+import {colors} from "styles/frontend-conf";
 import {fonts} from "styles/frontend-conf";
 /*
     * @author Sergio García Navarro

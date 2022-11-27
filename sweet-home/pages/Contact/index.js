@@ -1,8 +1,9 @@
-import Layout from "components/Layout/Layout"
 import Head from 'next/head'
 import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import Layout from "components/Layout/Layout"
+import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary"
 import { FaUser } from "react-icons/fa";
 import {FaAddressBook} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -11,7 +12,7 @@ import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
 import {BsFillTelephoneFill} from 'react-icons/bs'
 import {BsPencilFill} from 'react-icons/bs'
-import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary"
+
 
 /* 
     * @author Sergio García Navarro

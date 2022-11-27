@@ -1,19 +1,27 @@
 import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
+import {useRouter} from 'next/router'
+import styles from "styles/global.module.css"
+import {fonts} from "styles/frontend-conf.js"
+import {colors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
+import Carousel from "components/Carousel/Carousel"
 import BasicFooter from "components/BasicFooter/BasicFooter"
 import ButtonPrimary from "components/ButtonPrimary/ButtonPrimary"
-import styles from "styles/global.module.css"
-import {colors} from "styles/frontend-conf.js"
-import {useRouter} from 'next/router'
-import {fonts} from "styles/frontend-conf.js"
 import {AiOutlineMobile} from "react-icons/ai"
 import {AiOutlineTablet} from "react-icons/ai"
 import {BsLaptop} from "react-icons/bs"
 import {MdPets} from "react-icons/md"
 import {GiPlantsAndAnimals} from "react-icons/gi"
 import {CgCommunity} from "react-icons/cg"
-import Carousel from "components/Carousel/Carousel"
-import Link from 'next/link'
+import inicio1 from '../public/inicio-1.jpg'
+import inicio2 from '../public/inicio-2.svg'
+import inicio3 from '../public/inicio-3.svg'
+import component1 from '../public/component1-home.svg'
+import component2 from '../public/component2-home.svg'
+import component3 from '../public/component3-home.svg'
+
 export default function Principal(){
 
   const router = useRouter();
@@ -47,7 +55,9 @@ export default function Principal(){
           mascotas, brindando servicios de cuidado y hospedaje para todo tipos de 
           mascotas.</p>
         </div>
-        <img src="/inicio-1.jpg" alt="Imagen de un perro y un gato" className="imagen-inicio1"></img>
+        <div className="imagen-inicio1">
+          <Image src={inicio1} alt="Imagen de un perro y un gato" priority/>
+        </div>
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={styles.colorized}>comunidad</span>!</h1>
@@ -55,9 +65,11 @@ export default function Principal(){
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
           <div className="container2__column2">
-            <img src="/component1-home.svg" alt="Opinion 1" className="column2__component"/>
-            <img src="/component2-home.svg" alt="Opinion 2" className="column2__component"/>
-            <img src="/component3-home.svg" alt="Opinion 3" className="column2__component"/>
+            <div className="column2__component">
+              <Image src={component1} alt="Opinion 1"/>
+              <Image src={component2} alt="Opinion 2"/>
+              <Image src={component3} alt="Opinion 3"/>
+            </div>
           </div>
         </div>
         <Carousel/>
@@ -138,17 +150,29 @@ export default function Principal(){
             <p className={styles.text}>El objetivo principal de Sweet Home es mejorar la calidad 
             de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. 
             Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato 
-            con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
+            con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales 
+            que sean de interés.</p>
           </div>
-          <img src="/inicio-3.svg" alt="Familia en la naturaleza" className="imagen-inicio3"></img>
+          <div className="imagen-inicio2">
+            <Image src={inicio2} alt="Familia en la naturaleza" />
+          </div>
         </div>  
         <h2 className={styles.title}>¿Cómo la llevamos a cabo?</h2>
         <div className="container6__column2">
           <div className="column2__text">
-            <p className={styles.text}>Para llevar a cabo nuestra misión, hemos creado una red social que permite a los usuarios compartir información sobre sus mascotas, así como también, información sobre animales perdidos o encontrados. Además, los usuarios podrán seguir a los centros de acogida de animales que sean de su interés.</p>
-            <p className={styles.text}>Además, los usuarios podrán publicar fotos e información de los animales, permitir el contacto inmediato con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales que sean de interés.</p>
+            <p className={styles.text}>Para llevar a cabo nuestra misión, hemos 
+            creado una red social que permite a los usuarios compartir información
+             sobre sus mascotas, así como también, información sobre animales 
+             perdidos o encontrados. Además, los usuarios podrán seguir a los 
+             centros de acogida de animales que sean de su interés.</p>
+            <p className={styles.text}>Además, los usuarios podrán publicar fotos 
+            e información de los animales, permitir el contacto inmediato con el 
+            usuario que ha realizado una publicación y seguir a los centros de 
+            acogida de animales que sean de interés.</p>
           </div>
-          <img src="/inicio-4.svg" alt="Personas trabajando" className="imagen-inicio4"></img>
+          <div className="imagen-inicio3">
+            <Image src={inicio3} alt="Personas trabajando"/>
+          </div>  
         </div>
       </div>
       </div>
@@ -515,6 +539,20 @@ export default function Principal(){
 
           }
 
+          .imagen-inicio2{
+
+            /*Box model*/
+
+            margin-right: 2rem;
+
+            /*Visuals*/
+
+            width: 250%;
+            height: 250%;
+            
+
+          }
+
           .imagen-inicio3{
 
             /*Box model*/
@@ -523,22 +561,8 @@ export default function Principal(){
 
             /*Visuals*/
 
-            width: 45%;
-            height: 45%;
-            
-
-          }
-
-          .imagen-inicio4{
-
-            /*Box model*/
-
-            margin-right: 2rem;
-
-            /*Visuals*/
-
-            width: 45%;
-            height: 45%;
+            width: 250%;
+            height: 250%;
 
           }
 

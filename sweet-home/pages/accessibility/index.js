@@ -1,7 +1,15 @@
-import Layout from "components/Layout/Layout";
 import Head from 'next/head';
+import Image from 'next/image'
 import styles from 'styles/global.module.css';
 import {colors} from "styles/frontend-conf.js";
+import Layout from "components/Layout/Layout";
+import accessibility1 from "../../public/accessibility-1.svg"
+import accessibility2 from "../../public/accessibility-2.svg"
+import accessibility3 from "../../public/accessibility-3.svg"
+import accessibility4 from "../../public/accessibility-4.svg"
+import accessibility5 from "../../public/accessibility-5.svg"
+
+
 
 /*
     * @author Sergio García Navarro
@@ -39,11 +47,15 @@ export default function Accessibility(){
                             interacción</span>, ya que el uso de colores poco contrastados 
                             puede ocasionar dolores de cabeza.</p>
                         </div>
-                        <img src="/accessibility-1.svg" alt="Diseñadores" className={styles.imgAccessibility}/>
+                        <div className={styles.imgAccessibility}>
+                            <Image src={accessibility1} alt="Diseñadores"/>
+                        </div>
                     </div>
                     
                     <div className="content__container">
-                    <img src="/accessibility-2.svg" alt="Constructor de sitios" className={styles.imgAccessibility}/>
+                        <div className={styles.imgAccessibility}>
+                            <Image src={accessibility2} alt="Constructor de sitios"/>
+                        </div>
                         <div className="container__column">
                             <h2 className={styles.secondary}>Diseño minimalista</h2>
                             <hr className="discontinuous"></hr>
@@ -62,11 +74,15 @@ export default function Accessibility(){
                             suficientemente <span className={styles.strong}>contrastados</span> para facilitar su uso; y con un <span className={styles.strong}> tamaño medido </span>
                             para que sean fáciles de utilizar en cualquier dispositivo.</p>
                         </div>
-                        <img src="/accessibility-3.svg" alt="Página social" className={styles.imgAccessibility}/>
+                        <div className={styles.imgAccessibility}>
+                            <Image src={accessibility3} alt="Página social" />
+                        </div>
                     </div>
                     
                     <div className="content__container">
-                        <img src="/accessibility-4.svg" alt="Diseño web" className={styles.imgAccessibility}/>
+                        <div className={styles.imgAccessibility}>
+                            <Image src={accessibility4} alt="Diseño web" />
+                        </div>
                         <div className="container__column">
                             <h2 className={styles.secondary}>Fuente clara</h2>
                             <hr className="discontinuous"></hr>
@@ -86,7 +102,9 @@ export default function Accessibility(){
                             lectura </span>. Además, el vocabulario utilizado no es muy 
                             complejo por lo que hace aún más atractiva la aplicación.</p>
                         </div>
-                        <img src="/accessibility-5.svg" alt="Estudiar en línea" className={styles.imgAccessibility}/>
+                        <div className={styles.imgAccessibility}>
+                            <Image src={accessibility5} alt="Estudiar en línea"/>
+                        </div>
                     </div>
                 </div>
 

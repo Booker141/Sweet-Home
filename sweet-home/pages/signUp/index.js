@@ -1,15 +1,17 @@
-import Header from "components/Header/Header"
-import BasicFooter from "components/BasicFooter/BasicFooter"
 import Head from 'next/head'
-import FormButton from "/components/FormButton/FormButton";
 import Link from 'next/link'
+import Image from 'next/image'
 import styles from "styles/global.module.css"
 import { colors } from "styles/frontend-conf.js";
 import { fonts } from "styles/frontend-conf.js";
+import Header from "components/Header/Header"
+import BasicFooter from "components/BasicFooter/BasicFooter"
+import FormButton from "/components/FormButton/FormButton";
 import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import {FaUserPlus} from "react-icons/fa";
+import signUp1 from "../../public/signUp-1.svg"
 
 /*
     * @author Sergio García Navarro
@@ -32,7 +34,9 @@ export default function signUp() {
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
         <div className={styles.content}>
         <div className="page">
-          <img className="page__image" src="/signUp-1.svg" alt="Imagen de registro"/>
+          <div className="page__image">
+            <Image src={signUp1} alt="Imagen de registro" priority/>
+          </div>
           <div className="page__form">
             <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>

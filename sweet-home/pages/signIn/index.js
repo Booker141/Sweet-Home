@@ -1,13 +1,16 @@
-import Header from 'components/Header/Header'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Head from 'next/head'
-import styles from "styles/global.module.css"
-import FormButton from "/components/FormButton/FormButton";
 import Link from 'next/link'
+import Image from 'next/image'
+import styles from "styles/global.module.css"
 import { colors } from "styles/frontend-conf.js";
 import { fonts } from "styles/frontend-conf.js";
+import Header from 'components/Header/Header'
+import BasicFooter from 'components/BasicFooter/BasicFooter'
+import FormButton from "/components/FormButton/FormButton";
 import { FaUser } from "react-icons/fa";
 import { BsFillLockFill } from "react-icons/bs";
+import signIn1 from "../../public/signIn-1.svg"
+
 /*
     * @author Sergio García Navarro
     * @returns Login page
@@ -34,7 +37,9 @@ export default function signIn() {
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={styles.content}>
             <div className="page">
-              <img className="page__image" src="/signIn-1.svg" alt="Imagen de inicio de sesión"/>
+              <div className="page__image">
+                <Image src={signIn1} alt="Imagen de inicio de sesión" priority/>
+              </div>
               <div className="page__form">
                 <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>

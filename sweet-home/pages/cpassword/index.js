@@ -1,8 +1,10 @@
 import Head from 'next/head'
-import Layout from "components/Layout/Layout"
+import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
-import styles from "styles/global.module.css"
+import Layout from "components/Layout/Layout"
+
+
 
 /* 
     * @author Sergio García Navarro
