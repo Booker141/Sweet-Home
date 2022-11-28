@@ -45,21 +45,21 @@ export default function Footer(){
                         <div className="columns__column1">
                             <h3 className="column1__title">Sweet Home</h3>
                             <div className="column1__links">
-                                <Link className={styles.link} href="/about"><a>Sobre nosotros</a></Link>
-                                <Link className={styles.link} href="/contact"><a>Contáctanos</a></Link>
+                                <Link className={styles.link} href="/about"><a aria-label="Ir a información sobre Sweet Home">Sobre nosotros</a></Link>
+                                <Link className={styles.link} href="/contact"><a aria-label="Ir a información de contacto">Contáctanos</a></Link>
                             </div>
                         </div>
                         <div className="columns__column2">
                             <h3 className="column2__title">Ayuda</h3>
                             <div className="column2__links">
-                                <Link className={styles.link} href="/use"><a>Uso de Sweet Home</a></Link>
-                                <Link className={styles.link} href="/rules"><a>Reglas y políticas</a></Link>
+                                <Link className={styles.link} href="/use"><a aria-label="Ir a como usar Sweet Home">Uso de Sweet Home</a></Link>
+                                <Link className={styles.link} href="/rules"><a aria-label="Ir a Reglas y políticas de Sweet Home">Reglas y políticas</a></Link>
                             </div>
                         </div>
                         <div className="columns__column3">
                             <h3 className="column3__title">Encuentra en Sweet Home</h3>
                             <div className="column3__links">
-                                <Link className={styles.link} href="/attendances"><a>Cuidados</a></Link>
+                                <Link className={styles.link} href="/attendances"><a aria-label="Ir a Cuidados">Cuidados</a></Link>
                             </div>
                         </div>       
                          
@@ -68,9 +68,9 @@ export default function Footer(){
                     <div className="columns__column4">
                         <h3 className="column4__title">Síguenos</h3>
                         <div className="column4__icons">
-                            <a className="icons__instagram"><BsInstagram/></a>
-                            <a className="icons__facebook"><BsFacebook/></a>
-                            <a className="icons__twitter"><BsTwitter/></a>
+                            <a aria-label="Ir a Instagram" className="icons__instagram"><BsInstagram/></a>
+                            <a aria-label="Ir a Facebook" className="icons__facebook"><BsFacebook/></a>
+                            <a aria-label="Ir a Twitter" className="icons__twitter"><BsTwitter/></a>
                         </div>
                     </div> 
 

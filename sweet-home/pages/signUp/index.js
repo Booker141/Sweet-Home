@@ -86,7 +86,7 @@ export default function signUp() {
 
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
-              <Link href="/signIn"><a>Entrar</a></Link>
+              <Link href="/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>
             </div>
           </div>
         </div>
@@ -163,6 +163,8 @@ export default function signUp() {
           display: flex;
           flex-direction: row;
           align-items: center;
+          justify-content: center;
+          margin-bottom: 2rem;
 
         }
 
@@ -219,11 +221,27 @@ export default function signUp() {
 
             /*Box model*/
 
-              height: 30rem;
-              width: 50rem;
+              margin-right: 4rem;
+              margin-left: 4rem;
+              width: 50%;
+              height: 100%;
 
         }
 
+        .page__form{
+
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            height: 100%;
+            margin-right: 2rem;
+
+        }
         h2{
 
             /*Text*/
@@ -264,14 +282,11 @@ export default function signUp() {
 
           a {
 
-            /*Box model*/
-
-            margin-bottom: 2rem;
-
             /*Text*/
 
             font-family: ${fonts.default};
             font-size: 0.8rem;
+            font-weight: bold;
             color: ${colors.secondary};
             text-decoration: none;
           }

@@ -46,20 +46,20 @@ export default function Contact(){
                         </div>
                         <div className="container__social">
                             <h2 className={styles.title2}>Redes sociales</h2>
-                            <a href="https://www.facebook.com/sweethome.es/">
+                            <a aria-label="Enlace de Facebook" href="https://www.facebook.com/sweethome.es/">
                                 Facebook <BsFacebook className="icon"/>
                             </a>
-                            <a href="https://www.instagram.com/sweethome.es/">
+                            <a aria-label="Enlace de Instagram" href="https://www.instagram.com/sweethome.es/">
                                 Instagram <BsInstagram className="icon"/>
                             </a>
-                            <a href="https://www.twitter.es/sweethome">
+                            <a aria-label="Enlace de Twitter" href="https://www.twitter.es/sweethome">
                                 Twitter <BsTwitter className="icon"/>
                             </a>
                         </div>
                     </div>
                     <div className="email">
                         <p className={styles.text}>O a través del siguiente correo electrónico:  </p>
-                        <a title="Enviar correo" href="mailto:atenciónSH@gmail.com"> &nbsp; atenciónSH@gmail.com</a>
+                        <a title="Enviar correo" aria-label="Enlace a correo de atención al cliente" href="mailto:atenciónSH@gmail.com"> &nbsp; atenciónSH@gmail.com</a>
                     </div>
                     <div className="personal__container">
                         <h2 className={styles.title2}>Información personal</h2>
@@ -126,14 +126,14 @@ export default function Contact(){
                                     type="checkbox"
                                     id="finalcheckbox"
                                 ></input>
-                                <label for="finalcheckbox" class="check">Acepto la <a className="privacidad" href="/privacy">Privacidad</a></label>
+                                <label for="finalcheckbox" class="check">Acepto la <a className="privacidad" aria-label="Ir a Privacidad" href="/privacy">Privacidad</a></label>
                                 </div>
 
                                 <ButtonTertiary className={styles.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
                         </form>
                     </div>
                 </div>
-                <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{`
 
 

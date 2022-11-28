@@ -25,7 +25,9 @@ export default function Use(){
                     <a name="top"></a>
                     <div className="faq">
                         <h1 id="title" className={styles.title}>Preguntas frecuentes</h1>
-                        <Image src={faq1} alt="Patrones de animales" priority/>
+                        <div className="top__image">
+                            <Image src={faq1} alt="Patrones de animales" priority/>
+                        </div>
                         <div className="faq__item1">
                             <div className="text">
                                 <h2 className={styles.secondary}><strong>¿Qué es Sweet Home?</strong></h2>
@@ -118,7 +120,7 @@ export default function Use(){
                     </div>
 
                 </div>
-                <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
                 <style jsx>{`
 
                 #title{
@@ -172,7 +174,7 @@ export default function Use(){
 
                 }
                     
-                img{
+                .top__image{
 
                     /*Box model*/
 

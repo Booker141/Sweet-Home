@@ -65,12 +65,12 @@ export default function signIn() {
                       className="input"
                     ></input>
                   </div>
-                  <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña">¿Has olvidado la contraseña?</a></Link>
+                  <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>
                   <FormButton className="form-vertical__button" name="Iniciar sesión" />
                 </form>
                 <div className="form-register">
                   <h6>¿No tiene una cuenta?</h6>
-                  <Link href="/signUp"><a>Registrarse</a></Link>
+                  <Link href="/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
                 </div>
               </div>
             </div>
@@ -202,8 +202,10 @@ export default function signIn() {
 
                 /*Box model*/
 
-                  height: 30rem;
-                  width: 50rem;
+                  margin-right: 4rem;
+                  margin-left: 4rem;
+                  width: 50%;
+                  height: 100%;
 
             }
 

@@ -69,7 +69,7 @@ export default function Rules(){
                     de cambio y amenaza para la diversidad biológica nativa, ya sea 
                     por su comportamiento invasor, o por el riesgo de contaminación 
                     genética”.</p>
-                    <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+                    <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
                 </div>
                 
                     <style jsx>{`

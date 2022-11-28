@@ -127,7 +127,7 @@ export default function News() {
                         
                     </article>
                 </section>
-                <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
             </div>
             
             <style jsx>{`

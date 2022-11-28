@@ -89,7 +89,7 @@ export default function Privacy() {
                     <p className={styles.text}>Por último, anonimizaremos su información 
                     para su uso interno y externo de forma que no haya manera de ser 
                     identificado, así como cumplir con las obligaciones legales descritas 
-                    en <a className={styles.link} href="/conditions">Condiciones</a>. 
+                    en <a className={styles.link} aria-label="Ir a condiciones" href="/conditions">Condiciones</a>. 
                     Antes de realizar un uso distinto al aquí descrito, se lo comunicaremos 
                     en el momento de recopilarla.</p>
 
@@ -136,9 +136,9 @@ export default function Privacy() {
                     política.</p>
                     <p className="last-line">Si presenta alguna duda con respecto a la política 
                     de privacidad, tiene la información para contactar con nosotros en el 
-                    siguiente enlace: <a className={styles.link} href="/contact">Contacta con nosotros</a>.</p>
+                    siguiente enlace: <a className={styles.link} aria-label="Ir a información de contacto" href="/contact">Contacta con nosotros</a>.</p>
                 </div>
-                <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
                 
                 <style jsx>{`
 

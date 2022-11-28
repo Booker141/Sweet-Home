@@ -88,7 +88,7 @@ export default function Conditions() {
                 derecho de cerrar dicha aplicación sin deber nada a los usuarios.
                 </p>
             </div>
-            <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
             <style jsx>{`
 
                     .first-line{

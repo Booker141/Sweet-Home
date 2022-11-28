@@ -66,9 +66,9 @@ export default function Principal(){
           </div>
           <div className="container2__column2">
             <div className="column2__component">
-              <Image src={component1} alt="Opinion 1"/>
-              <Image src={component2} alt="Opinion 2"/>
-              <Image src={component3} alt="Opinion 3"/>
+              <Image src={component1} alt="Opinion 1" priority/>
+              <Image src={component2} alt="Opinion 2" priority/>
+              <Image src={component3} alt="Opinion 3" priority/>
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function Principal(){
             <p className={styles.text}>Es una red social que abarca el mundo animal
              y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños 
              y a una mejora diaria de su vida.</p>
-            <Link href="/about"><a className={styles.link}>Saber más →</a></Link>
+            <Link href="/about"><a className={styles.link} aria-label="Ir a información sobre Sweet Home">Saber más →</a></Link>
         </div>
   
         <div className="content__container4">
@@ -112,7 +112,7 @@ export default function Principal(){
                 <p className={styles.text}>¡Existen perfiles exclusivos de cuidadoras
                 si quieres encontrar tu mascota ideal!</p>
               </div>
-            </div>
+            </div>    
         </div>
 
         <div className="content__container5">
@@ -137,7 +137,7 @@ export default function Principal(){
               </div>
             </div>
         </div>
-
+      </div>
       <div className="content__container6">
         <h2 className={styles.title}>Nuestra misión</h2>
         <div className="container6__column1">
@@ -175,8 +175,8 @@ export default function Principal(){
           </div>  
         </div>
       </div>
-      </div>
-      <a title="Volver arriba" href="#top" className={styles.buttonTo}>↑</a>
+      
+      <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
 
       <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
@@ -428,7 +428,8 @@ export default function Principal(){
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 7rem;
+            margin-top: 4rem;
 
           }
 
