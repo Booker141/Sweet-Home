@@ -172,10 +172,11 @@
   color: #f9a603;
 }
 
+
 .colorized{
 
   /*Text*/
-
+  font-weight: 600;
   color: #f9a603;
 
 }

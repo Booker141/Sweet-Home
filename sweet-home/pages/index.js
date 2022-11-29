@@ -51,9 +51,9 @@ export default function Principal(){
               </span>
             </h1>
           </div>
-          <p className={styles.text}>Somos una empresa dedicada a la atención de 
-          mascotas, brindando servicios de cuidado y hospedaje para todo tipos de 
-          mascotas.</p>
+          <p className={styles.text}>Somos una empresa dedicada a la <span className={styles.colorized}> &nbsp; atención de 
+          mascotas </span>, brindando servicios de cuidado y hospedaje para <span className={styles.colorized}> &nbsp; todo tipos de 
+          mascotas</span>.</p>
         </div>
         <div className="imagen-inicio1">
           <Image src={inicio1} alt="Imagen de un perro y un gato" priority/>
@@ -118,7 +118,7 @@ export default function Principal(){
         <div className="content__container5">
             <h2 className={styles.title}>Rompemos las limitaciones</h2>
             <p className={styles.text}>Nuestra red social rompe las limitaciones en cuanto 
-            a los dispositivos en las que se puede utilizar</p>  
+            a los <span className={styles.colorized}> &nbsp;dispositivos&nbsp; </span> en las que se puede utilizar:</p>  
             <div className="container5__column1">
               <h2 className={styles.title2}>¿Qué dispositivos soporta?</h2>
               <div className="icons">
@@ -146,12 +146,11 @@ export default function Principal(){
             publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes 
             cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? 
             Con Sweet Home daremos respuesta a estas preguntas.</p>
-
-            <p className={styles.text}>El objetivo principal de Sweet Home es mejorar la calidad 
-            de vida de los animales facilitándole a los dueños funcionalidades que usar en su día a día. 
+            <p className={styles.text}>El objetivo principal de Sweet Home es facilitándole a los dueños funcionalidades que usar en su día a día. 
             Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato 
             con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales 
             que sean de interés.</p>
+
           </div>
           <div className="imagen-inicio2">
             <Image src={inicio2} alt="Familia en la naturaleza" />
@@ -183,6 +182,7 @@ export default function Principal(){
 
       <style jsx>{`
 
+  
           .carousel{
 
             /*Box model*/

@@ -62,7 +62,7 @@ export default function Accessibility(){
                             <p className={styles.text}>En Sweet Home, los diseñadores 
                             han apostado por un diseño claro y bien distribuido, 
                             facilitando la búsqueda de información en la aplicación 
-                            para que personas con discapacidad se sientan cómodas.</p>
+                            para que todas las personas independientemente de la discapacidad que puedan tener se sientan cómodas.</p>
                         </div>
                     </div>
 

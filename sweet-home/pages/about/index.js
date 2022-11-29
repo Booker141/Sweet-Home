@@ -45,8 +45,8 @@ export default function About () {
                         <div className="banner">
                             <p className={styles.text}>Sweet Home es una red 
                             social que abarca el mundo animal y trata de facilitar 
-                            su adaptación a nuevos cuidados, a nuevos dueños y a 
-                            una mejora diaria de su vida.</p>
+                            su <span className={styles.colorized}>adaptación a nuevos cuidados</span>, <span className={styles.colorized}>a nuevos dueños </span> y a 
+                           <span className={styles.colorized}> una mejora diaria de su vida.</span></p>
                         </div>
                         
                         <div className="container1">   
@@ -58,7 +58,7 @@ export default function About () {
                                 ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas 
                                 preguntas.</p>
                                 <p className={styles.text}>El objetivo principal de Sweet Home es 
-                                mejorar la calidad de vida de los animales facilitándole
+                                <span className={styles.colorized}> mejorar la calidad de vida de los animales</span> facilitándole
                                 a los dueños funcionalidades que usar en su día a día. 
                                 </p>
 
@@ -89,7 +89,7 @@ export default function About () {
                                     <MdPets size={37}/>
                                 </div>             
                                 <h2 className={styles.secondary}>Promover el derecho de los animales</h2>
-                                <p className={styles.text}>La libertad y los derechos de los animales son la base de Sweet Home. </p>
+                                <p className={styles.text}><span className={styles.colorized}>La libertad y los derechos de los animales</span> son la base de Sweet Home. </p>
                                 <p className={styles.text}>En nuestro planeta habitan una gran variedad de animales pero solo un pequeño 
                                 porcentaje convive con nosotros, así que debemos darles el mejor cuidado 
                                 posible.</p>
@@ -99,18 +99,18 @@ export default function About () {
                                     <FaSlideshare size={37}/>
                                 </div>   
                                 <h2 className={styles.secondary}>Compartir de forma rápida y segura</h2>
-                                <p className={styles.text}>Con Sweet Home puedes compartir 
-                                información sin tener que preocuparte de la inmediatez o de la 
+                                <p className={styles.text}>Con Sweet Home puedes <span className={styles.colorized}> compartir 
+                                información</span> sin tener que preocuparte de la inmediatez o de la 
                                 seguridad. </p>
                                 <p className={styles.text}>Comparte el alimento favorito de tu mascota o un tip 
-                                que te haya cambiado la forma de interacuar con ella.</p>
+                                que te haya cambiado la forma de interactuar con ella.</p>
                             </div>
                             <div className={styles.card__large}>
                                 <div style={{color: '#f0810f'}}>
                                     <BsChatRightText size={37}/>
                                 </div>   
                                 <h2 className={styles.secondary}>Chatea con gente de todo el mundo</h2>
-                                <p className={styles.text}>Dispones de una función de chat para 
+                                <p className={styles.text}>Dispones de una <span className={styles.colorized}> función de chat</span> para 
                                 conectar con gente de tu mismo entorno o gente a kilómetros de 
                                 distancia para preguntarles dudas o consejos.</p>
                             </div>
@@ -120,7 +120,7 @@ export default function About () {
                                 </div>  
                                 <h2 className={styles.secondary}>Modifica el perfil a tu gusto</h2>
                                 <p className={styles.text}>¡Sweet Home permite modificar el 
-                                perfil para que puedas añadir información sobre ti y tu mascota 
+                                perfil para que puedas <span className={styles.colorized}>añadir información sobre ti y tu mascota </span>
                                 a tu gusto!</p>
                             </div>            
                         </div>
