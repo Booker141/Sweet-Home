@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useSession, signIn, signOut} from "next-auth/react"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Trademark from "components/Trademark/Trademark"
@@ -27,71 +28,136 @@ import Trademark from "components/Trademark/Trademark"
 export default function Header(props){
 
     const {url1, url2, url3, url4, text1, text2, text3, text4} = props;
-    
-        return(
-            
+    const {data: session} = useSession();
+    if (session){
+        return(    
             <>
                 <div className="header">
                     <Trademark link="/"/>
                     <Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
                     <Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
-                    <Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
-                    <Link href={url4} as={url4} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>   
+                    <Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link> 
+                    <div>{session.user.email}</div>  
                 </div>
                 <style jsx>{`
                 
-                    .header{
+                .header{
 
-                        /*Position*/
+                    /*Position*/
 
-                        position: relative;
-                        top: 2rem;
-                        left: 0;
-                        z-index: 1;
+                    position: relative;
+                    top: 2rem;
+                    left: 0;
+                    z-index: 1;
 
-                        /*Box model*/
+                    /*Box model*/
 
-                        display: flex;
-                        justify-content: space-around;
-                        align-items: center;
-                        height: 2rem;
-                        width: 100%;                  
-                        margin-bottom: 8rem;
-                        margin-left: 0.1rem;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    height: 2rem;
+                    width: 100%;                  
+                    margin-bottom: 8rem;
+                    margin-left: 0.1rem;
 
-                        /*Visuals*/
-                       
-                        background-color: ${props.color};
-                        
-                    }
-
-                    a{
-
-                        /*Text*/
-
-                        text-decoration: none;
-                        color: ${colors.primary};
-                        font-size: 1.2rem;
-                        font-family: ${fonts.default};
-
-                        /*Animation*/
-                        
-                        transition: all 0.3s ease-in-out;
-                    }
-
-                    a:hover{
-
-                        /*Text*/
-                        
-                        color: ${colors.tertiary};
-                        font-size: 1.5rem;
-                        
-                        
-                    }
+                    /*Visuals*/
+                   
+                    background-color: ${props.color};
                     
+                }
+
+                a{
+
+                    /*Text*/
+
+                    text-decoration: none;
+                    color: ${colors.primary};
+                    font-size: 1.2rem;
+                    font-family: ${fonts.default};
+
+                    /*Animation*/
+                    
+                    transition: all 0.3s ease-in-out;
+                }
+
+                a:hover{
+
+                    /*Text*/
+                    
+                    color: ${colors.tertiary};
+                    font-size: 1.5rem;
+                    
+                    
+                }
+                
 
 
-                `}</style>
-            </>
-        )
+            `}</style></>)
+    }else{
+        return(
+            <>
+                 <div className="header">
+                    <Trademark link="/"/>
+                    <Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
+                    <Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
+                    <Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link> 
+                    <Link href={url4} as={url4} passHref><a onClick={()=>signIn()} aria-label='Ir a ${text4}'>{text4}</a></Link>
+                </div>
+            
+                <style jsx>{`
+                
+                .header{
+
+                    /*Position*/
+
+                    position: relative;
+                    top: 2rem;
+                    left: 0;
+                    z-index: 1;
+
+                    /*Box model*/
+
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    height: 2rem;
+                    width: 100%;                  
+                    margin-bottom: 8rem;
+                    margin-left: 0.1rem;
+
+                    /*Visuals*/
+                   
+                    background-color: ${props.color};
+                    
+                }
+
+                a{
+
+                    /*Text*/
+
+                    text-decoration: none;
+                    color: ${colors.primary};
+                    font-size: 1.2rem;
+                    font-family: ${fonts.default};
+
+                    /*Animation*/
+                    
+                    transition: all 0.3s ease-in-out;
+                }
+
+                a:hover{
+
+                    /*Text*/
+                    
+                    color: ${colors.tertiary};
+                    font-size: 1.5rem;
+                    
+                    
+                }
+                
+
+
+            `}</style></>)
+                
+            }
     }

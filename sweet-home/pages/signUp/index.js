@@ -30,8 +30,8 @@ export default function signUp() {
           <title>Registro</title>
         </Head>
         
-        <Header url1="/attendances" url2="/info" url3="/contact" url4="/signUp"
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
+        <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
+                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={styles.content}>
         <div className="page">
           <div className="page__image">
