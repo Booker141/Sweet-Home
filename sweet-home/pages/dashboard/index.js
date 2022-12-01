@@ -1,4 +1,4 @@
-/*import {useSession} from "next-auth/react"
+import {useSession} from "next-auth/react"
 
 export default function AdminDashboard({props}){
 
@@ -14,10 +14,3 @@ export default function AdminDashboard({props}){
 
 }
 
-
-
-export async function getServerSideProps(context){
-    return{
-        props: {},
-    }
-}*/

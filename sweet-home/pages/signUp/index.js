@@ -21,7 +21,7 @@ import signUp1 from "../../public/signUp-1.svg"
     * @description Sign up page
 */
 
-export default function signUp() {
+export default function SignUp() {
 
   return(
 

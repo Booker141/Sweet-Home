@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import styles from "styles/global.module.css"
+import {useSession} from 'next-auth'
 /* 
     * @author Sergio García Navarro
     * @returns Posts page
@@ -13,6 +14,7 @@ import styles from "styles/global.module.css"
  * @returns An array of objects.
  */
 export default function PostList () {
+    const {data: session, status} = useSession({required: true});
     return (
         <>
           <Head><title>Reciente</title></Head>

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from "styles/global.module.css"
 import Layout from "/components/Layout/Layout"
-
+import {useSession} from 'next-auth'
 
 
 /*
@@ -18,6 +18,7 @@ import Layout from "/components/Layout/Layout"
  * page.
  */
 export default function Attendances() {
+    const {data: session, status} = useSession({required: true});
     return (
         <Layout>
             <>

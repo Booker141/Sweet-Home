@@ -1,14 +1,16 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
+import {useState, useEffect} from 'react'
+import {useRouter} from 'next/router'
+import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
 import styles from "styles/global.module.css"
-import { colors } from "styles/frontend-conf.js";
-import { fonts } from "styles/frontend-conf.js";
+import {colors} from "styles/frontend-conf.js";
+import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
-import FormButton from "/components/FormButton/FormButton";
-import { FaUser } from "react-icons/fa";
-import { BsFillLockFill } from "react-icons/bs";
+import {FaUser} from "react-icons/fa";
+import {BsFillLockFill} from "react-icons/bs";
 import signIn1 from "../../public/signIn-1.svg"
 
 /*
@@ -24,8 +26,18 @@ import signIn1 from "../../public/signIn-1.svg"
  * and a BasicFooter component
  * @returns A React component.
  */
-export default function signIn() {
+export default function SignIn({providers, csrfToken, session}) {
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const Router = useRouter();
+
+  useEffect(
+    () => {
+      if (session) {
+        return Router.push('/home');
+  }},[session])
+  
   return(
 
       <>
@@ -44,14 +56,25 @@ export default function signIn() {
                 <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>
                 </div>
-                <form className="form-vertical">
+                {Object.values(providers).map((provider) => (
+                  <div key={provider.name}>
+              
+                    <button className="form-vertical__button" onClick={() => signIn(provider.id)}>
+                      Inicia sesión con {provider.name}
+                    </button>
+                  </div>
+                ))}
+                <form className="form-vertical" action="/api/auth/callback/credentials">
+                  <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                   <div classname="form-vertical__name">
                     <FaUser size={20} color={colors.secondary} />
                     <input
-                      title="Introducir nombre de usuario"
-                      type="text"
-                      name="Nombre"
-                      placeholder="Nombre de usuario"
+                      title="Introducir email"
+                      type="email"
+                      name="email"
+                      value= {email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="javier@email.com"
                       className="input"
                     ></input>
                   </div>
@@ -61,12 +84,14 @@ export default function signIn() {
                       title="Introducir contraseña"
                       type="password"
                       name="Contraseña"
+                      value= {password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="Contraseña"
                       className="input"
                     ></input>
                   </div>
                   <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>
-                  <FormButton className="form-vertical__button" name="Iniciar sesión" />
+                  <button className="form-vertical__button">Iniciar sesión</button>
                 </form>
                 <div className="form-register">
                   <h6>¿No tiene una cuenta?</h6>
@@ -191,11 +216,40 @@ export default function signIn() {
 
             .form-vertical__button {
 
+                /*Position*/
+
+                position: relative;
+
                 /*Box model*/
 
+                display: block;
+                height: 7vh;
                 width: 70%;
                 padding: 0.5rem;
                 margin-top: 2rem;
+                margin: 0 auto;
+
+                /*Text*/
+
+                color: ${colors.secondary};
+                font-family: ${fonts.default} + 'Light';
+                font-style: bold;
+                font-size: 1rem;
+
+                /*Visuals*/
+
+                background-color: #FCAA7F;
+                border-radius: 5px;
+                border: 1px solid ${colors.secondary};
+
+            }
+
+            .form-vertical__button:hover{
+
+              /*Visuals*/
+
+              background-color: #F9B776;
+              transition: all 0.5s ease-in-out;
             }
 
             .page__image{
@@ -292,7 +346,7 @@ export default function signIn() {
                 color: ${colors.primary};
               }
 
-              input[type="text"] {
+              input[type="email"] {
 
                 /*Box model*/
 
@@ -343,4 +397,13 @@ export default function signIn() {
 
 
   )
+}
+
+export async function getServerSideProps(context) {
+  const providers = await getProviders()
+  const session = await getSession(context)
+  return {
+    props: { providers, session,
+    csrfToken: await getCsrfToken(context)},
+  }
 }
