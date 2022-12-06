@@ -9,7 +9,7 @@ import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
-import {FaUser} from "react-icons/fa";
+import {MdEmail} from "react-icons/md";
 import {BsFillLockFill} from "react-icons/bs";
 import signIn1 from "../../public/signIn-1.svg"
 
@@ -30,6 +30,7 @@ export default function SignIn({providers, csrfToken, session}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(null);
   const Router = useRouter();
 
   useEffect(
@@ -37,6 +38,18 @@ export default function SignIn({providers, csrfToken, session}) {
       if (session) {
         return Router.push('/home');
   }},[session])
+
+  const Login = async (e) => {
+
+    e.preventDefault();
+    const res = await signIn('credentials', { email, password, redirect: false, callbackUrl: '/home' });
+    if (res.error) {
+      setMessage(res.error);
+    }
+
+    return Router.push('/home');
+    
+  }
   
   return(
 
@@ -56,18 +69,23 @@ export default function SignIn({providers, csrfToken, session}) {
                 <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>
                 </div>
-                {Object.values(providers).map((provider) => (
+                {Object.values(providers).filter(provider => provider.name != "Credentials").map((provider) => (
                   <div key={provider.name}>
-              
-                    <button className="form-vertical__button" onClick={() => signIn(provider.id)}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id)}>
                       Inicia sesión con {provider.name}
                     </button>
                   </div>
                 ))}
+                <div className="error">
+                  {message}
+                </div>
                 <form className="form-vertical" action="/api/auth/callback/credentials">
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                   <div classname="form-vertical__name">
-                    <FaUser size={20} color={colors.secondary} />
+                    <div className="label">
+                      <p className={styles.text}>Email</p>
+                      <MdEmail size={20} color={colors.secondary} />
+                    </div>
                     <input
                       title="Introducir email"
                       type="email"
@@ -79,7 +97,10 @@ export default function SignIn({providers, csrfToken, session}) {
                     ></input>
                   </div>
                   <div classname="form-vertical__password">
-                    <BsFillLockFill size={25} color={colors.secondary} />
+                    <div className="label">
+                      <p className={styles.text}>Contraseña</p>
+                      <BsFillLockFill size={25} color={colors.secondary} />
+                    </div>
                     <input
                       title="Introducir contraseña"
                       type="password"
@@ -90,9 +111,9 @@ export default function SignIn({providers, csrfToken, session}) {
                       className="input"
                     ></input>
                   </div>
-                  <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>
-                  <button className="form-vertical__button">Iniciar sesión</button>
+                  <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>   
                 </form>
+                <button className="form-vertical__button" onClick={(e)=>Login(e)}>Iniciar sesión</button>
                 <div className="form-register">
                   <h6>¿No tiene una cuenta?</h6>
                   <Link href="/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
@@ -141,7 +162,18 @@ export default function SignIn({providers, csrfToken, session}) {
                     background-position:0% 70%
                   }
             }
+            .error{
 
+              /*Text*/
+
+              color: ${colors.secondary};
+              width: 50%;
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: #f55b5b;
+
+            }
             .form__text{
 
               /*Box model*/
@@ -149,7 +181,8 @@ export default function SignIn({providers, csrfToken, session}) {
               display: flex;
               flex-direction: column;
               align-items: center;
-              margin-top:2rem;
+              margin-top: 2rem;
+              margin-bottom: 2rem;
 
             }
 
@@ -184,7 +217,6 @@ export default function SignIn({providers, csrfToken, session}) {
 
                   display: flex;
                   flex-direction: column;
-                  align-items: center;
                   justify-content: center;
                   width: 20vw;
                   height: 50vh;
@@ -227,7 +259,6 @@ export default function SignIn({providers, csrfToken, session}) {
                 width: 70%;
                 padding: 0.5rem;
                 margin-top: 2rem;
-                margin: 0 auto;
 
                 /*Text*/
 
@@ -250,6 +281,40 @@ export default function SignIn({providers, csrfToken, session}) {
 
               background-color: #F9B776;
               transition: all 0.5s ease-in-out;
+
+            }
+
+            .form-vertical__button2 {
+
+                /*Box model*/
+
+                height: 3rem;
+                width: 100%;
+                padding: 0.5rem;
+                margin-bottom: 1rem;
+
+                /*Text*/
+
+                color: ${colors.secondary};
+                font-family: ${fonts.default} + 'Light';
+                font-style: bold;
+                font-size: 1rem;
+
+                /*Visuals*/
+
+                background-color: #FCAA7F;
+                border-radius: 5px;
+                border: 1px solid ${colors.secondary};
+
+            }
+
+            .form-vertical__button2:hover{
+
+               /*Visuals*/
+
+              background-color: #F9B776;
+              transition: all 0.5s ease-in-out;
+
             }
 
             .page__image{
@@ -260,6 +325,16 @@ export default function SignIn({providers, csrfToken, session}) {
                   margin-left: 4rem;
                   width: 50%;
                   height: 100%;
+
+            }
+
+            .label{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
 
             }
 
@@ -350,11 +425,10 @@ export default function SignIn({providers, csrfToken, session}) {
 
                 /*Box model*/
 
-                width: 75%;
+                width: 100%;
                 height: 2rem;
                 padding: 0.4rem;
                 margin-bottom: 1rem;
-                margin-left: 1rem;
 
                 /*Text*/
 
@@ -372,11 +446,10 @@ export default function SignIn({providers, csrfToken, session}) {
 
                 /*Box model*/
 
-                width: 75%;
+                width: 100%;
                 height: 2rem;
                 padding: 0.4rem;
                 margin-bottom: 2rem;
-                margin-left: 0.7rem;
 
                 /*Text*/
 

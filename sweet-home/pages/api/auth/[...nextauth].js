@@ -28,16 +28,22 @@ export const authOptions = {
         async authorize(credentials, req) {
           const email = credentials.email;
           const password = credentials.password;
-          const user = await User.findOneByEmail(email)
+          const user = await User.findOneByEmail(email);
+
           if(user){
-              const isMatch = await bcrypt.compare(password, user);
+
+              const isMatch = await bcrypt.compare(password, user.password);
+
               if (isMatch) {
+
                 return user;
               }
+
               throw new Error("Contraseña incorrecta");
-          }
-          else{
+          }else{
+
             throw new Error("No se ha encontrado ningún usuario");
+            
           }
         
           
@@ -46,8 +52,10 @@ export const authOptions = {
       // ...add more providers here
     ],
     secret: process.env.JWT_SECRET,
+    database: process.env.MONGODB_URI,
     pages: {
       signIn: '/signIn',
+      signOut: '/signOut',
       error: '_error.js', // Error code passed in query string as ?error=
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)

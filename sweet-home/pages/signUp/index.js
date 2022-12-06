@@ -1,16 +1,18 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
+import {useState} from 'react'
+import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
 import styles from "styles/global.module.css"
-import { colors } from "styles/frontend-conf.js";
-import { fonts } from "styles/frontend-conf.js";
+import {colors} from "styles/frontend-conf.js";
+import {fonts} from "styles/frontend-conf.js";
 import Header from "components/Header/Header"
 import BasicFooter from "components/BasicFooter/BasicFooter"
-import FormButton from "/components/FormButton/FormButton";
-import { FaUser } from "react-icons/fa";
-import { BsFillLockFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
+import {FaUser} from "react-icons/fa";
+import {BsFillLockFill} from "react-icons/bs";
+import {MdEmail} from "react-icons/md";
 import {FaUserPlus} from "react-icons/fa";
+import {AiFillInfoCircle} from "react-icons/ai"
 import signUp1 from "../../public/signUp-1.svg"
 
 /*
@@ -21,8 +23,39 @@ import signUp1 from "../../public/signUp-1.svg"
     * @description Sign up page
 */
 
-export default function SignUp() {
+export default function SignUp({session, csrfToken}) {
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [username, setUsername] = useState('');
+  const [message, setMessage] = useState(null);
+
+  const signUp = async (e) => {
+
+    e.preventDefault();
+    const body = {
+      email: e.target.email,
+      password: e.target.password,
+      name: e.target.name,
+      lastName: e.target.lastName,
+      username: e.target.username,
+    }
+    const res = await fetch('/api/signUp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+    const data = await res.json();
+    setMessage(data.message);
+
+    if(data.message == "Registrado con éxito"){
+      return Router.push('/home');
+    }
+  }
   return(
 
       <>
@@ -43,47 +76,92 @@ export default function SignUp() {
               <p className={styles.text}>Introduzca los siguientes datos:</p>
             </div>
             <form className="form-vertical">
+            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-vertical__email">
-                <MdEmail size={20} color={colors.secondary} />
+                <div className="label">
+                  <p className={styles.text}>Email</p>
+                  <MdEmail size={20} color={colors.secondary} />
+                </div>
                 <input
                   title="Introducir email"
                   type="email"
                   name="Correo"
-                  placeholder="E-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="p. ej.: javier@gmail.com"
                 ></input>
               </div>
-              <div className="form-vertical__namec">
-                <FaUserPlus size={20} color={colors.secondary} />
-                <input
-                  title="Introducir nombre completo"
-                  type="text"
-                  name="Nombrec"
-                  placeholder="Nombre completo"
-                ></input>
-              </div>
-              <div classname="form-vertical__name">
-                <FaUser size={20} color={colors.secondary} />
+              <div className="form-vertical__name">
+                <div className="label">
+                  <p className={styles.text}>Nombre</p>
+                  <FaUserPlus size={20} color={colors.secondary} />
+                </div>
                 <input
                   title="Introducir nombre"
                   type="text"
-                  name="Nombre"
-                  placeholder="Nombre de usuario"
+                  name="Nombrec"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="p. ej.: Javier"
+                ></input>
+              </div>
+              <div className="form-vertical__lastname">
+                <div className="label">
+                  <p className={styles.text}>Apellidos</p>
+                  <FaUserPlus size={20} color={colors.secondary} />
+                </div>
+                <input
+                  title="Introducir apellidos"
+                  type="text"
+                  name="lastName"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  placeholder="p. ej.: García Navarro"
+                ></input>
+              </div>
+              <div classname="form-vertical__username">
+                <div className="label">
+                  <p className={styles.text}>Nombre de usuario</p>
+                  <FaUser size={20} color={colors.secondary} />
+                </div>
+                <input
+                  title="Introducir nombre de usuario"
+                  type="text"
+                  name="NombreUsuario"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="p. ej.: javier65"
                   className="input"
                 ></input>
               </div>
               <div classname="form-vertical__password">
-                <BsFillLockFill size={25} color={colors.secondary} />
+                <div className="label">
+                  <p className={styles.text}>Contraseña</p>
+                  <BsFillLockFill size={25} color={colors.secondary} />
+                </div>   
                 <input
                   title="Introducir contraseña"
                   type="password"
                   name="Contraseña"
-                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="p. ej.: 1Manuel!"
                   className="input"
                 ></input>
+                <div className="tooltip">
+                  <div className="tooltip__icon">
+                    <AiFillInfoCircle size={20} color={colors.secondary} />
+                    <p className={styles.text}> Información contraseña</p>
+                  </div>
+                  <div className="tooltiptext">
+                    <p> - La contraseña debe tener al menos 8 caracteres.</p>
+                    <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                    <p> - La contraseña debe tener al menos un número.</p>
+                  </div>
+                </div>
               </div>
             </form>
-            <FormButton class="button" name="Confirmar" />
-
+            <button className="form-vertical__button" onClick={(e)=>signUp(e)}>Confirmar</button>
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
               <Link href="/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>
@@ -178,15 +256,16 @@ export default function SignUp() {
 
               display: flex;
               flex-direction: column;
-              align-items: center;
               justify-content: center;
+              margin-top: 10rem;
+              margin-bottom: 10rem;
               width: 20vw;
               height: 50vh;
               padding: 1vh 2vh;
 
         }
 
-        .form-vertical__name {
+        .form-vertical__username {
 
             /*Box model*/
 
@@ -205,16 +284,46 @@ export default function SignUp() {
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            width: 100%;
 
         }
 
         .form-vertical__button {
 
+            /*Position*/
+
+            position: relative;
+
             /*Box model*/
 
-            width: 70%;
+            display: block;
+            height: 7vh;
+            width: 50%;
             padding: 0.5rem;
             margin-top: 2rem;
+
+            /*Text*/
+
+            color: ${colors.secondary};
+            font-family: ${fonts.default} + 'Light';
+            font-style: bold;
+            font-size: 1rem;
+
+            /*Visuals*/
+
+            background-color: #FCAA7F;
+            border-radius: 5px;
+            border: 1px solid ${colors.secondary};
+
+          }
+
+        .form-vertical__button:hover{
+
+          /*Visuals*/
+
+          background-color: #F9B776;
+          transition: all 0.5s ease-in-out;
+
         }
 
         .page__image{
@@ -242,6 +351,83 @@ export default function SignUp() {
             margin-right: 2rem;
 
         }
+
+        .tooltip{
+
+          /*Position*/
+
+          position: relative;
+
+          /*Box model*/
+
+          display: inline-block;
+          margin-bottom: 1rem;
+
+        }
+
+        .tooltip__icon{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+
+        }
+
+        .tooltip__icon p{
+
+          /*Box model*/
+
+          margin-left: 1.6rem;
+
+        }
+
+        .tooltip .tooltiptext{
+
+          /*Position*/
+
+          position: absolute;
+          z-index: 100;
+          
+
+          /*Box model*/
+
+          width: 20rem;
+          padding: 1rem;
+
+          /*Text*/
+
+          text-align: center;
+
+          /*Visuals*/
+
+          border-radius: 10px;
+          visibility: hidden;
+          background-color: ${colors.quaternary};
+          color: ${colors.secondary};
+        }
+
+        .tooltip:hover .tooltiptext {
+
+          /*Visuals*/
+
+          visibility: visible;
+
+        }
+
+        .label{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+        }
+
         h2{
 
             /*Text*/
@@ -326,11 +512,10 @@ export default function SignUp() {
 
             /*Box model*/
 
-            width: 75%;
+            width: 100%;
             height: 2rem;
             padding: 0.4rem;
             margin-bottom: 1rem;
-            margin-left: 1rem;
 
             /*Text*/
 
@@ -348,11 +533,10 @@ export default function SignUp() {
 
             /*Box model*/
 
-            width: 75%;
+            width: 100%;
             height: 2rem;
             padding: 0.4rem;
             margin-bottom: 1rem;
-            margin-left: 1rem;
 
             /*Text*/
 
@@ -370,11 +554,10 @@ export default function SignUp() {
 
             /*Box model*/
 
-            width: 75%;
+            width: 100%;
             height: 2rem;
             padding: 0.4rem;
             margin-bottom: 2rem;
-            margin-left: 0.7rem;
 
             /*Text*/
 
@@ -394,4 +577,12 @@ export default function SignUp() {
 
 
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  return {
+    props: { session,
+    csrfToken: await getCsrfToken(context)},
+  }
 }

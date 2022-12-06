@@ -24,7 +24,7 @@ export default function Trademark({link}){
             </div>
             <style jsx>{`
                                 
-                img{
+                .img{
 
                     /*Box model*/
                     

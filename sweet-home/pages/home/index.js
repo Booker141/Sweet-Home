@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from "styles/global.module.css"
 import {useSession} from 'next-auth'
+import styles from "styles/global.module.css"
 /* 
     * @author Sergio García Navarro
     * @returns Posts page
@@ -19,8 +20,7 @@ export default function PostList () {
         <>
           <Head><title>Reciente</title></Head>
           <a name="top"></a>
-          <div>
-          {/*
+          <div className={styles.content}>
             posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
               return (
                 <>
@@ -48,3 +48,4 @@ export default function PostList () {
       </>
     )
 }
+
