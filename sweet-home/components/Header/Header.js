@@ -32,17 +32,24 @@ export default function Header(props){
     if (session){
         return(    
             <>
-                <div className="header">
-                    <Trademark link="/"/>
-                    <Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
-                    <Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
-                    <Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link> 
-                    <div>{session.user.email}</div>  
-                </div>
+
+                        <ul className="header">
+                            <li><Trademark link="/"/></li>
+                            <li><Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link></li>
+                            <li><Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link></li>
+                            <li><Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link></li>
+                            <li className="menu-visible"><a href="/Profile">{session.user.email}▾</a>
+                                <ul className="menu">
+                                    <li><Link href="/signOut"><a onClick={(e) => {e.preventDefault() 
+                                                                                    signOut()}}>Cerrar sesión</a></Link></li></ul></li>
+                        </ul>   
+
                 <style jsx>{`
+                
                 
                 .header{
 
+                    
                     /*Position*/
 
                     position: relative;
@@ -53,6 +60,7 @@ export default function Header(props){
                     /*Box model*/
 
                     display: flex;
+                    align-items: center;
                     justify-content: space-around;
                     align-items: center;
                     height: 2rem;
@@ -61,11 +69,54 @@ export default function Header(props){
                     margin-left: 0.1rem;
 
                     /*Visuals*/
-                   
-                    background-color: ${props.color};
                     
+                    
+                    background-color: ${props.color};
                 }
 
+                .menu{
+
+                    /*Box model*/
+
+                    display: none;
+                    position: absolute;
+                    top: 2rem;
+                    z-index: 1;
+                    width: 15%;
+                    height: 2.5rem;
+                    /*Visuals*/
+
+                    border-radius: 10px;
+                }
+
+                .menu a{
+
+                    /*Text*/
+
+                    color: ${colors.secondary};
+
+                    /*Visuals*/
+
+                    list-style-type: none;
+                }
+
+                .menu-visible:hover .menu{
+
+                    /*Box model*/
+
+                    display: block;
+                    position: absolute;
+                    top: 2rem;
+                    z-index: 1;
+
+                    /*Visual*/
+
+                    background-color: ${colors.primary};
+
+                    /*Text*/
+
+                    color: ${colors.secondary};
+                }
                 a{
 
                     /*Text*/
@@ -90,13 +141,18 @@ export default function Header(props){
                     
                 }
                 
+                li{
 
+                    /*Visuals*/
+
+                    list-style-type: none;
+                }
 
             `}</style></>)
     }else{
         return(
             <>
-                 <div className="header">
+                <div className="header">
                     <Trademark link="/"/>
                     <Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
                     <Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>

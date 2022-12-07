@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
+import {useSession} from 'next-auth/react'
 import styles from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
@@ -24,6 +25,7 @@ import component3 from '../public/component3-home.svg'
 
 export default function Principal(){
 
+  const {data: session, status} = useSession({required: true});
   const router = useRouter();
 
   return(

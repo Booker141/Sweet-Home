@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import styles from "styles/global.module.css"
-import {useSession} from 'next-auth'
-import styles from "styles/global.module.css"
+import {useSession} from 'next-auth/react'
+import Router from 'next/router'
+
 /* 
     * @author Sergio García Navarro
     * @returns Posts page
@@ -14,38 +15,41 @@ import styles from "styles/global.module.css"
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function PostList () {
-    const {data: session, status} = useSession({required: true});
-    return (
-        <>
-          <Head><title>Reciente</title></Head>
-          <a name="top"></a>
-          <div className={styles.content}>
-            posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
-              return (
-                <>
-                  <div key={_id}>
-                    {username}
-                  </div>
-                  <div>
-                    {location}
-                  </div>
-                  <div>
-                    {mediaUrl}
-                  </div>
-                  <div>
-                    {description}
-                  </div>
-                  <div>
-                    {comments}
-                  </div>
-                </>
-              )
-            })*/
-          }
-        </div>
-        <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
-      </>
-    )
-}
+export default function PostList (){
+
+      const { status } = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")},});
+
+      return (
+          <>
+            <Head><title>Reciente</title></Head>
+            <a name="top"></a>
+            <div className={styles.content}>
+              {/*posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+                return (
+                  <>
+                    <div key={_id}>
+                      {username}
+                    </div>
+                    <div>
+                      {location}
+                    </div>
+                    <div>
+                      {mediaUrl}
+                    </div>
+                    <div>
+                      {description}
+                    </div>
+                    <div>
+                      {comments}
+                    </div>
+                  </>
+                )
+              ))*/}
+          </div>
+          <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+        </>
+      )
+    }
+
+
 
