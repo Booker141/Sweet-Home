@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import {useState} from 'react'
-import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
+import {getCsrfToken, useSession} from "next-auth/react"
 import styles from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
@@ -13,6 +13,8 @@ import {BsFillLockFill} from "react-icons/bs";
 import {MdEmail} from "react-icons/md";
 import {FaUserPlus} from "react-icons/fa";
 import {AiFillInfoCircle} from "react-icons/ai"
+import {AiFillEyeInvisible} from "react-icons/ai"
+import {AiFillEye} from "react-icons/ai"
 import signUp1 from "../../public/signUp-1.svg"
 
 /*
@@ -23,8 +25,9 @@ import signUp1 from "../../public/signUp-1.svg"
     * @description Sign up page
 */
 
-export default function SignUp({session, csrfToken}) {
+export default function SignUp({csrfToken}) {
 
+  const {data: session, status} = useSession({required: false});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -32,15 +35,35 @@ export default function SignUp({session, csrfToken}) {
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState(null);
 
+  const showPassword = () => {
+
+    let passwordInput = document.getElementById("password");
+    
+    
+    if (passwordInput.type === "password") {
+
+      document.getElementById("show__icon1").style.display = "none";
+      document.getElementById("show__icon2").style.display = "inline";
+      passwordInput.type = "text";
+
+    }
+    else {
+
+      document.getElementById("show__icon1").style.display = "inline";
+      document.getElementById("show__icon2").style.display = "none";
+      passwordInput.type = "password";
+
+    }
+  }
   const signUp = async (e) => {
 
     e.preventDefault();
     const body = {
-      email: e.target.email,
-      password: e.target.password,
-      name: e.target.name,
-      lastName: e.target.lastName,
-      username: e.target.username,
+      email: email,
+      password: password,
+      name: name,
+      lastName: lastname,
+      username: username,
     }
     const res = await fetch('/api/signUp', {
       method: 'POST',
@@ -56,6 +79,7 @@ export default function SignUp({session, csrfToken}) {
       return Router.push('/home');
     }
   }
+  
   return(
 
       <>
@@ -73,6 +97,7 @@ export default function SignUp({session, csrfToken}) {
           <div className="page__form">
             <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>
+              <div className="form__text--error">{message}</div>
               <p className={styles.text}>Introduzca los siguientes datos:</p>
             </div>
             <form className="form-vertical">
@@ -138,16 +163,20 @@ export default function SignUp({session, csrfToken}) {
                 <div className="label">
                   <p className={styles.text}>Contraseña</p>
                   <BsFillLockFill size={25} color={colors.secondary} />
-                </div>   
-                <input
-                  title="Introducir contraseña"
-                  type="password"
-                  name="Contraseña"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="p. ej.: 1Manuel!"
-                  className="input"
-                ></input>
+                </div> 
+                <div className="password__input">  
+                  <input
+                    title="Introducir contraseña"
+                    type="password"
+                    name="Contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="p. ej.: 1Manuel!"
+                    className="input"
+                    id="password"
+                  ></input>
+                  <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                </div>  
                 <div className="tooltip">
                   <div className="tooltip__icon">
                     <AiFillInfoCircle size={20} color={colors.secondary} />
@@ -223,6 +252,18 @@ export default function SignUp({session, csrfToken}) {
 
         }
 
+        .form__text--error{
+
+              /*Text*/
+
+              color: ${colors.secondary};
+              width: 50%;
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: #f55b5b;
+
+        }
         .form-page{
 
           /*Box model*/
@@ -257,7 +298,7 @@ export default function SignUp({session, csrfToken}) {
               display: flex;
               flex-direction: column;
               justify-content: center;
-              margin-top: 10rem;
+              margin-top: 13rem;
               margin-bottom: 10rem;
               width: 20vw;
               height: 50vh;
@@ -349,6 +390,29 @@ export default function SignUp({session, csrfToken}) {
             width: 50%;
             height: 100%;
             margin-right: 2rem;
+
+        }
+
+        .password__input{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+        }
+
+        .password--visibility{
+
+          /*Box model*/
+
+          margin-left: -2rem;
+          margin-bottom: 1.5rem;
+
+          /*Misc*/
+
+          cursor: pointer;
 
         }
 
@@ -515,7 +579,7 @@ export default function SignUp({session, csrfToken}) {
             width: 100%;
             height: 2rem;
             padding: 0.4rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
 
             /*Text*/
 
@@ -580,9 +644,8 @@ export default function SignUp({session, csrfToken}) {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
   return {
-    props: { session,
+    props: { 
     csrfToken: await getCsrfToken(context)},
   }
 }

@@ -11,6 +11,8 @@ import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import {MdEmail} from "react-icons/md";
 import {BsFillLockFill} from "react-icons/bs";
+import {AiFillEye} from "react-icons/ai"
+import {AiFillEyeInvisible} from "react-icons/ai"
 import signIn1 from "../../public/signIn-1.svg"
 
 /*
@@ -33,12 +35,46 @@ export default function SignIn({providers, csrfToken, session}) {
   const [message, setMessage] = useState(null);
   const Router = useRouter();
 
+  /* Checking if the session is true, if it is, it will redirect to the home page. */
   useEffect(
     () => {
       if (session) {
         return Router.push('/home');
   }},[session])
 
+ /**
+  * If the password input type is password, then hide the first icon and show the second icon, and
+  * change the input type to text. Otherwise, show the first icon and hide the second icon, and change
+  * the input type to password
+  */
+  const showPassword = () => {
+
+    let passwordInput = document.getElementById("password");
+    
+    
+    if (passwordInput.type === "password") {
+
+      document.getElementById("show__icon1").style.display = "none";
+      document.getElementById("show__icon2").style.display = "inline";
+      passwordInput.type = "text";
+
+    }
+    else {
+
+      document.getElementById("show__icon1").style.display = "inline";
+      document.getElementById("show__icon2").style.display = "none";
+      passwordInput.type = "password";
+
+    }
+  }
+
+ /**
+  * A function that is called when the user clicks the login button. It takes the email and password
+  * from the form and sends it to the backend. If the login is successful, the user is redirected to
+  * the home page.
+  * @param e - the event object
+  * @returns The user is being returned to the home page.
+  */
   const Login = async (e) => {
 
     e.preventDefault();
@@ -101,15 +137,19 @@ export default function SignIn({providers, csrfToken, session}) {
                       <p className={styles.text}>Contraseña</p>
                       <BsFillLockFill size={25} color={colors.secondary} />
                     </div>
-                    <input
-                      title="Introducir contraseña"
-                      type="password"
-                      name="Contraseña"
-                      value= {password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Contraseña"
-                      className="input"
-                    ></input>
+                    <div className="password__input">
+                      <input
+                        title="Introducir contraseña"
+                        type="password"
+                        name="Contraseña"
+                        value= {password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Contraseña"
+                        className="input"
+                        id="password"
+                      ></input>
+                      <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                    </div>
                   </div>
                   <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>   
                 </form>
@@ -338,6 +378,29 @@ export default function SignIn({providers, csrfToken, session}) {
 
             }
 
+            .password__input{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                
+
+            }
+
+            .password--visibility{
+
+                /*Box model*/
+
+                margin-left: -2rem;
+                margin-bottom: 1.5rem;
+
+                /*Misc*/
+
+                cursor: pointer;
+            }
+            
             h2{
 
                 /*Text*/
@@ -443,6 +506,27 @@ export default function SignIn({providers, csrfToken, session}) {
               }
 
               input[type="password"] {
+
+                /*Box model*/
+
+                width: 100%;
+                height: 2rem;
+                padding: 0.4rem;
+                margin-bottom: 2rem;
+
+                /*Text*/
+
+                font-family: ${fonts.default};
+                font-size: 1rem;
+
+                /*Visuals*/
+
+                border-radius: 5px;
+                border: 0;
+
+              }
+
+              input[type="text"] {
 
                 /*Box model*/
 

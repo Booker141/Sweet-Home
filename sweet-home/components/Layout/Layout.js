@@ -17,8 +17,8 @@ export default function Layout ({children}){
         return(
 
             <>
-            <Header url1='/' url2='/attendances' url3='/about' url4='/contact'
-                    text1='Inicio' text2='Cuidados' text3='Quiénes somos' text4='Contacto' />
+            <Header url1='/attendances' url2='/about' url3='/contact' url4='/signIn'
+                    text1='Cuidados' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' />
                 <div>
                     <main>{children}</main>
                 </div>

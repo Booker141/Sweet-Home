@@ -26,6 +26,7 @@ export const authOptions = {
           password: { label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
+
           const email = credentials.email;
           const password = credentials.password;
           const user = await User.findOneByEmail(email);
@@ -40,6 +41,7 @@ export const authOptions = {
               }
 
               throw new Error("Contraseña incorrecta");
+
           }else{
 
             throw new Error("No se ha encontrado ningún usuario");
@@ -56,9 +58,9 @@ export const authOptions = {
     pages: {
       signIn: '/signIn',
       signOut: '/signOut',
-      error: '_error.js', // Error code passed in query string as ?error=
+      error: '/_error.js', // Error code passed in query string as ?error=
       verifyRequest: '/auth/verify-request', // (used for check email message)
-      newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+      newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     }
   }
 

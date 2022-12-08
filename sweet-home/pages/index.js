@@ -25,15 +25,18 @@ import component3 from '../public/component3-home.svg'
 
 export default function Principal(){
 
-  const {data: session, status} = useSession({required: true});
+  const {data: session, status} = useSession({required: false});
   const router = useRouter();
 
   return(
 
     <>
       <Head><title>Sweet Home</title></Head>
-      <Header url1="/attendances" url2="/about" url3="/contact" url4="/signIn"
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/>
+
+      {!session ? <Header url1="/attendances" url2="/about" url3="/contact" url4="/signIn"
+                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/> :  <Header url1="/attendances" url2="/about" url3="/contact" 
+                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" /> }
+      
       <div className={styles.content}>
         <a name="top"></a>
         <div className="content__container1">

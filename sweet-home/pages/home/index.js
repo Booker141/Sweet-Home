@@ -17,7 +17,7 @@ import Router from 'next/router'
  */
 export default function PostList (){
 
-      const { status } = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")},});
+      const { status } = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")}});
 
       return (
           <>

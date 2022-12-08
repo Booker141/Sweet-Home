@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { useSession, signIn, signOut} from "next-auth/react"
+import styles from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
 import Trademark from "components/Trademark/Trademark"
 
 /*
@@ -32,21 +34,46 @@ export default function Header(props){
     if (session){
         return(    
             <>
-
-                        <ul className="header">
-                            <li><Trademark link="/"/></li>
-                            <li><Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link></li>
-                            <li><Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link></li>
-                            <li><Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link></li>
-                            <li className="menu-visible"><a href="/Profile">{session.user.email}▾</a>
-                                <ul className="menu">
-                                    <li><Link href="/signOut"><a onClick={(e) => {e.preventDefault() 
-                                                                                    signOut()}}>Cerrar sesión</a></Link></li></ul></li>
-                        </ul>   
-
+            <div className="content__header">
+                <ul className="header">
+                    <li><Trademark link="/"/></li>
+                    <li><Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link></li>
+                    <li><Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link></li>
+                    <li><Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link></li>
+                    <li className="menu-visible"><a id="profile">{session.user.email}▾</a>
+                        <ul className="menu">
+                            <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
+                            <li className="nav__link"><Link href="/signOut" as="/signOut"><a onClick={() => signOut()}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></Link></li></ul></li>
+                        </ul>        
+            </div>
                 <style jsx>{`
+
+            
+
+                #profile{
+                    /*Box model*/
+
+                    margin-bottom: 1rem;
+
+                    /*Text*/
+
+                    text-decoration: none;
+                    color: ${colors.primary};
+                    font-size: 1.2rem;
+                    font-family: ${fonts.default};
+                    cursor: default;
+
+                }
+
+                .content__header{
+
+                    /*Box model*/
+
+                    margin-right: 6rem;
+                    margin-left: 0.5rem;
                 
-                
+                }
+
                 .header{
 
                     
@@ -68,10 +95,6 @@ export default function Header(props){
                     margin-bottom: 8rem;
                     margin-left: 0.1rem;
 
-                    /*Visuals*/
-                    
-                    
-                    background-color: ${props.color};
                 }
 
                 .menu{
@@ -80,20 +103,22 @@ export default function Header(props){
 
                     display: none;
                     position: absolute;
-                    top: 2rem;
+                    margin-bottom: 1rem;
                     z-index: 1;
-                    width: 15%;
-                    height: 2.5rem;
+                    width: 20%;
+                    height: 7rem;
+
                     /*Visuals*/
 
-                    border-radius: 10px;
+                    background-color: ${colors.secondary};
+                    border-radius: 0 0 10px 10px;
                 }
 
                 .menu a{
 
                     /*Text*/
 
-                    color: ${colors.secondary};
+                    color: ${colors.primary};
 
                     /*Visuals*/
 
@@ -106,18 +131,57 @@ export default function Header(props){
 
                     display: block;
                     position: absolute;
-                    top: 2rem;
+                    
                     z-index: 1;
 
-                    /*Visual*/
+                    /*Text*/
 
-                    background-color: ${colors.primary};
+                    font-family: ${fonts.default};
+                    color: ${colors.primary};
+
+                    /*Visual*/  
+
+                    background-color: white;
+                    border-bottom: 1px solid ${colors.primary};
+                    border-right: 1px solid ${colors.primary};
+                    border-left: 1px solid ${colors.primary};
+
 
                     /*Text*/
 
                     color: ${colors.secondary};
                 }
+
+                .nav__link{
+
+                    /*Box model*/
+
+                    margin-top: 1rem;
+                    display: flex;
+                    flex-direction: row;
+                }
+                
+                .align__link{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+
+                }
+
+                .nav__icon{
+
+                    /*Box model*/
+
+                    margin-left: 1rem;
+                }
+
                 a{
+
+                    /*Box model*/
+
+                    margin-bottom: 1rem;
 
                     /*Text*/
 
