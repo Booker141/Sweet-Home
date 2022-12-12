@@ -1,4 +1,4 @@
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 /*
     * @author Sergio García Navarro
     * @returns Button component
@@ -14,10 +14,10 @@ import styles from "styles/global.module.css"
  * @param {size} - size of the button
  * @returns A button with a description and size.
  */
-export default function ButtonSecondary({ onClick, children}) {
+export default function ButtonSecondary({onClick, children}) {
   return (
     <>
-      <button className={styles.buttonSecondary} onClick={onClick}>{children}</button>
+      <button className={global.buttonSecondary} onClick={onClick}>{children}</button>
     </>
   );
 }

@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import {useSession} from 'next-auth/react'
 import Router from 'next/router'
-import styles from "styles/global.module.css"
+import {MongoClient} from 'mongodb'
+import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 
 /* 
@@ -16,7 +17,7 @@ import Layout from "components/Layout/Layout"
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function PostList (){
+export default function PostList ({posts}){
 
       const { status } = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")}});
 
@@ -25,8 +26,8 @@ export default function PostList (){
             <>
               <Head><title>Reciente</title></Head>
               <a name="top"></a>
-              <div className={styles.content}>
-                {/*posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+              <div className={global.content}>
+                {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
                   return (
                     <>
                       <div key={_id}>
@@ -46,13 +47,25 @@ export default function PostList (){
                       </div>
                     </>
                   )
-                ))*/}
+                })}
             </div>
-            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
           </>
         </Layout>
       )
     }
 
 
+export async function getServerSideProps(){ 
 
+    const client = await MongoClient.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+    const db = client.db();
+    const posts = await db.collection("posts").find().toArray();
+
+    
+    return {
+        props: {
+            posts: JSON.parse(JSON.stringify(posts))
+        }
+    }
+}

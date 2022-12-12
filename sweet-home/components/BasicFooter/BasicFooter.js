@@ -1,5 +1,5 @@
 import {fonts} from "styles/frontend-conf.js"
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import Link from 'next/link'
 /*
     * @author Sergio García Navarro
@@ -27,12 +27,12 @@ export default function BasicFooter(props){
         <>
             
             <div className="footer">
-                <hr className={styles.line}></hr>
+                <hr className={global.line}></hr>
                 <div className="footer__links">
-                    <Link className={styles.link} href={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
-                    <Link className={styles.link} href={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
-                    <Link className={styles.link} href={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
-                    <Link className={styles.link} href={url4} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
+                    <Link className={global.link} href={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
+                    <Link className={global.link} href={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
+                    <Link className={global.link} href={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
+                    <Link className={global.link} href={url4} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
                     <div className="copyright">
                         <p> Copyright &copy; 2022 Sweet Home Corporation</p>
                     </div>

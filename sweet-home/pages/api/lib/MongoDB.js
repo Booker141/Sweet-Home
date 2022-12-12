@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 
 if (!process.env.MONGODB_URI) {
-  throw new Error('No se ha podido conectar a la base datos')
+  throw new Error('No se ha podido conectar a la base de datos')
 }
 
 const uri = process.env.MONGODB_URI;

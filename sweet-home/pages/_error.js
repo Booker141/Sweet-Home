@@ -4,7 +4,7 @@ import {MdPets} from 'react-icons/md'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
 import ButtonPrimary from "/components/ButtonPrimary/ButtonPrimary"
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 
 /*
     * @author Sergio García Navarro
@@ -24,20 +24,20 @@ function Error({ statusCode }) {
         <Head>
           <title>¡Ups! Algo ha salido mal.. Error {statusCode}</title>
         </Head>
-        <div className={styles.content}>
+        <div className={global.content}>
 
           <div className="error">
             <div className="first-line">
               <MdPets size={35} color={colors.primary} className="icon"/>
-              <h1 className={styles.title}>Error {statusCode}</h1>
+              <h1 className={global.title}>Error {statusCode}</h1>
               <MdPets size={35} color={colors.primary} className="icon"/>
             </div>
 
             <div className="second-line">
-              <h1 className={styles.title}>
+              <h1 className={global.title}>
                 Vaya... este perro se ha comido la página 
               </h1>
-              <h2 className={styles.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas, un momento ¿dónde están mis zapatos?</h2>
+              <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas, un momento ¿dónde están mis zapatos?</h2>
               <ButtonPrimary className="button" onClick={() => router.back()}>Volver</ButtonPrimary>
             </div>
             <img src="/error-1.jpg" alt="Imagen de perro curándose"/>

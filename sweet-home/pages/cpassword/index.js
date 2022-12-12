@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
@@ -24,8 +24,8 @@ export default function CPassword(){
         <>
             <Head><title>Cambiar contraseña</title></Head>
             
-            <div className={styles.content}>
-            <h1 className={styles.title}>Cambiar contraseña</h1>
+            <div className={global.content}>
+            <h1 className={global.title}>Cambiar contraseña</h1>
                 <div className="form">
                     <form>
                         <input 
@@ -49,7 +49,7 @@ export default function CPassword(){
                             placeholder="Confirmar contraseña nueva"
                             className="input">       
                         </input>
-                        <input className={styles.buttonPrimary} type="submit" value="Confirmar"></input>
+                        <input className={global.buttonPrimary} type="submit" value="Confirmar"></input>
                     </form>    
                 </div>
             </div>

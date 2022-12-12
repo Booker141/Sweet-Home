@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image'
-import styles from 'styles/global.module.css';
+import global from 'styles/global.module.css';
 import {colors} from "styles/frontend-conf.js";
 import Layout from "components/Layout/Layout";
 import accessibility1 from "../../public/accessibility-1.svg"
@@ -28,10 +28,10 @@ export default function Accessibility(){
         <>
             <Head><title>Accesibilidad</title></Head>
             <Layout>
-                <div className={styles.content}>    
+                <div className={global.content}>    
                     <a name="top"></a>
-                    <h1 className={styles.title}>Accesibilidad ⦿</h1>
-                    <p className={styles.text}>En Sweet Home, velamos por 
+                    <h1 className={global.title}>Accesibilidad ⦿</h1>
+                    <p className={global.text}>En Sweet Home, velamos por 
                     aquellos usuarios que puedan tener dificultades a la hora 
                     de utilizar la aplicación. Por ello, hemos pensado desde 
                     el primer minuto en facilitar su adaptación a la aplicación 
@@ -40,9 +40,9 @@ export default function Accessibility(){
                     
                     <div className="content__container">
                         <div className="container__column">
-                            <h2 className={styles.secondary}>Color y contraste</h2>
+                            <h2 className={global.secondary}>Color y contraste</h2>
                             <hr className="discontinuous"></hr>
-                            <p className={styles.text}>Hemos elegido colores con 
+                            <p className={global.text}>Hemos elegido colores con 
                             mucho contraste respecto al fondo para una fácil lectura e 
                             interacción, ya que el uso de colores poco contrastados 
                             puede ocasionar dolores de cabeza.</p>
@@ -57,9 +57,9 @@ export default function Accessibility(){
                             <Image src={accessibility2} alt="Constructor de sitios"/>
                         </div>
                         <div className="container__column">
-                            <h2 className={styles.secondary}>Diseño minimalista</h2>
+                            <h2 className={global.secondary}>Diseño minimalista</h2>
                             <hr className="discontinuous"></hr>
-                            <p className={styles.text}>En Sweet Home, los diseñadores 
+                            <p className={global.text}>En Sweet Home, los diseñadores 
                             han apostado por un diseño claro y bien distribuido, 
                             facilitando la búsqueda de información en la aplicación 
                             para que todas las personas independientemente de la discapacidad que puedan tener se sientan cómodas.</p>
@@ -68,9 +68,9 @@ export default function Accessibility(){
 
                     <div className="content__container">
                         <div className="container__column">
-                            <h2 className={styles.secondary}>Enlaces y botones</h2>
+                            <h2 className={global.secondary}>Enlaces y botones</h2>
                             <hr className="discontinuous"></hr>
-                            <p className={styles.text}>Hemos diseñado enlaces y botones 
+                            <p className={global.text}>Hemos diseñado enlaces y botones 
                             suficientemente contrastados para facilitar su uso; y con un tamaño medido
                             para que sean fáciles de utilizar en cualquier dispositivo.</p>
                         </div>
@@ -84,9 +84,9 @@ export default function Accessibility(){
                             <Image src={accessibility4} alt="Diseño web" />
                         </div>
                         <div className="container__column">
-                            <h2 className={styles.secondary}>Fuente clara</h2>
+                            <h2 className={global.secondary}>Fuente clara</h2>
                             <hr className="discontinuous"></hr>
-                            <p className={styles.text}>Hemos elegido una tipografía 
+                            <p className={global.text}>Hemos elegido una tipografía 
                              agradable a la vista y que cuadrase con las personalidad 
                             e ideales de nuestra compañía. Los textos tienen el tamaño 
                             ideal para personas con baja visión y dislexia.</p>
@@ -95,9 +95,9 @@ export default function Accessibility(){
                     
                     <div className="content__container">
                         <div className="container__column">
-                            <h2 className={styles.secondary}>Contenido de lectura fácil</h2>
+                            <h2 className={global.secondary}>Contenido de lectura fácil</h2>
                             <hr className="discontinuous"></hr>
-                            <p className={styles.text}>En Sweet Home, todas las páginas 
+                            <p className={global.text}>En Sweet Home, todas las páginas 
                             han sido estructuradas de tal forma para facilitar la 
                             lectura. Además, el vocabulario utilizado no es muy 
                             complejo por lo que hace aún más atractiva la aplicación.</p>
@@ -108,7 +108,7 @@ export default function Accessibility(){
                     </div>
                 </div>
 
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
 
             </Layout>
 

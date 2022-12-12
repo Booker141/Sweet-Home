@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import {signOut, useSession} from 'next-auth/react'
 import Router from 'next/router'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 
 export default function SignOut(){
@@ -12,14 +12,14 @@ export default function SignOut(){
             <Layout>
                 <>
                     <Head>Cerrar sesión</Head>
-                    <div className={styles.content}>
+                    <div className={global.content}>
                         <div className="center">
                             <div className="card">
-                                <h2 className={styles.title}>Cerrar sesión</h2>
-                                <p className={styles.text}>¿Estás seguro de que quieres cerrar sesión?</p>
+                                <h2 className={global.title}>Cerrar sesión</h2>
+                                <p className={global.text}>¿Estás seguro de que quieres cerrar sesión?</p>
                                 <div className="buttons">
-                                    <button className={styles.buttonPrimary} onClick={() => signOut()}>Sí</button>
-                                    <button className={styles.buttonTertiary} onClick={() => Router.back()}>No</button>
+                                    <button className={global.buttonPrimary} onClick={() => signOut()}>Sí</button>
+                                    <button className={global.buttonTertiary} onClick={() => Router.back()}>No</button>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import Layout from "/components/Layout/Layout"
 import {useSession} from 'next-auth/react'
 
@@ -26,7 +26,7 @@ export default function Attendances() {
                     <title>Cuidados</title>
                 </Head>
                 <a name="top"></a>
-                <a href="#top" className={styles.buttonTo}>↑</a>
+                <a href="#top" className={global.buttonTo}>↑</a>
             </>
         </Layout>      
     )   

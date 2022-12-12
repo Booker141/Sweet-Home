@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
@@ -34,18 +34,18 @@ export default function Contact(){
                 <Head>
                     <title>Contacto</title>
                 </Head>
-                <div className={styles.content}>
+                <div className={global.content}>
                     <a name="top"></a>
-                    <h1 className={styles.title}>Contacto</h1>
+                    <h1 className={global.title}>Contacto</h1>
                     <div className="contact__container">
                         <div className="container__info">
-                            <h2 className={styles.title2}>¿Quieres contactar con nosotros?</h2>
-                            <p className={styles.text2}>Para contactar con Sweet Home y 
+                            <h2 className={global.title2}>¿Quieres contactar con nosotros?</h2>
+                            <p className={global.text2}>Para contactar con Sweet Home y 
                             así recoger feedback para mejorar nuestro servicio, puede hacerlo
                             a través de nuestras redes sociales.</p>
                         </div>
                         <div className="container__social">
-                            <h2 className={styles.title2}>Redes sociales</h2>
+                            <h2 className={global.title2}>Redes sociales</h2>
                             <a aria-label="Enlace de Facebook" href="https://www.facebook.com/sweethome.es/">
                                 Facebook <BsFacebook className="icon"/>
                             </a>
@@ -58,12 +58,12 @@ export default function Contact(){
                         </div>
                     </div>
                     <div className="email">
-                        <p className={styles.text}>O a través del siguiente correo electrónico:  </p>
+                        <p className={global.text}>O a través del siguiente correo electrónico:  </p>
                         <a title="Enviar correo" aria-label="Enlace a correo de atención al cliente" href="mailto:atenciónSH@gmail.com"> &nbsp; atenciónSH@gmail.com</a>
                     </div>
                     <div className="personal__container">
-                        <h2 className={styles.title2}>Información personal</h2>
-                        <p className={styles.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
+                        <h2 className={global.title2}>Información personal</h2>
+                        <p className={global.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
            
                         <form className="form">
                             <div className="form__email">
@@ -129,11 +129,11 @@ export default function Contact(){
                                 <label for="finalcheckbox" class="check">Acepto la <a className="privacidad" aria-label="Ir a Privacidad" href="/privacy">Privacidad</a></label>
                                 </div>
 
-                                <ButtonTertiary className={styles.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
+                                <ButtonTertiary className={global.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
                         </form>
                     </div>
                 </div>
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
                 <style jsx>{`
 
 

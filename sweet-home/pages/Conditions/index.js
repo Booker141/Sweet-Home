@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
@@ -23,13 +23,13 @@ export default function Conditions() {
         <Layout>
             <>
             <Head><title>Condiciones</title></Head>
-            <div className={styles.content}>
+            <div className={global.content}>
                 <a name="top"></a>
                 <h2 className="first-line">5 de agosto de 2022</h2>
-                <hr className={styles.line}></hr>
-                <h1 className={styles.title}>Términos y condiciones de Sweet Home ☑︎</h1>
-                <h2 className={styles.secondary}>1. ¿Qué es Sweet Home?</h2>
-                <p className={styles.text}>Sweet Home es una red social 
+                <hr className={global.line}></hr>
+                <h1 className={global.title}>Términos y condiciones de Sweet Home ☑︎</h1>
+                <h2 className={global.secondary}>1. ¿Qué es Sweet Home?</h2>
+                <p className={global.text}>Sweet Home es una red social 
                 desarrollada por Sweet Home Corporation que se encarga de reunir 
                 a todas las personas interesadas en el mundo de la adopción animal
                 y de animales perdidos o abandonados para darles las mejores 
@@ -39,8 +39,8 @@ export default function Conditions() {
                 de las últimas novedades.</p>
                 <hr className="black-line"></hr>
 
-                <h2 className={styles.secondary}>2. ¿Cuál es el alcance de la aplicación?</h2>
-                <p className={styles.text}>Sweet Home contempla una gran diversidad 
+                <h2 className={global.secondary}>2. ¿Cuál es el alcance de la aplicación?</h2>
+                <p className={global.text}>Sweet Home contempla una gran diversidad 
                 de usuarios eludiendo la restricción de edades, usada en su mayoría 
                 en otras aplicaciones similares. Podrá ser usada por adultos y niños, 
                 estos últimos con previo consentimiento de sus tutores legales. Además, tiene como objetivo facilitar el proceso de adopción, búsqueda y 
@@ -51,8 +51,8 @@ export default function Conditions() {
                 pensada para este perfil de usuario desde los inicios.</p>
                 <hr className="black-line"></hr>
 
-                <h2 className={styles.secondary}>3. Uso de la aplicación como usuario registrado</h2>
-                <p className={styles.text}>Para acceder a las funciones de la aplicación, 
+                <h2 className={global.secondary}>3. Uso de la aplicación como usuario registrado</h2>
+                <p className={global.text}>Para acceder a las funciones de la aplicación, 
                 necesita crear una cuenta y acceder como usuario. Aparte de las garantías 
                 de seguridad que proporciona Sweet Home, debe ser responsable de la seguridad 
                 de su cuenta, haciendo uso de una contraseña robusta y limitando el acceso a su persona.  
@@ -60,22 +60,22 @@ export default function Conditions() {
                 publicación de información y contenido multimedia e interacción con los usuarios.</p>
                 <hr className="black-line"></hr>
 
-                <h2 className={styles.secondary}>4. Política de datos</h2>
-                <p className={styles.text}>Para llevar a cabo todas las funciones, 
+                <h2 className={global.secondary}>4. Política de datos</h2>
+                <p className={global.text}>Para llevar a cabo todas las funciones, 
                 Sweet Home recopila datos y usa esa información para diversos fines. 
                 En el apartado “enlace a política de privacidad” describimos las formas 
                 de recopilación y uso de los datos proporcionados.</p>
                 <hr className="black-line"></hr>
 
-                <h2 className={styles.secondary}>5. ¿Cómo eliminar mi cuenta de la aplicación?</h2>
-                <p className={styles.text}>Todos los usuarios pueden eliminar su cuenta desde la configuración de su perfil. 
+                <h2 className={global.secondary}>5. ¿Cómo eliminar mi cuenta de la aplicación?</h2>
+                <p className={global.text}>Todos los usuarios pueden eliminar su cuenta desde la configuración de su perfil. 
                 Sweet Home recomienda el uso adecuado de esta función ya que no se hace cargo 
                 de las eliminaciones accidentales. Si la cuenta ya ha sido eliminada no podrá 
                 ser recuperada</p>
                 <hr className="black-line"></hr>
 
-                <h2 className={styles.secondary}>6. Responsabilidad de Sweet Home</h2>
-                <p className={styles.text}>Sweet Home garantiza la seguridad del uso de su aplicación 
+                <h2 className={global.secondary}>6. Responsabilidad de Sweet Home</h2>
+                <p className={global.text}>Sweet Home garantiza la seguridad del uso de su aplicación 
                 así como un tratamiento correcto de los datos. El usuario es el 
                 responsable de los dispositivos electrónicos y servicios que debe 
                 poseer para hacer uso de la aplicación. Los costes de estos servicios 
@@ -88,7 +88,7 @@ export default function Conditions() {
                 derecho de cerrar dicha aplicación sin deber nada a los usuarios.
                 </p>
             </div>
-            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
             <style jsx>{`
 
                     .first-line{

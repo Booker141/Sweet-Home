@@ -1,4 +1,4 @@
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 /*
     * @author Sergio García Navarro
     * @returns Button component
@@ -17,7 +17,7 @@ import styles from "styles/global.module.css"
 export default function ButtonPrimary({ onClick, children}) {
   return (
     <>
-      <button className={styles.buttonPrimary} onClick={onClick}>{children}</button>
+      <button className={global.buttonPrimary} onClick={onClick}>{children}</button>
     </>
   );
 }

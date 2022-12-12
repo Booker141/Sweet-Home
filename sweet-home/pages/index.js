@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {useSession} from 'next-auth/react'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
@@ -37,7 +37,7 @@ export default function Principal(){
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión"/> :  <Header url1="/attendances" url2="/about" url3="/contact" 
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" /> }
       
-      <div className={styles.content}>
+      <div className={global.content}>
         <a name="top"></a>
         <div className="content__container1">
           <div className="container1__title">
@@ -56,8 +56,8 @@ export default function Principal(){
               </span>
             </h1>
           </div>
-          <p className={styles.text}>Somos una empresa dedicada a la <span className={styles.colorized}> &nbsp; atención de 
-          mascotas </span>, brindando servicios de cuidado y hospedaje para <span className={styles.colorized}> &nbsp; todo tipos de 
+          <p className={global.text}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de 
+          mascotas </span>, brindando servicios de cuidado y hospedaje para <span className={global.colorized}> &nbsp; todo tipos de 
           mascotas</span>.</p>
         </div>
         <div className="imagen-inicio1">
@@ -65,7 +65,7 @@ export default function Principal(){
         </div>
         <div className="content__container2">
           <div className="container2__column1">
-            <h1>¡Únete ahora mismo a nuestra <span className={styles.colorized}>comunidad</span>!</h1>
+            <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
             <ButtonPrimary onClick={() => router.push('/signUp')}>Regístrate</ButtonPrimary>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
@@ -79,79 +79,79 @@ export default function Principal(){
         </div>
         <Carousel/>
         <div className="content__container3">
-            <h2 className={styles.title}>¿Qué es Sweet Home?</h2>
-            <p className={styles.text}>Es una red social que abarca el mundo animal
+            <h2 className={global.title}>¿Qué es Sweet Home?</h2>
+            <p className={global.text}>Es una red social que abarca el mundo animal
              y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños 
              y a una mejora diaria de su vida.</p>
-            <Link href="/about"><a className={styles.link} aria-label="Ir a información sobre Sweet Home">Saber más →</a></Link>
+            <Link href="/about"><a className={global.link} aria-label="Ir a información sobre Sweet Home">Saber más →</a></Link>
         </div>
   
         <div className="content__container4">
           <div className="container4__column1">
-            <h2 className={styles.title}>¿Qué nos diferencia?</h2>
-            <p className={styles.text}>Nuestra red social se diferencia de otras 
+            <h2 className={global.title}>¿Qué nos diferencia?</h2>
+            <p className={global.text}>Nuestra red social se diferencia de otras 
             redes sociales en las siguientes características: </p>
           </div>
-            <div className={styles.cards}>
-              <div className={styles.card__short}>
+            <div className={global.cards}>
+              <div className={global.card__short}>
                 <div style={{color: '#f0810f'}}>
                     <MdPets size={37}/>
                 </div>  
-                <h2 className={styles.title2}>Cuidados</h2>
-                <p className={styles.text}>En nuestra red social podrás encontrar 
+                <h2 className={global.title2}>Cuidados</h2>
+                <p className={global.text}>En nuestra red social podrás encontrar 
                 cuidados que mejoren la calidad de vida de tu mascota.</p>
               </div>
-              <div className={styles.card__short}>
+              <div className={global.card__short}>
                 <div style={{color: '#f0810f'}}>
                     <GiPlantsAndAnimals size={37}/>
                 </div>
-                <h2 className={styles.title2}>Comunidad</h2>
-                <p className={styles.text}>Aquí encontrarás una comunidad de amantes
+                <h2 className={global.title2}>Comunidad</h2>
+                <p className={global.text}>Aquí encontrarás una comunidad de amantes
                  de los animales que pueden darte consejos sobre vuestras mascotas.</p>
               </div>
-              <div className={styles.card__short}>
+              <div className={global.card__short}>
                 <div style={{color: '#f0810f'}}>
                     <CgCommunity size={37}/>
                 </div>
-                <h2 className={styles.title2}>Cuidadoras</h2>
-                <p className={styles.text}>¡Existen perfiles exclusivos de cuidadoras
+                <h2 className={global.title2}>Cuidadoras</h2>
+                <p className={global.text}>¡Existen perfiles exclusivos de cuidadoras
                 si quieres encontrar tu mascota ideal!</p>
               </div>
             </div>    
         </div>
 
         <div className="content__container5">
-            <h2 className={styles.title}>Rompemos las limitaciones</h2>
-            <p className={styles.text}>Nuestra red social rompe las limitaciones en cuanto 
-            a los <span className={styles.colorized}> &nbsp;dispositivos&nbsp; </span> en las que se puede utilizar:</p>  
+            <h2 className={global.title}>Rompemos las limitaciones</h2>
+            <p className={global.text}>Nuestra red social rompe las limitaciones en cuanto 
+            a los <span className={global.colorized}> &nbsp;dispositivos&nbsp; </span> en las que se puede utilizar:</p>  
             <div className="container5__column1">
-              <h2 className={styles.title2}>¿Qué dispositivos soporta?</h2>
+              <h2 className={global.title2}>¿Qué dispositivos soporta?</h2>
               <div className="icons">
                   <div style={{color: '#f0810f'}} className="icon__item">
                       <AiOutlineMobile size={80}/>
-                      <p className={styles.text}>Móviles</p>  
+                      <p className={global.text}>Móviles</p>  
                   </div>  
                   <div style={{color: '#f0810f'}} className="icon__item">
                       <AiOutlineTablet size={80}/>
-                      <p className={styles.text}>Tablets</p>
+                      <p className={global.text}>Tablets</p>
                   </div>  
                   <div style={{color: '#f0810f'}} className="icon__item">
                       <BsLaptop size={80}/>
-                      <p className={styles.text}>Ordenadores</p>
+                      <p className={global.text}>Ordenadores</p>
                   </div>  
               </div>
             </div>
         </div>
       </div>
       <div className="content__container6">
-        <h2 className={styles.title}>Nuestra misión</h2>
+        <h2 className={global.title}>Nuestra misión</h2>
         <div className="container6__column1">
           <div className="column1__text">
-            <p className={styles.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas 
+            <p className={global.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas 
             publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes 
             cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer? 
             Con Sweet Home daremos respuesta a estas preguntas.</p>
-            <p className={styles.text}>El objetivo principal de Sweet Home es facilitándole a los dueños funcionalidades que usar en su día a día. 
+            <p className={global.text}>El objetivo principal de Sweet Home es facilitándole a los dueños funcionalidades que usar en su día a día. 
             Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato 
             con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales 
             que sean de interés.</p>
@@ -161,15 +161,15 @@ export default function Principal(){
             <Image src={inicio2} alt="Familia en la naturaleza" />
           </div>
         </div>  
-        <h2 className={styles.title}>¿Cómo la llevamos a cabo?</h2>
+        <h2 className={global.title}>¿Cómo la llevamos a cabo?</h2>
         <div className="container6__column2">
           <div className="column2__text">
-            <p className={styles.text}>Para llevar a cabo nuestra misión, hemos 
+            <p className={global.text}>Para llevar a cabo nuestra misión, hemos 
             creado una red social que permite a los usuarios compartir información
              sobre sus mascotas, así como también, información sobre animales 
              perdidos o encontrados. Además, los usuarios podrán seguir a los 
              centros de acogida de animales que sean de su interés.</p>
-            <p className={styles.text}>Además, los usuarios podrán publicar fotos 
+            <p className={global.text}>Además, los usuarios podrán publicar fotos 
             e información de los animales, permitir el contacto inmediato con el 
             usuario que ha realizado una publicación y seguir a los centros de 
             acogida de animales que sean de interés.</p>
@@ -180,7 +180,7 @@ export default function Principal(){
         </div>
       </div>
       
-      <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+      <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
 
       <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>

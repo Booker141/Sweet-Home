@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
@@ -24,14 +24,14 @@ export default function News() {
         <Layout>
             <>
             <Head><title>Noticias</title></Head>
-            <div className={styles.content}>
+            <div className={global.content}>
                 <a name="top"></a>
                 <section>
-                    <h1 className={styles.title}>Últimas noticias ✧</h1>
+                    <h1 className={global.title}>Últimas noticias ✧</h1>
                     <article>
-                        <h2 className={styles.secondary}>Carlota nos cuenta su experiencia en Sweet Home</h2>
-                        <h3 className={styles.tertiary}>18/08/2022</h3>
-                        <p className={styles.text}>Hace unos meses, estuvo pensando en regalarle a su 
+                        <h2 className={global.secondary}>Carlota nos cuenta su experiencia en Sweet Home</h2>
+                        <h3 className={global.tertiary}>18/08/2022</h3>
+                        <p className={global.text}>Hace unos meses, estuvo pensando en regalarle a su 
                         hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.
 
                         A mediados del año pasado, Carlota decidió adoptar un gato a través de Sweet 
@@ -70,28 +70,28 @@ export default function News() {
                         </div>
                         
 
-                        <hr className={styles.line}></hr>
+                        <hr className={global.line}></hr>
                     </article>
 
                     <article>
-                        <h2 className={styles.secondary}>Nueva actualización v1.0.0</h2>
-                        <h3 className={styles.tertiary}>20/08/2022</h3>
-                        <p className={styles.text}>A continuación, entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
+                        <h2 className={global.secondary}>Nueva actualización v1.0.0</h2>
+                        <h3 className={global.tertiary}>20/08/2022</h3>
+                        <p className={global.text}>A continuación, entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
 
                         <h3 className="highlighted">Notas del parche 1.0.0</h3>
-                        <ul className={styles.list}>
+                        <ul className={global.list}>
                             <li> Crear publicaciones a través de la página principal.</li>
                             <li>Chatear con tus amigos.</li>
                             <li>Consultar cuidados en el foro.</li>
                             <li>Seguir a los usuarios para enterarte de las últimas novedades.</li>
                         </ul>
-                        <hr className={styles.line}></hr>
+                        <hr className={global.line}></hr>
                     </article>
 
                     <article>
-                        <h2 className={styles.secondary}>¿Estás perdido?</h2>
-                        <h3 className={styles.tertiary}>21/08/2022</h3>
-                        <p className={styles.text}>Su creador Sergio García nos da pistas sobre las esperadas actualizaciones que están por venir y nos explica un poco el funcionamiento de la última actualización, la v1.0.0.</p>
+                        <h2 className={global.secondary}>¿Estás perdido?</h2>
+                        <h3 className={global.tertiary}>21/08/2022</h3>
+                        <p className={global.text}>Su creador Sergio García nos da pistas sobre las esperadas actualizaciones que están por venir y nos explica un poco el funcionamiento de la última actualización, la v1.0.0.</p>
 
                         <h3 className="highlighted">1º¿Qué van a traer las nuevas actualizaciones?</h3>
                         <div className="dialog">
@@ -127,7 +127,7 @@ export default function News() {
                         
                     </article>
                 </section>
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={styles.buttonTo}>↑</a>
+                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
             </div>
             
             <style jsx>{`

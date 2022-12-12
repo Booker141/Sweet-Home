@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {useState} from 'react'
 import {getCsrfToken, useSession} from "next-auth/react"
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
 import Header from "components/Header/Header"
@@ -86,7 +86,7 @@ export default function SignUp({csrfToken}) {
         
         <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
-        <div className={styles.content}>
+        <div className={global.content}>
         <div className="page">
           <div className="page__image">
             <Image src={signUp1} width={2000} height={2000} alt="Imagen de registro" priority/>
@@ -95,13 +95,13 @@ export default function SignUp({csrfToken}) {
             <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>
               <div className="form__text--error">{message}</div>
-              <p className={styles.text}>Introduzca los siguientes datos:</p>
+              <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
             <form className="form-vertical">
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-vertical__email">
                 <div className="label">
-                  <p className={styles.text}>Email</p>
+                  <p className={global.text}>Email</p>
                   <MdEmail size={20} color={colors.secondary} />
                 </div>
                 <input
@@ -115,7 +115,7 @@ export default function SignUp({csrfToken}) {
               </div>
               <div className="form-vertical__name">
                 <div className="label">
-                  <p className={styles.text}>Nombre</p>
+                  <p className={global.text}>Nombre</p>
                   <FaUserPlus size={20} color={colors.secondary} />
                 </div>
                 <input
@@ -129,7 +129,7 @@ export default function SignUp({csrfToken}) {
               </div>
               <div className="form-vertical__lastname">
                 <div className="label">
-                  <p className={styles.text}>Apellidos</p>
+                  <p className={global.text}>Apellidos</p>
                   <FaUserPlus size={20} color={colors.secondary} />
                 </div>
                 <input
@@ -143,7 +143,7 @@ export default function SignUp({csrfToken}) {
               </div>
               <div classname="form-vertical__username">
                 <div className="label">
-                  <p className={styles.text}>Nombre de usuario</p>
+                  <p className={global.text}>Nombre de usuario</p>
                   <FaUser size={20} color={colors.secondary} />
                 </div>
                 <input
@@ -158,7 +158,7 @@ export default function SignUp({csrfToken}) {
               </div>
               <div classname="form-vertical__password">
                 <div className="label">
-                  <p className={styles.text}>Contraseña</p>
+                  <p className={global.text}>Contraseña</p>
                   <BsFillLockFill size={25} color={colors.secondary} />
                 </div> 
                 <div className="password__input">  
@@ -177,7 +177,7 @@ export default function SignUp({csrfToken}) {
                 <div className="tooltip">
                   <div className="tooltip__icon">
                     <AiFillInfoCircle size={20} color={colors.secondary} />
-                    <p className={styles.text}> Información contraseña</p>
+                    <p className={global.text}> Información contraseña</p>
                   </div>
                   <div className="tooltiptext">
                     <p> - La contraseña debe tener al menos 8 caracteres.</p>

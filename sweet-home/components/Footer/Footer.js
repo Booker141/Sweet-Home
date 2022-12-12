@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import BasicFooter from 'components/BasicFooter/BasicFooter'
@@ -45,21 +45,21 @@ export default function Footer(){
                         <div className="columns__column1">
                             <h3 className="column1__title">Sweet Home</h3>
                             <div className="column1__links">
-                                <Link className={styles.link} href="/about"><a aria-label="Ir a información sobre Sweet Home">Sobre nosotros</a></Link>
-                                <Link className={styles.link} href="/contact"><a aria-label="Ir a información de contacto">Contáctanos</a></Link>
+                                <Link className={global.link} href="/about"><a aria-label="Ir a información sobre Sweet Home">Sobre nosotros</a></Link>
+                                <Link className={global.link} href="/contact"><a aria-label="Ir a información de contacto">Contáctanos</a></Link>
                             </div>
                         </div>
                         <div className="columns__column2">
                             <h3 className="column2__title">Ayuda</h3>
                             <div className="column2__links">
-                                <Link className={styles.link} href="/use"><a aria-label="Ir a como usar Sweet Home">Uso de Sweet Home</a></Link>
-                                <Link className={styles.link} href="/rules"><a aria-label="Ir a Reglas y políticas de Sweet Home">Reglas y políticas</a></Link>
+                                <Link className={global.link} href="/use"><a aria-label="Ir a como usar Sweet Home">Uso de Sweet Home</a></Link>
+                                <Link className={global.link} href="/rules"><a aria-label="Ir a Reglas y políticas de Sweet Home">Reglas y políticas</a></Link>
                             </div>
                         </div>
                         <div className="columns__column3">
                             <h3 className="column3__title">Encuentra en Sweet Home</h3>
                             <div className="column3__links">
-                                <Link className={styles.link} href="/attendances"><a aria-label="Ir a Cuidados">Cuidados</a></Link>
+                                <Link className={global.link} href="/attendances"><a aria-label="Ir a Cuidados">Cuidados</a></Link>
                             </div>
                         </div>       
                          

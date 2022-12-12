@@ -4,7 +4,7 @@ import Image from 'next/image'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
-import styles from "styles/global.module.css"
+import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
@@ -96,7 +96,7 @@ export default function SignIn({providers, csrfToken, session}) {
           </Head>
           <Header url1="/attendances" url2="/info" url3="/contact" url4="/signUp"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
-          <div className={styles.content}>
+          <div className={global.content}>
             <div className="page">
               <div className="page__image">
                 <Image src={signIn1} width={1000} height={1000} alt="Imagen de inicio de sesión" priority/>
@@ -120,9 +120,9 @@ export default function SignIn({providers, csrfToken, session}) {
                   </div>
                 ))}
                 <div className="divider">
-                  <hr className={styles.white__line}></hr>
-                  <p className={styles.text}> ó </p>
-                  <hr className={styles.white__line}></hr>
+                  <hr className={global.white__line}></hr>
+                  <p className={global.text}> ó </p>
+                  <hr className={global.white__line}></hr>
                 </div>
                 <div className="error">
                   {message}
@@ -131,7 +131,7 @@ export default function SignIn({providers, csrfToken, session}) {
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                   <div classname="form-vertical__name">
                     <div className="label">
-                      <p className={styles.text}>Email</p>
+                      <p className={global.text}>Email</p>
                       <MdEmail size={20} color={colors.secondary} />
                     </div>
                     <input
@@ -146,7 +146,7 @@ export default function SignIn({providers, csrfToken, session}) {
                   </div>
                   <div classname="form-vertical__password">
                     <div className="label">
-                      <p className={styles.text}>Contraseña</p>
+                      <p className={global.text}>Contraseña</p>
                       <BsFillLockFill size={25} color={colors.secondary} />
                     </div>
                     <div className="password__input">

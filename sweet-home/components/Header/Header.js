@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { useSession, signUp, signOut} from "next-auth/react"
-import styles from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
@@ -44,7 +43,7 @@ export default function Header(props){
                         <ul className="menu">
                             <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
                             <hr className="line"/>
-                            <li className="nav__link"><Link href="/signOut" as="/signOut"><a onClick={() => signOut()}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></Link></li></ul></li>
+                            <li className="nav__link"><Link href="/signOut" as="/signOut"><a><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></Link></li></ul></li>
                         </ul>        
             </div>
                 <style jsx>{`
