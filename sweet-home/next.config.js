@@ -9,7 +9,18 @@ module.exports = (phase, { defaultConfig }) => {
       i18n:{
         locales: ["es-ES" , "en"],
         defaultLocale: "es-ES"
-      }
+      },
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'pbs.twimg.com',
+            
+          },
+        ],
+      },
+      
     }
+    
     return nextConfig
   }

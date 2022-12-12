@@ -32,14 +32,21 @@ export default function CPassword(){
                             title="Introducir contraseña antigua"
                             type="password" 
                             name="Contraseña" 
-                            placeholder="Contraseña"
+                            placeholder="Contraseña actual"
                             className="input"> 
                         </input>
                         <input  
                             title="Introducir contraseña nueva"
                             type="password" 
                             name="Contraseña" 
-                            placeholder="Confirmar contraseña"
+                            placeholder="Contraseña nueva"
+                            className="input">       
+                        </input>
+                        <input  
+                            title="Repetir contraseña nueva"
+                            type="password" 
+                            name="Contraseña" 
+                            placeholder="Confirmar contraseña nueva"
                             className="input">       
                         </input>
                         <input className={styles.buttonPrimary} type="submit" value="Confirmar"></input>
@@ -47,14 +54,15 @@ export default function CPassword(){
                 </div>
             </div>
             <style jsx>{`
+
                 .form{
 
                     /*Box model*/
 
                     display: flex;
                     flex-direction: column;
-                    width: 30%
-
+                    width: 30%;
+                    
                 }
                 
                 .input{
@@ -77,6 +85,12 @@ export default function CPassword(){
                     border-radius: 5px;
                     border: 1px solid ${colors.primary};
                 }
+
+                input[type="submit"]{
+
+                    /*Box model*/
+
+                    margin-top: 2rem;
 
 
                 h1{

@@ -10,9 +10,8 @@ import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import {MdEmail} from "react-icons/md";
-import {BsFillLockFill} from "react-icons/bs";
-import {AiFillEye} from "react-icons/ai"
-import {AiFillEyeInvisible} from "react-icons/ai"
+import {BsFillLockFill, BsFacebook, BsTwitter, BsGoogle} from "react-icons/bs";
+import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
 import signIn1 from "../../public/signIn-1.svg"
 
 /*
@@ -36,10 +35,11 @@ export default function SignIn({providers, csrfToken, session}) {
   const Router = useRouter();
 
   /* Checking if the session is true, if it is, it will redirect to the home page. */
+
   useEffect(
     () => {
       if (session) {
-        return Router.push('/home');
+        return {redirect: {destination: "/home"}} ;
   }},[session])
 
  /**
@@ -99,19 +99,31 @@ export default function SignIn({providers, csrfToken, session}) {
           <div className={styles.content}>
             <div className="page">
               <div className="page__image">
-                <Image src={signIn1} alt="Imagen de inicio de sesión" priority/>
+                <Image src={signIn1} width={1000} height={1000} alt="Imagen de inicio de sesión" priority/>
               </div>
               <div className="page__form">
                 <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>
                 </div>
-                {Object.values(providers).filter(provider => provider.name != "Credentials").map((provider) => (
+                {Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id)}>
-                      Inicia sesión con {provider.name}
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`,})}>
+                      Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
                     </button>
                   </div>
                 ))}
+                {Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
+                  <div key={provider.name}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`,})}>
+                      Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
+                    </button>
+                  </div>
+                ))}
+                <div className="divider">
+                  <hr className={styles.white__line}></hr>
+                  <p className={styles.text}> ó </p>
+                  <hr className={styles.white__line}></hr>
+                </div>
                 <div className="error">
                   {message}
                 </div>
@@ -202,6 +214,7 @@ export default function SignIn({providers, csrfToken, session}) {
                     background-position:0% 70%
                   }
             }
+
             .error{
 
               /*Text*/
@@ -214,6 +227,7 @@ export default function SignIn({providers, csrfToken, session}) {
               background-color: #f55b5b;
 
             }
+
             .form__text{
 
               /*Box model*/
@@ -328,6 +342,9 @@ export default function SignIn({providers, csrfToken, session}) {
 
                 /*Box model*/
 
+                display: flex;
+                flex-direction: row;
+                align-items: center;
                 height: 3rem;
                 width: 100%;
                 padding: 0.5rem;
@@ -401,6 +418,25 @@ export default function SignIn({providers, csrfToken, session}) {
                 cursor: pointer;
             }
             
+            .divider{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                   
+            }
+
+            .divider p{
+
+
+                /*Box model*/
+
+                margin: 1rem;
+            }
+
             h2{
 
                 /*Text*/

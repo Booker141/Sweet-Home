@@ -1,14 +1,13 @@
 import Head from 'next/head'
-import {useSession, signIn} from 'next-auth/react'
+import {signOut, useSession} from 'next-auth/react'
 import Router from 'next/router'
 import styles from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 
 export default function SignOut(){
 
-    const {data: session} = useSession({required: true});
-
-    if (session){
+    const {data: session, status} = useSession({required: true})
+    
         return(
             <Layout>
                 <>
@@ -19,7 +18,7 @@ export default function SignOut(){
                                 <h2 className={styles.title}>Cerrar sesión</h2>
                                 <p className={styles.text}>¿Estás seguro de que quieres cerrar sesión?</p>
                                 <div className="buttons">
-                                    <button className={styles.buttonPrimary} onClick={() => Router.push("/")}>Sí</button>
+                                    <button className={styles.buttonPrimary} onClick={() => signOut()}>Sí</button>
                                     <button className={styles.buttonTertiary} onClick={() => Router.back()}>No</button>
                                 </div>
                             </div>
@@ -81,7 +80,5 @@ export default function SignOut(){
                 </>
             </Layout>
         )}
-        else{
-            return signIn();
-        }
-}
+
+

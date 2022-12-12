@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useSession, signIn, signOut} from "next-auth/react"
+import { useSession, signUp, signOut} from "next-auth/react"
 import styles from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
@@ -40,9 +40,10 @@ export default function Header(props){
                     <li><Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link></li>
                     <li><Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link></li>
                     <li><Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link></li>
-                    <li className="menu-visible"><a id="profile">{session.user.email}▾</a>
+                    <li className="menu-visible"><a id="profile">{session.user.name}▾</a>
                         <ul className="menu">
                             <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
+                            <hr className="line"/>
                             <li className="nav__link"><Link href="/signOut" as="/signOut"><a onClick={() => signOut()}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></Link></li></ul></li>
                         </ul>        
             </div>
@@ -106,12 +107,28 @@ export default function Header(props){
                     margin-bottom: 1rem;
                     z-index: 1;
                     width: 20%;
-                    height: 7rem;
+                    height: 8rem;
 
                     /*Visuals*/
 
                     background-color: ${colors.secondary};
                     border-radius: 0 0 10px 10px;
+                }
+
+                .line{
+
+                    /*Position*/
+
+                    position: relative;
+                    left: -2.5em;
+                
+                    /*Box model*/
+
+                    width: 113%;
+
+                    /*Visuals*/
+
+                    border: 0.5px solid ${colors.primary};
                 }
 
                 .menu a{
@@ -131,7 +148,7 @@ export default function Header(props){
 
                     display: block;
                     position: absolute;
-                    
+                    width: 25%;
                     z-index: 1;
 
                     /*Text*/
@@ -221,7 +238,7 @@ export default function Header(props){
                     <Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
                     <Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
                     <Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link> 
-                    <Link href={url4} as={url4} passHref><a onClick={()=>signIn()} aria-label='Ir a ${text4}'>{text4}</a></Link>
+                    <Link href={url4} as={url4} passHref><a onClick={()=>signUp()} aria-label='Ir a ${text4}'>{text4}</a></Link>
                 </div>
             
                 <style jsx>{`

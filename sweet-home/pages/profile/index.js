@@ -1,18 +1,18 @@
-import { useSession, signIn, signOut} from "next-auth/react"
+import { getSession, signIn, signOut} from "next-auth/react"
+import Image from "next/image"
 import styles from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 
-export default function Profile(){
 
-    const {data: session} = useSession({required: true});
+export default function Profile({session}){
 
     if (session){
         return(
             <Layout>
                 <>
                     <div className={styles.content}>
-                        <h1>Has iniciado sesión</h1>
-                        <div>{session.user.image}</div>
+                        <h1 className={styles.title}>Perfil</h1>
+                        <Image src={session.user.image} width={40} height={40}/>
                         <div>{session.user.email}</div>
                         <button onClick={() => signOut()}>Cerrar sesión</button>
                     </div>
@@ -49,3 +49,10 @@ export default function Profile(){
 
 
 }
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context)
+    return {
+      props: {session},
+    }
+  }

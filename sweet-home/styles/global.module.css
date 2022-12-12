@@ -153,6 +153,20 @@
   opacity: 0.6;
 }
 
+.white__line{
+
+  /*Box model*/
+
+  width: 9rem;
+  height: 0.1rem;
+
+  /*Visuals*/
+
+  background-color: #fafafa;
+  border: none;
+  opacity: 0.8;
+}
+
 .link {
   /*Text*/
 

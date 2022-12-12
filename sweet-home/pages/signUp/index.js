@@ -8,13 +8,10 @@ import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
 import Header from "components/Header/Header"
 import BasicFooter from "components/BasicFooter/BasicFooter"
-import {FaUser} from "react-icons/fa";
+import {FaUser, FaUserPlus} from "react-icons/fa";
 import {BsFillLockFill} from "react-icons/bs";
 import {MdEmail} from "react-icons/md";
-import {FaUserPlus} from "react-icons/fa";
-import {AiFillInfoCircle} from "react-icons/ai"
-import {AiFillEyeInvisible} from "react-icons/ai"
-import {AiFillEye} from "react-icons/ai"
+import {AiFillInfoCircle, AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
 import signUp1 from "../../public/signUp-1.svg"
 
 /*
@@ -92,7 +89,7 @@ export default function SignUp({csrfToken}) {
         <div className={styles.content}>
         <div className="page">
           <div className="page__image">
-            <Image src={signUp1} alt="Imagen de registro" priority/>
+            <Image src={signUp1} width={2000} height={2000} alt="Imagen de registro" priority/>
           </div>
           <div className="page__form">
             <div className="form__text">
