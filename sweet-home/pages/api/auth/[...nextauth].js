@@ -8,7 +8,7 @@ import bcrypt from "bcrypt"
 
 
 export const authOptions = {
-    // Configure one or more authentication providers
+
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID,
@@ -31,7 +31,7 @@ export const authOptions = {
           const db = await client.db();
           const email = credentials.email;
           const password = credentials.password;
-          const user = await db.collection("users").findOneByEmail(email);
+          const user = await db.collection("users").findOne({email: email});
 
           if(user){
 

@@ -22,7 +22,7 @@ export default async function handler(req, res){
 
         let user = JSON.parse(JSON.stringify(data));
 
-        res.json(user);
+        res.json(user.ops[0]);
 
     }
    

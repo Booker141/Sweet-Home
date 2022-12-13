@@ -1,4 +1,4 @@
-import {useSession, getSession, signIn} from "next-auth/react"
+import {useSession, signIn} from "next-auth/react"
 import {useRouter} from 'next/router'
 import Image from "next/image"
 import global from "styles/global.module.css"
@@ -111,9 +111,9 @@ export default function Profile(user, posts){
 
 export async function getServerSideProps(context){
 
-    const session = getSession(context);
+    const {req} = context;
     const client = await connectionDB;
-    console.log(session);
+    const body = JSON.parse(req.body);
 
     let res = await fetch("http://localhost:3000/api/posts", {
     method: "GET",
@@ -123,7 +123,7 @@ export async function getServerSideProps(context){
     });
     let posts = await res.json();
     const db = client.db();
-    const userEmail = session.user.email;
+    const userEmail = body.email;
     const user = await db.collection("users").findOneByEmail(userEmail).toArray();
 
 

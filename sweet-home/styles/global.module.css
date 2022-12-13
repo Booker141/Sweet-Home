@@ -70,6 +70,23 @@
 
 }
 
+.error{
+
+  /*Box model*/
+
+  width: 100%;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
+ 
+  /*Visuals*/
+
+  border-radius: 5px;
+  background-color: #f55b5b;
+
+}
 
 .list {
   /*Text*/

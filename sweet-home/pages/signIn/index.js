@@ -78,9 +78,13 @@ export default function SignIn({providers, csrfToken, session}) {
   const Login = async (e) => {
 
     e.preventDefault();
-    const res = await signIn('credentials', { email, password, redirect: false, callbackUrl: '/home' });
+
+    const res = await signIn("credentials", { email, password, redirect: false });
+
     if (res.error) {
+
       setMessage(res.error);
+
     }
 
     return Router.push('/home');
@@ -124,12 +128,12 @@ export default function SignIn({providers, csrfToken, session}) {
                   <p className={global.text}> ó </p>
                   <hr className={global.white__line}></hr>
                 </div>
-                <div className="error">
+                <div className={global.error}>
                   {message}
                 </div>
-                <form className="form-vertical" action="/api/auth/callback/credentials">
+                <form className="form-vertical" action="/api/auth/signIn/email">
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-                  <div classname="form-vertical__name">
+                  <div classname="form-vertical__email">
                     <div className="label">
                       <p className={global.text}>Email</p>
                       <MdEmail size={20} color={colors.secondary} />
@@ -215,18 +219,6 @@ export default function SignIn({providers, csrfToken, session}) {
                   }
             }
 
-            .error{
-
-              /*Text*/
-
-              color: ${colors.secondary};
-              width: 50%;
-              /*Visuals*/
-
-              border-radius: 10px;
-              background-color: #f55b5b;
-
-            }
 
             .form__text{
 
@@ -278,7 +270,7 @@ export default function SignIn({providers, csrfToken, session}) {
 
             }
 
-            .form-vertical__name {
+            .form-vertical__email {
 
                 /*Box model*/
 

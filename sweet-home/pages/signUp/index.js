@@ -55,19 +55,19 @@ export default function SignUp({csrfToken}) {
   const signUp = async (e) => {
 
     e.preventDefault();
-    const body = {
-      email: email,
-      password: password,
-      name: name,
-      lastName: lastname,
-      username: username,
-    }
+
     const res = await fetch('/api/signUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        name: name,
+        lastName: lastname,
+        username: username,
+      })
     })
     const data = await res.json();
     setMessage(data.message);
@@ -94,10 +94,10 @@ export default function SignUp({csrfToken}) {
           <div className="page__form">
             <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>
-              <div className="form__text--error">{message}</div>
+              <div className={global.error}>{message}</div>
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
-            <form className="form-vertical">
+            <form className="form-vertical" action="/api/signUp">
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-vertical__email">
                 <div className="label">
@@ -249,18 +249,7 @@ export default function SignUp({csrfToken}) {
 
         }
 
-        .form__text--error{
 
-              /*Text*/
-
-              color: ${colors.secondary};
-              width: 50%;
-              /*Visuals*/
-
-              border-radius: 10px;
-              background-color: #f55b5b;
-
-        }
         .form-page{
 
           /*Box model*/

@@ -3,7 +3,6 @@ import {useSession} from 'next-auth/react'
 import Router from 'next/router'
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
-import connectionDB from "../api/lib/MongoDB"
 
 /* 
     * @author Sergio García Navarro
@@ -19,7 +18,7 @@ import connectionDB from "../api/lib/MongoDB"
  */
 export default function PostList ({posts}){
 
-      const { status } = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")}});
+      const { data: session, status } = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")}});
 
       return (
           <Layout>
@@ -27,6 +26,7 @@ export default function PostList ({posts}){
               <Head><title>Reciente</title></Head>
               <a name="top"></a>
               <div className={global.content}>
+                <h1 className={global.title}>Reciente</h1>
                 {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
                   return (
                     <>
@@ -64,6 +64,7 @@ export async function getServerSideProps(){
       "Content-Type": "application/json",
     },
   });
+  
   let posts = await res.json();
 
   return {
