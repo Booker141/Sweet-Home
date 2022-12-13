@@ -3,12 +3,9 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials"
 import TwitterProvider from "next-auth/providers/twitter";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-import clientPromise from "../lib/MongoDB.js"
-import MongoDB from "../lib/DBconnection.js"
-import User from "../../../models/User"
+import connectionDB from "../lib/MongoDB.js"
 import bcrypt from "bcrypt"
 
-MongoDB();
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -25,14 +22,16 @@ export const authOptions = {
       CredentialsProvider({
         name: "Credentials",
         credentials: {
-          username: { label: "Username", type: "text", placeholder: "jsmith" },
+          email: { label: "Email", type: "email", placeholder: "jsmith@hotmail.com" },
           password: { label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
 
+          const client = await connectionDB;
+          const db = await client.db();
           const email = credentials.email;
           const password = credentials.password;
-          const user = await User.findOneByEmail(email);
+          const user = await db.collection("users").findOneByEmail(email);
 
           if(user){
 
@@ -65,7 +64,7 @@ export const authOptions = {
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    adapter: MongoDBAdapter(clientPromise),
+    adapter: MongoDBAdapter(connectionDB),
   }
 
   export default NextAuth(authOptions)

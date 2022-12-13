@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import {useSession} from 'next-auth/react'
 import Router from 'next/router'
-import {MongoClient} from 'mongodb'
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
+import connectionDB from "../api/lib/MongoDB"
 
 /* 
     * @author Sergio García Navarro
@@ -58,14 +58,17 @@ export default function PostList ({posts}){
 
 export async function getServerSideProps(){ 
 
-    const client = await MongoClient.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
-    const db = client.db();
-    const posts = await db.collection("posts").find().toArray();
+  let res = await fetch("http://localhost:3000/api/posts", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let posts = await res.json();
 
-    
-    return {
-        props: {
-            posts: JSON.parse(JSON.stringify(posts))
-        }
-    }
+  return {
+    props: { posts },
+  };
 }
+
+

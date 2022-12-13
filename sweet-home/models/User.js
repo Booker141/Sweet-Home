@@ -48,6 +48,11 @@ const usersSchema = new mongoose.Schema({
     mediaUrl: {
         type: String,
         required: false
+    },
+    biography: {
+        type: String,
+        required: false,
+        default: "Introduzca su biografía"
     }
 })
 

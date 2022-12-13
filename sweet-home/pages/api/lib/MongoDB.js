@@ -1,24 +1,28 @@
 import { MongoClient } from 'mongodb'
 
 if (!process.env.MONGODB_URI) {
-  throw new Error('No se ha podido conectar a la base de datos')
+
+  throw new Error('No se ha podido conectar a la base de datos');
+  
 }
 
 const uri = process.env.MONGODB_URI;
-const options = {}
 
 let client;
-let clientPromise;
+let connectionDB;
 
 if (process.env.NODE_ENV === 'development') {
+
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
+    client = new MongoClient(uri);
     global._mongoClientPromise = client.connect();
   }
-  clientPromise = global._mongoClientPromise;
+
+  connectionDB = global._mongoClientPromise;
+
 } else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  client = new MongoClient(uri);
+  connectionDB = client.connect();
 }
 
-export default clientPromise
+export default connectionDB;

@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { useSession, signUp, signOut} from "next-auth/react"
+import { useSession} from "next-auth/react"
+import {useRouter} from 'next/router'
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
@@ -19,27 +20,50 @@ import Trademark from "components/Trademark/Trademark"
  * @param {url2} url2 - url of the second link
  * @param {url3} url3 - url of the third link
  * @param {url4} url4 - url of the fourth link
+ * @param {url5} url5 - url of the fifth link
  * @param {text1} text1 - text of the first link
  * @param {text2} text2 - text of the second link
  * @param {text3} text3 - text of the third link
  * @param {text4} text4 - text of the fourth link
+ * @param {text5} text4 - text of the fifth link
  * @returns {Header} - header with basic information
  */
 
 export default function Header(props){
 
-    const {url1, url2, url3, url4, text1, text2, text3, text4} = props;
     const {data: session} = useSession();
+    const router = useRouter();
+
+    /**
+     * If the user is on the home page, send them to the sign in page. If the user is on the sign in
+     * page, send them to the sign up page. If the user is on the sign up page, send them to the sign
+     * in page
+     */
+    const handleClick = () => {
+
+        if (router.asPath == "/")
+
+            router.push("/signIn");
+
+        if (router.asPath == "/signIn")
+
+            router.push("/signUp");
+
+        if (router.asPath == "/signUp")
+
+            router.push("/signIn");
+    } 
+
     if (session){
         return(    
             <>
             <div className="content__header">
                 <ul className="header">
                     <li><Trademark link="/"/></li>
-                    <li><Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link></li>
-                    <li><Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link></li>
-                    <li><Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link></li>
-                    <li className="menu-visible"><a id="profile">{session.user.name}▾</a>
+                    <li><Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${props.text1}'>{props.text1}</a></Link></li>
+                    <li><Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${props.text2}'>{props.text2}</a></Link></li>
+                    <li><Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${props.text3}'>{props.text3}</a></Link></li>
+                    <li className="menu-visible"><a id="profile">{session.user.name}⌄</a>
                         <ul className="menu">
                             <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
                             <hr className="line"/>
@@ -234,10 +258,13 @@ export default function Header(props){
             <>
                 <div className="header">
                     <Trademark link="/"/>
-                    <Link href={url1} as={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
-                    <Link href={url2} as={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
-                    <Link href={url3} as={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link> 
-                    <Link href={url4} as={url4} passHref><a onClick={()=>signUp()} aria-label='Ir a ${text4}'>{text4}</a></Link>
+                    <Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${text1}'>{props.text1}</a></Link>
+                    <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
+                    <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
+                    <div className="header__buttons">
+                        <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
+                        {router.asPath == "/" && <button className="button2" onClick={() => router.push("/signUp")}><a>{props.text5}</a></button>}
+                    </div>
                 </div>
             
                 <style jsx>{`
@@ -265,6 +292,87 @@ export default function Header(props){
                    
                     background-color: ${props.color};
                     
+                }
+
+                .header__buttons{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    
+                }
+
+                .button1{
+
+                    /*Box model*/
+
+                    padding: 0.7rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    border-radius: 5px;
+                    border: none;
+                    
+                    
+                }
+
+                .button1 a{
+
+                    /*Text*/
+
+                    text-decoration: none;
+                    color: ${colors.secondary};
+                    font-size: 1.2rem;
+                    font-family: ${fonts.default};
+
+                }
+
+
+                .button1 a:hover{
+
+                    /*Text*/
+                    
+                    color: ${colors.tertiary};
+                    font-size: 1.5rem;
+                    
+                }
+
+                .button2{
+
+                    /*Box model*/
+
+                    margin-left: 1rem;
+                    padding: 0.7rem;
+
+                    /*Visuals*/
+
+                    border-radius: 5px;
+                    border: none;
+                    background-color: #ffe0b8;
+                    
+                }
+
+                .button2 a{
+
+                    /*Text*/
+
+                    text-decoration: none;
+                    color: ${colors.primary};
+                    font-size: 1.2rem;
+                    font-family: ${fonts.default};
+
+                }
+
+                .button2 a:hover{
+
+                     /*Text*/
+                    
+                    color: ${colors.tertiary};
+                    font-size: 1.5rem;
                 }
 
                 a{
