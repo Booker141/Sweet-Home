@@ -31,19 +31,21 @@ export default function PostList ({posts}){
                   return (
                     <>
                       <div key={_id}>
-                        {username}
-                      </div>
-                      <div>
-                        {location}
-                      </div>
-                      <div>
-                        {mediaUrl}
-                      </div>
-                      <div>
-                        {description}
-                      </div>
-                      <div>
-                        {comments}
+                        <div>
+                          {username}
+                        </div>
+                        <div>
+                          {location}
+                        </div>
+                        <div>
+                          {mediaUrl}
+                        </div>
+                        <div>
+                          {description}
+                        </div>
+                        <div>
+                          {comments}
+                        </div>
                       </div>
                     </>
                   )
@@ -64,11 +66,12 @@ export async function getServerSideProps(){
       "Content-Type": "application/json",
     },
   });
-  
-  let posts = await res.json();
+
+  let data = await res.json();
+
 
   return {
-    props: { posts },
+    props: { posts: data },
   };
 }
 

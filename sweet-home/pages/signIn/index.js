@@ -79,7 +79,7 @@ export default function SignIn({providers, csrfToken, session}) {
 
     e.preventDefault();
 
-    const res = await signIn("credentials", { email, password, redirect: false });
+    const res = await signIn("credentials", { email: email, password: password, redirect: false, callbackUrl: "/home" });
 
     if (res.error) {
 
@@ -143,6 +143,7 @@ export default function SignIn({providers, csrfToken, session}) {
                       type="email"
                       name="email"
                       value= {email}
+                      required
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="javier@email.com"
                       className="input"
@@ -159,6 +160,7 @@ export default function SignIn({providers, csrfToken, session}) {
                         type="password"
                         name="Contraseña"
                         value= {password}
+                        required
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Contraseña"
                         className="input"

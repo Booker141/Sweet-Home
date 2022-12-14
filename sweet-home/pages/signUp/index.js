@@ -31,7 +31,11 @@ export default function SignUp({csrfToken}) {
   const [lastname, setLastname] = useState('');
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState(null);
-
+  /**
+   * If the password input type is password, then hide the first icon and show the second icon, and
+   * change the input type to text. Otherwise, show the first icon and hide the second icon, and change
+   * the input type to password
+   */
   const showPassword = () => {
 
     let passwordInput = document.getElementById("password");
@@ -52,11 +56,13 @@ export default function SignUp({csrfToken}) {
 
     }
   }
+
+  // Función para registrar al usuario
   const signUp = async (e) => {
 
     e.preventDefault();
 
-    const res = await fetch('/api/signUp', {
+    const res = await fetch('/api/auth/signUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -69,13 +75,21 @@ export default function SignUp({csrfToken}) {
         username: username,
       })
     })
-    const data = await res.json();
+
+    const data = res.json();
+
     setMessage(data.message);
 
-    if(data.message == "Registrado con éxito"){
+    if(data.message == 'Registrado con éxito'){
+
+      const res = await signIn("credentials", {email, password})
       return Router.push('/home');
+
     }
   }
+
+ 
+  
   
   return(
 
@@ -94,7 +108,7 @@ export default function SignUp({csrfToken}) {
           <div className="page__form">
             <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>
-              <div className={global.error}>{message}</div>
+              
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
             <form className="form-vertical" action="/api/signUp">
@@ -109,6 +123,7 @@ export default function SignUp({csrfToken}) {
                   type="email"
                   name="Correo"
                   value={email}
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="p. ej.: javier@gmail.com"
                 ></input>
@@ -123,6 +138,7 @@ export default function SignUp({csrfToken}) {
                   type="text"
                   name="Nombrec"
                   value={name}
+                  required
                   onChange={(e) => setName(e.target.value)}
                   placeholder="p. ej.: Javier"
                 ></input>
@@ -137,6 +153,7 @@ export default function SignUp({csrfToken}) {
                   type="text"
                   name="lastName"
                   value={lastname}
+                  required
                   onChange={(e) => setLastname(e.target.value)}
                   placeholder="p. ej.: García Navarro"
                 ></input>
@@ -151,6 +168,7 @@ export default function SignUp({csrfToken}) {
                   type="text"
                   name="NombreUsuario"
                   value={username}
+                  required
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="p. ej.: javier65"
                   className="input"
@@ -167,6 +185,7 @@ export default function SignUp({csrfToken}) {
                     type="password"
                     name="Contraseña"
                     value={password}
+                    required
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="p. ej.: 1Manuel!"
                     className="input"
@@ -187,7 +206,8 @@ export default function SignUp({csrfToken}) {
                 </div>
               </div>
             </form>
-            <button className="form-vertical__button" onClick={(e)=>signUp(e)}>Confirmar</button>
+            <div className={global.error}>{message}</div>
+            <button className="form-vertical__button" onClick={(e)=> signUp(e)}>Confirmar</button>
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
               <Link href="/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>

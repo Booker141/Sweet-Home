@@ -3,7 +3,6 @@ import {fonts} from '/styles/frontend-conf.js'
 import {MdPets} from 'react-icons/md'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
-import ButtonPrimary from "/components/ButtonPrimary/ButtonPrimary"
 import global from "styles/global.module.css"
 
 /*
@@ -38,7 +37,7 @@ function Error({ statusCode }) {
                 Vaya... este perro se ha comido la página 
               </h1>
               <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas, un momento ¿dónde están mis zapatos?</h2>
-              <ButtonPrimary className="button" onClick={() => router.back()}>Volver</ButtonPrimary>
+              <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
             </div>
             <img src="/error-1.jpg" alt="Imagen de perro curándose"/>
           </div>

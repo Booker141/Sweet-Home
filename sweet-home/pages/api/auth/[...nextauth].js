@@ -2,8 +2,7 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials"
 import TwitterProvider from "next-auth/providers/twitter";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-import connectionDB from "../lib/MongoDB.js"
+import { connectionDB } from "../lib/MongoDB";
 import bcrypt from "bcrypt"
 
 
@@ -20,6 +19,7 @@ export const authOptions = {
         version: "2.0", // opt-in to Twitter OAuth 2.0
       }),
       CredentialsProvider({
+        id: "credentials",
         name: "Credentials",
         credentials: {
           email: { label: "Email", type: "email", placeholder: "jsmith@hotmail.com" },
@@ -31,7 +31,7 @@ export const authOptions = {
           const db = await client.db();
           const email = credentials.email;
           const password = credentials.password;
-          const user = await db.collection("users").findOne({email: email});
+          const user = await db.collection('users').findOne({email: email});
 
           if(user){
 
@@ -64,7 +64,6 @@ export const authOptions = {
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    adapter: MongoDBAdapter(connectionDB),
   }
 
   export default NextAuth(authOptions)

@@ -9,7 +9,6 @@ import {colors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
 import Carousel from "components/Carousel/Carousel"
 import BasicFooter from "components/BasicFooter/BasicFooter"
-import ButtonPrimary from "components/ButtonPrimary/ButtonPrimary"
 import {AiOutlineMobile} from "react-icons/ai"
 import {AiOutlineTablet} from "react-icons/ai"
 import {BsLaptop} from "react-icons/bs"
@@ -66,7 +65,7 @@ export default function Principal(){
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
-            <ButtonPrimary onClick={() => router.push('/signUp')}>Regístrate</ButtonPrimary>
+            <button className={global.buttonPrimary} onClick={() => router.push('/signUp')}>Regístrate</button>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
           <div className="container2__column2">

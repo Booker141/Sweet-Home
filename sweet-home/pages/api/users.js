@@ -3,7 +3,7 @@ import connectionDB from "./lib/MongoDB"
 export default async function handler(req, res){
 
     const client = await connectionDB;
-    const db = await client.db();
+    const db = await client.db("SweetHomeDB");
 
     if(req.method == "GET"){
 

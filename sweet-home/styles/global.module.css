@@ -88,6 +88,24 @@
 
 }
 
+.correct{
+
+  /*Box model*/
+
+  width: 100%;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
+ 
+  /*Visuals*/
+
+  border-radius: 5px;
+  background-color: #42f563;
+
+}
+
 .list {
   /*Text*/
 
