@@ -34,13 +34,6 @@ export default function SignIn({providers, csrfToken, session}) {
   const [message, setMessage] = useState(null);
   const Router = useRouter();
 
-  /* Checking if the session is true, if it is, it will redirect to the home page. */
-
-  useEffect(
-    () => {
-      if (session) {
-        return {redirect: {destination: "/home"}} ;
-  }},[session])
 
  /**
   * If the password input type is password, then hide the first icon and show the second icon, and
@@ -587,10 +580,13 @@ export default function SignIn({providers, csrfToken, session}) {
 }
 
 export async function getServerSideProps(context) {
-  const providers = await getProviders()
-  const session = await getSession(context)
+
+  const providers = await getProviders();
+  const csrfToken = await getCsrfToken(context);
+  const session = await getSession(context);
+
   return {
     props: { providers, session,
-    csrfToken: await getCsrfToken(context)},
+    csrfToken},
   }
 }

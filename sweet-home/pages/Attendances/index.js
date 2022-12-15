@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import global from "styles/global.module.css"
 import Layout from "/components/Layout/Layout"
-import {useSession} from 'next-auth/react'
+import {getSession} from 'next-auth/react'
 
 
 /*
@@ -17,9 +17,7 @@ import {useSession} from 'next-auth/react'
  * @returns the Layout component, which is a wrapper for the Header, Footer and the content of the
  * page.
  */
-export default function Attendances() {
-
-    const {data: session, status} = useSession({required: true});
+export default function Attendances(session) {
 
         return (
         <Layout>
@@ -34,4 +32,23 @@ export default function Attendances() {
     )   
         
 
+}
+
+export async function getServerSideProps(context) {
+   
+  const session = await getSession(context);
+
+  if(!session){
+    return {
+      redirect: {
+        destination: "/signIn",
+        permanent: false,
+      }
+    }
+  }
+    return {
+        props: {
+            session
+        }
+    }
 }

@@ -33,7 +33,7 @@ export default function Principal(){
       <Head><title>Sweet Home</title></Head>
 
       {!session ? <Header url1="/attendances" url2="/about" url3="/contact" url4="/signIn" url5="/signUp"
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar Sesión" text5="Registrarse"/> :  <Header url1="/attendances" url2="/about" url3="/contact" 
+                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión" text5="Registrarse"/> :  <Header url1="/attendances" url2="/about" url3="/contact" 
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto"  /> }
       
       <div className={global.content}>
@@ -65,7 +65,7 @@ export default function Principal(){
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
-            <button className={global.buttonPrimary} onClick={() => router.push('/signUp')}>Regístrate</button>
+            <button className={global.buttonPrimary} onClick={() => router.push('/signUp')}>Regístrate ⇥</button>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
           <div className="container2__column2">

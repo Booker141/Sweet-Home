@@ -285,7 +285,7 @@ export default function Header(props){
                     <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
-                        {router.asPath == "/" && <button className="button2" onClick={() => router.push("/signUp")}><a>{props.text5}</a></button>}
+                        {(router.asPath !== "/signIn" && router.asPath) !== "/signUp" && <button className="button2" onClick={() => router.push("/signUp")}><a>{props.text5}</a></button>}
                     </div>
                 </div>
             

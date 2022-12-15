@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
+import {getSession} from 'next-auth/react'
 import Router from 'next/router'
 import Link from 'next/link'
 import global from "styles/global.module.css"
@@ -19,12 +19,8 @@ import User from "components/User/User"
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function Home ({posts, users}){
+export default function Home ({posts, users, session}){
 
-      const { data: session, status } = useSession({required: true});
-      if (status === "loading") return (
-        <Loading/>
-      );
       return (
           <Layout>
             <>
@@ -77,7 +73,18 @@ export default function Home ({posts, users}){
   }
 
 
-export async function getServerSideProps(){ 
+export async function getServerSideProps(context){ 
+
+  const session = await getSession(context);
+
+  if(!session){
+    return {
+      redirect: {
+        destination: "/signIn",
+        permanent: false,
+      }
+    }
+  }
 
   let res = await fetch("http://localhost:3000/api/posts", {
     method: "GET",
@@ -97,7 +104,7 @@ export async function getServerSideProps(){
   let users = await user.json();
 
   return {
-    props: { posts: posts, users: users },
+    props: { posts: posts, users: users, session },
   };
 }
 
