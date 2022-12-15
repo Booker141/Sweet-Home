@@ -3,7 +3,6 @@ import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
-import ButtonTertiary from "components/ButtonTertiary/ButtonTertiary"
 import { FaUser } from "react-icons/fa";
 import {FaAddressBook} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -129,7 +128,7 @@ export default function Contact(){
                                 <label for="finalcheckbox" class="check">Acepto la <a className="privacidad" aria-label="Ir a Privacidad" href="/privacy">Privacidad</a></label>
                                 </div>
 
-                                <ButtonTertiary className={global.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</ButtonTertiary>
+                                <button className={global.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</button>
                         </form>
                     </div>
                 </div>
@@ -327,6 +326,8 @@ export default function Contact(){
 
                         margin-top: 2rem;
                         margin-bottom: 1.5rem;
+
+                        font-family: ${fonts.default};
                     }    
 
                     .privacidad{

@@ -18,8 +18,9 @@ import {useSession} from 'next-auth/react'
  * page.
  */
 export default function Attendances() {
+
     const {data: session, status} = useSession({required: true});
-    if(session) {
+
         return (
         <Layout>
             <>
@@ -30,7 +31,7 @@ export default function Attendances() {
                 <a href="#top" className={global.buttonTo}>↑</a>
             </>
         </Layout>      
-    )   }else{
+    )   
         
-    }
+
 }

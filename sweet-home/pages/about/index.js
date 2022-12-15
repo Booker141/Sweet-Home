@@ -45,7 +45,7 @@ export default function About () {
                         <div className="banner">
                             <p className={global.text}>Sweet Home es una red 
                             social que abarca el mundo animal y trata de facilitar 
-                            su <span className={global.colorized}>adaptación a nuevos cuidados</span>, <span className={styles.colorized}>a nuevos dueños </span> y a 
+                            su <span className={global.colorized}>adaptación a nuevos cuidados</span>, <span className={global.colorized}>a nuevos dueños </span> y a 
                            <span className={global.colorized}> una mejora diaria de su vida.</span></p>
                         </div>
                         

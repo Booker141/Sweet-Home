@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials"
 import TwitterProvider from "next-auth/providers/twitter";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import { connectionDB } from "../lib/MongoDB";
 import bcrypt from "bcrypt"
 
@@ -53,17 +54,17 @@ export const authOptions = {
           
         }
       })
-      // ...add more providers here
     ],
     secret: process.env.JWT_SECRET,
     database: process.env.MONGODB_URI,
     pages: {
       signIn: '/signIn',
       signOut: '/signOut',
-      error: '/_error.js', // Error code passed in query string as ?error=
+      error: '/_error', // Error code passed in query string as ?error=
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
+    adapter: MongoDBAdapter(connectionDB),
   }
 
   export default NextAuth(authOptions)

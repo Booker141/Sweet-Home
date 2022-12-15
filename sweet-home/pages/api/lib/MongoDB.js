@@ -15,14 +15,14 @@ if (process.env.NODE_ENV === 'development') {
 
   if (!global._mongoClientPromise) {
     client = new MongoClient(uri);
-    global._mongoClientPromise = client.connect();
+    global._mongoClientPromise = client.connect("SweetHomeDB");
   }
 
   connectionDB = global._mongoClientPromise;
 
 } else {
   client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  connectionDB = client.connect();
+  connectionDB = client.connect("SweetHomeDB");
 }
 
 export default connectionDB;

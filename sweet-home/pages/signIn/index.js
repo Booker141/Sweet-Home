@@ -10,7 +10,7 @@ import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import {MdEmail} from "react-icons/md";
-import {BsFillLockFill, BsFacebook, BsTwitter, BsGoogle} from "react-icons/bs";
+import {BsFillLockFill, BsTwitter, BsGoogle} from "react-icons/bs";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
 import signIn1 from "../../public/signIn-1.svg"
 
@@ -79,7 +79,7 @@ export default function SignIn({providers, csrfToken, session}) {
 
     e.preventDefault();
 
-    const res = await signIn("credentials", { email: email, password: password, redirect: false, callbackUrl: "/home" });
+    const res = await signIn("credentials", { email: email, password: password, callbackUrl: "/home" });
 
     if (res.error) {
 

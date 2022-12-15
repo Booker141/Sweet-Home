@@ -1,10 +1,13 @@
 import Link from 'next/link'
 import { useSession} from "next-auth/react"
 import {useRouter} from 'next/router'
+import {useState} from 'react'
+import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
 import Trademark from "components/Trademark/Trademark"
+import Modal from "components/Modal/Modal"
 
 /*
     * @author Sergio García Navarro
@@ -32,6 +35,7 @@ import Trademark from "components/Trademark/Trademark"
 export default function Header(props){
 
     const {data: session} = useSession();
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const router = useRouter();
 
     /**
@@ -57,6 +61,7 @@ export default function Header(props){
     if (session){
         return(    
             <>
+            
             <div className="content__header">
                 <ul className="header">
                     <li><Trademark link="/"/></li>
@@ -67,9 +72,17 @@ export default function Header(props){
                         <ul className="menu">
                             <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
                             <hr className="line"/>
-                            <li className="nav__link"><Link href="/signOut" as="/signOut"><a><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></Link></li></ul></li>
+                            <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></li></ul></li>
                         </ul>        
             </div>
+            <Modal showModal={isModalVisible}>
+                    <h2 className={global.title}>Cerrar sesión</h2>
+                    <p className={global.text}>¿Estás seguro de que quieres cerrar sesión?</p>
+                            <div className="buttons">
+                                    <button className={global.buttonPrimary} onClick={() => signOut()}>Sí</button>
+                                    <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+                            </div>
+            </Modal>
                 <style jsx>{`
 
             
@@ -136,6 +149,14 @@ export default function Header(props){
 
                     background-color: ${colors.secondary};
                     border-radius: 0 0 10px 10px;
+                }
+
+                .no-button{
+
+                    /*Visuals*/
+
+                    background-color: transparent;
+                    border: none;
                 }
 
                 .line{
@@ -229,6 +250,7 @@ export default function Header(props){
                     color: ${colors.primary};
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
+                    cursor: default;
 
                     /*Animation*/
                     

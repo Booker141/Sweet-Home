@@ -1,28 +1,30 @@
 import Head from 'next/head'
 import {signOut, useSession} from 'next-auth/react'
+import {useState} from 'react'
 import Router from 'next/router'
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
+import Modal from "components/Modal/Modal"
 
 export default function SignOut(){
 
-    const {data: session, status} = useSession({required: true})
+    const {data: session, status} = useSession({required: true});
+
     
         return(
             <Layout>
                 <>
                     <Head>Cerrar sesión</Head>
                     <div className={global.content}>
-                        <div className="center">
-                            <div className="card">
+                        <Modal>
                                 <h2 className={global.title}>Cerrar sesión</h2>
                                 <p className={global.text}>¿Estás seguro de que quieres cerrar sesión?</p>
                                 <div className="buttons">
                                     <button className={global.buttonPrimary} onClick={() => signOut()}>Sí</button>
-                                    <button className={global.buttonTertiary} onClick={() => Router.back()}>No</button>
+                                    <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
                                 </div>
-                            </div>
-                        </div>
+                        </Modal>
+                        
                     </div>
                     <style jsx>{`
 
