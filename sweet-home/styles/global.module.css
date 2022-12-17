@@ -411,18 +411,18 @@
   /*Position*/
 
   position: sticky;
-  bottom: 0;
-  right: 0;
-
+  bottom: 1rem;
+  
+  
   /*Box model*/
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
+  justify-content: center;
   height: 1rem;
   width: 1rem;
+  margin-top: 2rem;
   padding: 1.3rem;
 
   /*Text*/
@@ -437,7 +437,7 @@
   background-color: #f0810f;
   border-radius: 40px;
   border: none;
-  cursor: default;
+  cursor: pointer;
   text-decoration: none;
 
   /*Misc*/

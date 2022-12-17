@@ -4,6 +4,7 @@ import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
 
+
 /*
     * @author Sergio García Navarro
     * @returns Privacy page
@@ -18,12 +19,9 @@ import Layout from "components/Layout/Layout"
 export default function Privacy() {
     return (
         <Layout>
-            <>
                 <Head>
                     <title>Privacidad </title>
                 </Head>
-                <div className={global.content}>
-                    <a name="top"></a>
                     <h1 className={global.title}>Privacidad ✎</h1>
                     <h2 className="first-line">Última actualización el 4 de agosto de 2022</h2>
                     <hr className={global.line}></hr>
@@ -137,8 +135,7 @@ export default function Privacy() {
                     <p className="last-line">Si presenta alguna duda con respecto a la política 
                     de privacidad, tiene la información para contactar con nosotros en el 
                     siguiente enlace: <a className={global.link} aria-label="Ir a información de contacto" href="/contact">Contacta con nosotros</a>.</p>
-                </div>
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
+              
                 
                 <style jsx>{`
 
@@ -190,7 +187,6 @@ export default function Privacy() {
                         color: ${colors.primary};
                     }
                 `}</style>
-            </> 
         </Layout>
     )
 }

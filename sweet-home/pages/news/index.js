@@ -6,6 +6,7 @@ import Layout from "components/Layout/Layout"
 
 
 
+
 /*
     * @author Sergio García Navarro
     * @returns Conditions page
@@ -22,10 +23,9 @@ import Layout from "components/Layout/Layout"
 export default function News() {
     return (
         <Layout>
-            <>
+
             <Head><title>Noticias</title></Head>
-            <div className={global.content}>
-                <a name="top"></a>
+
                 <section>
                     <h1 className={global.title}>Últimas noticias ✧</h1>
                     <article>
@@ -127,8 +127,7 @@ export default function News() {
                         
                     </article>
                 </section>
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
-            </div>
+
             
             <style jsx>{`
 
@@ -224,7 +223,7 @@ export default function News() {
                     
                     
                 `}</style>
-            </>
+         
         </Layout>
     )
 }

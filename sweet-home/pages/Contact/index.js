@@ -33,8 +33,6 @@ export default function Contact(){
                 <Head>
                     <title>Contacto</title>
                 </Head>
-                <div className={global.content}>
-                    <a name="top"></a>
                     <h1 className={global.title}>Contacto</h1>
                     <div className="contact__container">
                         <div className="container__info">
@@ -57,82 +55,15 @@ export default function Contact(){
                         </div>
                     </div>
                     <div className="email">
-                        <p className={global.text}>O a través del siguiente correo electrónico:  </p>
+                        <p className={global.text}>A través del siguiente correo electrónico:  </p>
                         <a title="Enviar correo" aria-label="Enlace a correo de atención al cliente" href="mailto:atenciónSH@gmail.com"> &nbsp; atenciónSH@gmail.com</a>
                     </div>
-                    <div className="personal__container">
-                        <h2 className={global.title2}>Información personal</h2>
-                        <p className={global.text}>Aquellos campos que sean precedidos por asteriscos son obligatorios.</p>
-           
-                        <form className="form">
-                            <div className="form__email">
-                                <MdEmail size={30} color={colors.secondary} />
-                                <input
-                                    title="Introducir email"
-                                    type="email"
-                                    name="Correo*"
-                                    placeholder="E-mail"
-                                ></input>
-                                </div>
-                                <div className="form__name">
-                                <FaUser size={30} color={colors.secondary} />
-                                <input
-                                    title="Introducir nombre"
-                                    type="text"
-                                    name="Nombre*"
-                                    placeholder="Nombre"
-                                ></input>
-                                </div>
-                                <div className="form__surnames">
-                                <FaUser size={30} color={colors.secondary} />
-                                <input
-                                    title="Introducir apellidos"
-                                    type="text"
-                                    name="Apellidos*"
-                                    placeholder="Apellidos"
-                                ></input>
-                                </div>
-                                <div className="form__address">
-                                <FaAddressBook size={30} color={colors.secondary} />
-                                <input
-                                    title="Introducir dirección"
-                                    type="text"
-                                    name="Dirección*"
-                                    placeholder="Dirección"
-                                ></input>
-                                </div>
-                                <div className="form__phone">
-                                <BsFillTelephoneFill size={30} color={colors.secondary} />
-                                <input
-                                    title="Introducir teléfono"
-                                    type="phone"
-                                    name="Teléfono*"
-                                    placeholder="Teléfono"
-                                ></input>
-                                </div>
-                                <div className="form__comment">
-                                <BsPencilFill size={30} color={colors.secondary} />
-                                <input
-                                    title="Introducir comentario"
-                                    type="text"
-                                    name="Comentario*"
-                                    placeholder="Comentario"
-                                ></input>
-                                </div>
-                                <div className="form__checkbox">
-                                <input
-                                    title="Introducir comentario"
-                                    type="checkbox"
-                                    id="finalcheckbox"
-                                ></input>
-                                <label for="finalcheckbox" class="check">Acepto la <a className="privacidad" aria-label="Ir a Privacidad" href="/privacy">Privacidad</a></label>
-                                </div>
-
-                                <button className={global.buttonTertiary} onClick={() => {router.push("/signIn")}}>Enviar</button>
-                        </form>
+                    <div className="phone">
+                        <p className={global.text}>A través del teléfono de contacto: +34 XXX XX XX XX. </p>
                     </div>
-                </div>
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
+                    <div className="account">
+                        <p className={global.text}>O envía un mensaje a la cuenta de: <a className={global.link}>atencion.sh</a>.</p>
+                    </div>
                 <style jsx>{`
 
 
@@ -143,6 +74,7 @@ export default function Contact(){
                         display: flex;
                         flex-direction: row;
                         justify-content: space-between;
+                        margin-bottom: 2rem;
 
 
                         /*Visuals*/
@@ -210,6 +142,7 @@ export default function Contact(){
                         margin-bottom: 2rem;
 
                     }
+
                     .email{
 
                         /*Box model*/
@@ -217,6 +150,13 @@ export default function Contact(){
                         display: flex;
                         flex-direction: row;
                         align-items: center;
+                    }
+
+                    .phone{
+
+                        /*Box model*/
+
+                        margin-bottom: 2rem;
                     }
 
                     .form{

@@ -30,12 +30,9 @@ export default function About () {
     return(
 
             <Layout>
-                <>
                     <Head>
                         <title>Sobre nosotros</title>
                     </Head>
-                    <div className={global.content}>
-                        <a name="top"></a>
                         
                         <div className="title">
                             <h2>Sweet Home</h2>
@@ -124,8 +121,6 @@ export default function About () {
                                 a tu gusto!</p>
                             </div>            
                         </div>
-                    </div>
-                    <a href="#top" aria-label="Ir al inicio de página" className={global.buttonTo}>↑</a>
                     <style jsx>{`
 
                         .container1{
@@ -239,7 +234,6 @@ export default function About () {
                             margin-bottom: 1rem;
                         }
                     `}</style>
-                </>
             </Layout>
 
     )

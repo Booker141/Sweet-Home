@@ -4,6 +4,7 @@ import Layout from "/components/Layout/Layout"
 import {getSession} from 'next-auth/react'
 
 
+
 /*
     * @author Sergio García Navarro
     * @returns Attendances page
@@ -21,13 +22,9 @@ export default function Attendances(session) {
 
         return (
         <Layout>
-            <>
                 <Head>
                     <title>Cuidados</title>
                 </Head>
-                <a name="top"></a>
-                <a href="#top" className={global.buttonTo}>↑</a>
-            </>
         </Layout>      
     )   
         

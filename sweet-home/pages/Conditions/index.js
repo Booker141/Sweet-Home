@@ -5,6 +5,7 @@ import {colors} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
 
 
+
 /*
     * @author Sergio García Navarro
     * @returns Conditions page
@@ -21,10 +22,7 @@ import Layout from "components/Layout/Layout"
 export default function Conditions() {
     return (
         <Layout>
-            <>
             <Head><title>Condiciones</title></Head>
-            <div className={global.content}>
-                <a name="top"></a>
                 <h2 className="first-line">5 de agosto de 2022</h2>
                 <hr className={global.line}></hr>
                 <h1 className={global.title}>Términos y condiciones de Sweet Home ☑︎</h1>
@@ -87,8 +85,8 @@ export default function Conditions() {
                 dentro de la app que afecte al funcionamiento de la app, Sweet Home tiene el 
                 derecho de cerrar dicha aplicación sin deber nada a los usuarios.
                 </p>
-            </div>
-            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
+
+          
             <style jsx>{`
 
                     .first-line{
@@ -153,7 +151,6 @@ export default function Conditions() {
                     }
                     
                 `}</style>
-            </>
         </Layout>
     )
 }

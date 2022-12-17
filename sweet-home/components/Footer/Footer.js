@@ -52,7 +52,7 @@ export default function Footer(){
                         <div className="columns__column2">
                             <h3 className="column2__title">Ayuda</h3>
                             <div className="column2__links">
-                                <Link className={global.link} href="/use"><a aria-label="Ir a como usar Sweet Home">Uso de Sweet Home</a></Link>
+                                <Link className={global.link} href="/use"><a aria-label="Ir a como usar Sweet Home">Preguntas frecuentes</a></Link>
                                 <Link className={global.link} href="/rules"><a aria-label="Ir a Reglas y políticas de Sweet Home">Reglas y políticas</a></Link>
                             </div>
                         </div>
@@ -60,6 +60,8 @@ export default function Footer(){
                             <h3 className="column3__title">Encuentra en Sweet Home</h3>
                             <div className="column3__links">
                                 <Link className={global.link} href="/attendances"><a aria-label="Ir a Cuidados">Cuidados</a></Link>
+                                <Link className={global.link} href="/news"><a aria-label="Ir a Noticias">Noticias</a></Link>
+                                <Link className={global.link} href="/manual"><a aria-label="Ir a Manual de usuario">Documentación</a></Link>
                             </div>
                         </div>       
                          

@@ -6,8 +6,7 @@ export default function allUsers({users}){
     
     return(
         <Layout>
-            <>
-                <div className={global.content}>
+        
                     <h1 className={global.title}>Usuarios</h1>
                         {users.map(({_id, userImage, username}) => {
                             return(
@@ -16,8 +15,8 @@ export default function allUsers({users}){
                                 </>
                             )
                         })}
-                </div>
-            </>
+                
+
         </Layout>
     )
 

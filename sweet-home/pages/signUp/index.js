@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import {useState} from 'react'
-import {getCsrfToken, useSession} from "next-auth/react"
+import {getCsrfToken, getSession} from "next-auth/react"
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
@@ -24,7 +24,6 @@ import signUp1 from "../../public/signUp-1.svg"
 
 export default function SignUp({csrfToken}) {
 
-  const {data: session, status} = useSession({required: false});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -82,7 +81,8 @@ export default function SignUp({csrfToken}) {
 
     if(data.message == 'Registrado con éxito'){
 
-      const res = await signIn("credentials", {email, password})
+      const res = await signIn("credentials", {email, password});
+
       return Router.push('/home');
 
     }
@@ -207,6 +207,10 @@ export default function SignUp({csrfToken}) {
               </div>
             </form>
             <div className={global.error}>{message}</div>
+            <div className="form__conditions">
+              <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className={global.link} aria-label="Ir a Condiciones" href="/conditions">Condiciones</a> y  <a className={global.link} aria-label="Ir a Privacidad" href="/privacity">Privacidad</a> encontrará más información.</p>
+            </div>
+
             <button className="form-vertical__button" onClick={(e)=> signUp(e)}>Confirmar</button>
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
@@ -373,6 +377,19 @@ export default function SignUp({csrfToken}) {
 
         }
 
+        .form__conditions{
+
+          /*Box model*/
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          /*Text*/
+
+          color: ${colors.secondary};
+
+        }
         .page__image{
 
             /*Box model*/
@@ -650,8 +667,20 @@ export default function SignUp({csrfToken}) {
 }
 
 export async function getServerSideProps(context) {
-  return {
-    props: { 
-    csrfToken: await getCsrfToken(context)},
+
+  const { req } = context;
+
+  const session = await getSession(req);
+
+  if (session) {
+    return {
+      redirect: { destination: "/home" },
+    };
   }
+
+  return {
+    props: {
+      csrfToken: await getCsrfToken(req),
+    },
+  };
 }

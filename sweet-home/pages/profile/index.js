@@ -1,10 +1,10 @@
 import {useSession, signIn} from "next-auth/react"
 import {useRouter} from 'next/router'
+import Head from 'next/head'
 import Image from "next/image"
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 import connectionDB from "../api/lib/MongoDB"
-
 
 export default function Profile(user, posts){
 
@@ -14,8 +14,9 @@ export default function Profile(user, posts){
     if (session){
         return(
             <Layout>
-                <>
-                    <div className={global.content}>
+
+                    <Head><title>Mi perfil</title></Head>
+
                        <div className="container__profile">
                             <Image style={{borderRadius: '50px'}} src={session.user.image} width={100} height={100}/>
                             <div className="profile__text">
@@ -47,8 +48,7 @@ export default function Profile(user, posts){
                                     </>
                                 )})}
                         </div>
-                    </div>
-                </>
+                        
                 <style jsx>{`
 
                     .container__profile{

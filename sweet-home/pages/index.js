@@ -9,8 +9,8 @@ import {colors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
 import Carousel from "components/Carousel/Carousel"
 import BasicFooter from "components/BasicFooter/BasicFooter"
-import {AiOutlineMobile} from "react-icons/ai"
-import {AiOutlineTablet} from "react-icons/ai"
+import {AiOutlineMobile, AiOutlineTablet} from "react-icons/ai"
+import {ImArrowUp2} from "react-icons/im"
 import {BsLaptop} from "react-icons/bs"
 import {MdPets} from "react-icons/md"
 import {GiPlantsAndAnimals} from "react-icons/gi"
@@ -65,7 +65,7 @@ export default function Principal(){
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
-            <button className={global.buttonPrimary} onClick={() => router.push('/signUp')}>Regístrate ⇥</button>
+            <button className={global.buttonPrimary} onClick={() => router.push('/signUp')}>Regístrate ➤</button>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
           <div className="container2__column2">
@@ -179,7 +179,7 @@ export default function Principal(){
         </div>
       </div>
       
-      <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
+      <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>
 
       <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
@@ -217,6 +217,7 @@ export default function Principal(){
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             width: 100%;
 
           }
@@ -226,6 +227,8 @@ export default function Principal(){
             /*Box model*/
 
             width: 100%;
+            align-items: center;
+            justify-content: center;
 
           }
           
@@ -255,6 +258,7 @@ export default function Principal(){
             display: flex;
             flex-direction: row;
             align-items: center;
+            justify-content: center;
             margin-bottom: 3rem;
 
             /*Text*/
@@ -270,8 +274,8 @@ export default function Principal(){
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin-left: 4rem;
-            line-height: 4rem;
+            width: 100%;
+            line-height: 3.5rem;
 
           }
 
@@ -296,6 +300,8 @@ export default function Principal(){
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            
 
 
           }
@@ -304,7 +310,6 @@ export default function Principal(){
 
             /*Box model*/
 
-            width: 100%;
             margin-bottom: 2rem;
             padding: 1rem;
 

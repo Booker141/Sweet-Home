@@ -24,7 +24,6 @@ export default function CPassword(){
         <>
             <Head><title>Cambiar contraseña</title></Head>
             
-            <div className={global.content}>
             <h1 className={global.title}>Cambiar contraseña</h1>
                 <div className="form">
                     <form>
@@ -52,7 +51,6 @@ export default function CPassword(){
                         <input className={global.buttonPrimary} type="submit" value="Confirmar"></input>
                     </form>    
                 </div>
-            </div>
             <style jsx>{`
 
                 .form{

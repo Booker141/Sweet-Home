@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import {getSession} from 'next-auth/react'
-import Router from 'next/router'
 import Link from 'next/link'
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
@@ -23,10 +22,7 @@ export default function Home ({posts, users, session}){
 
       return (
           <Layout>
-            <>
               <Head><title>Reciente</title></Head>
-              <a name="top"></a>
-              <div className={global.content}>
                 <div className="container">
                   <div className="container__column1">
                     <h1 className={global.title}>Reciente</h1>
@@ -52,8 +48,7 @@ export default function Home ({posts, users, session}){
                     <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
                 </div>
               </div>
-            </div>
-            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
+            
 
             <style jsx>{`
 
@@ -67,7 +62,6 @@ export default function Home ({posts, users, session}){
               }
 
             `}</style>
-          </>
         </Layout>
       )
   }

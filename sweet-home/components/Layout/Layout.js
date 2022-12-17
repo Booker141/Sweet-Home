@@ -1,5 +1,7 @@
+import global from "/styles/global.module.css"
 import Header from "/components/Header/Header";
 import Footer from "/components/Footer/Footer";
+import {ImArrowUp2} from "react-icons/im"
 
 /*
     * @author Sergio García Navarro
@@ -19,11 +21,16 @@ export default function Layout ({children}){
             <>
             <Header url1='/attendances' url2='/about' url3='/contact' url4='/signIn' url5='/signUp'
                     text1='Cuidados' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse' />
-                <div>
+                
+                <div className={global.content}>
+                    <a name="top"></a>
                     <main>{children}</main>
+                    <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>
                 </div>
+
             <Footer />
             </>
+
             
         );
 

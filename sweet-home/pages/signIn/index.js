@@ -27,7 +27,7 @@ import signIn1 from "../../public/signIn-1.svg"
  * and a BasicFooter component
  * @returns A React component.
  */
-export default function SignIn({providers, csrfToken, session}) {
+export default function SignIn({providers, csrfToken}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -581,12 +581,21 @@ export default function SignIn({providers, csrfToken, session}) {
 
 export async function getServerSideProps(context) {
 
-  const providers = await getProviders();
-  const csrfToken = await getCsrfToken(context);
+
   const session = await getSession(context);
+  const csrfToken = await getCsrfToken(context);
+  const providers = await getProviders();
+
+
+  if (session) {
+    return {
+      redirect: { destination: "/home" },
+    };
+  }
 
   return {
-    props: { providers, session,
-    csrfToken},
+    props: {
+      csrfToken, providers, session
+    },
+  };
   }
-}

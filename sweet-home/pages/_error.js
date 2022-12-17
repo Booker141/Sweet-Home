@@ -1,9 +1,11 @@
-import {colors} from '/styles/frontend-conf.js'
-import {fonts} from '/styles/frontend-conf.js'
-import {MdPets} from 'react-icons/md'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
+import Layout from '/components/Layout/Layout'
 import global from "styles/global.module.css"
+import {MdPets} from 'react-icons/md'
+import {colors} from '/styles/frontend-conf.js'
+import {fonts} from '/styles/frontend-conf.js'
+
 
 /*
     * @author Sergio García Navarro
@@ -19,6 +21,7 @@ function Error({ statusCode }) {
     const router = useRouter();
   
     return (
+      <Layout>
       <>
         <Head>
           <title>¡Ups! Algo ha salido mal.. Error {statusCode}</title>
@@ -142,6 +145,7 @@ function Error({ statusCode }) {
           
         `}</style>
       </>
+      </Layout>
     )
   }
   

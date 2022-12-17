@@ -13,9 +13,8 @@ export default function SignOut(){
     
         return(
             <Layout>
-                <>
+
                     <Head>Cerrar sesión</Head>
-                    <div className={global.content}>
                         <Modal>
                                 <h2 className={global.title}>Cerrar sesión</h2>
                                 <p className={global.text}>¿Estás seguro de que quieres cerrar sesión?</p>
@@ -24,8 +23,7 @@ export default function SignOut(){
                                     <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
                                 </div>
                         </Modal>
-                        
-                    </div>
+
                     <style jsx>{`
 
                         .center{
@@ -79,7 +77,7 @@ export default function SignOut(){
                     
                     
                     `}</style>
-                </>
+            
             </Layout>
         )}
 

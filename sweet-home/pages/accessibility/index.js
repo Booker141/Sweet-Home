@@ -25,11 +25,11 @@ import accessibility5 from "../../public/accessibility-5.svg"
 export default function Accessibility(){
 
     return(
-        <>
+
+        <Layout>
+
             <Head><title>Accesibilidad</title></Head>
-            <Layout>
-                <div className={global.content}>    
-                    <a name="top"></a>
+
                     <h1 className={global.title}>Accesibilidad ⦿</h1>
                     <p className={global.text}>En Sweet Home, velamos por 
                     aquellos usuarios que puedan tener dificultades a la hora 
@@ -106,11 +106,11 @@ export default function Accessibility(){
                             <Image src={accessibility5} alt="Estudiar en línea"/>
                         </div>
                     </div>
-                </div>
 
-                <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
 
-            </Layout>
+                
+
+          
 
             <style jsx>{`
 
@@ -160,7 +160,7 @@ export default function Accessibility(){
 
             
             `}</style>
-        </>
+        </Layout>
     )
 
 

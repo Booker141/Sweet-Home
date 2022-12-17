@@ -20,10 +20,7 @@ import Layout from "components/Layout/Layout"
 export default function Rules(){
     return (
         <Layout>
-            <>
-                <div className={global.content}>
                     <Head><title>Reglas y políticas</title></Head>
-                    <a name="top"></a>
                     <h1 className={global.title}>Reglas y políticas</h1>
                     <p className={global.text}>En este apartado, conocerá las 
                     reglas de Sweet Home. El propósito de Sweet Home es proveer 
@@ -69,8 +66,6 @@ export default function Rules(){
                     de cambio y amenaza para la diversidad biológica nativa, ya sea 
                     por su comportamiento invasor, o por el riesgo de contaminación 
                     genética”.</p>
-                    <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}>↑</a>
-                </div>
                 
                     <style jsx>{`
 
@@ -89,7 +84,6 @@ export default function Rules(){
                     
                     `}</style>
                 
-            </>
         </Layout>
     )
 
