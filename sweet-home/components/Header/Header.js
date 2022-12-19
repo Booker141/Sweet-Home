@@ -45,17 +45,15 @@ export default function Header(props){
      */
     const handleClick = () => {
 
-        if (router.asPath == "/")
+        if (router.asPath !== "/auth/signIn"){
 
-            router.push("/signIn");
+            router.push("/auth/signIn");
 
-        if (router.asPath == "/signIn")
+        }else{
 
-            router.push("/signUp");
+            router.push("/auth/signUp");
+        }
 
-        if (router.asPath == "/signUp")
-
-            router.push("/signIn");
     } 
 
     if (session){
@@ -285,7 +283,7 @@ export default function Header(props){
                     <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
-                        {(router.asPath !== "/signIn" && router.asPath) !== "/signUp" && <button className="button2" onClick={() => router.push("/signUp")}><a>{props.text5}</a></button>}
+                        {(router.asPath !== "/auth/signIn" && router.asPath) !== "/auth/signUp" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
                     </div>
                 </div>
             
@@ -335,6 +333,7 @@ export default function Header(props){
 
                     /*Visuals*/
 
+                    cursor: pointer;
                     background-color: ${colors.primary};
                     border-radius: 5px;
                     border: none;
@@ -372,6 +371,7 @@ export default function Header(props){
 
                     /*Visuals*/
 
+                    cursor: pointer;
                     border-radius: 5px;
                     border: none;
                     background-color: #ffe0b8;

@@ -308,6 +308,7 @@
 
   /*Visuals*/
 
+  cursor: pointer;
   background-color: #f0810f;
   border-radius: 40px;
   border: none;
@@ -337,6 +338,7 @@
 
   /*Visuals*/
 
+  cursor: pointer;
   background-color: #fab169;
   border-radius: 40px;
   border: none;
@@ -366,6 +368,8 @@
   font-style: 500;
 
   /*Visuals*/
+
+  cursor: pointer;
 
   background-color: #fafafa;
   border-radius: 40px;

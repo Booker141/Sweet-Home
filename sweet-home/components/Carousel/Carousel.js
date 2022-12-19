@@ -32,7 +32,7 @@ export default function Carousel(){
                         <h2 className="text__title">Carlota nos cuenta su experiencia en Sweet Home</h2>
                         <h3 className="text__date">18/08/2022</h3>
                         <p className="text__paragraph">Hace unos meses, estuvo pensando en regalarle a su hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.</p>
-                        <button className={global.buttonTertiary} onClick={() => {router.push("/news")}}>Saber más</button>
+                        <button className={global.buttonTertiary} onClick={() => {router.push("/news/1")}}>Saber más</button>
                     </div>
                     <div className="item__image1">
                         <Image src={carousel1}/>
@@ -43,7 +43,7 @@ export default function Carousel(){
                         <h2 className="text__title">Nueva actualización v1.0.0</h2>
                         <h3 className="text__date">20/08/2022</h3>
                         <p className="text__paragraph">Entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
-                        <button className={global.buttonTertiary} onClick={() => {router.push("/news")}}>Saber más</button>
+                        <button className={global.buttonTertiary} onClick={() => {router.push("/news/2")}}>Saber más</button>
                     </div>
                     <div className="item__image2">
                         <Image src={carousel2}/>
@@ -54,7 +54,7 @@ export default function Carousel(){
                         <h2 className="text__title">¿Estás perdido?</h2>
                         <h3 className="text__date">21/08/2022</h3>
                         <p className="text__paragraph">Entérate de cómo funciona Sweet Home en esta entrevista con su creador.</p>
-                        <button className={global.buttonTertiary} onClick={() => router.push("/news")}>Saber más</button>
+                        <button className={global.buttonTertiary} onClick={() => router.push("/news/3")}>Saber más</button>
                     </div>
                     <div className="item__image3">
                         <Image src={carousel3}/>

@@ -7,7 +7,7 @@ import { connectionDB } from "../lib/MongoDB";
 import bcrypt from "bcrypt"
 
 
-export const authOptions = {
+export default NextAuth({
 
     providers: [
       GoogleProvider({
@@ -29,7 +29,7 @@ export const authOptions = {
         async authorize(credentials, req) {
 
           const client = await connectionDB;
-          const db = await client.db();
+          const db = await client.db("SweetHomeDB");
           const email = credentials.email;
           const password = credentials.password;
           const user = await db.collection('users').findOne({email: email});
@@ -55,16 +55,15 @@ export const authOptions = {
         }
       })
     ],
-    secret: process.env.JWT_SECRET,
     database: process.env.MONGODB_URI,
     pages: {
-      signIn: '/signIn',
-      signOut: '/signOut',
+      signIn: '/auth/signIn',
       error: '/_error', // Error code passed in query string as ?error=
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    adapter: MongoDBAdapter(connectionDB),
-  }
-
-  export default NextAuth(authOptions)
+    adapter: MongoDBAdapter(connectionDB,{
+      databaseName: 'SweetHomeDB'
+    }),
+    secret: process.env.NEXT_PUBLIC_SECRET,
+  })

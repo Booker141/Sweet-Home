@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {useRouter} from 'next/router'
 import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
 import global from "styles/global.module.css"
@@ -12,7 +12,7 @@ import BasicFooter from 'components/BasicFooter/BasicFooter'
 import {MdEmail} from "react-icons/md";
 import {BsFillLockFill, BsTwitter, BsGoogle} from "react-icons/bs";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
-import signIn1 from "../../public/signIn-1.svg"
+import signIn1 from "../../../public/signIn-1.svg"
 
 /*
     * @author Sergio García Navarro
@@ -27,12 +27,14 @@ import signIn1 from "../../public/signIn-1.svg"
  * and a BasicFooter component
  * @returns A React component.
  */
-export default function SignIn({providers, csrfToken}) {
+export default function SignIn({providers}) {
 
+  const csrfToken = getCsrfToken();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState(null);
   const Router = useRouter();
+
 
 
  /**
@@ -91,7 +93,7 @@ export default function SignIn({providers, csrfToken}) {
           <Head>
             <title>Inicio de sesión</title>
           </Head>
-          <Header url1="/attendances" url2="/info" url3="/contact" url4="/signUp"
+          <Header url1="/attendances" url2="/info" url3="/contact" url4="/auth/signUp"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={global.content}>
             <div className="page">
@@ -102,14 +104,14 @@ export default function SignIn({providers, csrfToken}) {
                 <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>
                 </div>
-                {Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
+                {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
                   <div key={provider.name}>
                     <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`,})}>
                       Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
                     </button>
                   </div>
                 ))}
-                {Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
+                {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
                   <div key={provider.name}>
                     <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`,})}>
                       Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
@@ -346,6 +348,7 @@ export default function SignIn({providers, csrfToken}) {
 
                 /*Visuals*/
 
+                cursor: pointer;
                 background-color: #FCAA7F;
                 border-radius: 5px;
                 border: 1px solid ${colors.secondary};
@@ -579,23 +582,24 @@ export default function SignIn({providers, csrfToken}) {
   )
 }
 
+
 export async function getServerSideProps(context) {
-
-
+  
   const session = await getSession(context);
-  const csrfToken = await getCsrfToken(context);
-  const providers = await getProviders();
 
+  if(session){
 
-  if (session) {
     return {
-      redirect: { destination: "/home" },
-    };
+      redirect: {
+        destination: '/home',
+        permanent: false,
+
+      }
+    }
+
   }
 
   return {
-    props: {
-      csrfToken, providers, session
-    },
-  };
+    props: { providers: await getProviders() },
   }
+}

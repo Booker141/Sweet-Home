@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import {useState} from 'react'
-import {getCsrfToken, getSession} from "next-auth/react"
+import {getSession} from "next-auth/react"
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
@@ -22,7 +22,7 @@ import signUp1 from "../../public/signUp-1.svg"
     * @description Sign up page
 */
 
-export default function SignUp({csrfToken}) {
+export default function SignUp({session}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,7 +61,7 @@ export default function SignUp({csrfToken}) {
 
     e.preventDefault();
 
-    const res = await fetch('/api/auth/signUp', {
+    const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ export default function SignUp({csrfToken}) {
           <title>Registro</title>
         </Head>
         
-        <Header url1="/attendances" url2="/info" url3="/contact" url4="/signIn"
+        <Header url1="/attendances" url2="/info" url3="/contact" url4="/auth/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={global.content}>
         <div className="page">
@@ -112,7 +112,6 @@ export default function SignUp({csrfToken}) {
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
             <form className="form-vertical" action="/api/signUp">
-            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-vertical__email">
                 <div className="label">
                   <p className={global.text}>Email</p>
@@ -208,7 +207,7 @@ export default function SignUp({csrfToken}) {
             </form>
             <div className={global.error}>{message}</div>
             <div className="form__conditions">
-              <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className={global.link} aria-label="Ir a Condiciones" href="/conditions">Condiciones</a> y  <a className={global.link} aria-label="Ir a Privacidad" href="/privacity">Privacidad</a> encontrará más información.</p>
+              <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className="form__link" aria-label="Ir a Condiciones" href="/conditions">Condiciones</a> y  <a className="form__link" aria-label="Ir a Privacidad" href="/privacity">Privacidad</a> encontrará más información.</p>
             </div>
 
             <button className="form-vertical__button" onClick={(e)=> signUp(e)}>Confirmar</button>
@@ -383,12 +382,31 @@ export default function SignUp({csrfToken}) {
 
           display: flex;
           align-items: center;
-          justify-content: center;
+          width: 60%;
 
           /*Text*/
 
           color: ${colors.secondary};
 
+        }
+
+       .form__link{
+
+           /*Text*/
+
+          font-family: ${fonts.default};
+          color: ${colors.secondary};
+          text-decoration: none;
+          font-size: 1rem;
+          font-weight: 400;
+       }
+
+       .form__link:hover{
+
+          /*Text*/
+
+          color: ${colors.tertiary};
+          transition: all 0.5s ease-in-out;
         }
         .page__image{
 
@@ -668,9 +686,7 @@ export default function SignUp({csrfToken}) {
 
 export async function getServerSideProps(context) {
 
-  const { req } = context;
-
-  const session = await getSession(req);
+  const session = await getSession(context);
 
   if (session) {
     return {
@@ -680,7 +696,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      csrfToken: await getCsrfToken(req),
+      session
     },
   };
 }

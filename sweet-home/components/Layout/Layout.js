@@ -19,7 +19,7 @@ export default function Layout ({children}){
         return(
 
             <>
-            <Header url1='/attendances' url2='/about' url3='/contact' url4='/signIn' url5='/signUp'
+            <Header url1='/attendances' url2='/about' url3='/contact' url4='/auth/signIn' url5='/auth/signUp'
                     text1='Cuidados' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse' />
                 
                 <div className={global.content}>

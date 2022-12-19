@@ -40,13 +40,13 @@ export default function Privacy() {
                     Por favor lea detenidamente la correspondiente política para obtener 
                     más información.</h6>
                     <ul className={global.list}>
-                        <li className={global.list__item}> Información personal</li>
-                        <li className={global.list__item}> Uso de la información</li>
-                        <li className={global.list__item}> Información sobre la privacidad de los niños</li>
-                        <li className={global.list__item}> Enlace a redes sociales</li>
-                        <li className={global.list__item}> Seguridad de la información</li>
-                        <li className={global.list__item}> Conservación</li>
-                        <li className={global.list__item}> Cambios en la política de privacidad</li>
+                        <li className={global.list__item}> Información personal.</li>
+                        <li className={global.list__item}> Uso de la información.</li>
+                        <li className={global.list__item}> Información sobre la privacidad de los niños.</li>
+                        <li className={global.list__item}> Enlace a redes sociales.</li>
+                        <li className={global.list__item}> Seguridad de la información.</li>
+                        <li className={global.list__item}> Conservación.</li>
+                        <li className={global.list__item}> Cambios en la política de privacidad.</li>
                     </ul>
 
                     <h2 className={global.secondary}>1. Información personal</h2>
@@ -68,7 +68,7 @@ export default function Privacy() {
                         género y otros datos que proporciona en el formulario de registro.</li>
                         <li className={global.list__item}> Información demográfica como edad o género.</li>
                         <li className={global.list__item}> Información relativa a su cuenta como nombre de usuario y contraseña.</li>
-                        <li className={global.list__item}> Información sobre su perfil</li>
+                        <li className={global.list__item}> Información sobre su perfil.</li>
                     </ul>
                     <p className={global.text}>Con métodos automatizados solo recogemos información relativa a su perfil y haya sido introducida en nuestra aplicación. No recogeremos información sobre su dirección IP, sistema operativo y dispositivo utilizados, etc.</p>
 
