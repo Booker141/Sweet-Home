@@ -30,7 +30,7 @@ export default NextAuth({
           
           let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
-          const {email,password} = credentials;
+          const {email, password} = credentials;
           
           if(!regEmail.test(email)){
             
@@ -93,9 +93,34 @@ export default NextAuth({
         }
         return token;
       },
-      async session(session, token) {
-        session.user.id = token.id;
-        return session;
-      },
+      async session(session) {
+  
+            if (!session) return;
+        
+            const client = await clientPromise;
+            const db = await client.db();
+            
+            const user = await db.collection('users').findOne({
+              email: session.user.email,
+            });
+        
+            return {
+              session: {
+                user: {
+                  id: user._id,
+                  firstname: user.firstname,
+                  lastname: user.lastname,
+                  username: user.username,
+                  email: user.email,
+                  password: user.password,
+                  phone: user.phone,
+                  gender: user.gender,
+                  birthdate: user.birthdate,
+                  image: user.image,
+                  role: user.role,
+                }
+              }
+            };
+          },
     },
   })

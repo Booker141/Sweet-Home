@@ -31,10 +31,8 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }) {
     <>
  
       <SessionProvider session={session}>
-          
-          <Component {...pageProps} />
-
           {loading && <Loader />}
+          <Component {...pageProps} /> 
       </SessionProvider>
       
     </>

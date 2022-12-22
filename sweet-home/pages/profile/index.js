@@ -4,25 +4,24 @@ import Head from 'next/head'
 import Image from "next/image"
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
-import clientPromise from "../api/lib/MongoDB"
 
-export default function Profile(user, posts){
+export default function Profile({posts}){
 
-    const {data: session, status} = useSession({required: true, onUnauthenticated(){ Router.push("/signIn")}});
+    const {data: session, status} = useSession({required: true});
     const router = useRouter();
-    console.log(session);
-    if (session){
+
+    if (status == "authenticated"){
         return(
             <Layout>
 
                     <Head><title>Mi perfil</title></Head>
 
                        <div className="container__profile">
-                            <Image style={{borderRadius: '50px'}} src={session.user.image} width={100} height={100}/>
+                            <Image style={{borderRadius: '50px'}} width={100} height={100}/>
                             <div className="profile__text">
-                                <div className={global.title2}>{session.user.name}</div>
-                                <div className={global.title2}>{session.user.email}</div>
-                                <p className={global.text}>{user.biography}</p>
+                                <div className={global.title2}>Nombre</div>
+                                <div className={global.title2}>Correo</div>
+                                <p className={global.text}>Biografía</p>
                             </div>
                             <button className={global.buttonTertiary} onClick={() => router.push("/changeProfile")}>Editar perfil</button>
                         </div>
@@ -43,7 +42,20 @@ export default function Profile(user, posts){
                                         {description}
                                     </div>
                                     <div>
-                                        {comments}
+                                        {comments.map(({userImage, userName, description}) => {
+                                            return (
+                                                <>
+                                                    <div key={_id}>
+                                                        {userImage}
+                                                    </div>
+                                                    <div>
+                                                        {userName}
+                                                    </div>
+                                                    <div>
+                                                        {description}
+                                                    </div>
+                                                </>
+                                            )})}
                                     </div>
                                     </>
                                 )})}
@@ -111,9 +123,7 @@ export default function Profile(user, posts){
 
 export async function getServerSideProps(context){
 
-    const {req} = context;
-    const client = await clientPromise;
-    const body = req.body;
+
 
     let res = await fetch("http://localhost:3000/api/posts", {
     method: "GET",
@@ -122,17 +132,13 @@ export async function getServerSideProps(context){
     },
     });
 
-    console.log(body);
 
     let posts = await res.json();
-    const db = client.db();
-    const userEmail = body.email;
-    const user = await db.collection("users").findOneByEmail(userEmail).toArray();
 
-
+  
     return {
         props: {
-            user: JSON.parse(JSON.stringify(user)), posts: JSON.parse(JSON.stringify(posts))
+             posts: JSON.parse(JSON.stringify(posts)),
         }
     }
 }

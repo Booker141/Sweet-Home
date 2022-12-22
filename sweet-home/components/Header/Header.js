@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useSession} from "next-auth/react"
+import { useSession, signOut} from "next-auth/react"
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import global from "styles/global.module.css"
@@ -36,7 +36,9 @@ export default function Header(props){
 
     const {data: session, status} = useSession({required: false});
     const [isModalVisible, setIsModalVisible] = useState(false);
+
     const router = useRouter();
+
 
     /**
      * If the user is on the home page, send them to the sign in page. If the user is on the sign in
@@ -66,21 +68,21 @@ export default function Header(props){
                     <li><Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${props.text1}'>{props.text1}</a></Link></li>
                     <li><Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${props.text2}'>{props.text2}</a></Link></li>
                     <li><Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${props.text3}'>{props.text3}</a></Link></li>
-                    <li className="menu-visible"><a id="profile">{session.user.name}⌄</a>
+                    <li className="menu-visible"><a id="profile">Perfil⌄</a>
                         <ul className="menu">
                             <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
                             <hr className="line"/>
                             <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></li></ul></li>
                         </ul>        
             </div>
-            <Modal showModal={isModalVisible}>
+            {isModalVisible && <Modal>
                     <h2 className={global.title}>Cerrar sesión</h2>
                     <p className={global.text}>¿Estás seguro de que quieres cerrar sesión?</p>
                             <div className="buttons">
                                     <button className={global.buttonPrimary} onClick={() => signOut()}>Sí</button>
                                     <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
                             </div>
-            </Modal>
+            </Modal>}
             
                 <style jsx>{`
 
@@ -239,6 +241,23 @@ export default function Header(props){
                     margin-left: 1rem;
                 }
 
+                .buttons{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    margin-top: 2rem;
+                }
+
+                button{
+
+                    /*Box model*/
+
+                    margin: 1rem;
+                }
+
                 a{
 
                     /*Box model*/
@@ -286,7 +305,7 @@ export default function Header(props){
                     <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
-                        {router.asPath !== "/auth" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
+                        {router.asPath !== "/auth/signIn" && router.asPath !== "/auth/signUp" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
                     </div>
                 </div>
             

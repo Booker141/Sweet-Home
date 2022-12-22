@@ -3,6 +3,8 @@ import clientPromise from "../lib/MongoDB"
 
 export default async function handler(req, res){
 
+    if(req.method === 'POST'){
+
         const client = await clientPromise;
         const db = await client.db();
         const body = req.body;
@@ -54,7 +56,7 @@ export default async function handler(req, res){
 
         }
 
-        const salt = await bcrypt.genSalt(12);
+        const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(body.password, salt);
         
         await db.collection('users').insertOne({email: body.email, name: body.name, lastName: body.lastName, username: body.username, password: hashPassword});
@@ -62,5 +64,7 @@ export default async function handler(req, res){
         if(response.statusCode == 500)
             res.status(500).json({message: 'Error al registrar el usuario'});
         res.status(201).json({message: 'Registrado con éxito'});
+
+    } 
     
 }   

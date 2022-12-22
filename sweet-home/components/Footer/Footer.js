@@ -28,9 +28,9 @@ export default function Footer(){
     useEffect(() =>
     {
         setColor(document.body.style.backgroundColor)
-        setCount(count + 1)
-    })
-
+        
+    },[])
+    
     return(
             <>
             <div className="content__footer">

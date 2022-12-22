@@ -94,7 +94,7 @@ export default function SignIn({providers, csrfToken}) {
           <Head>
             <title>Inicio de sesión</title>
           </Head>
-          <Header url1="/attendances" url2="/info" url3="/contact" url4="/auth/signUp"
+          <Header url1="/attendances" url2="/about" url3="/contact" url4="/auth/signUp"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={global.content}>
             <ThemeButton/>
@@ -171,7 +171,7 @@ export default function SignIn({providers, csrfToken}) {
                 <button className="form-vertical__button" onClick={(e)=>Login(e)}>Iniciar sesión</button>
                 <div className="form-register">
                   <h6>¿No tiene una cuenta?</h6>
-                  <Link href="/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
+                  <Link href="/auth/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
                 </div>
               </div>
             </div>

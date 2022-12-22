@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
+import Router  from 'next/router'
+import {useSession, signIn} from 'next-auth/react'
 import {useState} from 'react'
-import {getSession} from "next-auth/react"
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
@@ -15,6 +16,7 @@ import {MdEmail} from "react-icons/md";
 import {AiFillInfoCircle, AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
 import signUp1 from "../../../public/signUp-1.svg"
 
+
 /*
     * @author Sergio García Navarro
     * @returns Sign up page
@@ -25,6 +27,7 @@ import signUp1 from "../../../public/signUp-1.svg"
 
 export default function SignUp() {
 
+  const {data: session, status} = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -59,10 +62,10 @@ export default function SignUp() {
 
   // Función para registrar al usuario
   const signUp = async (e) => {
-
+    
     e.preventDefault();
 
-    const res = await fetch('/api/auth/signup', {
+    const res = await fetch('/api/auth/signUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -87,10 +90,14 @@ export default function SignUp() {
       return Router.push('/home');
 
     }
-  }
+  } 
 
- 
-  
+
+ if(session){
+
+    Router.push('/home');
+
+ }
   
   return(
 
@@ -99,7 +106,7 @@ export default function SignUp() {
           <title>Registro</title>
         </Head>
         
-        <Header url1="/attendances" url2="/info" url3="/contact" url4="/auth/signIn"
+        <Header url1="/attendances" url2="/about" url3="/contact" url4="/auth/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={global.content}>
         <ThemeButton/>
@@ -114,7 +121,7 @@ export default function SignUp() {
               
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
-            <form method="POST" className="form-vertical">
+            <form className="form-vertical" action="/api/auth/signIn/email">
               <div className="form-vertical__email">
                 <div className="label">
                   <p className={global.text}>Email</p>
@@ -213,10 +220,10 @@ export default function SignUp() {
               <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className="form__link" aria-label="Ir a Condiciones" href="/conditions">Condiciones</a> y  <a className="form__link" aria-label="Ir a Privacidad" href="/privacity">Privacidad</a> encontrará más información.</p>
             </div>
 
-            <button className="form-vertical__button" onClick={(e)=> signUp(e)}>Confirmar</button>
+            <button type="submit" className="form-vertical__button" onClick={(e) => signUp(e)}>Confirmar</button>
             <div className="form-login">
               <h6>¿Ya tienes una cuenta?</h6>
-              <Link href="/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>
+              <Link href="/auth/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>
             </div>
           </div>
         </div>

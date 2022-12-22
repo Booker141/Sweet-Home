@@ -2,32 +2,35 @@ import {useState} from 'react'
 
 export default function Modal({children}){
 
-    const {isModalVisible} = children;
-    const [showModal, setShowModal] = useState(false);
 
-    setShowModal(isModalVisible);
+
+
     
     return (
         <>
-        {showModal ? (
             <div className="center">
                 <div className="card">
                     {children}
                 </div>
             </div>
-        ) : null}
 
         <style jsx>{`
 
         .center{
+
+            /*Position*/
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: rgba(0,0,0,0.4);
 
             /*Box model*/
 
             display: flex;
             align-items: center;
             justify-content: center;
-            top: 50%;
-            left: 50%;
             width: 100%;
             height: 100%;
 
@@ -49,7 +52,7 @@ export default function Modal({children}){
 
             border: 2px solid #f0810f;
             border-radius: 10px;
-            box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
+            background-color: #fff;
             }
 
             .buttons{
