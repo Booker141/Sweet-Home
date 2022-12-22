@@ -34,7 +34,7 @@ import Modal from "components/Modal/Modal"
 
 export default function Header(props){
 
-    const {data: session} = useSession();
+    const {data: session, status} = useSession({required: false});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const router = useRouter();
 
@@ -56,7 +56,7 @@ export default function Header(props){
 
     } 
 
-    if (session){
+    if (status == "authenticated"){
         return(    
             <>
             
@@ -81,6 +81,7 @@ export default function Header(props){
                                     <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
                             </div>
             </Modal>
+            
                 <style jsx>{`
 
             
@@ -218,6 +219,7 @@ export default function Header(props){
                     margin-top: 1rem;
                     display: flex;
                     flex-direction: row;
+                    
                 }
                 
                 .align__link{
@@ -226,6 +228,7 @@ export default function Header(props){
 
                     display: flex;
                     flex-direction: row;
+                    cursor: pointer;
 
                 }
 
@@ -283,7 +286,7 @@ export default function Header(props){
                     <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
-                        {(router.asPath !== "/auth/signIn" && router.asPath) !== "/auth/signUp" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
+                        {router.asPath !== "/auth" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
                     </div>
                 </div>
             

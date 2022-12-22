@@ -8,11 +8,12 @@ import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
 import Header from "components/Header/Header"
 import BasicFooter from "components/BasicFooter/BasicFooter"
+import ThemeButton from "components/ThemeButton/ThemeButton"
 import {FaUser, FaUserPlus} from "react-icons/fa";
 import {BsFillLockFill} from "react-icons/bs";
 import {MdEmail} from "react-icons/md";
 import {AiFillInfoCircle, AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
-import signUp1 from "../../public/signUp-1.svg"
+import signUp1 from "../../../public/signUp-1.svg"
 
 /*
     * @author Sergio García Navarro
@@ -22,7 +23,7 @@ import signUp1 from "../../public/signUp-1.svg"
     * @description Sign up page
 */
 
-export default function SignUp({session}) {
+export default function SignUp() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,7 +62,7 @@ export default function SignUp({session}) {
 
     e.preventDefault();
 
-    const res = await fetch('/api/auth/register', {
+    const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -75,13 +76,13 @@ export default function SignUp({session}) {
       })
     })
 
-    const data = res.json();
+    let data = res.json();
 
     setMessage(data.message);
 
     if(data.message == 'Registrado con éxito'){
 
-      const res = await signIn("credentials", {email, password});
+      await signIn("credentials", {email, password});
 
       return Router.push('/home');
 
@@ -101,7 +102,9 @@ export default function SignUp({session}) {
         <Header url1="/attendances" url2="/info" url3="/contact" url4="/auth/signIn"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={global.content}>
+        <ThemeButton/>
         <div className="page">
+          
           <div className="page__image">
             <Image src={signUp1} width={2000} height={2000} alt="Imagen de registro" priority/>
           </div>
@@ -111,7 +114,7 @@ export default function SignUp({session}) {
               
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
-            <form className="form-vertical" action="/api/signUp">
+            <form method="POST" className="form-vertical">
               <div className="form-vertical__email">
                 <div className="label">
                   <p className={global.text}>Email</p>
@@ -268,7 +271,8 @@ export default function SignUp({session}) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin-top:2rem;
+          margin-top: 2rem;
+          margin-bottom: 2rem;
 
         }
 
@@ -361,6 +365,7 @@ export default function SignUp({session}) {
 
             /*Visuals*/
 
+            cursor: pointer;
             background-color: #FCAA7F;
             border-radius: 5px;
             border: 1px solid ${colors.secondary};
@@ -431,6 +436,7 @@ export default function SignUp({session}) {
             width: 50%;
             height: 100%;
             margin-right: 2rem;
+
 
         }
 
@@ -682,21 +688,4 @@ export default function SignUp({session}) {
 
 
   )
-}
-
-export async function getServerSideProps(context) {
-
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      redirect: { destination: "/home" },
-    };
-  }
-
-  return {
-    props: {
-      session
-    },
-  };
 }

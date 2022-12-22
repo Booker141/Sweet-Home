@@ -9,7 +9,7 @@ if (!process.env.MONGODB_URI) {
 const uri = process.env.MONGODB_URI;
 
 let client;
-let connectionDB;
+let clientPromise;
 
 if (process.env.NODE_ENV === 'development') {
 
@@ -18,11 +18,11 @@ if (process.env.NODE_ENV === 'development') {
     global._mongoClientPromise = client.connect();
   }
 
-  connectionDB = global._mongoClientPromise;
+  clientPromise = global._mongoClientPromise;
 
 } else {
   client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  connectionDB = client.connect();
+  clientPromise = client.connect();
 }
 
-export default connectionDB;
+export default clientPromise;

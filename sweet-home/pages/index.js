@@ -9,6 +9,7 @@ import {colors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
 import Carousel from "components/Carousel/Carousel"
 import BasicFooter from "components/BasicFooter/BasicFooter"
+import ThemeButton from "components/ThemeButton/ThemeButton"
 import {AiOutlineMobile, AiOutlineTablet} from "react-icons/ai"
 import {ImArrowUp2} from "react-icons/im"
 import {BsLaptop} from "react-icons/bs"
@@ -37,6 +38,7 @@ export default function Principal(){
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto"  /> }
       
       <div className={global.content}>
+        <ThemeButton/>
         <a name="top"></a>
         <div className="content__container1">
           <div className="container1__title">
@@ -301,7 +303,7 @@ export default function Principal(){
             align-items: center;
             justify-content: center;
             width: 100%;
-            
+            margin-top: 4rem;
 
 
           }
@@ -535,17 +537,19 @@ export default function Principal(){
 
           }
 
+          /*IMAGES*/
+          
           .imagen-inicio1{
 
             /*Visuals*/
 
             width: 100%;
             height: 100%;
-            border-radius: 10px;
 
             /*Misc*/
 
             animation: imagen 2s linear forwards;
+            
 
           }
 
@@ -576,6 +580,10 @@ export default function Principal(){
 
           }
 
+          .imagen__border{
+
+            border-radius: 10px;
+          }
       
           @keyframes texto {
             0% { bottom: -1em; opacity: 0.3; }

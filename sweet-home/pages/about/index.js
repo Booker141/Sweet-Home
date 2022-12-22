@@ -161,7 +161,10 @@ export default function About () {
                             flex-direction: column;
                             justify-content: center;
                             align-items: center;
+                      
                         }
+
+         
 
                         .column2__img{
 
@@ -169,11 +172,11 @@ export default function About () {
 
                             width: 35rem;
                             height: 26rem;
+                            
                         
                         }
-
-
-
+                        
+                       
                         .benefits-title{
 
                             display: flex;

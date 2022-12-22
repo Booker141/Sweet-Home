@@ -133,6 +133,7 @@ export default function Use(){
 
                     background: white;
                     border-radius: 10px;
+                    color: ${colors.quaternary};
                 }
                 
                 .faq{

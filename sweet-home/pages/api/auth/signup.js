@@ -1,12 +1,11 @@
 import bcrypt from 'bcrypt'
-import connectionDB from "../lib/MongoDB"
+import clientPromise from "../lib/MongoDB"
 
 export default async function handler(req, res){
 
-
-        const client = await connectionDB;
+        const client = await clientPromise;
         const db = await client.db();
-        const body = JSON.parse(req.body);
+        const body = req.body;
         const userExist = await db.collection('users').findOne({email: body.email});
 
         let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;

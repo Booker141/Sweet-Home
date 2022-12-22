@@ -1,3 +1,4 @@
+import {getSession} from 'next-auth/react'
 import global from "styles/global.module.css"
 import User from "components/User/User"
 import Layout from "components/Layout/Layout"
@@ -23,17 +24,19 @@ export default function allUsers({users}){
 }
 
 export async function getServerSideProps(context){
+
+        const session = await getSession(context);
         
-        let user = await fetch("http://localhost:3000/api/users", {
+        let res = await fetch("http://localhost:3000/api/users", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
         })
     
-        let users = await user.json();
+        let users = await res.json();
     
         return {
-            props: { users: users },
+            props: { users: JSON.parse(JSON.stringify(users)) },
         };
 }

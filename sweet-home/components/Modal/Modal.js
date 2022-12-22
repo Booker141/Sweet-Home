@@ -2,7 +2,10 @@ import {useState} from 'react'
 
 export default function Modal({children}){
 
+    const {isModalVisible} = children;
     const [showModal, setShowModal] = useState(false);
+
+    setShowModal(isModalVisible);
     
     return (
         <>

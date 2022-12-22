@@ -3,7 +3,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials"
 import TwitterProvider from "next-auth/providers/twitter";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-import { connectionDB } from "../lib/MongoDB";
+import clientPromise from "../lib/MongoDB.js";
 import bcrypt from "bcrypt"
 
 
@@ -26,28 +26,42 @@ export default NextAuth({
           email: { label: "Email", type: "email", placeholder: "jsmith@hotmail.com" },
           password: { label: "Password", type: "password" }
         },
-        async authorize(credentials, req) {
+        async authorize(credentials) {
+          
+          let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
-          const client = await connectionDB;
-          const db = await client.db("SweetHomeDB");
-          const email = credentials.email;
-          const password = credentials.password;
+          const {email,password} = credentials;
+          
+          if(!regEmail.test(email)){
+            
+            throw new Error("Formato Email incorrecto");
+
+          }
+
+          const client = await clientPromise;
+          const db = await client.db();
           const user = await db.collection('users').findOne({email: email});
 
           if(user){
 
-              const isMatch = await bcrypt.compare(password, user.password);
+              await bcrypt.compare(password, user.password, (err, data) => {
+                //if error than throw error
+                if (err) throw Error("Contraseña incorrecta")
 
-              if (isMatch) {
+                if (data) {
+                    return user
+                } else {
+                    throw new Error("Datos incorrectos")
+                }
 
-                return user;
-              }
+            })
 
-              throw new Error("Contraseña incorrecta");
+              
 
           }else{
 
             throw new Error("No se ha encontrado ningún usuario");
+
             
           }
         
@@ -58,12 +72,30 @@ export default NextAuth({
     database: process.env.MONGODB_URI,
     pages: {
       signIn: '/auth/signIn',
-      error: '/_error', // Error code passed in query string as ?error=
+      error: '/auth/error', // Error code passed in query string as ?error=
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    adapter: MongoDBAdapter(connectionDB,{
-      databaseName: 'SweetHomeDB'
+    adapter: MongoDBAdapter(clientPromise,{
+      databaseName: 'SweetHomeDB',
     }),
     secret: process.env.NEXT_PUBLIC_SECRET,
+    session: {
+      jwt: true,
+    },
+    jwt: {
+      secret: process.env.NEXT_PUBLIC_SECRET,
+    },
+    callbacks: {
+      async jwt(token, user) {
+        if (user) {
+          token.id = user._id;
+        }
+        return token;
+      },
+      async session(session, token) {
+        session.user.id = token.id;
+        return session;
+      },
+    },
   })

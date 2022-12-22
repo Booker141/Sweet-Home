@@ -1,6 +1,23 @@
 //SPLIT THEME CONFIGURATION
 
 /**
+ * THEMES 
+ * light - casual properties
+ * dark - dark properties
+ */
+
+export const theme = {
+    light: {
+      textColor: '#1c1c1c',
+      backgroundColor: '#ffffff',
+    },
+    dark: {
+      textColor: '#fafafa',
+      backgroundColor: '#343541',
+    },
+  }
+
+/**
  * THEME COLORS
  * primary - orange 
  * secondary - white

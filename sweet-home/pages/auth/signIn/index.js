@@ -9,6 +9,7 @@ import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
+import ThemeButton from "components/ThemeButton/ThemeButton"
 import {MdEmail} from "react-icons/md";
 import {BsFillLockFill, BsTwitter, BsGoogle} from "react-icons/bs";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
@@ -27,9 +28,8 @@ import signIn1 from "../../../public/signIn-1.svg"
  * and a BasicFooter component
  * @returns A React component.
  */
-export default function SignIn({providers}) {
+export default function SignIn({providers, csrfToken}) {
 
-  const csrfToken = getCsrfToken();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState(null);
@@ -73,8 +73,9 @@ export default function SignIn({providers}) {
   const Login = async (e) => {
 
     e.preventDefault();
-
-    const res = await signIn("credentials", { email: email, password: password, callbackUrl: "/home" });
+    setMessage(null);
+    console.log(email, password)
+    const res = await signIn("credentials", { email: email, password: password });
 
     if (res.error) {
 
@@ -96,6 +97,7 @@ export default function SignIn({providers}) {
           <Header url1="/attendances" url2="/info" url3="/contact" url4="/auth/signUp"
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={global.content}>
+            <ThemeButton/>
             <div className="page">
               <div className="page__image">
                 <Image src={signIn1} width={1000} height={1000} alt="Imagen de inicio de sesión" priority/>
@@ -106,14 +108,14 @@ export default function SignIn({providers}) {
                 </div>
                 {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`,})}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id)}>
                       Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
                     </button>
                   </div>
                 ))}
                 {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`,})}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id)}>
                       Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
                     </button>
                   </div>
@@ -312,6 +314,7 @@ export default function SignIn({providers}) {
 
                 /*Visuals*/
 
+                cursor: pointer;
                 background-color: #FCAA7F;
                 border-radius: 5px;
                 border: 1px solid ${colors.secondary};
@@ -416,6 +419,7 @@ export default function SignIn({providers}) {
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
+                margin-bottom: 2rem;
                    
             }
 
@@ -585,21 +589,24 @@ export default function SignIn({providers}) {
 
 export async function getServerSideProps(context) {
   
-  const session = await getSession(context);
+  const {req} = context;
+
+  const session = await getSession({req});
 
   if(session){
+
+    console.log("Session", JSON.stringify(session, null, 2));
 
     return {
       redirect: {
         destination: '/home',
         permanent: false,
-
       }
     }
 
   }
 
   return {
-    props: { providers: await getProviders() },
+    props: { providers: await getProviders(), csrfToken: await getCsrfToken(context) },
   }
 }

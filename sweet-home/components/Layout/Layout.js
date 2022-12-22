@@ -1,6 +1,7 @@
 import global from "/styles/global.module.css"
 import Header from "/components/Header/Header";
 import Footer from "/components/Footer/Footer";
+import ThemeButton from "/components/ThemeButton/ThemeButton";
 import {ImArrowUp2} from "react-icons/im"
 
 /*
@@ -23,6 +24,7 @@ export default function Layout ({children}){
                     text1='Cuidados' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse' />
                 
                 <div className={global.content}>
+                    <ThemeButton/>
                     <a name="top"></a>
                     <main>{children}</main>
                     <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>

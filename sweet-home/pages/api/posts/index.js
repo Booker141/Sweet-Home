@@ -1,13 +1,13 @@
-import connectionDB from "./lib/MongoDB"
+import clientPromise from "../lib/MongoDB"
 
 export default async function handler(req, res){
 
-    const client = await connectionDB;
-    const db = await client.db("SweetHomeDB");
+    const client = await clientPromise;
+    const db = await client.db();
 
     if(req.method == "GET"){
 
-        const data = await db.collection("posts").find({}).limit(50).toArray();
+        const data = await db.collection('posts').find({}).limit(50).toArray();
 
         const posts = JSON.parse(JSON.stringify(data));
 
@@ -19,7 +19,7 @@ export default async function handler(req, res){
         
         let body = JSON.parse(req.body);
 
-        let data = await db.collection("posts").insertOne(body);
+        let data = await db.collection('posts').insertOne(body);
 
         let post = JSON.parse(JSON.stringify(data));
         

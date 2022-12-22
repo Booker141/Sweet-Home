@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
@@ -21,11 +22,20 @@ import {BsTwitter} from 'react-icons/bs'
  */
 export default function Footer(){
 
+    const [color, setColor] = useState('white');
+    const [count, setCount] = useState(0);
+
+    useEffect(() =>
+    {
+        setColor(document.body.style.backgroundColor)
+        setCount(count + 1)
+    })
+
     return(
             <>
             <div className="content__footer">
-                <svg className="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-                        <path fill="#ffffff" fillOpacity="1" d="M0,128L20,138.7C40,
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                        <path fill={color} fillOpacity="1" d="M0,128L20,138.7C40,
                         149,80,171,120,170.7C160,171,200,149,240,170.7C280,192,320,
                         256,360,245.3C400,235,440,149,480,128C520,107,560,149,600,
                         186.7C640,224,680,256,720,224C760,192,800,96,840,74.7C880,
@@ -86,7 +96,7 @@ export default function Footer(){
                 
             
             <style jsx>{`
-
+                
                 .content__footer{
 
                     /*Box model*/

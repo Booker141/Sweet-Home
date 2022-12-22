@@ -33,7 +33,6 @@
   font-family: "Raleway", sans-serif;
   font-size: 1.7rem;
   font-weight: 500;
-  color: #1c1c1c;
 }
 
 .tertiary {
@@ -42,7 +41,6 @@
   font-family: "Raleway", sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  color: #1c1c1c;
 }
 
 .text {
@@ -52,7 +50,7 @@
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  color: #1c1c1c;
+
 
 }
 
@@ -66,7 +64,7 @@
 
   font-size: 1rem;
   font-family: 'Raleway', sans-serif;
-  color: #fafafa;
+  color: #fafafafa;
 
 }
 
@@ -74,7 +72,12 @@
 
   /*Box model*/
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+
 
   /*Text*/
 
@@ -83,7 +86,7 @@
  
   /*Visuals*/
 
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #f55b5b;
 
 }
@@ -161,7 +164,7 @@
 
   border-radius: 10px;
   border: 1px solid #f0810f;
-  color: #1c1c1c;
+
 }
 
 .comment{
@@ -180,7 +183,7 @@
   /*Visuals*/
 
   background-color: #fafafa;
-  color: #1c1c1c;
+
 }
 
 .cards{
@@ -231,6 +234,17 @@
   border: 2px solid #f0810f;
   border-radius: 10px;
   box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
+
+}
+
+.loading{
+
+  /*Text*/
+
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  color: #1c1c1c;
+
 
 }
 
@@ -449,8 +463,11 @@
   transition: all 0.3s ease-in-out;
 }
 
+
 .buttonTo:hover {
   /*Visuals*/
 
   background-color: #f9a603;
 }
+
+

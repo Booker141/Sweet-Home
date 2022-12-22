@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Image from "next/image"
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
-import connectionDB from "../api/lib/MongoDB"
+import clientPromise from "../api/lib/MongoDB"
 
 export default function Profile(user, posts){
 
@@ -112,8 +112,8 @@ export default function Profile(user, posts){
 export async function getServerSideProps(context){
 
     const {req} = context;
-    const client = await connectionDB;
-    const body = JSON.parse(req.body);
+    const client = await clientPromise;
+    const body = req.body;
 
     let res = await fetch("http://localhost:3000/api/posts", {
     method: "GET",
@@ -121,6 +121,9 @@ export async function getServerSideProps(context){
       "Content-Type": "application/json",
     },
     });
+
+    console.log(body);
+
     let posts = await res.json();
     const db = client.db();
     const userEmail = body.email;
@@ -129,7 +132,7 @@ export async function getServerSideProps(context){
 
     return {
         props: {
-            user, posts
+            user: JSON.parse(JSON.stringify(user)), posts: JSON.parse(JSON.stringify(posts))
         }
     }
 }

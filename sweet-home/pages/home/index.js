@@ -26,7 +26,7 @@ export default function Home ({posts, users, session}){
                 <div className="container">
                   <div className="container__column1">
                     <h1 className={global.title}>Reciente</h1>
-                    {posts.length === 0 && <div className={global.loading}><p>Cargando</p></div>}
+                    {posts.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
                     {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
                       return (
                         <>
@@ -37,7 +37,7 @@ export default function Home ({posts, users, session}){
                   </div>
                   <div className="container__column2">
                     <h1 className={global.title}>Seguir</h1>
-                    {users.length === 0 && <div className={global.loading}><p>Cargando..</p></div>}
+                    {users.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
                     {users.slice(0,5).map(({_id, userImage, username}) => {
                       return (
                         <>
@@ -84,7 +84,6 @@ export async function getServerSideProps(context){
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36", //
     },
   });
 
@@ -92,7 +91,6 @@ export async function getServerSideProps(context){
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36", //
     },
   })
 
@@ -100,7 +98,7 @@ export async function getServerSideProps(context){
   let users = await user.json();
 
   return {
-    props: { posts: posts, users: users, session },
+    props: { posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(users)), session },
   };
 }
 
