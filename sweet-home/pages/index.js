@@ -38,8 +38,8 @@ export default function Principal(){
                           text1="Cuidados" text2="Quiénes somos" text3="Contacto"  /> }
       
       <div className={global.content}>
-        <ThemeButton/>
         <a name="top"></a>
+        <ThemeButton/>
         <div className="content__container1">
           <div className="container1__title">
             <h1 className="title">
