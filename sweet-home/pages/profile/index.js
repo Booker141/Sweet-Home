@@ -58,6 +58,17 @@ export default function Profile({posts}){
                         align-items: center;
 
                     }
+
+                    .posts{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
                 `}</style>
             </Layout>
         )

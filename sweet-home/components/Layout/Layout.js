@@ -20,16 +20,17 @@ export default function Layout ({children}){
         return(
 
             <>
-                <Header url1='/attendances' url2='/about' url3='/contact' url4='/auth/signIn' url5='/auth/signUp'
-                        text1='Cuidados' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse' />
-                    
-                    <div className={global.content}>
-                        <a name="top"></a>
-                        <ThemeButton/>
-                        <main>{children}</main>
-                        <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>
-                    </div>
-
+                <div className="Header">
+                    <Header url1='/attendances' url2='/about' url3='/contact' url4='/auth/signIn' url5='/auth/signUp'
+                            text1='Cuidados' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse' />
+                        
+                        <div className={global.content}>
+                            <a name="top"></a>
+                            <ThemeButton/>
+                            <main>{children}</main>
+                            <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>
+                        </div>
+                </div>
                 <Footer />
             </>
 

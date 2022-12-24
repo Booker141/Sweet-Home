@@ -32,7 +32,10 @@ export default function Home ({posts, users}){
               <Head><title>Reciente</title></Head>
                   <div className="container">
                     <div className="container__column1">
-                      <button className={global.buttonPrimary} onClick={() => Router.push("/newPost")} aria-label="Crear nuevo post">Crear post</button>
+                      <div className="column1__buttons">
+                        <button className={global.buttonPrimary} onClick={() => Router.push("/newPost")} aria-label="Crear nuevo post">Crear post</button>
+                        <button className={global.buttonPrimary} onClick={() => Router.push("/search")} aria-label="Ir a búsqueda">Buscar</button>
+                      </div>
                       <h1 className={global.title}>Reciente</h1>
                       {posts.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
@@ -55,18 +58,11 @@ export default function Home ({posts, users}){
                           </>
                         )
                       })}
-                      <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
-                      <div className="column2__footer">
-                        <div className="footer__links">
-                          <Link href={"/use"}><a className={global.link} aria-label='Ir a Información}'>Información -</a></Link>
-                          <Link href={"/privacy"}><a className={global.link} aria-label='Ir a Privacidad'>Privacidad -</a></Link>
-                          <Link href={"/conditions"}><a className={global.link} aria-label='Ir a Condiciones'>Condiciones -</a></Link>
-                          <Link href={"/accessibility"} ><a className={global.link} aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                        </div>
-                        <p className={global.link2}> Copyright &copy; Sweet Home Corporation</p>
-                    </div>
+                      <div className="users__link">
+                        <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
+                      </div>
                   </div>
-                  </div>
+                </div>
             
             <style jsx>{`
 
@@ -90,28 +86,31 @@ export default function Home ({posts, users}){
 
               }
 
-              .column2__footer{
+
+
+              .users__link{
 
                 /*Box model*/
 
-                display: flex;
-                flex-direction: column;
+                margin-bottom: 2rem;
 
               }
 
-              .footer__links{
+              .column1__buttons{
 
                 /*Box model*/
 
                 display: flex;
                 flex-direction: row;
-                width: 30%;
- 
+               
+                
               }
 
-              .footer__links a{
+              .column1__buttons button{
 
-               margin-right: 1rem;
+                /*Box model*/
+
+                margin-right: 1rem;
 
               }
 

@@ -3,33 +3,14 @@ import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf"
 import {colors} from "styles/frontend-conf"
 import Comment from "components/Comment/Comment"
-import {IoPawOutline, IoPaw} from 'react-icons/io'
+import {IoPawOutline, IoPaw, BsBookMark, BsBookMarkFill} from 'react-icons/io'
 
 
 export default function Post(props){
 
     const [comment, setComment] = useState("")
 
-    const Like = () => {
-
-        let like = document.getElementById("like");
-        
-        
-        if (!like) {
-    
-          document.getElementById("show__icon1").style.display = "none";
-          document.getElementById("show__icon2").style.display = "inline";
-
-    
-        }
-        else {
-    
-          document.getElementById("show__icon1").style.display = "inline";
-          document.getElementById("show__icon2").style.display = "none";
-
-    
-        }
-      }
+ 
     const Commentate = async (e) =>{
 
         e.preventDefault();
@@ -70,10 +51,11 @@ export default function Post(props){
                     </div>
                     <img src={props.mediaUrl}></img>
                     <div className="description">
-                        <p className={global.text}>
-                            {props.username}
+                        <img src={props.userImage}></img>
+                        <p className={global.tertiary__bold}>
+                            {props.username}:
                         </p>
-                        <p className={global.text}>
+                        <p className={global.tertiary}>
                             {props.description}
                         </p>
                     </div>
@@ -89,8 +71,11 @@ export default function Post(props){
                         className="input"></input>
                         <button onClick={(e) => Commentate(e)} className={global.buttonTertiary}>Enviar</button>
                     </div>
-                    <a id="like" onClick={() => Like()}><IoPawOutline id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><IoPaw size={20} color={colors.primary}/></div></a>
                     <div className={global.comments}>
+                    </div>
+                    <div className="comment__container">
+                        <p className={global.tertiary__bold}>Comentarios</p>
+                    
                         {props.comments.map(({_id, username, comment}) => {
                             return (
                                 <>
@@ -99,8 +84,9 @@ export default function Post(props){
                             )
                         })}
                     </div>
+                    </div>
                 </div>
-            </div>
+    
             <style jsx>{`
 
                 .post__content{
@@ -128,7 +114,13 @@ export default function Post(props){
 
                     display: flex;
                     flex-direction: row;
+                    align-items: center;
                     justify-content: space-around;
+                    margin-bottom: 1rem;
+                    margin-top: 1rem;
+
+                    background-color: #fff;
+                    border-radius: 5px;
                 }
 
                 .header__user{
@@ -148,7 +140,7 @@ export default function Post(props){
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
+                    align-items: flex-start;
                     margin-top: 1rem;
                     margin-bottom: 1rem;
                     /*Visuals*/
@@ -158,6 +150,14 @@ export default function Post(props){
 
                 }
 
+                .description p{
+
+                    /*Box model*/
+
+                    margin-right: 1rem;
+                    margin-left: 1rem;
+                }
+
                 ::placeholder {
 
                     /*Text*/
@@ -165,14 +165,13 @@ export default function Post(props){
                     color: ${colors.primary};
                 }
 
-                input["text"]{
+                .input{
 
                      /*Box model*/
 
-                    width: 100%;
+                    width: 70%;
                     height: 2rem;
                     
-                    margin-bottom: 2rem;
 
                     /*Text*/
 
@@ -182,7 +181,25 @@ export default function Post(props){
                     /*Visuals*/
 
                     border-radius: 5px;
-                    border: none;
+                    border: 1px solid ${colors.primary};
+                }
+
+
+                .comment__container{
+
+                    /*Visuals*/
+
+                    border-radius: 10px;
+                    background-color: #fff;
+
+                }
+
+                .comment__container p{
+
+                    /*Box model*/
+
+                    margin-left: 1rem;
+
                 }
             
             `}</style>

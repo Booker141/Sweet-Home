@@ -6,15 +6,18 @@ export default function Comment(props){
     return (
         <>
 
-            <div key={props._id} className={global.comment}>
-                <div className={global.text}>
-                    {props.username}
+                <div key={props._id} className={global.comment}>
+                    <div className={global.tertiary__bold}>
+                        {props.username}
+                    </div>
+                    <p className={global.tertiary}>
+                        {props.comment}
+                    </p>
+                
                 </div>
-                <p className={global.text}>
-                    {props.comment}
-                </p>
-              
-            </div>
+
+
+    
 
         </>
 

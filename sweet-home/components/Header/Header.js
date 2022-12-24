@@ -66,8 +66,8 @@ export default function Header(props){
                         </div>
                         <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
                         <li><Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${props.text1}'>{props.text1}</a></Link></li>
-                        <li><Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${props.text2}'>{props.text2}</a></Link></li>
-                        <li><Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${props.text3}'>{props.text3}</a></Link></li>
+                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'>Buscar</a></Link></li>
+                        <li><Link href="/chat" as="/char"><a aria-label='Ir a Chat'>Chat</a></Link></li>
                         <li className="menu-visible"><a id="profile">Perfil</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
@@ -123,6 +123,7 @@ export default function Header(props){
                     z-index: 999999;
                     top: 0;
                     left: 0;
+           
 
                     /*Box model*/
 
@@ -151,14 +152,16 @@ export default function Header(props){
                     position: absolute;
                     margin-bottom: 1rem;
                     margin-right: 2rem;
-                    z-index: 1;
+                    
+                    z-index: 100000;
 
 
                     /*Visuals*/
 
                     border-radius: 0 0 10px 10px;
-                    background: rgba(255, 255, 255, 0.13);
-                    backdrop-filter: blur(4.4px);
+                    background: rgba(255, 255, 255, 0.4);
+                    backdrop-filter: blur(5px);
+
                 }
 
                 .no-button{
@@ -208,7 +211,7 @@ export default function Header(props){
                     /*Visual*/  
  
                     background: rgba(255, 255, 255, 0.13);
-                    backdrop-filter: blur(4.4px);
+                    backdrop-filter: blur(5px);
                     border-bottom: 1px solid ${colors.primary};
                     border-right: 1px solid ${colors.primary};
                     border-left: 1px solid ${colors.primary};

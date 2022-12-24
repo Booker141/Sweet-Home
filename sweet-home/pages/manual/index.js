@@ -1,6 +1,6 @@
 import global from "/styles/global.module.css"
 import Layout from "components/Layout/Layout"
-import Head from 'next-head'
+import Head from 'next/head'
 
 export default function Manual(){
 
@@ -11,6 +11,9 @@ export default function Manual(){
                 <Head><title>Manual de usuario</title></Head>
                 <div className="manual">
                     <h1 className={global.title}>Manual de usuario</h1>
+                    <aside>
+
+                    </aside>
                 </div>
                 
                 <style jsx>{`
@@ -21,8 +24,8 @@ export default function Manual(){
 
                         display: flex;
                         flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
+                      
+                    
 
                     }
                 `}</style>
