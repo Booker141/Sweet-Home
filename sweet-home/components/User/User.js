@@ -13,7 +13,9 @@ export default function User(props){
         <>
 
             <div key={props._id} className={global.user}>
-                <Image src={props.userImage} alt="Imagen de usuario" width={30} height={30}></Image>
+                <div className="user__image">
+                    <Image src={props.userImage} alt="Imagen de usuario" width={30} height={30}></Image>
+                </div>
                 <div className={global.text}>
                     {props.username}
                 </div>
@@ -31,6 +33,24 @@ export default function User(props){
                     justify-content: space-between;
                     align-items: center;
 
+                }
+
+                .text{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .buttonTertiary{
+
+                    /*Box model*/
+
+                    display: flex;
+                    float: right;
                 }
             
             `}</style>

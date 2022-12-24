@@ -135,6 +135,7 @@
   display: flex;
   flex-direction: column;
   width: 40rem;
+  padding: 1rem;
   
   /*Text*/
 
@@ -144,8 +145,10 @@
 
   border-radius: 10px;
 
-  background-color: #f0810f;
-  color: #fafafa
+  background: rgb(240,129,15);
+  background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
+  color: #fafafa;
+
 }
 
 .user{
@@ -154,8 +157,11 @@
 
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  
+  margin-bottom: 1rem;
+
   /*Text*/
 
   font-family: 'Poppins', sans-serif;
@@ -183,6 +189,7 @@
   /*Visuals*/
 
   background-color: #fafafa;
+  border-bottom: 1px solid #f0810f;
 
 }
 
@@ -276,6 +283,7 @@
 }
 
 .link {
+
   /*Text*/
 
   font-family: "Poppins", sans-serif;
@@ -286,6 +294,17 @@
   /*Visuals*/
 
   text-decoration: none;
+}
+
+.link2{
+
+    /*Text*/
+
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #f0810f;
+  
 }
 
 .link:hover {
@@ -385,7 +404,7 @@
 
   cursor: pointer;
 
-  background-color: #fafafa;
+  background-color: #ffff;
   border-radius: 40px;
   border: 1px solid #f0810f;
 

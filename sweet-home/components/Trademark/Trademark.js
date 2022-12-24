@@ -20,20 +20,8 @@ export default function Trademark({link}){
 
         <>
             <div className="img">
-                <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={180} height={80}/></a>
+                <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={150} height={65}/></a>
             </div>
-            <style jsx>{`
-                                
-                .img{
-
-                    /*Box model*/
-                    
-                    height: 70px;
-                    weight: 70px;
-
-                }
-
-            `}</style>
         </>
         
     )

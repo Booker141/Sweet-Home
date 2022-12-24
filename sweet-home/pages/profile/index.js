@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Image from "next/image"
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
+import Post from "components/Post/Post"
 
 export default function Profile({posts}){
 
@@ -15,7 +16,7 @@ export default function Profile({posts}){
             <Layout>
 
                     <Head><title>Mi perfil</title></Head>
-
+                
                        <div className="container__profile">
                             <Image style={{borderRadius: '50px'}} width={100} height={100}/>
                             <div className="profile__text">
@@ -29,34 +30,7 @@ export default function Profile({posts}){
                             {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
                                 return (
                                     <>
-                                    <div key={_id}>
-                                        {username}
-                                    </div>
-                                    <div>
-                                        {location}
-                                    </div>
-                                    <div>
-                                        {mediaUrl}
-                                    </div>
-                                    <div>
-                                        {description}
-                                    </div>
-                                    <div>
-                                        {comments.map(({userImage, userName, description}) => {
-                                            return (
-                                                <>
-                                                    <div key={_id}>
-                                                        {userImage}
-                                                    </div>
-                                                    <div>
-                                                        {userName}
-                                                    </div>
-                                                    <div>
-                                                        {description}
-                                                    </div>
-                                                </>
-                                            )})}
-                                    </div>
+                                        <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>                          
                                     </>
                                 )})}
                         </div>

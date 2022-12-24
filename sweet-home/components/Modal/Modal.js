@@ -1,11 +1,7 @@
-import {useState} from 'react'
 
 export default function Modal({children}){
 
 
-
-
-    
     return (
         <>
             <div className="center">
@@ -23,7 +19,7 @@ export default function Modal({children}){
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1;
+            z-index: 999999999;
             background-color: rgba(0,0,0,0.4);
 
             /*Box model*/

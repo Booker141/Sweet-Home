@@ -541,6 +541,7 @@ export default function Principal(){
           
           .imagen-inicio1{
 
+
             /*Visuals*/
 
             width: 100%;
@@ -555,6 +556,10 @@ export default function Principal(){
 
           .imagen-inicio2{
 
+            /*Position*/
+
+            z-index: 1;
+
             /*Box model*/
 
             margin-right: 2rem;
@@ -568,6 +573,10 @@ export default function Principal(){
           }
 
           .imagen-inicio3{
+
+            /*Position*/
+
+            z-index: 1;
 
             /*Box model*/
 

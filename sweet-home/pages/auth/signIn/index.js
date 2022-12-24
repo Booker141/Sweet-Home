@@ -249,6 +249,8 @@ export default function SignIn({providers, csrfToken}) {
               display: flex;
               flex-direction: row;
               align-items: center;
+              justify-content: center;
+              margin-bottom: 2rem;
 
             }
 
@@ -419,7 +421,7 @@ export default function SignIn({providers, csrfToken}) {
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-                margin-bottom: 2rem;
+                margin-bottom: 0.5rem;
                    
             }
 
@@ -471,14 +473,12 @@ export default function SignIn({providers, csrfToken}) {
 
               a {
 
-                /*Box model*/
-
-                margin-bottom: 2rem;
-
+               
                 /*Text*/
 
                 font-family: ${fonts.default};
                 font-size: 0.8rem;
+                font-weight: bold;
                 color: ${colors.secondary};
                 text-decoration: none;
               }

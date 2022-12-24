@@ -7,11 +7,11 @@ export default function Comment(props){
         <>
 
             <div key={props._id} className={global.comment}>
-                <div className={global.title2}>
+                <div className={global.text}>
                     {props.username}
                 </div>
                 <p className={global.text}>
-                        {props.comment}
+                    {props.comment}
                 </p>
               
             </div>
