@@ -34,6 +34,19 @@ export const colors = {
 }
 
 /**
+ * STATUS COLORS
+ * success or active - green
+ * error - red
+ * warning - yellow
+ */
+
+export const statusColors = {
+    success: '#7aff4a',
+    error: '#f55b5b',
+    warning: '#ffcf4a',
+}
+
+/**
  * THEME FONTS
  * default - default font (Poppins)
  * secondary - secondary font (Raleway)

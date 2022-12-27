@@ -22,6 +22,10 @@ export default function Profile({posts}){
                             <div className="profile__text">
                                 <div className={global.title2}>Nombre</div>
                                 <div className={global.title2}>Correo</div>
+                                <div className="profile__followers">
+                                    <div className={global.title2}>Seguidores</div>
+                                    <div className={global.title2}>Seguidos</div>
+                                </div>
                                 <p className={global.text}>Biografía</p>
                             </div>
                             <button className={global.buttonTertiary} onClick={() => router.push("/changeProfile")}>Editar perfil</button>
@@ -59,6 +63,16 @@ export default function Profile({posts}){
 
                     }
 
+                    .profile__followers{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        align-items: center;
+
+                    }
                     .posts{
 
                         /*Box model*/

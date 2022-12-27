@@ -30,6 +30,7 @@ export default function Attendances() {
                   <Head>
                       <title>Cuidados</title>
                   </Head>
+                  <h1 className={global.title}>Foro de cuidados</h1>
           </Layout>
           )
         } else{

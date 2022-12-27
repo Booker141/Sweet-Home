@@ -28,43 +28,46 @@ export default NextAuth({
         },
         async authorize(credentials) {
           
-          let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+          try{
 
-          const {email, password} = credentials;
-          
-          if(!regEmail.test(email)){
+            let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+
+            const {email, password} = credentials;
             
-            throw new Error("Formato Email incorrecto");
-
-          }
-
-          const client = await clientPromise;
-          const db = await client.db();
-          const user = await db.collection('users').findOne({email: email});
-
-          if(user){
-
-              await bcrypt.compare(password, user.password, (err, data) => {
-                //if error than throw error
-                if (err) throw Error("Contraseña incorrecta")
-
-                if (data) {
-                    return user
-                } else {
-                    throw new Error("Datos incorrectos")
-                }
-
-            })
-
+            if(!regEmail.test(email)){
               
+              throw new Error("Formato Email incorrecto");
 
-          }else{
+            }
 
-            throw new Error("No se ha encontrado ningún usuario");
+            const client = await clientPromise;
+            const db = await client.db();
+            const user = await db.collection('users').findOne({email: email});
 
-            
-          }
-        
+            if(user){
+
+                await bcrypt.compare(password, user.password, (err, data) => {
+                  //if error than throw error
+                  if (err) throw Error("Contraseña incorrecta")
+
+                  if (data) {
+                      return user
+                  } else {
+                      throw new Error("Datos incorrectos")
+                  }
+
+              })
+
+            }else{
+
+              throw new Error("No se ha encontrado ningún usuario");
+
+              return null;
+              
+            }
+          } catch (err) {
+            throw new Error('Error de autenticación');
+        }
           
         }
       })

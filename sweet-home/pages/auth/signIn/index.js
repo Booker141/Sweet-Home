@@ -75,12 +75,12 @@ export default function SignIn({providers, csrfToken}) {
     e.preventDefault();
     setMessage(null);
     console.log(email, password)
-    const res = await signIn("credentials", { email: email, password: password });
+    const res = await signIn("credentials", {redirect: false}, { email: email, password: password });
+  
+    if (res.error || res.error == "CredentialsSignin") {
 
-    if (res.error) {
-
-      setMessage(res.error);
-
+      setMessage("Email o contraseña incorrectos")
+      console.log(res.error);
     }
 
     return Router.push('/home');
@@ -125,10 +125,8 @@ export default function SignIn({providers, csrfToken}) {
                   <p className={global.text}> ó </p>
                   <hr className={global.white__line}></hr>
                 </div>
-                <div className={global.error}>
-                  {message}
-                </div>
-                <form className="form-vertical" action="/api/auth/signIn/email">
+                
+                <form className="form-vertical" action="/api/auth/signIn/email" >
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                   <div classname="form-vertical__email">
                     <div className="label">
@@ -141,6 +139,7 @@ export default function SignIn({providers, csrfToken}) {
                       name="email"
                       value= {email}
                       required
+                      pattern="[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}"
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="javier@email.com"
                       className="input"
@@ -156,8 +155,9 @@ export default function SignIn({providers, csrfToken}) {
                         title="Introducir contraseña"
                         type="password"
                         name="Contraseña"
-                        value= {password}
+                        value={password}
                         required
+                        pattern="(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}"
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Contraseña"
                         className="input"
@@ -166,8 +166,11 @@ export default function SignIn({providers, csrfToken}) {
                       <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
                     </div>
                   </div>
-                  <Link href="/cpassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>   
+                  <Link href="/changePassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>   
                 </form>
+                <div className={global.error}>
+                  {message}
+                </div>
                 <button className="form-vertical__button" onClick={(e)=>Login(e)}>Iniciar sesión</button>
                 <div className="form-register">
                   <h6>¿No tiene una cuenta?</h6>
@@ -532,6 +535,17 @@ export default function SignIn({providers, csrfToken}) {
 
                 border-radius: 5px;
                 border: 0;
+                transition: 0.2s ease all;
+
+              }
+
+              input[type="email"]:focus {
+
+              /*Visuals*/
+
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
               }
 
@@ -553,29 +567,21 @@ export default function SignIn({providers, csrfToken}) {
 
                 border-radius: 5px;
                 border: 0;
+                transition: 0.2s ease all;
 
               }
 
-              input[type="text"] {
-
-                /*Box model*/
-
-                width: 100%;
-                height: 2rem;
-                padding: 0.4rem;
-                margin-bottom: 2rem;
-
-                /*Text*/
-
-                font-family: ${fonts.default};
-                font-size: 1rem;
+              input[type="password"]:focus {
 
                 /*Visuals*/
 
-                border-radius: 5px;
-                border: 0;
+                border: 2px solid #4d97f7;
+                outline: none;
+                box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
               }
+
+             
 
               
             `}</style>

@@ -3,13 +3,15 @@ import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf"
 import {colors} from "styles/frontend-conf"
 import Comment from "components/Comment/Comment"
-import {IoPawOutline, IoPaw, BsBookMark, BsBookMarkFill} from 'react-icons/io'
+import {IoPawOutline, IoPaw} from 'react-icons/io5'
+import {BsBookmark, BsBookmarkFill} from 'react-icons/bs'
 
 
 export default function Post(props){
 
     const [comment, setComment] = useState("")
-
+    const [isActive, setIsActive] = useState(false)
+    const [isActive2, setIsActive2] = useState(false)
  
     const Commentate = async (e) =>{
 
@@ -33,6 +35,20 @@ export default function Post(props){
             }else{
                 console.log(data)
             }
+    }
+
+    const Like = () => {
+
+        setIsActive(!isActive);
+
+        //Like function
+    }
+
+    const Save = () => {
+        
+        setIsActive2(!isActive2);
+
+        //Save function
     }
     return (
         <>
@@ -59,19 +75,26 @@ export default function Post(props){
                             {props.description}
                         </p>
                     </div>
-
-                    <div className="post__comment">
-                        <input title="Escribir comentario"
-                        type="text"
-                        name="text"
-                        value= {comment}
-                        required
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Escribir comentario..."
-                        className="input"></input>
-                        <button onClick={(e) => Commentate(e)} className={global.buttonTertiary}>Enviar</button>
-                    </div>
-                    <div className={global.comments}>
+                    <div className="post__block">
+                        <div className="post__comment">
+                            <input title="Escribir comentario"
+                            type="text"
+                            name="text"
+                            value= {comment}
+                            required
+                            onChange={(e) => setComment(e.target.value)}
+                            placeholder="Escribir comentario..."
+                            className="input"></input>
+                            <button onClick={(e) => Commentate(e)} className={global.buttonTertiary}>Enviar</button>
+                        </div>
+                        <div className="post__icons">
+                            <div className="like">
+                                <a className="like--status" onClick={() => Like()}>{isActive ? <IoPaw size={20} color={colors.primary}/> : <IoPawOutline size={20} color={colors.primary}/> }</a>
+                            </div>
+                            <div className="save">
+                                <a className="save--status" onClick={() => Save()}>{isActive2 ? <BsBookmarkFill size={20} color={colors.primary}/> : <BsBookmark className="bookmark1" size={20} color={colors.primary}/>}</a>
+                            </div>
+                        </div>
                     </div>
                     <div className="comment__container">
                         <p className={global.tertiary__bold}>Comentarios</p>
@@ -108,6 +131,23 @@ export default function Post(props){
 
                 }
 
+                .post__block{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    align-items: center;
+                    margin-top: 1rem;
+                    margin-bottom: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: #fff;
+                    border-radius: 5px;
+                }
+
                 .post__comment{
 
                     /*Box model*/
@@ -115,12 +155,25 @@ export default function Post(props){
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1rem;
+                    margin-top: 1rem;
+
+                    
+                }
+
+                .post__icons{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                     justify-content: space-around;
                     margin-bottom: 1rem;
                     margin-top: 1rem;
 
-                    background-color: #fff;
-                    border-radius: 5px;
+
                 }
 
                 .header__user{
@@ -150,6 +203,13 @@ export default function Post(props){
 
                 }
 
+                .like--status .save--status{
+
+                    /*Misc*/
+
+                    cursor: pointer;
+                }
+
                 .description p{
 
                     /*Box model*/
@@ -171,6 +231,7 @@ export default function Post(props){
 
                     width: 70%;
                     height: 2rem;
+                    margin-right: 5rem;
                     
 
                     /*Text*/
@@ -199,6 +260,14 @@ export default function Post(props){
                     /*Box model*/
 
                     margin-left: 1rem;
+
+                }
+
+                a{
+
+                    /*Misc*/
+
+                    cursor: pointer;
 
                 }
             
