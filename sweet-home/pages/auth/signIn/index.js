@@ -94,14 +94,17 @@ export default function SignIn({providers, csrfToken}) {
           <Head>
             <title>Inicio de sesión</title>
           </Head>
-          <Header url1="/attendances" url2="/about" url3="/contact" url4="/auth/signUp"
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
+          <Header url1="/news" url2="/about" url3="/contact" url4="/auth/signUp"
+                          text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={global.content}>
             <ThemeButton/>
             <div className="page">
-              <div className="page__image">
-                <Image src={signIn1} width={1000} height={1000} alt="Imagen de inicio de sesión" priority/>
-              </div>
+              <div className="page__video"></div>
+              <video autoPlay loop muted 
+                  style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '153%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
+                  <source src="/video2.mp4" />
+              </video>
+             
               <div className="page__form">
                 <div className="form__text">
                   <h2>¡Bienvenido de nuevo!</h2>
@@ -184,6 +187,7 @@ export default function SignIn({providers, csrfToken}) {
           <style jsx>{`
 
             .page {
+
               /*Box model*/
 
               display: flex;
@@ -193,8 +197,7 @@ export default function SignIn({providers, csrfToken}) {
 
               /*Visuals*/
 
-              background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-              background-size: 100% 100%;
+
               border-radius: 1rem;
 
               /*Misc*/
@@ -230,11 +233,47 @@ export default function SignIn({providers, csrfToken}) {
               flex-direction: column;
               align-items: center;
               margin-top: 2rem;
+              margin-left: 2rem;
+              margin-right: 2rem;
               margin-bottom: 2rem;
+
+              /*Text*/
+
+
+            }
+
+            .page__video{
+
+              /*Position*/
+
+              position: absolute;
+              top: 20rem;
+              left: 3.2rem;
+             
+              z-index: -9;
+
+              /*Box model*/
+
+              display: block;
+              width: 92%;
+              height: 153%;
+
+              /*Visuals*/
+
+              border-radius: 30px 30px 30px 30px;
+              backdrop-filter: blur(5px);
+              background-color: rgba(0,0,0,0.2);
+
 
             }
 
             .page__form{
+
+              /*Position*/
+
+              position: relative;
+              left: 30%;
+              top: 50%;
 
               /*Box model*/
 
@@ -242,6 +281,14 @@ export default function SignIn({providers, csrfToken}) {
               flex-direction: column;
               align-items: center;
               justify-content: center;
+              margin-bottom: 2rem;
+              margin-top: 2rem;
+
+              /*Visuals*/
+
+              background-image: linear-gradient(120deg, rgba(246, 212, 101, 0.8) 0%, rgba(253, 161, 133, 0.8) 100%);
+              background-size: 100% 100%;
+              border-radius: 30px;
 
             }
 
@@ -320,7 +367,7 @@ export default function SignIn({providers, csrfToken}) {
                 /*Visuals*/
 
                 cursor: pointer;
-                background-color: #FCAA7F;
+                background-color: rgba(252, 171, 127, 0.5);
                 border-radius: 5px;
                 border: 1px solid ${colors.secondary};
 
@@ -357,7 +404,7 @@ export default function SignIn({providers, csrfToken}) {
                 /*Visuals*/
 
                 cursor: pointer;
-                background-color: #FCAA7F;
+                background-color: rgba(252, 171, 127, 0.5);
                 border-radius: 5px;
                 border: 1px solid ${colors.secondary};
 
@@ -401,7 +448,6 @@ export default function SignIn({providers, csrfToken}) {
                 flex-direction: row;
                 align-items: center;
                 
-
             }
 
             .password--visibility{
@@ -424,6 +470,7 @@ export default function SignIn({providers, csrfToken}) {
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
+                width: 100%;
                 margin-bottom: 0.5rem;
                    
             }
@@ -441,9 +488,9 @@ export default function SignIn({providers, csrfToken}) {
                 /*Text*/
 
                 color: ${colors.secondary};
-                font-family: ${fonts.secondary};
-                font-weight: 600;
-                font-size: 2rem;
+                font-family: 'Satisfy';
+                font-weight: 500;
+                font-size: 3rem;
             }
 
             p {
@@ -580,6 +627,38 @@ export default function SignIn({providers, csrfToken}) {
                 box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
               }
+
+              input[type="text"] {
+
+            /*Box model*/
+
+            width: 100%;
+            height: 2rem;
+            padding: 0.4rem;
+            margin-bottom: 2rem;
+
+            /*Text*/
+
+            font-family: ${fonts.default};
+            font-size: 1rem;
+
+            /*Visuals*/
+
+            border-radius: 5px;
+            border: 0;
+            transition: 0.2s ease all;
+
+          }
+
+          input[type="text"]:focus {
+
+            /*Visuals*/
+
+            border: 2px solid #4d97f7;
+            outline: none;
+            box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+          }
 
              
 

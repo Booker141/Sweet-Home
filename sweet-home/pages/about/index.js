@@ -7,7 +7,7 @@ import {BsChatRightText} from "react-icons/bs"
 import {FaSlideshare} from "react-icons/fa"
 import {AiOutlineEdit} from "react-icons/ai"
 import {MdPets} from "react-icons/md"
-import about1 from "../../public/about-1.jpg"
+import about1 from "../../public/about-1.svg"
 
 /*
     * @author Sergio García Navarro
@@ -170,8 +170,8 @@ export default function About () {
 
                             /*Box model*/
 
-                            width: 35rem;
-                            height: 26rem;
+                            width: 40rem;
+                            height: 40rem;
                             
                         
                         }

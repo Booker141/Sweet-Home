@@ -16,7 +16,7 @@ import {BsLaptop} from "react-icons/bs"
 import {MdPets} from "react-icons/md"
 import {GiPlantsAndAnimals} from "react-icons/gi"
 import {CgCommunity} from "react-icons/cg"
-import inicio1 from '../public/inicio-1.jpg'
+import inicio1 from '../public/inicio-1.svg'
 import inicio2 from '../public/inicio-2.svg'
 import inicio3 from '../public/inicio-3.svg'
 import component1 from '../public/component1-home.svg'
@@ -57,13 +57,15 @@ export default function Principal(){
               </span>
             </h1>
           </div>
-          <p className={global.text}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de 
+          <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de 
           mascotas </span>, brindando servicios de cuidado y hospedaje para <span className={global.colorized}> &nbsp; todo tipos de 
           mascotas</span>.</p>
         </div>
-        <div className="imagen-inicio1">
-          <Image src={inicio1} alt="Imagen de un perro y un gato" priority/>
-        </div>
+        <div className="container1__video"></div>
+        <video autoPlay loop muted 
+            style={{ position: "absolute", top: "0", left: "0" , width: '100%', height: '100%', objectFit: "cover", zIndex: "-99", translate: "transform(-50%,-50%)", borderRadius: "0 0 30px 30px" }}>
+            <source src="/video1.mp4" />
+        </video>
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
@@ -86,7 +88,9 @@ export default function Principal(){
              y a una mejora diaria de su vida.</p>
             <Link href="/about"><a className={global.link} aria-label="Ir a información sobre Sweet Home">Saber más →</a></Link>
         </div>
-  
+        <div className="imagen-inicio1">
+          <Image src={inicio1} alt="Imagen de un perro y un gato" priority/>
+        </div>
         <div className="content__container4">
           <div className="container4__column1">
             <h2 className={global.title}>¿Qué nos diferencia?</h2>
@@ -221,6 +225,7 @@ export default function Principal(){
             align-items: center;
             justify-content: center;
             width: 100%;
+            margin-bottom: 10rem;
 
           }
 
@@ -242,6 +247,27 @@ export default function Principal(){
             flex-direction: row;
             align-items: center;
 
+          }
+
+          .container1__video{
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -9;
+
+            /*Box model*/
+
+            display: block;
+            width: 100%;
+            height: 100%;
+
+            /*Visuals*/
+
+            border-radius: 0 0 30px 30px;
+            backdrop-filter: blur(3px);
+            background-color: rgba(0,0,0,0.2);
+            
           }
 
           .content__container1 p, h1 span span{
@@ -541,7 +567,12 @@ export default function Principal(){
           
           .imagen-inicio1{
 
+            /*Box model*/
 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
             /*Visuals*/
 
             width: 100%;

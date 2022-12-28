@@ -5,8 +5,10 @@ import {useState} from 'react'
 import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
+import {theme} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
 import Trademark from "components/Trademark/Trademark"
+import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
 import Modal from "components/Modal/Modal"
 
 /*
@@ -34,11 +36,15 @@ import Modal from "components/Modal/Modal"
 
 export default function Header(props){
 
+    
     const {data: session, status} = useSession({required: false});
     const [isModalVisible, setIsModalVisible] = useState(false);
     
     const router = useRouter();
 
+ 
+   
+   
     /**
      * If the user is on the home page, send them to the sign in page. If the user is on the sign in
      * page, send them to the sign up page. If the user is on the sign up page, send them to the sign
@@ -57,22 +63,24 @@ export default function Header(props){
 
     } 
 
+
     if (status == "authenticated"){
         return(    
             <>
                     <ul className="header">
+                        
                         <div className="logo">
-                            <li><Trademark link="/"/></li>
+                            <li><TrademarkWhite link="/"/></li>
                         </div>
                         <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
-                        <li><Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${props.text1}'>{props.text1}</a></Link></li>
+                        <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'>Buscar</a></Link></li>
                         <li><Link href="/chat" as="/char"><a aria-label='Ir a Chat'>Chat</a></Link></li>
                         <li className="menu-visible"><a id="profile">Perfil</a>
                             <ul className="menu">
-                                <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.primary}/></div></div></a></Link></li>
+                                <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
                                 <hr className="line"/>
-                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.primary}/></div></div></a></li></ul></li>
+                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
                             
                     </ul> 
 
@@ -90,6 +98,7 @@ export default function Header(props){
             
 
                 #profile{
+
                     /*Box model*/
 
                     margin-bottom: 1rem;
@@ -97,7 +106,7 @@ export default function Header(props){
                     /*Text*/
 
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
                     cursor: default;
@@ -108,10 +117,13 @@ export default function Header(props){
                                     
                 .logo{
 
-                    /*Box model*/
+  
+                     /*Box model*/
 
-                    margin-top: 0.5rem;
+                    margin-top: 1rem;
                     margin-bottom: 1rem;
+                    margin-left: 0.2rem;
+                    
 
                 }
 
@@ -138,9 +150,10 @@ export default function Header(props){
 
                     /*Visuals*/
 
-                    background: rgba(255, 255, 255, 0.13);
+                    background:  rgba(240, 129, 15, 0.5);
                     backdrop-filter: blur(5px);
-                    border-bottom: 1px solid ${colors.primary};
+                    border-radius: 20px;
+                    
 
                 }
 
@@ -159,7 +172,7 @@ export default function Header(props){
                     /*Visuals*/
 
                     border-radius: 0 0 10px 10px;
-                    background: rgba(255, 255, 255, 0.4);
+                    background:  rgba(240, 129, 15, 0.5);
                     backdrop-filter: blur(5px);
 
                 }
@@ -179,7 +192,7 @@ export default function Header(props){
 
                     /*Visuals*/
 
-                    background-color: #f0810f;
+                    background-color: #ffff;
                     border: none;
                     opacity: 0.6;
                 }
@@ -188,7 +201,7 @@ export default function Header(props){
 
                     /*Text*/
 
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
 
                     /*Visuals*/
 
@@ -206,15 +219,12 @@ export default function Header(props){
                     /*Text*/
 
                     font-family: ${fonts.default};
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
 
                     /*Visual*/  
  
-                    background: rgba(255, 255, 255, 0.13);
+                    background: rgba(240, 129, 15, 0.5);
                     backdrop-filter: blur(5px);
-                    border-bottom: 1px solid ${colors.primary};
-                    border-right: 1px solid ${colors.primary};
-                    border-left: 1px solid ${colors.primary};
 
 
                     /*Text*/
@@ -276,24 +286,27 @@ export default function Header(props){
                     /*Text*/
 
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
                     cursor: pointer;
+                    border-radius: 20px;
+                    padding: 1.5rem;
 
                     /*Animation*/
                     
                     transition: all 0.3s ease-in-out;
                 }
 
-                a:hover{
+                li a:hover, li a:active{
 
                     /*Text*/
-                    
-                    color: ${colors.tertiary};
+
+                    color: ${colors.secondary};
                     font-size: 1.5rem;
-                    
-                    
+                    background-color: ${colors.primary};
+
+
                 }
                 
                 li{
@@ -305,11 +318,13 @@ export default function Header(props){
 
             `}</style></>)
     }else{
+   
         return(
             <>
                 <div className="header">
+                
                     <div className="logo">
-                        <Trademark link="/"/>
+                        <TrademarkWhite link="/"/>
                     </div>
                     <Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${text1}'>{props.text1}</a></Link>
                     <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
@@ -325,7 +340,7 @@ export default function Header(props){
 
 
                     .logo{
-
+                    
                         /*Box model*/
 
                         margin-top: 1rem;
@@ -350,34 +365,21 @@ export default function Header(props){
                     align-items: center;
                     justify-content: space-between;
                     width: 100%;
+                    height: 100%;
 
                     margin-bottom: 8rem;
                     margin-left: 0.1rem;
 
                     /*Visuals*/
 
-                    background: rgba(255, 255, 255, 0.13);
+                    background: rgba(240, 129, 15, 0.5);
                     backdrop-filter: blur(5px);
-                    border-bottom: 1px solid ${colors.primary};
+                    border-radius: 20px;
+                   
 
                     }
 
-                    .menu{
-
-                    /*Box model*/
-
-                    display: none;
-                    position: absolute;
-                    margin-bottom: 1rem;
-                    z-index: 1;
-
-
-                    /*Visuals*/
-
-                    border-radius: 0 0 10px 10px;
-                    background: rgba(255, 255, 255, 0.13);
-                    backdrop-filter: blur(4.4px);
-                    }
+                   
 
                     .no-button{
 
@@ -388,44 +390,7 @@ export default function Header(props){
                     }
 
 
-                    .menu a{
-
-                    /*Text*/
-
-                    color: ${colors.primary};
-
-                    /*Visuals*/
-
-                    list-style-type: none;
-                    }
-
-                    .menu-visible:hover .menu{
-
-                    /*Box model*/
-
-                    display: block;
-                    position: absolute;
-                    z-index: 1;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    color: ${colors.primary};
-
-                    /*Visual*/  
-
-                    background: rgba(255, 255, 255, 0.13);
-                    backdrop-filter: blur(4.4px);
-                    border-bottom: 1px solid ${colors.primary};
-                    border-right: 1px solid ${colors.primary};
-                    border-left: 1px solid ${colors.primary};
-
-
-                    /*Text*/
-
-                    color: ${colors.secondary};
-
-                    }
+                   
 
                     .nav__link{
 
@@ -462,7 +427,16 @@ export default function Header(props){
 
                     /*Box model*/
 
-                    margin: 1rem;
+                        margin: 1rem;
+                        transition: all 0.3s ease-in-out;
+
+                    }
+
+                    button a:hover{
+
+                        color: ${colors.tertiary};
+                        font-size: 1.5rem;
+                        
                     }
 
                     a{
@@ -474,25 +448,30 @@ export default function Header(props){
                     /*Text*/
 
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
                     cursor: pointer;
+                    border-radius: 20px;
+                    padding: 1.5rem;
 
                     /*Animation*/
 
                     transition: all 0.3s ease-in-out;
                     }
 
-                    a:hover{
+                    a:hover, a:active{
 
                     /*Text*/
 
-                    color: ${colors.tertiary};
+                    color: ${colors.secondary};
                     font-size: 1.5rem;
+                    background-color: ${colors.primary};
 
 
                     }
+
+                   
 
                     li{
 
@@ -589,7 +568,7 @@ export default function Header(props){
                     /*Text*/
 
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
 

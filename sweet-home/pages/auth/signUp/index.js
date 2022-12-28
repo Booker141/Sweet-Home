@@ -233,15 +233,17 @@ export default function SignUp() {
           <title>Registro</title>
         </Head>
         
-        <Header url1="/attendances" url2="/about" url3="/contact" url4="/auth/signIn"
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
+        <Header url1="/news" url2="/about" url3="/contact" url4="/auth/signIn"
+                          text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={global.content}>
         <ThemeButton/>
         <div className="page">
           
-          <div className="page__image">
-            <Image src={signUp1} width={2000} height={2000} alt="Imagen de registro" priority/>
-          </div>
+        <div className="page__video"></div>
+              <video autoPlay loop muted 
+                  style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '210%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
+                  <source src="/video2.mp4" />
+              </video>
           <div className="page__form">
             <div className="form__text">
               <h2>¡Bienvenido a Sweet Home!</h2>
@@ -429,12 +431,6 @@ export default function SignUp() {
           justify-content: space-around;
           margin-bottom: 3rem;
 
-          /*Visuals*/
-
-          background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-          background-size: 100% 100%;
-          border-radius: 1rem;
-
           /*Misc*/
 
           animation-name: gradient;
@@ -458,6 +454,59 @@ export default function SignUp() {
                     background-position:0% 70%
                   }
           }
+
+          .page__video{
+
+          /*Position*/
+
+          position: absolute;
+          top: 20rem;
+          left: 3.2rem;
+
+          z-index: -9;
+
+          /*Box model*/
+
+          display: block;
+          width: 92%;
+          height: 210%;
+
+          /*Visuals*/
+
+          border-radius: 30px 30px 30px 30px;
+          backdrop-filter: blur(5px);
+          background-color: rgba(0,0,0,0.2);
+
+
+          }
+
+           .page__form{
+
+
+             /*Position*/
+
+             position: relative;
+             top: 50%;
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              width: 50%;
+              margin-bottom: 2rem;
+              margin-top: 2rem;
+
+              /*Visuals*/
+
+              background-image: linear-gradient(120deg, rgba(246, 212, 101, 0.8) 0%, rgba(253, 161, 133, 0.8) 100%);
+              background-size: 100% 100%;
+              border-radius: 30px;
+
+
+        }
+
 
         .form__text{
 
@@ -684,7 +733,7 @@ export default function SignUp() {
             /*Visuals*/
 
             cursor: pointer;
-            background-color: #FCAA7F;
+            background-color: rgba(252, 171, 127, 0.5);
             border-radius: 5px;
             border: 1px solid ${colors.secondary};
 
@@ -731,33 +780,9 @@ export default function SignUp() {
           color: ${colors.tertiary};
           transition: all 0.5s ease-in-out;
         }
-        .page__image{
+ 
 
-            /*Box model*/
-
-              margin-right: 4rem;
-              margin-left: 4rem;
-              width: 50%;
-              height: 100%;
-
-        }
-
-        .page__form{
-
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 50%;
-            height: 100%;
-            margin-right: 2rem;
-
-
-        }
-
+       
         .email__input{
 
           /*Box model*/
@@ -906,9 +931,9 @@ export default function SignUp() {
             /*Text*/
 
             color: ${colors.secondary};
-            font-family: ${fonts.secondary};
-            font-weight: 600;
-            font-size: 2rem;
+            font-family: 'Satisfy';
+            font-weight: 500;
+            font-size: 3rem;
         }
 
         p {

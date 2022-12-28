@@ -38,7 +38,7 @@ export default function News() {
 
                         A mediados del año pasado, Carlota decidió adoptar un gato a través de Sweet 
                         Home y hoy nos cuenta como fue su experiencia a través de la aplicación.</p>
-                        <Link href="/news/1"><a className={global.link}>Leer más</a></Link>
+                        <Link href="/news/1"><a className={global.link}>Leer más →</a></Link>
                         <hr className={global.line}></hr>
                     </article>
 
@@ -46,7 +46,7 @@ export default function News() {
                         <h2 className={global.secondary}>Nueva actualización v1.0.0</h2>
                         <h3 className={global.tertiary}>20/08/2022</h3>
                         <p className={global.text}>A continuación, entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
-                        <Link href="/news/2"><a className={global.link}>Leer más</a></Link>
+                        <Link href="/news/2"><a className={global.link}>Leer más →</a></Link>
                         <hr className={global.line}></hr>
                     </article>
 
@@ -54,7 +54,7 @@ export default function News() {
                         <h2 className={global.secondary}>¿Estás perdido?</h2>
                         <h3 className={global.tertiary}>21/08/2022</h3>
                         <p className={global.text}>Su creador Sergio García nos da pistas sobre las esperadas actualizaciones que están por venir y nos explica un poco el funcionamiento de la última actualización, la v1.0.0.</p>
-                        <Link href="/news/3"><a className={global.link}>Leer más</a></Link>
+                        <Link href="/news/3"><a className={global.link}>Leer más →</a></Link>
                         <hr className={global.line}></hr>
                     </article>
                 </section>
