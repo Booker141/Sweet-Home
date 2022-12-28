@@ -76,7 +76,7 @@ export default function Header(props){
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'>Buscar</a></Link></li>
                         <li><Link href="/chat" as="/char"><a aria-label='Ir a Chat'>Chat</a></Link></li>
-                        <li className="menu-visible"><a id="profile">Perfil</a>
+                        <li className="menu-visible"><a id="profile">Perfil ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
                                 <hr className="line"/>
@@ -112,6 +112,7 @@ export default function Header(props){
                     cursor: default;
 
                 }
+
 
  
                                     
@@ -171,7 +172,7 @@ export default function Header(props){
 
                     /*Visuals*/
 
-                    border-radius: 0 0 10px 10px;
+                    border-radius: 10px 10px 10px 10px;
                     background:  rgba(240, 129, 15, 0.5);
                     backdrop-filter: blur(5px);
 
@@ -187,7 +188,15 @@ export default function Header(props){
 
                 .line{
 
-                    width: 100%;
+                    /*Position*/
+
+                    position: relative;
+                    top: 0;
+                    left: -2.5rem;
+
+                    /*Box model*/
+
+                    width: 116%;
                     height: 0.09rem;
 
                     /*Visuals*/
@@ -199,9 +208,14 @@ export default function Header(props){
 
                 .menu a{
 
+                    /*Box model*/
+
+                    margin-right: 2rem;
+
                     /*Text*/
 
                     color: ${colors.secondary};
+                    
 
                     /*Visuals*/
 
@@ -212,8 +226,13 @@ export default function Header(props){
 
                     /*Box model*/
 
-                    display: block;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+               
                     position: absolute;
+                    top: 5.5rem;
+                    right: 0.1rem;
                     z-index: 1;
 
                     /*Text*/
@@ -239,6 +258,8 @@ export default function Header(props){
                     margin-top: 1rem;
                     display: flex;
                     flex-direction: row;
+                    justify-content: space-between;
+
                     
                 }
                 
@@ -432,12 +453,7 @@ export default function Header(props){
 
                     }
 
-                    button a:hover{
-
-                        color: ${colors.tertiary};
-                        font-size: 1.5rem;
-                        
-                    }
+                   
 
                     a{
 
@@ -458,9 +474,10 @@ export default function Header(props){
                     /*Animation*/
 
                     transition: all 0.3s ease-in-out;
+
                     }
 
-                    a:hover, a:active{
+                    a:hover{
 
                     /*Text*/
 
@@ -515,6 +532,7 @@ export default function Header(props){
                     color: ${colors.secondary};
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
+                    transition: all 0.3s ease-in-out;
 
                 }
 
@@ -523,15 +541,17 @@ export default function Header(props){
 
                     /*Text*/
                     
-                    color: ${colors.tertiary};
+                    color: ${colors.secondary};
+          
                     font-size: 1.5rem;
+                    background-color: transparent !important;
+                    border-radius: none !important;
                     
                 }
 
                 .button2{
 
                     /*Box model*/
-
 
                     padding: 0.7rem;
 
@@ -553,6 +573,8 @@ export default function Header(props){
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
 
+                    transition: all 0.3s ease-in-out;
+
                 }
 
                 .button2 a:hover{
@@ -560,7 +582,10 @@ export default function Header(props){
                      /*Text*/
                     
                     color: ${colors.tertiary};
+          
                     font-size: 1.5rem;
+                    background-color: transparent !important;
+                    border-radius: none !important;
                 }
 
                 a{

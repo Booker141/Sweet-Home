@@ -26,6 +26,7 @@ export default function ChangePassword(){
     const [newPassword, setNewPassword] = useState("");
     const [newPassword2, setNewPassword2] = useState("");
     const [email, setEmail] = useState("");
+
     const showPassword = () => {
 
         let passwordInput = document.getElementById("password");
@@ -46,98 +47,131 @@ export default function ChangePassword(){
         }
       }
 
+      const changePassword = (e) => {
+
+        e.preventDefault();
+        
+        if(newPassword === newPassword2){
+
+            fetch("/api/changePassword", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    password: newPassword,
+                }),
+            })
+
+
+        }else{
+
+            alert("Las contraseñas no coinciden");
+
+        }
+
+
+      }
     return(
 
         <Layout>
         <>
             <Head><title>Cambiar contraseña</title></Head>
-            
-            <h1 className={global.title}>Cambiar contraseña</h1>
+            <div className={global.content}>
                 <div className="form">
-                    <form>
-                    <div className="form-vertical__email">
-                        <div className="label">
-                            <p className={global.text}>Email</p>
-                            <MdEmail size={20} color={colors.primary} />
+                    <h1 className="form__title">Cambiar contraseña</h1>
+                        <form>
+                        <div className="form-vertical__email">
+                            <div className="label">
+                                <p className={global.text}>Email</p>
+                                <MdEmail size={20} color={colors.secondary} />
+                            </div>
+                            <input
+                                title="Introducir email"
+                                type="email"
+                                name="Correo"
+                                value={email}
+                                required
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="p. ej.: javier@gmail.com"
+                                className="input">
+                            </input>
                         </div>
-                        <input
-                            title="Introducir email"
-                            type="email"
-                            name="Correo"
-                            value={email}
-                            required
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="p. ej.: javier@gmail.com"
-                            className="input">
-                        </input>
-                    </div>
-                    <div className="form-vertical__old">
-                        <div className="label">
-                            <p className={global.text}>Contraseña antigua</p>
-                            <BsFillLockFill size={25} color={colors.primary} />
-                        </div> 
-                        <input 
-                            title="Introducir contraseña antigua"
-                            type="password" 
-                            id="password"
-                            name="Contraseña" 
-                            value={oldPassword}
-                            required
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            placeholder="Contraseña actual"
-                            className="input"> 
-                        </input>
-                        <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                    </div>
-                    <div className="form-vertical__new">
-                        <div className="label">
-                            <p className={global.text}>Contraseña nueva</p>
-                            <BsFillLockFill size={25} color={colors.primary} />
-                        </div> 
-                        <input  
-                            title="Introducir contraseña nueva"
-                            type="password" 
-                            id="password"
-                            name="ContraseñaN"
-                            value={newPassword} 
-                            required
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="Contraseña nueva"
-                            className="input">       
-                        </input>
-                        <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                    </div>
-                    <div className="form-vertical__new2">
-                        <div className="label">
-                            <p className={global.text}>Repetir contraseña nueva</p>
-                            <BsFillLockFill size={25} color={colors.primary} />
-                        </div> 
-                        <input  
-                            title="Repetir contraseña nueva"
-                            type="password" 
-                            id="password"
-                            name="Contraseña" 
-                            value={newPassword2}
-                            required
-                            onChange={(e) => setNewPassword2(e.target.value)}
-                            placeholder="Confirmar contraseña nueva"
-                            className="input">       
-                        </input>
-                        <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                    </div>
-                        <input className={global.buttonPrimary} type="submit" value="Confirmar"></input>
-                    </form>  
-                    <div className="tooltip">
-                        <div className="tooltip__icon">
-                            <AiFillInfoCircle size={20} color={colors.primary} />
-                            <p className={global.text}> Información contraseña</p>
+                        <div className="form-vertical__old">
+                            <div className="label">
+                                <p className={global.text}>Contraseña antigua</p>
+                                <BsFillLockFill size={25} color={colors.secondary} />
+                            </div> 
+                            <div className="password__input">
+                                <input 
+                                    title="Introducir contraseña antigua"
+                                    type="password" 
+                                    id="password"
+                                    name="Contraseña" 
+                                    value={oldPassword}
+                                    required
+                                    onChange={(e) => setOldPassword(e.target.value)}
+                                    placeholder="Contraseña actual"
+                                    className="input"> 
+                                </input>
+                                <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                            </div>
                         </div>
-                        <div className="tooltiptext">
-                            <p> - La contraseña debe tener al menos 8 caracteres.</p>
-                            <p> - La contraseña debe tener al menos una letra mayúscula.</p>
-                            <p> - La contraseña debe tener al menos un número.</p>
+                        <div className="form-vertical__new">
+                            <div className="label">
+                                <p className={global.text}>Contraseña nueva</p>
+                                <BsFillLockFill size={25} color={colors.secondary} />
+                            </div> 
+                            <div className="password__input">
+                                <input  
+                                    title="Introducir contraseña nueva"
+                                    type="password" 
+                                    id="password"
+                                    name="ContraseñaN"
+                                    value={newPassword} 
+                                    required
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    placeholder="Contraseña nueva"
+                                    className="input">       
+                                </input>
+                                <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                            </div>
                         </div>
-                </div>  
+                        <div className="form-vertical__new2">
+                            <div className="label">
+                                <p className={global.text}>Repetir contraseña nueva</p>
+                                <BsFillLockFill size={25} color={colors.secondary} />
+                            </div> 
+                            <div className="password__input">
+                                <input  
+                                    title="Repetir contraseña nueva"
+                                    type="password" 
+                                    id="password"
+                                    name="Contraseña" 
+                                    value={newPassword2}
+                                    required
+                                    onChange={(e) => setNewPassword2(e.target.value)}
+                                    placeholder="Confirmar contraseña"
+                                    className="input">       
+                                </input>
+                                <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                            </div>
+                        </div>
+                        
+                        </form>  
+                            <div className="tooltip">
+                                <div className="tooltip__icon">
+                                    <AiFillInfoCircle size={20} color={colors.secondary} />
+                                    <p className={global.text2}> Información contraseña</p>
+                                </div>
+                                <div className="tooltiptext">
+                                    <p> - La contraseña debe tener al menos 8 caracteres.</p>
+                                    <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                                    <p> - La contraseña debe tener al menos un número.</p>
+                                </div>
+                            </div> 
+                            <input className={global.buttonPrimary} type="submit" onSubmit={(e) => changePassword(e)} value="Confirmar"/> 
+                        </div>
                 </div>
             <style jsx>{`
 
@@ -147,10 +181,35 @@ export default function ChangePassword(){
 
                     display: flex;
                     flex-direction: column;
-                    width: 30%;
+                    align-items: center;
+                 
+                    width: 100%;
+
+                    /*Visuals*/
+
+                    background-image: linear-gradient(120deg, rgba(246, 212, 101, 1) 0%, rgba(253, 161, 133, 1) 100%);
+                    background-size: 100% 110%;
+                    border-radius: 20px;
                     
                 }
 
+                .form__title{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    margin-top: 2rem;
+                    margin-bottom: 1rem;
+
+                    /*Text*/
+
+                    font-family: 'Satisfy';
+                    font-size: 4rem;
+                    font-weight: 500;
+                    color: ${colors.secondary};
+                }
 
                 .label{
 
@@ -161,16 +220,28 @@ export default function ChangePassword(){
                     align-items: center;
 
                 }
+
+                .label p{
+
+                    /*Box model*/
+
+                    margin-right: 1rem;
+
+                    /*Visuals*/
+
+                    color: ${colors.secondary};
+
+                }
                 
                 .input{
 
                     /*Box model*/
 
-                    width: 75%;
+                    width: 100%;
                     height: 2rem;
                     padding: 0.4rem;
                     margin-bottom: 1rem;
-                    margin-left: 1rem;
+                    
 
                     /*Text*/
 
@@ -185,104 +256,135 @@ export default function ChangePassword(){
 
                 .tooltip{
 
-                /*Position*/
+                    /*Position*/
 
-                position: relative;
+                    position: relative;
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: inline-block;
-                margin-bottom: 1rem;
+                    display: inline-block;
+                    margin-bottom: 0.5rem;
 
                 }
 
                 .tooltip__icon{
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
 
                 }
 
                 .tooltip__icon p{
 
-                /*Box model*/
+                    /*Box model*/
 
-                margin-left: 1.6rem;
+                    margin-left: 1.6rem;
 
                 }
 
                 .tooltip .tooltiptext{
 
-                /*Position*/
+                    /*Position*/
 
-                position: absolute;
-                z-index: 100;
+                    position: absolute;
+                    z-index: 100;
 
 
-                /*Box model*/
+                    /*Box model*/
 
-                width: 20rem;
-                padding: 1rem;
+                    width: 20rem;
+                    padding: 1rem;
 
-                /*Text*/
+                    /*Text*/
 
-                text-align: center;
+                    text-align: center;
 
-                /*Visuals*/
+                    /*Visuals*/
 
-                border-radius: 10px;
-                visibility: hidden;
-                background-color: ${colors.quaternary};
-                color: ${colors.secondary};
+                    border-radius: 10px;
+                    visibility: hidden;
+                    background-color: ${colors.quaternary};
+                    color: ${colors.secondary};
 
                 }
 
                 .tooltip:hover .tooltiptext {
 
-                /*Visuals*/
+                    /*Visuals*/
 
-                visibility: visible;
+                    visibility: visible;
+
+                }
+
+                .tooltiptext p{
+
+                    /*Text*/
+
+                    font-size: 1rem;
+                    font-family: ${fonts.default};
 
                 }
 
                 .form-vertical__old {
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    width: 100%;
 
                 }
 
                 .form-vertical__new {
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    width: 100%;
 
                 }
 
                 .form-vertical__new2 {
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    width: 100%;
+
+                }
+
+                .password__input{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    width: 115%;
+                    
+
+                }
+
+                .password--visibility{
+
+                    /*Position*/
+
+                    position: relative;
+                    top: 0.9rem;
+                    right: 2rem;
+
+
+
 
                 }
 
@@ -290,8 +392,41 @@ export default function ChangePassword(){
 
                     /*Box model*/
 
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
                     margin-top: 2rem;
+                    margin-bottom: 2rem;
 
+                }
+
+
+                input[type="email"]:focus {
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                }
+
+                input[type="password"]:focus {
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                }
+
+                ::placeholder{
+
+                    /*Text*/
+
+                    color: ${colors.primary};
                 }
 
 
@@ -302,6 +437,12 @@ export default function ChangePassword(){
                     margin-bottom: 3rem;
                 }
 
+                a{
+
+                    /*Misc*/
+
+                    cursor: pointer;
+                }
 
             `}</style>
         </>

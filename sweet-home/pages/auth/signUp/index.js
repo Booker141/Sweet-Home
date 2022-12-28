@@ -186,7 +186,7 @@ export default function SignUp() {
         setIsValidate(true);
     }
 
-    if(isValidate){
+    if(!isValidate){
 
       document.getElementById("submit__error").classList.add("submit__error--activate");
 
@@ -241,7 +241,7 @@ export default function SignUp() {
           
         <div className="page__video"></div>
               <video autoPlay loop muted 
-                  style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '210%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
+                  style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '220%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
                   <source src="/video2.mp4" />
               </video>
           <div className="page__form">
@@ -251,7 +251,7 @@ export default function SignUp() {
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
             
-            <form className="form-vertical" action="/api/auth/register" id="form">
+            <form className="form-vertical" action="/api/register" id="form">
               <div className="form-vertical__email">
                 <div className="label">
                   <p className={global.text}>Email</p>
@@ -469,7 +469,7 @@ export default function SignUp() {
 
           display: block;
           width: 92%;
-          height: 210%;
+          height: 220%;
 
           /*Visuals*/
 
@@ -496,7 +496,7 @@ export default function SignUp() {
               justify-content: center;
               width: 50%;
               margin-bottom: 2rem;
-              margin-top: 2rem;
+              margin-top: 3rem;
 
               /*Visuals*/
 
@@ -754,7 +754,8 @@ export default function SignUp() {
 
           display: flex;
           align-items: center;
-          width: 60%;
+          margin-left: 3rem;
+          width: 50%;
 
           /*Text*/
 

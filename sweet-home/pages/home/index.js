@@ -78,6 +78,7 @@ export default function Home ({posts, users}){
 
               .container__column2{
 
+
                 /*Box model*/
 
                 display: flex;
