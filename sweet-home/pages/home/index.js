@@ -39,10 +39,10 @@ export default function Home ({posts, users}){
                       <h1 className={global.title}>Reciente</h1>
                       {posts.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
-                        {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+                        {posts.map(({_id, user, location, mediaUrl, description, comments}) => {
                           return (
                             <>
-                              <Post key={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                              <Post key={_id} user={user} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
                             </>
                           )
                         })}

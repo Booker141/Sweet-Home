@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf"
 import {colors} from "styles/frontend-conf"
@@ -9,9 +9,25 @@ import {BsBookmark, BsBookmarkFill} from 'react-icons/bs'
 
 export default function Post(props){
 
+    const [user, setUser] = useState({})
     const [comment, setComment] = useState("")
     const [isActive, setIsActive] = useState(false)
     const [isActive2, setIsActive2] = useState(false)
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await fetch("http://localhost:3000/api/users/" + `${props.user.id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const user = await res.json();
+            setUser(user);
+        }
+        fetchUser();
+    }, [])
+   
  
     const Commentate = async (e) =>{
 
@@ -56,9 +72,9 @@ export default function Post(props){
                 <div key={props._id} className={global.post}>
                     <div className="post__header">
                         <div className="header__user">
-                            <img src={props.userImage}></img>
+                            <img src={user.image}></img>
                             <div className={global.title1}>
-                                {props.username}
+                                {user.username}
                             </div>
                         </div>
                         <div className={global.text2}>
@@ -67,9 +83,9 @@ export default function Post(props){
                     </div>
                     <img src={props.mediaUrl}></img>
                     <div className="description">
-                        <img src={props.userImage}></img>
+                        <img src={user.image}></img>
                         <p className={global.tertiary__bold}>
-                            {props.username}:
+                            {user.username}:
                         </p>
                         <p className={global.tertiary}>
                             {props.description}
@@ -263,6 +279,8 @@ export default function Post(props){
 
                 }
 
+
+                
                 a{
 
                     /*Misc*/
@@ -270,6 +288,8 @@ export default function Post(props){
                     cursor: pointer;
 
                 }
+
+
             
             `}</style>
 

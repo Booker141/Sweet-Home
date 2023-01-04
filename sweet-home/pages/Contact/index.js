@@ -43,15 +43,24 @@ export default function Contact(){
                         </div>
                         <div className="container__social">
                             <h2 className={global.title2}>Redes sociales</h2>
-                            <a aria-label="Enlace de Facebook" href="https://www.facebook.com/sweethome.es/">
-                                Facebook <BsFacebook className="icon"/>
-                            </a>
-                            <a aria-label="Enlace de Instagram" href="https://www.instagram.com/sweethome.es/">
-                                Instagram <BsInstagram className="icon"/>
-                            </a>
-                            <a aria-label="Enlace de Twitter" href="https://www.twitter.es/sweethome">
-                                Twitter <BsTwitter className="icon"/>
-                            </a>
+                            <div className="social__link">
+                                <a aria-label="Enlace de Facebook" href="https://www.facebook.com/sweethome.es/">
+                                    Facebook 
+                                </a>
+                                <BsFacebook/>
+                            </div>
+                            <div className="social__link">
+                                <a aria-label="Enlace de Instagram" href="https://www.instagram.com/sweethome.es/">
+                                    Instagram 
+                                </a>
+                                <BsInstagram/>
+                            </div>
+                            <div className="social__link">
+                                <a aria-label="Enlace de Twitter" href="https://www.twitter.es/sweethome">
+                                    Twitter 
+                                </a>
+                                <BsTwitter/>
+                            </div>
                         </div>
                     </div>
                     <div className="email">
@@ -115,13 +124,47 @@ export default function Contact(){
                         
                     }
 
-                    .container__social a{
+                    .social__link{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 1rem;
+                        justify-content: center;
+                        width: 100%;
+
+                        /*Misc*/
+                        
+                        transition: 0.3s ease;
+
+                    }
+
+                    .social__link a{
 
                         /*Box model*/
 
                         margin-bottom: 2rem;
 
                         color: ${colors.quaternary};
+
+                        
+                    }
+
+                    .social__link:hover{
+
+                        /*Text*/
+
+                        color: ${colors.tertiary};
+                        font-size: 1.2rem;
+                    }
+
+                    .social__link a:hover{
+
+                        /*Text*/
+
+                        color: ${colors.tertiary};
+
                     }
 
                     .personal__container{

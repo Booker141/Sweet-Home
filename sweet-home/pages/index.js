@@ -69,7 +69,7 @@ export default function Principal(){
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
-            <button className={global.buttonPrimary} onClick={() => router.push('/signUp')}>Regístrate ➤</button>
+            <button className={global.buttonPrimary} onClick={() => router.push('/auth/signUp')}>Regístrate ➤</button>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
           <div className="container2__column2">

@@ -1,19 +1,18 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import Image from 'next/image'
 import {useState} from 'react'
 import {useRouter} from 'next/router'
 import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
+import {statusColors} from "styles/frontend-conf"
 import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import ThemeButton from "components/ThemeButton/ThemeButton"
-import {MdEmail} from "react-icons/md";
-import {BsFillLockFill, BsTwitter, BsGoogle} from "react-icons/bs";
+import {BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill} from "react-icons/bs";
+import {MdEmail, MdOutlineError} from "react-icons/md";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
-import signIn1 from "../../../public/signIn-1.svg"
 
 /*
     * @author Sergio García Navarro
@@ -63,6 +62,52 @@ export default function SignIn({providers, csrfToken}) {
     }
   }
 
+
+  const validate = (e) => {
+
+    // Regular expressions
+
+    let regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+    if(e.target.name =="password"){
+
+      if(password.length < 8 || !password.match(regPassword) ){
+          
+          document.getElementById("password__error").classList.add("form__input-passwordError--active");
+          document.getElementById("error__password").classList.add("form__icon-error--active");
+          document.getElementById("success__password").classList.remove("form__icon-success--active");
+
+      }else{
+
+          document.getElementById("password__error").classList.remove("form__input-passwordError--active");
+          document.getElementById("error__password").classList.remove("form__icon-error--active");
+          document.getElementById("success__password").classList.add("form__icon-success--active");
+
+
+      }
+  }
+
+    // Validación del formato del email
+    if(e.target.name == "email"){
+
+      if(!email.match(regEmail)){
+          
+          document.getElementById("email__error").classList.add("form__input-emailError--active");
+          document.getElementById("error__email").classList.add("form__error-icon--active");
+          document.getElementById("success__email").classList.remove("form__success-icon--active");
+ 
+
+      }else{
+          
+            document.getElementById("email__error").classList.remove("form__input-emailError--active");
+            document.getElementById("error__email").classList.remove("form__error-icon--active");
+            document.getElementById("success__email").classList.add("form__success-icon--active");
+  
+      }
+    }
+  }
+
  /**
   * A function that is called when the user clicks the login button. It takes the email and password
   * from the form and sends it to the backend. If the login is successful, the user is redirected to
@@ -73,18 +118,21 @@ export default function SignIn({providers, csrfToken}) {
   const Login = async (e) => {
 
     e.preventDefault();
-    setMessage(null);
-    console.log(email, password)
-    const res = await signIn("credentials", {redirect: false}, { email: email, password: password });
-  
-    if (res.error || res.error == "CredentialsSignin") {
+    
+    const res = await signIn('credentials', {redirect: false, email: email, password: password , callbackUrl: "http://localhost:3000/home"});
 
-      setMessage("Email o contraseña incorrectos")
-      console.log(res.error);
+    setMessage(null);
+    document.getElementById("submit__error").classList.remove("submit__error--active");
+
+    if (res?.error) {
+
+      setMessage(res.error);
+      document.getElementById("submit__error").classList.add("submit__error--active");
+
+      
     }
 
-    return Router.push('/home');
-    
+   
   }
   
   return(
@@ -131,24 +179,35 @@ export default function SignIn({providers, csrfToken}) {
                 
                 <form className="form-vertical" action="/api/auth/signIn/email" >
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-                  <div classname="form-vertical__email">
+                  <div className="form-vertical__email">
                     <div className="label">
                       <p className={global.text}>Email</p>
                       <MdEmail size={20} color={colors.secondary} />
                     </div>
-                    <input
-                      title="Introducir email"
-                      type="email"
-                      name="email"
-                      value= {email}
-                      required
-                      pattern="[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}"
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="javier@email.com"
-                      className="input"
-                    ></input>
+                    <div className="email__input">
+                      <input
+                        title="Introducir email"
+                        type="email"
+                        name="email"
+                        value= {email}
+                        required
+                        onKeyUp={(e) => validate(e)}
+                        onBlur={(e) => validate(e)}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="javier@email.com"
+                        className="input"
+                      ></input>
+                      <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                      <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                      <div id="email__error" className="form__input-emailError">
+                        <div className="error__icon">
+                          <MdOutlineError size={30} color={colors.secondary}/>
+                        </div>
+                        <p className={global.text2}>Debe seguir el formato correcto</p>
+                      </div>
+                </div>
                   </div>
-                  <div classname="form-vertical__password">
+                  <div className="form-vertical__password">
                     <div className="label">
                       <p className={global.text}>Contraseña</p>
                       <BsFillLockFill size={25} color={colors.secondary} />
@@ -167,11 +226,18 @@ export default function SignIn({providers, csrfToken}) {
                         id="password"
                       ></input>
                       <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                      <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                      <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                      <div id="password__error" className="form__input-passwordError">
+                        <div className="error__icon">
+                          <MdOutlineError size={30} color={colors.secondary}/>
+                        </div>
+                        <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                  </div> 
                     </div>
                   </div>
-                  <Link href="/changePassword"><a title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">¿Has olvidado la contraseña?</a></Link>   
                 </form>
-                <div className={global.error}>
+                <div id="submit__error" className="submit__error">
                   {message}
                 </div>
                 <button className="form-vertical__button" onClick={(e)=>Login(e)}>Iniciar sesión</button>
@@ -304,6 +370,267 @@ export default function SignIn({providers, csrfToken}) {
 
             }
 
+            /*ERRORES*/
+
+            .form__input-emailError{
+
+              /*Position*/
+
+              position: absolute;
+              left: 20rem;
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 100%;
+              margin-bottom: 2rem;
+
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: #fafafa;
+
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: ${statusColors.error};
+              opacity: 0;
+
+              }
+
+
+              .form__input-emailError p{
+
+              /*Box model*/
+
+              margin-left: 2rem;
+
+              }
+
+              .form__input-emailError--active{
+
+              /*Position*/
+
+              position: absolute;
+              left: 20rem;
+              margin-bottom: 2rem;
+              width: 100%;
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: #fafafa;
+
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: ${statusColors.error};
+              opacity: 1;
+
+              }
+
+              .form__input-passwordError{
+
+              /*Position*/
+
+              position: absolute;
+              left: 20rem;
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-bottom: 2rem;
+
+              width: 100%;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: #fafafa;
+
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: ${statusColors.error};
+              opacity: 0;
+
+              }
+
+
+              .form__input-passwordError p{
+
+              /*Box model*/
+
+              margin-left: 2rem;
+
+              }
+
+              .form__input-passwordError--active{
+
+              /*Position*/
+
+              position: absolute;
+              left: 20rem;
+              margin-bottom: 2rem;
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 100%;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: #fafafa;
+
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: ${statusColors.error};
+              opacity: 1;
+
+              }
+
+              .submit__error{
+
+              /*Box model*/
+
+              display: none;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: ${colors.secondary};
+
+              /*Visuals*/
+
+              background-color: ${statusColors.error};
+
+              }
+
+              .submit__error--active{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              padding: 0.5rem;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: ${colors.secondary};
+
+              /*Visuals*/
+
+              border-radius: 10px;
+              background-color: ${statusColors.error};
+
+              }
+
+
+              .error__icon{
+
+              /*Box model*/
+
+              margin-left: 1rem;
+
+              }
+
+              .form__error-icon{
+
+                /*Position*/
+
+                position: relative;
+                right: -1.1rem;
+                bottom: 0.5rem;
+                z-index: 999;
+
+                /*Visuals*/
+
+                opacity: 0;
+                color: ${statusColors.error};
+
+
+              }
+
+              .form__success-icon{
+
+              /*Position*/
+
+              position: relative;
+              right: 0.1rem;
+              bottom: 0.5rem;
+              z-index: 999;
+
+              /*Visuals*/
+
+              opacity: 0;
+              color: ${statusColors.success};
+
+              }
+
+              .form__error-icon--active{
+
+              /*Position*/
+
+              position: relative;
+              right: -1.1rem;
+              bottom: 0.5rem;
+              z-index: 999;
+
+              /*Visuals*/
+
+              opacity: 1;
+              color: ${statusColors.error};
+
+              }
+
+              .form__success-icon--active{
+
+              /*Position*/
+
+              position: relative;
+              right: 0.1rem;
+              bottom: 0.5rem;
+              z-index: 999;
+
+              /*Visuals*/
+
+              opacity: 1;
+              color: ${statusColors.success};
+
+              }
+
+              .submit__error{
+
+                /*Box model*/
+
+                display: none;
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.2rem;
+                color: ${statusColors.error};
+
+              }
+
+
             .form-vertical {
 
                   /*Position*/
@@ -326,8 +653,7 @@ export default function SignIn({providers, csrfToken}) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
-                align-items: center;
+                flex-direction: column;
                 justify-content: center;
 
             }
@@ -337,8 +663,7 @@ export default function SignIn({providers, csrfToken}) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
-                align-items: center;
+                flex-direction: column;
                 justify-content: center;
 
             }
@@ -417,6 +742,26 @@ export default function SignIn({providers, csrfToken}) {
               background-color: #F9B776;
               transition: all 0.5s ease-in-out;
 
+            }
+
+            .email__input{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+
+            }
+
+            .password__input{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              
             }
 
             .page__image{

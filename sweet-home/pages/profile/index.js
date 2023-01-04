@@ -11,7 +11,7 @@ export default function Profile({posts}){
     const {data: session, status} = useSession({required: true});
     const router = useRouter();
 
-    if (status == "authenticated"){
+    if (session){
         return(
             <Layout>
 

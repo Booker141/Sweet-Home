@@ -1,5 +1,6 @@
 import {useRouter} from 'next/router'
 import Head from 'next/head'
+import Image from 'next/image'
 import Layout from '/components/Layout/Layout'
 import global from "styles/global.module.css"
 import {MdPets} from 'react-icons/md'
@@ -43,7 +44,7 @@ export default function FourOhFour () {
               <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas, un momento ¿dónde están mis zapatos?</h2>
               <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
             </div>
-            <img src="/error-1.jpg" alt="Imagen de perro curándose"/>
+            <Image src="/error-1.svg" alt="Imagen de perro curándose" width={1000} height={1000}/>
           </div>
         </div>
         <style jsx>{`

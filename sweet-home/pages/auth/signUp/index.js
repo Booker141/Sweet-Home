@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import Image from 'next/image'
 import Router  from 'next/router'
 import {useSession, signIn} from 'next-auth/react'
 import {useState} from 'react'
@@ -15,7 +14,7 @@ import {FaUser, FaUserPlus} from "react-icons/fa";
 import {BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill} from "react-icons/bs";
 import {MdEmail, MdOutlineError} from "react-icons/md";
 import {AiFillInfoCircle, AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
-import signUp1 from "../../../public/signUp-1.svg"
+
 
 
 /*
@@ -34,8 +33,9 @@ export default function SignUp() {
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
   const [username, setUsername] = useState('');
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState(null);
   const [isValidate, setIsValidate] = useState(false);
+  
   
     
   /**
@@ -46,7 +46,6 @@ export default function SignUp() {
   const showPassword = () => {
 
     let passwordInput = document.getElementById("password");
-    
     
     if (passwordInput.type === "password") {
 
@@ -64,6 +63,118 @@ export default function SignUp() {
     }
   }
 
+  const validate = (e) => {
+
+    // Regular expressions
+
+    let regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    let regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/;
+    let regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+   
+    
+
+    if(e.target.name =="password"){
+
+      if(password.length < 8 || !password.match(regPassword) ){
+          
+          document.getElementById("password__error").classList.add("form__input-passwordError--active");
+          document.getElementById("error__password").classList.add("form__icon-error--active");
+          document.getElementById("success__password").classList.remove("form__icon-success--active");
+          setIsValidate(false);
+
+      }else{
+
+          document.getElementById("password__error").classList.remove("form__input-passwordError--active");
+          document.getElementById("error__password").classList.remove("form__icon-error--active");
+          document.getElementById("success__password").classList.add("form__icon-success--active");
+          setIsValidate(true);
+
+
+      }
+  }
+
+    // Validación del formato del email
+    
+    if(e.target.name == "email"){
+
+      if(!email.match(regEmail)){
+          
+          document.getElementById("email__error").classList.add("form__input-emailError--active");
+          document.getElementById("error__email").classList.add("form__error-icon--active");
+          document.getElementById("success__email").classList.remove("form__success-icon--active");
+          setIsValidate(false);
+
+      }else{
+          
+            document.getElementById("email__error").classList.remove("form__input-emailError--active");
+            document.getElementById("error__email").classList.remove("form__error-icon--active");
+            document.getElementById("success__email").classList.add("form__success-icon--active");
+            setIsValidate(true);
+
+      }
+    }
+
+    if(e.target.name == "name"){
+
+      if(!name.match(regName)){
+        
+          document.getElementById("name__error").classList.add("form__input-nameError--active");
+          document.getElementById("error__name").classList.add("form__error-icon--active");
+          document.getElementById("success__name").classList.remove("form__success-icon--active");
+          setIsValidate(false);
+
+      }else{
+
+          document.getElementById("name__error").classList.remove("form__input-nameError--active");
+          document.getElementById("error__name").classList.remove("form__error-icon--active");
+          document.getElementById("success__name").classList.add("form__success-icon--active");
+          setIsValidate(true);
+
+      }
+    }
+
+    if(e.target.name == "lastname"){
+
+      if(!regLastname.test(lastname)){
+
+          document.getElementById("lastname__error").classList.add("form__input-lastnameError--active");
+          document.getElementById("error__lastname").classList.add("form__error-icon--active");
+          document.getElementById("success__lastname").classList.remove("form__success-icon--active");
+          setIsValidate(false);
+
+      }else{
+
+          document.getElementById("lastname__error").classList.remove("form__input-lastnameError--active");
+          document.getElementById("error__lastname").classList.remove("form__error-icon--active");
+          document.getElementById("success__lastname").classList.add("form__success-icon--active");
+          setIsValidate(true);
+      }
+    }
+
+    // Validación logitud del username
+
+    if(e.target.name == "username"){
+
+      if(username.length < 4){
+          
+          document.getElementById("username__error").classList.add("form__input-usernameError--active");
+          document.getElementById("error__username").classList.add("form__error-icon--active");
+          document.getElementById("success__username").classList.remove("form__success-icon--active");
+          setIsValidate(false);
+      
+
+      }else{
+
+          document.getElementById("username__error").classList.remove("form__input-usernameError--active");
+          document.getElementById("error__username").classList.remove("form__error-icon--active");
+          document.getElementById("success__username").classList.add("form__success-icon--active");
+          setIsValidate(true);
+         
+      }
+    }
+   
+  }
   
   /**
    * It sends a POST request to the server with the user's data, and if the server responds with a
@@ -73,151 +184,46 @@ export default function SignUp() {
   const signUp = async (e) => {
     
     e.preventDefault();
-    /*
-    const form = document.getElementById("form");
-    const emailV = document.getElementById("email");
-    const passwordV = document.getElementById("password");
-    const nameV = document.getElementById("name");
-    const lastnameV = document.getElementById("lastname");
-    const usernameV = document.getElementById("username");
 
-    emailV.addEventListener('keyup', validate);
-    passwordV.addEventListener('keyup', validate);
-    nameV.addEventListener('keyup', validate);
-    lastnameV.addEventListener('keyup', validate);
-    usernameV.addEventListener('keyup', validate);
+    if(isValidate){
 
-    emailV.addEventListener('blur', validate);
-    passwordV.addEventListener('blur', validate);
-    nameV.addEventListener('blur', validate);
-    lastnameV.addEventListener('blur', validate);
-    usernameV.addEventListener('blur', validate);
-    */
-    // Regular expressions
+      document.getElementById("submit__error").classList.add("submit__error--active");
+      
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          name: name,
+          lastname: lastname,
+          username: username,
+        })
+      }).catch(err => console.log(err));
 
-    let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/;
-    let regPassword = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-    let regName = / ^ [a-zA-Z] + [a-zA-Z] + $ /;
-    let regLastname = / ^ [a-zA-Z] + [a-zA-Z] + $ /;
+      const data = await res.json();
 
+      setMessage(data.message);
 
+      if(data.message == 'Registrado con éxito.'){
 
+        document.getElementById("submit__error").classList.remove("submit__error--active");
+        document.getElementById("submit__error").classList.add("submit__error--active2");
 
-    if(password.length <= 8 || !regPassword.test(password) ){
-        
-        document.getElementById("password__error").classList.add("form__input-error--active");
-        document.getElementById("error__password").classList.add("form__icon-error--active");
-        document.getElementById("success__password").classList.remove("form__icon-success--active");
-        setIsValidate(false);
-    }else{
+        const res = await signIn("credentials", {redirect: false, email, password});
 
-        document.getElementById("password__error").classList.remove("form__input-error--active");
-        document.getElementById("error__password").classList.remove("form__icon-error--active");
-        document.getElementById("success__password").classList.add("form__icon-success--active");
-        setIsValidate(true);
+        return Router.push('/home');
 
-    }
+      }
 
-   
-
-    // Validación del formato del email
-
-    if(!regEmail.test(email)){
-        
-        document.getElementById("email__error").classList.add("form__input-error--active");
-        document.getElementById("error__email").classList.add("form__icon-error--active");
-        document.getElementById("success__email").classList.remove("form__icon-success--active");
-        setIsValidate(false);
-
-    }else{
-        
-          document.getElementById("email__error").classList.remove("form__input-error--active");
-          document.getElementById("error__email").classList.remove("form__icon-error--active");
-          document.getElementById("success__email").classList.add("form__icon-success--active");
-          setIsValidate(true);
-    }
-
-    if(!regName.test(name)){
-
-        document.getElementById("name__error").classList.add("form__input-error--active");
-        document.getElementById("error__name").classList.add("form__icon-error--active");
-        document.getElementById("success__name").classList.remove("form__icon-success--active");
-        setIsValidate(false);
-
-    }else{
-
-
-        document.getElementById("name__error").classList.remove("form__input-error--active");
-        document.getElementById("error__name").classList.remove("form__icon-error--active");
-        document.getElementById("success__name").classList.add("form__icon-success--active");
-        setIsValidate(true);
-    }
-
-    if(!regLastname.test(lastname)){
-
-
-        document.getElementById("lastname__error").classList.add("form__input-error--active");
-        document.getElementById("error__lastname").classList.add("form__icon-error--active");
-        document.getElementById("success__lastname").classList.remove("form__icon-success--active");
-        setIsValidate(false);
-
-    }else{
-
-        document.getElementById("lastname__error").classList.remove("form__input-error--active");
-        document.getElementById("error__lastname").classList.remove("form__icon-error--active");
-        document.getElementById("success__lastname").classList.add("form__icon-success--active");
-        setIsValidate(true);
-    }
-
-    // Validación logitud del username
-
-    if(username.length <= 4){
-        
-        document.getElementById("username__error").classList.add("form__input-error--active");
-        document.getElementById("error__username").classList.add("form__icon-error--active");
-        document.getElementById("success__username").classList.remove("form__icon-success--active");
-        setIsValidate(false);
-
-    }else{
-
-        document.getElementById("username__error").classList.remove("form__input-error--active");
-        document.getElementById("error__username").classList.remove("form__icon-error--active");
-        document.getElementById("success__username").classList.add("form__icon-success--active");
-        setIsValidate(true);
-    }
-
-    if(!isValidate){
-
-      document.getElementById("submit__error").classList.add("submit__error--activate");
-
-    }
-
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        name: name,
-        lastname: lastname,
-        username: username,
-      })
-    });
-
-    const data = await res.json();
-
-    setMessage(data.message);
-
-    if(data.message == 'Registrado con éxito'){
-
-      await signIn("credentials", {email, password});
-
-      return Router.push('/home');
-
-    }
-  } 
+  }else{
+      
+      setMessage('Por favor, verifica que todos los campos estén correctos.');
+      document.getElementById("submit__error").classList.add("submit__error--active");
+  }
+} 
 
 
  if(session){
@@ -264,20 +270,22 @@ export default function SignUp() {
                     name="email"
                     value={email}
                     id="email"
-                    pattern="[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}"
                     required
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="p. ej.: javier@gmail.com"
                   ></input>
                   <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
                   <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                </div>
-                <div id="email__error" className="form__input--error">
+                  <div id="email__error" className="form__input-emailError">
                   <div className="error__icon">
                     <MdOutlineError size={30} color={colors.secondary}/>
                   </div>
                   <p className={global.text2}>Debe seguir el formato correcto</p>
                 </div>
+                </div>
+                
               </div>
               <div className="form-vertical__name">
                 <div className="label">
@@ -293,18 +301,21 @@ export default function SignUp() {
                     id="name"
                     required
                     pattern="[a-zA-Z] + [a-zA-Z] +"
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="p. ej.: Javier"
                   ></input>
                   <div id="error__name" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
                   <div id="success__name" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                </div>
-                <div id="name__error" className="form__input--error">
+                  <div id="name__error" className="form__input-nameError">
                   <div className="error__icon">
                     <MdOutlineError size={30} color={colors.secondary}/>
                   </div>
                   <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                 </div>
+                </div>
+                
               </div>
               <div className="form-vertical__lastname">
                 <div className="label">
@@ -320,18 +331,21 @@ export default function SignUp() {
                     id="lastname"
                     pattern="[a-zA-Z] + [a-zA-Z] +"
                     required
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
                     onChange={(e) => setLastname(e.target.value)}
                     placeholder="p. ej.: García Navarro"
                   ></input>
                     <div id="error__lastname" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
                     <div id="success__lastname" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
+                    <div id="lastname__error" className="form__input-lastnameError">
+                      <div className="error__icon">
+                        <MdOutlineError size={30} color={colors.secondary}/>
+                      </div>
+                      <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
+                    </div>
                   </div>
-                <div id="lastname__error" className="form__input--error">
-                  <div className="error__icon">
-                    <MdOutlineError size={30} color={colors.secondary}/>
-                  </div>
-                  <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
-                </div>
+                
               </div>
               <div classname="form-vertical__username">
                 <div className="label">
@@ -347,19 +361,22 @@ export default function SignUp() {
                     id="username"
                     required
                     minLength="4"
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="p. ej.: javier65"
                     className="input"
                   ></input>
                     <div id="error__username" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
                     <div id="success__username" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
-                  </div>
-                  <div id="username__error" className="form__input--error">
+                    <div id="username__error" className="form__input-usernameError">
                     <div className="error__icon">
                       <MdOutlineError size={30} color={colors.secondary}/>
                     </div>
                     <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo</p>
                   </div>
+                  </div>
+                  
 
               </div>
               <div classname="form-vertical__password">
@@ -376,6 +393,8 @@ export default function SignUp() {
                     id="password"
                     pattern="(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}"
                     required
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="p. ej.: 1Manuel!"
                     className="input"
@@ -383,13 +402,14 @@ export default function SignUp() {
                   <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
                   <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
                   <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
-                </div>  
-                <div id="password__error" className="form__input--error">
+                  <div id="password__error" className="form__input-passwordError">
                   <div className="error__icon">
                     <MdOutlineError size={30} color={colors.secondary}/>
                   </div>
                   <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                 </div>
+                </div>  
+                
                 <div className="tooltip">
                   <div className="tooltip__icon">
                     <AiFillInfoCircle size={20} color={colors.secondary} />
@@ -407,7 +427,7 @@ export default function SignUp() {
               <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className="form__link" aria-label="Ir a Condiciones" href="/conditions">Condiciones</a> y  <a className="form__link" aria-label="Ir a Privacidad" href="/privacity">Privacidad</a> encontrará más información.</p>
             </div>
             <div id="submit__error" className="submit__error">
-                <MdOutlineError size={20} color={colors.secondary}/>{message}
+                {message}
             </div>
             <input type="submit" value="Confirmar" className="form-vertical__button" onClick={(e) => signUp(e)}/>
             <div className="form-login">
@@ -442,17 +462,17 @@ export default function SignUp() {
 
         @keyframes gradient {
           
-                  0%{
-                    background-position:0% 70%
-                  }
+              0%{
+                background-position:0% 70%
+              }
 
-                  50%{
-                    background-position:100% 60%
-                  }
+              50%{
+                background-position:100% 60%
+              }
 
-                  100%{
-                    background-position:0% 70%
-                  }
+              100%{
+                background-position:0% 70%
+              }
           }
 
           .page__video{
@@ -546,12 +566,20 @@ export default function SignUp() {
 
         /*ERRORES*/
 
-        .form__input--error{
+        .form__input-passwordError{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
 
           /*Box model*/
 
-          display: none;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
           margin-bottom: 2rem;
+          
           width: 100%;
 
           /*Text*/
@@ -563,10 +591,12 @@ export default function SignUp() {
 
           border-radius: 10px;
           background-color: ${statusColors.error};
+          opacity: 0;
 
         }
+        
 
-        .form__input--error p{
+        .form__input-passwordError p{
 
           /*Box model*/
 
@@ -574,7 +604,81 @@ export default function SignUp() {
 
         }
 
-        .form__input-error--active{
+        .form__input-passwordError--active{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+          margin-bottom: 2rem;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 1;
+
+        }
+
+
+        .form__input-nameError{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-bottom: 2rem;
+          
+          width: 100%;
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 0;
+
+        }
+        
+
+        .form__input-nameError p{
+
+          /*Box model*/
+
+          margin-left: 2rem;
+
+        }
+
+        .form__input-nameError--active{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+          width: 100%;
+          margin-bottom: 2rem;
 
           /*Box model*/
 
@@ -583,7 +687,224 @@ export default function SignUp() {
           align-items: center;
           
 
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 1;
+
         }
+
+
+        .form__input-lastnameError{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-bottom: 2rem;
+          
+          width: 100%;
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 0;
+
+        }
+        
+
+        .form__input-lastnameError p{
+
+          /*Box model*/
+
+          margin-left: 2rem;
+
+        }
+
+        .form__input-lastnameError--active{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+          margin-bottom: 2rem;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 1;
+
+        }
+
+
+        .form__input-emailError{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 2rem;
+          
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 0;
+
+        }
+        
+
+        .form__input-emailError p{
+
+          /*Box model*/
+
+          margin-left: 2rem;
+
+        }
+
+        .form__input-emailError--active{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+          margin-bottom: 2rem;
+          width: 100%;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 1;
+
+        }
+
+
+        .form__input-usernameError{
+
+          /*Position*/
+
+          position: absolute;
+          
+          left: 20rem;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-bottom: 1rem;
+          width: 100%;
+          
+
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 0;
+
+        }
+        
+
+        .form__input-usernameError p{
+
+          /*Box model*/
+
+          margin-left: 2rem;
+
+        }
+
+        .form__input-usernameError--active{
+
+          /*Position*/
+
+          position: absolute;
+          left: 20rem;
+          margin-bottom: 2rem;
+          width: 100%;
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: #fafafa;
+        
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+          opacity: 1;
+
+        }
+
+
 
         .error__icon{
 
@@ -591,32 +912,32 @@ export default function SignUp() {
 
           margin-left: 1rem;
 
-        }
+          }
 
-        .form__error-icon{
+          .form__error-icon{
+
+            /*Position*/
+
+            position: relative;
+            right: -1.1rem;
+            bottom: 0.9rem;
+            z-index: 999;
+
+            /*Visuals*/
+
+            opacity: 0;
+            color: ${statusColors.error};
+
+
+          }
+
+          .form__success-icon{
 
           /*Position*/
 
-          position: absolute;
-          right: 1.5rem;
-          bottom: 0.8rem;
-          z-index: 999;
-
-          /*Visuals*/
-
-          opacity: 0;
-          color: ${statusColors.error};
-
-
-        }
-
-        .form__success-icon{
-
-          /*Position*/
-
-          position: absolute;
-          right: 1.5rem;
-          bottom: 0.8rem;
+          position: relative;
+          right: 0.1rem;
+          bottom: 0.9rem;
           z-index: 999;
 
           /*Visuals*/
@@ -624,23 +945,42 @@ export default function SignUp() {
           opacity: 0;
           color: ${statusColors.success};
 
-        }
+          }
 
-        .form__error-icon--active{
+          .form__error-icon--active{
+
+          /*Position*/
+
+          position: relative;
+          right: -1.1rem;
+          bottom: 0.9rem;
+          z-index: 999;
 
           /*Visuals*/
 
           opacity: 1;
+          color: ${statusColors.error};
 
-        }
+          }
 
-        .form__success-icon--active{
+          .form__success-icon--active{
+
+          /*Position*/
+
+          position: relative;
+          right: 0.1rem;
+          bottom: 0.9rem;
+          z-index: 999;
 
           /*Visuals*/
 
           opacity: 1;
+          color: ${statusColors.success};
 
-        }
+          }
+
+        
+
 
         .submit__error{
 
@@ -651,20 +991,58 @@ export default function SignUp() {
           /*Text*/
 
           font-family: 'Poppins', sans-serif;
-          font-size: 1.2rem;
-          color: ${statusColors.error};
+          color: ${colors.secondary};
+
+          /*Visuals*/
+
+          background-color: ${statusColors.error};
 
         }
 
-        .submit__error-active{
+        .submit__error--active{
 
           /*Box model*/
 
           display: flex;
           flex-direction: row;
           align-items: center;
+          justify-content: center;
+          padding: 0.5rem;
+          width: 65%;
 
-          
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: ${colors.secondary};
+
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.error};
+
+        }
+
+        .submit__error--active2{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          padding: 0.5rem;
+          width: 65%;
+
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          color: ${colors.secondary};
+
+          /*Visuals*/
+
+          border-radius: 10px;
+          background-color: ${statusColors.success};
+
         }
 
         .form-vertical {

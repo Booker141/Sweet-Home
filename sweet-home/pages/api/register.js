@@ -9,21 +9,34 @@ export default async function handler(req, res){
         const body = req.body;
         const userExist1 = await db.collection('users').findOne({email: body.email});
         const userExist2 = await db.collection('users').findOne({username: body.username});
+        const userRole = await db.collection('userRole').findOne({name: "usuario"});
+        const userStatus = await db.collection('status').findOne({name: "active"})
 
-        if(userExist1 || userExist2){
+        if(userExist1){
 
-            res.status(200).json({message: 'Ya está registrado con este email'});
+            res.status(200).json({message: 'Ya está registrado con este email.'});
             return;
 
+        }
+
+        if(userExist2){
+
+            res.status(200).json({message: 'Ya está registrado con este nombre de usuario.'});
+            return;
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(body.password, salt);
         
-        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastName: body.lastName, username: body.username, password: hashPassword});
-        if(res.statusCode == 500)
-            res.status(500).json({message: 'Error al registrar el usuario'});
-        res.status(201).json({message: 'Registrado con éxito'});
+        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date()});
+
+        if(res.statusCode == 500){
+
+            res.status(500).json({message: 'Error al registrar el usuario.'});
+
+        }
+        
+        res.status(201).json({message: 'Registrado con éxito.'});
 
      
     

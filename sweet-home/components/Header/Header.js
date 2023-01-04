@@ -5,9 +5,7 @@ import {useState} from 'react'
 import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
-import {theme} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
-import Trademark from "components/Trademark/Trademark"
 import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
 import Modal from "components/Modal/Modal"
 
@@ -64,7 +62,7 @@ export default function Header(props){
     } 
 
 
-    if (status == "authenticated"){
+    if (session){
         return(    
             <>
                     <ul className="header">
@@ -76,7 +74,7 @@ export default function Header(props){
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'>Buscar</a></Link></li>
                         <li><Link href="/chat" as="/char"><a aria-label='Ir a Chat'>Chat</a></Link></li>
-                        <li className="menu-visible"><a id="profile">Perfil ▽</a>
+                        <li className="menu-visible"><a id="profile">{session.user.name} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
                                 <hr className="line"/>
@@ -160,10 +158,13 @@ export default function Header(props){
 
                 .menu{
 
+                    /*Position*/
+
+                    position: absolute;
+
                     /*Box model*/
 
                     display: none;
-                    position: absolute;
                     margin-bottom: 1rem;
                     margin-right: 2rem;
                     
@@ -347,9 +348,11 @@ export default function Header(props){
                     <div className="logo">
                         <TrademarkWhite link="/"/>
                     </div>
-                    <Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${text1}'>{props.text1}</a></Link>
-                    <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
-                    <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
+                    <div className="header__links">
+                        <Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${text1}'>{props.text1}</a></Link>
+                        <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
+                        <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
+                    </div>
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
                         {router.route !== "/auth/signIn" && router.route !== "/auth/signUp" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
@@ -411,7 +414,18 @@ export default function Header(props){
                     }
 
 
-                   
+                   .header__links{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    margin-top: 1rem;
+                    gap: 2.5rem;
+                    justify-content: space-between;
+
+                   }
 
                     .nav__link{
 
@@ -458,7 +472,7 @@ export default function Header(props){
                     a{
 
                     /*Box model*/
-
+             
                     margin-bottom: 1rem;
 
                     /*Text*/

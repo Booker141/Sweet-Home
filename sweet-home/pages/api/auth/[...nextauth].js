@@ -27,47 +27,62 @@ export default NextAuth({
           password: { label: "Password", type: "password" }
         },
         async authorize(credentials) {
-          
-          try{
-
-            let regEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-
+            try{
             const {email, password} = credentials;
             
-            if(!regEmail.test(email)){
-              
-              throw new Error("Formato Email incorrecto");
-
-            }
-
             const client = await clientPromise;
             const db = await client.db();
-            const user = await db.collection('users').findOne({email: email});
 
-            if(user){
+            if(!password){    
+                throw new Error("Introduzca la contraseña.");
+            }
 
-                await bcrypt.compare(password, user.password, (err, data) => {
-                  //if error than throw error
-                  if (err) throw Error("Contraseña incorrecta")
+            if(!email){
 
-                  if (data) {
-                      return user
-                  } else {
-                      throw new Error("Datos incorrectos")
-                  }
-
-              })
+              throw new Error("Introduzca el email.");
 
             }else{
 
-              throw new Error("No se ha encontrado ningún usuario");
+              const user = await db.collection('users').findOne({email: email});
 
-              return null;
-              
+        
+              if(user){
+
+                  if(user.status == "blocked"){
+                    throw new Error("Usuario bloqueado.");
+                  }
+
+                  if(!user.password){
+                    throw new Error("Introduzca la contraseña.");
+                  }
+    
+                  await bcrypt.compare(password, user.password, (err, data) => {
+                    //if error than throw error
+                    if (err) throw Error("Contraseña incorrecta.");
+
+                    if (data) {
+
+                        return user;
+
+                    } else {
+
+                        throw new Error("Datos incorrectos.");
+
+                    }
+
+                })
+
+              }else{
+
+                throw new Error("No se ha encontrado ningún usuario.");
+
+                
+              }
             }
-          } catch (err) {
-            throw new Error('Error de autenticación');
-        }
+          }catch(err){
+            throw new Error("Ha habido un error con sus credenciales.");
+          }
+         
           
         }
       })
@@ -75,7 +90,7 @@ export default NextAuth({
     database: process.env.MONGODB_URI,
     pages: {
       signIn: '/auth/signIn',
-      error: '/auth/error', // Error code passed in query string as ?error=
+      error: '/_error', // Error code passed in query string as ?error=
       verifyRequest: '/auth/verify-request', // (used for check email message)
       newUser: '/home' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
@@ -84,46 +99,65 @@ export default NextAuth({
     }),
     secret: process.env.NEXT_PUBLIC_SECRET,
     session: {
-      jwt: true,
+      jwt: "true",
+      maxAge: 30 * 24 * 60 * 60,
     },
     jwt: {
       secret: process.env.NEXT_PUBLIC_SECRET,
     },
     callbacks: {
-      async jwt(token, user) {
+    
+      async jwt(token, user, account) {
         if (user) {
           token.id = user._id;
         }
+        if (account?.accessToken) {
+          token.accessToken = account.accessToken;
+        }
+  
         return token;
       },
-      async session(session) {
-  
-            if (!session) return;
+      async session(session, token) {
+
+        if (token?.accessToken) {
+          session.accessToken = token.accessToken;
+        }
         
-            const client = await clientPromise;
-            const db = await client.db();
-            
-            const user = await db.collection('users').findOne({
-              email: session.user.email,
-            });
+        const client = await clientPromise;
+        const db = await client.db();
         
-            return {
-              session: {
-                user: {
-                  id: user._id,
-                  firstname: user.firstname,
-                  lastname: user.lastname,
-                  username: user.username,
-                  email: user.email,
-                  password: user.password,
-                  phone: user.phone,
-                  gender: user.gender,
-                  birthdate: user.birthdate,
-                  image: user.image,
-                  role: user.role,
-                }
-              }
-            };
-          },
+        const user = await db.collection('users').findOne({
+          email: session.user.email,
+        });
+
+        if (user) {
+          const sessionToken = generateSessionToken();
+          const sessionMaxAge = 30 * 24 * 60 * 60; 
+          const sessionExpiry = fromDate(sessionMaxAge);
+
+          await adapter.createSession({
+            id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            phone: user.phone,
+            gender: user.gender,
+            birthdate: user.birthdate,
+            image: user.image,
+            role: user.role,
+            status: user.status,
+            sessionToken: sessionToken,
+            userId: user.id,
+            expires: sessionExpiry,
+          });
+    
+        }
+
+        
+
+      },
     },
+   
   })
