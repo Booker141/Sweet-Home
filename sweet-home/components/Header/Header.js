@@ -35,7 +35,7 @@ import Modal from "components/Modal/Modal"
 export default function Header(props){
 
     
-    const {data: session, status} = useSession({required: false});
+    const {data: session} = useSession();
     const [isModalVisible, setIsModalVisible] = useState(false);
     
     const router = useRouter();

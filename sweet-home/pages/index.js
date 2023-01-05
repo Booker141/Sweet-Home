@@ -64,7 +64,7 @@ export default function Principal(){
         <div className="container1__video"></div>
         <video autoPlay loop muted 
             style={{ position: "absolute", top: "0", left: "0" , width: '100%', height: '100%', objectFit: "cover", zIndex: "-99", translate: "transform(-50%,-50%)", borderRadius: "0 0 30px 30px" }}>
-            <source src="/video1.mp4" />
+            <source src="/videos/video1.mp4" />
         </video>
         <div className="content__container2">
           <div className="container2__column1">

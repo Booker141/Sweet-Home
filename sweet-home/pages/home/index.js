@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
+import { getToken } from "next-auth/jwt"
 import Link from 'next/link'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf"
@@ -23,10 +24,14 @@ import User from "components/User/User"
  */
 export default function Home ({posts, users}){
 
-  const session = useSession({required: true});
+  const {status} = useSession();
+  
   const Router = useRouter();
 
-    if(session){
+    if(status == "loading"){
+      return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+    }
+
       return (
           <Layout>
               <Head><title>Reciente</title></Head>
@@ -118,23 +123,31 @@ export default function Home ({posts, users}){
 
             `}</style>
         </Layout>
-      )}else{
 
-        Router.push("/signIn");
-
-      }
+      )
   }
 
 
-export async function getServerSideProps(){ 
+export async function getServerSideProps(context){ 
 
+  const token = await getToken(context);
 
+  if(!token){
+    return {
+      redirect: {
+        destination: "/auth/signIn",
+        permanent: false
+      }
+    }
+  }
+  
   let res = await fetch("http://localhost:3000/api/posts", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
+
 
   let user = await fetch("http://localhost:3000/api/users", {
     method: "GET",

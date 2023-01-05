@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Router  from 'next/router'
-import {useSession, signIn} from 'next-auth/react'
-import {useState} from 'react'
+import {getSession, signIn} from 'next-auth/react'
+import {useState, useEffect} from 'react'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
@@ -27,7 +27,6 @@ import {AiFillInfoCircle, AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
 
 export default function SignUp() {
 
-  const {data: session, status} = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -38,6 +37,16 @@ export default function SignUp() {
   
   
     
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session) {
+        Router.replace('/home');
+      } else {
+        Router.replace('/auth/signUp');
+      }
+    });
+  }, [Router]);
+
   /**
    * If the password input type is password, then hide the first icon and show the second icon, and
    * change the input type to text. Otherwise, show the first icon and hide the second icon, and change
@@ -225,12 +234,6 @@ export default function SignUp() {
   }
 } 
 
-
- if(session){
-
-    Router.push('/home');
-
- }
   
   return(
 
@@ -248,7 +251,7 @@ export default function SignUp() {
         <div className="page__video"></div>
               <video autoPlay loop muted 
                   style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '220%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
-                  <source src="/video2.mp4" />
+                  <source src="/videos/video2.mp4" />
               </video>
           <div className="page__form">
             <div className="form__text">

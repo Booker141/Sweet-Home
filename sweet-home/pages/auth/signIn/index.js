@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
-import {statusColors} from "styles/frontend-conf"
+import {statusColors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
@@ -31,9 +31,18 @@ export default function SignIn({providers, csrfToken}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState('');
+  const [isValidate, setIsValidate] = useState(false);
   const Router = useRouter();
 
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session) {
+        Router.replace('/home');
+      } 
+    });
+  }, [Router]);
 
 
  /**
@@ -77,13 +86,14 @@ export default function SignIn({providers, csrfToken}) {
           document.getElementById("password__error").classList.add("form__input-passwordError--active");
           document.getElementById("error__password").classList.add("form__icon-error--active");
           document.getElementById("success__password").classList.remove("form__icon-success--active");
+          setIsValidate(false);
 
       }else{
 
           document.getElementById("password__error").classList.remove("form__input-passwordError--active");
           document.getElementById("error__password").classList.remove("form__icon-error--active");
           document.getElementById("success__password").classList.add("form__icon-success--active");
-
+          setIsValidate(true);
 
       }
   }
@@ -96,16 +106,18 @@ export default function SignIn({providers, csrfToken}) {
           document.getElementById("email__error").classList.add("form__input-emailError--active");
           document.getElementById("error__email").classList.add("form__error-icon--active");
           document.getElementById("success__email").classList.remove("form__success-icon--active");
- 
+          setIsValidate(false);
 
       }else{
           
             document.getElementById("email__error").classList.remove("form__input-emailError--active");
             document.getElementById("error__email").classList.remove("form__error-icon--active");
             document.getElementById("success__email").classList.add("form__success-icon--active");
-  
+            setIsValidate(true);
       }
     }
+
+ 
   }
 
  /**
@@ -118,21 +130,27 @@ export default function SignIn({providers, csrfToken}) {
   const Login = async (e) => {
 
     e.preventDefault();
-    
-    const res = await signIn('credentials', {redirect: false, email: email, password: password , callbackUrl: "http://localhost:3000/home"});
 
-    setMessage(null);
-    document.getElementById("submit__error").classList.remove("submit__error--active");
+    if(isValidate){
 
-    if (res?.error) {
+      await signIn('credentials', {redirect: false, email: email, password: password}).then(
+        (res) => {
 
-      setMessage(res.error);
-      document.getElementById("submit__error").classList.add("submit__error--active");
+          console.log(res);
 
-      
+          if(res?.error){
+            
+            setMessage(res.error);
+
+            document.getElementById("submit__error").classList.add("submit__error--active");
+
+
+          }
+                  
+            Router.push("/home");
+        }    
+      ).catch(error => console.log(error));
     }
-
-   
   }
   
   return(
@@ -150,7 +168,7 @@ export default function SignIn({providers, csrfToken}) {
               <div className="page__video"></div>
               <video autoPlay loop muted 
                   style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '153%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
-                  <source src="/video2.mp4" />
+                  <source src="/videos/video2.mp4" />
               </video>
              
               <div className="page__form">
@@ -177,7 +195,7 @@ export default function SignIn({providers, csrfToken}) {
                   <hr className={global.white__line}></hr>
                 </div>
                 
-                <form className="form-vertical" action="/api/auth/signIn/email" >
+                <form className="form-vertical" action="/api/auth/signIn/credentials" >
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                   <div className="form-vertical__email">
                     <div className="label">
@@ -233,18 +251,20 @@ export default function SignIn({providers, csrfToken}) {
                           <MdOutlineError size={30} color={colors.secondary}/>
                         </div>
                         <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
-                  </div> 
+                      </div>
+                      
                     </div>
                   </div>
                 </form>
                 <div id="submit__error" className="submit__error">
-                  {message}
-                </div>
-                <button className="form-vertical__button" onClick={(e)=>Login(e)}>Iniciar sesión</button>
+                        {message}
+                </div> 
+                <input type="submit" value="Iniciar sesión" className="form-vertical__button" onClick={(e)=>Login(e)}/>
                 <div className="form-register">
                   <h6>¿No tiene una cuenta?</h6>
                   <Link href="/auth/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
                 </div>
+                
               </div>
             </div>
           </div>
@@ -504,44 +524,6 @@ export default function SignIn({providers, csrfToken}) {
 
               }
 
-              .submit__error{
-
-              /*Box model*/
-
-              display: none;
-
-              /*Text*/
-
-              font-family: 'Poppins', sans-serif;
-              color: ${colors.secondary};
-
-              /*Visuals*/
-
-              background-color: ${statusColors.error};
-
-              }
-
-              .submit__error--active{
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              padding: 0.5rem;
-
-              /*Text*/
-
-              font-family: 'Poppins', sans-serif;
-              color: ${colors.secondary};
-
-              /*Visuals*/
-
-              border-radius: 10px;
-              background-color: ${statusColors.error};
-
-              }
-
 
               .error__icon{
 
@@ -618,15 +600,41 @@ export default function SignIn({providers, csrfToken}) {
 
               .submit__error{
 
-                /*Box model*/
+               /*Box model*/
 
                 display: none;
 
                 /*Text*/
 
                 font-family: 'Poppins', sans-serif;
-                font-size: 1.2rem;
-                color: ${statusColors.error};
+                color: ${colors.secondary};
+
+                /*Visuals*/
+
+                background-color: ${statusColors.error};
+
+              }
+
+                .submit__error--active{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                padding: 0.5rem;
+                width: 65%;
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: ${colors.secondary};
+
+                /*Visuals*/
+
+                border-radius: 10px;
+                background-color: ${statusColors.error};
 
               }
 
