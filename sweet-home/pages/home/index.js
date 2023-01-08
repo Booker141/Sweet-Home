@@ -24,7 +24,7 @@ import User from "components/User/User"
  */
 export default function Home ({posts, users}){
 
-  const {status} = useSession();
+  const {status} = useSession({required: false});
   
   const Router = useRouter();
 

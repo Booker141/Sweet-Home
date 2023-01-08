@@ -73,8 +73,8 @@ export default function Header(props){
                         <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'>Buscar</a></Link></li>
-                        <li><Link href="/chat" as="/char"><a aria-label='Ir a Chat'>Chat</a></Link></li>
-                        <li className="menu-visible"><a id="profile">{session.user.name} ▽</a>
+                        <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'>Chat</a></Link></li>
+                        <li className="menu-visible"><a id="profile">{session.user.username} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
                                 <hr className="line"/>

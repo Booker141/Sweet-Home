@@ -223,8 +223,6 @@ export default function SignUp() {
 
         const res = await signIn("credentials", {redirect: false, email, password});
 
-        return Router.push('/home');
-
       }
 
   }else{

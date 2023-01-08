@@ -10,7 +10,7 @@ export default async function handler(req, res){
         const userExist1 = await db.collection('users').findOne({email: body.email});
         const userExist2 = await db.collection('users').findOne({username: body.username});
         const userRole = await db.collection('userRole').findOne({name: "usuario"});
-        const userStatus = await db.collection('status').findOne({name: "active"})
+        const userStatus = await db.collection('userStatus').findOne({name: "activo"})
 
         if(userExist1){
 

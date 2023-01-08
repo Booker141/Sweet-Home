@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import {getProviders, getSession, signIn, getCsrfToken} from "next-auth/react"
+import {getProviders, useSession, signIn, getCsrfToken} from "next-auth/react"
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {statusColors} from "styles/frontend-conf.js"
@@ -29,6 +29,7 @@ import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
  */
 export default function SignIn({providers, csrfToken}) {
 
+  const {data: session, status} = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -37,11 +38,11 @@ export default function SignIn({providers, csrfToken}) {
 
 
   useEffect(() => {
-    getSession().then((session) => {
+   
       if (session) {
         Router.replace('/home');
       } 
-    });
+
   }, [Router]);
 
 
@@ -131,25 +132,24 @@ export default function SignIn({providers, csrfToken}) {
 
     e.preventDefault();
 
+    document.getElementById("submit__error").classList.remove("submit__error--active");
+
     if(isValidate){
 
-      await signIn('credentials', {redirect: false, email: email, password: password}).then(
-        (res) => {
-
-          console.log(res);
-
-          if(res?.error){
+      const res = await signIn('credentials', {redirect: false, email: email, password: password});
+        
+        if(res?.error){
             
-            setMessage(res.error);
+          setMessage(res.error);
 
-            document.getElementById("submit__error").classList.add("submit__error--active");
+          document.getElementById("submit__error").classList.add("submit__error--active");
 
+        }else{
 
-          }
-                  
-            Router.push("/home");
-        }    
-      ).catch(error => console.log(error));
+          Router.push('/home');
+          
+        }
+
     }
   }
   
@@ -177,14 +177,14 @@ export default function SignIn({providers, csrfToken}) {
                 </div>
                 {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id)}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`})}>
                       Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
                     </button>
                   </div>
                 ))}
                 {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id)}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`})}>
                       Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
                     </button>
                   </div>
@@ -196,7 +196,7 @@ export default function SignIn({providers, csrfToken}) {
                 </div>
                 
                 <form className="form-vertical" action="/api/auth/signIn/credentials" >
-                  <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                  {/*<input name="csrfToken" type="hidden" defaultValue={csrfToken}/>*/}
                   <div className="form-vertical__email">
                     <div className="label">
                       <p className={global.text}>Email</p>
@@ -1026,23 +1026,6 @@ export default function SignIn({providers, csrfToken}) {
 
 
 export async function getServerSideProps(context) {
-  
-  const {req} = context;
-
-  const session = await getSession({req});
-
-  if(session){
-
-    console.log("Session", JSON.stringify(session, null, 2));
-
-    return {
-      redirect: {
-        destination: '/home',
-        permanent: false,
-      }
-    }
-
-  }
 
   return {
     props: { providers: await getProviders(), csrfToken: await getCsrfToken(context) },
