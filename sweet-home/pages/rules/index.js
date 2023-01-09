@@ -22,6 +22,7 @@ export default function Rules(){
         <Layout>
                     <Head><title>Reglas y políticas</title></Head>
                     <h1 className={global.title}>Reglas y políticas</h1>
+                    <hr className={global.line}></hr>
                     <p className={global.text}>En este apartado, conocerá las 
                     reglas de Sweet Home. El propósito de Sweet Home es proveer 
                     los servicios implementados, estableciendo reglas y políticas 
@@ -34,14 +35,16 @@ export default function Rules(){
                     Sweet Home, impidiendo que el usuario se sienta desconforme 
                     durante su uso:</p>
                     <h2 className={global.secondary}>Seguridad ❖</h2>
-                    <p className={global.text}>Extrema violencia: está prohibido 
-                    amenazar y herir a personas a través del chat que Sweet Home 
-                    proporciona o bien a través de publicaciones.
-                    Acoso: no puedes acosar a usuarios con la pretensión de 
-                    obligarlo a hacer algo que no quiere.
-                    Contenido múltimedia no apto: No puedes publicar elementos 
-                    multimedia, en este caso imágenes, que puedan dañar la 
-                    sensibilidad de los usuarios.</p>
+                    <div className="security">
+                        <p className={global.text}>◆ Extrema violencia: está prohibido 
+                        amenazar y herir a personas a través del chat que Sweet Home 
+                        proporciona o bien a través de publicaciones.</p>
+                        <p className={global.text}>◆ Acoso: no puedes acosar a usuarios con la pretensión de 
+                        obligarlo a hacer algo que no quiere.</p>
+                        <p className={global.text}>◆ Contenido múltimedia no apto: No puedes publicar elementos 
+                        multimedia, en este caso imágenes, que puedan dañar la 
+                        sensibilidad de los usuarios.</p>
+                    </div>
                     <h2 className={global.secondary}>Privacidad ❖</h2>
                     <p className={global.text}>En Sweet Home está prohibido la 
                     publicación de información personal de otro usuario sin el 
@@ -69,6 +72,15 @@ export default function Rules(){
                 
                     <style jsx>{`
 
+                        .security{
+
+                            /*Box model*/
+
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+
+                        }
                         h1{
                             /*Box model*/
                             margin-bottom: 5rem;
@@ -76,6 +88,13 @@ export default function Rules(){
                         h2{
                             /*Box model*/
                             margin-bottom: 2rem;
+                        }
+                        hr{
+                            /*Box model*/
+                            
+                            margin-top: 0;
+                            margin-bottom: 5rem;
+                            width: 100%;
                         }
                         p{
                             /*Box model*/

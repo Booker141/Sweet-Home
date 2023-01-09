@@ -40,7 +40,7 @@ export default function SignIn({providers, csrfToken}) {
   useEffect(() => {
    
       if (session) {
-        Router.replace('/home');
+        return Router.replace('/home');
       } 
 
   }, [Router]);
@@ -136,19 +136,18 @@ export default function SignIn({providers, csrfToken}) {
 
     if(isValidate){
 
-      const res = await signIn('credentials', {redirect: false, email: email, password: password});
+      const res = await signIn('credentials', {redirect: false, email: email, password: password, callbackUrl: "/home"});
         
+
         if(res?.error){
             
           setMessage(res.error);
 
           document.getElementById("submit__error").classList.add("submit__error--active");
 
-        }else{
-
-          Router.push('/home');
-          
         }
+
+        return Router.push("/home")
 
     }
   }
@@ -177,14 +176,14 @@ export default function SignIn({providers, csrfToken}) {
                 </div>
                 {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`})}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
                       Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
                     </button>
                   </div>
                 ))}
                 {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
                   <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/home`})}>
+                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
                       Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
                     </button>
                   </div>

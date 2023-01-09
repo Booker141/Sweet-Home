@@ -4,6 +4,7 @@ import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
+import New from "components/New/New"
 
 
 
@@ -22,41 +23,29 @@ import Layout from "components/Layout/Layout"
  * the app
  * @returns the Layout component with the children props being the <> component.
  */
-export default function News() {
+export default function News({news}) {
     return (
         <Layout>
 
             <Head><title>Noticias</title></Head>
 
                 <section>
-                    <h1 className={global.title}>Últimas noticias ✧</h1>
-                    <article>
-                        <h2 className={global.secondary}>Carlota nos cuenta su experiencia en Sweet Home</h2>
-                        <h3 className={global.tertiary}>18/08/2022</h3>
-                        <p className={global.text}>Hace unos meses, estuvo pensando en regalarle a su 
-                        hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.
+                   
+                    <div className="container__column1">
+                        <h1 className={global.title}>Últimas noticias ✧</h1>
+                        {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
-                        A mediados del año pasado, Carlota decidió adoptar un gato a través de Sweet 
-                        Home y hoy nos cuenta como fue su experiencia a través de la aplicación.</p>
-                        <Link href="/news/1"><a className={global.link}>Leer más →</a></Link>
-                        <hr className={global.line}></hr>
-                    </article>
+                        {news.map(({_id, id, title, date, author, introduction}) => {
+                          return (
+                            <>
+                              <New key={_id} id={id} title={title} date={date} author={author} introduction={introduction}/>
+                              <Link href='/news/{id}'><a className={global.link}>Leer más →</a></Link>
+                              <hr className={global.line}></hr>
+                            </>
+                          )
+                        })}
+                    </div>
 
-                    <article>
-                        <h2 className={global.secondary}>Nueva actualización v1.0.0</h2>
-                        <h3 className={global.tertiary}>20/08/2022</h3>
-                        <p className={global.text}>A continuación, entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
-                        <Link href="/news/2"><a className={global.link}>Leer más →</a></Link>
-                        <hr className={global.line}></hr>
-                    </article>
-
-                    <article>
-                        <h2 className={global.secondary}>¿Estás perdido?</h2>
-                        <h3 className={global.tertiary}>21/08/2022</h3>
-                        <p className={global.text}>Su creador Sergio García nos da pistas sobre las esperadas actualizaciones que están por venir y nos explica un poco el funcionamiento de la última actualización, la v1.0.0.</p>
-                        <Link href="/news/3"><a className={global.link}>Leer más →</a></Link>
-                        <hr className={global.line}></hr>
-                    </article>
                 </section>
 
             
@@ -164,4 +153,22 @@ export default function News() {
          
         </Layout>
     )
+}
+
+export async function getServerSideProps(){
+
+    const res = await fetch("http://localhost:3000/api/news", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+    const news = await res.json();
+
+    return {
+        props: {
+            news
+        }
+    }
 }

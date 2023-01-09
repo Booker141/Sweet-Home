@@ -3,7 +3,7 @@ import Image from 'next/image'
 import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
-import faq1 from "../../public/faq-1.jpg"
+import faq1 from "../../public/faq-1.svg"
 
 
 /*
@@ -173,6 +173,10 @@ export default function Use(){
 
                     /*Box model*/
 
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
                     width: 100%;
                     height: 100%;
                     margin-bottom: 3rem;

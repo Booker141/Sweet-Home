@@ -27,6 +27,15 @@
 
 }
 
+.title3 {
+  /*Text*/
+
+  font-family: "Poppins", sans-serif;
+  font-size: 3rem;
+  font-weight: 500;
+  color: #fafafa;
+}
+
 .secondary {
   /*Text*/
 
@@ -183,6 +192,23 @@
 
   border-radius: 10px;
   border: 1px solid #f0810f;
+
+}
+
+.new{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
 
 }
 
@@ -380,14 +406,14 @@
 
   /*Text*/
 
-  color: #fafafa;
+  color: #ffffff;
   font-family: "Poppins", sans-serif;
   font-style: bold;
 
   /*Visuals*/
 
   cursor: pointer;
-  background-color: #fab169;
+  background-color: #ffa142;
   border-radius: 40px;
   border: none;
 

@@ -5,8 +5,8 @@ import TwitterProvider from "next-auth/providers/twitter";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import { ObjectId } from "mongodb";
 import clientPromise from "../lib/MongoDB.js";
+import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
-import {webcrypto} from 'crypto'
 
 
 export default NextAuth({
@@ -19,7 +19,7 @@ export default NextAuth({
       TwitterProvider({
         clientId: process.env.TWITTER_ID,
         clientSecret: process.env.TWITTER_SECRET,
-        version: "2.0", // opt-in to Twitter OAuth 2.0
+        version: "2.0", 
       }),
       CredentialsProvider({
         id: "credentials",
@@ -77,7 +77,6 @@ export default NextAuth({
               return user;
 
 
-    
               }        
 
       })
@@ -85,18 +84,44 @@ export default NextAuth({
     database: process.env.MONGODB_URI,
     pages: {
       signIn: '/auth/signIn',
-      error: '/_error', // Error code passed in query string as ?error=
+      error: '/_error', 
     },
     adapter: MongoDBAdapter(clientPromise,{
       databaseName: 'SweetHomeDB',
     }),
     jwt: {
-      secret: process.env.NEXT_PUBLIC_SECRET,
+      secret: process.env.NEXT_AUTH_SECRET,
     },
     session: {
       strategy: "jwt",
       maxAge: 3600 * 24,
       updateAge: 3600 * 24,
+    },
+    jwt: {
+      async encode({ token, secret }) {
+
+        const tokenJWT = {
+          id: token.id,
+          state: token.state,
+          email: token.email,
+          firstname: token.firstname,
+          lastname: token.lastname,
+          username: token.username,
+          status: token.status,
+          role: token.role,
+        }
+
+        const codedToken = jwt.sign(tokenJWT , secret);
+
+        return codedToken;
+
+      },
+      async decode({ token, secret }) {
+
+        const decodedToken = jwt.verify(token, secret);
+
+        return decodedToken;
+      },
     },
     events: {
       async signIn(message) { /* on successful sign in */ },
@@ -105,20 +130,29 @@ export default NextAuth({
       async session(message) { /* session is active */ },
     },
     callbacks: {
+      /*async redirect({ url, baseUrl }) {
+        if (url.startsWith("/")) return `${baseUrl}${url}`
+        else if (new URL(url).origin === baseUrl) return url
+        return baseUrl
+      },*/
       async signIn({ user, account, profile, credentials}) {
 
         const client = await clientPromise;
         const db = await client.db();
+
         const accountExist = await db.collection('accounts').findOne({providerAccountId: account.providerAccountId});
         const accountExist2 = await db.collection('accounts').findOne({userId: user._id});
         const userExist = await db.collection('users').findOne({_id: user.id});
         const userStatus = await db.collection('userStatus').findOne({name: "activo"});
         const userRole = await db.collection('userRole').findOne({name: "usuario"});
+
         console.log(user);
         console.log(account);
+
         const randomId = new ObjectId();
         const maxAge = 3600 * 24;
         const expiryDate = new Date(Date.now() + (maxAge * 3000));
+
         const token = Math.random().toString(36).substring(2, 120);
         const token2 = Math.random().toString(36).substring(2, 120)
 
@@ -283,13 +317,26 @@ export default NextAuth({
             role: user.role,
           }
         }
+        
   
         return token;
 
       },
-      async session(session, token, account, user) {
+      async session(session, token, user) {
+        
+        if(token){
 
-        session.user = token.user;
+          session.user = {
+            id: user.id,
+            email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            status: user.status,
+            role: user.role,
+          }
+
+        }
 
         return session;
 

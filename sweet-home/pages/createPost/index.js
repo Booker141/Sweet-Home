@@ -5,7 +5,7 @@ import {useState} from 'react'
 import Layout from '/components/Layout/Layout'
 
 
-export default function newPost(){
+export default function createPost(){
 
     const session = useSession({required: true});
     const Router = useRouter();

@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
-import { getToken } from "next-auth/jwt"
 import Link from 'next/link'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf"
@@ -24,14 +23,14 @@ import User from "components/User/User"
  */
 export default function Home ({posts, users}){
 
-  const {status} = useSession({required: false});
+  const {data: session, status} = useSession({required: true});
   
   const Router = useRouter();
 
     if(status == "loading"){
       return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
     }
-
+    if(session){
       return (
           <Layout>
               <Head><title>Reciente</title></Head>
@@ -125,21 +124,40 @@ export default function Home ({posts, users}){
         </Layout>
 
       )
-  }
+} else {
+  return(
+      <Layout>
+          <>
+              <div className={global.content}>
+                  <div className="message">
+                      <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+                      <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+                  </div>
+              </div>
+              <style jsx>{`
 
+                  .message{
+
+                      /*Box model*/
+
+                      display: flex
+                      flex-direction: column;
+                      justify-content: center;
+                      align-items: center;
+                      
+                      
+                  }
+                  
+              `}</style>
+          </>
+      </Layout>
+  )
+
+}
+}
 
 export async function getServerSideProps(context){ 
 
-  const token = await getToken(context);
-
-  if(!token){
-    return {
-      redirect: {
-        destination: "/auth/signIn",
-        permanent: false
-      }
-    }
-  }
   
   let res = await fetch("http://localhost:3000/api/posts", {
     method: "GET",
@@ -163,5 +181,4 @@ export async function getServerSideProps(context){
     props: { posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(users)) },
   };
 }
-
 
