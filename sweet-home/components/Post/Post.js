@@ -9,14 +9,14 @@ import {BsBookmark, BsBookmarkFill} from 'react-icons/bs'
 
 export default function Post(props){
 
-    const [user, setUser] = useState({})
-    const [comment, setComment] = useState("")
-    const [isActive, setIsActive] = useState(false)
-    const [isActive2, setIsActive2] = useState(false)
+    const [user, setUser] = useState({});
+    const [comment, setComment] = useState("");
+    const [isActive, setIsActive] = useState(false);
+    const [isActive2, setIsActive2] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
-            const res = await fetch("http://localhost:3000/api/users/" + `${props.user.id}`, {
+            const res = await fetch(`http://localhost:3000/api/users/${props.user}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -27,7 +27,8 @@ export default function Post(props){
         }
         fetchUser();
     }, [])
-   
+
+    console.log(user);
  
     const Commentate = async (e) =>{
 

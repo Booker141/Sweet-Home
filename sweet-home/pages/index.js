@@ -60,12 +60,13 @@ export default function Principal(){
           <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de 
           mascotas </span>, brindando servicios de cuidado y hospedaje para <span className={global.colorized}> &nbsp; todo tipos de 
           mascotas</span>.</p>
-        </div>
-        <div className="container1__video"></div>
-        <video autoPlay loop muted 
+          <div className="container1__video"></div>
+          <video autoPlay loop muted 
             style={{ position: "absolute", top: "0", left: "0" , width: '100%', height: '100%', objectFit: "cover", zIndex: "-99", translate: "transform(-50%,-50%)", borderRadius: "0 0 30px 30px" }}>
             <source src="/videos/video1.mp4" />
-        </video>
+          </video>
+        </div>
+        
         <div className="content__container2">
           <div className="container2__column1">
             <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
@@ -187,7 +188,7 @@ export default function Principal(){
       
       <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>
 
-      <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
+      <BasicFooter color="#f0810f" hover="#f9A603" url1="/faq" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
 
       <style jsx>{`
@@ -225,6 +226,7 @@ export default function Principal(){
             align-items: center;
             justify-content: center;
             width: 100%;
+            height: 100%;
             margin-bottom: 10rem;
 
           }
@@ -236,6 +238,7 @@ export default function Principal(){
             width: 100%;
             align-items: center;
             justify-content: center;
+            margin-bottom: 2rem;
 
           }
           
@@ -246,6 +249,7 @@ export default function Principal(){
             display: flex;
             flex-direction: row;
             align-items: center;
+            margin-bottom: 2rem;
 
           }
 
@@ -429,7 +433,7 @@ export default function Principal(){
 
             /*Visuals*/
 
-            background-color: ${colors.primary};
+            background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
             border-radius: 0 70px 70px 0;
 
           }

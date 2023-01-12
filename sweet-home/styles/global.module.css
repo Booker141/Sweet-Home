@@ -44,6 +44,15 @@
   font-weight: 500;
 }
 
+.secondary2 {
+  /*Text*/
+
+  font-family: "Raleway", sans-serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #fafafa;
+}
+
 .tertiary {
   /*Text*/
 
@@ -51,7 +60,6 @@
   font-size: 1rem;
   font-weight: 500;
 
-  color: #1c1c1c
 }
 
 .tertiary__bold {
@@ -167,7 +175,6 @@
 
   border-radius: 10px;
 
-  background: rgb(240,129,15);
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
   color: #fafafa;
 
@@ -195,16 +202,34 @@
 
 }
 
-.new{
+.question{
 
   /*Box model*/
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   margin-bottom: 1rem;
+  padding: 2rem;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  border-radius: 10px;
+  background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
+}
+
+.new{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 1rem;
+  padding: 2rem;
 
   /*Text*/
 
@@ -348,7 +373,21 @@
   
 }
 
-.link:hover {
+.link3 {
+
+  /*Text*/
+
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fafafa;
+
+  /*Visuals*/
+
+  text-decoration: none;
+}
+
+.link:hover .link2:hover .link3:hover{
   /*Text*/
 
   color: #f9a603;

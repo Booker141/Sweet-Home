@@ -11,6 +11,7 @@ export default async function handler(req, res){
 
         const news = JSON.parse(JSON.stringify(data));
 
+        console.log(news);
         res.status(200).json(news);
 
     }

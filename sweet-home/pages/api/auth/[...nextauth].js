@@ -304,9 +304,10 @@ export default NextAuth({
 
         if (account?.accessToken) {
           token.accessToken = account.accessToken;
+          
         }
 
-        if (user) {
+        if (account) {
           token.user = {
             id: user.id,
             email: user.email,
@@ -324,18 +325,10 @@ export default NextAuth({
       },
       async session(session, token, user) {
         
+
         if(token){
-
-          session.user = {
-            id: user.id,
-            email: user.email,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            username: user.username,
-            status: user.status,
-            role: user.role,
-          }
-
+          session.user.name = user.username; 
+          session.user = token.user;
         }
 
         return session;

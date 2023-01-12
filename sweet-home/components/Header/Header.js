@@ -39,6 +39,7 @@ export default function Header(props){
     const [isModalVisible, setIsModalVisible] = useState(false);
     
     const router = useRouter();
+    console.log(session);
 
  
    

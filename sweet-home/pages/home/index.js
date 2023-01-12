@@ -37,7 +37,7 @@ export default function Home ({posts, users}){
                   <div className="container">
                     <div className="container__column1">
                       <div className="column1__buttons">
-                        <button className={global.buttonPrimary} onClick={() => Router.push("/newPost")} aria-label="Crear nuevo post">Crear post</button>
+                        <button className={global.buttonPrimary} onClick={() => Router.push("/createPost")} aria-label="Crear nuevo post">Crear post</button>
                         <button className={global.buttonPrimary} onClick={() => Router.push("/search")} aria-label="Ir a búsqueda">Buscar</button>
                       </div>
                       <h1 className={global.title}>Reciente</h1>

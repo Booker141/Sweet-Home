@@ -1,11 +1,11 @@
 import router from 'next/router'
+import {useEffect, useState} from 'react'
 import Image from 'next/image'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
-import carousel1 from "../../public/carousel-1.svg"
-import carousel2 from "../../public/carousel-2.svg"
-import carousel3 from "../../public/carousel-3.svg"
+import carousel from "../../public/carousel.svg"
+
 
 
 
@@ -23,43 +23,40 @@ import carousel3 from "../../public/carousel-3.svg"
  */
 export default function Carousel(){
 
+    const [news, setNews] = useState([]);
+
+    useEffect(async () => {
+        await fetch("http://localhost:3000/api/news", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+        }).then((response) => response.json())
+          .then((data) => setNews(data))
+          .catch((error) => {
+            console.log('Error en la petición:' + error.message);
+          });
+
+    }, [])
+
     return (
 
         <>
             <div className="carousel">
-                <div className="carousel__item">
-                    <div className="item__text">
-                        <h2 className="text__title">Carlota nos cuenta su experiencia en Sweet Home</h2>
-                        <h3 className="text__date">18/08/2022</h3>
-                        <p className="text__paragraph">Hace unos meses, estuvo pensando en regalarle a su hija su primera mascota y hoy nos cuenta como fue el proceso en Sweet Home.</p>
-                        <button className={global.buttonTertiary} onClick={() => {router.push("/news/1")}}>Saber más</button>
-                    </div>
-                    <div className="item__image1">
-                        <Image src={carousel1}/>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <div className="item__text">
-                        <h2 className="text__title">Nueva actualización v1.0.0</h2>
-                        <h3 className="text__date">20/08/2022</h3>
-                        <p className="text__paragraph">Entérate de las nuevas características que han sido introducidas junto a la nueva versión.</p>
-                        <button className={global.buttonTertiary} onClick={() => {router.push("/news/2")}}>Saber más</button>
-                    </div>
-                    <div className="item__image2">
-                        <Image src={carousel2}/>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <div className="item__text">
-                        <h2 className="text__title">¿Estás perdido?</h2>
-                        <h3 className="text__date">21/08/2022</h3>
-                        <p className="text__paragraph">Entérate de cómo funciona Sweet Home en esta entrevista con su creador.</p>
-                        <button className={global.buttonTertiary} onClick={() => router.push("/news/3")}>Saber más</button>
-                    </div>
-                    <div className="item__image3">
-                        <Image src={carousel3}/>
-                    </div>
-                </div>
+                {news.map(({_id, id, title, date, author, introduction}) => (
+                                <div key={_id} className="carousel__item">
+                                    <div className="item__text">
+                                        <h2 className={global.title3}>{title}</h2>
+                                        <h3 className="text__date">{date}</h3>
+                                        <h3 className="text__date">{author}</h3>
+                                        <p className="text__paragraph">{introduction}</p>
+                                        <button className={global.buttonTertiary} onClick={() => {router.push(`/news/${id}`)}}>Saber más</button>
+                                    </div>
+                                    <div className="item__image">
+                                        <Image src={carousel}/>
+                                    </div>
+                                </div>
+                            ))} 
             </div>
 
             <style jsx>{`
@@ -121,8 +118,7 @@ export default function Carousel(){
                     justify-content: space-around;
                     flex-shrink: 0;
                     width: 100%;
-                    height: 100%;
-                    padding: 1rem;
+                    
 
                     /*Scroll*/
 
@@ -131,16 +127,19 @@ export default function Carousel(){
                     /*Visuals*/
 
                     border-radius: 10px;
-                    background-color: ${colors.primary};
+                    background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
 
                 }
 
-                .item__image1{
+                .item__image{
 
                     /*Box model*/
 
-                    width: 268%;
-                    height: 268%;
+                    display: flex;
+                    align-items: center;
+
+                    width: 50%;
+                    height: 50%;
 
                     /*Visuals*/
 
@@ -148,33 +147,6 @@ export default function Carousel(){
 
                 }
 
-                .item__image2{
-
-                    /*Box model*/
-
-                    width: 180%;
-                    height: 180%;
-
-                    /*Visuals*/
-
-                    border-radius: 15px;
-
-                }
-
-                .item__image3{
-
-                    /*Box model*/
-
-                    width: 150%;
-                    height: 150%;
-
-                    /*Visuals*/
-
-                    border-radius: 15px;
-
-                }
-
-                
 
                 .item__text{
 
@@ -183,6 +155,9 @@ export default function Carousel(){
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
+
+                    width: 50%;
+                    height: 50%;
 
                     margin-left: 3.5rem;
 
@@ -196,7 +171,7 @@ export default function Carousel(){
 
                     /*Text*/
 
-                    font-size: 2rem;
+                    font-size: 1rem;
                     font-family: ${fonts.default};
                     color: ${colors.secondary};
 
@@ -218,6 +193,21 @@ export default function Carousel(){
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
                     color: ${colors.secondary};
+                }
+
+                button{
+
+                    /*Box model*/
+
+                    margin-bottom: 2rem;
+
+                }
+
+                p{
+
+                    /*Box model*/
+
+                    margin-bottom: 5rem;
                 }
 
             `}</style>

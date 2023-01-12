@@ -30,21 +30,21 @@ export default function News({news}) {
             <Head><title>Noticias</title></Head>
 
                 <section>
-                   
-                    <div className="container__column1">
+
                         <h1 className={global.title}>Últimas noticias ✧</h1>
                         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-
-                        {news.map(({_id, id, title, date, author, introduction}) => {
-                          return (
-                            <>
-                              <New key={_id} id={id} title={title} date={date} author={author} introduction={introduction}/>
-                              <Link href='/news/{id}'><a className={global.link}>Leer más →</a></Link>
-                              <hr className={global.line}></hr>
-                            </>
-                          )
-                        })}
-                    </div>
+                        
+                            {news.map(({_id, id, title, date, author, introduction}) => {
+                            return (
+                                <>
+                                    <div className="new">
+                                        <New key={_id} id={id} title={title} date={date} author={author} introduction={introduction}/>
+                                        <Link href={`/news/${id}`} as={`/news/${id}`}><a aria-label="Enlace a noticia" className={global.link3}>Leer más →</a></Link>
+                                    </div>
+                                </>
+                            )
+                            })}
+                        
 
                 </section>
 
@@ -52,43 +52,28 @@ export default function News({news}) {
             <style jsx>{`
 
 
-                    .dialog{
+                    .new{
 
-                        /*Box model*/
+                         /*Box model*/
 
                         display: flex;
-                        flex-direction: row;
-                    }
-
-
-                    .dialog__name{
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        width: 100%;
+                        margin-bottom: 1rem;
+                        padding: 1rem;
 
                         /*Text*/
 
                         font-family: 'Poppins', sans-serif;
-                        font-weight: 450;
-                    }
-                    
-                    .dialog__italic{
+                        color: #fafafa;
 
-                        /*Text*/
-                        
-                        font-family:'Poppins', sans-serif;
-                        font-style: italic;
+                        /*Visuals*/
 
-                    }
-                    .highlighted {
-                        
-                        /*Box model*/
+                        border-radius: 10px;
+                        background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
 
-                        margin-bottom: 3rem;
-
-                        /*Text*/
-
-                        font-weight: 400;
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.2rem;
-                        color: ${colors.primary};
                     }
 
                     .list{
@@ -146,6 +131,18 @@ export default function News({news}) {
                         /*Box model*/
 
                         margin-bottom: 3rem;
+
+                        /*Visuals*/
+
+                        transition: 0.3s all ease;
+
+                    }
+
+                    a:hover{
+
+                        /*Visuals*/
+
+                        color: ${colors.tertiary};
                     }
                     
                     

@@ -63,15 +63,16 @@ export default function Contact(){
                             </div>
                         </div>
                     </div>
-                    <div className="email">
-                        <p className={global.text}>A través del siguiente correo electrónico:  </p>
-                        <a title="Enviar correo" aria-label="Enlace a correo de atención al cliente" href="mailto:atenciónSH@gmail.com"> &nbsp; atenciónSH@gmail.com</a>
-                    </div>
-                    <div className="phone">
-                        <p className={global.text}>A través del teléfono de contacto: +34 XXX XX XX XX. </p>
-                    </div>
-                    <div className="account">
-                        <p className={global.text}>O envía un mensaje a la cuenta de: <a className={global.link}>atencion.sh</a>.</p>
+                    <div className="personal__container">
+                        <div className="email">
+                            <p className={global.text}>A través del siguiente correo electrónico: <a title="Enviar correo" aria-label="Enlace a correo de atención al cliente" href="mailto:atenciónSH@gmail.com">atenciónSH@gmail.com</a></p>
+                        </div>
+                        <div className="phone">
+                            <p className={global.text}>A través del teléfono de contacto: +34 XXX XX XX XX. </p>
+                        </div>
+                        <div className="account">
+                            <p className={global.text}>O envía un mensaje a la cuenta de: <a className={global.link}>atencion.sh</a>.</p>
+                        </div>
                     </div>
                 <style jsx>{`
 
@@ -88,7 +89,7 @@ export default function Contact(){
 
                         /*Visuals*/
 
-                        background-color: ${colors.primary};
+                        background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
                         border-radius: 10px;            
                         
                     }
@@ -122,6 +123,20 @@ export default function Contact(){
                         background-size: 150%;
 
                         
+                    }
+
+                    .personal__container{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        /*Visuals*/
+
+                        border: 2px solid ${colors.primary};
+                        border-radius: 10px;
                     }
 
                     .social__link{
@@ -193,125 +208,19 @@ export default function Contact(){
                         display: flex;
                         flex-direction: row;
                         align-items: center;
+                        justify-content: center;
+                        margin-top: 1rem;
+                        margin-bottom: 1rem;
+
                     }
 
                     .phone{
 
                         /*Box model*/
 
-                        margin-bottom: 2rem;
+                        margin-bottom: 1rem;
                     }
-
-                    .form{
-
-                        /*Position*/
-
-                        position: relative;
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        width: 20%;
-                        height: 15%;
-                        padding: 5rem;
-                        margin-bottom: 2rem;
-
-                        /*Visuals*/
-                        
-                        background-color: ${colors.primary};
-                        border-radius: 10px;
-
-                    }
-
-                    .form__email{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        width: 120%;
-
-                    }
-
-                    .form__name{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        width: 120%;
-
-                    }
-
-                    .form__surnames{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        width: 120%;
-
-                    }
-
-                    .form__address{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        width: 120%;
-
-                    }
-
-                    .form__phone{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        width: 120%;
-
-                    }
-
-                    .form__comment{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-
-                        width: 120%;
-
-                    }
-                    .form__checkbox{
-
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 1.5rem;
-
-                        font-family: ${fonts.default};
-                    }    
+  
 
                     .privacidad{
 
@@ -322,70 +231,6 @@ export default function Contact(){
 
                     }
 
-                    input[type="text"] {
-
-                        /*Box model*/
-
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.5rem;
-                        margin-bottom: 1rem;
-                        margin-left: 0.2rem;
-
-                        /*Text*/
-                                                
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
-
-                        /*Visuals*/
-
-                        border-radius: 40px;
-                        border: 0;
-     
-                    }
-
-                    input[type="email"] {
-
-                        /*Box model*/
-
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.2rem;
-                        margin-bottom: 2.2rem;
-
-                        /*Text*/
-
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
-
-                        /*Visuals*/
-                       
-                        border-radius: 40px;
-                        border: 0;
-
-                    }
-
-
-                    input[type="phone"] {
-
-                        /*Box model*/
-
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.2rem;
-                        margin-bottom: 2.2rem;
-
-                        /*Text*/
-                         
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
-
-                        /*Visuals*/
-                        
-                        border-radius: 40px;
-                        border: 0;
-                       
-                    }
  
 
                     a{

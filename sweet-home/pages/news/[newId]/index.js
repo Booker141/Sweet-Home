@@ -6,7 +6,7 @@ import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import New from "components/New/New"
 
-export default function NewsId(news){
+export default function NewsId({news}){
 
     const router = useRouter();
 
@@ -14,12 +14,10 @@ export default function NewsId(news){
 
         <Layout>
         <Head><title>Noticia {router.query.newId}</title></Head>
-                <h1 className={global.title}>Noticia {router.query.newId} ✧</h1>
+                <h1 className={global.title}>Noticia {router?.query?.newId} ✧</h1>
 
                 <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} body2={news.body2} body3={news.body3} conclusion={news.conclusion}/>
 
-
-            
             <style jsx>{`
 
 
@@ -121,8 +119,8 @@ export default function NewsId(news){
 
 export async function getServerSideProps(context) { 
     
-    const { params } = context;
-    const res = await fetch(`http://localhost:3000/api/news/${params.newId}`, {
+    const {newId} = context.params;
+    const res = await fetch(`http://localhost:3000/api/news/${newId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -131,9 +129,11 @@ export async function getServerSideProps(context) {
   
     const news = await res.json();
 
+    console.log(news);
+
     return {
         props: {
-            news
+            news,
         }
     }
 }

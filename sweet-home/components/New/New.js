@@ -21,17 +21,7 @@ export default function New(props){
             </div>
             <style jsx>{`
 
-
-                .post__header{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-
-                }
+                
 
                 .text{
 
@@ -43,13 +33,6 @@ export default function New(props){
                     align-items: center;
                 }
 
-                .buttonTertiary{
-
-                    /*Box model*/
-
-                    display: flex;
-                    float: right;
-                }
             
             `}</style>
 

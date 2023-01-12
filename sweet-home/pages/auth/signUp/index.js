@@ -439,7 +439,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-        <BasicFooter color="#f0810f" hover="#f9A603" url1="/use" text1="Información" url2="/privacy" text2="Privacidad"
+        <BasicFooter color="#f0810f" hover="#f9A603" url1="/faq" text1="Información" url2="/privacy" text2="Privacidad"
                    url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
       <style jsx>{`
 
@@ -521,7 +521,7 @@ export default function SignUp() {
 
               /*Visuals*/
 
-              background-image: linear-gradient(120deg, rgba(246, 212, 101, 0.8) 0%, rgba(253, 161, 133, 0.8) 100%);
+              background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
               background-size: 100% 100%;
               border-radius: 30px;
 
@@ -1112,7 +1112,7 @@ export default function SignUp() {
             /*Visuals*/
 
             cursor: pointer;
-            background-color: rgba(252, 171, 127, 0.5);
+            background-color: rgba(240, 142, 15, 0.5);
             border-radius: 5px;
             border: 1px solid ${colors.secondary};
 
@@ -1122,7 +1122,7 @@ export default function SignUp() {
 
           /*Visuals*/
 
-          background-color: #F9B776;
+          background-color: ${colors.tertiary};
           transition: all 0.5s ease-in-out;
 
         }
