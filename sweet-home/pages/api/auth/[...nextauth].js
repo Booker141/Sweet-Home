@@ -218,7 +218,8 @@ export default NextAuth({
                   image: user.image,
                   status: userStatus,
                   role: userRole,
-                  createdAt: new Date()})
+                  createdAt: new Date(),
+                  accountId: account._id})
               }else{
     
                 if(accountExist.userId == userExist.id){
@@ -267,7 +268,8 @@ export default NextAuth({
                 image: user.image,
                 status: userStatus,
                 role: userRole,
-                createdAt: new Date()})
+                createdAt: new Date(),
+                accountId: account._id})
             }else{
   
               if(accountExist.userId == userExist.id){

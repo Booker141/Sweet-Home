@@ -150,7 +150,7 @@ export default function Header(props){
 
                     /*Visuals*/
 
-                    background:  rgba(240, 129, 15, 0.5);
+                    background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
                     border-radius: 20px;
                     
@@ -175,7 +175,7 @@ export default function Header(props){
                     /*Visuals*/
 
                     border-radius: 10px 10px 10px 10px;
-                    background:  rgba(240, 129, 15, 0.5);
+                    background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
 
                 }
@@ -244,7 +244,7 @@ export default function Header(props){
 
                     /*Visual*/  
  
-                    background: rgba(240, 129, 15, 0.5);
+                    background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
 
 
@@ -397,7 +397,7 @@ export default function Header(props){
 
                     /*Visuals*/
 
-                    background: rgba(240, 129, 15, 0.5);
+                    background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
                     border-radius: 20px;
                    

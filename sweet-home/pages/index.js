@@ -33,9 +33,8 @@ export default function Principal(){
     <>
       <Head><title>Sweet Home</title></Head>
 
-      {!session ? <Header url1="/attendances" url2="/about" url3="/contact" url4="/auth/signIn" url5="/auth/signUp"
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión" text5="Registrarse"/> :  <Header url1="/attendances" url2="/about" url3="/contact" 
-                          text1="Cuidados" text2="Quiénes somos" text3="Contacto"  /> }
+      <Header url1="/news" url2="/about" url3="/contact" url4="/auth/signIn" url5="/auth/signUp"
+                          text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión" text5="Registrarse"/>
       
       <div className={global.content}>
         <a name="top"></a>
@@ -62,14 +61,14 @@ export default function Principal(){
           mascotas</span>.</p>
           <div className="container1__video"></div>
           <video autoPlay loop muted 
-            style={{ position: "absolute", top: "0", left: "0" , width: '100%', height: '100%', objectFit: "cover", zIndex: "-99", translate: "transform(-50%,-50%)", borderRadius: "0 0 30px 30px" }}>
+            style={{ position: "absolute", top: "0", left: "0" , width: '100%', height: '40rem', objectFit: "cover", zIndex: "-99", translate: "transform(-50%,-50%)", borderRadius: "0 0 30px 30px" }}>
             <source src="/videos/video1.mp4" />
           </video>
         </div>
         
         <div className="content__container2">
           <div className="container2__column1">
-            <h1>¡Únete ahora mismo a nuestra <span className={global.colorized}>comunidad</span>!</h1>
+            <h1>¡Únete ahora a nuestra <span className={global.colorized}>comunidad</span>!</h1>
             <button className={global.buttonPrimary} onClick={() => router.push('/auth/signUp')}>Regístrate ➤</button>
             <p className="subtext">La mayor comunidad de amantes de los animales 🐾</p>
           </div>
@@ -264,7 +263,7 @@ export default function Principal(){
 
             display: block;
             width: 100%;
-            height: 100%;
+            height: 40rem;
 
             /*Visuals*/
 
@@ -291,6 +290,7 @@ export default function Principal(){
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            gap: 10rem;
             margin-bottom: 3rem;
 
             /*Text*/
@@ -305,9 +305,8 @@ export default function Principal(){
 
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            width: 100%;
             line-height: 3.5rem;
+            margin: 2rem;
 
           }
 
@@ -315,7 +314,7 @@ export default function Principal(){
 
             /*Box model*/
 
-            margin-bottom: 2.5rem;
+            margin-bottom: 4rem;
 
             /*Text*/
 
@@ -332,7 +331,6 @@ export default function Principal(){
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
             margin-top: 4rem;
 
 
@@ -564,6 +562,7 @@ export default function Principal(){
 
             font-size: 0.9rem;
             margin-left: 0rem;
+            margin-top: 0;
 
           }
 
@@ -591,36 +590,23 @@ export default function Principal(){
 
           .imagen-inicio2{
 
-            /*Position*/
-
-            z-index: 1;
 
             /*Box model*/
 
+            width: 150%;
+            height: 150%;
             margin-right: 2rem;
-
-            /*Visuals*/
-
-            width: 250%;
-            height: 250%;
             
 
           }
 
           .imagen-inicio3{
 
-            /*Position*/
-
-            z-index: 1;
 
             /*Box model*/
 
-            margin-right: 2rem;
-
-            /*Visuals*/
-
-            width: 250%;
-            height: 250%;
+            width: 150%;
+            height: 150%;
 
           }
 

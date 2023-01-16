@@ -36,16 +36,16 @@ export default function SignUp() {
   const [isValidate, setIsValidate] = useState(false);
   
   
-    
+   /* 
   useEffect(() => {
     getSession().then((session) => {
       if (session) {
         Router.replace('/home');
       } else {
-        Router.replace('/auth/signUp');
+        Router.replace('/auth/signIn');
       }
     });
-  }, [Router]);
+  }, [Router]);*/
 
   /**
    * If the password input type is password, then hide the first icon and show the second icon, and
@@ -76,7 +76,7 @@ export default function SignUp() {
 
     // Regular expressions
 
-    let regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     let regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/;
     let regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
@@ -244,11 +244,12 @@ export default function SignUp() {
                           text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={global.content}>
         <ThemeButton/>
+
         <div className="page">
           
         <div className="page__video"></div>
               <video autoPlay loop muted 
-                  style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '220%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
+                  style={{position: "absolute", width: '70rem', height: '110rem', objectFit: "cover", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
                   <source src="/videos/video2.mp4" />
               </video>
           <div className="page__form">
@@ -371,10 +372,10 @@ export default function SignUp() {
                     <div id="error__username" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
                     <div id="success__username" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
                     <div id="username__error" className="form__input-usernameError">
-                    <div className="error__icon">
-                      <MdOutlineError size={30} color={colors.secondary}/>
-                    </div>
-                    <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo</p>
+                      <div className="error__icon">
+                        <MdOutlineError size={30} color={colors.secondary}/>
+                      </div>
+                      <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo</p>
                   </div>
                   </div>
                   
@@ -404,10 +405,10 @@ export default function SignUp() {
                   <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
                   <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
                   <div id="password__error" className="form__input-passwordError">
-                  <div className="error__icon">
-                    <MdOutlineError size={30} color={colors.secondary}/>
-                  </div>
-                  <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                    <div className="error__icon">
+                      <MdOutlineError size={30} color={colors.secondary}/>
+                    </div>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                 </div>
                 </div>  
                 
@@ -419,6 +420,7 @@ export default function SignUp() {
                   <div className="tooltiptext">
                     <p> - La contraseña debe tener al menos 8 caracteres.</p>
                     <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                    <p> - La contraseña debe tener al menos un carácter especial.</p>
                     <p> - La contraseña debe tener al menos un número.</p>
                   </div>
                 </div>
@@ -450,7 +452,8 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           justify-content: space-around;
-          margin-bottom: 3rem;
+          margin-bottom: 13rem;
+          margin-top: 10rem;
 
           /*Misc*/
 
@@ -481,16 +484,15 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          top: 20rem;
-          left: 3.2rem;
+
 
           z-index: -9;
 
           /*Box model*/
 
           display: block;
-          width: 92%;
-          height: 220%;
+          width: 70rem;
+          height: 110rem;
 
           /*Visuals*/
 
@@ -507,7 +509,6 @@ export default function SignUp() {
              /*Position*/
 
              position: relative;
-             top: 50%;
 
               /*Box model*/
 
@@ -515,14 +516,13 @@ export default function SignUp() {
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              width: 50%;
+              width: 40rem;
               margin-bottom: 2rem;
               margin-top: 3rem;
 
               /*Visuals*/
 
               background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
-              background-size: 100% 100%;
               border-radius: 30px;
 
 
@@ -572,7 +572,6 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
 
           /*Box model*/
 
@@ -639,7 +638,6 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
 
           /*Box model*/
 
@@ -647,6 +645,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 2rem;
+          margin-left: 7rem;
           
           width: 100%;
 
@@ -707,7 +706,6 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
 
           /*Box model*/
 
@@ -715,6 +713,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 2rem;
+          margin-left: 7rem;
           
           width: 100%;
 
@@ -774,7 +773,7 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
+
 
           /*Box model*/
 
@@ -783,6 +782,7 @@ export default function SignUp() {
           align-items: center;
           width: 100%;
           margin-bottom: 2rem;
+          margin-left: 7rem;
           
 
           /*Text*/
@@ -841,8 +841,6 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          
-          left: 20rem;
 
           /*Box model*/
 
@@ -850,6 +848,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 1rem;
+          margin-left: 7rem;
           width: 100%;
           
 
@@ -1134,7 +1133,7 @@ export default function SignUp() {
           display: flex;
           align-items: center;
           margin-left: 3rem;
-          width: 50%;
+          width: 20rem;
 
           /*Text*/
 
@@ -1170,6 +1169,8 @@ export default function SignUp() {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 20rem;
+          gap: 1rem;
 
         }
 
@@ -1181,6 +1182,8 @@ export default function SignUp() {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 20rem;
+          gap: 1rem;
 
         }
 
@@ -1192,6 +1195,8 @@ export default function SignUp() {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 20rem;
+          gap: 1rem;
 
         }
 
@@ -1203,6 +1208,8 @@ export default function SignUp() {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 20rem;
+          gap: 1rem;
 
         }
 
@@ -1214,6 +1221,8 @@ export default function SignUp() {
           display: flex;
           flex-direction: row;
           align-items: center;
+          width: 17rem;
+
 
         }
 

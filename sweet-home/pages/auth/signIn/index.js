@@ -77,7 +77,7 @@ export default function SignIn({providers, csrfToken}) {
 
     // Regular expressions
 
-    let regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
     if(e.target.name =="password"){
@@ -163,107 +163,109 @@ export default function SignIn({providers, csrfToken}) {
                           text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={global.content}>
             <ThemeButton/>
-            <div className="page">
-              <div className="page__video"></div>
-              <video autoPlay loop muted 
-                  style={{ position: "absolute", top: "20rem", left: "3.2rem", width: '92%', height: '153%', objectFit: "cover", translate: "transform(50%,50%)", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
-                  <source src="/videos/video2.mp4" />
-              </video>
-             
-              <div className="page__form">
-                <div className="form__text">
-                  <h2>¡Bienvenido de nuevo!</h2>
-                </div>
-                {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
-                  <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
-                      Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
-                    </button>
+            <div className={global.content}>
+              <div className="page">
+                <div className="page__video"></div>
+                <video autoPlay loop muted 
+                    style={{position: "absolute", width: '70rem', height: '80rem', objectFit: "cover", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
+                    <source src="/videos/video2.mp4" />
+                </video>
+              
+                <div className="page__form">
+                  <div className="form__text">
+                    <h2>¡Bienvenido de nuevo!</h2>
                   </div>
-                ))}
-                {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
-                  <div key={provider.name}>
-                    <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
-                      Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
-                    </button>
-                  </div>
-                ))}
-                <div className="divider">
-                  <hr className={global.white__line}></hr>
-                  <p className={global.text}> ó </p>
-                  <hr className={global.white__line}></hr>
-                </div>
-                
-                <form className="form-vertical" action="/api/auth/signIn/credentials" >
-                  {/*<input name="csrfToken" type="hidden" defaultValue={csrfToken}/>*/}
-                  <div className="form-vertical__email">
-                    <div className="label">
-                      <p className={global.text}>Email</p>
-                      <MdEmail size={20} color={colors.secondary} />
+                  {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
+                    <div key={provider.name}>
+                      <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
+                        Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
+                      </button>
                     </div>
-                    <div className="email__input">
-                      <input
-                        title="Introducir email"
-                        type="email"
-                        name="email"
-                        value= {email}
-                        required
-                        onKeyUp={(e) => validate(e)}
-                        onBlur={(e) => validate(e)}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="javier@email.com"
-                        className="input"
-                      ></input>
-                      <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                      <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                      <div id="email__error" className="form__input-emailError">
-                        <div className="error__icon">
-                          <MdOutlineError size={30} color={colors.secondary}/>
-                        </div>
-                        <p className={global.text2}>Debe seguir el formato correcto</p>
+                  ))}
+                  {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
+                    <div key={provider.name}>
+                      <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
+                        Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
+                      </button>
+                    </div>
+                  ))}
+                  <div className="divider">
+                    <hr className={global.white__line}></hr>
+                    <p className={global.text}> ó </p>
+                    <hr className={global.white__line}></hr>
+                  </div>
+                  
+                  <form className="form-vertical" action="/api/auth/signIn/credentials" >
+                    <input name="csrfToken" type="hidden" defaultValue={csrfToken}/>
+                    <div className="form-vertical__email">
+                      <div className="label">
+                        <p className={global.text}>Email</p>
+                        <MdEmail size={20} color={colors.secondary} />
                       </div>
-                </div>
-                  </div>
-                  <div className="form-vertical__password">
-                    <div className="label">
-                      <p className={global.text}>Contraseña</p>
-                      <BsFillLockFill size={25} color={colors.secondary} />
-                    </div>
-                    <div className="password__input">
-                      <input
-                        title="Introducir contraseña"
-                        type="password"
-                        name="Contraseña"
-                        value={password}
-                        required
-                        pattern="(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}"
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Contraseña"
-                        className="input"
-                        id="password"
-                      ></input>
-                      <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                      <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                      <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                      <div id="password__error" className="form__input-passwordError">
-                        <div className="error__icon">
-                          <MdOutlineError size={30} color={colors.secondary}/>
+                      <div className="email__input">
+                        <input
+                          title="Introducir email"
+                          type="email"
+                          name="email"
+                          value= {email}
+                          required
+                          onKeyUp={(e) => validate(e)}
+                          onBlur={(e) => validate(e)}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="p.ej.: javier@email.com"
+                          className="input"
+                        ></input>
+                        <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                        <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                        <div id="email__error" className="form__input-emailError">
+                          <div className="error__icon">
+                            <MdOutlineError size={30} color={colors.secondary}/>
+                          </div>
+                          <p className={global.text2}>Debe seguir el formato correcto</p>
                         </div>
-                        <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
-                      </div>
-                      
-                    </div>
                   </div>
-                </form>
-                <div id="submit__error" className="submit__error">
-                        {message}
-                </div> 
-                <input type="submit" value="Iniciar sesión" className="form-vertical__button" onClick={(e)=>Login(e)}/>
-                <div className="form-register">
-                  <h6>¿No tiene una cuenta?</h6>
-                  <Link href="/auth/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
+                    </div>
+                    <div className="form-vertical__password">
+                      <div className="label">
+                        <p className={global.text}>Contraseña</p>
+                        <BsFillLockFill size={25} color={colors.secondary} />
+                      </div>
+                      <div className="password__input">
+                        <input
+                          title="Introducir contraseña"
+                          type="password"
+                          name="Contraseña"
+                          value={password}
+                          required
+                          pattern="(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}"
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Contraseña"
+                          className="input"
+                          id="password"
+                        ></input>
+                        <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                        <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                        <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                        <div id="password__error" className="form__input-passwordError">
+                          <div className="error__icon">
+                            <MdOutlineError size={30} color={colors.secondary}/>
+                          </div>
+                          <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </form>
+                  <div id="submit__error" className="submit__error">
+                          {message}
+                  </div> 
+                  <input type="submit" value="Iniciar sesión" className="form-vertical__button" onClick={(e)=>Login(e)}/>
+                  <div className="form-register">
+                    <h6>¿No tiene una cuenta?</h6>
+                    <Link href="/auth/signUp"><a aria-label="Ir al formulario de registro">Registrarse</a></Link>
+                  </div>
+                  
                 </div>
-                
               </div>
             </div>
           </div>
@@ -276,9 +278,10 @@ export default function SignIn({providers, csrfToken}) {
               /*Box model*/
 
               display: flex;
-              flex-direction: row;
               align-items: center;
-              margin-bottom: 3rem;
+              justify-content: center;
+              margin-bottom: 7rem;
+              margin-top: 7rem;
 
               /*Visuals*/
 
@@ -287,8 +290,6 @@ export default function SignIn({providers, csrfToken}) {
             }
 
        
-
-
             .form__text{
 
               /*Box model*/
@@ -301,9 +302,6 @@ export default function SignIn({providers, csrfToken}) {
               margin-right: 2rem;
               margin-bottom: 2rem;
 
-              /*Text*/
-
-
             }
 
             .page__video{
@@ -311,16 +309,15 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
-              top: 20rem;
-              left: 3.2rem;
+
              
               z-index: -9;
 
               /*Box model*/
 
               display: block;
-              width: 92%;
-              height: 153%;
+              width: 70rem;
+              height: 80rem;
 
               /*Visuals*/
 
@@ -336,8 +333,6 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: relative;
-              left: 30%;
-              top: 50%;
 
               /*Box model*/
 
@@ -375,7 +370,6 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
-              left: 20rem;
 
               /*Box model*/
 
@@ -384,6 +378,7 @@ export default function SignIn({providers, csrfToken}) {
               align-items: center;
               width: 100%;
               margin-bottom: 2rem;
+              margin-left: 4rem;
 
 
               /*Text*/
@@ -441,7 +436,6 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
-              left: 20rem;
 
               /*Box model*/
 
@@ -449,6 +443,7 @@ export default function SignIn({providers, csrfToken}) {
               flex-direction: row;
               align-items: center;
               margin-bottom: 2rem;
+              margin-left: 7rem;
 
               width: 100%;
 
@@ -628,9 +623,10 @@ export default function SignIn({providers, csrfToken}) {
                   display: flex;
                   flex-direction: column;
                   justify-content: center;
-                  width: 20vw;
-                  height: 50vh;
-                  padding: 1vh 2vh;
+                  align-items: center;
+                  padding: 2rem;
+                  height: 25rem;
+
 
             }
 
@@ -641,6 +637,7 @@ export default function SignIn({providers, csrfToken}) {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                width: 20rem;
 
             }
 
@@ -651,6 +648,7 @@ export default function SignIn({providers, csrfToken}) {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                width: 20rem;
 
             }
 

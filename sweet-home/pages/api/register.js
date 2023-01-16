@@ -11,6 +11,7 @@ export default async function handler(req, res){
         const userExist2 = await db.collection('users').findOne({username: body.username});
         const userRole = await db.collection('userRole').findOne({name: "usuario"});
         const userStatus = await db.collection('userStatus').findOne({name: "activo"})
+        const account = await db.collection('accounts').findOne({userId: body._id});
 
         if(userExist1){
 
@@ -28,7 +29,7 @@ export default async function handler(req, res){
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(body.password, salt);
         
-        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date()});
+        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date(), accountId: account._id});
 
         if(res.statusCode == 500){
 

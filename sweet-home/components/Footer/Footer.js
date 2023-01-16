@@ -59,7 +59,7 @@ export default function Footer(){
                         <div className="columns__column2">
                             <h3 className="column2__title">Ayuda</h3>
                             <div className="column2__links">
-                                <Link className={global.link} href="/use"><a aria-label="Ir a como usar Sweet Home">Preguntas frecuentes</a></Link>
+                                <Link className={global.link} href="/faq"><a aria-label="Ir a Preguntas frecuentes">Preguntas frecuentes</a></Link>
                                 <Link className={global.link} href="/rules"><a aria-label="Ir a Reglas y políticas de Sweet Home">Reglas y políticas</a></Link>
                             </div>
                         </div>
@@ -101,10 +101,7 @@ export default function Footer(){
                     position: relative;
                     top: 1rem;
                     margin-top: 2rem;
-                    
-                    
-                   
-                    
+                       
                 }
 
                 .content__footer{
@@ -113,13 +110,12 @@ export default function Footer(){
 
                     display: flex;
                     flex-direction: column;
-                    width: 100%;
-                    height: 110%;
+
+                    /*Visuals*/
+
                     background-color: ${colors.primary};
 
-                   
-
-                    
+                      
                 }
 
                 .footer{
@@ -129,10 +125,9 @@ export default function Footer(){
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
-                    width: 80%;
-                    padding: 5rem;
+                    padding: 6rem;
                     margin-top: 0.5rem;
-                    height: 5rem;
+
 
                 }
 
@@ -165,10 +160,9 @@ export default function Footer(){
                     display: flex;
                     flex-direction: row;
                     justify-content: space-around;
-
-                    width: 110%;
-
+              
                 }
+
                 .columns__column1{
 
 
@@ -211,7 +205,7 @@ export default function Footer(){
                     align-items: center;
 
                     margin-top: 3rem;
-                    margin-bottom: 1rem;
+                    margin-bottom: 2rem;
 
                 }
 
@@ -249,9 +243,8 @@ export default function Footer(){
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
-                    width: 10%;
-
+                    justify-content: space-between;
+                    width: 5rem;
 
                 }
 

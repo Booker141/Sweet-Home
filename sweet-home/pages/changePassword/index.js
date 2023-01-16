@@ -167,6 +167,7 @@ export default function ChangePassword(){
                                 <div className="tooltiptext">
                                     <p> - La contraseña debe tener al menos 8 caracteres.</p>
                                     <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                                    <p> - La contraseña debe tener al menos un carácter especial.</p>
                                     <p> - La contraseña debe tener al menos un número.</p>
                                 </div>
                             </div> 

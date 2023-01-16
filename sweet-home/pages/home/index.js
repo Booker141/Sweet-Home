@@ -3,9 +3,7 @@ import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf"
 import Layout from "components/Layout/Layout"
-import BasicFooter from "components/BasicFooter/BasicFooter"
 import Post from "components/Post/Post"
 import User from "components/User/User"
 

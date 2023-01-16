@@ -3,14 +3,11 @@ import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
-import { FaUser } from "react-icons/fa";
-import {FaAddressBook} from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
 import {BsInstagram} from 'react-icons/bs'
 import {BsFacebook} from 'react-icons/bs'
 import {BsTwitter} from 'react-icons/bs'
-import {BsFillTelephoneFill} from 'react-icons/bs'
-import {BsPencilFill} from 'react-icons/bs'
+
+
 
 
 /* 
@@ -44,7 +41,7 @@ export default function Contact(){
                         <div className="container__social">
                             <h2 className={global.title2}>Redes sociales</h2>
                             <div className="social__link">
-                                <a aria-label="Enlace de Facebook" href="https://www.facebook.com/sweethome.es/">
+                                <a className={global.text} aria-label="Enlace de Facebook" href="https://www.facebook.com/sweethome.es/">
                                     Facebook 
                                 </a>
                                 <BsFacebook/>
@@ -61,7 +58,9 @@ export default function Contact(){
                                 </a>
                                 <BsTwitter/>
                             </div>
+                          
                         </div>
+                        
                     </div>
                     <div className="personal__container">
                         <div className="email">
@@ -119,8 +118,7 @@ export default function Contact(){
                         /*Visuals*/
 
                         border-radius: 10px;
-                        background-image: url("/contact-1.jpg");
-                        background-size: 150%;
+                        background-size: 100%;
 
                         
                     }
@@ -181,6 +179,8 @@ export default function Contact(){
                         color: ${colors.tertiary};
 
                     }
+
+
 
                     .personal__container{
 

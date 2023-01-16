@@ -47,11 +47,10 @@ export default function Modal({children}){
 
             /*Visuals*/
 
-            border: 2px solid #fafafa;
             border-radius: 10px;
             background-color: #f0810f;
             background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-            opacity: 0.9;
+            opacity: 0.97;
 
             }
 

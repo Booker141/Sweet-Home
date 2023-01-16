@@ -129,7 +129,7 @@ export default function About () {
 
                             display: flex;
                             flex-direction: row;
-                            justify-content: space-between;
+                            justify-content: center;
                             align-items: center;
                             margin-bottom: 2rem;
 
@@ -143,6 +143,7 @@ export default function About () {
                             flex-direction: column;
                             justify-content: center;
                             margin-right: 5rem;
+
                         }
                         
                         .container1__column1 p{
@@ -160,8 +161,7 @@ export default function About () {
                             display: flex;
                             flex-direction: column;
                             justify-content: center;
-                            align-items: center;
-                      
+                            align-items: center; 
                         }
 
          
@@ -170,6 +170,10 @@ export default function About () {
 
                             /*Box model*/
 
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
                             width: 40rem;
                             height: 40rem;
                             
