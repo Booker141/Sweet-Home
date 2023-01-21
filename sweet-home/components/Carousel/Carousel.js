@@ -228,7 +228,7 @@ export default function Carousel(){
 
                     /*Box model*/
 
-                    margin-bottom: 2rem;
+                    margin-bottom: 4rem;
 
                 }
 
@@ -236,7 +236,7 @@ export default function Carousel(){
 
                     /*Box model*/
 
-                    margin-bottom: 5rem;
+                    margin-bottom: 3rem;
                 }
 
             `}</style>

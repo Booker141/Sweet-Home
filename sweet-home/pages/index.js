@@ -409,6 +409,14 @@ export default function Principal(){
 
           }
 
+          .content__container5 p:first-of-type {
+
+            /*Box model*/
+
+            margin-bottom: 4rem;
+
+          }
+
           .container5__column1{
 
             /*Box model*/
@@ -418,6 +426,14 @@ export default function Principal(){
             align-items: center;
             justify-content: center;
           
+
+          }
+
+          .container5__column1 h2{
+
+            /*Box model*/
+
+            margin-bottom: 0.5rem;
 
           }
 

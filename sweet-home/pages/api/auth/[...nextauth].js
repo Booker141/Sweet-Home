@@ -142,7 +142,7 @@ export default NextAuth({
 
         const accountExist = await db.collection('accounts').findOne({providerAccountId: account.providerAccountId});
         const accountExist2 = await db.collection('accounts').findOne({userId: user._id});
-        const userExist = await db.collection('users').findOne({_id: user.id});
+        const userExist = await db.collection('users').findOne({_id: user._id});
         const userStatus = await db.collection('userStatus').findOne({name: "activo"});
         const userRole = await db.collection('userRole').findOne({name: "usuario"});
 
@@ -176,10 +176,12 @@ export default NextAuth({
               image: user.image,
               createdAt: new Date(),
               userId: user._id});
+              await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountExist2._id}});
 
             }else{
 
               await db.collection('accounts').updateOne({userId: user._id}, {$set: {expires_at: expiryDate * 24}});
+              await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountExist2._id}});
 
             }
         }
@@ -222,14 +224,15 @@ export default NextAuth({
                   accountId: account._id})
               }else{
     
-                if(accountExist.userId == userExist.id){
+                if(accountExist.userId == userExist._id){
 
-                  await db.collection('users').updateOne({_id: accountExist.userId}, {$set: { _id: accountExist.userId}})
+                  await db.collection('users').updateOne({_id: userExist._id}, {$set: {accountId: accountExist._id}});
                 }
               }
         }else{
 
-          await db.collection('accounts').updateOne({_id: accountExist._id}, {$set: {expires_at: account.expires_at * 2}})
+          await db.collection('accounts').updateOne({_id: accountExist.id}, {$set: {expires_at: account.expires_at * 2}});
+          await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountExist._id}});
         }    
 
       }
@@ -272,13 +275,13 @@ export default NextAuth({
                 accountId: account._id})
             }else{
   
-              if(accountExist.userId == userExist.id){
-                await db.collection('users').updateOne({_id: user.id}, {$set: {_id: user.id}})
+              if(accountExist.userId == userExist._id){
+                await db.collection('users').updateOne({_id: userExist._id}, {$set: {accountId: accountExist._id}})
               }
             }
       }else{
 
-        await db.collection('accounts').updateOne({_id: account.id}, {$set: {provider: account.provider, 
+        await db.collection('accounts').updateOne({_id: account._id}, {$set: {provider: account.provider, 
           type: account.type, 
           access_token: account.access_token, 
           expires_at: account.expires_at, 
@@ -294,8 +297,10 @@ export default NextAuth({
           status: user.status,
           role: user.role,
           createdAt: user.createdAt,
-          userId: user.id}})
+          userId: user._id}})
       }    
+
+      await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountExist._id}});
 
     }
 

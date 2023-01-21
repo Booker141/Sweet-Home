@@ -5,7 +5,8 @@ import {useState} from 'react'
 import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
-import {FaUserAlt , FaSignOutAlt} from 'react-icons/fa'
+import {FaUserAlt , FaSignOutAlt, FaSearch} from 'react-icons/fa'
+import {BsFillChatFill} from 'react-icons/bs'
 import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
 import Modal from "components/Modal/Modal"
 
@@ -73,8 +74,8 @@ export default function Header(props){
                         </div>
                         <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'>Buscar</a></Link></li>
-                        <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'>Chat</a></Link></li>
+                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><FaSearch /></a></Link></li>
+                        <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'><BsFillChatFill /></a></Link></li>
                         <li className="menu-visible"><a id="profile">Perfil ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>

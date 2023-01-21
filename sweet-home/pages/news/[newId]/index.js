@@ -1,14 +1,27 @@
 import Layout from "components/Layout/Layout"
 import Head from 'next/head'
+import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import New from "components/New/New"
 
-export default function NewsId({news}){
+export default function NewsId(){
 
+    const [news, setNews] = useState([]);
     const router = useRouter();
+    const {newId} = router.query;
+    useEffect(async () => {
+      await fetch(`http://localhost:3000/api/news/${newId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => response.json()).then((data) => setNews(data));
+    }, [newId])
+
+    console.log(news);
 
     return(
 
@@ -115,25 +128,4 @@ export default function NewsId({news}){
          
         </Layout>
     )
-}
-
-export async function getServerSideProps(context) { 
-    
-    const {newId} = context.params;
-    const res = await fetch(`http://localhost:3000/api/news/${newId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  
-    const news = await res.json();
-
-    console.log(news);
-
-    return {
-        props: {
-            news,
-        }
-    }
 }

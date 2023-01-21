@@ -244,14 +244,6 @@ export default function SignIn({providers, csrfToken}) {
                           id="password"
                         ></input>
                         <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                        <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                        <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                        <div id="password__error" className="form__input-passwordError">
-                          <div className="error__icon">
-                            <MdOutlineError size={30} color={colors.secondary}/>
-                          </div>
-                          <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
-                        </div>
                         
                       </div>
                     </div>
@@ -370,6 +362,7 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
+              margin-left: 22rem;
 
               /*Box model*/
 
@@ -378,7 +371,6 @@ export default function SignIn({providers, csrfToken}) {
               align-items: center;
               width: 100%;
               margin-bottom: 2rem;
-              margin-left: 4rem;
 
 
               /*Text*/
@@ -408,7 +400,7 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
-              left: 20rem;
+              margin-left: 22rem;
               margin-bottom: 2rem;
               width: 100%;
 
@@ -416,7 +408,7 @@ export default function SignIn({providers, csrfToken}) {
 
               display: flex;
               flex-direction: row;
-
+              align-items: center;
 
               /*Text*/
 
@@ -436,6 +428,7 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
+              margin-left: 20rem;
 
               /*Box model*/
 
@@ -474,7 +467,7 @@ export default function SignIn({providers, csrfToken}) {
               /*Position*/
 
               position: absolute;
-              left: 20rem;
+              margin-left: 20rem;
               margin-bottom: 2rem;
 
               /*Box model*/
@@ -929,7 +922,7 @@ export default function SignIn({providers, csrfToken}) {
 
                 /*Box model*/
 
-                width: 100%;
+                width: 84%;
                 height: 2rem;
                 padding: 0.4rem;
                 margin-bottom: 2rem;

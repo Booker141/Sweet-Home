@@ -159,7 +159,7 @@ export default function Footer(){
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
+                    justify-content: space-between;
               
                 }
 
@@ -206,6 +206,7 @@ export default function Footer(){
 
                     margin-top: 3rem;
                     margin-bottom: 2rem;
+                    margin-right: 6rem;
 
                 }
 

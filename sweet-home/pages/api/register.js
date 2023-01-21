@@ -3,6 +3,7 @@ import {MongoClient} from 'mongodb'
 
 export default async function handler(req, res){
 
+    if(req.method === 'POST'){
         const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser:true, useUnifiedTopology:true });
 
         const db = await client.db();
@@ -11,7 +12,6 @@ export default async function handler(req, res){
         const userExist2 = await db.collection('users').findOne({username: body.username});
         const userRole = await db.collection('userRole').findOne({name: "usuario"});
         const userStatus = await db.collection('userStatus').findOne({name: "activo"})
-        const account = await db.collection('accounts').findOne({userId: body._id});
 
         if(userExist1){
 
@@ -29,7 +29,7 @@ export default async function handler(req, res){
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(body.password, salt);
         
-        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date(), accountId: account._id});
+        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date(), accountId: null});
 
         if(res.statusCode == 500){
 
@@ -39,6 +39,6 @@ export default async function handler(req, res){
         
         res.status(201).json({message: 'Registrado con éxito.'});
 
-     
+    }
     
 }   

@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import Router  from 'next/router'
-import {getSession, signIn} from 'next-auth/react'
-import {useState, useEffect} from 'react'
+import {signIn} from 'next-auth/react'
+import {useState} from 'react'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js";
 import {fonts} from "styles/frontend-conf.js";
@@ -36,16 +35,6 @@ export default function SignUp() {
   const [isValidate, setIsValidate] = useState(false);
   
   
-   /* 
-  useEffect(() => {
-    getSession().then((session) => {
-      if (session) {
-        Router.replace('/home');
-      } else {
-        Router.replace('/auth/signIn');
-      }
-    });
-  }, [Router]);*/
 
   /**
    * If the password input type is password, then hide the first icon and show the second icon, and
@@ -77,6 +66,7 @@ export default function SignUp() {
     // Regular expressions
 
     let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let regUsername= /^\S*$/;
     let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     let regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/;
     let regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
@@ -95,8 +85,8 @@ export default function SignUp() {
       }else{
 
           document.getElementById("password__error").classList.remove("form__input-passwordError--active");
-          document.getElementById("error__password").classList.remove("form__icon-error--active");
-          document.getElementById("success__password").classList.add("form__icon-success--active");
+          document.getElementById("error__password").classList.remove("form__error-icon--active");
+          document.getElementById("success__password").classList.add("form__success-icon--active");
           setIsValidate(true);
 
 
@@ -165,7 +155,7 @@ export default function SignUp() {
 
     if(e.target.name == "username"){
 
-      if(username.length < 4){
+      if(username.length < 4 || !username.match(regUsername)){
           
           document.getElementById("username__error").classList.add("form__input-usernameError--active");
           document.getElementById("error__username").classList.add("form__error-icon--active");
@@ -221,7 +211,7 @@ export default function SignUp() {
         document.getElementById("submit__error").classList.remove("submit__error--active");
         document.getElementById("submit__error").classList.add("submit__error--active2");
 
-        const res = await signIn("credentials", {redirect: false, email, password});
+        await signIn("credentials", {redirect: false, email, password});
 
       }
 
@@ -338,8 +328,8 @@ export default function SignUp() {
                     onChange={(e) => setLastname(e.target.value)}
                     placeholder="p. ej.: García Navarro"
                   ></input>
-                    <div id="error__lastname" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
-                    <div id="success__lastname" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
+                    <div id="error__lastname" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                    <div id="success__lastname" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
                     <div id="lastname__error" className="form__input-lastnameError">
                       <div className="error__icon">
                         <MdOutlineError size={30} color={colors.secondary}/>
@@ -369,13 +359,13 @@ export default function SignUp() {
                     placeholder="p. ej.: javier65"
                     className="input"
                   ></input>
-                    <div id="error__username" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
-                    <div id="success__username" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
+                    <div id="error__username" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                    <div id="success__username" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
                     <div id="username__error" className="form__input-usernameError">
                       <div className="error__icon">
                         <MdOutlineError size={30} color={colors.secondary}/>
                       </div>
-                      <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo</p>
+                      <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo y no contener espacios</p>
                   </div>
                   </div>
                   
@@ -402,8 +392,8 @@ export default function SignUp() {
                     className="input"
                   ></input>
                   <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                  <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={status.error}/></div>
-                  <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={status.success}/></div>
+                  <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                  <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
                   <div id="password__error" className="form__input-passwordError">
                     <div className="error__icon">
                       <MdOutlineError size={30} color={colors.secondary}/>
@@ -579,6 +569,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 2rem;
+          margin-left: 20rem;
           
           width: 100%;
 
@@ -609,8 +600,8 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
           margin-bottom: 2rem;
+          margin-left: 20rem;
 
           /*Box model*/
 
@@ -645,7 +636,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 2rem;
-          margin-left: 7rem;
+          margin-left: 20rem;
           
           width: 100%;
 
@@ -676,7 +667,7 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
+          margin-left: 20rem;
           width: 100%;
           margin-bottom: 2rem;
 
@@ -713,7 +704,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 2rem;
-          margin-left: 7rem;
+          margin-left: 20rem;
           
           width: 100%;
 
@@ -744,7 +735,7 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
+          margin-left: 20rem;
           margin-bottom: 2rem;
 
           /*Box model*/
@@ -782,7 +773,7 @@ export default function SignUp() {
           align-items: center;
           width: 100%;
           margin-bottom: 2rem;
-          margin-left: 7rem;
+          margin-left: 20rem;
           
 
           /*Text*/
@@ -812,8 +803,8 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
           margin-bottom: 2rem;
+          margin-left: 20rem;
           width: 100%;
 
           /*Box model*/
@@ -848,7 +839,7 @@ export default function SignUp() {
           flex-direction: row;
           align-items: center;
           margin-bottom: 1rem;
-          margin-left: 7rem;
+          margin-left: 20rem;
           width: 100%;
           
 
@@ -880,7 +871,6 @@ export default function SignUp() {
           /*Position*/
 
           position: absolute;
-          left: 20rem;
           margin-bottom: 2rem;
           width: 100%;
 

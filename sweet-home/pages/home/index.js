@@ -1,11 +1,15 @@
 import Head from 'next/head'
 import {useSession} from 'next-auth/react'
+import {useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import global from "styles/global.module.css"
+import {colors} from "styles/frontend-conf"
+import {fonts} from "styles/frontend-conf"
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
 import User from "components/User/User"
+
 
 /* 
     * @author Sergio García Navarro
@@ -23,7 +27,16 @@ export default function Home ({posts, users}){
 
   const {data: session, status} = useSession({required: true});
   
+  const [search, setSearch] = useState("");
   const Router = useRouter();
+
+  const sortPost = () => {
+
+  }
+
+  const searchPost = (e) =>{
+    e.preventDefault();
+  }
 
     if(status == "loading"){
       return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
@@ -36,7 +49,14 @@ export default function Home ({posts, users}){
                     <div className="container__column1">
                       <div className="column1__buttons">
                         <button className={global.buttonPrimary} onClick={() => Router.push("/createPost")} aria-label="Crear nuevo post">Crear post</button>
-                        <button className={global.buttonPrimary} onClick={() => Router.push("/search")} aria-label="Ir a búsqueda">Buscar</button>
+                        <button className={global.buttonPrimary} onClick={() => sortPost()} aria-label="Ordenar publicaciones">Ordenar</button>
+                        <input type="search" 
+                              name="search" 
+                              placeholder="Buscar.."
+                              onBlur={(e) => searchPost(e)}
+                              onKeyUp={(e) => searchPost(e)}
+                              onChange={(e) => setSearch(e.target.value)}
+                              />
                       </div>
                       <h1 className={global.title}>Reciente</h1>
                       {posts.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
@@ -105,6 +125,8 @@ export default function Home ({posts, users}){
 
                 display: flex;
                 flex-direction: row;
+                align-items: center;
+                justify-content: center;
                
                 
               }
@@ -116,6 +138,51 @@ export default function Home ({posts, users}){
                 margin-right: 1rem;
 
               }
+
+              input[type="search"]{
+
+                /*Box model*/
+
+                width: 100%;
+                height: 2rem;
+                padding: 0.4rem;
+                margin-bottom: 2rem;
+
+                /*Text*/
+
+                font-family: ${fonts.default};
+                font-size: 1rem;
+
+                /*Visuals*/
+
+                border-radius: 5px;
+                border: 1px solid ${colors.primary};
+                transition: 0.2s ease all;
+
+
+                }
+
+                input[type="search"]:focus{
+
+
+                /*Visuals*/
+
+                border: 2px solid ${colors.primary};
+                outline: none;
+                box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                }
+
+
+
+                ::placeholder{
+
+                /*Text*/
+
+                color: ${colors.primary};
+
+                }
+
 
 
             `}</style>
@@ -145,6 +212,7 @@ export default function Home ({posts, users}){
                       
                       
                   }
+
                   
               `}</style>
           </>
