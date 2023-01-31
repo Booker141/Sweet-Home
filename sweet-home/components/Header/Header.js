@@ -6,7 +6,7 @@ import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt, FaSearch} from 'react-icons/fa'
-import {BsFillChatFill} from 'react-icons/bs'
+import {RiChat3Line, RiSearchLine} from 'react-icons/ri'
 import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
 import Modal from "components/Modal/Modal"
 
@@ -74,9 +74,9 @@ export default function Header(props){
                         </div>
                         <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><FaSearch /></a></Link></li>
-                        <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'><BsFillChatFill /></a></Link></li>
-                        <li className="menu-visible"><a id="profile">Perfil ▽</a>
+                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
+                        <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'><RiChat3Line /></a></Link></li>
+                        <li className="menu-visible"><a id="profile">@{session.user.username} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile" as="/profile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
                                 <hr className="line"/>
@@ -357,7 +357,7 @@ export default function Header(props){
                     </div>
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
-                        {router.route !== "/auth/signIn" && router.route !== "/auth/signUp" && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
+                        {router.route !== "/auth/signIn" && router.route !== "/auth/signUp" && router.route !== 'auth/signUpCare' && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
                     </div>
                 </div>
 

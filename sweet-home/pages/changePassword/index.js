@@ -1,11 +1,12 @@
 import Head from 'next/head'
 import {useState} from "react"
 import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf.js"
+import {colors, statusColors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
 import {MdEmail} from "react-icons/md"
-import {BsFillLockFill} from "react-icons/bs"
+import {BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill} from "react-icons/bs"
+import { MdOutlineError } from 'react-icons/md'
 import {AiFillEye, AiFillEyeInvisible, AiFillInfoCircle} from "react-icons/ai"
 
 
@@ -25,6 +26,7 @@ export default function ChangePassword(){
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPassword2, setNewPassword2] = useState("");
+    const [isValidate, setIsValidate] = useState(false);
     const [email, setEmail] = useState("");
 
     const showPassword = () => {
@@ -46,6 +48,55 @@ export default function ChangePassword(){
     
         }
       }
+
+
+  const validate = (e) => {
+
+    // Regular expressions
+
+    let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+    if(e.target.name =="password"){
+
+      if(password.length < 8 || !password.match(regPassword) ){
+          
+          document.getElementById("password__error").classList.add("form__input-passwordError--active");
+          document.getElementById("error__password").classList.add("form__icon-error--active");
+          document.getElementById("success__password").classList.remove("form__icon-success--active");
+          setIsValidate(false);
+
+      }else{
+
+          document.getElementById("password__error").classList.remove("form__input-passwordError--active");
+          document.getElementById("error__password").classList.remove("form__icon-error--active");
+          document.getElementById("success__password").classList.add("form__icon-success--active");
+          setIsValidate(true);
+
+      }
+  }
+
+    // Validación del formato del email
+    if(e.target.name == "email"){
+
+      if(!email.match(regEmail)){
+          
+          document.getElementById("email__error").classList.add("form__input-emailError--active");
+          document.getElementById("error__email").classList.add("form__error-icon--active");
+          document.getElementById("success__email").classList.remove("form__success-icon--active");
+          setIsValidate(false);
+
+      }else{
+          
+            document.getElementById("email__error").classList.remove("form__input-emailError--active");
+            document.getElementById("error__email").classList.remove("form__error-icon--active");
+            document.getElementById("success__email").classList.add("form__success-icon--active");
+            setIsValidate(true);
+      }
+    }
+
+ 
+  }
 
       const changePassword = (e) => {
 
@@ -70,7 +121,6 @@ export default function ChangePassword(){
 
         }
 
-
       }
     return(
 
@@ -86,16 +136,28 @@ export default function ChangePassword(){
                                 <p className={global.text}>Email</p>
                                 <MdEmail size={20} color={colors.secondary} />
                             </div>
-                            <input
-                                title="Introducir email"
-                                type="email"
-                                name="Correo"
-                                value={email}
-                                required
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="p. ej.: javier@gmail.com"
-                                className="input">
-                            </input>
+                            <div className="email__input">
+                                <input
+                                    title="Introducir email"
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    required
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    onKeyUp={(e) => validate(e)}
+                                    onBlur={(e) => validate(e)}
+                                    placeholder="p. ej.: javier@gmail.com"
+                                    className="input">
+                                </input>
+                                <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                                <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                                <div id="email__error" className="form__input-emailError">
+                                <div className="error__icon">
+                                    <MdOutlineError size={30} color={colors.secondary}/>
+                                </div>
+                                <p className={global.text2}>Debe seguir el formato correcto</p>
+                            </div>
+                        </div>
                         </div>
                         <div className="form-vertical__old">
                             <div className="label">
@@ -107,15 +169,25 @@ export default function ChangePassword(){
                                     title="Introducir contraseña antigua"
                                     type="password" 
                                     id="password"
-                                    name="Contraseña" 
+                                    name="password" 
                                     value={oldPassword}
                                     required
                                     onChange={(e) => setOldPassword(e.target.value)}
+                                    onKeyUp={(e) => validate(e)}
+                                    onBlur={() => validate(e)}
                                     placeholder="Contraseña actual"
                                     className="input"> 
                                 </input>
                                 <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                                <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                                <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                                <div id="password__error" className="form__input-passwordError">
+                                <div className="error__icon">
+                                    <MdOutlineError size={30} color={colors.secondary}/>
+                                </div>
+                                <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                             </div>
+                        </div>
                         </div>
                         <div className="form-vertical__new">
                             <div className="label">
@@ -131,11 +203,21 @@ export default function ChangePassword(){
                                     value={newPassword} 
                                     required
                                     onChange={(e) => setNewPassword(e.target.value)}
+                                    onKeyUp={(e) => validate(e)}
+                                    onBlur={() => validate(e)}
                                     placeholder="Contraseña nueva"
                                     className="input">       
                                 </input>
                                 <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                                <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                                <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                                <div id="password__error" className="form__input-passwordError">
+                                <div className="error__icon">
+                                    <MdOutlineError size={30} color={colors.secondary}/>
+                                </div>
+                                <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                             </div>
+                        </div>
                         </div>
                         <div className="form-vertical__new2">
                             <div className="label">
@@ -155,9 +237,16 @@ export default function ChangePassword(){
                                     className="input">       
                                 </input>
                                 <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
+                                <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
+                                <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
+                                <div id="password__error" className="form__input-passwordError">
+                                <div className="error__icon">
+                                    <MdOutlineError size={30} color={colors.secondary}/>
+                                </div>
+                                <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                             </div>
                         </div>
-                        
+                        </div>
                         </form>  
                             <div className="tooltip">
                                 <div className="tooltip__icon">
@@ -376,6 +465,15 @@ export default function ChangePassword(){
 
                 }
 
+                .email__input{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+
                 .password--visibility{
 
                     /*Position*/
@@ -384,10 +482,216 @@ export default function ChangePassword(){
                     top: 0.9rem;
                     right: 2rem;
 
+                }
 
+                .form__input-passwordError{
+
+                /*Position*/
+
+                position: absolute;
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 2rem;
+                margin-left: 50rem;
+
+                width: 100%;
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: #fafafa;
+
+                /*Visuals*/
+
+                border-radius: 10px;
+                background-color: ${statusColors.error};
+                opacity: 0;
+
+                }
+
+
+                .form__input-passwordError p{
+
+                /*Box model*/
+
+                margin-left: 2rem;
+
+                }
+
+                .form__input-passwordError--active{
+
+                /*Position*/
+
+                position: absolute;
+                margin-bottom: 2rem;
+                margin-left: 50rem;
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: #fafafa;
+
+                /*Visuals*/
+
+                border-radius: 10px;
+                background-color: ${statusColors.error};
+                opacity: 1;
+
+                }
+
+                .form__input-emailError{
+
+                /*Position*/
+
+                position: absolute;
+
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 2rem;
+                margin-left: 50rem;
+
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: #fafafa;
+
+                /*Visuals*/
+
+                border-radius: 10px;
+                background-color: ${statusColors.error};
+                opacity: 0;
+
+                }
+
+
+                .form__input-emailError p{
+
+                /*Box model*/
+
+                margin-left: 2rem;
+
+                }
+
+                .form__input-emailError--active{
+
+                /*Position*/
+
+                position: absolute;
+                margin-bottom: 2rem;
+                margin-left: 50rem;
+                width: 100%;
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: #fafafa;
+
+                /*Visuals*/
+
+                border-radius: 10px;
+                background-color: ${statusColors.error};
+                opacity: 1;
+
+                }
+
+                .error__icon{
+
+                /*Box model*/
+
+                margin-left: 1rem;
+
+                }
+
+                .form__error-icon{
+
+                /*Position*/
+
+                position: relative;
+                right: -1.1rem;
+                bottom: 0.9rem;
+                z-index: 999;
+
+                /*Visuals*/
+
+                opacity: 0;
+                color: ${statusColors.error};
 
 
                 }
+
+                .form__success-icon{
+
+                /*Position*/
+
+                position: relative;
+                right: 0.1rem;
+                bottom: 0.9rem;
+                z-index: 999;
+
+                /*Visuals*/
+
+                opacity: 0;
+                color: ${statusColors.success};
+
+                }
+
+                .form__error-icon--active{
+
+                /*Position*/
+
+                position: relative;
+                right: -1.1rem;
+                bottom: 0.9rem;
+                z-index: 999;
+
+                /*Visuals*/
+
+                opacity: 1;
+                color: ${statusColors.error};
+
+                }
+
+                .form__success-icon--active{
+
+                /*Position*/
+
+                position: relative;
+                right: 0.1rem;
+                bottom: 0.9rem;
+                z-index: 999;
+
+                /*Visuals*/
+
+                opacity: 1;
+                color: ${statusColors.success};
+
+                }
+
+
+
 
                 input[type="submit"]{
 
@@ -435,6 +739,7 @@ export default function ChangePassword(){
 
                     /*Box model*/
 
+                    margin-top: 2rem;
                     margin-bottom: 3rem;
                 }
 

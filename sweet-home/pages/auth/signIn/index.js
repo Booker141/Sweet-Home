@@ -246,8 +246,11 @@ export default function SignIn({providers, csrfToken}) {
                         <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
                         
                       </div>
+                      <Link href="/changePassword"><a aria-label="Ir al formulario de cambio de contraseña">¿Has olvidado la contraseña?</a></Link>
+
                     </div>
                   </form>
+                 
                   <div id="submit__error" className="submit__error">
                           {message}
                   </div> 
@@ -855,24 +858,13 @@ export default function SignIn({providers, csrfToken}) {
                 text-decoration: none;
               }
 
-              a[href="/signUp"] {
-                /*Box model*/
-
-                margin-top: 2rem;
-
-                /*Text*/
-
-                color: ${colors.secondary};
-                font-size: 0.9rem;
-                font-family: ${fonts.default};
-                font-weight: bold;
-              }
+              
 
               a:hover{
 
                 /*Text*/
 
-                font-size: 1rem;
+                font-size: 0.9rem;
 
                 /*Visuals*/
 
@@ -952,25 +944,25 @@ export default function SignIn({providers, csrfToken}) {
 
               input[type="text"] {
 
-            /*Box model*/
+                /*Box model*/
 
-            width: 100%;
-            height: 2rem;
-            padding: 0.4rem;
-            margin-bottom: 2rem;
+                width: 84%;
+                height: 2rem;
+                padding: 0.4rem;
+                margin-bottom: 2rem;
 
-            /*Text*/
+                /*Text*/
 
-            font-family: ${fonts.default};
-            font-size: 1rem;
+                font-family: ${fonts.default};
+                font-size: 1rem;
 
-            /*Visuals*/
+                /*Visuals*/
 
-            border-radius: 5px;
-            border: 0;
-            transition: 0.2s ease all;
+                border-radius: 5px;
+                border: 0;
+                transition: 0.2s ease all;
 
-          }
+              }
 
           input[type="text"]:focus {
 

@@ -3,6 +3,7 @@ import {MongoClient} from 'mongodb'
 
 export default async function handler(req, res){
 
+    console.log(req.url);
     if(req.method === 'POST'){
         const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser:true, useUnifiedTopology:true });
 

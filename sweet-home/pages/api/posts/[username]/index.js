@@ -7,13 +7,13 @@ export default async function handler(req, res){
 
     if(req.method == "GET"){
 
-        const data = await db.collection('news').findOne({id: parseInt(req.query.newId)});
+        const data = await db.collection('posts').find({username: req.query.username}).limit(50).toArray();
 
-        const news = JSON.parse(JSON.stringify(data));
+        const posts = JSON.parse(JSON.stringify(data));
 
-        res.status(200).json(news);
+        res.status(200).json(posts);
 
     }
-  
+   
     
 }

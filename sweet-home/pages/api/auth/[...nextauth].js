@@ -123,18 +123,8 @@ export default NextAuth({
         return decodedToken;
       },
     },
-    events: {
-      async signIn(message) { /* on successful sign in */ },
-      async signOut(message) { /* on signout */ },
-      async linkAccount(message) { /* account (e.g. Twitter) linked to a user */ },
-      async session(message) { /* session is active */ },
-    },
     callbacks: {
-      /*async redirect({ url, baseUrl }) {
-        if (url.startsWith("/")) return `${baseUrl}${url}`
-        else if (new URL(url).origin === baseUrl) return url
-        return baseUrl
-      },*/
+    
       async signIn({ user, account, profile, credentials}) {
 
         const client = await clientPromise;
@@ -161,7 +151,7 @@ export default NextAuth({
 
           if(!accountExist2){
 
-            await db.collection('accounts').insertOne({provider: account.provider, 
+            const accountInserted = await db.collection('accounts').insertOne({provider: account.provider, 
               type: account.type, 
               access_token: token, 
               expires_at: expiryDate, 
@@ -176,7 +166,8 @@ export default NextAuth({
               image: user.image,
               createdAt: new Date(),
               userId: user._id});
-              await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountExist2._id}});
+
+              await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountInserted._id}});
 
             }else{
 
@@ -191,7 +182,7 @@ export default NextAuth({
           
           if(!accountExist){
 
-            await db.collection('accounts').insertOne({provider: account.provider, 
+            const accountInserted = await db.collection('accounts').insertOne({provider: account.provider, 
               type: account.type, 
               access_token: account.access_token, 
               expires_at: account.expires_at, 
@@ -206,6 +197,8 @@ export default NextAuth({
               image: user.image,
               createdAt: new Date(),
               userId: randomId});
+
+              await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountInserted._id}});
 
               if(!userExist){
 
@@ -222,6 +215,7 @@ export default NextAuth({
                   role: userRole,
                   createdAt: new Date(),
                   accountId: account._id})
+
               }else{
     
                 if(accountExist.userId == userExist._id){
@@ -242,7 +236,7 @@ export default NextAuth({
           
         if(!accountExist){
 
-          await db.collection('accounts').updateOne({_id: account.id},{$set: {provider: account.provider, 
+          const accountInserted = await db.collection('accounts').updateOne({_id: account.id},{$set: {provider: account.provider, 
             type: account.type, 
             access_token: account.access_token, 
             expires_at: account.expires_at, 
@@ -257,6 +251,8 @@ export default NextAuth({
             image: user.image,
             createdAt: new Date(),
             userId: randomId}});
+
+            await db.collection('users').updateOne({_id: user._id}, {$set: {accountId: accountInserted._id}});
 
             if(!userExist){
 
@@ -307,42 +303,50 @@ export default NextAuth({
         return true;
 
       },
-      async jwt(token, user, account) {
-
-        if (account?.accessToken) {
-          token.accessToken = account.accessToken;
-          
-        }
-
-        if (account) {
-          token.user = {
-            id: user.id,
-            email: user.email,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            username: user.username,
-            status: user.status,
-            role: user.role,
-          }
-        }
+      async jwt({token, user, account}) {
         
-  
-        return token;
+        console.log(user);
+        
+        if(user){
+          token = {
+            ...token,
+            email: user.email,
+            username: user.username,
+            biography: user.biography,
+            followers: user.followers,
+            following: user.following,
+            accessToken: account.access_token
+          };
+        }
+
+        return Promise.resolve(token);
 
       },
-      async session(session, token, user) {
+      async session({session, token}) {
         
+        console.log(token);
 
-        if(token){
-          session.user.name = user.username; 
-          session.user = token.user;
+        if (token) {
+          session = {
+            ...session,
+            user: {
+              email: token.email,
+              username: token.username,
+              image: token.image,
+              biography: token.biography,
+              followers: token.followers,
+              following: token.following,
+            },
+            accessToken: token.accessToken
+          }
         }
+          
+        console.log(session);
 
-        return session;
+        return Promise.resolve(session);
 
-
-      }
-      
+     
+      } 
     }
  
   })

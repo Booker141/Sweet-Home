@@ -1,6 +1,5 @@
 import global from "styles/global.module.css"
 
-
 export default function New(props){
 
 
@@ -10,12 +9,10 @@ export default function New(props){
             <div key={props._id} className={global.new}>
                 <article>
                     <h2 className={global.secondary}>{props.title}</h2>
-                    <h3 className={global.tertiary}>{props.date}</h3>
-                    <h3 className={global.tertiary}>{props.author}</h3>
+                    <h3 className={global.tertiary__bold}>{props.date}</h3>
+                    <h3 className={global.tertiary__bold}>{props.author}</h3>
                             <p className={global.text}>{props.introduction}</p>
                             <p className={global.text}>{props.body}</p>
-                            <p className={global.text}>{props.body2}</p>
-                            <p className={global.text}>{props.body3}</p>
                             <p className={global.text}>{props.conclusion}</p>
                 </article>
             </div>
@@ -31,6 +28,10 @@ export default function New(props){
                     flex-direction: row;
                     justify-content: space-between;
                     align-items: center;
+                }
+
+                p{
+                    white-space: pre-wrap;
                 }
 
             

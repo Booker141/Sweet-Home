@@ -63,13 +63,14 @@
 }
 
 .tertiary__bold {
+  
   /*Text*/
 
   font-family: "Raleway", sans-serif;
   font-size: 1rem;
   font-weight: bold;
 
-  color: #1c1c1c
+  
 }
 
 .text {
@@ -80,6 +81,16 @@
   font-size: 1rem;
   font-weight: 400;
 
+
+}
+
+.text__bold{
+
+  /*Text*/
+
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
 
 }
 
@@ -313,7 +324,14 @@
 
 .loading{
 
-  /*Text*/
+  /*Position*/
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /*Box model*/
 
   display: flex;
   flex-direction: column;

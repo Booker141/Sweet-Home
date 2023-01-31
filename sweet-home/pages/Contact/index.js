@@ -119,6 +119,7 @@ export default function Contact(){
 
                         border-radius: 10px;
                         background-size: 100%;
+                        color: ${colors.secondary};
 
                         
                     }
@@ -159,7 +160,7 @@ export default function Contact(){
 
                         margin-bottom: 2rem;
 
-                        color: ${colors.quaternary};
+                        color: ${colors.secondary};
 
                         
                     }

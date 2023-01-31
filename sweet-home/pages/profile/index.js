@@ -18,15 +18,20 @@ export default function Profile({posts}){
                     <Head><title>Mi perfil</title></Head>
                 
                        <div className="container__profile">
-                            <Image style={{borderRadius: '50px'}} width={100} height={100}/>
+                            <Image src={session.user.image} style={{borderRadius: '50px'}} width={100} height={100}/>
                             <div className="profile__text">
-                                <div className={global.title2}>Nombre</div>
-                                <div className={global.title2}>Correo</div>
+                                <div className={global.title2}>@{session.user.username}</div>
                                 <div className="profile__followers">
-                                    <div className={global.title2}>Seguidores</div>
-                                    <div className={global.title2}>Seguidos</div>
+                                    <div className="followers">
+                                        <div className={global.text}>Seguidores</div>
+                                        <div className={global.text__bold}>{session.user.followers}</div>
+                                    </div>
+                                    <div className="following">
+                                        <div className={global.text}>Siguiendo</div>
+                                        <div className={global.text__bold}>{session.user.following}</div>
+                                    </div>
                                 </div>
-                                <p className={global.text}>Biografía</p>
+                                <p className={global.text}>{session.user.biography}</p>
                             </div>
                             <button className={global.buttonTertiary} onClick={() => router.push("/changeProfile")}>Editar perfil</button>
                         </div>
@@ -51,7 +56,7 @@ export default function Profile({posts}){
                         align-items: center;
                     
                     }
-
+                    
                     .profile__text{
 
                         /*Box model*/
@@ -63,16 +68,47 @@ export default function Profile({posts}){
 
                     }
 
+                    .profile__text:first-child {
+
+                        /*Box model*/
+
+                        margin-bottom: 2rem;
+                    }
+
                     .profile__followers{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: row;
-                        justify-content: space-around;
+                        gap: 2rem;
+                        align-items: center;
+                        margin-bottom: 2rem;
+
+                    }
+
+                    .followers{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
                         align-items: center;
 
                     }
+
+                    .following{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
+
                     .posts{
 
                         /*Box model*/
@@ -122,9 +158,8 @@ export default function Profile({posts}){
 
 export async function getServerSideProps(context){
 
-
-
-    let res = await fetch("http://localhost:3000/api/posts", {
+    const {username} = context.query;
+    const res = await fetch(`http://localhost:3000/api/posts/${username}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

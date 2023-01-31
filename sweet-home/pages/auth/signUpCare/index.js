@@ -30,7 +30,6 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [lastname, setLastname] = useState('');
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState(null);
   const [isValidate, setIsValidate] = useState(false);
@@ -71,11 +70,8 @@ export default function SignUp() {
     let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     let regUsername= /^\S*$/;
     let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    let regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/;
-    let regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+    let regName = /^(?=.*?[#?!@$%^&*-]{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/;
    
-    
-
     if(e.target.name =="password"){
 
       if(password.length < 8 || !password.match(regPassword) ){
@@ -136,23 +132,6 @@ export default function SignUp() {
       }
     }
 
-    if(e.target.name == "lastname"){
-
-      if(!regLastname.test(lastname)){
-
-          document.getElementById("lastname__error").classList.add("form__input-lastnameError--active");
-          document.getElementById("error__lastname").classList.add("form__error-icon--active");
-          document.getElementById("success__lastname").classList.remove("form__success-icon--active");
-          setIsValidate(false);
-
-      }else{
-
-          document.getElementById("lastname__error").classList.remove("form__input-lastnameError--active");
-          document.getElementById("error__lastname").classList.remove("form__error-icon--active");
-          document.getElementById("success__lastname").classList.add("form__success-icon--active");
-          setIsValidate(true);
-      }
-    }
 
     // Validación logitud del username
 
@@ -200,7 +179,7 @@ export default function SignUp() {
           email: email,
           password: password,
           name: name,
-          lastname: lastname,
+          lastname: null,
           username: username,
         })
       }).catch(err => console.log(err));
@@ -284,7 +263,7 @@ export default function SignUp() {
               </div>
               <div className="form-vertical__name">
                 <div className="label">
-                  <p className={global.text}>Nombre</p>
+                  <p className={global.text}>Nombre de la cuidadora</p>
                   <FaUserPlus size={20} color={colors.secondary} />
                 </div>
                 <div className="name__input">
@@ -299,7 +278,7 @@ export default function SignUp() {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="p. ej.: Javier"
+                    placeholder="p. ej.: Cuidadora S.L"
                   ></input>
                   <div id="error__name" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
                   <div id="success__name" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
@@ -309,38 +288,7 @@ export default function SignUp() {
                   </div>
                   <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                 </div>
-                </div>
-                
-              </div>
-              <div className="form-vertical__lastname">
-                <div className="label">
-                  <p className={global.text}>Apellidos</p>
-                  <FaUserPlus size={20} color={colors.secondary} />
-                </div>
-                <div className="lastname__input">
-                  <input
-                    title="Introducir apellidos"
-                    type="text"
-                    name="lastname"
-                    value={lastname}
-                    id="lastname"
-                    pattern="[a-zA-Z] + [a-zA-Z] +"
-                    required
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    onChange={(e) => setLastname(e.target.value)}
-                    placeholder="p. ej.: García Navarro"
-                  ></input>
-                    <div id="error__lastname" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                    <div id="success__lastname" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                    <div id="lastname__error" className="form__input-lastnameError">
-                      <div className="error__icon">
-                        <MdOutlineError size={30} color={colors.secondary}/>
-                      </div>
-                      <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
-                    </div>
-                  </div>
-                
+                </div>            
               </div>
               <div classname="form-vertical__username">
                 <div className="label">
@@ -431,8 +379,8 @@ export default function SignUp() {
               <Link href="/auth/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>
             </div>
             <div className="form-caretaker">
-              <h6>¿Eres una cuidadora de animales?</h6>
-              <Link href="/auth/signUpCare"><a aria-label="Ir a formulario de registro de cuidadora">Registrate aquí</a></Link>
+              <h6>¿Eres un usuario corriente?</h6>
+              <Link href="/auth/signUp"><a aria-label="Ir a formulario de registro de usuario">Registrate aquí</a></Link>
             </div>
           </div>
         </div>

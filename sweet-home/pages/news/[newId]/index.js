@@ -1,25 +1,14 @@
 import Layout from "components/Layout/Layout"
 import Head from 'next/head'
-import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import New from "components/New/New"
 
-export default function NewsId(){
+export default function NewsId({news}){
 
-    const [news, setNews] = useState([]);
     const router = useRouter();
-    const {newId} = router.query;
-    useEffect(async () => {
-      await fetch(`http://localhost:3000/api/news/${newId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => response.json()).then((data) => setNews(data));
-    }, [newId])
 
     console.log(news);
 
@@ -29,7 +18,7 @@ export default function NewsId(){
         <Head><title>Noticia {router.query.newId}</title></Head>
                 <h1 className={global.title}>Noticia {router?.query?.newId} ✧</h1>
 
-                <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} body2={news.body2} body3={news.body3} conclusion={news.conclusion}/>
+                <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion}/>
 
             <style jsx>{`
 
@@ -128,4 +117,27 @@ export default function NewsId(){
          
         </Layout>
     )
+}
+
+export async function getServerSideProps(context){
+
+    const {newId} = context.query;
+
+    const res = await fetch(`http://localhost:3000/api/news/${newId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+    }});
+
+    const news = await res.json();
+
+
+    return {
+        props: {
+            news
+
+        }
+
+    }
+
 }
