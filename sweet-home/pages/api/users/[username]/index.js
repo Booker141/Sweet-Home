@@ -7,11 +7,14 @@ export default async function handler(req, res){
 
     if(req.method == "GET"){
 
-        const data = await db.collection('users').findOne({id: req.query.id});
-        
+        const data = await db.collection('users').findOne({username: req.query.username});
+
+        console.log(data);
+
         const user = JSON.parse(JSON.stringify(data));
-
         res.status(200).json(user);
-    }
 
+    }
+   
+    
 }

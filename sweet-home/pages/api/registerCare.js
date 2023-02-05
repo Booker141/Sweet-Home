@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt'
-import {MongoClient} from 'mongodb'
+import {MongoClient, ObjectId} from 'mongodb'
 
 export default async function handler(req, res){
 
 
     if(req.method === 'POST'){
-        
+
         const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser:true, useUnifiedTopology:true });
 
         const db = await client.db();
@@ -31,7 +31,7 @@ export default async function handler(req, res){
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(body.password, salt);
         
-        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date(), accountId: null, biography: "", followers: [], following: [], isCaretaker: false});
+        await db.collection('users').insertOne({email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: "", gender: "", birthdate: new Date("<2012-12-12>"), image: "/public/userPhotos/default.png", status: userStatus, role: userRole, createdAt: new Date(), accountId: ObjectId, biography: "", followers: [], following: [], isCaretaker: true});
 
         if(res.statusCode == 500){
 

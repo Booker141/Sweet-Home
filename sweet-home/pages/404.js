@@ -41,7 +41,7 @@ export default function FourOhFour () {
               <h1 className={global.title}>
                 Vaya... este perro se ha comido la página 
               </h1>
-              <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas, un momento ¿dónde están mis zapatos?</h2>
+              <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
               <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
             </div>
             <Image src="/error-1.svg" alt="Imagen de perro curándose" width={1000} height={1000}/>

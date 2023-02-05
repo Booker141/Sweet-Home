@@ -20,10 +20,10 @@ export default function allUsers({users}){
             <Layout>
             
                         <h1 className={global.title}>Usuarios</h1>
-                            {users.filter(user => user.username !== (session.user.username)).map(({_id, userImage, username}) => {
+                            {users.filter(user => user.username !== (session.user.username)).map(({_id, userImage, username, isCaretaker}) => {
                                 return(
                                     <>
-                                        <User key={_id} userImage={userImage} username={username}/>
+                                        <User key={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
                                     </>
                                 )
                             })}

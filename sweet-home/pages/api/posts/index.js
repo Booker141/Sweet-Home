@@ -4,6 +4,8 @@ export default async function handler(req, res){
 
     const client = await clientPromise;
     const db = await client.db();
+    const body = req.body;
+    const user = await db.collection('users').findOne({username: body.username});
 
     if(req.method == "GET"){
 
@@ -15,15 +17,15 @@ export default async function handler(req, res){
 
     }
    
-    if(req.method == "POST"){
+    if(req.method === 'POST'){
         
-        let body = JSON.parse(req.body);
-
-        let data = await db.collection('posts').insertOne(body);
-
-        let post = JSON.parse(JSON.stringify(data));
         
-        res.json(post);
+        await db.collection('posts').insertOne({location: body.location, description: body.description, comments: [], likes: [], userId: user._id, username: body.username, createdAt: new Date(), image: ""});
+
+        res.status(201).json({message: 'Creada con éxito.'});
+        
+        console.log(post);
+        
 
     }
     

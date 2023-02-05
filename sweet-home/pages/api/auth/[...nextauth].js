@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
 
-export default NextAuth({
+export const authOptions = {
 
     providers: [
       GoogleProvider({
@@ -104,11 +104,13 @@ export default NextAuth({
           id: token.id,
           state: token.state,
           email: token.email,
-          firstname: token.firstname,
-          lastname: token.lastname,
           username: token.username,
           status: token.status,
           role: token.role,
+          biography: token.biography,
+          followers: token.followers,
+          following: token.following,
+          isCaretaker: token.isCaretaker,
         }
 
         const codedToken = jwt.sign(tokenJWT , secret);
@@ -214,7 +216,10 @@ export default NextAuth({
                   status: userStatus,
                   role: userRole,
                   createdAt: new Date(),
-                  accountId: account._id})
+                  accountId: account._id,
+                  followers: [],
+                  following: [],
+                  isCaretaker: false})
 
               }else{
     
@@ -268,7 +273,10 @@ export default NextAuth({
                 status: userStatus,
                 role: userRole,
                 createdAt: new Date(),
-                accountId: account._id})
+                accountId: account._id,
+                followers: [],
+                following: [],
+                isCaretaker: false})
             }else{
   
               if(accountExist.userId == userExist._id){
@@ -303,19 +311,21 @@ export default NextAuth({
         return true;
 
       },
-      async jwt({token, user, account}) {
+      async jwt({token, user}) {
         
         console.log(user);
         
         if(user){
           token = {
             ...token,
+            id: user._id,
+            isCaretaker: user.isCaretaker,
             email: user.email,
             username: user.username,
             biography: user.biography,
             followers: user.followers,
             following: user.following,
-            accessToken: account.access_token
+            role: user.role.name,
           };
         }
 
@@ -330,14 +340,15 @@ export default NextAuth({
           session = {
             ...session,
             user: {
+              id: token.id,
               email: token.email,
               username: token.username,
-              image: token.image,
               biography: token.biography,
               followers: token.followers,
               following: token.following,
+              isCaretaker: token.isCaretaker,
+              role: token.role,
             },
-            accessToken: token.accessToken
           }
         }
           
@@ -349,4 +360,6 @@ export default NextAuth({
       } 
     }
  
-  })
+  }
+
+  export default NextAuth(authOptions); 

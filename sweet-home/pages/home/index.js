@@ -29,9 +29,11 @@ export default function Home ({posts, users}){
   const {data: session, status} = useSession({required: true});
   const [postList, setPostList] = useState(posts);
   const [search, setSearch] = useState("");
+  const [isSorted, setIsSorted] = useState(false);
   const Router = useRouter();
 
   const sortPost = () => {
+    setIsSorted(!isSorted);
     const sortedPosts = posts.sort((a,b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
     setPostList(sortedPosts);
   }
@@ -61,7 +63,7 @@ export default function Home ({posts, users}){
                     <div className="container__column1">
                       <div className="column1__buttons">
                         <button className={global.buttonPrimary} onClick={() => Router.push("/createPost")} aria-label="Crear nuevo post">Crear post</button>
-                        <button className={global.buttonPrimary} onClick={() => sortPost()} aria-label="Ordenar publicaciones">Ordenar</button>
+                        <button className={global.buttonPrimary} onClick={() => sortPost()} aria-label="Ordenar publicaciones">Ordenar por usuario</button>
                         <div className="column1__search">
                           <div className="search__icon">
                             <RiSearchLine size={20} color={colors.primary}/>
@@ -77,12 +79,19 @@ export default function Home ({posts, users}){
                         </div>
                       </div>
                       <h1 className={global.title}>Reciente</h1>
-                      {posts.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-
-                        {posts.map(({_id, user, location, mediaUrl, description, comments}) => {
+                      {(isSorted && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
+                      {isSorted && postList.map(({_id, username, location, mediaUrl, description, comments}) => {
                           return (
                             <>
-                              <Post key={_id} user={user} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                              <Post key={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                            </>
+                          )
+                        })}
+                      {(!isSorted && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
+                        {!isSorted && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt)}).map(({_id, username, location, mediaUrl, description, comments}) => {
+                          return (
+                            <>
+                              <Post key={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
                             </>
                           )
                         })}
@@ -91,10 +100,10 @@ export default function Home ({posts, users}){
                     <div className="container__column2">
                       <h1 className={global.title}>Seguir</h1>
                       {users.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-                      {users.filter(user => user.username !== (session.user.username)).slice(0,5).map(({_id, userImage, username}) => {
+                      {users.filter(user => user.username !== (session.user.username)).slice(0,5).map(({_id, userImage, username, isCaretaker}) => {
                         return (
                           <>
-                            <User key={_id} userImage={userImage} username={username}/>
+                            <User key={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
                           </>
                         )
                       })}

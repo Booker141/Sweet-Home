@@ -70,7 +70,7 @@ export default function SignUp() {
     let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     let regUsername= /^\S*$/;
     let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    let regName = /^(?=.*?[#?!@$%^&*-]{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/;
+    let regName = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]+$/;
    
     if(e.target.name =="password"){
 
@@ -170,7 +170,7 @@ export default function SignUp() {
 
       document.getElementById("submit__error").classList.add("submit__error--active");
       
-      const res = await fetch('/api/register', {
+      const res = await fetch('/api/registerCare', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -179,7 +179,7 @@ export default function SignUp() {
           email: email,
           password: password,
           name: name,
-          lastname: null,
+          lastname: "",
           username: username,
         })
       }).catch(err => console.log(err));
@@ -193,7 +193,7 @@ export default function SignUp() {
         document.getElementById("submit__error").classList.remove("submit__error--active");
         document.getElementById("submit__error").classList.add("submit__error--active2");
 
-        Router.push("auth/signIn")
+        Router.push("/auth/signIn")
 
       }
 
@@ -248,7 +248,7 @@ export default function SignUp() {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="p. ej.: javier@gmail.com"
+                    placeholder="p. ej.: cuidadora@gmail.com"
                   ></input>
                   <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
                   <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
@@ -307,7 +307,7 @@ export default function SignUp() {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="p. ej.: javier65"
+                    placeholder="p. ej.: cuidadora45"
                     className="input"
                   ></input>
                     <div id="error__username" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
@@ -339,7 +339,7 @@ export default function SignUp() {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="p. ej.: 1Manuel!"
+                    placeholder="p. ej.: 1Cuidadora!"
                     className="input"
                   ></input>
                   <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>

@@ -8,7 +8,7 @@ import {AiFillPhone} from "react-icons/ai"
 import {BsGenderAmbiguous, BsFillFileTextFill} from "react-icons/bs"
 import Layout from "/components/Layout/Layout"
 
-export default function changeProfile(){
+export default function Settings(){
 
     const [name, setName] = useState("");
     const [lastname, setLastname] = useState("");
@@ -30,21 +30,59 @@ export default function changeProfile(){
         return maxDate;
 
     }
+      const handleClick = (e) => {
 
+        const edit = document.querySelector('.form-page');
+        const saved = document.querySelector('.saved');
+        const settings = document.querySelector('.settings');
+
+        if(e === 'Editar'){
+            const button = document.querySelector('#edit');
+            edit.style.display = 'flex';
+            saved.style.display = 'none';
+            settings.style.display = 'none';
+            button.addEventListener("click", () =>{
+                button.focus();
+            })
+            
+        }else if(e === 'Guardados'){
+            const button = document.querySelector('#saved');
+            edit.style.display = 'none';
+            saved.style.display = 'flex';
+            settings.style.display = 'none';
+            button.addEventListener("click", () =>{
+                button.focus();
+            })
+        }else if(e === 'Ajustes'){
+            const button = document.querySelector('#settings');
+            edit.style.display = 'none';
+            saved.style.display = 'none';
+            settings.style.display = 'flex';
+            button.addEventListener("click", () =>{
+                button.focus();
+            })
+        }
+    }
+
+    const edit = () => {
+
+      
+    }
 
     return(
         <Layout>
-            <Head><title>Editar perfil</title></Head>
+            <Head><title>Configuración</title></Head>
             <div className={global.content}>
             <div className="settings">
-              <aside className="settings__links">
-                  <a className="config__style" aria-label="Ir a Editar Perfil">Editar perfil</a>
-                  <a className="config__style" aria-label="Ir a Guardados">Guardados</a>
-              </aside>
+              <nav className="settings__links">
+                  <button id="edit" className="config__style" onClick={() => handleClick("Editar")} aria-label="Ir a Editar Perfil">Editar perfil</button>
+                  <button id="saved" className="config__style" onClick={() => handleClick("Guardados")} aria-label="Ir a Guardados">Guardados</button>
+                  <button id="settings" className="config__style" onClick={() => handleClick("Ajustes")} aria-label="Ir a Ajustes">Ajustes</button>
+              </nav>
+
               <div className="form-page">
-                <h1 className={global.title}>Configuración</h1>
+                <h1 className={global.title}>Editar perfil</h1>
                 <form className="form-vertical" action="/api/auth/signIn/email">
-                  
                   <div className="form-vertical__name">
                     <div className="label">
                       <p className={global.text}>Nombre</p>
@@ -128,9 +166,27 @@ export default function changeProfile(){
                     ></input>
                   </div>
                   <button className={global.buttonPrimary} ><a href="/changePassword" title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">Cambiar contraseña</a></button>   
+                  <button className={global.buttonPrimary} ><a href="/myprofile/pets" title="Ir a la página para añadir mascotas" aria-label="Ir a cambiar contraseña">Añadir mascotas</a></button> 
                 </form>
                 <div className={global.error}>{message}</div>
                 <button className={global.buttonPrimary} onClick={(e) => edit(e)}>Guardar</button>
+              </div>
+
+              <div className="saved">
+                <h1 className={global.title}>Guardados</h1>
+                <div className="saved__content">
+                </div>
+              </div>
+
+              <div className="settings">
+                <h1 className={global.title}>Ajustes</h1>
+                <div className="settings__content">
+                </div>
+              </div>
+              <div className="complaints">
+                <h1 className={global.title}>Denuncias</h1>
+                <div className="complaints__content">
+                </div>
               </div>
               </div>
             </div>
@@ -144,8 +200,14 @@ export default function changeProfile(){
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: center;
+                    justify-content: space-around;
                     gap: 2rem;
+                    padding: 5rem;
+
+                    /*Visuals*/
+
+                    border: 1px solid ${colors.primary};
+                    border-radius: 10px;
 
                    
 
@@ -158,6 +220,7 @@ export default function changeProfile(){
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
+
                 }
 
                 .config__style{
@@ -174,8 +237,50 @@ export default function changeProfile(){
                     color: #1c1c1c;
                     font-size: 1.5rem;
                     font-weight: 600;
+                    border: none;
+                    background-color: transparent;
                     font-family: "Poppins", sans-serif;
                     text-decoration: none;
+
+                }
+
+                .config__style:hover{
+
+                    /*Box model*/
+
+                    padding: 0.5rem;
+
+                    /*Text*/
+
+                    color: ${colors.secondary};
+                    cursor: pointer;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    border-radius: 10px;
+                    transition: 0.3s ease all;
+
+
+                }
+
+                .config__style:focus{
+
+                      /*Box model*/
+
+                      padding: 0.5rem;
+
+                      /*Text*/
+
+                      color: ${colors.secondary};
+                      cursor: pointer;
+
+                      /*Visuals*/
+
+                      background-color: ${colors.primary};
+                      border-radius: 10px;
+                      transition: 0.3s ease all;
+
 
                 }
 
@@ -204,6 +309,8 @@ export default function changeProfile(){
 
 
             }
+
+
 
 
 
@@ -293,6 +400,22 @@ export default function changeProfile(){
 
               border: 1px solid ${colors.primary};
               border-radius: 5px;
+
+            }
+
+            .settings{
+
+              /*Box model*/
+
+              display: none;
+
+            }
+
+            .saved{
+
+              /*Box model*/
+
+              display: none;
 
             }
 

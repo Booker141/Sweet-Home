@@ -16,7 +16,7 @@ export default function Post(props){
 
     useEffect(() => {
         const fetchUser = async () => {
-            const res = await fetch(`http://localhost:3000/api/users/${props.user}`, {
+            const res = await fetch(`http://localhost:3000/api/users/${props.username}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

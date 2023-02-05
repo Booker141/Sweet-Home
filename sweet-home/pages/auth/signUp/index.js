@@ -214,7 +214,7 @@ export default function SignUp() {
         document.getElementById("submit__error").classList.remove("submit__error--active");
         document.getElementById("submit__error").classList.add("submit__error--active2");
 
-        Router.push("auth/signIn")
+        Router.push("/auth/signIn")
 
       }
 

@@ -4,8 +4,12 @@ export default async function handler(req, res){
 
     const client = await clientPromise;
     const db = await client.db();
+    const body = req.body;
 
-    if(req.method == "GET"){
+    const userFrom = await db.collection('users').findOne({username: body.usernameFrom});
+    const userTo = await db.collection('users').findOne({username: body.usernameTo});
+
+    if(req.method === 'GET'){
 
         const data = await db.collection('complaints').find({}).limit(50).toArray();
         
@@ -14,15 +18,13 @@ export default async function handler(req, res){
         res.status(200).json(complaints);
     }
 
-    if(req.method == "POST"){
+    if(req.method === 'POST'){
         
-        let body = JSON.parse(req.body);
+     
+        await db.collection('complaints').insertOne({description: body.description, adminId: null, createdAt: new Date(), isApproved: false, isChecked: false, userIdFrom: userFrom._id, userIdTo: userTo._id});
 
-        let data = await db.collection('complaints').insertOne(body);
-
-        let complaint = JSON.parse(JSON.stringify(data));
-
-        res.json(complaint.ops[0]);
+        res.status(201).json({message: 'Creada con éxito.'});
+        
 
     }
    
