@@ -12,7 +12,7 @@ import {MdOutlineBlock} from 'react-icons/md'
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
 
-export default function Username({posts, user}){
+export default function Username({posts, user, pets}){
 
     const {data: session, status} = useSession();
     const [followers, setFollowers] = useState([]);
@@ -20,6 +20,9 @@ export default function Username({posts, user}){
     const [isFollowing, setIsFollowing] = useState(false);
     const [isCaretaker, setIsCaretaker] = useState(false);
     const [profileUser, setProfileUser] = useState(user);
+    const [isPosts, setIsPosts] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
+    const [isPets, setIsPets] = useState(false);
     const router = useRouter();
 
     const followUser = () => {
@@ -41,6 +44,9 @@ export default function Username({posts, user}){
         const pets = document.querySelector('.pets');
 
         if(e === 'Publicaciones'){
+            setIsPosts(!isPosts);
+            setIsSaved(false);
+            setIsPets(false);
             const button = document.querySelector('#posts');
             posts.style.display = 'flex';
             saved.style.display = 'none';
@@ -50,6 +56,9 @@ export default function Username({posts, user}){
             })
             
         }else if(e === 'Guardados'){
+            setIsSaved(!isSaved);
+            setIsPosts(false);
+            setIsPets(false);
             const button = document.querySelector('#saved');
             posts.style.display = 'none';
             saved.style.display = 'flex';
@@ -58,6 +67,9 @@ export default function Username({posts, user}){
                 button.focus();
             })
         }else if(e === 'Mascotas'){
+            setIsPets(!isPets);
+            setIsSaved(false);
+            setIsPosts(false);
             const button = document.querySelector('#pets');
             posts.style.display = 'none';
             saved.style.display = 'none';
@@ -75,7 +87,7 @@ export default function Username({posts, user}){
             setIsCaretaker(profileUser.isCaretaker);
         }
     }, [])
-    console.log(profileUser.image);
+    
     if (session){
 
         const numFollowers = followers.length;
@@ -117,8 +129,8 @@ export default function Username({posts, user}){
                             </div>
 
                             <div className="posts">
-                                
-                            {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+                            {isPosts && posts.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
+                            {isPosts && posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
                                 return (
                                     <>
                                         <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>                          
@@ -126,20 +138,21 @@ export default function Username({posts, user}){
                                 )})}
                             </div>
                             <div className="saved">
-                                
-                            {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+                            {isSaved && saved.length === 0 && <p className={global.text}>No hay publicaciones guardadas en este momento</p>}
+                            {isSaved && saved.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
                                 return (
                                     <>
                                         <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>                          
                                     </>
                                 )})}
                             </div>
+                           
                             <div className="pets">
-                                
-                            {posts.map(({_id, userImage, username, location, mediaUrl, description, comments}) => {
+                            {isPets && pets.length === 0 && <p className={global.text}>No tiene mascotas en este momento</p>}
+                            {isPets && pets.map(({_id, animal, name, breed, weight, birthYear, image, ownerId, ownerUsername}) => {
                                 return (
                                     <>
-                                        <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>                          
+                                        <Pet key={_id} animal={animal} name={name} breed={breed} weight={weight} birthYear={birthYear} image={image} ownerId={ownerId} ownerUsername={ownerUsername}/>                          
                                     </>
                                 )})}
                             </div>
@@ -409,15 +422,22 @@ export async function getServerSideProps(context){
         },
     });
 
+    const pet = await fetch(`http://localhost:3000/api/pets/${username}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+    });
+
     const posts = await post.json();
     const user = await res.json();
+    const pets = await pet.json();
 
-    console.log(user);
 
 
     return {
         props: {
-             posts: JSON.parse(JSON.stringify(posts)), user: JSON.parse(JSON.stringify(user))
+             posts: JSON.parse(JSON.stringify(posts)), user: JSON.parse(JSON.stringify(user)), pets: JSON.parse(JSON.stringify(pets))
         }
     }
 }

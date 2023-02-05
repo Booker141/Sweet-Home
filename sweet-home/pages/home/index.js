@@ -29,13 +29,22 @@ export default function Home ({posts, users}){
   const {data: session, status} = useSession({required: true});
   const [postList, setPostList] = useState(posts);
   const [search, setSearch] = useState("");
-  const [isSorted, setIsSorted] = useState(false);
+  const [isSortedByUsername, setIsSortedByUsername] = useState(false);
+  const [isSortedByLikes, setIsSortedByLikes] = useState(false);
   const Router = useRouter();
 
-  const sortPost = () => {
-    setIsSorted(!isSorted);
+  const sortPostByUsername = () => {
+    setIsSortedByUsername(!isSortedByUsername);
     const sortedPosts = posts.sort((a,b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
     setPostList(sortedPosts);
+  }
+
+  const sortPostByLikes = () => {
+
+    setIsSortedByLikes(!isSortedByLikes);
+    const sortedPosts = posts.sort((a,b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0));
+    setPostList(sortedPosts);
+
   }
 
   console.log(session);
@@ -59,12 +68,12 @@ export default function Home ({posts, users}){
       return (
           <Layout>
               <Head><title>Reciente</title></Head>
-                  <div className="container">
-                    <div className="container__column1">
-                      <div className="column1__buttons">
+                  <div className="column1__buttons">
                         <button className={global.buttonPrimary} onClick={() => Router.push("/createPost")} aria-label="Crear nuevo post">Crear post</button>
-                        <button className={global.buttonPrimary} onClick={() => sortPost()} aria-label="Ordenar publicaciones">Ordenar por usuario</button>
-                        <div className="column1__search">
+                        <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label="Ordenar publicaciones por usuario">Ordenar por usuario</button>
+                        <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label="Ordenar publicaciones por likes">Ordenar por popularidad</button>
+                    </div>
+                      <div className="column1__search">
                           <div className="search__icon">
                             <RiSearchLine size={20} color={colors.primary}/>
                           </div>
@@ -76,34 +85,38 @@ export default function Home ({posts, users}){
                                 onKeyUp={(e) => searchPost(e)}
                                 onChange={(e) => setSearch(e.target.value)}
                                 />
-                        </div>
-                      </div>
-                      <h1 className={global.title}>Reciente</h1>
-                      {(isSorted && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
-                      {isSorted && postList.map(({_id, username, location, mediaUrl, description, comments}) => {
-                          return (
-                            <>
-                              <Post key={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
-                            </>
-                          )
-                        })}
-                      {(!isSorted && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
-                        {!isSorted && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt)}).map(({_id, username, location, mediaUrl, description, comments}) => {
-                          return (
-                            <>
-                              <Post key={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
-                            </>
-                          )
-                        })}
-                      
                     </div>
+                  <div className="container">
+                  
+                    <div className="container__column1">
+                     
+                      
+                      <h1 className={global.title}>Reciente</h1>
+                      {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
+                      {(isSortedByUsername || isSortedByLikes) && postList.map(({_id, username, location, mediaUrl, description, comments}) => {
+                          return (
+                            <>
+                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                            </>
+                          )
+                        })}
+                      {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
+                        {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt)}).map(({_id, username, location, mediaUrl, description, comments}) => {
+                          return (
+                            <>
+                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                            </>
+                          )
+                        })}
+                      </div>
+                    
                     <div className="container__column2">
                       <h1 className={global.title}>Seguir</h1>
                       {users.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
                       {users.filter(user => user.username !== (session.user.username)).slice(0,5).map(({_id, userImage, username, isCaretaker}) => {
                         return (
                           <>
-                            <User key={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
+                            <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
                           </>
                         )
                       })}
@@ -111,7 +124,7 @@ export default function Home ({posts, users}){
                         <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
                       </div>
                   </div>
-                </div>
+                  </div>
             
             <style jsx>{`
 
@@ -121,11 +134,20 @@ export default function Home ({posts, users}){
 
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;
+           
 
               }
 
-  
+              .container__column1{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: column;
+                width: 70%;
+
+              }
+
               .container__column2{
 
 
@@ -172,7 +194,6 @@ export default function Home ({posts, users}){
 
                 display: flex;
                 flex-direction: row;
-                align-items: center;
                 width: 20rem;
                 margin-left: 2rem;
 

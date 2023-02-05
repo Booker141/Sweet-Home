@@ -4,8 +4,9 @@ export default async function handler(req, res){
 
     const client = await clientPromise;
     const db = await client.db();
+    const body = req.body;
 
-    if(req.method == "GET"){
+    if(req.method === 'GET'){
 
         const data = await db.collection('users').find({}).limit(50).toArray();
         
@@ -14,9 +15,9 @@ export default async function handler(req, res){
         res.status(200).json(users);
     }
 
-    if(req.method == "POST"){
+    if(req.method === 'POST'){
         
-        let body = JSON.parse(req.body);
+        
 
         let data = await db.collection('users').insertOne(body);
 
@@ -24,6 +25,13 @@ export default async function handler(req, res){
 
         res.json(user.ops[0]);
 
+    }
+
+    if(req.method === 'DELETE'){
+
+        await db.collection('users').findOne({username: body.username}).removeOne();
+
+        res.status(200).json({message: "Usuario eliminado correctamente"});
     }
    
    

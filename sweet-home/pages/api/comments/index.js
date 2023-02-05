@@ -1,11 +1,15 @@
 import clientPromise from "../lib/MongoDB"
-
+import { ObjectId } from "mongodb";
 export default async function handler(req, res){
 
     const client = await clientPromise;
     const db = await client.db();
+    const body = req.body;
 
-    if(req.method == "GET"){
+    const user = await db.collection('users').findOne({username: body.username})
+
+   
+    if(req.method === 'GET'){
 
         const data = await db.collection('comments').find({}).limit(50).toArray();
         
@@ -14,15 +18,17 @@ export default async function handler(req, res){
         res.status(200).json(comments);
     }
 
-    if(req.method == "POST"){
+    if(req.method === 'POST'){
         
-        let body = JSON.parse(req.body);
-
-        let data = await db.collection('comments').insertOne(body);
+        
+        const data = await db.collection('comments').insertOne({description: body.description, username: body.username, userId: user._id, postId: ObjectId(body.postId)});
 
         let comment = JSON.parse(JSON.stringify(data));
 
-        res.json(comment.ops[0]);
+        console.log(comment);
+        
+        await db.collection('posts').updateOne({_id: ObjectId(body.postId)}, {$push: {comments: ObjectId(comment.insertedId)}})
+
 
     }
    

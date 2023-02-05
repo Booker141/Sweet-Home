@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {BsPatchCheckFill} from 'react-icons/bs'
 import { AiOutlineCheck } from "react-icons/ai"
 
@@ -9,7 +9,7 @@ import { AiOutlineCheck } from "react-icons/ai"
 export default function User(props){
 
     const [isFollowing, setIsFollowing] = useState(false);
-    const [isCaretaker, setIsCaretaker] = useState(props.isCaretaker);
+    const [isCaretaker, setIsCaretaker] = useState(false);
 
     console.log(props);
     console.log(isCaretaker);
@@ -22,6 +22,10 @@ export default function User(props){
         }
 
     }
+
+    useEffect(() => {
+        setIsCaretaker(props.isCaretaker);
+    }, [])
 
     return (
         <>
@@ -38,7 +42,13 @@ export default function User(props){
             </div>
             <style jsx>{`
 
+                
+                .user__image{
 
+                    /*Box model*/
+
+                    margin-left: 1rem;
+                }
                 .user__username{
 
                     /*Box model*/
@@ -73,6 +83,15 @@ export default function User(props){
                     /*Visuals*/
 
                     text-decoration: none;
+                }
+
+                button{
+
+                    /*Box model*/
+
+                    margin-right: 1rem;
+                    margin-top: 1rem;
+                    margin-bottom: 1rem;
                 }
             
             `}</style>

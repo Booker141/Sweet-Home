@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import {useState, useEffect} from 'react'
 import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf"
@@ -9,10 +10,14 @@ import {BsBookmark, BsBookmarkFill} from 'react-icons/bs'
 
 export default function Post(props){
 
+    const {data: session, status} = useSession();
     const [user, setUser] = useState({});
     const [comment, setComment] = useState("");
+    const [moreComments, setMoreComments] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [isActive2, setIsActive2] = useState(false);
+    const [isCaretaker, setIsCaretaker] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -24,24 +29,26 @@ export default function Post(props){
             })
             const user = await res.json();
             setUser(user);
+            setIsCaretaker(user.isCaretaker)
         }
         fetchUser();
     }, [])
 
-    console.log(user);
- 
+
     const Commentate = async (e) =>{
 
         e.preventDefault();
+        document.getElementById("comment").value = "";
             
-            const res = await fetch("http://localhost:3000/api/comments", {
-                method: "POST",
+            const res = await fetch('/api/comments', {
+                method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    postId: props._id,
-                    comment
+                    postId: props.id,
+                    description: comment,
+                    username: session.user.username
                 })
             })
     
@@ -74,7 +81,7 @@ export default function Post(props){
                     <div className="post__header">
                         <div className="header__user">
                             <img src={user.image}></img>
-                            <div className={global.title1}>
+                            <div className={global.text2__bold}>
                                 {user.username}
                             </div>
                         </div>
@@ -85,10 +92,10 @@ export default function Post(props){
                     <img src={props.mediaUrl}></img>
                     <div className="description">
                         <img src={user.image}></img>
-                        <p className={global.tertiary__bold}>
-                            {user.username}:
+                        <p className={global.tertiary2__bold}>
+                            @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary}/>}:
                         </p>
-                        <p className={global.tertiary}>
+                        <p className={global.tertiary2}>
                             {props.description}
                         </p>
                     </div>
@@ -97,6 +104,7 @@ export default function Post(props){
                             <input title="Escribir comentario"
                             type="text"
                             name="text"
+                            id="comment"
                             value= {comment}
                             required
                             onChange={(e) => setComment(e.target.value)}
@@ -106,23 +114,36 @@ export default function Post(props){
                         </div>
                         <div className="post__icons">
                             <div className="like">
-                                <a className="like--status" onClick={() => Like()}>{isActive ? <IoPaw size={20} color={colors.primary}/> : <IoPawOutline size={20} color={colors.primary}/> }</a>
+                                <a className="like--status" onClick={() => Like()}>{isActive ? <IoPaw size={20} color={colors.secondary}/> : <IoPawOutline size={20} color={colors.secondary}/> }</a>
                             </div>
                             <div className="save">
-                                <a className="save--status" onClick={() => Save()}>{isActive2 ? <BsBookmarkFill size={20} color={colors.primary}/> : <BsBookmark className="bookmark1" size={20} color={colors.primary}/>}</a>
+                                <a className="save--status" onClick={() => Save()}>{isActive2 ? <BsBookmarkFill size={20} color={colors.secondary}/> : <BsBookmark className="bookmark1" size={20} color={colors.secondary}/>}</a>
                             </div>
                         </div>
                     </div>
                     <div className="comment__container">
-                        <p className={global.tertiary__bold}>Comentarios</p>
-                    
-                        {props.comments.map(({_id, username, comment}) => {
+                        <p className={global.tertiary2__bold}>Comentarios</p>
+                        <hr className={global.line}/>
+                        {props.comments.length === 0 && <p className={global.text}>No hay ningún comentario</p>}
+                        {props.comments.slice(0, 3).map((id) => {
                             return (
                                 <>
-                                    <Comment key={_id} username={username} comment={comment}/>
+                                    <Comment id={id}/>
                                 </>
                             )
                         })}
+                        {props.comments.length >= 3 && isVisible === false && <button className="button__see" onClick={() => {setMoreComments(!moreComments);
+                                                                                                        setIsVisible(!isVisible)}}>Ver más..</button>}
+                                                   
+                        {moreComments && props.comments.slice(3, props.comments.length).map((id) => {
+                            return (
+                                <>
+                                    <Comment id={id}/>
+                                </>
+                            )
+                        })}
+                        { isVisible === true && <button className="button__see" onClick={() => {setMoreComments(!moreComments);
+                                                                                                        setIsVisible(!isVisible)}}>Ver menos..</button>}    
                     </div>
                     </div>
                 </div>
@@ -161,7 +182,6 @@ export default function Post(props){
 
                     /*Visuals*/
 
-                    background-color: #fff;
                     border-radius: 5px;
                 }
 
@@ -172,7 +192,7 @@ export default function Post(props){
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    justify-content: center;
+                    justify-content: flex-start;
                     margin-bottom: 1rem;
                     margin-top: 1rem;
 
@@ -204,6 +224,13 @@ export default function Post(props){
 
                 }
 
+                .header__user > div{
+
+                    /*Box model*/
+
+                    margin-right: 1rem;
+                }
+
                 .description{
 
                     /*Box model*/
@@ -213,6 +240,7 @@ export default function Post(props){
                     align-items: flex-start;
                     margin-top: 1rem;
                     margin-bottom: 1rem;
+
                     /*Visuals*/
 
                     background-color: white;
@@ -246,7 +274,13 @@ export default function Post(props){
 
                      /*Box model*/
 
-                    width: 70%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    align-items: center;
+                    gap: 1rem;
+
+                    width: 100%;
                     height: 2rem;
                     margin-right: 5rem;
                     
@@ -280,8 +314,56 @@ export default function Post(props){
 
                 }
 
+                .button__see{
 
-                
+                    /*Box model*/
+
+                    margin-left: 1rem;
+                    margin-bottom: 1rem;
+                    margin-top: 1rem;
+
+                    /*Text*/
+
+                    font-size: 1rem;
+                    font: ${fonts.default};
+                    color: ${colors.primary};
+
+                    /*Visuals*/
+
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    transition: 0.5s ease all;
+                }
+
+                .button__see:hover{
+
+                    /*Visuals*/
+
+                    color: ${colors.tertiary};
+
+                }
+
+
+                input[type="text"]{
+
+                    /*Box model*/
+
+                    width: 24rem;
+                    height: 2rem;
+                    margin-right: 1rem;
+
+                    /*Text*/
+
+                    font-family: ${fonts.default};
+                    font-size: 1rem;
+
+                    /*Visuals*/
+
+                    border-radius: 5px;
+                    border: 1px solid ${colors.primary};
+                }
+
                 a{
 
                     /*Misc*/
@@ -289,6 +371,15 @@ export default function Post(props){
                     cursor: pointer;
 
                 }
+
+                hr{
+
+                    /*Box model*/
+
+                    width: 100%;
+                }
+
+               
 
 
             

@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { useSession, signOut} from "next-auth/react"
 import {useRouter} from 'next/router'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import global from "styles/global.module.css"
 import {colors} from "/styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import {FaUserAlt , FaSignOutAlt, FaSearch} from 'react-icons/fa'
 import {RiChat3Line, RiSearchLine, RiSettings4Fill} from 'react-icons/ri'
+import { BsPatchCheckFill} from 'react-icons/bs'
 import {VscBell, VscBellDot} from 'react-icons/vsc'
 import {MdOutlineChatBubbleOutline, MdOutlineMarkChatUnread} from 'react-icons/md'
 import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
@@ -40,11 +41,17 @@ export default function Header(props){
     
     const {data: session} = useSession();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    
+    const [isCaretaker, setIsCaretaker] = useState(false);
+
     const router = useRouter();
     console.log(session);
 
- 
+    
+    useEffect(() => { 
+        if (session){
+            setIsCaretaker(session.user.isCaretaker);
+        }
+    }, [])
    
    
     /**
@@ -79,7 +86,7 @@ export default function Header(props){
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
                         <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'><MdOutlineChatBubbleOutline /></a></Link></li>
                         <li><Link href="/notifications" as="/notifications"><a aria-label='Ir a Notificaciones'><VscBell /></a></Link></li>
-                        <li className="menu-visible"><a id="profile">@{session.user.username} ▽</a>
+                        <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
                                 <hr className="line"/>
@@ -107,7 +114,7 @@ export default function Header(props){
                     /*Box model*/
 
                     margin-bottom: 1rem;
-
+                    
                     /*Text*/
 
                     text-decoration: none;

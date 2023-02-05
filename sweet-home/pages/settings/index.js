@@ -7,6 +7,7 @@ import {FaUserPlus, FaBirthdayCake} from "react-icons/fa"
 import {AiFillPhone} from "react-icons/ai"
 import {BsGenderAmbiguous, BsFillFileTextFill} from "react-icons/bs"
 import Layout from "/components/Layout/Layout"
+import Modal from "/components/Modal/Modal"
 
 export default function Settings(){
 
@@ -15,6 +16,7 @@ export default function Settings(){
     const [phone, setPhone] = useState("");
     const [biography, setBiography] = useState("");
     const [birthdate, setBirthdate] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [maxDate, setMaxDate] = useState("");
     const [gender, setGender] = useState("");
     const [message, setMessage] = useState("");
@@ -30,17 +32,36 @@ export default function Settings(){
         return maxDate;
 
     }
+
+    const deleteAccount = async (e) => {
+
+      e.preventDefault();
+
+        await fetch('/api/users', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: sessionStorage.user.username
+            })
+        }).catch(err => console.log(err));
+
+            setMessage("Se ha eliminado la cuenta correctamente");
+            router.push("/");
+    }
+
       const handleClick = (e) => {
 
         const edit = document.querySelector('.form-page');
         const saved = document.querySelector('.saved');
-        const settings = document.querySelector('.settings');
+        const complaints = document.querySelector('.complaints');
 
         if(e === 'Editar'){
             const button = document.querySelector('#edit');
-            edit.style.display = 'flex';
+            edit.style.display = 'block';
             saved.style.display = 'none';
-            settings.style.display = 'none';
+            complaints.style.display = 'none';
             button.addEventListener("click", () =>{
                 button.focus();
             })
@@ -49,19 +70,19 @@ export default function Settings(){
             const button = document.querySelector('#saved');
             edit.style.display = 'none';
             saved.style.display = 'flex';
-            settings.style.display = 'none';
+            complaints.style.display = 'none';
             button.addEventListener("click", () =>{
                 button.focus();
             })
-        }else if(e === 'Ajustes'){
-            const button = document.querySelector('#settings');
-            edit.style.display = 'none';
-            saved.style.display = 'none';
-            settings.style.display = 'flex';
-            button.addEventListener("click", () =>{
-                button.focus();
-            })
-        }
+        }else if(e === 'Denuncias'){
+          const button = document.querySelector('#complaints');
+          edit.style.display = 'none';
+          saved.style.display = 'none';
+          complaints.style.display = 'flex';
+          button.addEventListener("click", () =>{
+              button.focus();
+          })
+      }
     }
 
     const edit = () => {
@@ -77,7 +98,7 @@ export default function Settings(){
               <nav className="settings__links">
                   <button id="edit" className="config__style" onClick={() => handleClick("Editar")} aria-label="Ir a Editar Perfil">Editar perfil</button>
                   <button id="saved" className="config__style" onClick={() => handleClick("Guardados")} aria-label="Ir a Guardados">Guardados</button>
-                  <button id="settings" className="config__style" onClick={() => handleClick("Ajustes")} aria-label="Ir a Ajustes">Ajustes</button>
+                  <button id="complaints" className="config__style" onClick={() => handleClick("Denuncias")} aria-label="Ir a Denuncias">Denuncias</button>
               </nav>
 
               <div className="form-page">
@@ -165,11 +186,20 @@ export default function Settings(){
                       onChange={(e) => setBirthdate(e.target.value)}
                     ></input>
                   </div>
-                  <button className={global.buttonPrimary} ><a href="/changePassword" title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">Cambiar contraseña</a></button>   
+                  <button className={global.buttonPrimary} ><a href="/changePassword" title="Ir a la página para cambiar la contraseña" aria-label="Ir a cambiar contraseña">Cambiar contraseña</a></button>  
+                  <button className={global.buttonDelete} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button> 
                   <button className={global.buttonPrimary} ><a href="/myprofile/pets" title="Ir a la página para añadir mascotas" aria-label="Ir a cambiar contraseña">Añadir mascotas</a></button> 
                 </form>
                 <div className={global.error}>{message}</div>
                 <button className={global.buttonPrimary} onClick={(e) => edit(e)}>Guardar</button>
+                {isModalVisible && <Modal>
+                    <h2 className={global.title3}>Eliminar cuenta</h2>
+                    <p className={global.text2}>¿Estás seguro de que quieres eliminar tu cuenta?</p>
+                            <div className="buttons">
+                                    <button className={global.buttonSecondary} onClick={(e) => deleteAccount(e)}>Sí</button>
+                                    <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+                            </div>
+              </Modal>}
               </div>
 
               <div className="saved">
@@ -178,11 +208,6 @@ export default function Settings(){
                 </div>
               </div>
 
-              <div className="settings">
-                <h1 className={global.title}>Ajustes</h1>
-                <div className="settings__content">
-                </div>
-              </div>
               <div className="complaints">
                 <h1 className={global.title}>Denuncias</h1>
                 <div className="complaints__content">
@@ -403,13 +428,6 @@ export default function Settings(){
 
             }
 
-            .settings{
-
-              /*Box model*/
-
-              display: none;
-
-            }
 
             .saved{
 
@@ -554,5 +572,5 @@ export default function Settings(){
     )
 
 
-
+              
 }
