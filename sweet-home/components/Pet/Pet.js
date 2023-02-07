@@ -1,25 +1,29 @@
+import global from "../../styles/global.module.css"
 
 
-
-export default function Pet(){
+export default function Pet(props){
 
     return(
         <>
-            <div className="pet">
+            <div className={global.pet}>
                 <div className="pet__header">
                     <div className="pet__image">
+                        {props.image}
                     </div>
                     <div className="pet__info">
                         <div className="pet__name">
-                            <h1>Nombre</h1>
+                            <h1 className={global.title2}>Nombre: {props.name}</h1>
                         </div>
                         <div className="pet__age">
-                            <h1>Edad</h1>
+                            <p className={global.text2}>Año de nacimiento: {props.birthYear}</p>
                         </div>
                     </div>
                 </div>
-                <div className="pet__description">
-                    <h1>Descripción</h1>
+                <div className="pet__owner">
+                    <p className={global.text2}>Dueño: {props.ownerUsername}</p>
+                </div>
+                <div className="pet__weight">
+                    <p className={global.text2}>Peso: {props.weight}</p>
                 </div>
             </div> 
         </>

@@ -7,7 +7,9 @@ import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf"
 import {fonts} from "styles/frontend-conf"
 import {RiSearchLine} from "react-icons/ri"
+import {HiOutlineRefresh} from "react-icons/hi"
 import Layout from "components/Layout/Layout"
+import BasicFooter from "components/BasicFooter/BasicFooter"
 import Post from "components/Post/Post"
 import User from "components/User/User"
 
@@ -33,6 +35,11 @@ export default function Home ({posts, users}){
   const [isSortedByLikes, setIsSortedByLikes] = useState(false);
   const Router = useRouter();
 
+  const refresh = () => {
+
+
+
+  }
   const sortPostByUsername = () => {
     setIsSortedByUsername(!isSortedByUsername);
     const sortedPosts = posts.sort((a,b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
@@ -90,41 +97,57 @@ export default function Home ({posts, users}){
                   
                     <div className="container__column1">
                      
-                      
-                      <h1 className={global.title}>Reciente</h1>
+                      <div className="column1__header">
+                        <h1 className={global.title}>Reciente</h1>
+                        <button className="refresh__button" onClick={() => refresh()}><HiOutlineRefresh size={30} color={colors.primary}/></button>
+                      </div>
                       {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
-                      {(isSortedByUsername || isSortedByLikes) && postList.map(({_id, username, location, mediaUrl, description, comments}) => {
+                      {(isSortedByUsername || isSortedByLikes) && postList.map(({_id, username, location, mediaUrl, description, comments, likes, saves}) => {
                           return (
                             <>
-                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves}/>
                             </>
                           )
                         })}
                       {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
-                        {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt)}).map(({_id, username, location, mediaUrl, description, comments}) => {
+                        {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt)}).map(({_id, username, location, mediaUrl, description, comments, likes, saves}) => {
                           return (
                             <>
-                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments}/>
+                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves}/>
                             </>
                           )
                         })}
                       </div>
                     
                     <div className="container__column2">
-                      <h1 className={global.title}>Seguir</h1>
-                      {users.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-                      {users.filter(user => user.username !== (session.user.username)).slice(0,5).map(({_id, userImage, username, isCaretaker}) => {
-                        return (
-                          <>
-                            <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
-                          </>
-                        )
-                      })}
-                      <div className="users__link">
-                        <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
+                      <div className="column2__follow">
+                        <h1 className={global.title}>Seguir</h1>
+                        {users.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+                        {users.filter(user => user.username !== (session.user.username)).slice(0,5).map(({_id, userImage, username, isCaretaker}) => {
+                          return (
+                            <>
+                              <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
+                            </>
+                          )
+                        })}
+                        <div className="users__link">
+                          <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
+                        </div>
                       </div>
+                      <div className="footer">
+                        <div className="footer__links">
+                          <Link className={global.link} href="/use" passHref><a aria-label='Ir a Información'>Información</a></Link>
+                          <Link className={global.link} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
+                          <Link className={global.link} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
+                          <Link className={global.link} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
+                          <Link className={global.link} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
+                        <div className="copyright">
+                          <p>&copy; 2022 Sweet Home Corporation</p>
+                      </div>
+                </div>
+            </div>
                   </div>
-                  </div>
+                </div>
             
             <style jsx>{`
 
@@ -138,6 +161,62 @@ export default function Home ({posts, users}){
 
               }
 
+              .footer{
+
+                /*Box model*/ 
+
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+              }
+
+              .footer__links{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+
+                    gap: 1rem;
+                    align-items: center;
+                    
+
+
+                }
+
+                .footer__links a{
+
+                  /*Text*/
+
+                  font-family: ${fonts.default};
+                  text-decoration: none;
+                  color: ${colors.primary};
+
+                }
+
+                .footer__links a:hover{
+
+                  /*Text*/
+
+                  font-family: ${fonts.default};
+                  color: ${colors.tertiary};
+                  transition: 0.3s ease all;
+
+                }
+
+                .copyright{
+
+                  /*Text*/
+
+                  font-family: ${fonts.default};
+                  text-decoration: none;
+                  color: ${colors.primary};
+
+                }
+
               .container__column1{
 
                 /*Box model*/
@@ -146,6 +225,16 @@ export default function Home ({posts, users}){
                 flex-direction: column;
                 width: 70%;
 
+              }
+
+              .column1__header{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                align-items: center;
               }
 
               .container__column2{
@@ -157,6 +246,15 @@ export default function Home ({posts, users}){
                 flex-direction: column;
                 width: 30%;
 
+              }
+
+              .column2__follow{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 3rem;
               }
 
 
@@ -188,14 +286,23 @@ export default function Home ({posts, users}){
 
               }
 
+              .refresh__button{
+
+                /*Visuals*/
+
+                background: transparent;
+                border: none;
+                cursor: pointer;
+
+              }
+
               .column1__search{
 
                 /*Box model*/
 
                 display: flex;
                 flex-direction: row;
-                width: 20rem;
-                margin-left: 2rem;
+                width: 26rem;
 
               }
 

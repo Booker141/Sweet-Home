@@ -9,7 +9,7 @@ export default function Notification(props){
     return(
         <>
             <div className="notification">
-                <div className="notification__user">
+                <div className="notification__userFrom">
                     <img src={props.user.image}></img>
                     <div className={global.text2__bold}>
                         {props.user.username}

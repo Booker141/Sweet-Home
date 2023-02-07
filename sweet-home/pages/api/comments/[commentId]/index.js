@@ -21,6 +21,16 @@ export default async function handler(req, res){
         res.status(200).json(comment);
 
     }
+
+    if(req.method === 'DELETE'){
+
+        const comment = await db.collection('comments').findOne({_id: ObjectId(req.query.commentId)});
+
+        await db.collection('posts').updateOne({_id: ObjectId(comment.postId)},{$pull: {comments: [{_id: ObjectId(req.query.commentId)}]}});
+
+        await db.collection('comments').deleteOne({_id: ObjectId(req.query.commentId)});
+        res.status(200).json({message: "Comentario eliminado"});
+    }
    
     
 }

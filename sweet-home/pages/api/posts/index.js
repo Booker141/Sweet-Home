@@ -20,7 +20,7 @@ export default async function handler(req, res){
     if(req.method === 'POST'){
         
         
-        await db.collection('posts').insertOne({location: body.location, description: body.description, comments: [], likes: [], userId: user._id, username: body.username, createdAt: new Date(), image: ""});
+        await db.collection('posts').insertOne({location: body.location, description: body.description, comments: [], likes: [], saves: [], userId: user._id, username: body.username, createdAt: new Date(), image: ""});
 
         res.status(201).json({message: 'Creada con éxito.'});
         
