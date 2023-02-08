@@ -76,7 +76,7 @@ export default function Post(props){
 
     const deletePost = async () => {
 
-        const res = await fetch(`/api/posts/${props.id}`, {
+        const res = await fetch(`/api/posts/${session.user.username}/${props.id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"

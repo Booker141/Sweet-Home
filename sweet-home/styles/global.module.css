@@ -53,6 +53,16 @@
   color: #fafafa;
 }
 
+.secondary3 {
+  /*Text*/
+
+  font-family: "Raleway", sans-serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #fafafa;
+}
+
+
 .tertiary {
   /*Text*/
 
@@ -226,6 +236,27 @@
 
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
 
+}
+
+.typeAttendance{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  width: 55rem;
+  margin-bottom: 2rem;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+
+  /*Visuals*/
+
+  border-radius: 10px;
+  border: 1px solid #f0810f;
 }
 
 .user{

@@ -329,6 +329,8 @@ export const authOptions = {
           };
         }
 
+        console.log(token);
+
         return Promise.resolve(token);
 
       },

@@ -142,7 +142,7 @@ export default function Home ({posts, users}){
                           <Link className={global.link} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
                           <Link className={global.link} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className="copyright">
-                          <p>&copy; 2022 Sweet Home Corporation</p>
+                          <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
                       </div>
                 </div>
             </div>

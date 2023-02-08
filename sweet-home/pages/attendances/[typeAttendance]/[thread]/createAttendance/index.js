@@ -1,30 +1,25 @@
-import global from '../../styles/global.module.css';
-import {colors} from '../../styles/frontend-conf';
-import {useSession} from 'next-auth/react';
-import {useRouter} from 'next/router';
-import Layout from '../../components/Layout/Layout';
-import Head from 'next/head';
-import {useState} from 'react';
+import {useSession} from 'next-auth/react'
+import global from '../../../../styles/global.module.css'
+import Layout from '../../../../components/Layout'
+import Head from 'next/head'
 
 
-export default function Dashboard(){
+
+export default function createAttendance(){
 
     const {data: session, status} = useSession({required: true});
 
     if(status == "loading"){
         return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
     }
-    if(session.user.role === "admin"){
+    if(session){
         return(
-            <>
-                <Layout>
-                    <Head>
-                        <title>Panel</title>
-                    </Head>
-                    <h1 className={global.title}>Panel de administración</h1>
-                    <p className={global.text}>Bienvenido a tu dashboard</p>
-                </Layout>
-            </>
+            <Layout>
+                <Head>
+                    <title>Crear publicación de cuidado</title>
+                </Head>
+                <h1 className={global.title}>Crear publicación de cuidado</h1>
+            </Layout>
         )
     }else {
         return(
@@ -32,7 +27,7 @@ export default function Dashboard(){
                 <>
                     <div className={global.content}>
                         <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe ser administrador</h1>
+                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
                             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
                         </div>
                     </div>
@@ -57,4 +52,5 @@ export default function Dashboard(){
         )
       
       }
+    
 }

@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import global from "styles/global.module.css"
 import Layout from "/components/Layout/Layout"
+import {useState} from 'react'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router';
+import TypeAttendance from 'components/TypeAttendance/TypeAttendance';
 
 
 
@@ -19,10 +21,27 @@ import {useRouter} from 'next/router';
  * @returns the Layout component, which is a wrapper for the Header, Footer and the content of the
  * page.
  */
-export default function Attendances({attendances}) {
+export default function Attendances({typeAttendance}) {
 
         const {data: session, status} = useSession({required: true});
+
+        const [isSorted, setIsSorted] = useState(false);
+        const [sortedAttendance, setSortedAttendance] = useState(typeAttendance);
         const Router = useRouter();
+
+        const sortAttendanceByName = () => {
+            const sortedAttendance = typeAttendance.sort((a, b) => {
+                if(a.name > b.name){
+                    return 1;
+                }
+                if(a.name < b.name){
+                    return -1;
+                }
+                return 0;
+            })
+            setIsSorted(!isSorted);
+            setSortedAttendance(sortedAttendance);
+        }
 
         if(status == "loading"){
           return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
@@ -34,11 +53,20 @@ export default function Attendances({attendances}) {
                         <title>Cuidados</title>
                     </Head>
                     <h1 className={global.title}>Foro de cuidados</h1>
-                      {attendances.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-                      {attendances.map(({_id, location, description, animal, type, image, userId, breed, comments, username}) => {
+                      <h2 className={global.title2}>Categorías</h2>
+                      <button className={global.buttonPrimary} onClick={() => sortAttendanceByName()} aria-label="Ordenar categorías por nombre">Ordenar por nombre</button>
+                      {typeAttendance.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+                      {isSorted && sortedAttendance.map(({_id, name, description, urlName}) => {
                           return (
                             <>
-                              <Attendance key={_id} id={_id} location={location} description={description} animal={animal} type={type} image={image} userId={userId} breed={breed} comments={comments} username={username}/>
+                              <TypeAttendance key={_id} name={name} description={description} urlName={urlName} />
+                            </>
+                          )
+                        })}
+                      {!isSorted && typeAttendance.map(({_id, name, description, urlName}) => {
+                          return (
+                            <>
+                              <TypeAttendance key={_id} name={name} description={description} urlName={urlName} />
                             </>
                           )
                         })}
@@ -81,18 +109,18 @@ export default function Attendances({attendances}) {
 
 export async function getServerSideProps() {
 
-    const res = await fetch('http://localhost:3000/api/attendances', {
+    const res = await fetch('http://localhost:3000/api/typeAttendance', {
       method: "GET",
       headers: {
           "Content-Type": "application/json"
       }
     });
 
-    const attendances = await res.json();
+    const typeAttendance = await res.json();
 
     return {
         props: {
-            attendances: JSON.parse(JSON.stringify(attendances))
+            typeAttendance: JSON.parse(JSON.stringify(typeAttendance))
         }
     }
 }

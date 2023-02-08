@@ -75,7 +75,9 @@ export default function Header(props){
 
     if (session){
         return(    
-            <>
+            <>  
+                {session.user.role === "usuario" &&
+
                     <ul className="header">
                         
                         <div className="logo">
@@ -94,7 +96,49 @@ export default function Header(props){
                                 <hr className="line"/>
                                 <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
                             
-                    </ul> 
+                    </ul> }
+
+                {session.user.role === "admin" &&
+
+                    <ul className="header">
+                        
+                        <div className="logo">
+                            <li><TrademarkWhite link="/"/></li>
+                        </div>
+                        <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
+                        <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+                        <li><Link href="/news" as="/news"><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
+                        <li><Link href="/dashboard" as="/dashboard"><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
+                        <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
+                            <ul className="menu">
+                                <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
+                                <hr className="line"/>
+                                <li className="nav__link"><Link href="/settings"><a><div className="align__link">Configuración<div className="nav__icon"><RiSettings4Fill size={20} color={colors.secondary}/></div></div></a></Link></li>
+                                <hr className="line"/>
+                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
+                            
+                    </ul> }
+
+                {session.user.role === "gerente" &&
+
+                    <ul className="header">
+                        
+                        <div className="logo">
+                            <li><TrademarkWhite link="/"/></li>
+                        </div>
+                        <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
+                        <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
+                        <li><Link href="/statistics" as="/statistics"><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
+                        <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
+                            <ul className="menu">
+                                <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
+                                <hr className="line"/>
+                                <li className="nav__link"><Link href="/settings"><a><div className="align__link">Configuración<div className="nav__icon"><RiSettings4Fill size={20} color={colors.secondary}/></div></div></a></Link></li>
+                                <hr className="line"/>
+                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
+                            
+                    </ul> }
 
             {isModalVisible && <Modal>
                     <h2 className={global.title3}>Cerrar sesión</h2>
