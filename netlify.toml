@@ -1,0 +1,15 @@
+[build.environment]
+
+MONGODB_USERNAME = "sweethome"
+MONGODB_PASSWORD = "admin"
+MONGODB_DATABASE = "SweetHomeDB"
+MONGODB_URI = "mongodb+srv://$MONGODB_USERNAME:$MONGODB_PASSWORD@sweet-home-app.rsywk.mongodb.net/$MONGODB_DATABASE?retryWrites=true&w=majority"
+
+GOOGLE_CLIENT_ID = "206407394620-amc8dh9btdne9eu3rak1mraqqdplv4cn.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
+
+TWITTER_ID = "Y20zNE9YcS1NNkZHYXNsQWdTMTg6MTpjaQ"
+TWITTER_SECRET = "oMWiRJygbM09bleIIM90NzPH3sCPxAYtBVFg9yxcDPrWJp_dy8"
+
+NEXT_AUTH_URL = "http://localhost:3000"
+NEXT_AUTH_SECRET = "Ed28hD+TRTuWTODgeNV8m1AOe7yRRoI1j7wfc2NESt4="
