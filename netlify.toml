@@ -1,4 +1,5 @@
-[build.environment]
+
+[[context.production.environment]]
 
 MONGODB_USERNAME = "sweethome"
 MONGODB_PASSWORD = "admin"
