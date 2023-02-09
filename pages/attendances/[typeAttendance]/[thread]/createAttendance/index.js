@@ -4,9 +4,9 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {MdLocationOn} from 'react-icons/md'
 import {BsImageFill, BsFillChatLeftTextFill} from 'react-icons/bs'
-import {colors} from '../../styles/frontend-conf'
-import {fonts} from '../../styles/frontend-conf'
-import global from '../../styles/global.module.css'
+import {colors} from '/styles/frontend-conf'
+import {fonts} from '/styles/frontend-conf'
+import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 
 

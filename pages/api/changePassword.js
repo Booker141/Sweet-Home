@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import Users from '../../models/User';
 import clientPromise from '/lib/MongoDB'
 
 export default async function handler(req, res) {

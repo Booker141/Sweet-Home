@@ -2,8 +2,8 @@ import Head from 'next/head';
 import {useRouter} from 'next/router'
 import {useSession} from 'next-auth/react'
 import {useState} from 'react';
-import global from '../../../styles/global.module.css';
-import Layout from '../../../components/Layout/Layout';
+import global from '/styles/global.module.css';
+import Layout from '/components/Layout/Layout';
 
 
 export default function Thread({attendances}){

@@ -2,8 +2,8 @@ import {useSession} from "next-auth/react"
 import {useState, useEffect} from 'react'
 import Head from 'next/head'
 import global from "styles/global.module.css"
-import Layout from "components/Layout/Layout"
-import Following from "components/Follower/Follower"
+import Layout from "/components/Layout/Layout"
+import Following from "/components/Following/Following"
 
 
 export default function Following({user}) {

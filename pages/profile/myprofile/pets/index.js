@@ -1,9 +1,9 @@
 import { useSession } from 'next-auth/react'
 import { useEffect, useState} from 'react'
 import Head from 'next/head'
-import Layout from "../../../../components/Layout/Layout"
-import Pet from "../../../../components/Pet/Pet"
-import global from "../../../styles/global.module.css"
+import Layout from "/components/Layout/Layout"
+import Pet from "/components/Pet/Pet"
+import global from "/styles/global.module.css"
 
 export default function Pets(){
 

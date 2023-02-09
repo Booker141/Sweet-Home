@@ -1,6 +1,6 @@
-import Layout from '../../../components/Layout/Layout'
+import Layout from '/components/Layout/Layout'
 import Head from 'next/head'
-import global from '../../../styles/global.module.css'
+import global from '/styles/global.module.css'
 import {useSession} from 'next-auth/react'
 export default function Statistics(){
     
