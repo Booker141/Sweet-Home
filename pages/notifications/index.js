@@ -1,5 +1,5 @@
 import {useSession} from 'next-auth/react'
-import global from "/styles/frontend-conf"
+import global from "/styles/global.module.css"
 import {colors} from "/styles/frontend-conf"
 import {fonts} from "/styles/frontend-conf"
 import Layout from 'components/Layout/Layout'
