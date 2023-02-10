@@ -1,100 +1,45 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (() => {
 var exports = {};
-exports.id = 9470;
-exports.ids = [9470,6450];
+exports.id = "pages/api/comments/[commentId]";
+exports.ids = ["pages/api/comments/[commentId]"];
 exports.modules = {
 
-/***/ 8013:
+/***/ "mongodb":
+/*!**************************!*\
+  !*** external "mongodb" ***!
+  \**************************/
 /***/ ((module) => {
 
 module.exports = require("mongodb");
 
 /***/ }),
 
-/***/ 1725:
+/***/ "(api)/./pages/api/comments/[commentId]/index.js":
+/*!*************************************************!*\
+  !*** ./pages/api/comments/[commentId]/index.js ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ handler)
-/* harmony export */ });
-/* harmony import */ var _lib_MongoDB__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2536);
-/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8013);
-/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_1__);
-
-
-async function handler(req, res) {
-    const client = await _lib_MongoDB__WEBPACK_IMPORTED_MODULE_0__["default"];
-    const db = await client.db();
-    console.log(req.query.commentId);
-    if (req.method === "GET") {
-        const data = await db.collection("comments").findOne({
-            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)
-        });
-        console.log(data);
-        const user = await db.collection("users").findOne({
-            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(data.userId)
-        });
-        console.log(user);
-        const comment = {
-            ...data,
-            ...user
-        };
-        res.status(200).json(comment);
-    }
-    if (req.method === "DELETE") {
-        const comment1 = await db.collection("comments").findOne({
-            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)
-        });
-        await db.collection("posts").updateOne({
-            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(comment1.postId)
-        }, {
-            $pull: {
-                comments: [
-                    {
-                        _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)
-                    }
-                ]
-            }
-        });
-        await db.collection("comments").deleteOne({
-            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)
-        });
-        res.status(200).json({
-            message: "Comentario eliminado"
-        });
-    }
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\n/* harmony import */ var _lib_MongoDB__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../lib/MongoDB */ \"(api)/./pages/api/lib/MongoDB.js\");\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mongodb */ \"mongodb\");\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_1__);\n\n\nasync function handler(req, res) {\n    const client = await _lib_MongoDB__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n    const db = await client.db();\n    console.log(req.query.commentId);\n    if (req.method === \"GET\") {\n        const data = await db.collection(\"comments\").findOne({\n            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)\n        });\n        console.log(data);\n        const user = await db.collection(\"users\").findOne({\n            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(data.userId)\n        });\n        console.log(user);\n        const comment = {\n            ...data,\n            ...user\n        };\n        res.status(200).json(comment);\n    }\n    if (req.method === \"DELETE\") {\n        const comment1 = await db.collection(\"comments\").findOne({\n            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)\n        });\n        await db.collection(\"posts\").updateOne({\n            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(comment1.postId)\n        }, {\n            $pull: {\n                comments: [\n                    {\n                        _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)\n                    }\n                ]\n            }\n        });\n        await db.collection(\"comments\").deleteOne({\n            _id: (0,mongodb__WEBPACK_IMPORTED_MODULE_1__.ObjectId)(req.query.commentId)\n        });\n        res.status(200).json({\n            message: \"Comentario eliminado\"\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvY29tbWVudHMvW2NvbW1lbnRJZF0vaW5kZXguanMuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUE2QztBQUNWO0FBRXBCLGVBQWVFLE9BQU8sQ0FBQ0MsR0FBRyxFQUFFQyxHQUFHLEVBQUM7SUFFM0MsTUFBTUMsTUFBTSxHQUFHLE1BQU1MLG9EQUFhO0lBQ2xDLE1BQU1NLEVBQUUsR0FBRyxNQUFNRCxNQUFNLENBQUNDLEVBQUUsRUFBRTtJQUU1QkMsT0FBTyxDQUFDQyxHQUFHLENBQUNMLEdBQUcsQ0FBQ00sS0FBSyxDQUFDQyxTQUFTLENBQUMsQ0FBQztJQUVqQyxJQUFHUCxHQUFHLENBQUNRLE1BQU0sS0FBSyxLQUFLLEVBQUM7UUFFcEIsTUFBTUMsSUFBSSxHQUFHLE1BQU1OLEVBQUUsQ0FBQ08sVUFBVSxDQUFDLFVBQVUsQ0FBQyxDQUFDQyxPQUFPLENBQUM7WUFBQ0MsR0FBRyxFQUFFZCxpREFBUSxDQUFDRSxHQUFHLENBQUNNLEtBQUssQ0FBQ0MsU0FBUyxDQUFDO1NBQUMsQ0FBQztRQUUxRkgsT0FBTyxDQUFDQyxHQUFHLENBQUNJLElBQUksQ0FBQyxDQUFDO1FBRWxCLE1BQU1JLElBQUksR0FBRyxNQUFNVixFQUFFLENBQUNPLFVBQVUsQ0FBQyxPQUFPLENBQUMsQ0FBQ0MsT0FBTyxDQUFDO1lBQUNDLEdBQUcsRUFBRWQsaURBQVEsQ0FBQ1csSUFBSSxDQUFDSyxNQUFNLENBQUM7U0FBQyxDQUFDO1FBRS9FVixPQUFPLENBQUNDLEdBQUcsQ0FBQ1EsSUFBSSxDQUFDLENBQUM7UUFDbEIsTUFBTUUsT0FBTyxHQUFHO1lBQUMsR0FBR04sSUFBSTtZQUFFLEdBQUdJLElBQUk7U0FBQztRQUNsQ1osR0FBRyxDQUFDZSxNQUFNLENBQUMsR0FBRyxDQUFDLENBQUNDLElBQUksQ0FBQ0YsT0FBTyxDQUFDLENBQUM7SUFFbEMsQ0FBQztJQUVELElBQUdmLEdBQUcsQ0FBQ1EsTUFBTSxLQUFLLFFBQVEsRUFBQztRQUV2QixNQUFNTyxRQUFPLEdBQUcsTUFBTVosRUFBRSxDQUFDTyxVQUFVLENBQUMsVUFBVSxDQUFDLENBQUNDLE9BQU8sQ0FBQztZQUFDQyxHQUFHLEVBQUVkLGlEQUFRLENBQUNFLEdBQUcsQ0FBQ00sS0FBSyxDQUFDQyxTQUFTLENBQUM7U0FBQyxDQUFDO1FBRTdGLE1BQU1KLEVBQUUsQ0FBQ08sVUFBVSxDQUFDLE9BQU8sQ0FBQyxDQUFDUSxTQUFTLENBQUM7WUFBQ04sR0FBRyxFQUFFZCxpREFBUSxDQUFDaUIsUUFBTyxDQUFDSSxNQUFNLENBQUM7U0FBQyxFQUFDO1lBQUNDLEtBQUssRUFBRTtnQkFBQ0MsUUFBUSxFQUFFO29CQUFDO3dCQUFDVCxHQUFHLEVBQUVkLGlEQUFRLENBQUNFLEdBQUcsQ0FBQ00sS0FBSyxDQUFDQyxTQUFTLENBQUM7cUJBQUM7aUJBQUM7YUFBQztTQUFDLENBQUMsQ0FBQztRQUVwSSxNQUFNSixFQUFFLENBQUNPLFVBQVUsQ0FBQyxVQUFVLENBQUMsQ0FBQ1ksU0FBUyxDQUFDO1lBQUNWLEdBQUcsRUFBRWQsaURBQVEsQ0FBQ0UsR0FBRyxDQUFDTSxLQUFLLENBQUNDLFNBQVMsQ0FBQztTQUFDLENBQUMsQ0FBQztRQUNoRk4sR0FBRyxDQUFDZSxNQUFNLENBQUMsR0FBRyxDQUFDLENBQUNDLElBQUksQ0FBQztZQUFDTSxPQUFPLEVBQUUsc0JBQXNCO1NBQUMsQ0FBQyxDQUFDO0lBQzVELENBQUM7QUFHTCxDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vc3dlZXQtaG9tZS8uL3BhZ2VzL2FwaS9jb21tZW50cy9bY29tbWVudElkXS9pbmRleC5qcz84Y2YwIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBjbGllbnRQcm9taXNlIGZyb20gXCIuLi8uLi9saWIvTW9uZ29EQlwiXG5pbXBvcnQgeyBPYmplY3RJZCB9IGZyb20gXCJtb25nb2RiXCI7XG5cbmV4cG9ydCBkZWZhdWx0IGFzeW5jIGZ1bmN0aW9uIGhhbmRsZXIocmVxLCByZXMpe1xuXG4gICAgY29uc3QgY2xpZW50ID0gYXdhaXQgY2xpZW50UHJvbWlzZTtcbiAgICBjb25zdCBkYiA9IGF3YWl0IGNsaWVudC5kYigpO1xuXG4gICAgY29uc29sZS5sb2cocmVxLnF1ZXJ5LmNvbW1lbnRJZCk7XG5cbiAgICBpZihyZXEubWV0aG9kID09PSAnR0VUJyl7XG5cbiAgICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IGRiLmNvbGxlY3Rpb24oJ2NvbW1lbnRzJykuZmluZE9uZSh7X2lkOiBPYmplY3RJZChyZXEucXVlcnkuY29tbWVudElkKX0pO1xuXG4gICAgICAgIGNvbnNvbGUubG9nKGRhdGEpO1xuXG4gICAgICAgIGNvbnN0IHVzZXIgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCd1c2VycycpLmZpbmRPbmUoe19pZDogT2JqZWN0SWQoZGF0YS51c2VySWQpfSlcblxuICAgICAgICBjb25zb2xlLmxvZyh1c2VyKTtcbiAgICAgICAgY29uc3QgY29tbWVudCA9IHsuLi5kYXRhLCAuLi51c2VyfTtcbiAgICAgICAgcmVzLnN0YXR1cygyMDApLmpzb24oY29tbWVudCk7XG5cbiAgICB9XG5cbiAgICBpZihyZXEubWV0aG9kID09PSAnREVMRVRFJyl7XG5cbiAgICAgICAgY29uc3QgY29tbWVudCA9IGF3YWl0IGRiLmNvbGxlY3Rpb24oJ2NvbW1lbnRzJykuZmluZE9uZSh7X2lkOiBPYmplY3RJZChyZXEucXVlcnkuY29tbWVudElkKX0pO1xuXG4gICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3Bvc3RzJykudXBkYXRlT25lKHtfaWQ6IE9iamVjdElkKGNvbW1lbnQucG9zdElkKX0seyRwdWxsOiB7Y29tbWVudHM6IFt7X2lkOiBPYmplY3RJZChyZXEucXVlcnkuY29tbWVudElkKX1dfX0pO1xuXG4gICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ2NvbW1lbnRzJykuZGVsZXRlT25lKHtfaWQ6IE9iamVjdElkKHJlcS5xdWVyeS5jb21tZW50SWQpfSk7XG4gICAgICAgIHJlcy5zdGF0dXMoMjAwKS5qc29uKHttZXNzYWdlOiBcIkNvbWVudGFyaW8gZWxpbWluYWRvXCJ9KTtcbiAgICB9XG4gICBcbiAgICBcbn0iXSwibmFtZXMiOlsiY2xpZW50UHJvbWlzZSIsIk9iamVjdElkIiwiaGFuZGxlciIsInJlcSIsInJlcyIsImNsaWVudCIsImRiIiwiY29uc29sZSIsImxvZyIsInF1ZXJ5IiwiY29tbWVudElkIiwibWV0aG9kIiwiZGF0YSIsImNvbGxlY3Rpb24iLCJmaW5kT25lIiwiX2lkIiwidXNlciIsInVzZXJJZCIsImNvbW1lbnQiLCJzdGF0dXMiLCJqc29uIiwidXBkYXRlT25lIiwicG9zdElkIiwiJHB1bGwiLCJjb21tZW50cyIsImRlbGV0ZU9uZSIsIm1lc3NhZ2UiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./pages/api/comments/[commentId]/index.js\n");
 
 /***/ }),
 
-/***/ 2536:
+/***/ "(api)/./pages/api/lib/MongoDB.js":
+/*!**********************************!*\
+  !*** ./pages/api/lib/MongoDB.js ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8013);
-/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_0__);
-
-if (!process.env.MONGODB_URI) {
-    throw new Error("No se ha podido conectar a la base de datos");
-}
-const uri = process.env.MONGODB_URI;
-let client;
-let clientPromise;
-if (false) {} else {
-    client = new mongodb__WEBPACK_IMPORTED_MODULE_0__.MongoClient(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
-    clientPromise = client.connect();
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (clientPromise);
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongodb */ \"mongodb\");\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_0__);\n\nif (!process.env.MONGODB_URI) {\n    throw new Error(\"No se ha podido conectar a la base de datos\");\n}\nconst uri = process.env.MONGODB_URI;\nlet client;\nlet clientPromise;\nif (true) {\n    if (!global._mongoClientPromise) {\n        client = new mongodb__WEBPACK_IMPORTED_MODULE_0__.MongoClient(uri, {\n            useNewUrlParser: true,\n            useUnifiedTopology: true\n        });\n        global._mongoClientPromise = client.connect();\n    }\n    clientPromise = global._mongoClientPromise;\n} else {}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (clientPromise);\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvbGliL01vbmdvREIuanMuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQXFDO0FBRXJDLElBQUksQ0FBQ0MsT0FBTyxDQUFDQyxHQUFHLENBQUNDLFdBQVcsRUFBRTtJQUU1QixNQUFNLElBQUlDLEtBQUssQ0FBQyw2Q0FBNkMsQ0FBQyxDQUFDO0FBRWpFLENBQUM7QUFFRCxNQUFNQyxHQUFHLEdBQUdKLE9BQU8sQ0FBQ0MsR0FBRyxDQUFDQyxXQUFXO0FBRW5DLElBQUlHLE1BQU07QUFDVixJQUFJQyxhQUFhO0FBRWpCLElBQUlOLElBQXNDLEVBQUU7SUFFMUMsSUFBSSxDQUFDTyxNQUFNLENBQUNDLG1CQUFtQixFQUFFO1FBQy9CSCxNQUFNLEdBQUcsSUFBSU4sZ0RBQVcsQ0FBQ0ssR0FBRyxFQUFFO1lBQUVLLGVBQWUsRUFBQyxJQUFJO1lBQUVDLGtCQUFrQixFQUFDLElBQUk7U0FBRSxDQUFDLENBQUM7UUFDakZILE1BQU0sQ0FBQ0MsbUJBQW1CLEdBQUdILE1BQU0sQ0FBQ00sT0FBTyxFQUFFLENBQUM7SUFDaEQsQ0FBQztJQUVETCxhQUFhLEdBQUdDLE1BQU0sQ0FBQ0MsbUJBQW1CLENBQUM7QUFFN0MsT0FBTyxFQUdOO0FBRUQsaUVBQWVGLGFBQWEsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL3N3ZWV0LWhvbWUvLi9wYWdlcy9hcGkvbGliL01vbmdvREIuanM/MjNhOCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBNb25nb0NsaWVudCB9IGZyb20gJ21vbmdvZGInXG5cbmlmICghcHJvY2Vzcy5lbnYuTU9OR09EQl9VUkkpIHtcblxuICB0aHJvdyBuZXcgRXJyb3IoJ05vIHNlIGhhIHBvZGlkbyBjb25lY3RhciBhIGxhIGJhc2UgZGUgZGF0b3MnKTtcbiAgXG59XG5cbmNvbnN0IHVyaSA9IHByb2Nlc3MuZW52Lk1PTkdPREJfVVJJO1xuXG5sZXQgY2xpZW50O1xubGV0IGNsaWVudFByb21pc2U7XG5cbmlmIChwcm9jZXNzLmVudi5OT0RFX0VOViA9PT0gJ2RldmVsb3BtZW50Jykge1xuXG4gIGlmICghZ2xvYmFsLl9tb25nb0NsaWVudFByb21pc2UpIHtcbiAgICBjbGllbnQgPSBuZXcgTW9uZ29DbGllbnQodXJpLCB7IHVzZU5ld1VybFBhcnNlcjp0cnVlLCB1c2VVbmlmaWVkVG9wb2xvZ3k6dHJ1ZSB9KTtcbiAgICBnbG9iYWwuX21vbmdvQ2xpZW50UHJvbWlzZSA9IGNsaWVudC5jb25uZWN0KCk7XG4gIH1cblxuICBjbGllbnRQcm9taXNlID0gZ2xvYmFsLl9tb25nb0NsaWVudFByb21pc2U7XG5cbn0gZWxzZSB7XG4gIGNsaWVudCA9IG5ldyBNb25nb0NsaWVudCh1cmksIHsgdXNlTmV3VXJsUGFyc2VyOnRydWUsIHVzZVVuaWZpZWRUb3BvbG9neTp0cnVlICB9KTtcbiAgY2xpZW50UHJvbWlzZSA9IGNsaWVudC5jb25uZWN0KCk7XG59XG5cbmV4cG9ydCBkZWZhdWx0IGNsaWVudFByb21pc2U7XG4iXSwibmFtZXMiOlsiTW9uZ29DbGllbnQiLCJwcm9jZXNzIiwiZW52IiwiTU9OR09EQl9VUkkiLCJFcnJvciIsInVyaSIsImNsaWVudCIsImNsaWVudFByb21pc2UiLCJnbG9iYWwiLCJfbW9uZ29DbGllbnRQcm9taXNlIiwidXNlTmV3VXJsUGFyc2VyIiwidXNlVW5pZmllZFRvcG9sb2d5IiwiY29ubmVjdCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./pages/api/lib/MongoDB.js\n");
 
 /***/ })
 
@@ -105,7 +50,7 @@ if (false) {} else {
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__(1725));
+var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/comments/[commentId]/index.js"));
 module.exports = __webpack_exports__;
 
 })();

@@ -25,10 +25,12 @@ export default function Layout ({children}){
                             text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse' />
                         
                         <div className={global.content}>
+                            <div className={global.dots}>
                             <a name="top"></a>
                             <ThemeButton/>
                             <main>{children}</main>
                             <a title="Volver arriba" aria-label="Ir al inicio de página" href="#top" className={global.buttonTo}><ImArrowUp2/></a>
+                            </div>
                         </div>
                 </div>
                 <Footer />

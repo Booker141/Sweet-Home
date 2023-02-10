@@ -53,6 +53,7 @@ export default function CreateThread(){
             <Layout>
                 <Head><title>Crear hilo</title></Head>
                 <div className={global.content}>
+                    <div className={global.dots}>
                     <div className="form">
                         <h1 className="form__title">Crear hilo</h1>
                         <p className={global.text2}>Introduzca el título del hilo:</p>
@@ -79,6 +80,7 @@ export default function CreateThread(){
                                 <input className={global.buttonPrimary} type="submit" onClick={(e) => createThread(e)} value="Crear"/> 
                             </div>
                     </div>
+                </div>
                 <style jsx>{`
 
                     .form{

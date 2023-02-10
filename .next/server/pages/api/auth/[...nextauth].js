@@ -1,461 +1,115 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (() => {
 var exports = {};
-exports.id = 3748;
-exports.ids = [3748,6450];
+exports.id = "pages/api/auth/[...nextauth]";
+exports.ids = ["pages/api/auth/[...nextauth]"];
 exports.modules = {
 
-/***/ 7096:
+/***/ "@next-auth/mongodb-adapter":
+/*!*********************************************!*\
+  !*** external "@next-auth/mongodb-adapter" ***!
+  \*********************************************/
+/***/ ((module) => {
+
+module.exports = require("@next-auth/mongodb-adapter");
+
+/***/ }),
+
+/***/ "bcrypt":
+/*!*************************!*\
+  !*** external "bcrypt" ***!
+  \*************************/
 /***/ ((module) => {
 
 module.exports = require("bcrypt");
 
 /***/ }),
 
-/***/ 8013:
+/***/ "jsonwebtoken":
+/*!*******************************!*\
+  !*** external "jsonwebtoken" ***!
+  \*******************************/
+/***/ ((module) => {
+
+module.exports = require("jsonwebtoken");
+
+/***/ }),
+
+/***/ "mongodb":
+/*!**************************!*\
+  !*** external "mongodb" ***!
+  \**************************/
 /***/ ((module) => {
 
 module.exports = require("mongodb");
 
 /***/ }),
 
-/***/ 6805:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "next-auth":
+/*!****************************!*\
+  !*** external "next-auth" ***!
+  \****************************/
+/***/ ((module) => {
 
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "authOptions": () => (/* binding */ authOptions),
-  "default": () => (/* binding */ _nextauth_)
-});
-
-;// CONCATENATED MODULE: external "next-auth"
-const external_next_auth_namespaceObject = require("next-auth");
-var external_next_auth_default = /*#__PURE__*/__webpack_require__.n(external_next_auth_namespaceObject);
-;// CONCATENATED MODULE: external "next-auth/providers/google"
-const google_namespaceObject = require("next-auth/providers/google");
-var google_default = /*#__PURE__*/__webpack_require__.n(google_namespaceObject);
-;// CONCATENATED MODULE: external "next-auth/providers/credentials"
-const credentials_namespaceObject = require("next-auth/providers/credentials");
-var credentials_default = /*#__PURE__*/__webpack_require__.n(credentials_namespaceObject);
-;// CONCATENATED MODULE: external "next-auth/providers/twitter"
-const twitter_namespaceObject = require("next-auth/providers/twitter");
-var twitter_default = /*#__PURE__*/__webpack_require__.n(twitter_namespaceObject);
-;// CONCATENATED MODULE: external "@next-auth/mongodb-adapter"
-const mongodb_adapter_namespaceObject = require("@next-auth/mongodb-adapter");
-// EXTERNAL MODULE: external "mongodb"
-var external_mongodb_ = __webpack_require__(8013);
-// EXTERNAL MODULE: ./pages/api/lib/MongoDB.js
-var MongoDB = __webpack_require__(2536);
-;// CONCATENATED MODULE: external "jsonwebtoken"
-const external_jsonwebtoken_namespaceObject = require("jsonwebtoken");
-var external_jsonwebtoken_default = /*#__PURE__*/__webpack_require__.n(external_jsonwebtoken_namespaceObject);
-// EXTERNAL MODULE: external "bcrypt"
-var external_bcrypt_ = __webpack_require__(7096);
-var external_bcrypt_default = /*#__PURE__*/__webpack_require__.n(external_bcrypt_);
-;// CONCATENATED MODULE: ./pages/api/auth/[...nextauth].js
-
-
-
-
-
-
-
-
-
-const authOptions = {
-    providers: [
-        google_default()({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET
-        }),
-        twitter_default()({
-            clientId: process.env.TWITTER_ID,
-            clientSecret: process.env.TWITTER_SECRET,
-            version: "2.0"
-        }),
-        credentials_default()({
-            id: "credentials",
-            name: "Credentials",
-            async authorize (credentials) {
-                const { email , password  } = credentials;
-                const client = await MongoDB["default"];
-                const db = await client.db();
-                if (!email && !password) {
-                    throw new Error("Introduzca las credenciales.");
-                }
-                if (!email) {
-                    throw new Error("Introduzca el email.");
-                }
-                if (!password) {
-                    throw new Error("Introduzca la contrase\xf1a.");
-                }
-                const user = await db.collection("users").findOne({
-                    email: email
-                });
-                if (!user) {
-                    throw new Error("Usuario no encontrado.");
-                }
-                if (user.status == "blocked") {
-                    throw new Error("Usuario bloqueado.");
-                }
-                const isValid = await external_bcrypt_default().compare(password, user.password);
-                if (!isValid) {
-                    throw new Error("Contrase\xf1a incorrecta.");
-                }
-                return user;
-            }
-        })
-    ],
-    database: process.env.MONGODB_URI,
-    pages: {
-        signIn: "/auth/signIn",
-        error: "/_error"
-    },
-    adapter: (0,mongodb_adapter_namespaceObject.MongoDBAdapter)(MongoDB["default"], {
-        databaseName: "SweetHomeDB"
-    }),
-    jwt: {
-        secret: process.env.NEXT_AUTH_SECRET
-    },
-    session: {
-        strategy: "jwt",
-        maxAge: 3600 * 24,
-        updateAge: 3600 * 24
-    },
-    jwt: {
-        async encode ({ token , secret  }) {
-            const tokenJWT = {
-                id: token.id,
-                state: token.state,
-                email: token.email,
-                username: token.username,
-                status: token.status,
-                role: token.role,
-                biography: token.biography,
-                followers: token.followers,
-                following: token.following,
-                isCaretaker: token.isCaretaker
-            };
-            const codedToken = external_jsonwebtoken_default().sign(tokenJWT, secret);
-            return codedToken;
-        },
-        async decode ({ token , secret  }) {
-            const decodedToken = external_jsonwebtoken_default().verify(token, secret);
-            return decodedToken;
-        }
-    },
-    callbacks: {
-        async signIn ({ user , account , profile , credentials  }) {
-            const client = await MongoDB["default"];
-            const db = await client.db();
-            const accountExist = await db.collection("accounts").findOne({
-                providerAccountId: account.providerAccountId
-            });
-            const accountExist2 = await db.collection("accounts").findOne({
-                userId: user._id
-            });
-            const userExist = await db.collection("users").findOne({
-                _id: user._id
-            });
-            const userStatus = await db.collection("userStatus").findOne({
-                name: "activo"
-            });
-            const userRole = await db.collection("userRole").findOne({
-                name: "usuario"
-            });
-            console.log(user);
-            console.log(account);
-            const randomId = new external_mongodb_.ObjectId();
-            const maxAge = 3600 * 24;
-            const expiryDate = new Date(Date.now() + maxAge * 3000);
-            const token = Math.random().toString(36).substring(2, 120);
-            const token2 = Math.random().toString(36).substring(2, 120);
-            if (account.provider === "credentials") {
-                if (!accountExist2) {
-                    const accountInserted = await db.collection("accounts").insertOne({
-                        provider: account.provider,
-                        type: account.type,
-                        access_token: token,
-                        expires_at: expiryDate,
-                        scope: "user.read",
-                        token_type: "Bearer",
-                        refresh_token: token2,
-                        providerAccountId: account.providerAccountId,
-                        email: user.email,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        username: user.username,
-                        image: user.image,
-                        createdAt: new Date(),
-                        userId: user._id
-                    });
-                    await db.collection("users").updateOne({
-                        _id: user._id
-                    }, {
-                        $set: {
-                            accountId: accountInserted._id
-                        }
-                    });
-                } else {
-                    await db.collection("accounts").updateOne({
-                        userId: user._id
-                    }, {
-                        $set: {
-                            expires_at: expiryDate * 24
-                        }
-                    });
-                    await db.collection("users").updateOne({
-                        _id: user._id
-                    }, {
-                        $set: {
-                            accountId: accountExist2._id
-                        }
-                    });
-                }
-            }
-            if (account.provider === "google") {
-                if (!accountExist) {
-                    const accountInserted1 = await db.collection("accounts").insertOne({
-                        provider: account.provider,
-                        type: account.type,
-                        access_token: account.access_token,
-                        expires_at: account.expires_at,
-                        scope: account.scope,
-                        token_type: account.token_type,
-                        refresh_token: account.id_token,
-                        providerAccountId: account.providerAccountId,
-                        email: user.email,
-                        firstname: "",
-                        lastname: "",
-                        username: user.name,
-                        image: user.image,
-                        createdAt: new Date(),
-                        userId: randomId
-                    });
-                    await db.collection("users").updateOne({
-                        _id: user._id
-                    }, {
-                        $set: {
-                            accountId: accountInserted1._id
-                        }
-                    });
-                    if (!userExist) {
-                        await db.collection("users").insertOne({
-                            _id: randomId,
-                            email: user.email,
-                            firstname: "",
-                            lastname: "",
-                            username: user.name,
-                            password: "",
-                            phone: "",
-                            gender: "",
-                            birthdate: new Date("<2012-12-12>"),
-                            image: user.image,
-                            status: userStatus,
-                            role: userRole,
-                            createdAt: new Date(),
-                            accountId: account._id,
-                            followers: [],
-                            following: [],
-                            isCaretaker: false
-                        });
-                    } else {
-                        if (accountExist.userId == userExist._id) {
-                            await db.collection("users").updateOne({
-                                _id: userExist._id
-                            }, {
-                                $set: {
-                                    accountId: accountExist._id
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    await db.collection("accounts").updateOne({
-                        _id: accountExist.id
-                    }, {
-                        $set: {
-                            expires_at: account.expires_at * 2
-                        }
-                    });
-                    await db.collection("users").updateOne({
-                        _id: user._id
-                    }, {
-                        $set: {
-                            accountId: accountExist._id
-                        }
-                    });
-                }
-            }
-            if (account.provider === "twitter") {
-                if (!accountExist) {
-                    const accountInserted2 = await db.collection("accounts").updateOne({
-                        _id: account.id
-                    }, {
-                        $set: {
-                            provider: account.provider,
-                            type: account.type,
-                            access_token: account.access_token,
-                            expires_at: account.expires_at,
-                            scope: account.scope,
-                            token_type: account.token_type,
-                            refresh_token: account.refresh_token,
-                            providerAccountId: account.providerAccountId,
-                            email: user.email,
-                            firstname: "",
-                            lastname: "",
-                            username: user.name,
-                            image: user.image,
-                            createdAt: new Date(),
-                            userId: randomId
-                        }
-                    });
-                    await db.collection("users").updateOne({
-                        _id: user._id
-                    }, {
-                        $set: {
-                            accountId: accountInserted2._id
-                        }
-                    });
-                    if (!userExist) {
-                        await db.collection("users").insertOne({
-                            _id: randomId,
-                            email: user.email,
-                            firstname: "",
-                            lastname: "",
-                            username: user.name,
-                            password: "",
-                            phone: "",
-                            gender: "",
-                            birthdate: new Date("<2012-12-12>"),
-                            image: user.image,
-                            status: userStatus,
-                            role: userRole,
-                            createdAt: new Date(),
-                            accountId: account._id,
-                            followers: [],
-                            following: [],
-                            isCaretaker: false
-                        });
-                    } else {
-                        if (accountExist.userId == userExist._id) {
-                            await db.collection("users").updateOne({
-                                _id: userExist._id
-                            }, {
-                                $set: {
-                                    accountId: accountExist._id
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    await db.collection("accounts").updateOne({
-                        _id: account._id
-                    }, {
-                        $set: {
-                            provider: account.provider,
-                            type: account.type,
-                            access_token: account.access_token,
-                            expires_at: account.expires_at,
-                            scope: account.scope,
-                            token_type: account.token_type,
-                            refresh_token: account.refresh_token,
-                            providerAccountId: account.providerAccountId,
-                            email: user.email,
-                            firstname: user.firstname,
-                            lastname: user.lastname,
-                            username: user.name,
-                            image: user.image,
-                            status: user.status,
-                            role: user.role,
-                            createdAt: user.createdAt,
-                            userId: user._id
-                        }
-                    });
-                }
-                await db.collection("users").updateOne({
-                    _id: user._id
-                }, {
-                    $set: {
-                        accountId: accountExist._id
-                    }
-                });
-            }
-            return true;
-        },
-        async jwt ({ token , user  }) {
-            console.log(user);
-            if (user) {
-                token = {
-                    ...token,
-                    id: user._id,
-                    isCaretaker: user.isCaretaker,
-                    email: user.email,
-                    username: user.username,
-                    biography: user.biography,
-                    followers: user.followers,
-                    following: user.following,
-                    role: user.role.name
-                };
-            }
-            console.log(token);
-            return Promise.resolve(token);
-        },
-        async session ({ session , token  }) {
-            console.log(token);
-            if (token) {
-                session = {
-                    ...session,
-                    user: {
-                        id: token.id,
-                        email: token.email,
-                        username: token.username,
-                        biography: token.biography,
-                        followers: token.followers,
-                        following: token.following,
-                        isCaretaker: token.isCaretaker,
-                        role: token.role
-                    }
-                };
-            }
-            console.log(session);
-            return Promise.resolve(session);
-        }
-    }
-};
-/* harmony default export */ const _nextauth_ = (external_next_auth_default()(authOptions));
-
+module.exports = require("next-auth");
 
 /***/ }),
 
-/***/ 2536:
+/***/ "next-auth/providers/credentials":
+/*!**************************************************!*\
+  !*** external "next-auth/providers/credentials" ***!
+  \**************************************************/
+/***/ ((module) => {
+
+module.exports = require("next-auth/providers/credentials");
+
+/***/ }),
+
+/***/ "next-auth/providers/google":
+/*!*********************************************!*\
+  !*** external "next-auth/providers/google" ***!
+  \*********************************************/
+/***/ ((module) => {
+
+module.exports = require("next-auth/providers/google");
+
+/***/ }),
+
+/***/ "next-auth/providers/twitter":
+/*!**********************************************!*\
+  !*** external "next-auth/providers/twitter" ***!
+  \**********************************************/
+/***/ ((module) => {
+
+module.exports = require("next-auth/providers/twitter");
+
+/***/ }),
+
+/***/ "(api)/./pages/api/auth/[...nextauth].js":
+/*!*****************************************!*\
+  !*** ./pages/api/auth/[...nextauth].js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8013);
-/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_0__);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"authOptions\": () => (/* binding */ authOptions),\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var next_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next-auth */ \"next-auth\");\n/* harmony import */ var next_auth__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(next_auth__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var next_auth_providers_google__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next-auth/providers/google */ \"next-auth/providers/google\");\n/* harmony import */ var next_auth_providers_google__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_google__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next-auth/providers/credentials */ \"next-auth/providers/credentials\");\n/* harmony import */ var next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var next_auth_providers_twitter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! next-auth/providers/twitter */ \"next-auth/providers/twitter\");\n/* harmony import */ var next_auth_providers_twitter__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_twitter__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _next_auth_mongodb_adapter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @next-auth/mongodb-adapter */ \"@next-auth/mongodb-adapter\");\n/* harmony import */ var _next_auth_mongodb_adapter__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_next_auth_mongodb_adapter__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! mongodb */ \"mongodb\");\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _lib_MongoDB_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lib/MongoDB.js */ \"(api)/./pages/api/lib/MongoDB.js\");\n/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! jsonwebtoken */ \"jsonwebtoken\");\n/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_7__);\n/* harmony import */ var bcrypt__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! bcrypt */ \"bcrypt\");\n/* harmony import */ var bcrypt__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(bcrypt__WEBPACK_IMPORTED_MODULE_8__);\n\n\n\n\n\n\n\n\n\nconst authOptions = {\n    providers: [\n        next_auth_providers_google__WEBPACK_IMPORTED_MODULE_1___default()({\n            clientId: process.env.GOOGLE_CLIENT_ID,\n            clientSecret: process.env.GOOGLE_CLIENT_SECRET\n        }),\n        next_auth_providers_twitter__WEBPACK_IMPORTED_MODULE_3___default()({\n            clientId: process.env.TWITTER_ID,\n            clientSecret: process.env.TWITTER_SECRET,\n            version: \"2.0\"\n        }),\n        next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2___default()({\n            id: \"credentials\",\n            name: \"Credentials\",\n            async authorize (credentials) {\n                const { email , password  } = credentials;\n                const client = await _lib_MongoDB_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"];\n                const db = await client.db();\n                if (!email && !password) {\n                    throw new Error(\"Introduzca las credenciales.\");\n                }\n                if (!email) {\n                    throw new Error(\"Introduzca el email.\");\n                }\n                if (!password) {\n                    throw new Error(\"Introduzca la contrase\\xf1a.\");\n                }\n                const user = await db.collection(\"users\").findOne({\n                    email: email\n                });\n                if (!user) {\n                    throw new Error(\"Usuario no encontrado.\");\n                }\n                if (user.status == \"blocked\") {\n                    throw new Error(\"Usuario bloqueado.\");\n                }\n                const isValid = await bcrypt__WEBPACK_IMPORTED_MODULE_8___default().compare(password, user.password);\n                if (!isValid) {\n                    throw new Error(\"Contrase\\xf1a incorrecta.\");\n                }\n                return user;\n            }\n        })\n    ],\n    database: process.env.MONGODB_URI,\n    pages: {\n        signIn: \"/auth/signIn\",\n        error: \"/_error\"\n    },\n    adapter: (0,_next_auth_mongodb_adapter__WEBPACK_IMPORTED_MODULE_4__.MongoDBAdapter)(_lib_MongoDB_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"], {\n        databaseName: \"SweetHomeDB\"\n    }),\n    jwt: {\n        secret: process.env.NEXT_AUTH_SECRET\n    },\n    session: {\n        strategy: \"jwt\",\n        maxAge: 3600 * 24,\n        updateAge: 3600 * 24\n    },\n    jwt: {\n        async encode ({ token , secret  }) {\n            const tokenJWT = {\n                id: token.id,\n                state: token.state,\n                email: token.email,\n                username: token.username,\n                status: token.status,\n                role: token.role,\n                biography: token.biography,\n                followers: token.followers,\n                following: token.following,\n                isCaretaker: token.isCaretaker\n            };\n            const codedToken = jsonwebtoken__WEBPACK_IMPORTED_MODULE_7___default().sign(tokenJWT, secret);\n            return codedToken;\n        },\n        async decode ({ token , secret  }) {\n            const decodedToken = jsonwebtoken__WEBPACK_IMPORTED_MODULE_7___default().verify(token, secret);\n            return decodedToken;\n        }\n    },\n    callbacks: {\n        async signIn ({ user , account , profile , credentials  }) {\n            const client = await _lib_MongoDB_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"];\n            const db = await client.db();\n            const accountExist = await db.collection(\"accounts\").findOne({\n                providerAccountId: account.providerAccountId\n            });\n            const accountExist2 = await db.collection(\"accounts\").findOne({\n                userId: user._id\n            });\n            const userExist = await db.collection(\"users\").findOne({\n                _id: user._id\n            });\n            const userStatus = await db.collection(\"userStatus\").findOne({\n                name: \"activo\"\n            });\n            const userRole = await db.collection(\"userRole\").findOne({\n                name: \"usuario\"\n            });\n            console.log(user);\n            console.log(account);\n            const randomId = new mongodb__WEBPACK_IMPORTED_MODULE_5__.ObjectId();\n            const maxAge = 3600 * 24;\n            const expiryDate = new Date(Date.now() + maxAge * 3000);\n            const token = Math.random().toString(36).substring(2, 120);\n            const token2 = Math.random().toString(36).substring(2, 120);\n            if (account.provider === \"credentials\") {\n                if (!accountExist2) {\n                    const accountInserted = await db.collection(\"accounts\").insertOne({\n                        provider: account.provider,\n                        type: account.type,\n                        access_token: token,\n                        expires_at: expiryDate,\n                        scope: \"user.read\",\n                        token_type: \"Bearer\",\n                        refresh_token: token2,\n                        providerAccountId: account.providerAccountId,\n                        email: user.email,\n                        firstname: user.firstname,\n                        lastname: user.lastname,\n                        username: user.username,\n                        image: user.image,\n                        createdAt: new Date(),\n                        userId: user._id\n                    });\n                    await db.collection(\"users\").updateOne({\n                        _id: user._id\n                    }, {\n                        $set: {\n                            accountId: accountInserted._id\n                        }\n                    });\n                } else {\n                    await db.collection(\"accounts\").updateOne({\n                        userId: user._id\n                    }, {\n                        $set: {\n                            expires_at: expiryDate * 24\n                        }\n                    });\n                    await db.collection(\"users\").updateOne({\n                        _id: user._id\n                    }, {\n                        $set: {\n                            accountId: accountExist2._id\n                        }\n                    });\n                }\n            }\n            if (account.provider === \"google\") {\n                if (!accountExist) {\n                    const accountInserted1 = await db.collection(\"accounts\").insertOne({\n                        provider: account.provider,\n                        type: account.type,\n                        access_token: account.access_token,\n                        expires_at: account.expires_at,\n                        scope: account.scope,\n                        token_type: account.token_type,\n                        refresh_token: account.id_token,\n                        providerAccountId: account.providerAccountId,\n                        email: user.email,\n                        firstname: \"\",\n                        lastname: \"\",\n                        username: user.name,\n                        image: user.image,\n                        createdAt: new Date(),\n                        userId: randomId\n                    });\n                    await db.collection(\"users\").updateOne({\n                        _id: user._id\n                    }, {\n                        $set: {\n                            accountId: accountInserted1._id\n                        }\n                    });\n                    if (!userExist) {\n                        await db.collection(\"users\").insertOne({\n                            _id: randomId,\n                            email: user.email,\n                            firstname: \"\",\n                            lastname: \"\",\n                            username: user.name,\n                            password: \"\",\n                            phone: \"\",\n                            gender: \"\",\n                            birthdate: new Date(\"<2012-12-12>\"),\n                            image: user.image,\n                            status: userStatus,\n                            role: userRole,\n                            createdAt: new Date(),\n                            accountId: account._id,\n                            followers: [],\n                            following: [],\n                            isCaretaker: false\n                        });\n                    } else {\n                        if (accountExist.userId == userExist._id) {\n                            await db.collection(\"users\").updateOne({\n                                _id: userExist._id\n                            }, {\n                                $set: {\n                                    accountId: accountExist._id\n                                }\n                            });\n                        }\n                    }\n                } else {\n                    await db.collection(\"accounts\").updateOne({\n                        _id: accountExist.id\n                    }, {\n                        $set: {\n                            expires_at: account.expires_at * 2\n                        }\n                    });\n                    await db.collection(\"users\").updateOne({\n                        _id: user._id\n                    }, {\n                        $set: {\n                            accountId: accountExist._id\n                        }\n                    });\n                }\n            }\n            if (account.provider === \"twitter\") {\n                if (!accountExist) {\n                    const accountInserted2 = await db.collection(\"accounts\").updateOne({\n                        _id: account.id\n                    }, {\n                        $set: {\n                            provider: account.provider,\n                            type: account.type,\n                            access_token: account.access_token,\n                            expires_at: account.expires_at,\n                            scope: account.scope,\n                            token_type: account.token_type,\n                            refresh_token: account.refresh_token,\n                            providerAccountId: account.providerAccountId,\n                            email: user.email,\n                            firstname: \"\",\n                            lastname: \"\",\n                            username: user.name,\n                            image: user.image,\n                            createdAt: new Date(),\n                            userId: randomId\n                        }\n                    });\n                    await db.collection(\"users\").updateOne({\n                        _id: user._id\n                    }, {\n                        $set: {\n                            accountId: accountInserted2._id\n                        }\n                    });\n                    if (!userExist) {\n                        await db.collection(\"users\").insertOne({\n                            _id: randomId,\n                            email: user.email,\n                            firstname: \"\",\n                            lastname: \"\",\n                            username: user.name,\n                            password: \"\",\n                            phone: \"\",\n                            gender: \"\",\n                            birthdate: new Date(\"<2012-12-12>\"),\n                            image: user.image,\n                            status: userStatus,\n                            role: userRole,\n                            createdAt: new Date(),\n                            accountId: account._id,\n                            followers: [],\n                            following: [],\n                            isCaretaker: false\n                        });\n                    } else {\n                        if (accountExist.userId == userExist._id) {\n                            await db.collection(\"users\").updateOne({\n                                _id: userExist._id\n                            }, {\n                                $set: {\n                                    accountId: accountExist._id\n                                }\n                            });\n                        }\n                    }\n                } else {\n                    await db.collection(\"accounts\").updateOne({\n                        _id: account._id\n                    }, {\n                        $set: {\n                            provider: account.provider,\n                            type: account.type,\n                            access_token: account.access_token,\n                            expires_at: account.expires_at,\n                            scope: account.scope,\n                            token_type: account.token_type,\n                            refresh_token: account.refresh_token,\n                            providerAccountId: account.providerAccountId,\n                            email: user.email,\n                            firstname: user.firstname,\n                            lastname: user.lastname,\n                            username: user.name,\n                            image: user.image,\n                            status: user.status,\n                            role: user.role,\n                            createdAt: user.createdAt,\n                            userId: user._id\n                        }\n                    });\n                }\n                await db.collection(\"users\").updateOne({\n                    _id: user._id\n                }, {\n                    $set: {\n                        accountId: accountExist._id\n                    }\n                });\n            }\n            return true;\n        },\n        async jwt ({ token , user  }) {\n            console.log(user);\n            if (user) {\n                token = {\n                    ...token,\n                    id: user._id,\n                    isCaretaker: user.isCaretaker,\n                    email: user.email,\n                    username: user.username,\n                    biography: user.biography,\n                    followers: user.followers,\n                    following: user.following,\n                    role: user.role.name\n                };\n            }\n            console.log(token);\n            return Promise.resolve(token);\n        },\n        async session ({ session , token  }) {\n            console.log(token);\n            if (token) {\n                session = {\n                    ...session,\n                    user: {\n                        id: token.id,\n                        email: token.email,\n                        username: token.username,\n                        biography: token.biography,\n                        followers: token.followers,\n                        following: token.following,\n                        isCaretaker: token.isCaretaker,\n                        role: token.role\n                    }\n                };\n            }\n            console.log(session);\n            return Promise.resolve(session);\n        }\n    }\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (next_auth__WEBPACK_IMPORTED_MODULE_0___default()(authOptions));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvYXV0aC9bLi4ubmV4dGF1dGhdLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBZ0M7QUFDdUI7QUFDVTtBQUNQO0FBQ0M7QUFDeEI7QUFDVztBQUNoQjtBQUNIO0FBR3BCLE1BQU1TLFdBQVcsR0FBRztJQUV2QkMsU0FBUyxFQUFFO1FBQ1RULGlFQUFjLENBQUM7WUFDYlUsUUFBUSxFQUFFQyxPQUFPLENBQUNDLEdBQUcsQ0FBQ0MsZ0JBQWdCO1lBQ3RDQyxZQUFZLEVBQUVILE9BQU8sQ0FBQ0MsR0FBRyxDQUFDRyxvQkFBb0I7U0FDL0MsQ0FBQztRQUNGYixrRUFBZSxDQUFDO1lBQ2RRLFFBQVEsRUFBRUMsT0FBTyxDQUFDQyxHQUFHLENBQUNJLFVBQVU7WUFDaENGLFlBQVksRUFBRUgsT0FBTyxDQUFDQyxHQUFHLENBQUNLLGNBQWM7WUFDeENDLE9BQU8sRUFBRSxLQUFLO1NBQ2YsQ0FBQztRQUNGakIsc0VBQW1CLENBQUM7WUFDbEJrQixFQUFFLEVBQUUsYUFBYTtZQUNqQkMsSUFBSSxFQUFFLGFBQWE7WUFDbkIsTUFBTUMsU0FBUyxFQUFDQyxXQUFXLEVBQUU7Z0JBRXZCLE1BQU0sRUFBQ0MsS0FBSyxHQUFFQyxRQUFRLEdBQUMsR0FBR0YsV0FBVztnQkFDckMsTUFBTUcsTUFBTSxHQUFHLE1BQU1wQix1REFBYTtnQkFDbEMsTUFBTXFCLEVBQUUsR0FBRyxNQUFNRCxNQUFNLENBQUNDLEVBQUUsRUFBRTtnQkFFNUIsSUFBRyxDQUFDSCxLQUFLLElBQUksQ0FBQ0MsUUFBUSxFQUFDO29CQUVuQixNQUFNLElBQUlHLEtBQUssQ0FBQyw4QkFBOEIsQ0FBQyxDQUFDO2dCQUVwRCxDQUFDO2dCQUVELElBQUcsQ0FBQ0osS0FBSyxFQUFDO29CQUVSLE1BQU0sSUFBSUksS0FBSyxDQUFDLHNCQUFzQixDQUFDLENBQUM7Z0JBRzFDLENBQUM7Z0JBRUQsSUFBRyxDQUFDSCxRQUFRLEVBQUM7b0JBRVQsTUFB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QUN4QkUsU0FBUyxFQUFFTCxLQUFLLENBQUNLLFNBQVM7d0JBQzFCQyxTQUFTLEVBQUVOLEtBQUssQ0FBQ00sU0FBUzt3QkFDMUJDLFNBQVMsRUFBRVAsS0FBSyxDQUFDTyxTQUFTO3dCQUMxQkMsV0FBVyxFQUFFUixLQUFLLENBQUNRLFdBQVc7d0JBQzlCSixJQUFJLEVBQUVKLEtBQUssQ0FBQ0ksSUFBSTtxQkFDakI7aUJBQ0Y7WUFDSCxDQUFDO1lBRURxQixPQUFPLENBQUNDLEdBQUcsQ0FBQy9CLE9BQU8sQ0FBQyxDQUFDO1lBRXJCLE9BQU82RCxPQUFPLENBQUNDLE9BQU8sQ0FBQzlELE9BQU8sQ0FBQyxDQUFDO1FBR2xDLENBQUM7S0FDRjtDQUVGO0FBRUQsaUVBQWU1QyxnREFBUSxDQUFDUyxXQUFXLENBQUMsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL3N3ZWV0LWhvbWUvLi9wYWdlcy9hcGkvYXV0aC9bLi4ubmV4dGF1dGhdLmpzPzUyN2YiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IE5leHRBdXRoIGZyb20gJ25leHQtYXV0aCdcbmltcG9ydCBHb29nbGVQcm92aWRlciBmcm9tICduZXh0LWF1dGgvcHJvdmlkZXJzL2dvb2dsZSdcbmltcG9ydCBDcmVkZW50aWFsc1Byb3ZpZGVyIGZyb20gXCJuZXh0LWF1dGgvcHJvdmlkZXJzL2NyZWRlbnRpYWxzXCJcbmltcG9ydCBUd2l0dGVyUHJvdmlkZXIgZnJvbSBcIm5leHQtYXV0aC9wcm92aWRlcnMvdHdpdHRlclwiO1xuaW1wb3J0IHsgTW9uZ29EQkFkYXB0ZXIgfSBmcm9tIFwiQG5leHQtYXV0aC9tb25nb2RiLWFkYXB0ZXJcIlxuaW1wb3J0IHsgT2JqZWN0SWQgfSBmcm9tIFwibW9uZ29kYlwiO1xuaW1wb3J0IGNsaWVudFByb21pc2UgZnJvbSBcIi4uL2xpYi9Nb25nb0RCLmpzXCI7XG5pbXBvcnQgand0IGZyb20gXCJqc29ud2VidG9rZW5cIlxuaW1wb3J0IGJjcnlwdCBmcm9tIFwiYmNyeXB0XCJcblxuXG5leHBvcnQgY29uc3QgYXV0aE9wdGlvbnMgPSB7XG5cbiAgICBwcm92aWRlcnM6IFtcbiAgICAgIEdvb2dsZVByb3ZpZGVyKHtcbiAgICAgICAgY2xpZW50SWQ6IHByb2Nlc3MuZW52LkdPT0dMRV9DTElFTlRfSUQsXG4gICAgICAgIGNsaWVudFNlY3JldDogcHJvY2Vzcy5lbnYuR09PR0xFX0NMSUVOVF9TRUNSRVQsXG4gICAgICB9KSxcbiAgICAgIFR3aXR0ZXJQcm92aWRlcih7XG4gICAgICAgIGNsaWVudElkOiBwcm9jZXNzLmVudi5UV0lUVEVSX0lELFxuICAgICAgICBjbGllbnRTZWNyZXQ6IHByb2Nlc3MuZW52LlRXSVRURVJfU0VDUkVULFxuICAgICAgICB2ZXJzaW9uOiBcIjIuMFwiLCBcbiAgICAgIH0pLFxuICAgICAgQ3JlZGVudGlhbHNQcm92aWRlcih7XG4gICAgICAgIGlkOiBcImNyZWRlbnRpYWxzXCIsXG4gICAgICAgIG5hbWU6IFwiQ3JlZGVudGlhbHNcIixcbiAgICAgICAgYXN5bmMgYXV0aG9yaXplKGNyZWRlbnRpYWxzKSB7XG5cbiAgICAgICAgICAgICAgY29uc3Qge2VtYWlsLCBwYXNzd29yZH0gPSBjcmVkZW50aWFscztcbiAgICAgICAgICAgICAgY29uc3QgY2xpZW50ID0gYXdhaXQgY2xpZW50UHJvbWlzZTtcbiAgICAgICAgICAgICAgY29uc3QgZGIgPSBhd2FpdCBjbGllbnQuZGIoKTtcblxuICAgICAgICAgICAgICBpZighZW1haWwgJiYgIXBhc3N3b3JkKXtcbiAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKFwiSW50cm9kdXpjYSBsYXMgY3JlZGVuY2lhbGVzLlwiKTtcbiAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgfVxuXG4gICAgICAgICAgICAgIGlmKCFlbWFpbCl7XG5cbiAgICAgICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoXCJJbnRyb2R1emNhIGVsIGVtYWlsLlwiKTtcbiAgICAgICAgICAgICAgXG5cbiAgICAgICAgICAgICAgfVxuXG4gICAgICAgICAgICAgIGlmKCFwYXNzd29yZCl7ICAgIFxuXG4gICAgICAgICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoXCJJbnRyb2R1emNhIGxhIGNvbnRyYXNlw7FhLlwiKTtcbiAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICB9XG5cbiAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgIGNvbnN0IHVzZXIgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCd1c2VycycpLmZpbmRPbmUoe2VtYWlsOiBlbWFpbH0pO1xuXG5cbiAgICAgICAgICAgICAgaWYoIXVzZXIpe1xuXG4gICAgICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKFwiVXN1YXJpbyBubyBlbmNvbnRyYWRvLlwiKTtcblxuICAgICAgICAgICAgICB9IFxuXG4gICAgICAgICAgICAgIGlmKHVzZXIuc3RhdHVzID09IFwiYmxvY2tlZFwiKXtcblxuICAgICAgICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKFwiVXN1YXJpbyBibG9xdWVhZG8uXCIpO1xuICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICB9XG5cbiAgICAgICAgICAgICAgY29uc3QgaXNWYWxpZCA9IGF3YWl0IGJjcnlwdC5jb21wYXJlKHBhc3N3b3JkLCB1c2VyLnBhc3N3b3JkKTtcblxuICAgICAgICAgICAgICBpZighaXNWYWxpZCl7XG5cbiAgICAgICAgICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoXCJDb250cmFzZcOxYSBpbmNvcnJlY3RhLlwiKTtcbiAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgfVxuXG4gXG4gICAgICAgICAgICAgIHJldHVybiB1c2VyO1xuXG5cbiAgICAgICAgICAgICAgfSAgICAgICAgXG5cbiAgICAgIH0pXG4gICAgXSxcbiAgICBkYXRhYmFzZTogcHJvY2Vzcy5lbnYuTU9OR09EQl9VUkksXG4gICAgcGFnZXM6IHtcbiAgICAgIHNpZ25JbjogJy9hdXRoL3NpZ25JbicsXG4gICAgICBlcnJvcjogJy9fZXJyb3InLCBcbiAgICB9LFxuICAgIGFkYXB0ZXI6IE1vbmdvREJBZGFwdGVyKGNsaWVudFByb21pc2Use1xuICAgICAgZGF0YWJhc2VOYW1lOiAnU3dlZXRIb21lREInLFxuICAgIH0pLFxuICAgIGp3dDoge1xuICAgICAgc2VjcmV0OiBwcm9jZXNzLmVudi5ORVhUX0FVVEhfU0VDUkVULFxuICAgIH0sXG4gICAgc2Vzc2lvbjoge1xuICAgICAgc3RyYXRlZ3k6IFwiand0XCIsXG4gICAgICBtYXhBZ2U6IDM2MDAgKiAyNCxcbiAgICAgIHVwZGF0ZUFnZTogMzYwMCAqIDI0LFxuICAgIH0sXG4gICAgand0OiB7XG4gICAgICBhc3luYyBlbmNvZGUoeyB0b2tlbiwgc2VjcmV0IH0pIHtcblxuICAgICAgICBjb25zdCB0b2tlbkpXVCA9IHtcbiAgICAgICAgICBpZDogdG9rZW4uaWQsXG4gICAgICAgICAgc3RhdGU6IHRva2VuLnN0YXRlLFxuICAgICAgICAgIGVtYWlsOiB0b2tlbi5lbWFpbCxcbiAgICAgICAgICB1c2VybmFtZTogdG9rZW4udXNlcm5hbWUsXG4gICAgICAgICAgc3RhdHVzOiB0b2tlbi5zdGF0dXMsXG4gICAgICAgICAgcm9sZTogdG9rZW4ucm9sZSxcbiAgICAgICAgICBiaW9ncmFwaHk6IHRva2VuLmJpb2dyYXBoeSxcbiAgICAgICAgICBmb2xsb3dlcnM6IHRva2VuLmZvbGxvd2VycyxcbiAgICAgICAgICBmb2xsb3dpbmc6IHRva2VuLmZvbGxvd2luZyxcbiAgICAgICAgICBpc0NhcmV0YWtlcjogdG9rZW4uaXNDYXJldGFrZXIsXG4gICAgICAgIH1cblxuICAgICAgICBjb25zdCBjb2RlZFRva2VuID0gand0LnNpZ24odG9rZW5KV1QgLCBzZWNyZXQpO1xuXG4gICAgICAgIHJldHVybiBjb2RlZFRva2VuO1xuXG4gICAgICB9LFxuICAgICAgYXN5bmMgZGVjb2RlKHsgdG9rZW4sIHNlY3JldCB9KSB7XG5cbiAgICAgICAgY29uc3QgZGVjb2RlZFRva2VuID0gand0LnZlcmlmeSh0b2tlbiwgc2VjcmV0KTtcblxuICAgICAgICByZXR1cm4gZGVjb2RlZFRva2VuO1xuICAgICAgfSxcbiAgICB9LFxuICAgIGNhbGxiYWNrczoge1xuICAgIFxuICAgICAgYXN5bmMgc2lnbkluKHsgdXNlciwgYWNjb3VudCwgcHJvZmlsZSwgY3JlZGVudGlhbHN9KSB7XG5cbiAgICAgICAgY29uc3QgY2xpZW50ID0gYXdhaXQgY2xpZW50UHJvbWlzZTtcbiAgICAgICAgY29uc3QgZGIgPSBhd2FpdCBjbGllbnQuZGIoKTtcblxuICAgICAgICBjb25zdCBhY2NvdW50RXhpc3QgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCdhY2NvdW50cycpLmZpbmRPbmUoe3Byb3ZpZGVyQWNjb3VudElkOiBhY2NvdW50LnByb3ZpZGVyQWNjb3VudElkfSk7XG4gICAgICAgIGNvbnN0IGFjY291bnRFeGlzdDIgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCdhY2NvdW50cycpLmZpbmRPbmUoe3VzZXJJZDogdXNlci5faWR9KTtcbiAgICAgICAgY29uc3QgdXNlckV4aXN0ID0gYXdhaXQgZGIuY29sbGVjdGlvbigndXNlcnMnKS5maW5kT25lKHtfaWQ6IHVzZXIuX2lkfSk7XG4gICAgICAgIGNvbnN0IHVzZXJTdGF0dXMgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCd1c2VyU3RhdHVzJykuZmluZE9uZSh7bmFtZTogXCJhY3Rpdm9cIn0pO1xuICAgICAgICBjb25zdCB1c2VyUm9sZSA9IGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJSb2xlJykuZmluZE9uZSh7bmFtZTogXCJ1c3VhcmlvXCJ9KTtcblxuICAgICAgICBjb25zb2xlLmxvZyh1c2VyKTtcbiAgICAgICAgY29uc29sZS5sb2coYWNjb3VudCk7XG5cbiAgICAgICAgY29uc3QgcmFuZG9tSWQgPSBuZXcgT2JqZWN0SWQoKTtcbiAgICAgICAgY29uc3QgbWF4QWdlID0gMzYwMCAqIDI0O1xuICAgICAgICBjb25zdCBleHBpcnlEYXRlID0gbmV3IERhdGUoRGF0ZS5ub3coKSArIChtYXhBZ2UgKiAzMDAwKSk7XG5cbiAgICAgICAgY29uc3QgdG9rZW4gPSBNYXRoLnJhbmRvbSgpLnRvU3RyaW5nKDM2KS5zdWJzdHJpbmcoMiwgMTIwKTtcbiAgICAgICAgY29uc3QgdG9rZW4yID0gTWF0aC5yYW5kb20oKS50b1N0cmluZygzNikuc3Vic3RyaW5nKDIsIDEyMClcblxuICAgICAgIFxuICAgICAgICBpZihhY2NvdW50LnByb3ZpZGVyID09PSBcImNyZWRlbnRpYWxzXCIpe1xuXG4gICAgICAgICAgaWYoIWFjY291bnRFeGlzdDIpe1xuXG4gICAgICAgICAgICBjb25zdCBhY2NvdW50SW5zZXJ0ZWQgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCdhY2NvdW50cycpLmluc2VydE9uZSh7cHJvdmlkZXI6IGFjY291bnQucHJvdmlkZXIsIFxuICAgICAgICAgICAgICB0eXBlOiBhY2NvdW50LnR5cGUsIFxuICAgICAgICAgICAgICBhY2Nlc3NfdG9rZW46IHRva2VuLCBcbiAgICAgICAgICAgICAgZXhwaXJlc19hdDogZXhwaXJ5RGF0ZSwgXG4gICAgICAgICAgICAgIHNjb3BlOiBcInVzZXIucmVhZFwiLCBcbiAgICAgICAgICAgICAgdG9rZW5fdHlwZTogXCJCZWFyZXJcIiwgXG4gICAgICAgICAgICAgIHJlZnJlc2hfdG9rZW46IHRva2VuMiwgXG4gICAgICAgICAgICAgIHByb3ZpZGVyQWNjb3VudElkOiBhY2NvdW50LnByb3ZpZGVyQWNjb3VudElkLCBcbiAgICAgICAgICAgICAgZW1haWw6IHVzZXIuZW1haWwsXG4gICAgICAgICAgICAgIGZpcnN0bmFtZTogdXNlci5maXJzdG5hbWUsXG4gICAgICAgICAgICAgIGxhc3RuYW1lOiB1c2VyLmxhc3RuYW1lLFxuICAgICAgICAgICAgICB1c2VybmFtZTogdXNlci51c2VybmFtZSxcbiAgICAgICAgICAgICAgaW1hZ2U6IHVzZXIuaW1hZ2UsXG4gICAgICAgICAgICAgIGNyZWF0ZWRBdDogbmV3IERhdGUoKSxcbiAgICAgICAgICAgICAgdXNlcklkOiB1c2VyLl9pZH0pO1xuXG4gICAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykudXBkYXRlT25lKHtfaWQ6IHVzZXIuX2lkfSwgeyRzZXQ6IHthY2NvdW50SWQ6IGFjY291bnRJbnNlcnRlZC5faWR9fSk7XG5cbiAgICAgICAgICAgIH1lbHNle1xuXG4gICAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ2FjY291bnRzJykudXBkYXRlT25lKHt1c2VySWQ6IHVzZXIuX2lkfSwgeyRzZXQ6IHtleHBpcmVzX2F0OiBleHBpcnlEYXRlICogMjR9fSk7XG4gICAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykudXBkYXRlT25lKHtfaWQ6IHVzZXIuX2lkfSwgeyRzZXQ6IHthY2NvdW50SWQ6IGFjY291bnRFeGlzdDIuX2lkfX0pO1xuXG4gICAgICAgICAgICB9XG4gICAgICAgIH1cblxuIFxuICAgICAgICBpZiAoYWNjb3VudC5wcm92aWRlciA9PT0gXCJnb29nbGVcIikge1xuICAgICAgICAgIFxuICAgICAgICAgIGlmKCFhY2NvdW50RXhpc3Qpe1xuXG4gICAgICAgICAgICBjb25zdCBhY2NvdW50SW5zZXJ0ZWQgPSBhd2FpdCBkYi5jb2xsZWN0aW9uKCdhY2NvdW50cycpLmluc2VydE9uZSh7cHJvdmlkZXI6IGFjY291bnQucHJvdmlkZXIsIFxuICAgICAgICAgICAgICB0eXBlOiBhY2NvdW50LnR5cGUsIFxuICAgICAgICAgICAgICBhY2Nlc3NfdG9rZW46IGFjY291bnQuYWNjZXNzX3Rva2VuLCBcbiAgICAgICAgICAgICAgZXhwaXJlc19hdDogYWNjb3VudC5leHBpcmVzX2F0LCBcbiAgICAgICAgICAgICAgc2NvcGU6IGFjY291bnQuc2NvcGUsIFxuICAgICAgICAgICAgICB0b2tlbl90eXBlOiBhY2NvdW50LnRva2VuX3R5cGUsIFxuICAgICAgICAgICAgICByZWZyZXNoX3Rva2VuOiBhY2NvdW50LmlkX3Rva2VuLCBcbiAgICAgICAgICAgICAgcHJvdmlkZXJBY2NvdW50SWQ6IGFjY291bnQucHJvdmlkZXJBY2NvdW50SWQsIFxuICAgICAgICAgICAgICBlbWFpbDogdXNlci5lbWFpbCxcbiAgICAgICAgICAgICAgZmlyc3RuYW1lOiBcIlwiLFxuICAgICAgICAgICAgICBsYXN0bmFtZTogXCJcIixcbiAgICAgICAgICAgICAgdXNlcm5hbWU6IHVzZXIubmFtZSxcbiAgICAgICAgICAgICAgaW1hZ2U6IHVzZXIuaW1hZ2UsXG4gICAgICAgICAgICAgIGNyZWF0ZWRBdDogbmV3IERhdGUoKSxcbiAgICAgICAgICAgICAgdXNlcklkOiByYW5kb21JZH0pO1xuXG4gICAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykudXBkYXRlT25lKHtfaWQ6IHVzZXIuX2lkfSwgeyRzZXQ6IHthY2NvdW50SWQ6IGFjY291bnRJbnNlcnRlZC5faWR9fSk7XG5cbiAgICAgICAgICAgICAgaWYoIXVzZXJFeGlzdCl7XG5cbiAgICAgICAgICAgICAgICBhd2FpdCBkYi5jb2xsZWN0aW9uKCd1c2VycycpLmluc2VydE9uZSh7X2lkOiByYW5kb21JZCwgZW1haWw6IHVzZXIuZW1haWwsXG4gICAgICAgICAgICAgICAgICBmaXJzdG5hbWU6IFwiXCIsXG4gICAgICAgICAgICAgICAgICBsYXN0bmFtZTogXCJcIixcbiAgICAgICAgICAgICAgICAgIHVzZXJuYW1lOiB1c2VyLm5hbWUsXG4gICAgICAgICAgICAgICAgICBwYXNzd29yZDogXCJcIixcbiAgICAgICAgICAgICAgICAgIHBob25lOiBcIlwiLFxuICAgICAgICAgICAgICAgICAgZ2VuZGVyOiBcIlwiLFxuICAgICAgICAgICAgICAgICAgYmlydGhkYXRlOiBuZXcgRGF0ZShcIjwyMDEyLTEyLTEyPlwiKSxcbiAgICAgICAgICAgICAgICAgIGltYWdlOiB1c2VyLmltYWdlLFxuICAgICAgICAgICAgICAgICAgc3RhdHVzOiB1c2VyU3RhdHVzLFxuICAgICAgICAgICAgICAgICAgcm9sZTogdXNlclJvbGUsXG4gICAgICAgICAgICAgICAgICBjcmVhdGVkQXQ6IG5ldyBEYXRlKCksXG4gICAgICAgICAgICAgICAgICBhY2NvdW50SWQ6IGFjY291bnQuX2lkLFxuICAgICAgICAgICAgICAgICAgZm9sbG93ZXJzOiBbXSxcbiAgICAgICAgICAgICAgICAgIGZvbGxvd2luZzogW10sXG4gICAgICAgICAgICAgICAgICBpc0NhcmV0YWtlcjogZmFsc2V9KVxuXG4gICAgICAgICAgICAgIH1lbHNle1xuICAgIFxuICAgICAgICAgICAgICAgIGlmKGFjY291bnRFeGlzdC51c2VySWQgPT0gdXNlckV4aXN0Ll9pZCl7XG5cbiAgICAgICAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykudXBkYXRlT25lKHtfaWQ6IHVzZXJFeGlzdC5faWR9LCB7JHNldDoge2FjY291bnRJZDogYWNjb3VudEV4aXN0Ll9pZH19KTtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgIH1cbiAgICAgICAgfWVsc2V7XG5cbiAgICAgICAgICBhd2FpdCBkYi5jb2xsZWN0aW9uKCdhY2NvdW50cycpLnVwZGF0ZU9uZSh7X2lkOiBhY2NvdW50RXhpc3QuaWR9LCB7JHNldDoge2V4cGlyZXNfYXQ6IGFjY291bnQuZXhwaXJlc19hdCAqIDJ9fSk7XG4gICAgICAgICAgYXdhaXQgZGIuY29sbGVjdGlvbigndXNlcnMnKS51cGRhdGVPbmUoe19pZDogdXNlci5faWR9LCB7JHNldDoge2FjY291bnRJZDogYWNjb3VudEV4aXN0Ll9pZH19KTtcbiAgICAgICAgfSAgICBcblxuICAgICAgfVxuXG5cbiAgICAgIGlmIChhY2NvdW50LnByb3ZpZGVyID09PSBcInR3aXR0ZXJcIikge1xuICAgICAgICAgIFxuICAgICAgICBpZighYWNjb3VudEV4aXN0KXtcblxuICAgICAgICAgIGNvbnN0IGFjY291bnRJbnNlcnRlZCA9IGF3YWl0IGRiLmNvbGxlY3Rpb24oJ2FjY291bnRzJykudXBkYXRlT25lKHtfaWQ6IGFjY291bnQuaWR9LHskc2V0OiB7cHJvdmlkZXI6IGFjY291bnQucHJvdmlkZXIsIFxuICAgICAgICAgICAgdHlwZTogYWNjb3VudC50eXBlLCBcbiAgICAgICAgICAgIGFjY2Vzc190b2tlbjogYWNjb3VudC5hY2Nlc3NfdG9rZW4sIFxuICAgICAgICAgICAgZXhwaXJlc19hdDogYWNjb3VudC5leHBpcmVzX2F0LCBcbiAgICAgICAgICAgIHNjb3BlOiBhY2NvdW50LnNjb3BlLCBcbiAgICAgICAgICAgIHRva2VuX3R5cGU6IGFjY291bnQudG9rZW5fdHlwZSwgXG4gICAgICAgICAgICByZWZyZXNoX3Rva2VuOiBhY2NvdW50LnJlZnJlc2hfdG9rZW4sIFxuICAgICAgICAgICAgcHJvdmlkZXJBY2NvdW50SWQ6IGFjY291bnQucHJvdmlkZXJBY2NvdW50SWQsIFxuICAgICAgICAgICAgZW1haWw6IHVzZXIuZW1haWwsXG4gICAgICAgICAgICBmaXJzdG5hbWU6IFwiXCIsXG4gICAgICAgICAgICBsYXN0bmFtZTogXCJcIixcbiAgICAgICAgICAgIHVzZXJuYW1lOiB1c2VyLm5hbWUsXG4gICAgICAgICAgICBpbWFnZTogdXNlci5pbWFnZSxcbiAgICAgICAgICAgIGNyZWF0ZWRBdDogbmV3IERhdGUoKSxcbiAgICAgICAgICAgIHVzZXJJZDogcmFuZG9tSWR9fSk7XG5cbiAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykudXBkYXRlT25lKHtfaWQ6IHVzZXIuX2lkfSwgeyRzZXQ6IHthY2NvdW50SWQ6IGFjY291bnRJbnNlcnRlZC5faWR9fSk7XG5cbiAgICAgICAgICAgIGlmKCF1c2VyRXhpc3Qpe1xuXG4gICAgICAgICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykuaW5zZXJ0T25lKHtfaWQ6IHJhbmRvbUlkLCBlbWFpbDogdXNlci5lbWFpbCxcbiAgICAgICAgICAgICAgICBmaXJzdG5hbWU6IFwiXCIsXG4gICAgICAgICAgICAgICAgbGFzdG5hbWU6IFwiXCIsXG4gICAgICAgICAgICAgICAgdXNlcm5hbWU6IHVzZXIubmFtZSxcbiAgICAgICAgICAgICAgICBwYXNzd29yZDogXCJcIixcbiAgICAgICAgICAgICAgICBwaG9uZTogXCJcIixcbiAgICAgICAgICAgICAgICBnZW5kZXI6IFwiXCIsXG4gICAgICAgICAgICAgICAgYmlydGhkYXRlOiBuZXcgRGF0ZShcIjwyMDEyLTEyLTEyPlwiKSxcbiAgICAgICAgICAgICAgICBpbWFnZTogdXNlci5pbWFnZSxcbiAgICAgICAgICAgICAgICBzdGF0dXM6IHVzZXJTdGF0dXMsXG4gICAgICAgICAgICAgICAgcm9sZTogdXNlclJvbGUsXG4gICAgICAgICAgICAgICAgY3JlYXRlZEF0OiBuZXcgRGF0ZSgpLFxuICAgICAgICAgICAgICAgIGFjY291bnRJZDogYWNjb3VudC5faWQsXG4gICAgICAgICAgICAgICAgZm9sbG93ZXJzOiBbXSxcbiAgICAgICAgICAgICAgICBmb2xsb3dpbmc6IFtdLFxuICAgICAgICAgICAgICAgIGlzQ2FyZXRha2VyOiBmYWxzZX0pXG4gICAgICAgICAgICB9ZWxzZXtcbiAgXG4gICAgICAgICAgICAgIGlmKGFjY291bnRFeGlzdC51c2VySWQgPT0gdXNlckV4aXN0Ll9pZCl7XG4gICAgICAgICAgICAgICAgYXdhaXQgZGIuY29sbGVjdGlvbigndXNlcnMnKS51cGRhdGVPbmUoe19pZDogdXNlckV4aXN0Ll9pZH0sIHskc2V0OiB7YWNjb3VudElkOiBhY2NvdW50RXhpc3QuX2lkfX0pXG4gICAgICAgICAgICAgIH1cbiAgICAgICAgICAgIH1cbiAgICAgIH1lbHNle1xuXG4gICAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ2FjY291bnRzJykudXBkYXRlT25lKHtfaWQ6IGFjY291bnQuX2lkfSwgeyRzZXQ6IHtwcm92aWRlcjogYWNjb3VudC5wcm92aWRlciwgXG4gICAgICAgICAgdHlwZTogYWNjb3VudC50eXBlLCBcbiAgICAgICAgICBhY2Nlc3NfdG9rZW46IGFjY291bnQuYWNjZXNzX3Rva2VuLCBcbiAgICAgICAgICBleHBpcmVzX2F0OiBhY2NvdW50LmV4cGlyZXNfYXQsIFxuICAgICAgICAgIHNjb3BlOiBhY2NvdW50LnNjb3BlLCBcbiAgICAgICAgICB0b2tlbl90eXBlOiBhY2NvdW50LnRva2VuX3R5cGUsIFxuICAgICAgICAgIHJlZnJlc2hfdG9rZW46IGFjY291bnQucmVmcmVzaF90b2tlbiwgXG4gICAgICAgICAgcHJvdmlkZXJBY2NvdW50SWQ6IGFjY291bnQucHJvdmlkZXJBY2NvdW50SWQsIFxuICAgICAgICAgIGVtYWlsOiB1c2VyLmVtYWlsLFxuICAgICAgICAgIGZpcnN0bmFtZTogdXNlci5maXJzdG5hbWUsXG4gICAgICAgICAgbGFzdG5hbWU6IHVzZXIubGFzdG5hbWUsXG4gICAgICAgICAgdXNlcm5hbWU6IHVzZXIubmFtZSxcbiAgICAgICAgICBpbWFnZTogdXNlci5pbWFnZSxcbiAgICAgICAgICBzdGF0dXM6IHVzZXIuc3RhdHVzLFxuICAgICAgICAgIHJvbGU6IHVzZXIucm9sZSxcbiAgICAgICAgICBjcmVhdGVkQXQ6IHVzZXIuY3JlYXRlZEF0LFxuICAgICAgICAgIHVzZXJJZDogdXNlci5faWR9fSlcbiAgICAgIH0gICAgXG5cbiAgICAgIGF3YWl0IGRiLmNvbGxlY3Rpb24oJ3VzZXJzJykudXBkYXRlT25lKHtfaWQ6IHVzZXIuX2lkfSwgeyRzZXQ6IHthY2NvdW50SWQ6IGFjY291bnRFeGlzdC5faWR9fSk7XG5cbiAgICB9XG5cbiAgICAgICAgcmV0dXJuIHRydWU7XG5cbiAgICAgIH0sXG4gICAgICBhc3luYyBqd3Qoe3Rva2VuLCB1c2VyfSkge1xuICAgICAgICBcbiAgICAgICAgY29uc29sZS5sb2codXNlcik7XG4gICAgICAgIFxuICAgICAgICBpZih1c2VyKXtcbiAgICAgICAgICB0b2tlbiA9IHtcbiAgICAgICAgICAgIC4uLnRva2VuLFxuICAgICAgICAgICAgaWQ6IHVzZXIuX2lkLFxuICAgICAgICAgICAgaXNDYXJldGFrZXI6IHVzZXIuaXNDYXJldGFrZXIsXG4gICAgICAgICAgICBlbWFpbDogdXNlci5lbWFpbCxcbiAgICAgICAgICAgIHVzZXJuYW1lOiB1c2VyLnVzZXJuYW1lLFxuICAgICAgICAgICAgYmlvZ3JhcGh5OiB1c2VyLmJpb2dyYXBoeSxcbiAgICAgICAgICAgIGZvbGxvd2VyczogdXNlci5mb2xsb3dlcnMsXG4gICAgICAgICAgICBmb2xsb3dpbmc6IHVzZXIuZm9sbG93aW5nLFxuICAgICAgICAgICAgcm9sZTogdXNlci5yb2xlLm5hbWUsXG4gICAgICAgICAgfTtcbiAgICAgICAgfVxuXG4gICAgICAgIGNvbnNvbGUubG9nKHRva2VuKTtcblxuICAgICAgICByZXR1cm4gUHJvbWlzZS5yZXNvbHZlKHRva2VuKTtcblxuICAgICAgfSxcbiAgICAgIGFzeW5jIHNlc3Npb24oe3Nlc3Npb24sIHRva2VufSkge1xuICAgICAgICBcbiAgICAgICAgY29uc29sZS5sb2codG9rZW4pO1xuXG4gICAgICAgIGlmICh0b2tlbikge1xuICAgICAgICAgIHNlc3Npb24gPSB7XG4gICAgICAgICAgICAuLi5zZXNzaW9uLFxuICAgICAgICAgICAgdXNlcjrCoHtcbiAgICAgICAgICAgICAgaWQ6IHRva2VuLmlkLFxuICAgICAgICAgICAgICBlbWFpbDogdG9rZW4uZW1haWwsXG4gICAgICAgICAgICAgIHVzZXJuYW1lOiB0b2tlbi51c2VybmFtZSxcbiAgICAgICAgICAgICAgYmlvZ3JhcGh5OiB0b2tlbi5iaW9ncmFwaHksXG4gICAgICAgICAgICAgIGZvbGxvd2VyczogdG9rZW4uZm9sbG93ZXJzLFxuICAgICAgICAgICAgICBmb2xsb3dpbmc6IHRva2VuLmZvbGxvd2luZyxcbiAgICAgICAgICAgICAgaXNDYXJldGFrZXI6IHRva2VuLmlzQ2FyZXRha2VyLFxuICAgICAgICAgICAgICByb2xlOiB0b2tlbi5yb2xlLFxuICAgICAgICAgICAgfSxcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgICAgICBcbiAgICAgICAgY29uc29sZS5sb2coc2Vzc2lvbik7XG5cbiAgICAgICAgcmV0dXJuIFByb21pc2UucmVzb2x2ZShzZXNzaW9uKTtcblxuICAgICBcbiAgICAgIH0gXG4gICAgfVxuIFxuICB9XG5cbiAgZXhwb3J0IGRlZmF1bHQgTmV4dEF1dGgoYXV0aE9wdGlvbnMpOyBcbiJdLCJuYW1lcyI6WyJOZXh0QXV0aCIsIkdvb2dsZVByb3ZpZGVyIiwiQ3JlZGVudGlhbHNQcm92aWRlciIsIlR3aXR0ZXJQcm92aWRlciIsIk1vbmdvREJBZGFwdGVyIiwiT2JqZWN0SWQiLCJjbGllbnRQcm9taXNlIiwiand0IiwiYmNyeXB0IiwiYXV0aE9wdGlvbnMiLCJwcm92aWRlcnMiLCJjbGllbnRJZCIsInByb2Nlc3MiLCJlbnYiLCJHT09HTEVfQ0xJRU5UX0lEIiwiY2xpZW50U2VjcmV0IiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiLCJUV0lUVEVSX0lEIiwiVFdJVFRFUl9TRUNSRVQiLCJ2ZXJzaW9uIiwiaWQiLCJuYW1lIiwiYXV0aG9yaXplIiwiY3JlZGVudGlhbHMiLCJlbWFpbCIsInBhc3N3b3JkIiwiY2xpZW50IiwiZGIiLCJFcnJvciIsInVzZXIiLCJjb2xsZWN0aW9uIiwiZmluZE9uZSIsInN0YXR1cyIsImlzVmFsaWQiLCJjb21wYXJlIiwiZGF0YWJhc2UiLCJNT05HT0RCX1VSSSIsInBhZ2VzIiwic2lnbkluIiwiZXJyb3IiLCJhZGFwdGVyIiwiZGF0YWJhc2VOYW1lIiwic2VjcmV0IiwiTkVYVF9BVVRIX1NFQ1JFVCIsInNlc3Npb24iLCJzdHJhdGVneSIsIm1heEFnZSIsInVwZGF0ZUFnZSIsImVuY29kZSIsInRva2VuIiwidG9rZW5KV1QiLCJzdGF0ZSIsInVzZXJuYW1lIiwicm9sZSIsImJpb2dyYXBoeSIsImZvbGxvd2VycyIsImZvbGxvd2luZyIsImlzQ2FyZXRha2VyIiwiY29kZWRUb2tlbiIsInNpZ24iLCJkZWNvZGUiLCJkZWNvZGVkVG9rZW4iLCJ2ZXJpZnkiLCJjYWxsYmFja3MiLCJhY2NvdW50IiwicHJvZmlsZSIsImFjY291bnRFeGlzdCIsInByb3ZpZGVyQWNjb3VudElkIiwiYWNjb3VudEV4aXN0MiIsInVzZXJJZCIsIl9pZCIsInVzZXJFeGlzdCIsInVzZXJTdGF0dXMiLCJ1c2VyUm9sZSIsImNvbnNvbGUiLCJsb2ciLCJyYW5kb21JZCIsImV4cGlyeURhdGUiLCJEYXRlIiwibm93IiwiTWF0aCIsInJhbmRvbSIsInRvU3RyaW5nIiwic3Vic3RyaW5nIiwidG9rZW4yIiwicHJvdmlkZXIiLCJhY2NvdW50SW5zZXJ0ZWQiLCJpbnNlcnRPbmUiLCJ0eXBlIiwiYWNjZXNzX3Rva2VuIiwiZXhwaXJlc19hdCIsInNjb3BlIiwidG9rZW5fdHlwZSIsInJlZnJlc2hfdG9rZW4iLCJmaXJzdG5hbWUiLCJsYXN0bmFtZSIsImltYWdlIiwiY3JlYXRlZEF0IiwidXBkYXRlT25lIiwiJHNldCIsImFjY291bnRJZCIsImlkX3Rva2VuIiwicGhvbmUiLCJnZW5kZXIiLCJiaXJ0aGRhdGUiLCJQcm9taXNlIiwicmVzb2x2ZSJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./pages/api/auth/[...nextauth].js\n");
 
-if (!process.env.MONGODB_URI) {
-    throw new Error("No se ha podido conectar a la base de datos");
-}
-const uri = process.env.MONGODB_URI;
-let client;
-let clientPromise;
-if (false) {} else {
-    client = new mongodb__WEBPACK_IMPORTED_MODULE_0__.MongoClient(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
-    clientPromise = client.connect();
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (clientPromise);
+/***/ }),
 
+/***/ "(api)/./pages/api/lib/MongoDB.js":
+/*!**********************************!*\
+  !*** ./pages/api/lib/MongoDB.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongodb */ \"mongodb\");\n/* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_0__);\n\nif (!process.env.MONGODB_URI) {\n    throw new Error(\"No se ha podido conectar a la base de datos\");\n}\nconst uri = process.env.MONGODB_URI;\nlet client;\nlet clientPromise;\nif (true) {\n    if (!global._mongoClientPromise) {\n        client = new mongodb__WEBPACK_IMPORTED_MODULE_0__.MongoClient(uri, {\n            useNewUrlParser: true,\n            useUnifiedTopology: true\n        });\n        global._mongoClientPromise = client.connect();\n    }\n    clientPromise = global._mongoClientPromise;\n} else {}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (clientPromise);\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvbGliL01vbmdvREIuanMuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQXFDO0FBRXJDLElBQUksQ0FBQ0MsT0FBTyxDQUFDQyxHQUFHLENBQUNDLFdBQVcsRUFBRTtJQUU1QixNQUFNLElBQUlDLEtBQUssQ0FBQyw2Q0FBNkMsQ0FBQyxDQUFDO0FBRWpFLENBQUM7QUFFRCxNQUFNQyxHQUFHLEdBQUdKLE9BQU8sQ0FBQ0MsR0FBRyxDQUFDQyxXQUFXO0FBRW5DLElBQUlHLE1BQU07QUFDVixJQUFJQyxhQUFhO0FBRWpCLElBQUlOLElBQXNDLEVBQUU7SUFFMUMsSUFBSSxDQUFDTyxNQUFNLENBQUNDLG1CQUFtQixFQUFFO1FBQy9CSCxNQUFNLEdBQUcsSUFBSU4sZ0RBQVcsQ0FBQ0ssR0FBRyxFQUFFO1lBQUVLLGVBQWUsRUFBQyxJQUFJO1lBQUVDLGtCQUFrQixFQUFDLElBQUk7U0FBRSxDQUFDLENBQUM7UUFDakZILE1BQU0sQ0FBQ0MsbUJBQW1CLEdBQUdILE1BQU0sQ0FBQ00sT0FBTyxFQUFFLENBQUM7SUFDaEQsQ0FBQztJQUVETCxhQUFhLEdBQUdDLE1BQU0sQ0FBQ0MsbUJBQW1CLENBQUM7QUFFN0MsT0FBTyxFQUdOO0FBRUQsaUVBQWVGLGFBQWEsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL3N3ZWV0LWhvbWUvLi9wYWdlcy9hcGkvbGliL01vbmdvREIuanM/MjNhOCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBNb25nb0NsaWVudCB9IGZyb20gJ21vbmdvZGInXG5cbmlmICghcHJvY2Vzcy5lbnYuTU9OR09EQl9VUkkpIHtcblxuICB0aHJvdyBuZXcgRXJyb3IoJ05vIHNlIGhhIHBvZGlkbyBjb25lY3RhciBhIGxhIGJhc2UgZGUgZGF0b3MnKTtcbiAgXG59XG5cbmNvbnN0IHVyaSA9IHByb2Nlc3MuZW52Lk1PTkdPREJfVVJJO1xuXG5sZXQgY2xpZW50O1xubGV0IGNsaWVudFByb21pc2U7XG5cbmlmIChwcm9jZXNzLmVudi5OT0RFX0VOViA9PT0gJ2RldmVsb3BtZW50Jykge1xuXG4gIGlmICghZ2xvYmFsLl9tb25nb0NsaWVudFByb21pc2UpIHtcbiAgICBjbGllbnQgPSBuZXcgTW9uZ29DbGllbnQodXJpLCB7IHVzZU5ld1VybFBhcnNlcjp0cnVlLCB1c2VVbmlmaWVkVG9wb2xvZ3k6dHJ1ZSB9KTtcbiAgICBnbG9iYWwuX21vbmdvQ2xpZW50UHJvbWlzZSA9IGNsaWVudC5jb25uZWN0KCk7XG4gIH1cblxuICBjbGllbnRQcm9taXNlID0gZ2xvYmFsLl9tb25nb0NsaWVudFByb21pc2U7XG5cbn0gZWxzZSB7XG4gIGNsaWVudCA9IG5ldyBNb25nb0NsaWVudCh1cmksIHsgdXNlTmV3VXJsUGFyc2VyOnRydWUsIHVzZVVuaWZpZWRUb3BvbG9neTp0cnVlICB9KTtcbiAgY2xpZW50UHJvbWlzZSA9IGNsaWVudC5jb25uZWN0KCk7XG59XG5cbmV4cG9ydCBkZWZhdWx0IGNsaWVudFByb21pc2U7XG4iXSwibmFtZXMiOlsiTW9uZ29DbGllbnQiLCJwcm9jZXNzIiwiZW52IiwiTU9OR09EQl9VUkkiLCJFcnJvciIsInVyaSIsImNsaWVudCIsImNsaWVudFByb21pc2UiLCJnbG9iYWwiLCJfbW9uZ29DbGllbnRQcm9taXNlIiwidXNlTmV3VXJsUGFyc2VyIiwidXNlVW5pZmllZFRvcG9sb2d5IiwiY29ubmVjdCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./pages/api/lib/MongoDB.js\n");
 
 /***/ })
 
@@ -466,7 +120,7 @@ if (false) {} else {
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__(6805));
+var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/auth/[...nextauth].js"));
 module.exports = __webpack_exports__;
 
 })();
