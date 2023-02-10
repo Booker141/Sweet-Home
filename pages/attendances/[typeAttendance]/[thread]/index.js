@@ -15,7 +15,6 @@ export default function Thread({attendances}){
     const [sortedAttendances, setSortedAttendances] = useState(attendances);
 
 
- 
     const router = useRouter();
 
     const sortAttendanceByUsername = () => {
