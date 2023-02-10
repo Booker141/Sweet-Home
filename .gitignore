@@ -1,4 +1,13 @@
+# Environment variables
+
 .env.local
 .env.production
+
 # Local Netlify folder
+
 .netlify
+
+# Build files
+
+.next
+node_modules
