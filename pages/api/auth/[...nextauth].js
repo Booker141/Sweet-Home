@@ -90,7 +90,7 @@ export const authOptions = {
       databaseName: 'SweetHomeDB',
     }),
     jwt: {
-      secret: process.env.NEXT_AUTH_SECRET,
+      secret: process.env.NEXTAUTH_SECRET,
     },
     session: {
       strategy: "jwt",
