@@ -11,7 +11,7 @@ import {BsPatchCheckFill} from 'react-icons/bs'
 import {MdOutlineBlock} from 'react-icons/md'
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
-import {server} from "../../config"
+import {server} from "/server"
 
 export default function Username({posts, user, pets}){
 
