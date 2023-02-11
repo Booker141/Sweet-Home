@@ -442,7 +442,7 @@
 
   /*Position*/
 
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -453,6 +453,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #f0810f;
 
 
 }
