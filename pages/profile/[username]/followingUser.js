@@ -73,7 +73,7 @@ export default function FollowingUser({user}) {
 
 export async function getServerSideProps(context){
 
-    const res = await fetch(`http://localhost:3000/api/users/${context.query.username}`,
+    const res = await fetch(`/api/users/${context.query.username}`,
     {
         method: "GET",
         headers: {

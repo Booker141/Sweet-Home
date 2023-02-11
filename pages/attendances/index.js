@@ -109,8 +109,8 @@ export default function Attendances({typeAttendance}) {
 
 export async function getServerSideProps() {
 
-    const res = await fetch('http://localhost:3000/api/typeAttendance', {
-      method: "GET",
+    const res = await fetch('/api/typeAttendance', {
+      method: 'GET',
       headers: {
           "Content-Type": "application/json"
       }

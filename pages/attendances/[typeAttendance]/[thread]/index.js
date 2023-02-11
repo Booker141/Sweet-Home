@@ -124,8 +124,8 @@ export async function getServerSideProps(context) {
 
     const {thread} = context.params;
 
-    const res = await fetch(`http://localhost:3000/api/attendances/${thread}`, {
-      method: "GET",
+    const res = await fetch(`/api/attendances/${thread}`, {
+      method: 'GET',
       headers: {
           "Content-Type": "application/json"
       }

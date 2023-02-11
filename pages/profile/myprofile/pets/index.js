@@ -12,7 +12,7 @@ export default function Pets(){
 
     useEffect(async () => {
         if(session){
-            const res = await fetch(`http://localhost:3000/api/pets/${session.user.username}`, {
+            const res = await fetch(`/api/pets/${session.user.username}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

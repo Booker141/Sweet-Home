@@ -123,7 +123,7 @@ export async function getServerSideProps(context){
 
     const {newId} = context.query;
 
-    const res = await fetch(`http://localhost:3000/api/news/${newId}`, {
+    const res = await fetch(`/api/news/${newId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -3,12 +3,13 @@
 .env.local
 .env.production
 
-# Local Netlify folder
+# Local Vercel folder
 
-.netlify
+.vercel
 
 # Build files
 
 .next
 node_modules
 package-lock.json
+

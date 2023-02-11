@@ -268,7 +268,7 @@ export async function getServerSideProps(context){
 
     const {username} = context.query;
 
-    const post = await fetch(`http://localhost:3000/api/posts/${username}`, {
+    const post = await fetch(`/api/posts/${username}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

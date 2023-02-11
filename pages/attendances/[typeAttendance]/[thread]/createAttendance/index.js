@@ -56,6 +56,7 @@ export default function CreateAttendance(){
             <Layout>
                 <Head><title>Crear publicación de cuidado</title></Head>
                 <div className={global.content}>
+                    <div className={global.dots}>
                     <div className="form">
                         <h1 className="form__title">Crear publicación de cuidado</h1>
                         <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
@@ -113,6 +114,7 @@ export default function CreateAttendance(){
                             </form>  
                                 <input className={global.buttonPrimary} type="submit" onClick={(e) => createAttendance(e)} value="Crear"/> 
                             </div>
+                        </div>
                     </div>
                 <style jsx>{`
 

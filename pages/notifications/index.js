@@ -65,7 +65,7 @@ export default function Notifications({notifications}) {
 export async function getServerSideProps(context){ 
 
   
-  const res = await fetch("http://localhost:3000/api/notifications/", {
+  const res = await fetch("/api/notifications/", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

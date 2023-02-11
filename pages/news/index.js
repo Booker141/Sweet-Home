@@ -60,7 +60,7 @@ export default function News({news}) {
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
-                        width: 100%;
+                        width: 68rem;
                         margin-bottom: 1rem;
                         padding: 1rem;
 
@@ -154,7 +154,7 @@ export default function News({news}) {
 
 export async function getServerSideProps(){
 
-    const res = await fetch("http://localhost:3000/api/news", {
+    const res = await fetch("/api/news", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

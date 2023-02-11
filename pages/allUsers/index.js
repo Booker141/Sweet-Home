@@ -37,8 +37,8 @@ export default function allUsers({users}){
 
 export async function getServerSideProps(context){
 
-        let res = await fetch("http://localhost:3000/api/users", {
-            method: "GET",
+        let res = await fetch('/api/users', {
+            method: 'GET',
             headers: {
                 "Content-Type": "application/json",
             },

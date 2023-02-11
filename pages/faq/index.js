@@ -92,7 +92,7 @@ export default function Use({questions}){
 
 export async function getServerSideProps(){
 
-    const res = await fetch("http://localhost:3000/api/questions", {
+    const res = await fetch("/api/questions", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
