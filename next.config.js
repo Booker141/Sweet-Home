@@ -25,9 +25,7 @@ module.exports = (phase, { defaultConfig }) => {
         ],
       },
       target: "serverless",
-      
-      
-      
+      future: { webpack5: true }
     }
     
     return nextConfig
