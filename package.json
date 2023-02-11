@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start"
   },
+  "engines" : { 
+    "node" : "16.13.0" 
+  },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.1.1",
     "bcrypt": "^5.1.0",
