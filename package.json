@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "netlify": "netlify"
+    "start": "next start"
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.1.1",
@@ -20,6 +19,7 @@
     "next": "^12.0.4",
     "next-auth": "^4.18.5",
     "nodemon": "^2.0.6",
+    "nvm": "^0.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
@@ -27,7 +27,6 @@
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
-    "file-loader": "^6.1.1",
-    "netlify-cli": "^2.12.0"
+    "file-loader": "^6.1.1"
   }
 }
