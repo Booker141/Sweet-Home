@@ -8,6 +8,7 @@ import {fonts} from '../../../styles/frontend-conf'
 import {statusColors} from '../../../styles/frontend-conf'
 import global from '../../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
+import {server} from '/server'
 
 
 export default function CreateComplaint(){
@@ -21,7 +22,7 @@ export default function CreateComplaint(){
 
         e.preventDefault();
 
-        const res = await fetch('/api/complaints', {
+        const res = await fetch(`${server}/api/complaints`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

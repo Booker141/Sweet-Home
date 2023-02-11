@@ -4,6 +4,7 @@ import {useSession} from 'next-auth/react'
 import {useState, useEffect} from 'react';
 import global from '../../../styles/global.module.css';
 import Layout from '../../../components/Layout/Layout';
+import {server} from '/server';
 
 
 export default function TypeAttendance({threads}){
@@ -181,7 +182,7 @@ export async function getServerSideProps(context) {
 
     const {typeAttendance} = context.params;
 
-    const res = await fetch(`/api/threads/${typeAttendance}`, {
+    const res = await fetch(`${server}/api/threads/${typeAttendance}`, {
       method: 'GET',
       headers: {
           "Content-Type": "application/json"

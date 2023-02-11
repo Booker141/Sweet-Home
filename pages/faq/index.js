@@ -4,6 +4,7 @@ import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 import Question from "components/Question/Question"
 import faq1 from "../../public/faq-1.svg"
+import {server} from "/server"
 
 
 /*
@@ -92,7 +93,7 @@ export default function Use({questions}){
 
 export async function getServerSideProps(){
 
-    const res = await fetch("/api/questions", {
+    const res = await fetch(`${server}/api/questions`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

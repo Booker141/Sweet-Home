@@ -8,6 +8,7 @@ import {MdEmail} from "react-icons/md"
 import {BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill} from "react-icons/bs"
 import { MdOutlineError } from 'react-icons/md'
 import {AiFillEye, AiFillEyeInvisible, AiFillInfoCircle} from "react-icons/ai"
+import {server} from "/server"
 
 
 /* 
@@ -104,7 +105,7 @@ export default function ChangePassword(){
         
         if(newPassword === newPassword2){
 
-            fetch("/api/changePassword", {
+            fetch(`${server}/api/changePassword"`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

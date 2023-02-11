@@ -8,6 +8,7 @@ import {colors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
+import {server} from '/server'
 
 
 export default function CreateAttendance(){
@@ -22,7 +23,7 @@ export default function CreateAttendance(){
 
         e.preventDefault();
 
-        const res = await fetch('/api/attendances', {
+        const res = await fetch(`${server}/api/attendances`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

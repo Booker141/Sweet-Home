@@ -9,6 +9,7 @@ import {fonts} from "styles/frontend-conf"
 import {BsPatchCheckFill} from 'react-icons/bs'
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
+import {server} from "/server"
 
 export default function MyProfile({posts}){
 
@@ -268,7 +269,7 @@ export async function getServerSideProps(context){
 
     const {username} = context.query;
 
-    const post = await fetch(`/api/posts/${username}`, {
+    const post = await fetch(`${server}/api/posts/${username}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

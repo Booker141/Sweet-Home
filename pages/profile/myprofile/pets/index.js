@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Layout from "/components/Layout/Layout"
 import Pet from "/components/Pet/Pet"
 import global from "/styles/global.module.css"
-
+import {server} from "/server"
 export default function Pets(){
 
     const {data: session, status} = useSession({required: true});
@@ -12,7 +12,7 @@ export default function Pets(){
 
     useEffect(async () => {
         if(session){
-            const res = await fetch(`/api/pets/${session.user.username}`, {
+            const res = await fetch(`${server}/api/pets/${session.user.username}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

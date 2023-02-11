@@ -4,6 +4,7 @@ import {colors} from "/styles/frontend-conf"
 import {fonts} from "/styles/frontend-conf"
 import Layout from 'components/Layout/Layout'
 import Notification from "components/Notification/Notification"
+import {server} from "/server"
 
 export default function Notifications({notifications}) {
 
@@ -65,7 +66,7 @@ export default function Notifications({notifications}) {
 export async function getServerSideProps(context){ 
 
   
-  const res = await fetch("/api/notifications/", {
+  const res = await fetch(`${server}/api/notifications/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

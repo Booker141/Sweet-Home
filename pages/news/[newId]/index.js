@@ -5,6 +5,7 @@ import global from "styles/global.module.css"
 import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import New from "components/New/New"
+import {server} from "/server"
 
 export default function NewsId({news}){
 
@@ -123,7 +124,7 @@ export async function getServerSideProps(context){
 
     const {newId} = context.query;
 
-    const res = await fetch(`/api/news/${newId}`, {
+    const res = await fetch(`${server}/api/news/${newId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

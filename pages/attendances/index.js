@@ -5,6 +5,7 @@ import {useState} from 'react'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router';
 import TypeAttendance from 'components/TypeAttendance/TypeAttendance';
+import {server} from '/server';
 
 
 
@@ -109,7 +110,7 @@ export default function Attendances({typeAttendance}) {
 
 export async function getServerSideProps() {
 
-    const res = await fetch('/api/typeAttendance', {
+    const res = await fetch(`${server}/api/typeAttendance`, {
       method: 'GET',
       headers: {
           "Content-Type": "application/json"

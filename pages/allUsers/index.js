@@ -2,6 +2,7 @@ import {useSession} from 'next-auth/react'
 import global from "styles/global.module.css"
 import User from "components/User/User"
 import Layout from "components/Layout/Layout"
+import {server} from "/server"
 
 /**
  * It's a function that returns a layout component with a title and a list of users
@@ -37,7 +38,7 @@ export default function allUsers({users}){
 
 export async function getServerSideProps(context){
 
-        let res = await fetch('/api/users', {
+        let res = await fetch(`${server}/api/users`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",

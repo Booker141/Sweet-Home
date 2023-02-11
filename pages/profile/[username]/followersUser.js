@@ -4,6 +4,7 @@ import Head from 'next/head'
 import global from "styles/global.module.css"
 import Layout from "components/Layout/Layout"
 import Follower from "components/Follower/Follower"
+import {server} from "/server"
 
 
 export default function FollowersUser({user}) {
@@ -73,7 +74,7 @@ export default function FollowersUser({user}) {
 
 export async function getServerSideProps(context){
 
-    const res = await fetch(`/api/users/${context.query.username}`,
+    const res = await fetch(`${server}/api/users/${context.query.username}`,
     {
         method: "GET",
         headers: {

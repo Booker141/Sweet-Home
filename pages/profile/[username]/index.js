@@ -11,6 +11,7 @@ import {BsPatchCheckFill} from 'react-icons/bs'
 import {MdOutlineBlock} from 'react-icons/md'
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
+import {server} from "../../config"
 
 export default function Username({posts, user, pets}){
 
@@ -408,21 +409,21 @@ export async function getServerSideProps(context){
 
     const {username} = context.query;
 
-    const post = await fetch(`/api/posts/${username}`, {
+    const post = await fetch(`${server}/api/posts/${username}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
     });
 
-    const res = await fetch(`/api/users/${username}`, {
+    const res = await fetch(`${server}/api/users/${username}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
     });
 
-    const pet = await fetch(`/api/pets/${username}`, {
+    const pet = await fetch(`${server}/api/pets/${username}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

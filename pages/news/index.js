@@ -5,6 +5,7 @@ import {fonts} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
 import Layout from "components/Layout/Layout"
 import New from "components/New/New"
+import {server} from "../../server"
 
 
 
@@ -154,7 +155,7 @@ export default function News({news}) {
 
 export async function getServerSideProps(){
 
-    const res = await fetch("/api/news", {
+    const res = await fetch(`${server}/api/news`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

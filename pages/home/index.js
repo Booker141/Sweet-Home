@@ -12,6 +12,7 @@ import Layout from "components/Layout/Layout"
 import BasicFooter from "components/BasicFooter/BasicFooter"
 import Post from "components/Post/Post"
 import User from "components/User/User"
+import {server} from "/server"
 
 
 /* 
@@ -403,7 +404,7 @@ export default function Home ({posts, users}){
 export async function getServerSideProps(context){ 
 
   
-  let res = await fetch("http://localhost:3000/api/posts", {
+  let res = await fetch(`${server}/api/posts`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -411,7 +412,7 @@ export async function getServerSideProps(context){
   });
 
 
-  let user = await fetch("http://localhost:3000/api/users", {
+  let user = await fetch(`${server}/api/users`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

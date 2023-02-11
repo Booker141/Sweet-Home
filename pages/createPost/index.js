@@ -9,6 +9,7 @@ import {fonts} from '../../styles/frontend-conf'
 import {statusColors} from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
+import {server} from '/server'
 
 
 export default function CreatePost(){
@@ -23,7 +24,7 @@ export default function CreatePost(){
 
         e.preventDefault();
 
-        const res = await fetch('/api/posts', {
+        const res = await fetch(`${server}/api/posts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -4,7 +4,7 @@ import {useSession} from 'next-auth/react'
 import {useState} from 'react';
 import global from '/styles/global.module.css';
 import Layout from '/components/Layout/Layout';
-
+import {server} from '/server';
 
 export default function Thread({attendances}){
 
@@ -124,7 +124,7 @@ export async function getServerSideProps(context) {
 
     const {thread} = context.params;
 
-    const res = await fetch(`/api/attendances/${thread}`, {
+    const res = await fetch(`${server}/api/attendances/${thread}`, {
       method: 'GET',
       headers: {
           "Content-Type": "application/json"
