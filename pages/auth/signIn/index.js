@@ -178,14 +178,14 @@ export default function SignIn({providers, csrfToken}) {
                   </div>
                   {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Twitter").map((provider) => (
                     <div key={provider.name}>
-                      <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '${server}/home'})}>
+                      <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
                         Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
                       </button>
                     </div>
                   ))}
                   {providers && Object.values(providers).filter(provider => provider.name != "Credentials" && provider.name == "Google").map((provider) => (
                     <div key={provider.name}>
-                      <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '${server}/home'})}>
+                      <button className="form-vertical__button2" onClick={() => signIn(provider.id, {callbackUrl: '/home'})}>
                         Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
                       </button>
                     </div>
