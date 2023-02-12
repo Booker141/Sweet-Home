@@ -17,6 +17,34 @@ class MyDocument extends Document {
             <meta name="author" content="Sergio García Navarro"></meta>
             <meta name="designer" content="Sergio García Navarro"></meta>
             <link rel="icon" href="/Icono.ico"/>
+            <link
+              rel="preload"
+              href="/fonts/Poppins/Poppins-Regular.ttf"
+              as="font"
+              type="font/ttf"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              href="/fonts/Poppins/Poppins-Black.ttf"
+              as="font"
+              type="font/ttf"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              href="/fonts/Raleway/Raleway-VariableFont_wght.ttf"
+              as="font"
+              type="font/ttf"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              href="/fonts/Satisfy/Satisfy-Regular.ttf"
+              as="font"
+              type="font/ttf"
+              crossOrigin="anonymous"
+            />
         </Head>
         
         <body>

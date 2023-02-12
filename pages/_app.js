@@ -2,6 +2,7 @@ import {SessionProvider} from 'next-auth/react'
 import {useState} from 'react'
 import Router from 'next/router'
 import Loader from '/components/Loader/Loader'
+import '/public/fonts/style.css'
 
 /*
  * The MyApp function is a component that takes in a Component and pageProps as props. It then returns
@@ -32,7 +33,7 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }) {
  
       <SessionProvider session={session}>
           {loading && <Loader />}
-            <Component {...pageProps} /> 
+          <Component {...pageProps} /> 
       </SessionProvider>
       
     </>
