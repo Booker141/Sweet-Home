@@ -33,16 +33,29 @@ export default function Pets(){
             <Layout>
                 <Head><title>Mascotas</title></Head>
                 <h1 className={global.title}>Mis mascotas</h1>
-                {pets.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+                <button className={global.buttonPrimary}><a href="/profile/myprofile/pets/createPet" title="Ir a la página para añadir mascotas" aria-label="Ir a la página para añadir mascotas">Añadir mascotas</a></button> 
+                {pets.length === 0 && <div><p className={global.loading}>No tienes mascotas..</p></div>}
 
-                            {pets.map(({_id, animal, breed, name, weight, birthYear, image}) => {
+                            {pets.map(({_id, animal, breed, name, weight, birthYear, image, ownerUsername}) => {
                             return (
                                 <>
-                                    <Pet key={_id} animal={animal} breed={breed} name={name} weight={weight} bithYear={birthYear} image={image}/>
+                                    <Pet key={_id} animal={animal} breed={breed} name={name} weight={weight} bithYear={birthYear} image={image} ownerUsername={ownerUsername}/>
                                 </>
                             )
                             })}
-                        
+            <style jsx>{`
+            
+                a{
+                    /*Text*/
+                    
+                    text-decoration: none;
+                    color: white;
+                }
+            
+            
+            
+            
+            `}</style>
             </Layout>
 
         )

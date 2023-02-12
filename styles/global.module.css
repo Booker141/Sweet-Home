@@ -314,10 +314,10 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+ 
+  width: 50rem;
   margin-bottom: 1rem;
-  padding: 5rem;
+  padding: 2rem;
 
   /*Text*/
 
@@ -703,8 +703,8 @@
   align-items: center;
   justify-content: space-around;
   height: 3rem;
-  width: 8rem;
-  padding: 0.5rem;
+  width: 7rem;
+  padding: 1rem;
 
   /*Text*/
 
@@ -716,9 +716,42 @@
 
   cursor: pointer;
 
-  background-color: #ffff;
+  background: transparent;
   border-radius: 40px;
   border: 1px solid #f55b5b;
+
+  /*Misc*/
+
+  transition: all 0.3s ease-in-out;
+
+}
+
+
+.buttonDelete:hover {
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 3rem;
+  width: 7rem;
+  padding: 1rem;
+
+  /*Text*/
+
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-style: 500;
+
+  /*Visuals*/
+
+  cursor: pointer;
+
+  background-color: #f55b5b;
+  border-radius: 40px;
+  border: 1px solid white;
 
   /*Misc*/
 

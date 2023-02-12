@@ -1,3 +1,4 @@
+import {useState, useEffect} from 'react'
 import {useSession} from 'next-auth/react'
 import global from "/styles/global.module.css"
 import {colors} from "/styles/frontend-conf"
@@ -6,9 +7,26 @@ import Layout from 'components/Layout/Layout'
 import Notification from "components/Notification/Notification"
 import {server} from "/server"
 
-export default function Notifications({notifications}) {
+export default function Notifications() {
 
     const {data: session, status} = useSession({required: true});
+
+    const [notifications, setNotifications] = useState([]);
+
+    console.log(notifications)
+    useEffect(async () => {
+        if(session){
+            const res = await fetch(`${server}/api/notifications/${session.user.username}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const notifications = await res.json();
+            setNotifications(notifications);
+        }
+    }, [])
 
     if(status == "loading"){
         return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
@@ -19,7 +37,7 @@ export default function Notifications({notifications}) {
             <Layout>
                 <div className="container">
                     <p className={global.title}>Notificaciones</p>
-                    {notifications.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+                    {notifications.length === 0 && <div><p className={global.loading2}>No tiene ninguna notificación</p></div>}
                     {notifications.map(({_id, typeNotification, userIdFrom, userIdTo}) => {
                         return (
                             <>
@@ -59,26 +77,6 @@ export default function Notifications({notifications}) {
         </Layout>
     )
   
-    }
-
-}
-
-export async function getServerSideProps(context){ 
-
-  
-  const res = await fetch(`${server}/api/notifications/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-
-    const notifications = await res.json();
-
-    return {
-        props: {
-            notifications: JSON.parse(JSON.stringify(notifications))
-        }
     }
 
 }

@@ -12,18 +12,24 @@ export default function Pet(props){
                     </div>
                     <div className="pet__info">
                         <div className="pet__name">
-                            <h1 className={global.title2}>Nombre: {props.name}</h1>
+                            <h1 className={global.text2}>Nombre: {props.name}</h1>
+                        </div>
+                        <div className="pet__animal">
+                            <h1 className={global.text2}>Animal: {props.animal}</h1>
+                        </div>
+                        <div className="pet__breed">
+                            <h1 className={global.text2}>Raza: {props.breed}</h1>
                         </div>
                         <div className="pet__age">
-                            <p className={global.text2}>Año de nacimiento: {props.birthYear}</p>
+                            <h1 className={global.text2}>Año de nacimiento: {props.birthYear}</h1>
                         </div>
                     </div>
                 </div>
                 <div className="pet__owner">
-                    <p className={global.text2}>Dueño: {props.ownerUsername}</p>
+                    <h1 className={global.text2}>Dueño: @{props.ownerUsername}</h1>
                 </div>
                 <div className="pet__weight">
-                    <p className={global.text2}>Peso: {props.weight}</p>
+                    <h1 className={global.text2}>Peso: {props.weight}</h1>
                 </div>
             </div> 
         </>
