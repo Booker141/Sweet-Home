@@ -61,7 +61,7 @@ export default function Thread({attendances}){
                     <button className={global.buttonPrimary} onClick={() => sortThreadByUsername()} aria-label="Ordenar categorías por usuario">Ordenar por usuario</button>
                     <button className={global.buttonPrimary} onClick={() => sortThreadByDate()} aria-label="Ordenar categorías por nombre">Ordenar por fecha</button>
                 </div>
-                {attendances.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+                {attendances.length === 0 && <div><p className={global.loading2}>Cargando..</p></div>}
                 {isSortedByUsername && sortedAttendances.map(({_id, name, typeAttendanceId, createdAt, userId}) => {
                     return (
                         <>

@@ -463,6 +463,27 @@
 
 }
 
+.loading2{
+
+  /*Position*/
+
+  position: relative;
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #f0810f;
+
+
+}
+
 .dots{
 
   /*Visuals*/
