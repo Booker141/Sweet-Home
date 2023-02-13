@@ -21,10 +21,10 @@ export default function allUsers({users}){
             <Layout>
             
                         <h1 className={global.title}>Usuarios</h1>
-                            {users.filter(user => user.username !== (session.user.username)).map(({_id, userImage, username, isCaretaker}) => {
+                            {users.filter(user => user.username !== (session.user.username)).map(({_id, image, username, isCaretaker}) => {
                                 return(
                                     <>
-                                        <User key={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
+                                        <User key={_id} image={image} username={username} isCaretaker={isCaretaker}/>
                                     </>
                                 )
                             })}

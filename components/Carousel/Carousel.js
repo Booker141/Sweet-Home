@@ -6,6 +6,7 @@ import {colors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js"
 import carousel from "../../public/carousel.svg"
 import {BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill} from "react-icons/bs"
+import {server} from "/server"
 
 
 
@@ -48,7 +49,7 @@ export default function Carousel(){
     }
 
     useEffect(async () => {
-        await fetch("http://localhost:3000/api/news", {
+        await fetch(`${server}/api/news`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

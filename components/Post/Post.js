@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react'
 import {useState, useEffect} from 'react'
+import Image from 'next/image'
 import global from "styles/global.module.css"
 import {fonts} from "styles/frontend-conf"
 import {colors} from "styles/frontend-conf"
@@ -10,6 +11,7 @@ import {IoPawOutline, IoPaw} from 'react-icons/io5'
 import {MdDeleteOutline} from 'react-icons/md'
 import {BsBookmark, BsBookmarkFill, BsPatchCheckFill} from 'react-icons/bs'
 import {HiOutlineRefresh} from 'react-icons/hi'
+import {server} from "/server"
 
 
 export default function Post(props){
@@ -29,7 +31,7 @@ export default function Post(props){
 
     useEffect(() => {
         const fetchUser = async () => {
-            const res = await fetch(`http://localhost:3000/api/users/${props.username}`, {
+            const res = await fetch(`${server}/api/users/${props.username}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -52,7 +54,7 @@ export default function Post(props){
         document.getElementById("comment").value = "";
 
             
-            const res = await fetch('/api/comments', {
+            const res = await fetch(`${server}/api/comments`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -76,7 +78,7 @@ export default function Post(props){
 
     const deletePost = async () => {
 
-        const res = await fetch(`/api/posts/${session.user.username}/${props.id}`, {
+        const res = await fetch(`${server}/api/posts/${session.user.username}/${props.id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -111,10 +113,10 @@ export default function Post(props){
                 <div key={props._id} className={global.post}>
                     <div className="post__header">
                         <div className="header__user">
-                            <img src={user.image}></img>
-                            <div className={global.text2__bold}>
+                            <Image src={user.image} alt="Imagen de usuario" style={{borderRadius: '50px'}} width={50} height={50} priority/>
+                            <p className={global.text2__bold}>
                                 {user.username}
-                            </div>
+                            </p>
                         </div>
                         <div className="header__location">
                             <p className={global.text2}>
@@ -125,7 +127,7 @@ export default function Post(props){
                     </div>
                     <img src={props.mediaUrl}></img>
                     <div className="description">
-                        <img src={user.image}></img>
+                        <Image className="user__image" src={user.image} alt="Imagen de usuario" style={{borderRadius: '50px'}} width={30} height={30} priority/>
                         <p className={global.tertiary2__bold}>
                             @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary}/>}:
                         </p>
@@ -200,6 +202,7 @@ export default function Post(props){
     
             <style jsx>{`
 
+               
                 .post__content{
 
                     /*Box model*/
@@ -267,16 +270,18 @@ export default function Post(props){
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
                     align-items: center;
 
                 }
 
-                .header__user > div{
+                .header__user > p{
 
                     /*Box model*/
 
                     margin-right: 1rem;
+                    margin-left: 1rem;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .header__location{
@@ -296,7 +301,7 @@ export default function Post(props){
 
                     display: flex;
                     flex-direction: row;
-                    align-items: flex-start;
+                    align-items: center;
                     margin-top: 1rem;
                     margin-bottom: 1rem;
 
@@ -306,6 +311,7 @@ export default function Post(props){
                     border-radius: 5px;
 
                 }
+
 
                 .like--status .save--status{
 

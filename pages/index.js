@@ -168,6 +168,9 @@ export default function Principal(){
         </div>  
         <h2 className={global.title}>¿Cómo la llevamos a cabo?</h2>
         <div className="container6__column2">
+          <div className="imagen-inicio3">
+            <Image src={inicio3} alt="Personas trabajando"/>
+          </div>  
           <div className="column2__text">
             <p className={global.text}>Para llevar a cabo nuestra misión, hemos 
             creado una red social que permite a los usuarios compartir información
@@ -179,9 +182,7 @@ export default function Principal(){
             usuario que ha realizado una publicación y seguir a los centros de 
             acogida de animales que sean de interés.</p>
           </div>
-          <div className="imagen-inicio3">
-            <Image src={inicio3} alt="Personas trabajando"/>
-          </div>  
+          
         </div>
       </div>
       

@@ -104,7 +104,7 @@ export default function Username({posts, user, pets}){
                             <div className="profile__text">
                                 
                                 <div className="text__username">
-                                    <Image src={profileUser.image} style={{borderRadius: '50px'}} width={100} height={100} alt="Imagen de perfil"/>
+                                    <Image src={profileUser.image} style={{borderRadius: '50px'}} width={100} height={100} alt="Imagen de perfil" priority/>
                                     <div className={global.title2}>@{profileUser.username}</div>
                                     {isCaretaker && <BsPatchCheckFill size={30} color={colors.primary}/>}
                                     {isFollowing ? <button className={global.buttonTertiary2} onClick={ () => followUser()}>Seguir <AiOutlineCheck/></button> : <button className={global.buttonFollowed} onClick={() => followUser()}>Seguido</button>}

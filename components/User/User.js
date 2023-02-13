@@ -32,7 +32,7 @@ export default function User(props){
 
             <div key={props._id} className={global.user}>
                 <div className="user__image">
-                    <Image src={props.userImage} alt="Imagen de usuario" width={30} height={30}></Image>
+                    <Image src={props.image} style={{borderRadius: '50px'}} alt="Imagen de usuario" width={30} height={30}/>
                 </div>
                 <div className="user__username">
                     <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}>@{props.username}</a>
