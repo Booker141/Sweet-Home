@@ -127,13 +127,15 @@ export default function Post(props){
                     </div>
                     <img src={props.mediaUrl}></img>
                     <div className="description">
-                        <Image className="user__image" src={user.image} alt="Imagen de usuario" style={{borderRadius: '50px'}} width={30} height={30} priority/>
-                        <p className={global.tertiary2__bold}>
-                            @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary}/>}:
-                        </p>
-                        <p className={global.tertiary2}>
-                            {props.description}
-                        </p>
+                        <div className="description__content">
+                            <Image className="user__image" src={user.image} alt="Imagen de usuario" style={{borderRadius: '50px'}} width={30} height={30} priority/>
+                            <p className={global.tertiary2__bold}>
+                                @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary}/>}:
+                            </p>
+                            <p className={global.tertiary2}>
+                                {props.description}
+                            </p>
+                        </div>
                     </div>
                     <div className="post__block">
                         <div className="post__comment">
@@ -310,6 +312,16 @@ export default function Post(props){
                     background-color: white;
                     border-radius: 5px;
 
+                }
+
+                .description__content{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    margin-left: 1rem;
                 }
 
 

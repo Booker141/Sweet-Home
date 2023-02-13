@@ -44,7 +44,7 @@ export default function CreatePost(){
             setMessage("Introduzca los campos obligatorios")
         }else{
             setMessage("Publicación creada correctamente");
-            Router.push("/home");
+            Router.push(`${server}/home`);
         }
 
     }
