@@ -2,7 +2,7 @@ import {SessionProvider} from 'next-auth/react'
 import {useState} from 'react'
 import Router from 'next/router'
 import Loader from '/components/Loader/Loader'
-import '/styles/font.css'
+import '../styles/font.css'
 
 /*
  * The MyApp function is a component that takes in a Component and pageProps as props. It then returns
