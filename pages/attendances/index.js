@@ -56,7 +56,7 @@ export default function Attendances({typeAttendance}) {
                     <h1 className={global.title}>Foro de cuidados</h1>
                       <h2 className={global.title2}>Categorías</h2>
                       <button className={global.buttonPrimary} onClick={() => sortAttendanceByName()} aria-label="Ordenar categorías por nombre">Ordenar por nombre</button>
-                      {typeAttendance.length === 0 && <div><p className={global.loading2}>Cargando..</p></div>}
+                      {typeAttendance.length === 0 && <div><p className={global.loading2}>No hay ninguna categoría en este momento.</p></div>}
                       {isSorted && sortedAttendance.map(({_id, name, description, urlName}) => {
                           return (
                             <>

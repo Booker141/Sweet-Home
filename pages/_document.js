@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import '/styles/font.css'
 
 /* It's a class that extends the Document class from Next.js and it's used to add custom properties to
 the HTML document */

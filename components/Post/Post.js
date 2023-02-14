@@ -121,8 +121,8 @@ export default function Post(props){
                         <div className="header__location">
                             <p className={global.text2}>
                                 {props.location}
-                                {(user.username === session.user.username) && <button className="delete__button" onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary}/></button>}
                             </p>
+                            {(user.username === session.user.username) && <button className="delete__button" onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary}/></button>}
                         </div>
                     </div>
                     <img src={props.mediaUrl}></img>
@@ -293,7 +293,7 @@ export default function Post(props){
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 1rem;
+                    gap: 0.8rem;
 
                 }
 
@@ -444,11 +444,18 @@ export default function Post(props){
 
                 .delete__button{
 
+                    /*Box model*/
+
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 0.5rem;
+
                     /*Visuals*/
 
                     border: none;
                     background: transparent;
                     cursor: pointer;
+
                 }
 
                 .refresh__button{

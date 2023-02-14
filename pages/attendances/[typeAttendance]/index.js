@@ -100,7 +100,7 @@ export default function TypeAttendance({threads}){
                     <button className={global.buttonPrimary} onClick={() => sortThreadByDate()} aria-label="Ordenar categorías por nombre">Ordenar por fecha</button>
                     <button className={global.buttonPrimary} onClick={() => sortThreadByNumPosts()} aria-label="Ordenar por actividad">Ordenar por actividad</button>
                 </div>
-                {threads.length === 0 && <div className={global.loading2}><p>Cargando..</p></div>}
+                {threads.length === 0 && <div className={global.loading2}><p>No hay ningún hilo en este momento.</p></div>}
                 {isSortedByName && sortedThreads.map(({_id, name, typeAttendanceId, createdAt, userId}) => {
                     return (
                         <>
