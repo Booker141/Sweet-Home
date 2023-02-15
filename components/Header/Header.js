@@ -12,6 +12,7 @@ import {VscBell, VscBellDot} from 'react-icons/vsc'
 import {MdOutlineChatBubbleOutline, MdOutlineMarkChatUnread} from 'react-icons/md'
 import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
 import Modal from "components/Modal/Modal"
+import ThemeButton from "components/ThemeButton/ThemeButton"
 
 /*
     * @author Sergio García Navarro
@@ -44,8 +45,6 @@ export default function Header(props){
     const [isCaretaker, setIsCaretaker] = useState(false);
 
     const router = useRouter();
-    console.log(session);
-
     
     useEffect(() => { 
         if (session){
@@ -88,6 +87,7 @@ export default function Header(props){
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
                         <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'><MdOutlineChatBubbleOutline /></a></Link></li>
                         <li><Link href="/notifications" as="/notifications"><a aria-label='Ir a Notificaciones'><VscBell /></a></Link></li>
+                        <ThemeButton/>
                         <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
@@ -109,6 +109,7 @@ export default function Header(props){
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
                         <li><Link href="/news" as="/news"><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
                         <li><Link href="/dashboard" as="/dashboard"><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
+                        <ThemeButton/>
                         <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
@@ -130,6 +131,7 @@ export default function Header(props){
                         <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
                         <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
                         <li><Link href="/statistics" as="/statistics"><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
+                        <ThemeButton/>
                         <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
                             <ul className="menu">
                                 <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
@@ -411,6 +413,7 @@ export default function Header(props){
                         <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
                         <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
                     </div>
+                    <ThemeButton/>
                     <div className="header__buttons">
                         <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
                         {router.route !== "/auth/signIn" && router.route !== "/auth/signUp" && router.route !== '/auth/signUpCare' && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}

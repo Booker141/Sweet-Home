@@ -9,7 +9,6 @@ import {statusColors} from "styles/frontend-conf.js"
 import {fonts} from "styles/frontend-conf.js";
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
-import ThemeButton from "components/ThemeButton/ThemeButton"
 import {BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill} from "react-icons/bs";
 import {MdEmail, MdOutlineError} from "react-icons/md";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
@@ -163,7 +162,6 @@ export default function SignIn({providers, csrfToken}) {
           <Header url1="/news" url2="/about" url3="/contact" url4="/auth/signUp"
                           text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Registrarse"/>
           <div className={global.content}>
-            <ThemeButton/>
             <div className={global.content}>
               <div className="page">
                 <div className="page__video"></div>

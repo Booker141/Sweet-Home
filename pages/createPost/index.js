@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
@@ -18,11 +19,34 @@ export default function CreatePost(){
     const Router = useRouter();
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
+    const [image, setImage] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
     const [message, setMessage] = useState("");
     
+    const uploadImage = async (e) => {
+     
+        if (e.target.files && e.target.files[0]) {
+            const imageUploaded = e.target.files[0];
+            console.log(imageUploaded)
+            setImage(imageUploaded);
+            setImageURL(URL.createObjectURL(imageUploaded));
+        }
+
+    }
+
     const createPost = async (e) =>{
 
         e.preventDefault();
+
+        const body = new FormData();
+        body.append("file", image);
+        
+        const uploadImage = await fetch(`${server}/api/images`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: body});
 
         const res = await fetch(`${server}/api/posts`, {
             method: 'POST',
@@ -34,6 +58,7 @@ export default function CreatePost(){
                 location: location,
                 description: description,
                 username: session.user.username,
+                image: imageURL,
             })
         }).catch(err => console.log(err));
 
@@ -63,7 +88,7 @@ export default function CreatePost(){
                         <h1 className="form__title">Crear publicación</h1>
                         <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
                         <form action="/api/posts" id="form">
-                            <div className="form-vertical__email">
+                            <div className="form-vertical__location">
                                 <div className="label">
                                     <p className={global.text}>Ubicación</p>
                                     <MdLocationOn size={25} color={colors.secondary} />
@@ -78,23 +103,6 @@ export default function CreatePost(){
                                         placeholder="p. ej.: Cádiz"
                                         className="input">
                                     </input>
-                            </div>
-                            </div>
-                            <div className="form-vertical__image">
-                                <div className="label">
-                                    <p className={global.text}>Seleccionar imagen:</p>
-                                    <BsImageFill size={25} color={colors.secondary} />
-                                </div> 
-                                <div className="image__input">
-                                    <input 
-                                        title="Introducir imagen"
-                                        type="file" 
-                                        name="image" 
-                                        accept="image/*"
-                                        placeholder='Ningún archivo seleccionado'
-                                        className="input"> 
-                                    </input>
-                                    <input type="submit" className={global.buttonPrimary}/>
                                 </div>
                             </div>
                             <div className="form-vertical__description">
@@ -107,10 +115,30 @@ export default function CreatePost(){
                                     title="Introducir descripción"
                                     name="Description"
                                     value={description}
+                                    required
                                     onChange={(e) => setDescription(e.target.value)}
                                     placeholder="p. ej.: Esta es mi mascota..."
                                 ></textarea>
                             </div>
+                            <div className="form-vertical__image">
+                                <div className="label">
+                                    <p className={global.text}>Seleccionar imagen:</p>
+                                    <BsImageFill size={25} color={colors.secondary} />
+                                </div> 
+                                <div className="image__input">
+                                    <input 
+                                        title="Introducir imagen"
+                                        type="file" 
+                                        name="image" 
+                                        id="image"
+                                        onChange={(e) => uploadImage(e)}
+                                        accept="image/png, image/jpeg"
+                                        placeholder='Ningún archivo seleccionado'
+                                        className="input"> 
+                                    </input>
+                                </div>
+                            </div>
+                            
                             </div>
                             
                             </form>  

@@ -9,7 +9,6 @@ import {fonts} from "styles/frontend-conf.js";
 import {statusColors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
 import BasicFooter from "components/BasicFooter/BasicFooter"
-import ThemeButton from "components/ThemeButton/ThemeButton"
 import {FaUser, FaUserPlus} from "react-icons/fa";
 import {BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill} from "react-icons/bs";
 import {MdEmail, MdOutlineError} from "react-icons/md";
@@ -216,7 +215,6 @@ export default function SignUp() {
         <Header url1="/news" url2="/about" url3="/contact" url4="/auth/signIn"
                           text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
         <div className={global.content}>
-        <ThemeButton/>
 
         <div className="page">
           

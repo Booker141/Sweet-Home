@@ -9,7 +9,6 @@ import {colors} from "styles/frontend-conf.js"
 import Header from "components/Header/Header"
 import Carousel from "components/Carousel/Carousel"
 import BasicFooter from "components/BasicFooter/BasicFooter"
-import ThemeButton from "components/ThemeButton/ThemeButton"
 import {AiOutlineMobile, AiOutlineTablet} from "react-icons/ai"
 import {ImArrowUp2} from "react-icons/im"
 import {BsLaptop} from "react-icons/bs"
@@ -38,7 +37,6 @@ export default function Principal(){
       
       <div className={global.content}>
         <a name="top"></a>
-        <ThemeButton/>
         <div className="content__container1">
           <div className="container1__title">
             <h1 className="title">

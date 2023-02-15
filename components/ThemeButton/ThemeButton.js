@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {theme} from "styles/frontend-conf.js"
 import {colors} from "styles/frontend-conf.js"
-import {BsFillSunFill, BsMoonFill} from 'react-icons/bs'
+import {BsSun, BsMoon} from "react-icons/bs"
 
 /**
  * It's a button that changes the theme of the page
@@ -38,15 +38,14 @@ export default function ThemeButton(){
 
     return(
         <>
-            {actualTheme === "dark" && <div className="centered"><button onClick={changeTheme} className="toggleButton"><BsFillSunFill color={colors.secondary} size={30}/></button></div>}
-            {actualTheme === "light" && <div className="centered"><button onClick={changeTheme} className="toggleButton"><BsMoonFill color={colors.secondary} size={30}/></button></div>}
+            {actualTheme === "dark" && <div className="centered"><button onClick={changeTheme} className="toggleButton"><BsSun color={colors.secondary} size={20}/></button></div>}
+            {actualTheme === "light" && <div className="centered"><button onClick={changeTheme} className="toggleButton"><BsMoon color={colors.secondary} size={20}/></button></div>}
 
             <style jsx>{`
 
                 .centered{
 
                     display: flex;
-                    justify-content: flex-end;
                     align-items: center;
 
                 }
@@ -63,12 +62,11 @@ export default function ThemeButton(){
 
                     width: 3rem;
                     height: 3rem;
-                    margin-bottom: 2rem;
 
                     /*Visuals*/
 
                     border: none;
-                    background-color: ${colors.primary};
+                    background-color: transparent;
                     border-radius: 50px;
                     cursor: pointer;
 

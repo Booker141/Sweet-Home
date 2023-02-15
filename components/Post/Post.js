@@ -137,6 +137,7 @@ export default function Post(props){
                             </p>
                         </div>
                     </div>
+                    <Image src={props.image} size={30}/>
                     <div className="post__block">
                         <div className="post__comment">
                             <input title="Escribir comentario"
