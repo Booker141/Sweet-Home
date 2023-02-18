@@ -8,6 +8,7 @@ import {fonts} from '../../../styles/frontend-conf'
 import {statusColors} from '../../../styles/frontend-conf'
 import global from '../../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
+import Loader from '/components/Loader/Loader'
 import {server} from '/server'
 
 
@@ -47,8 +48,13 @@ export default function CreateComplaint(){
     }
 
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
+      }
     if(session){
 
         return (

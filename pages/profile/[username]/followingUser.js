@@ -4,6 +4,7 @@ import Head from 'next/head'
 import global from "styles/global.module.css"
 import Layout from "/components/Layout/Layout"
 import Following from "/components/Following/Following"
+import Loader from "/components/Loader/Loader"
 import {server} from "/server"
 
 
@@ -22,8 +23,13 @@ export default function FollowingUser({user}) {
 
     console.log(user);
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
+      }
     if (session){
         return(
             <Layout>

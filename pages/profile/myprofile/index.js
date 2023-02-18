@@ -9,6 +9,7 @@ import {fonts} from "styles/frontend-conf"
 import {BsPatchCheckFill} from 'react-icons/bs'
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
+import Loader from "components/Loader/Loader"
 import {server} from "/server"
 
 export default function MyProfile({posts}){
@@ -28,7 +29,12 @@ export default function MyProfile({posts}){
         }
     }, [])
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
     }
     if (session){
 

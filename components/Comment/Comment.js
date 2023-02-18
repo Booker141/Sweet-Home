@@ -1,3 +1,4 @@
+import {useSession} from 'next-auth/react'
 import { useEffect, useState } from "react"
 import { BsPatchCheckFill } from "react-icons/bs";
 import global from "styles/global.module.css"
@@ -10,6 +11,7 @@ import Modal from "components/Modal/Modal"
 
 export default function Comment(props){
 
+    const {data : session} = useSession();
     const [comment, setComment] = useState({});
     const [isCaretaker, setIsCaretaker] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -62,7 +64,6 @@ export default function Comment(props){
 
         setIsModalVisible(false);
 
-        fetchComments();
     }
 
     return (
@@ -74,7 +75,7 @@ export default function Comment(props){
                     <div className="comment__description">
                         {comment !== null && <p className={global.tertiary2}>{comment.description}</p>}
                     </div>
-                    <button className="delete__button" onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.primary}/></button>
+                    {session.user.username === comment.username && <button className="delete__button" onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.primary}/></button>}
                 </div>
                 {isModalVisible && <Modal>
                         <h2 className={global.title3}>Eliminar comentario</h2>
@@ -91,7 +92,8 @@ export default function Comment(props){
                         /*Box model*/
 
                         margin-left: 1rem;
-
+                        max-width: 27rem;
+                        
                     }
 
                     .comment__username{
@@ -99,8 +101,8 @@ export default function Comment(props){
                         /*Box model*/
 
                         display: flex;
-                        align-items: center;
-                        margin.left: 1rem;
+                        flex-direction: row;
+                        
 
                     }
 

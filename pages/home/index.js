@@ -12,6 +12,7 @@ import Layout from "components/Layout/Layout"
 import BasicFooter from "components/BasicFooter/BasicFooter"
 import Post from "components/Post/Post"
 import User from "components/User/User"
+import Loader from "components/Loader/Loader"
 import {server} from "/server"
 
 
@@ -36,11 +37,6 @@ export default function Home ({posts, users}){
   const [isSortedByLikes, setIsSortedByLikes] = useState(false);
   const Router = useRouter();
 
-  const refresh = () => {
-
-
-
-  }
   const sortPostByUsername = () => {
     setIsSortedByUsername(!isSortedByUsername);
     const sortedPosts = posts.sort((a,b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
@@ -55,7 +51,6 @@ export default function Home ({posts, users}){
 
   }
 
-  console.log(session);
 
   const searchPost = (e) =>{
 
@@ -70,7 +65,12 @@ export default function Home ({posts, users}){
   }
 
     if(status == "loading"){
-      return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+      return (
+        <>
+          <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+          <Loader/>
+        </>
+        )
     }
     if(session){
       return (
@@ -100,7 +100,7 @@ export default function Home ({posts, users}){
                      
                       <div className="column1__header">
                         <h1 className={global.title}>Reciente</h1>
-                        <button className="refresh__button" onClick={() => refresh()}><HiOutlineRefresh size={30} color={colors.primary}/></button>
+                        <button className="refresh__button" onClick={() => Router.reload()}><HiOutlineRefresh size={30} color={colors.primary}/></button>
                       </div>
                       {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
                       {(isSortedByUsername || isSortedByLikes) && postList.map(({_id, username, location, mediaUrl, description, comments, likes, saves}) => {

@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
@@ -7,10 +6,10 @@ import {MdLocationOn} from 'react-icons/md'
 import {BsImageFill, BsFillChatLeftTextFill} from 'react-icons/bs'
 import {colors} from '../../styles/frontend-conf'
 import {fonts} from '../../styles/frontend-conf'
-import {statusColors} from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import {server} from '/server'
+import Loader from "/components/Loader/Loader"
 
 
 export default function CreatePost(){
@@ -27,7 +26,6 @@ export default function CreatePost(){
      
         if (e.target.files && e.target.files[0]) {
             const imageUploaded = e.target.files[0];
-            console.log(imageUploaded)
             setImage(imageUploaded);
             setImageURL(URL.createObjectURL(imageUploaded));
         }
@@ -38,16 +36,20 @@ export default function CreatePost(){
 
         e.preventDefault();
 
-        const body = new FormData();
-        body.append("file", image);
-        
-        const uploadImage = await fetch(`${server}/api/images`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            body: body});
+        if(image !== null && image !== undefined){
 
+            const body = new FormData();
+            body.append("postImage", image, image?.name);
+            
+            await fetch(`${server}/api/images`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                body});
+                
+        }
+        
         const res = await fetch(`${server}/api/posts`, {
             method: 'POST',
             headers: {
@@ -58,7 +60,7 @@ export default function CreatePost(){
                 location: location,
                 description: description,
                 username: session.user.username,
-                image: imageURL,
+                image: "/postImages/" + image?.name,
             })
         }).catch(err => console.log(err));
 
@@ -75,7 +77,12 @@ export default function CreatePost(){
     }
 
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
     }
     if(session){
 
@@ -87,7 +94,7 @@ export default function CreatePost(){
                     <div className="form">
                         <h1 className="form__title">Crear publicación</h1>
                         <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
-                        <form action="/api/posts" id="form">
+                        <form action="/api/posts" id="form" enctype="multipart/form-data">
                             <div className="form-vertical__location">
                                 <div className="label">
                                     <p className={global.text}>Ubicación</p>

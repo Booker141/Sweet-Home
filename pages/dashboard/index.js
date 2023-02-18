@@ -5,15 +5,20 @@ import {useRouter} from 'next/router';
 import Layout from '../../components/Layout/Layout';
 import Head from 'next/head';
 import {useState} from 'react';
-
+import Loader from '../../components/Loader/Loader';
 
 export default function Dashboard(){
 
     const {data: session, status} = useSession({required: true});
 
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
+      }
     if(session.user.role === "admin"){
         return(
             <>

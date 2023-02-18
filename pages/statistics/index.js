@@ -2,13 +2,19 @@ import Layout from '/components/Layout/Layout'
 import Head from 'next/head'
 import global from '/styles/global.module.css'
 import {useSession} from 'next-auth/react'
+import Loader from "/components/Loader/Loader"
 export default function Statistics(){
     
     const {data: session, status} = useSession({required: true});
 
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
+      }
     if(session.user.role === "gerente"){
         return(
             <Layout>

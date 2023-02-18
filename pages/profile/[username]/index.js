@@ -11,6 +11,7 @@ import {BsPatchCheckFill} from 'react-icons/bs'
 import {MdOutlineBlock} from 'react-icons/md'
 import Layout from "components/Layout/Layout"
 import Post from "components/Post/Post"
+import Loader from "components/Loader/Loader"
 import {server} from "/server"
 
 export default function Username({posts, user, pets}){
@@ -88,7 +89,15 @@ export default function Username({posts, user, pets}){
             setIsCaretaker(profileUser.isCaretaker);
         }
     }, [])
-    
+
+    if(status == "loading"){
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
+      }
     if (session){
 
         const numFollowers = followers.length;

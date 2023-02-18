@@ -31,8 +31,7 @@ export default function News({news}) {
             <Head><title>Noticias</title></Head>
 
                 <section>
-
-                        <h1 className={global.title}>Últimas noticias ✧</h1>
+                        <h1 className={global.title2}>¡Últimas noticias de <span className={global.colorized}>Sweet Home</span>!</h1>
                         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
                         
                             {news.map(({_id, id, title, date, author, introduction}) => {
@@ -92,6 +91,31 @@ export default function News({news}) {
                         list-style-type: circle;
                     }
 
+                    h1{
+
+                        /*Box model*/
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-bottom: 5rem;
+
+                        /*Text*/
+
+                        font-size: 2rem;
+                    }
+
+                    h1 > span{
+
+                        /*Box model*/
+
+                        margin-left: 0.7rem;
+
+                        /*Text*/
+
+                        font-size: 2.2rem;
+
+                    }
                     hr{
                         /*Box model*/
 

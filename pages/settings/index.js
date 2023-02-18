@@ -10,18 +10,20 @@ import {BsGenderAmbiguous, BsFillFileTextFill} from "react-icons/bs"
 import Layout from "/components/Layout/Layout"
 import Modal from "/components/Modal/Modal"
 import {server} from "/server"
+import Loader from "/components/Loader/Loader"
 
 export default function Settings(){
 
     const {data: session, status} = useSession({required: true});
+    const [user, setUser] = useState({});
     const [name, setName] = useState("");
     const [lastname, setLastname] = useState("");
     const [phone, setPhone] = useState("");
     const [biography, setBiography] = useState("");
     const [birthdate, setBirthdate] = useState("");
+    const [gender, setGender] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [maxDate, setMaxDate] = useState("");
-    const [gender, setGender] = useState("");
     const [message, setMessage] = useState("");
     const [complaintsList, setComplaintsList] = useState([]);
     const [petsList, setPetsList] = useState([]);
@@ -45,11 +47,25 @@ export default function Settings(){
             },
         }).catch(err => console.log(err));
 
+        const currentUser = await fetch(`${server}/api/users/${session.user.username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).catch(err => console.log(err));
+
         const complaintsList = await complaints.json();
         const petsList = await pets.json();
 
         setComplaints(complaintsList);
         setPets(petsList);
+        setUser(currentUser)
+        setName(currentUser.name);
+        setLastname(currentUser.lastname);
+        setPhone(currentUser.phone);
+        setBiography(currentUser.biography);
+        setBirthdate(currentUser.birthdate);
+        setGender(currentUser.gender);
 
       }
 
@@ -92,6 +108,8 @@ export default function Settings(){
         const complaints = document.querySelector('.complaints');
         const pets = document.querySelector('.pets');
 
+        document.getElementById('edit').classList.remove("active");
+        
         if(e === 'Editar'){
 
             const button = document.querySelector('#edit');
@@ -137,13 +155,33 @@ export default function Settings(){
     }
     }
 
-    const edit = () => {
+    const edit = async (e) => {
 
-      
-    }
+      e.preventDefault();
 
+      const res = await fetch(`${server}/api/users/${session.user.username}`, {
+        
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            firstname: name !== user.name ? name : user.name,
+            lastname: lastname !== user.lastname ? lastname : user.lastname,
+            phone: phone !== user.phone ? phone : user.phone,
+            biography: biography !== user.biography ? phone : user.biography,
+            birthdate: birthdate !== user.birthdate ? birthdate : user.birthdate,
+            gender: gender !== user.gender ? gender : user.gender,
+          }) 
+    })
+  }
     if(status == "loading"){
-      return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+      return (
+        <>
+          <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+          <Loader/>
+        </>
+        )
     }
     if(session){
       return(
@@ -152,7 +190,7 @@ export default function Settings(){
               <div className={global.content}>
               <div className="settings">
                 <nav className="settings__links">
-                    <button id="edit" className="config__style" onClick={() => handleClick("Editar")} aria-label="Ir a Editar Perfil">Editar perfil</button>
+                    <button id="edit" className="config__style  active" onClick={() => handleClick("Editar")} aria-label="Ir a Editar Perfil">Editar perfil</button>
                     <button id="saved" className="config__style" onClick={() => handleClick("Guardados")} aria-label="Ir a Guardados">Guardados</button>
                     <button id="complaints" className="config__style" onClick={() => handleClick("Denuncias")} aria-label="Ir a Denuncias">Denuncias</button>
                     <button id="pets" className="config__style" onClick={() => handleClick("Mascotas")} aria-label="Ir a Mascotas">Mascotas</button>
@@ -281,62 +319,7 @@ export default function Settings(){
               </div>
 
             <style jsx>{`
-                  
-                #edit:active{
 
-                  /*Box model*/
-
-                  padding: 0.5rem;
-
-                  /*Text*/
-
-                  color: ${colors.secondary};
-                  cursor: pointer;
-
-                  /*Visuals*/
-
-                  background-color: ${colors.primary};
-                  border-radius: 10px;
-                  transition: 0.3s ease all;
-
-                }
-
-                #save:active{
-
-                  /*Box model*/
-
-                  padding: 0.5rem;
-
-                  /*Text*/
-
-                  color: ${colors.secondary};
-                  cursor: pointer;
-
-                  /*Visuals*/
-
-                  background-color: ${colors.primary};
-                  border-radius: 10px;
-                  transition: 0.3s ease all;
-                }
-
-                #complaint:active{
-
-                  /*Box model*/
-
-                  padding: 0.5rem;
-
-                  /*Text*/
-
-                  color: ${colors.secondary};
-                  cursor: pointer;
-
-                  /*Visuals*/
-
-                  background-color: ${colors.primary};
-                  border-radius: 10px;
-                  transition: 0.3s ease all;
-
-                }
 
                 .settings{
 
@@ -389,7 +372,7 @@ export default function Settings(){
 
                 }
 
-                .config__style:hover{
+                .active, .config__style:hover{
 
                     /*Box model*/
 
@@ -766,5 +749,5 @@ export default function Settings(){
     )
   
   }
-              
+          
 }

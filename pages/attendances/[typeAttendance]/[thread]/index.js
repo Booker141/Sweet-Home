@@ -4,6 +4,7 @@ import {useSession} from 'next-auth/react'
 import {useState} from 'react';
 import global from '/styles/global.module.css';
 import Layout from '/components/Layout/Layout';
+import Loader from '/components/Loader/Loader';
 import {server} from '/server';
 
 export default function Thread({attendances}){
@@ -47,7 +48,12 @@ export default function Thread({attendances}){
 
 
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
     }
     if(session){
         return(

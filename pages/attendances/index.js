@@ -5,6 +5,7 @@ import {useState} from 'react'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router';
 import TypeAttendance from 'components/TypeAttendance/TypeAttendance';
+import Loader from 'components/Loader/Loader';
 import {server} from '/server';
 
 
@@ -45,7 +46,12 @@ export default function Attendances({typeAttendance}) {
         }
 
         if(status == "loading"){
-          return <div className={global.loading}><p>Cargando..</p></div>
+          return (
+            <>
+              <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+              <Loader/>
+            </>
+            )
         }
         if(session){
           return (

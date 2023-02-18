@@ -2,6 +2,7 @@ import {useSession} from 'next-auth/react'
 import global from "styles/global.module.css"
 import User from "components/User/User"
 import Layout from "components/Layout/Layout"
+import Loader from "components/Loader/Loader"
 import {server} from "/server"
 
 /**
@@ -13,9 +14,13 @@ export default function allUsers({users}){
     const {data: session, status} = useSession({required: true});
   
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
     }
-
     if(session){
         return(
             <Layout>

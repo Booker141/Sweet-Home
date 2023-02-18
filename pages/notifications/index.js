@@ -5,6 +5,7 @@ import {colors} from "/styles/frontend-conf"
 import {fonts} from "/styles/frontend-conf"
 import Layout from 'components/Layout/Layout'
 import Notification from "components/Notification/Notification"
+import Loader from "components/Loader/Loader"
 import {server} from "/server"
 
 export default function Notifications() {
@@ -29,8 +30,13 @@ export default function Notifications() {
     }, [])
 
     if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
+        return (
+          <>
+            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+            <Loader/>
+          </>
+          )
+      }
     if(session){
 
         return (
