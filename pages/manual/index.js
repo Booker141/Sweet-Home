@@ -1,22 +1,18 @@
-import global from "/styles/global.module.css"
-import Layout from "components/Layout/Layout"
+import global from '/styles/global.module.css'
+import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
 
-export default function Manual(){
+export default function Manual () {
+  return (
 
+    <Layout>
+      <Head><title>Manual de usuario</title></Head>
+      <div className='manual'>
+        <h1 className={global.title4}>Manual de usuario</h1>
+        <aside />
+      </div>
 
-    return(
-
-        <Layout>
-                <Head><title>Manual de usuario</title></Head>
-                <div className="manual">
-                    <h1 className={global.title}>Manual de usuario</h1>
-                    <aside>
-
-                    </aside>
-                </div>
-                
-                <style jsx>{`
+      <style jsx>{`
 
                     .manual{
 
@@ -28,7 +24,8 @@ export default function Manual(){
                     
 
                     }
-                `}</style>
-        </Layout>
-    )
+                `}
+      </style>
+    </Layout>
+  )
 }

@@ -1,35 +1,33 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import global from 'styles/global.module.css'
 
+export default function Follower (props) {
+  const [user, setUser] = useState({})
 
-export default function Follower(props) {
+  useEffect(async () => {
+    const res = await fetch(`http://localhost:3000/api/users/${props.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    const follower = await res.json()
+    setUser(follower)
+  }, [])
 
-    const [user, setUser] = useState({});
-
-    useEffect(async () => {
-        const res = await fetch(`http://localhost:3000/api/users/${props.id}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const follower = await res.json();
-        setUser(follower);
-    }, []);
-
-    return(
-        <>
-        <div className="follower">
-            <div className="follower__image">
-                <Image src={follower.image} />
-            </div>
-            <div className="follower__info">
-                <p className={global.text}>{follower.username}</p>
-            </div>
+  return (
+    <>
+      <div className='follower'>
+        <div className='follower__image'>
+          <Image src={follower.image} />
         </div>
-            <style jsx>{`
+        <div className='follower__info'>
+          <p className={global.text}>{follower.username}</p>
+        </div>
+      </div>
+      <style jsx>{`
                 .follower{
                     /*Box model*/   
 
@@ -58,8 +56,9 @@ export default function Follower(props) {
                     justify-content: center;
                     align-items: flex-start;
                 }
-            `}</style>
-        </>
+            `}
+      </style>
+    </>
 
-    )
+  )
 }

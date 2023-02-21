@@ -1,91 +1,81 @@
-import {useSession} from 'next-auth/react'
-import { useEffect, useState } from "react"
-import { BsPatchCheckFill } from "react-icons/bs";
-import global from "styles/global.module.css"
-import { colors } from "styles/frontend-conf"
-import {statusColors} from "styles/frontend-conf"
-import {fonts} from "styles/frontend-conf"
-import {MdDeleteOutline} from 'react-icons/md'
-import Modal from "components/Modal/Modal"
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { BsPatchCheckFill } from 'react-icons/bs'
+import global from 'styles/global.module.css'
+import { colors, statusColors, fonts } from 'styles/frontend-conf'
+import { MdDeleteOutline } from 'react-icons/md'
+import Modal from 'components/Modal/Modal'
 
+export default function Comment (props) {
+  const { data: session } = useSession()
+  const [comment, setComment] = useState({})
+  const [isCaretaker, setIsCaretaker] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
-export default function Comment(props){
+  useEffect(async () => {
+    const res = await fetch(`/api/comments/${props.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).catch(err => console.log(err))
 
-    const {data : session} = useSession();
-    const [comment, setComment] = useState({});
-    const [isCaretaker, setIsCaretaker] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const data = await res.json()
+    setComment(data)
+    setIsCaretaker(data.isCaretaker)
+  }, [])
 
-    useEffect(async () => {
+  const fetchComments = async () => {
+    const res = await fetch(`/api/comments/${props.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).catch(err => console.log(err))
 
-        const res = await fetch(`/api/comments/${props.id}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-        }).catch(err => console.log(err))
+    const data = await res.json()
 
-        const data = await res.json();
-        setComment(data);
-        setIsCaretaker(data.isCaretaker);
-    },[])
+    console.log(data)
 
-    const fetchComments = async () => {
+    setComment(data)
+    setIsCaretaker(data.isCaretaker)
+  }
 
-        const res = await fetch(`/api/comments/${props.id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).catch(err => console.log(err));
+  const deleteComment = async () => {
+    const res = await fetch(`/api/comments/${props.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).catch(err => console.log(err))
 
-        const data = await res.json();
+    const data = await res.json()
 
-        console.log(data);
+    console.log(data)
 
-        setComment(data);
-        setIsCaretaker(data.isCaretaker);
-        
+    setIsModalVisible(false)
+  }
 
-    }
-
-    const deleteComment = async () => {
-
-        const res = await fetch(`/api/comments/${props.id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).catch(err => console.log(err));
-
-        const data = await res.json();
-
-        console.log(data);
-
-        setIsModalVisible(false);
-
-    }
-
-    return (
-        <>
-                <div key={props.id} className={global.comment}>
-                    <div className="comment__username">
-                        {comment !== null && <p className={global.tertiary2__bold}>@{comment.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary}/>}: </p>}
-                    </div>
-                    <div className="comment__description">
-                        {comment !== null && <p className={global.tertiary2}>{comment.description}</p>}
-                    </div>
-                    {session.user.username === comment.username && <button className="delete__button" onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.primary}/></button>}
-                </div>
-                {isModalVisible && <Modal>
-                        <h2 className={global.title3}>Eliminar comentario</h2>
-                        <p className={global.text2}>¿Estás seguro de eliminar este comentario?</p>
-                                <div className="buttons">
-                                        <button className={global.buttonSecondary} onClick={() => deleteComment()}>Sí</button>
-                                        <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-                                </div>
-                </Modal>}
-                <style jsx>{`
+  return (
+    <>
+      <div key={props.id} className={global.comment}>
+        <div className='comment__username'>
+          {comment !== null && <p className={global.tertiary2__bold}>@{comment.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary} />}: </p>}
+        </div>
+        <div className='comment__description'>
+          {comment !== null && <p className={global.tertiary2}>{comment.description}</p>}
+        </div>
+        {session.user.username === comment.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.primary} /></button>}
+      </div>
+      {isModalVisible && <Modal>
+        <h2 className={global.title3}>Eliminar comentario</h2>
+        <p className={global.text2}>¿Estás seguro de eliminar este comentario?</p>
+        <div className='buttons'>
+          <button className={global.buttonSecondary} onClick={() => deleteComment()}>Sí</button>
+          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+        </div>
+                         </Modal>}
+      <style jsx>{`
                 
                     .comment__description{
 
@@ -136,7 +126,8 @@ export default function Comment(props){
                         gap: 1rem;
 
                     }
-                `}</style>
-        </>
-    )
+                `}
+      </style>
+    </>
+  )
 }

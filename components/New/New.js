@@ -1,22 +1,20 @@
-import global from "styles/global.module.css"
+import global from 'styles/global.module.css'
 
-export default function New(props){
+export default function New (props) {
+  return (
+    <>
 
-
-    return (
-        <>
-
-            <div key={props._id} className={global.new}>
-                <article>
-                    <h2 className={global.secondary}>{props.title}</h2>
-                    <h3 className={global.tertiary__bold}>{props.date}</h3>
-                    <h3 className={global.tertiary__bold}>{props.author}</h3>
-                            <p className={global.text}>{props.introduction}</p>
-                            <p className={global.text}>{props.body}</p>
-                            <p className={global.text}>{props.conclusion}</p>
-                </article>
-            </div>
-            <style jsx>{`
+      <div key={props._id} className={global.new}>
+        <article>
+          <h2 className={global.secondary}>{props.title}</h2>
+          <h3 className={global.tertiary__bold}>{props.date}</h3>
+          <h3 className={global.tertiary__bold}>{props.author}</h3>
+          <p className={global.text}>{props.introduction}</p>
+          <p className={global.text}>{props.body}</p>
+          <p className={global.text}>{props.conclusion}</p>
+        </article>
+      </div>
+      <style jsx>{`
 
                 
 
@@ -35,9 +33,10 @@ export default function New(props){
                 }
 
             
-            `}</style>
+            `}
+      </style>
 
-        </>
+    </>
 
-    )
+  )
 }

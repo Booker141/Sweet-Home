@@ -1,159 +1,151 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
-import {useRouter} from 'next/router'
-import {useState} from 'react'
-import {MdLocationOn} from 'react-icons/md'
-import {BsImageFill, BsFillChatLeftTextFill} from 'react-icons/bs'
-import {colors} from '../../styles/frontend-conf'
-import {fonts} from '../../styles/frontend-conf'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { MdLocationOn } from 'react-icons/md'
+import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
+import { colors, fonts } from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
-import {server} from '/server'
-import Loader from "/components/Loader/Loader"
+import { server } from '/server'
+import Loader from '/components/Loader/Loader'
 
+export default function CreatePost () {
+  const { data: session, status } = useSession({ required: true })
+  const Router = useRouter()
+  const [description, setDescription] = useState('')
+  const [location, setLocation] = useState('')
+  const [image, setImage] = useState(null)
+  const [imageURL, setImageURL] = useState(null)
+  const [message, setMessage] = useState('')
 
-export default function CreatePost(){
+  const uploadImage = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const imageUploaded = e.target.files[0]
+      setImage(imageUploaded)
+      setImageURL(URL.createObjectURL(imageUploaded))
+    }
+  }
 
-    const {data: session, status} = useSession({required: true});
-    const Router = useRouter();
-    const [description, setDescription] = useState("");
-    const [location, setLocation] = useState("");
-    const [image, setImage] = useState(null);
-    const [imageURL, setImageURL] = useState(null);
-    const [message, setMessage] = useState("");
-    
-    const uploadImage = async (e) => {
-     
-        if (e.target.files && e.target.files[0]) {
-            const imageUploaded = e.target.files[0];
-            setImage(imageUploaded);
-            setImageURL(URL.createObjectURL(imageUploaded));
-        }
+  const createPost = async (e) => {
+    e.preventDefault()
 
+    if (image !== null && image !== undefined) {
+      const body = new FormData()
+      body.append('postImage', image, image?.name)
+
+      await fetch(`${server}/api/images`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        body
+      })
     }
 
-    const createPost = async (e) =>{
+    const res = await fetch(`${server}/api/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: session.user.id,
+        location,
+        description,
+        username: session.user.username,
+        image: '/postImages/' + image?.name
+      })
+    }).catch(err => console.log(err))
 
-        e.preventDefault();
+    const data = await res.json()
 
-        if(image !== null && image !== undefined){
-
-            const body = new FormData();
-            body.append("postImage", image, image?.name);
-            
-            await fetch(`${server}/api/images`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                body});
-                
-        }
-        
-        const res = await fetch(`${server}/api/posts`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userId: session.user.id,
-                location: location,
-                description: description,
-                username: session.user.username,
-                image: "/postImages/" + image?.name,
-            })
-        }).catch(err => console.log(err));
-
-        const data = await res.json()
-
-        if(data.error){
-            console.log(data.error);
-            setMessage("Introduzca los campos obligatorios")
-        }else{
-            setMessage("Publicación creada correctamente");
-            Router.push(`${server}/home`);
-        }
-
+    if (data.error) {
+      console.log(data.error)
+      setMessage('Introduzca los campos obligatorios')
+    } else {
+      setMessage('Publicación creada correctamente')
+      Router.push(`${server}/home`)
     }
+  }
 
-    if(status == "loading"){
-        return (
-          <>
-            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-            <Loader/>
-          </>
-          )
-    }
-    if(session){
-
-        return (
-            <Layout>
-                <Head><title>Crear publicación</title></Head>
-                <div className={global.content}>
-                    <div className={global.dots}>
-                    <div className="form">
-                        <h1 className="form__title">Crear publicación</h1>
-                        <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
-                        <form action="/api/posts" id="form" enctype="multipart/form-data">
-                            <div className="form-vertical__location">
-                                <div className="label">
-                                    <p className={global.text}>Ubicación</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="location__input">
-                                    <input
-                                        title="Introducir ubicación"
-                                        type="text"
-                                        name="location"
-                                        value={location}
-                                        onChange={(e) => setLocation(e.target.value)}
-                                        placeholder="p. ej.: Cádiz"
-                                        className="input">
-                                    </input>
-                                </div>
-                            </div>
-                            <div className="form-vertical__description">
-                                <div className="label">
-                                    <p className={global.text}>Descripción (*)</p>
-                                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
-                                </div> 
-                                <div className="description__input">
-                                <textarea
-                                    title="Introducir descripción"
-                                    name="Description"
-                                    value={description}
-                                    required
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    placeholder="p. ej.: Esta es mi mascota..."
-                                ></textarea>
-                            </div>
-                            <div className="form-vertical__image">
-                                <div className="label">
-                                    <p className={global.text}>Seleccionar imagen:</p>
-                                    <BsImageFill size={25} color={colors.secondary} />
-                                </div> 
-                                <div className="image__input">
-                                    <input 
-                                        title="Introducir imagen"
-                                        type="file" 
-                                        name="image" 
-                                        id="image"
-                                        onChange={(e) => uploadImage(e)}
-                                        accept="image/png, image/jpeg"
-                                        placeholder='Ningún archivo seleccionado'
-                                        className="input"> 
-                                    </input>
-                                </div>
-                            </div>
-                            
-                            </div>
-                            
-                            </form>  
-                                <input className={global.buttonPrimary} type="submit" onClick={(e) => createPost(e)} value="Crear"/> 
-                            </div>
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Crear publicación</title></Head>
+        <div className={global.content}>
+          <div className={global.dots}>
+            <div className='form'>
+              <h1 className='form__title'>Crear publicación</h1>
+              <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              <form action='/api/posts' id='form' enctype='multipart/form-data'>
+                <div className='form-vertical__location'>
+                  <div className='label'>
+                    <p className={global.text}>Ubicación</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='location__input'>
+                    <input
+                          title='Introducir ubicación'
+                          type='text'
+                          name='location'
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          placeholder='p. ej.: Cádiz'
+                          className='input'
+                         />
+                  </div>
+                </div>
+                <div className='form-vertical__description'>
+                  <div className='label'>
+                    <p className={global.text}>Descripción (*)</p>
+                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                  </div>
+                  <div className='description__input'>
+                    <textarea
+                          title='Introducir descripción'
+                          name='Description'
+                          value={description}
+                          required
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder='p. ej.: Esta es mi mascota...'
+                        />
+                  </div>
+                  <div className='form-vertical__image'>
+                    <div className='label'>
+                          <p className={global.text}>Seleccionar imagen:</p>
+                          <BsImageFill size={25} color={colors.secondary} />
                         </div>
-                    </div>
-                <style jsx>{`
+                    <div className='image__input'>
+                          <input
+                            title='Introducir imagen'
+                            type='file'
+                            name='image'
+                            id='image'
+                            onChange={(e) => uploadImage(e)}
+                            accept='image/png, image/jpeg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+                        </div>
+                  </div>
+
+                </div>
+
+              </form>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createPost(e)} value='Crear' />
+            </div>
+          </div>
+        </div>
+        <style jsx>{`
 
                     .form{
 
@@ -411,21 +403,20 @@ export default function CreatePost(){
                         cursor: pointer;
                     }
 
-                `}</style>
-            </Layout>
-        )
-  
-
-    }else {
-        return(
-            <Layout>
-                    <div className={global.content}>
-                        <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                        </div>
-                    </div>
-                    <style jsx>{`
+                `}
+        </style>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
 
                         .message{
 
@@ -439,8 +430,9 @@ export default function CreatePost(){
                             
                         }
                         
-                    `}</style>
-            </Layout>
-        )
-    }
+                    `}
+        </style>
+      </Layout>
+    )
+  }
 }

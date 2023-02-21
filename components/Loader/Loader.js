@@ -1,12 +1,11 @@
 
-export default function Loader(){
-
-    return(
-        <>
-            <div className="loader__container">
-                <img src="/loader.svg"/>
-            </div>
-            <style jsx>{`
+export default function Loader () {
+  return (
+    <>
+      <div className='loader__container'>
+        <img src='/loader.svg' />
+      </div>
+      <style jsx>{`
 
                 .loader__container{
 
@@ -28,8 +27,8 @@ export default function Loader(){
                 }
 
                
-            `}</style>
-        </>
-    )
-
+            `}
+      </style>
+    </>
+  )
 }

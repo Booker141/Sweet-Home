@@ -1,15 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import global from "styles/global.module.css"
-import {fonts} from "styles/frontend-conf.js"
-import {colors} from "styles/frontend-conf.js"
-import Layout from "components/Layout/Layout"
-import New from "components/New/New"
-import {server} from "../../server"
-
-
-
-
+import global from 'styles/global.module.css'
+import { fonts, colors } from 'styles/frontend-conf.js'
+import Layout from 'components/Layout/Layout'
+import New from 'components/New/New'
+import { server } from '../../server'
 
 /*
     * @author Sergio García Navarro
@@ -24,32 +19,30 @@ import {server} from "../../server"
  * the app
  * @returns the Layout component with the children props being the <> component.
  */
-export default function News({news}) {
-    return (
-        <Layout>
+export default function News ({ news }) {
+  return (
+    <Layout>
 
-            <Head><title>Noticias</title></Head>
+      <Head><title>Noticias</title></Head>
 
-                <section>
-                        <h1 className={global.title2}>¡Últimas noticias de <span className={global.colorized}>Sweet Home</span>!</h1>
-                        {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-                        
-                            {news.map(({_id, id, title, date, author, introduction}) => {
-                            return (
-                                <>
-                                    <div className="new">
-                                        <New key={_id} id={id} title={title} date={date} author={author} introduction={introduction}/>
-                                        <Link href={`/news/${id}`} as={`/news/${id}`}><a aria-label="Enlace a noticia" className={global.link3}>Leer más →</a></Link>
-                                    </div>
-                                </>
-                            )
-                            })}
-                        
+      <section>
+        <h1 className={global.secondary__bold}>¡Últimas noticias de <span className={global.colorized}>Sweet Home</span>!</h1>
+        {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
-                </section>
+        {news.map(({ _id, id, title, date, author, introduction }) => {
+          return (
+            <>
+              <div className='new'>
+                <New key={_id} id={id} title={title} date={date} author={author} introduction={introduction} />
+                <Link href={`/news/${id}`} as={`/news/${id}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
+              </div>
+            </>
+          )
+        })}
 
-            
-            <style jsx>{`
+      </section>
+
+      <style jsx>{`
 
 
                     .new{
@@ -171,26 +164,26 @@ export default function News({news}) {
                     }
                     
                     
-                `}</style>
-         
-        </Layout>
-    )
+                `}
+      </style>
+
+    </Layout>
+  )
 }
 
-export async function getServerSideProps(){
-
-    const res = await fetch(`${server}/api/news`, {
-    method: "GET",
+export async function getServerSideProps () {
+  const res = await fetch(`${server}/api/news`, {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-    const news = await res.json();
-
-    return {
-        props: {
-            news
-        }
+      'Content-Type': 'application/json'
     }
+  })
+
+  const news = await res.json()
+
+  return {
+    props: {
+      news
+    }
+  }
 }

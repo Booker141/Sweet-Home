@@ -1,32 +1,24 @@
-import clientPromise from "../lib/MongoDB"
+import clientPromise from '../lib/MongoDB'
 
-export default async function handler(req, res){
+export default async function handler (req, res) {
+  const client = await clientPromise
+  const db = await client.db()
+  const body = req.body
+  const user = await db.collection('users').findOne({ username: body.username })
 
-    const client = await clientPromise;
-    const db = await client.db();
-    const body = req.body;
-    const user = await db.collection('users').findOne({username: body.username});
+  if (req.method == 'GET') {
+    const data = await db.collection('posts').find({}).limit(50).toArray()
 
-    if(req.method == "GET"){
+    const posts = JSON.parse(JSON.stringify(data))
 
-        const data = await db.collection('posts').find({}).limit(50).toArray();
+    res.status(200).json(posts)
+  }
 
-        const posts = JSON.parse(JSON.stringify(data));
+  if (req.method === 'POST') {
+    await db.collection('posts').insertOne({ location: body.location, description: body.description, comments: [], likes: [], saves: [], userId: user._id, username: body.username, createdAt: new Date(), image: body.image })
 
-        res.status(200).json(posts);
+    res.status(201).json({ message: 'Creada con éxito.' })
 
-    }
-   
-    if(req.method === 'POST'){
-        
-        
-        await db.collection('posts').insertOne({location: body.location, description: body.description, comments: [], likes: [], saves: [], userId: user._id, username: body.username, createdAt: new Date(), image: body.image});
-
-        res.status(201).json({message: 'Creada con éxito.'});
-        
-        console.log(post);
-        
-
-    }
-    
+    console.log(post)
+  }
 }

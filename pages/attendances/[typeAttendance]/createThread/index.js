@@ -1,88 +1,81 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
-import {useRouter} from 'next/router'
-import {useState} from 'react'
-import {MdOutlineSubtitles} from 'react-icons/md'
-import {colors} from '/styles/frontend-conf'
-import {fonts} from '/styles/frontend-conf'
-import {statusColors} from '/styles/frontend-conf'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { MdOutlineSubtitles } from 'react-icons/md'
+import { colors, fonts, statusColors } from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
-import {server} from '/server'
+import { server } from '/server'
 
+export default function CreateThread () {
+  const { data: session, status } = useSession({ required: true })
+  const Router = useRouter()
+  const [title, setTitle] = useState('')
+  const [message, setMessage] = useState('')
 
-export default function CreateThread(){
+  const createThread = async (e) => {
+    e.preventDefault()
 
-    const {data: session, status} = useSession({required: true});
-    const Router = useRouter();
-    const [title, setTitle] = useState("");
-    const [message, setMessage] = useState("");
-    
-    const createThread = async (e) =>{
+    const res = await fetch(`${server}/api/threads/${Router.query.typeAttendance}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        typeAttendanceId: session.user.id,
+        title,
+        username: session.user.username
+      })
+    }).catch(err => console.log(err))
 
-        e.preventDefault();
+    const data = await res.json()
 
-        const res = await fetch(`${server}/api/threads`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                typeAttendanceId: session.user.id,
-                title: title
-            })
-        }).catch(err => console.log(err));
-
-        const data = await res.json()
-
-        if(data.error){
-            console.log(data.error);
-            setMessage("Introduzca los campos obligatorios")
-        }else{
-            setMessage("Hilo creado correctamente");
-            Router.push(`/attendances/${data.typeAttendance}/${data.threadId}`);
-        }
-
+    if (data.error) {
+      console.log(data.error)
+      setMessage('Introduzca los campos obligatorios')
+    } else {
+      setMessage('Hilo creado correctamente')
+      Router.push(`/attendances/${Router.query.typeAttendance}`)
     }
+  }
 
-    if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
-    if(session){
-
-        return (
-            <Layout>
-                <Head><title>Crear hilo</title></Head>
-                <div className={global.content}>
-                    <div className={global.dots}>
-                    <div className="form">
-                        <h1 className="form__title">Crear hilo</h1>
-                        <p className={global.text2}>Introduzca el título del hilo:</p>
-                        <form action="/api/posts" id="form">
-                            <div className="form-vertical__email">
-                                <div className="label">
-                                    <p className={global.text}>Título</p>
-                                    <MdOutlineSubtitles size={25} color={colors.secondary} />
-                                </div>
-                                <div className="title__input">
-                                    <input
-                                        title="Introducir título"
-                                        type="text"
-                                        name="title"
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        placeholder="p. ej.: 10 consejos para el cuidado de mi mascota"
-                                        className="input">
-                                    </input>
-                            </div>
-                            </div>
-                            
-                            </form>  
-                                <input className={global.buttonPrimary} type="submit" onClick={(e) => createThread(e)} value="Crear"/> 
-                            </div>
-                    </div>
+  if (status == 'loading') {
+    return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Crear hilo</title></Head>
+        <div className={global.content}>
+          <div className={global.dots}>
+            <div className='form'>
+              <h1 className='form__title'>Crear hilo</h1>
+              <p className={global.text2}>Introduzca el título del hilo:</p>
+              <form action='/api/posts' id='form'>
+                <div className='form-vertical__email'>
+                  <div className='label'>
+                    <p className={global.text}>Título</p>
+                    <MdOutlineSubtitles size={25} color={colors.secondary} />
+                  </div>
+                  <div className='title__input'>
+                    <input
+                          title='Introducir título'
+                          type='text'
+                          name='title'
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          placeholder='p. ej.: 10 consejos para el cuidado de mi mascota'
+                          className='input'
+                         />
+                  </div>
                 </div>
-                <style jsx>{`
+              </form>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createThread(e)} value='Crear' />
+            </div>
+          </div>
+        </div>
+        <style jsx>{`
 
                     .form{
 
@@ -266,21 +259,20 @@ export default function CreateThread(){
                         cursor: pointer;
                     }
 
-                `}</style>
-            </Layout>
-        )
-  
-
-    }else {
-        return(
-            <Layout>
-                    <div className={global.content}>
-                        <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                        </div>
-                    </div>
-                    <style jsx>{`
+                `}
+        </style>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
 
                         .message{
 
@@ -294,8 +286,9 @@ export default function CreateThread(){
                             
                         }
                         
-                    `}</style>
-            </Layout>
-        )
-    }
+                    `}
+        </style>
+      </Layout>
+    )
+  }
 }

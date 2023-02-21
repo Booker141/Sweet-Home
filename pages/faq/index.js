@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import global from "styles/global.module.css"
-import Layout from "components/Layout/Layout"
-import Question from "components/Question/Question"
-import faq1 from "../../public/faq-1.svg"
-import {server} from "/server"
-
+import global from 'styles/global.module.css'
+import Layout from 'components/Layout/Layout'
+import Question from 'components/Question/Question'
+import faq1 from '../../public/faq-1.svg'
+import { server } from '/server'
 
 /*
     * @author Sergio García Navarro
@@ -18,30 +17,30 @@ import {server} from "/server"
  * It returns a div with a title
  * @returns A React element.
  */
-export default function Use({questions}){
-    return(
-            <Layout>
-                <Head><title>Preguntas frecuentes</title></Head>
+export default function Use ({ questions }) {
+  return (
+    <Layout>
+      <Head><title>Preguntas frecuentes</title></Head>
 
-                    <div className="faq">
-                        <h1 id="title" className={global.title}>Preguntas frecuentes</h1>
-                        <div className="top__image">
-                            <Image src={faq1} alt="Imagen de un perro mirando al frente" priority/>
-                        </div>
-                        
-                        {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+      <div className='faq'>
+        <h1 id='title' className={global.title4}>Preguntas frecuentes</h1>
+        <div className='top__image'>
+          <Image src={faq1} alt='Imagen de un perro mirando al frente' priority />
+        </div>
 
-                            {questions.map(({_id, title, description}) => {
-                            return (
-                                <>
-                                    <Question key={_id} title={title} description={description}/>
-                                </>
-                            )
-                            })}
+        {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
-                    </div>
+        {questions.map(({ _id, title, description }) => {
+          return (
+            <>
+              <Question key={_id} title={title} description={description} />
+            </>
+          )
+        })}
 
-                <style jsx>{`
+      </div>
+
+      <style jsx>{`
 
                     #title{
 
@@ -83,28 +82,26 @@ export default function Use({questions}){
                     }
                     
                     
-                `}</style>
-            </Layout>
+                `}
+      </style>
+    </Layout>
 
-        )
-    }
+  )
+}
 
-
-
-export async function getServerSideProps(){
-
-    const res = await fetch(`${server}/api/questions`, {
-    method: "GET",
+export async function getServerSideProps () {
+  const res = await fetch(`${server}/api/questions`, {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-    const questions = await res.json();
-
-    return {
-        props: {
-            questions
-        }
+      'Content-Type': 'application/json'
     }
+  })
+
+  const questions = await res.json()
+
+  return {
+    props: {
+      questions
+    }
+  }
 }

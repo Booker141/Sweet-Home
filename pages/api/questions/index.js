@@ -1,30 +1,24 @@
-import clientPromise from "../lib/MongoDB"
+import clientPromise from '../lib/MongoDB'
 
-export default async function handler(req, res){
+export default async function handler (req, res) {
+  const client = await clientPromise
+  const db = await client.db()
 
-    const client = await clientPromise;
-    const db = await client.db();
+  if (req.method == 'GET') {
+    const data = await db.collection('questions').find({}).limit(50).toArray()
 
-    if(req.method == "GET"){
+    const questions = JSON.parse(JSON.stringify(data))
 
-        const data = await db.collection('questions').find({}).limit(50).toArray();
+    res.status(200).json(questions)
+  }
 
-        const questions = JSON.parse(JSON.stringify(data));
+  if (req.method == 'POST') {
+    const body = JSON.parse(req.body)
 
-        res.status(200).json(questions);
+    const data = await db.collection('questions').insertOne(body)
 
-    }
-   
-    if(req.method == "POST"){
-        
-        let body = JSON.parse(req.body);
+    const question = JSON.parse(JSON.stringify(data))
 
-        let data = await db.collection('questions').insertOne(body);
-
-        let question = JSON.parse(JSON.stringify(data));
-        
-        res.json(question);
-
-    }
-    
+    res.json(question)
+  }
 }

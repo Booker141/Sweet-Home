@@ -1,36 +1,30 @@
-import clientPromise from "../../lib/MongoDB"
-import { ObjectId } from "mongodb";
+import clientPromise from '../../lib/MongoDB'
+import { ObjectId } from 'mongodb'
 
-export default async function handler(req, res){
+export default async function handler (req, res) {
+  const client = await clientPromise
+  const db = await client.db()
+  const commentId = new ObjectId(req.query.commentId)
 
-    const client = await clientPromise;
-    const db = await client.db();
-    const commentId = new ObjectId(req.query.commentId);
+  if (req.method === 'GET') {
+    const data = await db.collection('comments').findOne({ _id: ObjectId(req.query.commentId) })
 
-    if(req.method === 'GET'){
+    console.log(data)
 
-        const data = await db.collection('comments').findOne({_id: ObjectId(req.query.commentId)});
+    const user = await db.collection('users').findOne({ _id: ObjectId(data.userId) })
 
-        console.log(data);
+    console.log(user)
+    const comment = { ...data, ...user }
+    res.status(200).json(comment)
+  }
 
-        const user = await db.collection('users').findOne({_id: ObjectId(data.userId)})
+  if (req.method === 'DELETE') {
+    const comment = await db.collection('comments').findOne({ _id: commentId })
+    const postId = comment.postId
+    console.log(postId)
+    await db.collection('posts').update({ _id: postId }, { $pull: { comments: commentId } })
 
-        console.log(user);
-        const comment = {...data, ...user};
-        res.status(200).json(comment);
-
-    }
-
-    if(req.method === 'DELETE'){
-
-        const comment = await db.collection('comments').findOne({_id: commentId});
-        const postId = comment.postId;
-        console.log(postId);
-        await db.collection('posts').update({_id: postId}, {$pull: {comments: commentId}});
-
-        await db.collection('comments').deleteOne({_id: commentId});
-        res.status(200).json({message: "Comentario eliminado"});
-    }
-   
-    
+    await db.collection('comments').deleteOne({ _id: commentId })
+    res.status(200).json({ message: 'Comentario eliminado' })
+  }
 }

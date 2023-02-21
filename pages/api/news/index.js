@@ -1,39 +1,29 @@
-import clientPromise from "../lib/MongoDB"
+import clientPromise from '../lib/MongoDB'
 
-export default async function handler(req, res){
+export default async function handler (req, res) {
+  const client = await clientPromise
+  const db = await client.db()
+  const body = req.body
 
-    const client = await clientPromise;
-    const db = await client.db();
-    const body = req.body;
+  if (req.method === 'GET') {
+    const data = await db.collection('news').find({}).limit(50).toArray()
 
-    if(req.method === 'GET'){
+    const news = JSON.parse(JSON.stringify(data))
 
-        const data = await db.collection('news').find({}).limit(50).toArray();
+    res.status(200).json(news)
+  }
 
-        const news = JSON.parse(JSON.stringify(data));
+  if (req.method === 'POST') {
+    const data = await db.collection('news').insertOne(body)
 
-        res.status(200).json(news);
+    const news = JSON.parse(JSON.stringify(data))
 
-    }
+    res.json(news.ops[0])
+  }
 
-    if(req.method === 'POST'){
+  if (req.method === 'DELETE') {
+    await db.collection('news').findOne({ _id: body.id }).removeOne()
 
-        const data = await db.collection('news').insertOne(body);
-
-        const news = JSON.parse(JSON.stringify(data));
-
-        res.json(news.ops[0]);
-
-    }
-
-    if(req.method === 'DELETE'){
-
-        await db.collection('news').findOne({_id: body.id}).removeOne();
-
-        res.status(200).json({message: "Noticia eliminada correctamente"});
-
-    }
-
-  
-    
+    res.status(200).json({ message: 'Noticia eliminada correctamente' })
+  }
 }

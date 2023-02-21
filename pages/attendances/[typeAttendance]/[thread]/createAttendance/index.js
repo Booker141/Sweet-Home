@@ -1,129 +1,123 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
-import {useRouter} from 'next/router'
-import {useState} from 'react'
-import {MdLocationOn} from 'react-icons/md'
-import {BsImageFill, BsFillChatLeftTextFill} from 'react-icons/bs'
-import {colors} from '/styles/frontend-conf'
-import {fonts} from '/styles/frontend-conf'
-import global from '/styles/global.module.css'
-import Layout from '/components/Layout/Layout'
-import Loader from '/components/Loader/Loader'
-import {server} from '/server'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { MdLocationOn } from 'react-icons/md'
+import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
+import { colors, fonts } from '../../../../../../../../../../styles/frontend-conf'
+import global from '../../../../../../../../../../styles/global.module.css'
+import Layout from '../../../../../../../../../../components/Layout/Layout'
+import Loader from '../../../../../../../../../../components/Loader/Loader'
+import { server } from '../../../../../../../../../../server'
 
+export default function CreateAttendance () {
+  const { data: session, status } = useSession({ required: true })
+  const Router = useRouter()
+  const [description, setDescription] = useState('')
+  const [location, setLocation] = useState('')
+  const [message, setMessage] = useState('')
 
-export default function CreateAttendance(){
+  const createAttendance = async (e) => {
+    e.preventDefault()
 
-    const {data: session, status} = useSession({required: true});
-    const Router = useRouter();
-    const [description, setDescription] = useState("");
-    const [location, setLocation] = useState("");
-    const [message, setMessage] = useState("");
-    
-    const createAttendance = async (e) =>{
+    const res = await fetch(`${server}/api/attendances`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: session.user.id,
+        location,
+        description,
+        username: session.user.username
+      })
+    }).catch(err => console.log(err))
 
-        e.preventDefault();
+    const data = await res.json()
 
-        const res = await fetch(`${server}/api/attendances`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userId: session.user.id,
-                location: location,
-                description: description,
-                username: session.user.username,
-            })
-        }).catch(err => console.log(err));
-
-        const data = await res.json()
-
-        if(data.error){
-            console.log(data.error);
-            setMessage("Introduzca los campos obligatorios")
-        }else{
-            setMessage("Publicación de cuidado creada correctamente");
-            Router.push("/home");
-        }
-
+    if (data.error) {
+      console.log(data.error)
+      setMessage('Introduzca los campos obligatorios')
+    } else {
+      setMessage('Publicación de cuidado creada correctamente')
+      Router.push('/home')
     }
+  }
 
-    if(status == "loading"){
-        return (
-          <>
-            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-            <Loader/>
-          </>
-          )
-      }
-    if(session){
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Crear publicación de cuidado</title></Head>
+        <div className={global.content}>
+          <div className={global.dots}>
+            <div className='form'>
+              <h1 className='form__title'>Crear publicación de cuidado</h1>
+              <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              <form action='/api/posts' id='form'>
+                <div className='form-vertical__email'>
+                  <div className='label'>
+                    <p className={global.text}>Ubicación</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='location__input'>
+                    <input
+                          title='Introducir ubicación'
+                          type='text'
+                          name='location'
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          placeholder='p. ej.: Cádiz'
+                          className='input'
+                         />
+                  </div>
+                </div>
+                <div className='form-vertical__old'>
+                  <div className='label'>
+                    <p className={global.text}>Seleccionar imagen:</p>
+                    <BsImageFill size={25} color={colors.secondary} />
+                  </div>
+                  <div className='image__input'>
+                    <input
+                          title='Introducir imagen'
+                          type='file'
+                          name='image'
+                          accept='image/*'
+                          placeholder='Ningún archivo seleccionado'
+                          className='input'
+                         />
+                    <input type='submit' className={global.buttonPrimary} />
+                  </div>
+                </div>
+                <div className='form-vertical__new'>
+                  <div className='label'>
+                    <p className={global.text}>Descripción (*)</p>
+                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                  </div>
+                  <div className='password__input'>
+                    <textarea
+                          title='Introducir descripción'
+                          name='Description'
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder='p. ej.: Esta es mi mascota...'
+                        />
+                  </div>
+                </div>
 
-        return (
-            <Layout>
-                <Head><title>Crear publicación de cuidado</title></Head>
-                <div className={global.content}>
-                    <div className={global.dots}>
-                    <div className="form">
-                        <h1 className="form__title">Crear publicación de cuidado</h1>
-                        <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
-                        <form action="/api/posts" id="form">
-                            <div className="form-vertical__email">
-                                <div className="label">
-                                    <p className={global.text}>Ubicación</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="location__input">
-                                    <input
-                                        title="Introducir ubicación"
-                                        type="text"
-                                        name="location"
-                                        value={location}
-                                        onChange={(e) => setLocation(e.target.value)}
-                                        placeholder="p. ej.: Cádiz"
-                                        className="input">
-                                    </input>
-                            </div>
-                            </div>
-                            <div className="form-vertical__old">
-                                <div className="label">
-                                    <p className={global.text}>Seleccionar imagen:</p>
-                                    <BsImageFill size={25} color={colors.secondary} />
-                                </div> 
-                                <div className="image__input">
-                                    <input 
-                                        title="Introducir imagen"
-                                        type="file" 
-                                        name="image" 
-                                        accept="image/*"
-                                        placeholder='Ningún archivo seleccionado'
-                                        className="input"> 
-                                    </input>
-                                    <input type="submit" className={global.buttonPrimary}/>
-                                </div>
-                            </div>
-                            <div className="form-vertical__new">
-                                <div className="label">
-                                    <p className={global.text}>Descripción (*)</p>
-                                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
-                                </div> 
-                                <div className="password__input">
-                                <textarea
-                                    title="Introducir descripción"
-                                    name="Description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    placeholder="p. ej.: Esta es mi mascota..."
-                                ></textarea>
-                            </div>
-                            </div>
-                            
-                            </form>  
-                                <input className={global.buttonPrimary} type="submit" onClick={(e) => createAttendance(e)} value="Crear"/> 
-                            </div>
-                        </div>
-                    </div>
-                <style jsx>{`
+              </form>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createAttendance(e)} value='Crear' />
+            </div>
+          </div>
+        </div>
+        <style jsx>{`
 
                     .form{
 
@@ -391,21 +385,20 @@ export default function CreateAttendance(){
                         cursor: pointer;
                     }
 
-                `}</style>
-            </Layout>
-        )
-  
-
-    }else {
-        return(
-            <Layout>
-                    <div className={global.content}>
-                        <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                        </div>
-                    </div>
-                    <style jsx>{`
+                `}
+        </style>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
 
                         .message{
 
@@ -419,8 +412,9 @@ export default function CreateAttendance(){
                             
                         }
                         
-                    `}</style>
-            </Layout>
-        )
-    }
+                    `}
+        </style>
+      </Layout>
+    )
+  }
 }

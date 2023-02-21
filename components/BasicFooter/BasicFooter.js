@@ -1,5 +1,5 @@
-import {fonts} from "styles/frontend-conf.js"
-import global from "styles/global.module.css"
+import { fonts } from 'styles/frontend-conf.js'
+import global from 'styles/global.module.css'
 import Link from 'next/link'
 /*
     * @author Sergio García Navarro
@@ -19,26 +19,25 @@ import Link from 'next/link'
  * @param {props} text3 - text of the third link
  * @returns A footer with three links and a copyright.
  */
-export default function BasicFooter(props){
+export default function BasicFooter (props) {
+  const { url1, url2, url3, url4, text1, text2, text3, text4 } = props
+  return (
 
-    const {url1, url2, url3, url4, text1, text2, text3, text4} = props;
-    return(
+    <>
 
-        <>
-            
-            <div className="footer">
-                <hr className={global.line}></hr>
-                <div className="footer__links">
-                    <Link className={global.link} href={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
-                    <Link className={global.link} href={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
-                    <Link className={global.link} href={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
-                    <Link className={global.link} href={url4} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
-                    <div className="copyright">
-                        <p> Copyright &copy; 2022 Sweet Home Corporation</p>
-                    </div>
-                </div>
-            </div>
-            <style jsx>{`
+      <div className='footer'>
+        <hr className={global.line} />
+        <div className='footer__links'>
+          <Link className={global.link} href={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
+          <Link className={global.link} href={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
+          <Link className={global.link} href={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
+          <Link className={global.link} href={url4} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
+          <div className='copyright'>
+            <p> Copyright &copy; 2022 Sweet Home Corporation</p>
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
 
                 .footer{
 
@@ -115,7 +114,8 @@ export default function BasicFooter(props){
 
                     color: ${props.hover};
                 }
-            `}</style>
-        </>
-    )
+            `}
+      </style>
+    </>
+  )
 }

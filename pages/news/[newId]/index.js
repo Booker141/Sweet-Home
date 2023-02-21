@@ -1,27 +1,25 @@
-import Layout from "components/Layout/Layout"
+import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
-import {useRouter} from 'next/router'
-import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf.js"
-import {fonts} from "styles/frontend-conf.js"
-import New from "components/New/New"
-import {server} from "/server"
+import { useRouter } from 'next/router'
+import global from 'styles/global.module.css'
+import { colors, fonts } from 'styles/frontend-conf.js'
+import New from 'components/New/New'
+import { server } from '/server'
 
-export default function NewsId({news}){
+export default function NewsId ({ news }) {
+  const router = useRouter()
 
-    const router = useRouter();
+  console.log(news)
 
-    console.log(news);
+  return (
 
-    return(
+    <Layout>
+      <Head><title>Noticia {router.query.newId}</title></Head>
+      <h1 className={global.title}>Noticia {router?.query?.newId} ✧</h1>
 
-        <Layout>
-        <Head><title>Noticia {router.query.newId}</title></Head>
-                <h1 className={global.title}>Noticia {router?.query?.newId} ✧</h1>
+      <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion} />
 
-                <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion}/>
-
-            <style jsx>{`
+      <style jsx>{`
 
 
                     .dialog{
@@ -114,31 +112,30 @@ export default function NewsId({news}){
                     }
                     
                     
-                `}</style>
-         
-        </Layout>
-    )
+                `}
+      </style>
+
+    </Layout>
+  )
 }
 
-export async function getServerSideProps(context){
+export async function getServerSideProps (context) {
+  const { newId } = context.query
 
-    const {newId} = context.query;
+  const res = await fetch(`${server}/api/news/${newId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
 
-    const res = await fetch(`${server}/api/news/${newId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-    }});
+  const news = await res.json()
 
-    const news = await res.json();
-
-
-    return {
-        props: {
-            news
-
-        }
+  return {
+    props: {
+      news
 
     }
 
+  }
 }

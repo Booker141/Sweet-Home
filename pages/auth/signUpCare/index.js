@@ -1,21 +1,17 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import {signIn} from 'next-auth/react'
-import {useState} from 'react'
-import {useRouter} from 'next/router'
-import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf.js";
-import {fonts} from "styles/frontend-conf.js";
-import {statusColors} from "styles/frontend-conf.js"
-import Header from "components/Header/Header"
-import BasicFooter from "components/BasicFooter/BasicFooter"
-import {FaUser, FaUserPlus} from "react-icons/fa";
-import {BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill} from "react-icons/bs";
-import {MdEmail, MdOutlineError} from "react-icons/md";
-import {AiFillInfoCircle, AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
-import {server} from "/server"
-
-
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+import global from 'styles/global.module.css'
+import { colors, fonts, statusColors } from 'styles/frontend-conf.js'
+import Header from 'components/Header/Header'
+import BasicFooter from 'components/BasicFooter/BasicFooter'
+import { FaUser, FaUserPlus } from 'react-icons/fa'
+import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
+import { MdEmail, MdOutlineError } from 'react-icons/md'
+import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { server } from '../../../../../../../../server'
 
 /*
     * @author Sergio García Navarro
@@ -25,18 +21,15 @@ import {server} from "/server"
     * @description Sign up page
 */
 
-export default function SignUp() {
+export default function SignUp () {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
+  const [message, setMessage] = useState(null)
+  const [isValidate, setIsValidate] = useState(false)
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [message, setMessage] = useState(null);
-  const [isValidate, setIsValidate] = useState(false);
-
-  const Router = useRouter();
-  
-  
+  const Router = useRouter()
 
   /**
    * If the password input type is password, then hide the first icon and show the second icon, and
@@ -44,320 +37,285 @@ export default function SignUp() {
    * the input type to password
    */
   const showPassword = () => {
+    const passwordInput = document.getElementById('password')
 
-    let passwordInput = document.getElementById("password");
-    
-    if (passwordInput.type === "password") {
-
-      document.getElementById("show__icon1").style.display = "none";
-      document.getElementById("show__icon2").style.display = "inline";
-      passwordInput.type = "text";
-
-    }
-    else {
-
-      document.getElementById("show__icon1").style.display = "inline";
-      document.getElementById("show__icon2").style.display = "none";
-      passwordInput.type = "password";
-
+    if (passwordInput.type === 'password') {
+      document.getElementById('show__icon1').style.display = 'none'
+      document.getElementById('show__icon2').style.display = 'inline'
+      passwordInput.type = 'text'
+    } else {
+      document.getElementById('show__icon1').style.display = 'inline'
+      document.getElementById('show__icon2').style.display = 'none'
+      passwordInput.type = 'password'
     }
   }
 
   const validate = (e) => {
-
     // Regular expressions
 
-    let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    let regUsername= /^\S*$/;
-    let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    let regName = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]+$/;
-   
-    if(e.target.name =="password"){
+    const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+    const regUsername = /^\S*$/
+    const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+    const regName = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1\\.]+$/
 
-      if(password.length < 8 || !password.match(regPassword) ){
-          
-          document.getElementById("password__error").classList.add("form__input-passwordError--active");
-          document.getElementById("error__password").classList.add("form__icon-error--active");
-          document.getElementById("success__password").classList.remove("form__icon-success--active");
-          setIsValidate(false);
-
-      }else{
-
-          document.getElementById("password__error").classList.remove("form__input-passwordError--active");
-          document.getElementById("error__password").classList.remove("form__error-icon--active");
-          document.getElementById("success__password").classList.add("form__success-icon--active");
-          setIsValidate(true);
-
-
+    if (e.target.name == 'password') {
+      if (password.length < 8 || !password.match(regPassword)) {
+        document.getElementById('password__error').classList.add('form__input-passwordError--active')
+        document.getElementById('error__password').classList.add('form__icon-error--active')
+        document.getElementById('success__password').classList.remove('form__icon-success--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('password__error').classList.remove('form__input-passwordError--active')
+        document.getElementById('error__password').classList.remove('form__error-icon--active')
+        document.getElementById('success__password').classList.add('form__success-icon--active')
+        setIsValidate(true)
       }
-  }
+    }
 
     // Validación del formato del email
-    
-    if(e.target.name == "email"){
 
-      if(!email.match(regEmail)){
-          
-          document.getElementById("email__error").classList.add("form__input-emailError--active");
-          document.getElementById("error__email").classList.add("form__error-icon--active");
-          document.getElementById("success__email").classList.remove("form__success-icon--active");
-          setIsValidate(false);
-
-      }else{
-          
-            document.getElementById("email__error").classList.remove("form__input-emailError--active");
-            document.getElementById("error__email").classList.remove("form__error-icon--active");
-            document.getElementById("success__email").classList.add("form__success-icon--active");
-            setIsValidate(true);
-
+    if (e.target.name == 'email') {
+      if (!email.match(regEmail)) {
+        document.getElementById('email__error').classList.add('form__input-emailError--active')
+        document.getElementById('error__email').classList.add('form__error-icon--active')
+        document.getElementById('success__email').classList.remove('form__success-icon--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('email__error').classList.remove('form__input-emailError--active')
+        document.getElementById('error__email').classList.remove('form__error-icon--active')
+        document.getElementById('success__email').classList.add('form__success-icon--active')
+        setIsValidate(true)
       }
     }
 
-    if(e.target.name == "name"){
-
-      if(!name.match(regName)){
-        
-          document.getElementById("name__error").classList.add("form__input-nameError--active");
-          document.getElementById("error__name").classList.add("form__error-icon--active");
-          document.getElementById("success__name").classList.remove("form__success-icon--active");
-          setIsValidate(false);
-
-      }else{
-
-          document.getElementById("name__error").classList.remove("form__input-nameError--active");
-          document.getElementById("error__name").classList.remove("form__error-icon--active");
-          document.getElementById("success__name").classList.add("form__success-icon--active");
-          setIsValidate(true);
-
+    if (e.target.name == 'name') {
+      if (!name.match(regName)) {
+        document.getElementById('name__error').classList.add('form__input-nameError--active')
+        document.getElementById('error__name').classList.add('form__error-icon--active')
+        document.getElementById('success__name').classList.remove('form__success-icon--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('name__error').classList.remove('form__input-nameError--active')
+        document.getElementById('error__name').classList.remove('form__error-icon--active')
+        document.getElementById('success__name').classList.add('form__success-icon--active')
+        setIsValidate(true)
       }
     }
-
 
     // Validación logitud del username
 
-    if(e.target.name == "username"){
-
-      if(username.length < 4 || !username.match(regUsername)){
-          
-          document.getElementById("username__error").classList.add("form__input-usernameError--active");
-          document.getElementById("error__username").classList.add("form__error-icon--active");
-          document.getElementById("success__username").classList.remove("form__success-icon--active");
-          setIsValidate(false);
-      
-
-      }else{
-
-          document.getElementById("username__error").classList.remove("form__input-usernameError--active");
-          document.getElementById("error__username").classList.remove("form__error-icon--active");
-          document.getElementById("success__username").classList.add("form__success-icon--active");
-          setIsValidate(true);
-         
+    if (e.target.name == 'username') {
+      if (username.length < 4 || !username.match(regUsername)) {
+        document.getElementById('username__error').classList.add('form__input-usernameError--active')
+        document.getElementById('error__username').classList.add('form__error-icon--active')
+        document.getElementById('success__username').classList.remove('form__success-icon--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('username__error').classList.remove('form__input-usernameError--active')
+        document.getElementById('error__username').classList.remove('form__error-icon--active')
+        document.getElementById('success__username').classList.add('form__success-icon--active')
+        setIsValidate(true)
       }
     }
-   
   }
-  
+
   /**
    * It sends a POST request to the server with the user's data, and if the server responds with a
    * message that says "Registered successfully", it redirects the user to the home page
    * @param e - The event object
    */
   const signUp = async (e) => {
-    
-    e.preventDefault();
+    e.preventDefault()
 
-    if(isValidate){
+    if (isValidate) {
+      document.getElementById('submit__error').classList.add('submit__error--active')
 
-      document.getElementById("submit__error").classList.add("submit__error--active");
-      
       const res = await fetch(`${server}/api/registerCare`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
-          name: name,
-          lastname: "",
-          username: username,
+          email,
+          password,
+          name,
+          lastname: '',
+          username
         })
-      }).catch(err => console.log(err));
+      }).catch(err => console.log(err))
 
-      const data = await res.json();
+      const data = await res.json()
 
-      setMessage(data.message);
+      setMessage(data.message)
 
-      if(data.message == 'Registrado con éxito.'){
+      if (data.message == 'Registrado con éxito.') {
+        document.getElementById('submit__error').classList.remove('submit__error--active')
+        document.getElementById('submit__error').classList.add('submit__error--active2')
 
-        document.getElementById("submit__error").classList.remove("submit__error--active");
-        document.getElementById("submit__error").classList.add("submit__error--active2");
-
-        Router.push("/auth/signIn")
-
+        Router.push('/auth/signIn')
       }
-
-  }else{
-      
-      setMessage('Por favor, verifica que todos los campos estén correctos.');
-      document.getElementById("submit__error").classList.add("submit__error--active");
+    } else {
+      setMessage('Por favor, verifica que todos los campos estén correctos.')
+      document.getElementById('submit__error').classList.add('submit__error--active')
+    }
   }
-} 
 
-  
-  return(
+  return (
 
-      <>
-        <Head>
-          <title>Registro</title>
-        </Head>
-        
-        <Header url1="/news" url2="/about" url3="/contact" url4="/auth/signIn"
-                          text1="Noticias" text2="Quiénes somos" text3="Contacto" text4="Iniciar sesión"/>
-        <div className={global.content}>
+    <>
+      <Head>
+        <title>Registro</title>
+      </Head>
 
-        <div className="page">
-          
-        <div className="page__video"></div>
-              <video autoPlay loop muted 
-                  style={{position: "absolute", width: '70rem', height: '110rem', objectFit: "cover", zIndex:"-99999", borderRadius: "30px 30px 30px 30px" }}>
-                  <source src="/videos/video2.mp4" />
-              </video>
-          <div className="page__form">
-            <div className="form__text">
+      <Header
+        url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
+        text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
+      />
+      <div className={global.content}>
+
+        <div className='page'>
+
+          <div className='page__video' />
+          <video
+            autoPlay loop muted
+            style={{ position: 'absolute', width: '70rem', height: '110rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
+          >
+            <source src='/videos/video2.mp4' />
+          </video>
+          <div className='page__form'>
+            <div className='form__text'>
               <h2>¡Bienvenido a Sweet Home!</h2>
-              
+
               <p className={global.text}>Introduzca los siguientes datos:</p>
             </div>
-            
-            <form className="form-vertical" action="/api/register" id="form">
-              <div className="form-vertical__email">
-                <div className="label">
+
+            <form className='form-vertical' action='/api/register' id='form'>
+              <div className='form-vertical__email'>
+                <div className='label'>
                   <p className={global.text}>Email</p>
                   <MdEmail size={20} color={colors.secondary} />
                 </div>
-                <div className="email__input">
+                <div className='email__input'>
                   <input
-                    title="El email debe seguir el formato correcto"
-                    type="email"
-                    name="email"
+                    title='El email debe seguir el formato correcto'
+                    type='email'
+                    name='email'
                     value={email}
-                    id="email"
+                    id='email'
                     required
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="p. ej.: cuidadora@gmail.com"
-                  ></input>
-                  <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                  <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                  <div id="email__error" className="form__input-emailError">
-                  <div className="error__icon">
-                    <MdOutlineError size={30} color={colors.secondary}/>
+                    placeholder='p. ej.: cuidadora@gmail.com'
+                  />
+                  <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='email__error' className='form__input-emailError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>Debe seguir el formato correcto</p>
                   </div>
-                  <p className={global.text2}>Debe seguir el formato correcto</p>
                 </div>
-                </div>
-                
+
               </div>
-              <div className="form-vertical__name">
-                <div className="label">
+              <div className='form-vertical__name'>
+                <div className='label'>
                   <p className={global.text}>Nombre de la cuidadora</p>
                   <FaUserPlus size={20} color={colors.secondary} />
                 </div>
-                <div className="name__input">
+                <div className='name__input'>
                   <input
-                    title="Introducir nombre"
-                    type="text"
-                    name="name"
+                    title='Introducir nombre'
+                    type='text'
+                    name='name'
                     value={name}
-                    id="name"
+                    id='name'
                     required
-                    pattern="[a-zA-Z] + [a-zA-Z] +"
+                    pattern='[a-zA-Z] + [a-zA-Z] +'
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="p. ej.: Cuidadora S.L"
-                  ></input>
-                  <div id="error__name" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                  <div id="success__name" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                  <div id="name__error" className="form__input-nameError">
-                  <div className="error__icon">
-                    <MdOutlineError size={30} color={colors.secondary}/>
+                    placeholder='p. ej.: Cuidadora S.L'
+                  />
+                  <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='name__error' className='form__input-nameError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                   </div>
-                  <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                 </div>
-                </div>            
               </div>
-              <div classname="form-vertical__username">
-                <div className="label">
+              <div classname='form-vertical__username'>
+                <div className='label'>
                   <p className={global.text}>Nombre de usuario</p>
                   <FaUser size={20} color={colors.secondary} />
-                </div>   
-                <div className="username__input">
+                </div>
+                <div className='username__input'>
                   <input
-                    title="Introducir nombre de usuario"
-                    type="text"
-                    name="username"
+                    title='Introducir nombre de usuario'
+                    type='text'
+                    name='username'
                     value={username}
-                    id="username"
+                    id='username'
                     required
-                    minLength="4"
+                    minLength='4'
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="p. ej.: cuidadora45"
-                    className="input"
-                  ></input>
-                    <div id="error__username" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                    <div id="success__username" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                    <div id="username__error" className="form__input-usernameError">
-                      <div className="error__icon">
-                        <MdOutlineError size={30} color={colors.secondary}/>
-                      </div>
-                      <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo y no contener espacios</p>
+                    placeholder='p. ej.: cuidadora45'
+                    className='input'
+                  />
+                  <div id='error__username' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__username' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='username__error' className='form__input-usernameError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo y no contener espacios</p>
                   </div>
-                  </div>
-                  
+                </div>
 
               </div>
-              <div classname="form-vertical__password">
-                <div className="label">
+              <div classname='form-vertical__password'>
+                <div className='label'>
                   <p className={global.text}>Contraseña</p>
                   <BsFillLockFill size={25} color={colors.secondary} />
-                </div> 
-                <div className="password__input">  
+                </div>
+                <div className='password__input'>
                   <input
-                    title="Introducir contraseña"
-                    type="password"
-                    name="password"
+                    title='Introducir contraseña'
+                    type='password'
+                    name='password'
                     value={password}
-                    id="password"
-                    pattern="(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}"
+                    id='password'
+                    pattern='(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}'
                     required
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="p. ej.: 1Cuidadora!"
-                    className="input"
-                  ></input>
-                  <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                  <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                  <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                  <div id="password__error" className="form__input-passwordError">
-                    <div className="error__icon">
-                      <MdOutlineError size={30} color={colors.secondary}/>
+                    placeholder='p. ej.: 1Cuidadora!'
+                    className='input'
+                  />
+                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='password__error' className='form__input-passwordError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                  </div>
                 </div>
-                </div>  
-                
-                <div className="tooltip">
-                  <div className="tooltip__icon">
+
+                <div className='tooltip'>
+                  <div className='tooltip__icon'>
                     <AiFillInfoCircle size={20} color={colors.secondary} />
                     <p className={global.text}> Información contraseña</p>
                   </div>
-                  <div className="tooltiptext">
+                  <div className='tooltiptext'>
                     <p> - La contraseña debe tener al menos 8 caracteres.</p>
                     <p> - La contraseña debe tener al menos una letra mayúscula.</p>
                     <p> - La contraseña debe tener al menos un carácter especial.</p>
@@ -366,26 +324,28 @@ export default function SignUp() {
                 </div>
               </div>
             </form>
-            <div className="form__conditions">
-              <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className="form__link" aria-label="Ir a Condiciones" href="/conditions">Condiciones</a> y  <a className="form__link" aria-label="Ir a Privacidad" href="/privacity">Privacidad</a> encontrará más información.</p>
+            <div className='form__conditions'>
+              <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className='form__link' aria-label='Ir a Condiciones' href='/conditions'>Condiciones</a> y  <a className='form__link' aria-label='Ir a Privacidad' href='/privacity'>Privacidad</a> encontrará más información.</p>
             </div>
-            <div id="submit__error" className="submit__error">
-                {message}
+            <div id='submit__error' className='submit__error'>
+              {message}
             </div>
-            <input type="submit" value="Confirmar" className="form-vertical__button" onClick={(e) => signUp(e)}/>
-            <div className="form-login">
+            <input type='submit' value='Confirmar' className='form-vertical__button' onClick={(e) => signUp(e)} />
+            <div className='form-login'>
               <h6>¿Ya tienes una cuenta?</h6>
-              <Link href="/auth/signIn"><a aria-label="Ir a formulario de inicio de sesión">Entrar</a></Link>
+              <Link href='/auth/signIn'><a aria-label='Ir a formulario de inicio de sesión'>Entrar</a></Link>
             </div>
-            <div className="form-caretaker">
+            <div className='form-caretaker'>
               <h6>¿Eres un usuario corriente?</h6>
-              <Link href="/auth/signUp"><a aria-label="Ir a formulario de registro de usuario">Registrate aquí</a></Link>
+              <Link href='/auth/signUp'><a aria-label='Ir a formulario de registro de usuario'>Registrate aquí</a></Link>
             </div>
           </div>
         </div>
       </div>
-        <BasicFooter color="#f0810f" hover="#f9A603" url1="/faq" text1="Información" url2="/privacy" text2="Privacidad"
-                   url3="/conditions" text3="Condiciones" url4="/accessibility" text4="Accesibilidad"/>
+      <BasicFooter
+        color='#f0810f' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
+        url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
+      />
       <style jsx>{`
 
         .page {
@@ -1448,10 +1408,9 @@ export default function SignUp() {
 
           }
 
-        `}</style>
-      </>
-
-
+        `}
+      </style>
+    </>
 
   )
 }

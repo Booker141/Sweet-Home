@@ -1,35 +1,32 @@
-import global from "styles/global.module.css";
-import {useState, useEffect} from "react"
+import global from 'styles/global.module.css'
+import { useState, useEffect } from 'react'
 
-export default function Toast(props) {
-
-  const [isActive, setIsActive] = useState(false);
-  console.log(props);
+export default function Toast (props) {
+  const [isActive, setIsActive] = useState(false)
+  console.log(props)
   useEffect(() => {
+    const toast = document.getElementById('toast')
 
-    const toast = document.getElementById('toast');
-    
-    setIsActive(props.isActive);
+    setIsActive(props.isActive)
 
-    if(isActive) {
-        console.log("toast active");
-        toast.classList.add('active');
+    if (isActive) {
+      console.log('toast active')
+      toast.classList.add('active')
     }
     setTimeout(() => {
-      setIsActive(false);
-      toast.classList.remove('active');
-    }, 5000);
-
+      setIsActive(false)
+      toast.classList.remove('active')
+    }, 5000)
   }, [])
   return (
     <>
-        <div id="toast" className="toast__container">
-            <div className={global.toast}>
-                {props.children}
-                {console.log("Toast impreso")}
-            </div>
+      <div id='toast' className='toast__container'>
+        <div className={global.toast}>
+          {props.children}
+          {console.log('Toast impreso')}
         </div>
-        <style jsx>{`
+      </div>
+      <style jsx>{`
 
             .toast__container{
 
@@ -57,7 +54,8 @@ export default function Toast(props) {
 
             }
         
-        `}</style>
+        `}
+      </style>
     </>
-  );
+  )
 }

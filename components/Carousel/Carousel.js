@@ -1,15 +1,11 @@
 import router from 'next/router'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf.js"
-import {fonts} from "styles/frontend-conf.js"
-import carousel from "../../public/carousel.svg"
-import {BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill} from "react-icons/bs"
-import {server} from "/server"
-
-
-
+import global from 'styles/global.module.css'
+import { colors, fonts } from 'styles/frontend-conf.js'
+import carousel from '../../public/carousel.svg'
+import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { server } from '/server'
 
 /*
     * @author Sergio García Navarro
@@ -23,77 +19,77 @@ import {server} from "/server"
  * This function returns a fixed carousel with pre-established information.
  * @returns A fixed carousel.
  */
-export default function Carousel(){
+export default function Carousel () {
+  const [news, setNews] = useState([])
+  const [newsLength, setNewsLength] = useState(0)
+  const [current, setCurrent] = useState(0)
 
-    const [news, setNews] = useState([]);
-    const [newsLength, setNewsLength] = useState(0);
-    const [current, setCurrent] = useState(0);
-
-    /**
+  /**
      * If the current slide is greater than 0, then set the current slide to the previous slide
      */
-    const before = () => {
-        if(current > 0){
-            setCurrent(current - 1);
-        }
+  const before = () => {
+    if (current > 0) {
+      setCurrent(current - 1)
     }
+  }
 
-    /**
+  /**
      * If the current index is less than the length of the news array, increment the current index by
      * one
      */
-    const after = () => {
-        if(current < newsLength - 1){
-            setCurrent(current + 1);
-        }
+  const after = () => {
+    if (current < newsLength - 1) {
+      setCurrent(current + 1)
     }
+  }
 
-    useEffect(async () => {
-        await fetch(`${server}/api/news`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-        }).then((response) => response.json())
-          .then((data) => {setNews(data); 
-                            setNewsLength(data.length);})
-          .catch((error) => {
-            console.log('Error en la petición:' + error.message);
-          });
+  useEffect(async () => {
+    await fetch(`${server}/api/news`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => response.json())
+      .then((data) => {
+        setNews(data)
+        setNewsLength(data.length)
+      })
+      .catch((error) => {
+        console.log('Error en la petición:' + error.message)
+      })
+  }, [])
 
-    }, [])
+  return (
 
-    return (
-
-        <>
-            <div className="carousel">
-                {news.map(({_id, id, title, date, author, introduction}) => (
-                                <div key={_id} className="carousel__item" style={{ transform: `translateX(-${current * 100}%)` , transition: "0.5s ease all"}}>
-                                    <a class="arrow__left" onClick={before}>
-                                        <div className="carousel__icon">
-                                            <BsFillArrowLeftCircleFill size={37}/>
-                                        </div>
-                                    </a>
-                                    <div className="item__text">
-                                        <h2 className={global.title3}>{title}</h2>
-                                        <h3 className="text__date">{date}</h3>
-                                        <h3 className="text__date">{author}</h3>
-                                        <p className="text__paragraph">{introduction}</p>
-                                        <button className={global.buttonTertiary} onClick={() => {router.push(`/news/${id}`)}}>Saber más</button>
-                                    </div>
-                                    <div className="item__image">
-                                        <Image src={carousel}/>
-                                    </div>
-                                    <a class="arrow__right" onClick={after}>
-                                        <div className="carousel__icon">
-                                            <BsFillArrowRightCircleFill size={37}/>
-                                        </div>
-                                    </a>
-                                </div>
-                            ))} 
+    <>
+      <div className='carousel'>
+        {news.map(({ _id, id, title, date, author, introduction }) => (
+          <div key={_id} className='carousel__item' style={{ transform: `translateX(-${current * 100}%)`, transition: '0.5s ease all' }}>
+            <a class='arrow__left' onClick={before}>
+              <div className='carousel__icon'>
+                <BsFillArrowLeftCircleFill size={37} />
+              </div>
+            </a>
+            <div className='item__text'>
+              <h2 className={global.title3}>{title}</h2>
+              <h3 className='text__date'>{date}</h3>
+              <h3 className='text__date'>{author}</h3>
+              <p className='text__paragraph'>{introduction}</p>
+              <button className={global.buttonTertiary} onClick={() => { router.push(`/news/${id}`) }}>Saber más</button>
             </div>
+            <div className='item__image'>
+              <Image src={carousel} />
+            </div>
+            <a class='arrow__right' onClick={after}>
+              <div className='carousel__icon'>
+                <BsFillArrowRightCircleFill size={37} />
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
 
-            <style jsx>{`
+      <style jsx>{`
 
               
                 .carousel{
@@ -240,12 +236,10 @@ export default function Carousel(){
                     margin-bottom: 3rem;
                 }
 
-            `}</style>
+            `}
+      </style>
 
+    </>
 
-        </>
-
-
-    )
-
+  )
 }

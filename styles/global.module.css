@@ -36,6 +36,16 @@
   color: #fafafa;
 }
 
+.title4{
+
+  /*Text*/
+
+  font-family: "Poppins", sans-serif;
+  font-size: 3rem;
+  font-weight: 500;
+
+}
+
 .secondary {
   /*Text*/
 
@@ -44,6 +54,15 @@
   font-weight: 500;
 }
 
+.secondary__bold{
+  
+  /*Text*/
+
+  font-family: "Raleway", sans-serif;
+  font-size: 1.7rem;
+  font-weight: bold;
+
+}
 .secondary2 {
   /*Text*/
 
@@ -304,7 +323,30 @@
   border-radius: 5px;
   box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
 
+}
 
+.thread{
+
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: white;
+
+  /*Visuals*/
+
+  border-radius: 10px;
+  background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
 
 }
 
@@ -380,9 +422,6 @@
   /*Text*/
 
   font-family: 'Poppins', sans-serif;
-
-
-
 
 }
 
@@ -621,11 +660,13 @@
 .buttonPrimary {
   /*Box model*/
 
-  display: block;
-  height: 7vh;
-  width: 10vw;
-  padding: 1vh 2vh;
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 8rem;
+  padding: 0.5rem;
 
   /*Text*/
 
@@ -709,7 +750,7 @@
 }
 
 
-.buttonDelete {
+.buttonTertiary2 {
 
   /*Box model*/
 
@@ -719,7 +760,72 @@
   justify-content: space-around;
   height: 3rem;
   width: 7rem;
-  padding: 1rem;
+  padding: 0.5rem;
+
+  /*Text*/
+
+  color: #f0810f;
+  font-family: "Poppins", sans-serif;
+  font-style: 500;
+
+  /*Visuals*/
+
+  cursor: pointer;
+
+  background-color: transparent;
+  border-radius: 40px;
+  border: 1px solid #f0810f;
+
+  /*Misc*/
+
+  transition: all 0.3s ease-in-out;
+
+}
+
+
+.buttonTertiary3 {
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 3rem;
+  width: 8rem;
+  padding: 0.5rem;
+
+  /*Text*/
+
+  color: #ffff;
+  font-family: "Poppins", sans-serif;
+  font-style: 500;
+
+  /*Visuals*/
+
+  cursor: pointer;
+
+  background-color: #f0810f;
+  border-radius: 40px;
+  border: 1px solid #ffff;
+
+  /*Misc*/
+
+  transition: all 0.3s ease-in-out;
+
+}
+
+
+.buttonDelete {
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 7rem;
 
   /*Text*/
 
@@ -774,7 +880,41 @@
 
 }
 
-.buttonTertiary2 {
+
+
+.buttonDelete2 {
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 7rem;
+
+  /*Text*/
+
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-style: 500;
+
+  /*Visuals*/
+
+  cursor: pointer;
+
+  background: #f55b5b;
+  border-radius: 40px;
+  border: none;
+
+  /*Misc*/
+
+  transition: all 0.3s ease-in-out;
+
+}
+
+
+.buttonDelete2:hover {
 
   /*Box model*/
 
@@ -784,11 +924,11 @@
   justify-content: space-around;
   height: 3rem;
   width: 7rem;
-  padding: 0.5rem;
+  padding: 1rem;
 
   /*Text*/
 
-  color: #f0810f;
+  color: white;
   font-family: "Poppins", sans-serif;
   font-style: 500;
 
@@ -796,9 +936,9 @@
 
   cursor: pointer;
 
-  background-color: transparent;
+  background-color: #f55b5b;
   border-radius: 40px;
-  border: 1px solid #f0810f;
+  border: 1px solid white;
 
   /*Misc*/
 

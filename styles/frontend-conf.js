@@ -1,35 +1,35 @@
-//SPLIT THEME CONFIGURATION
+// SPLIT THEME CONFIGURATION
 
 /**
- * THEMES 
+ * THEMES
  * light - casual properties
  * dark - dark properties
  */
 
 export const theme = {
-    light: {
-      textColor: '#1c1c1c',
-      backgroundColor: '#ffffff',
-    },
-    dark: {
-      textColor: '#fafafa',
-      backgroundColor: '#343541',
-    },
+  light: {
+    textColor: '#1c1c1c',
+    backgroundColor: '#ffffff'
+  },
+  dark: {
+    textColor: '#fafafa',
+    backgroundColor: '#343541'
   }
+}
 
 /**
  * THEME COLORS
- * primary - orange 
+ * primary - orange
  * secondary - white
  * tertiary - yellow
  */
 
 export const colors = {
 
-    primary: '#f0810f',
-    secondary:'#fafafa',
-    tertiary:'#f9A603',
-    quaternary:'#1C1C1C',
+  primary: '#f0810f',
+  secondary: '#fafafa',
+  tertiary: '#f9A603',
+  quaternary: '#1C1C1C'
 
 }
 
@@ -41,9 +41,9 @@ export const colors = {
  */
 
 export const statusColors = {
-    success: '#22e34f',
-    error: '#f55b5b',
-    warning: '#ffcf4a',
+  success: '#22e34f',
+  error: '#f55b5b',
+  warning: '#ffcf4a'
 }
 
 /**
@@ -53,8 +53,8 @@ export const statusColors = {
  */
 
 export const fonts = {
-    default:'Poppins',
-    secondary:'Raleway'
+  default: 'Poppins',
+  secondary: 'Raleway'
 }
 
 /**
@@ -63,7 +63,7 @@ export const fonts = {
  */
 
 export const queriesBreakpoints = {
-    mobile: '400px',
-    tablet: '625px',
-    desktop: '1793px'
+  mobile: '400px',
+  tablet: '625px',
+  desktop: '1793px'
 }

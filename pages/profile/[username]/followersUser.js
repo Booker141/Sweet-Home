@@ -1,62 +1,59 @@
-import {useSession} from "next-auth/react"
-import {useState, useEffect} from 'react'
+import { useSession } from 'next-auth/react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import global from "styles/global.module.css"
-import Layout from "components/Layout/Layout"
-import Follower from "components/Follower/Follower"
-import Loader from "components/Loader/Loader"
-import {server} from "/server"
+import global from 'styles/global.module.css'
+import Layout from 'components/Layout/Layout'
+import Follower from 'components/Follower/Follower'
+import Loader from 'components/Loader/Loader'
+import { server } from '/server'
 
+export default function FollowersUser ({ user }) {
+  const { data: session, status } = useSession({ required: true })
+  const [followers, setFollowers] = useState([])
+  const numFollowers = followers.length
 
-export default function FollowersUser({user}) {
+  useEffect(() => {
+    if (session) {
+      if (user.followers.length !== 0) { setFollowers(user.followers) }
+    }
+  }, [])
 
-    const {data: session, status} = useSession({required: true})
-    const [followers, setFollowers] = useState([]);
-    const numFollowers = followers.length;
-
-    useEffect(() => {
-        if (session){
-            if(user.followers.length !== 0)
-                setFollowers(user.followers);
-        }
-    }, [])
-
-    console.log(user);
-    if(status == "loading"){
-        return (
-          <>
-            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-            <Loader/>
-          </>
-          )
-      }
-    if (session){
-        return(
-            <Layout>
-            <Head><title>Seguidores</title></Head>
-                    <h1 className={global.title}>Seguidores</h1>
-                    <p className={global.text}>Te siguen {numFollowers} personas</p>
-                    <div className="followers">
-                        {followers.map((_id) => (
-                            <Follower key={_id} id={_id}/>
-                        ))}
-                    </div>
-                    <style jsx>{`
-                        `}</style>
-            </Layout>
-        )
-
-    } else {
-        return(
-            <Layout>
-                <>
-                    <div className={global.content}>
-                        <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                        </div>
-                    </div>
-                    <style jsx>{`
+  console.log(user)
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Seguidores</title></Head>
+        <h1 className={global.title}>Seguidores</h1>
+        <p className={global.text}>Te siguen {numFollowers} personas</p>
+        <div className='followers'>
+          {followers.map((_id) => (
+            <Follower key={_id} id={_id} />
+          ))}
+        </div>
+        <style jsx>{`
+                        `}
+        </style>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout>
+        <>
+          <div className={global.content}>
+            <div className='message'>
+              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            </div>
+          </div>
+          <style jsx>{`
 
                         .message{
 
@@ -70,29 +67,28 @@ export default function FollowersUser({user}) {
                             
                         }
                         
-                    `}</style>
-                </>
-            </Layout>
-        )
-    }
-
+                    `}
+          </style>
+        </>
+      </Layout>
+    )
+  }
 }
 
-export async function getServerSideProps(context){
-
-    const res = await fetch(`${server}/api/users/${context.query.username}`,
+export async function getServerSideProps (context) {
+  const res = await fetch(`${server}/api/users/${context.query.username}`,
     {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
 
-    const user = await res.json();
+  const user = await res.json()
 
-    return{
-        props: {
-            user,
-        }
-    }   
+  return {
+    props: {
+      user
+    }
+  }
 }

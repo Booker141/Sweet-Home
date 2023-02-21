@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/image'
 import Logo from '../../public/LogoWebBlanco.png'
 
 /*
@@ -13,19 +13,14 @@ import Logo from '../../public/LogoWebBlanco.png'
  * @returns A function that returns a JSX element.
  */
 
+export default function Trademark ({ link }) {
+  return (
 
-export default function Trademark({link}){
+    <>
+      <div className='img'>
+        <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={150} height={65} /></a>
+      </div>
+    </>
 
-    return(
-
-        <>
-            <div className="img">
-                <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={150} height={65}/></a>
-            </div>
-        </>
-        
-    )
-
-
+  )
 }
-

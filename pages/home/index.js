@@ -1,22 +1,20 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
-import {useState} from 'react'
-import {useRouter} from 'next/router'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
-import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf"
-import {fonts} from "styles/frontend-conf"
-import {RiSearchLine} from "react-icons/ri"
-import {HiOutlineRefresh} from "react-icons/hi"
-import Layout from "components/Layout/Layout"
-import BasicFooter from "components/BasicFooter/BasicFooter"
-import Post from "components/Post/Post"
-import User from "components/User/User"
-import Loader from "components/Loader/Loader"
-import {server} from "/server"
+import global from 'styles/global.module.css'
+import { colors, fonts } from 'styles/frontend-conf'
+import { RiSearchLine } from 'react-icons/ri'
+import { HiOutlineRefresh } from 'react-icons/hi'
+import Layout from 'components/Layout/Layout'
+import BasicFooter from 'components/BasicFooter/BasicFooter'
+import Post from 'components/Post/Post'
+import User from 'components/User/User'
+import Loader from 'components/Loader/Loader'
+import { server } from '/server'
 
-
-/* 
+/*
     * @author Sergio García Navarro
     * @returns Posts page
     * @version 1.0
@@ -28,129 +26,124 @@ import {server} from "/server"
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function Home ({posts, users}){
-
-  const {data: session, status} = useSession({required: true});
-  const [postList, setPostList] = useState(posts);
-  const [search, setSearch] = useState("");
-  const [isSortedByUsername, setIsSortedByUsername] = useState(false);
-  const [isSortedByLikes, setIsSortedByLikes] = useState(false);
-  const Router = useRouter();
+export default function Home ({ posts, users }) {
+  const { data: session, status } = useSession({ required: true })
+  const [postList, setPostList] = useState(posts)
+  const [search, setSearch] = useState('')
+  const [isSortedByUsername, setIsSortedByUsername] = useState(false)
+  const [isSortedByLikes, setIsSortedByLikes] = useState(false)
+  const Router = useRouter()
 
   const sortPostByUsername = () => {
-    setIsSortedByUsername(!isSortedByUsername);
-    const sortedPosts = posts.sort((a,b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
-    setPostList(sortedPosts);
+    setIsSortedByUsername(!isSortedByUsername)
+    const sortedPosts = posts.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
+    setPostList(sortedPosts)
   }
 
   const sortPostByLikes = () => {
-
-    setIsSortedByLikes(!isSortedByLikes);
-    const sortedPosts = posts.sort((a,b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0));
-    setPostList(sortedPosts);
-
+    setIsSortedByLikes(!isSortedByLikes)
+    const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
+    setPostList(sortedPosts)
   }
 
+  const searchPost = (e) => {
+    e.preventDefault()
+    setSearch(e.target.value)
 
-  const searchPost = (e) =>{
-
-    e.preventDefault();
-    setSearch(e.target.value);
-
-    if(search.length > 0 && search !== " "){
-      const filteredPosts = posts.filter(post => post.username.toLowerCase().includes(search.toLowerCase()));
-      setPostList(filteredPosts);
+    if (search.length > 0 && search !== ' ') {
+      const filteredPosts = posts.filter(post => post.username.toLowerCase().includes(search.toLowerCase()))
+      setPostList(filteredPosts)
     }
-
   }
 
-    if(status == "loading"){
-      return (
-        <>
-          <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-          <Loader/>
-        </>
-        )
-    }
-    if(session){
-      return (
-          <Layout>
-              <Head><title>Reciente</title></Head>
-                  <div className="column1__buttons">
-                        <button className={global.buttonPrimary} onClick={() => Router.push("/createPost")} aria-label="Crear nuevo post">Crear post</button>
-                        <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label="Ordenar publicaciones por usuario">Ordenar por usuario</button>
-                        <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label="Ordenar publicaciones por likes">Ordenar por popularidad</button>
-                    </div>
-                      <div className="column1__search">
-                          <div className="search__icon">
-                            <RiSearchLine size={20} color={colors.primary}/>
-                          </div>
-                          <input type="search" 
-                                name="search" 
-                                value={search}
-                                placeholder="Buscar.."
-                                onBlur={(e) => searchPost(e)}
-                                onKeyUp={(e) => searchPost(e)}
-                                onChange={(e) => setSearch(e.target.value)}
-                                />
-                    </div>
-                  <div className="container">
-                  
-                    <div className="container__column1">
-                     
-                      <div className="column1__header">
-                        <h1 className={global.title}>Reciente</h1>
-                        <button className="refresh__button" onClick={() => Router.reload()}><HiOutlineRefresh size={30} color={colors.primary}/></button>
-                      </div>
-                      {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
-                      {(isSortedByUsername || isSortedByLikes) && postList.map(({_id, username, location, mediaUrl, description, comments, likes, saves}) => {
-                          return (
-                            <>
-                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves}/>
-                            </>
-                          )
-                        })}
-                      {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>Cargando..</p></div>}
-                        {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt)}).map(({_id, username, location, mediaUrl, description, comments, likes, saves}) => {
-                          return (
-                            <>
-                              <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves}/>
-                            </>
-                          )
-                        })}
-                      </div>
-                    
-                    <div className="container__column2">
-                      <div className="column2__follow">
-                        <h1 className={global.title}>Seguir</h1>
-                        {users.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
-                        {users.filter(user => user.username !== (session.user.username)).slice(0,5).map(({_id, userImage, username, isCaretaker}) => {
-                          return (
-                            <>
-                              <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker}/>
-                            </>
-                          )
-                        })}
-                        <div className="users__link">
-                          <Link href="/allUsers"><a className={global.link} aria-label="Ir a ver más usuarios">Ver todos →</a></Link>
-                        </div>
-                      </div>
-                      <div className="footer">
-                        <div className="footer__links">
-                          <Link className={global.link} href="/use" passHref><a aria-label='Ir a Información'>Información</a></Link>
-                          <Link className={global.link} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
-                          <Link className={global.link} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
-                          <Link className={global.link} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                          <Link className={global.link} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
-                        <div className="copyright">
-                          <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
-                      </div>
-                </div>
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Reciente</title></Head>
+        <div className='column1__buttons'>
+          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
+          <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label='Ordenar publicaciones por usuario'>Ordenar por usuario</button>
+          <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
+        </div>
+        <div className='column1__search'>
+          <div className='search__icon'>
+            <RiSearchLine size={20} color={colors.primary} />
+          </div>
+          <input
+            type='search'
+            name='search'
+            value={search}
+            placeholder='Buscar..'
+            onBlur={(e) => searchPost(e)}
+            onKeyUp={(e) => searchPost(e)}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className='container'>
+
+          <div className='container__column1'>
+
+            <div className='column1__header'>
+              <h1 className={global.title}>Reciente</h1>
+              <button className='refresh__button' onClick={() => Router.reload()}><HiOutlineRefresh size={30} color={colors.primary} /></button>
             </div>
-                  </div>
+            {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
+            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, mediaUrl, description, comments, likes, saves }) => {
+              return (
+                <>
+                  <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves} />
+                </>
+              )
+            })}
+            {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
+            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, mediaUrl, description, comments, likes, saves }) => {
+              return (
+                <>
+                  <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves} />
+                </>
+              )
+            })}
+          </div>
+
+          <div className='container__column2'>
+            <div className='column2__follow'>
+              <h1 className={global.title}>Seguir</h1>
+              {users.length === 0 && <div><p className={global.loading}>No existe ningún usuario</p></div>}
+              {users.filter(user => user.username !== (session.user.username)).slice(0, 5).map(({ _id, userImage, username, isCaretaker }) => {
+                return (
+                  <>
+                    <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker} />
+                  </>
+                )
+              })}
+              <div className='users__link'>
+                <Link href='/allUsers'><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
+              </div>
+            </div>
+            <div className='footer'>
+              <div className='footer__links'>
+                <Link className={global.link} href='/use' passHref><a aria-label='Ir a Información'>Información</a></Link>
+                <Link className={global.link} href='/privacy' passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
+                <Link className={global.link} href='/conditions' passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
+                <Link className={global.link} href='/accessibility' passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
+                <Link className={global.link} href='/rules' passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
+                <div className='copyright'>
+                  <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
                 </div>
-            
-            <style jsx>{`
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style jsx>{`
 
               .container{
 
@@ -275,6 +268,7 @@ export default function Home ({posts, users}){
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+                margin-bottom: 1rem;
                 
                
               }
@@ -364,21 +358,22 @@ export default function Home ({posts, users}){
 
 
 
-            `}</style>
-        </Layout>
+            `}
+        </style>
+      </Layout>
 
-      )
-} else {
-  return(
+    )
+  } else {
+    return (
       <Layout>
-          <>
-              <div className={global.content}>
-                  <div className="message">
-                      <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                      <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                  </div>
-              </div>
-              <style jsx>{`
+        <>
+          <div className={global.content}>
+            <div className='message'>
+              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            </div>
+          </div>
+          <style jsx>{`
 
                   .message{
 
@@ -393,37 +388,33 @@ export default function Home ({posts, users}){
                   }
 
                   
-              `}</style>
-          </>
+              `}
+          </style>
+        </>
       </Layout>
-  )
-
+    )
+  }
 }
-}
 
-export async function getServerSideProps(context){ 
-
-  
-  let res = await fetch(`${server}/api/posts`, {
-    method: "GET",
+export async function getServerSideProps (context) {
+  const res = await fetch(`${server}/api/posts`, {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-
-  let user = await fetch(`${server}/api/users`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
+      'Content-Type': 'application/json'
+    }
   })
 
-  let posts = await res.json();
-  let users = await user.json();
+  const user = await fetch(`${server}/api/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  const posts = await res.json()
+  const users = await user.json()
 
   return {
-    props: { posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(users)) },
-  };
+    props: { posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(users)) }
+  }
 }
-

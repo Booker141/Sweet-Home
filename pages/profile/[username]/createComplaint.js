@@ -1,92 +1,85 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
-import {useRouter} from 'next/router'
-import {useState} from 'react'
-import {BsFillExclamationDiamondFill} from 'react-icons/bs'
-import {colors} from '../../../styles/frontend-conf'
-import {fonts} from '../../../styles/frontend-conf'
-import {statusColors} from '../../../styles/frontend-conf'
-import global from '../../../styles/global.module.css'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { BsFillExclamationDiamondFill } from 'react-icons/bs'
+import { colors, fonts, statusColors } from '/styles/frontend-conf'
+import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
-import {server} from '/server'
+import { server } from '/server'
 
+export default function CreateComplaint () {
+  const { data: session, status } = useSession({ required: true })
+  const router = useRouter()
+  const [reason, setReason] = useState('')
+  const [message, setMessage] = useState('')
 
-export default function CreateComplaint(){
+  const createComplaint = async (e) => {
+    e.preventDefault()
 
-    const {data: session, status} = useSession({required: true});
-    const router = useRouter();
-    const [reason, setReason] = useState("");
-    const [message, setMessage] = useState("");
-    
-    const createComplaint = async (e) =>{
+    const res = await fetch(`${server}/api/complaints`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        description: reason,
+        usernameFrom: session.user.username,
+        usernameTo: router.query.username
+      })
+    }).catch(err => console.log(err))
 
-        e.preventDefault();
+    const data = await res.json()
 
-        const res = await fetch(`${server}/api/complaints`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                description: reason,
-                usernameFrom: session.user.username,
-                usernameTo: router.query.username,
-            })
-        }).catch(err => console.log(err));
-
-        const data = await res.json()
-
-        if(data.error){
-            console.log(data.error);
-            setMessage("Introduzca los campos obligatorios")
-        }else{
-            setMessage("Denuncia creada correctamente");
-            router.push("/profile/" + `${router.query.username}`);
-        }
-
+    if (data.error) {
+      console.log(data.error)
+      setMessage('Introduzca los campos obligatorios')
+    } else {
+      setMessage('Denuncia creada correctamente')
+      router.push('/profile/' + `${router.query.username}`)
     }
+  }
 
-    if(status == "loading"){
-        return (
-          <>
-            <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-            <Loader/>
-          </>
-          )
-      }
-    if(session){
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Crear denuncia</title></Head>
+        <div className={global.content}>
+          <div className='form'>
+            <h1 className='form__title'>Denuncia hacia @{router.query.username}</h1>
+            <h3 className={global.text2}>De parte de @{session.user.username}</h3>
+            <p className={global.text2}>Introduzca los datos de la denuncia. Los campos obligatorios vienen indicados con un asterisco *:</p>
+            <form action='/api/complaints' id='form'>
+              <div className='form-vertical__reason'>
+                <div className='label'>
+                  <p className={global.text}>Motivo</p>
+                  <BsFillExclamationDiamondFill size={25} color={colors.secondary} />
+                </div>
+                <div className='reason__input'>
+                  <textarea
+                    title='Introducir motivo'
+                    name='reason'
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder='p. ej.: El usuario ha infringido las normas...'
+                  />
+                </div>
+              </div>
 
-        return (
-            <Layout>
-                <Head><title>Crear denuncia</title></Head>
-                <div className={global.content}>
-                    <div className="form">
-                        <h1 className="form__title">Denuncia hacia @{router.query.username}</h1>
-                        <h3 className={global.text2}>De parte de @{session.user.username}</h3>
-                        <p className={global.text2}>Introduzca los datos de la denuncia. Los campos obligatorios vienen indicados con un asterisco *:</p>
-                        <form action="/api/complaints" id="form">
-                            <div className="form-vertical__reason">
-                                <div className="label">
-                                    <p className={global.text}>Motivo</p>
-                                    <BsFillExclamationDiamondFill size={25} color={colors.secondary} />
-                                </div>
-                                <div className="reason__input">
-                                <textarea
-                                    title="Introducir motivo"
-                                    name="reason"
-                                    value={reason}
-                                    onChange={(e) => setReason(e.target.value)}
-                                    placeholder="p. ej.: El usuario ha infringido las normas..."
-                                ></textarea>
-                            </div>
-                            </div>
-                            
-                            </form>  
-                                <input className={global.buttonPrimary} type="submit" onClick={(e) => createComplaint(e)} value="Enviar"/> 
-                            </div>
-                    </div>
-                <style jsx>{`
+            </form>
+            <input className={global.buttonPrimary} type='submit' onClick={(e) => createComplaint(e)} value='Enviar' />
+          </div>
+        </div>
+        <style jsx>{`
 
                     .form{
 
@@ -235,21 +228,20 @@ export default function CreateComplaint(){
                         cursor: pointer;
                     }
 
-                `}</style>
-            </Layout>
-        )
-  
-
-    }else {
-        return(
-            <Layout>
-                    <div className={global.content}>
-                        <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                        </div>
-                    </div>
-                    <style jsx>{`
+                `}
+        </style>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
 
                         .message{
 
@@ -263,8 +255,9 @@ export default function CreateComplaint(){
                             
                         }
                         
-                    `}</style>
-            </Layout>
-        )
-    }
+                    `}
+        </style>
+      </Layout>
+    )
+  }
 }

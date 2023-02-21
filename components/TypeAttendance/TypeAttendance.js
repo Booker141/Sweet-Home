@@ -1,21 +1,19 @@
-import {useRouter} from 'next/router'
-import global from "styles/global.module.css"
-import {colors} from "styles/frontend-conf"
+import { useRouter } from 'next/router'
+import global from 'styles/global.module.css'
+import { colors } from 'styles/frontend-conf'
 
+export default function TypeAttendance (props) {
+  const router = useRouter()
 
-export default function TypeAttendance(props) {
-
-    const router = useRouter();
-    
-    return(
-        <>
-                <div className={global.typeAttendance}>
-                        <h1 className={global.tertiary}>{props.name}</h1>
-                        <hr className={global.white__line2}></hr>
-                        <p className={global.text}>{props.description}</p>
-                        <button className={global.buttonTertiary} onClick={() => router.push(`/attendances/${props.urlName}`)} aria-label={"Ir a " + `${props.url}`}>Entrar</button>
-                </div>
-            <style jsx>{`
+  return (
+    <>
+      <div className={global.typeAttendance}>
+        <h1 className={global.tertiary}>{props.name}</h1>
+        <hr className={global.white__line2} />
+        <p className={global.text}>{props.description}</p>
+        <button className={global.buttonTertiary} onClick={() => router.push(`/attendances/${props.urlName}`)} aria-label={'Ir a ' + `${props.url}`}>Entrar</button>
+      </div>
+      <style jsx>{`
 
 
 
@@ -65,9 +63,8 @@ export default function TypeAttendance(props) {
                 }
             
             
-            `}</style>
-        </>
-    )
-
-
+            `}
+      </style>
+    </>
+  )
 }

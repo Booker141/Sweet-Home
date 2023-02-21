@@ -1,164 +1,156 @@
 import Head from 'next/head'
-import {useSession} from 'next-auth/react'
-import {useRouter} from 'next/router'
-import {useState} from 'react'
-import {MdLocationOn} from 'react-icons/md'
-import {BsImageFill, BsFillChatLeftTextFill} from 'react-icons/bs'
-import {colors} from '/styles/frontend-conf'
-import {fonts} from '/styles/frontend-conf'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { MdLocationOn } from 'react-icons/md'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
-import {server} from '/server'
+import { server } from '/server'
 
+export default function CreatePet () {
+  const { data: session, status } = useSession({ required: true })
+  const Router = useRouter()
+  const [name, setName] = useState('')
+  const [animal, setAnimal] = useState('')
+  const [breed, setBreed] = useState('')
+  const [weight, setWeight] = useState('')
+  const [birthYear, setBirthYear] = useState('')
+  const [message, setMessage] = useState('')
 
-export default function CreatePet(){
+  const createPet = async (e) => {
+    e.preventDefault()
 
-    const {data: session, status} = useSession({required: true});
-    const Router = useRouter();
-    const [name, setName] = useState("");
-    const [animal, setAnimal] = useState("");
-    const [breed, setBreed] = useState("");
-    const [weight, setWeight] = useState("");
-    const [birthYear, setBirthYear] = useState("");
-    const [message, setMessage] = useState("");
-    
-    const createPet = async (e) =>{
+    const res = await fetch(`${server}/api/pets/${session.user.username}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: session.user.id,
+        location,
+        description,
+        username: session.user.username
+      })
+    }).catch(err => console.log(err))
 
-        e.preventDefault();
+    const data = await res.json()
 
-        const res = await fetch(`${server}/api/pets/${session.user.username}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userId: session.user.id,
-                location: location,
-                description: description,
-                username: session.user.username,
-            })
-        }).catch(err => console.log(err));
-
-        const data = await res.json()
-
-        if(data.error){
-            console.log(data.error);
-            setMessage("Introduzca los campos obligatorios")
-        }else{
-            setMessage("Mascota creada correctamente");
-            Router.push("/profile/myprofile/pets");
-        }
-
+    if (data.error) {
+      console.log(data.error)
+      setMessage('Introduzca los campos obligatorios')
+    } else {
+      setMessage('Mascota creada correctamente')
+      Router.push('/profile/myprofile/pets')
     }
+  }
 
-    if(status == "loading"){
-        return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
-    }
-    if(session){
+  if (status == 'loading') {
+    return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+  }
+  if (session) {
+    return (
+      <Layout>
+        <Head><title>Crear mascota</title></Head>
+        <div className={global.content}>
+          <div className={global.dots}>
+            <div className='form'>
+              <h1 className='form__title'>Crear mascota</h1>
+              <p className={global.text2}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              <form action='/api/posts' id='form'>
+                <div className='form-vertical__name'>
+                  <div className='label'>
+                    <p className={global.text}>Nombre</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='animal__input'>
+                    <input
+                          title='Introducir nombre'
+                          type='text'
+                          name='name'
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder='p. ej.: Hank'
+                          className='input'
+                         />
+                  </div>
+                </div>
 
-        return (
-            <Layout>
-                <Head><title>Crear mascota</title></Head>
-                <div className={global.content}>
-                    <div className={global.dots}>
-                    <div className="form">
-                        <h1 className="form__title">Crear mascota</h1>
-                        <p className={global.text2}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
-                        <form action="/api/posts" id="form">
-                            <div className="form-vertical__name">
-                                <div className="label">
-                                    <p className={global.text}>Nombre</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="animal__input">
-                                    <input
-                                        title="Introducir nombre"
-                                        type="text"
-                                        name="name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        placeholder="p. ej.: Hank"
-                                        className="input">
-                                    </input>
-                            </div>
-                            </div>
-                            
-                            <div className="form-vertical__animal">
-                                <div className="label">
-                                    <p className={global.text}>Animal</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="animal__input">
-                                    <input
-                                        title="Introducir tipo de animal"
-                                        type="text"
-                                        name="animal"
-                                        value={animal}
-                                        onChange={(e) => setAnimal(e.target.value)}
-                                        placeholder="p. ej.: Perro"
-                                        className="input">
-                                    </input>
-                                </div>
-                            </div>
-                            <div className="form-vertical__breed">
-                                <div className="label">
-                                    <p className={global.text}>Raza</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="breed__input">
-                                    <input
-                                        title="Introducir raza"
-                                        type="text"
-                                        name="breed"
-                                        value={breed}
-                                        onChange={(e) => setBreed(e.target.value)}
-                                        placeholder="p. ej.: Retriever"
-                                        className="input">
-                                    </input>
-                            </div>
-                            </div>
-                            <div className="form-vertical__weight">
-                                <div className="label">
-                                    <p className={global.text}>Peso</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="weight__input">
-                                    <input
-                                        title="Introducir peso"
-                                        type="text"
-                                        name="weight"
-                                        value={weight}
-                                        onChange={(e) => setWeight(e.target.value)}
-                                        placeholder="p. ej.: 16"
-                                        className="input">
-                                    </input>
-                                    <p className={global.text2}>Kg</p>
-                                </div>
-                            </div>
-                            <div className="form-vertical__birthYear">
-                                <div className="label">
-                                    <p className={global.text}>Año de nacimiento</p>
-                                    <MdLocationOn size={25} color={colors.secondary} />
-                                </div>
-                                <div className="birthYear__input">
-                                    <input
-                                        title="Introducir año de nacimiento"
-                                        type="text"
-                                        name="birthYear"
-                                        value={birthYear}
-                                        onChange={(e) => setBirthYear(e.target.value)}
-                                        placeholder="p. ej.: Cádiz"
-                                        className="input">
-                                    </input>
-                            </div>
-                            </div>
-                            </form>  
-                                <input className={global.buttonPrimary} type="submit" onClick={(e) => createPet(e)} value="Crear"/> 
-                            </div>
+                <div className='form-vertical__animal'>
+                  <div className='label'>
+                    <p className={global.text}>Animal</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='animal__input'>
+                    <input
+                          title='Introducir tipo de animal'
+                          type='text'
+                          name='animal'
+                          value={animal}
+                          onChange={(e) => setAnimal(e.target.value)}
+                          placeholder='p. ej.: Perro'
+                          className='input'
+                         />
+                  </div>
+                </div>
+                <div className='form-vertical__breed'>
+                  <div className='label'>
+                    <p className={global.text}>Raza</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='breed__input'>
+                    <input
+                          title='Introducir raza'
+                          type='text'
+                          name='breed'
+                          value={breed}
+                          onChange={(e) => setBreed(e.target.value)}
+                          placeholder='p. ej.: Retriever'
+                          className='input'
+                         />
+                  </div>
+                </div>
+                <div className='form-vertical__weight'>
+                  <div className='label'>
+                    <p className={global.text}>Peso</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='weight__input'>
+                    <input
+                          title='Introducir peso'
+                          type='text'
+                          name='weight'
+                          value={weight}
+                          onChange={(e) => setWeight(e.target.value)}
+                          placeholder='p. ej.: 16'
+                          className='input'
+                         />
+                    <p className={global.text2}>Kg</p>
+                  </div>
+                </div>
+                <div className='form-vertical__birthYear'>
+                  <div className='label'>
+                    <p className={global.text}>Año de nacimiento</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='birthYear__input'>
+                    <input
+                          title='Introducir año de nacimiento'
+                          type='text'
+                          name='birthYear'
+                          value={birthYear}
+                          onChange={(e) => setBirthYear(e.target.value)}
+                          placeholder='p. ej.: Cádiz'
+                          className='input'
+                         />
+                  </div>
+                </div>
+              </form>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createPet(e)} value='Crear' />
+            </div>
 
-                        </div>
-                    </div>
-                <style jsx>{`
+          </div>
+        </div>
+        <style jsx>{`
 
                     .form{
 
@@ -426,21 +418,20 @@ export default function CreatePet(){
                         cursor: pointer;
                     }
 
-                `}</style>
-            </Layout>
-        )
-  
-
-    }else {
-        return(
-            <Layout>
-                    <div className={global.content}>
-                        <div className="message">
-                            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                        </div>
-                    </div>
-                    <style jsx>{`
+                `}
+        </style>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
 
                         .message{
 
@@ -454,8 +445,9 @@ export default function CreatePet(){
                             
                         }
                         
-                    `}</style>
-            </Layout>
-        )
-    }
+                    `}
+        </style>
+      </Layout>
+    )
+  }
 }

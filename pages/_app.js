@@ -1,8 +1,7 @@
-import {SessionProvider} from 'next-auth/react'
-import {useState} from 'react'
+import { SessionProvider } from 'next-auth/react'
+import { useState } from 'react'
 import Router from 'next/router'
 import Loader from '/components/Loader/Loader'
-import '../styles/font.css'
 
 /*
  * The MyApp function is a component that takes in a Component and pageProps as props. It then returns
@@ -10,35 +9,28 @@ import '../styles/font.css'
  * Component prop
  */
 
-function MyApp({ Component, pageProps: {session, ...pageProps} }) {
+function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
+  const [loading, setLoading] = useState(false)
 
-  const [loading, setLoading] = useState(false);
-
-  Router.events.on("routeChangeStart", (url) =>{
-
-    console.log("Empieza...")
-    setLoading(true);
-    
+  Router.events.on('routeChangeStart', (url) => {
+    setLoading(true)
   })
 
-  Router.events.on("routeChangeComplete", (url) =>{
-    console.log("Termina...")
-    setLoading(false);
-   
+  Router.events.on('routeChangeComplete', (url) => {
+    setLoading(false)
   })
 
-
-  return(
+  return (
     <>
- 
+
       <SessionProvider session={session}>
-          {loading && <Loader />}
-          <Component {...pageProps} /> 
+        {loading && <Loader />}
+        <Component {...pageProps} />
       </SessionProvider>
-      
+
     </>
 
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

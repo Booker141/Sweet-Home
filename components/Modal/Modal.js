@@ -1,16 +1,14 @@
 
-export default function Modal({children}){
+export default function Modal ({ children }) {
+  return (
+    <>
+      <div className='center'>
+        <div className='card'>
+          {children}
+        </div>
+      </div>
 
-
-    return (
-        <>
-            <div className="center">
-                <div className="card">
-                    {children}
-                </div>
-            </div>
-
-        <style jsx>{`
+      <style jsx>{`
 
         .center{
 
@@ -73,11 +71,8 @@ export default function Modal({children}){
             }
 
 
-        `}</style>
-        </>
-    );
-
-
-
-
+        `}
+      </style>
+    </>
+  )
 }

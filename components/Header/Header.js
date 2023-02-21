@@ -1,18 +1,18 @@
 import Link from 'next/link'
-import { useSession, signOut} from "next-auth/react"
-import {useRouter} from 'next/router'
-import {useState, useEffect} from 'react'
-import global from "styles/global.module.css"
-import {colors} from "/styles/frontend-conf.js"
-import {fonts} from "styles/frontend-conf.js"
-import {FaUserAlt , FaSignOutAlt, FaSearch} from 'react-icons/fa'
-import {RiChat3Line, RiSearchLine, RiSettings4Fill} from 'react-icons/ri'
-import { BsPatchCheckFill} from 'react-icons/bs'
-import {VscBell, VscBellDot} from 'react-icons/vsc'
-import {MdOutlineChatBubbleOutline, MdOutlineMarkChatUnread} from 'react-icons/md'
-import TrademarkWhite from "components/TrademarkWhite/TrademarkWhite"
-import Modal from "components/Modal/Modal"
-import ThemeButton from "components/ThemeButton/ThemeButton"
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+import global from 'styles/global.module.css'
+import { colors } from '/styles/frontend-conf.js'
+import { fonts } from 'styles/frontend-conf.js'
+import { FaUserAlt, FaSignOutAlt, FaSearch } from 'react-icons/fa'
+import { RiChat3Line, RiSearchLine, RiSettings4Fill } from 'react-icons/ri'
+import { BsPatchCheckFill } from 'react-icons/bs'
+import { VscBell, VscBellDot } from 'react-icons/vsc'
+import { MdOutlineChatBubbleOutline, MdOutlineMarkChatUnread } from 'react-icons/md'
+import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
+import Modal from 'components/Modal/Modal'
+import ThemeButton from 'components/ThemeButton/ThemeButton'
 
 /*
     * @author Sergio García Navarro
@@ -37,121 +37,118 @@ import ThemeButton from "components/ThemeButton/ThemeButton"
  * @returns {Header} - header with basic information
  */
 
-export default function Header(props){
+export default function Header (props) {
+  const { data: session } = useSession()
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isCaretaker, setIsCaretaker] = useState(false)
 
-    
-    const {data: session} = useSession();
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isCaretaker, setIsCaretaker] = useState(false);
+  const router = useRouter()
 
-    const router = useRouter();
-    
-    useEffect(() => { 
-        if (session){
-            setIsCaretaker(session.user.isCaretaker);
-        }
-    }, [])
-   
-   
-    /**
+  useEffect(() => {
+    if (session) {
+      setIsCaretaker(session.user.isCaretaker)
+    }
+  }, [])
+
+  /**
      * If the user is on the home page, send them to the sign in page. If the user is on the sign in
      * page, send them to the sign up page. If the user is on the sign up page, send them to the sign
      * in page
      */
-    const handleClick = () => {
+  const handleClick = () => {
+    if (router.asPath !== '/auth/signIn') {
+      router.push('/auth/signIn')
+    } else {
+      router.push('/auth/signUp')
+    }
+  }
 
-        if (router.asPath !== "/auth/signIn"){
+  if (session) {
+    return (
+      <>
+        {session.user.role === 'usuario' &&
 
-            router.push("/auth/signIn");
+          <ul className='header'>
 
-        }else{
+            <div className='logo'>
+              <li><TrademarkWhite link='/' /></li>
+            </div>
+            <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+            <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+            <li><Link href='/search' as='/search'><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
+            <li><Link href='/chat' as='/chat'><a aria-label='Ir a Chat'><MdOutlineChatBubbleOutline /></a></Link></li>
+            <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><VscBell /></a></Link></li>
+            <ThemeButton />
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
+              <ul className='menu'>
+                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <hr className='line' />
+                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <hr className='line' />
+                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={20} color={colors.secondary} /></div></div></a></li>
+              </ul>
+            </li>
 
-            router.push("/auth/signUp");
-        }
+          </ul>}
 
-    } 
+        {session.user.role === 'admin' &&
 
+          <ul className='header'>
 
-    if (session){
-        return(    
-            <>  
-                {session.user.role === "usuario" &&
+            <div className='logo'>
+              <li><TrademarkWhite link='/' /></li>
+            </div>
+            <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+            <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+            <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
+            <li><Link href='/dashboard' as='/dashboard'><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
+            <ThemeButton />
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
+              <ul className='menu'>
+                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <hr className='line' />
+                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <hr className='line' />
+                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={20} color={colors.secondary} /></div></div></a></li>
+              </ul>
+            </li>
 
-                    <ul className="header">
-                        
-                        <div className="logo">
-                            <li><TrademarkWhite link="/"/></li>
-                        </div>
-                        <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
-                        <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
-                        <li><Link href="/chat" as="/chat"><a aria-label='Ir a Chat'><MdOutlineChatBubbleOutline /></a></Link></li>
-                        <li><Link href="/notifications" as="/notifications"><a aria-label='Ir a Notificaciones'><VscBell /></a></Link></li>
-                        <ThemeButton/>
-                        <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
-                            <ul className="menu">
-                                <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
-                                <hr className="line"/>
-                                <li className="nav__link"><Link href="/settings"><a><div className="align__link">Configuración<div className="nav__icon"><RiSettings4Fill size={20} color={colors.secondary}/></div></div></a></Link></li>
-                                <hr className="line"/>
-                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
-                            
-                    </ul> }
+          </ul>}
 
-                {session.user.role === "admin" &&
+        {session.user.role === 'gerente' &&
 
-                    <ul className="header">
-                        
-                        <div className="logo">
-                            <li><TrademarkWhite link="/"/></li>
-                        </div>
-                        <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
-                        <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-                        <li><Link href="/news" as="/news"><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
-                        <li><Link href="/dashboard" as="/dashboard"><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
-                        <ThemeButton/>
-                        <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
-                            <ul className="menu">
-                                <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
-                                <hr className="line"/>
-                                <li className="nav__link"><Link href="/settings"><a><div className="align__link">Configuración<div className="nav__icon"><RiSettings4Fill size={20} color={colors.secondary}/></div></div></a></Link></li>
-                                <hr className="line"/>
-                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
-                            
-                    </ul> }
+          <ul className='header'>
 
-                {session.user.role === "gerente" &&
+            <div className='logo'>
+              <li><TrademarkWhite link='/' /></li>
+            </div>
+            <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+            <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+            <li><Link href='/search' as='/search'><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
+            <li><Link href='/statistics' as='/statistics'><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
+            <ThemeButton />
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
+              <ul className='menu'>
+                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <hr className='line' />
+                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <hr className='line' />
+                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={20} color={colors.secondary} /></div></div></a></li>
+              </ul>
+            </li>
 
-                    <ul className="header">
-                        
-                        <div className="logo">
-                            <li><TrademarkWhite link="/"/></li>
-                        </div>
-                        <li><Link href="/home" as="/home"><a aria-label="Ir a Reciente">Inicio</a></Link></li>
-                        <li><Link href="/attendances" as="attendances" passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-                        <li><Link href="/search" as="/search"><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
-                        <li><Link href="/statistics" as="/statistics"><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
-                        <ThemeButton/>
-                        <li className="menu-visible"><a id="profile">@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary}/>} ▽</a>
-                            <ul className="menu">
-                                <li className="nav__link"><Link href="/profile/myprofile"><a><div className="align__link">Perfil<div className="nav__icon"><FaUserAlt size={20} color={colors.secondary}/></div></div></a></Link></li>
-                                <hr className="line"/>
-                                <li className="nav__link"><Link href="/settings"><a><div className="align__link">Configuración<div className="nav__icon"><RiSettings4Fill size={20} color={colors.secondary}/></div></div></a></Link></li>
-                                <hr className="line"/>
-                                <li className="nav__link"><a onClick={() => setIsModalVisible(true)}><div className="align__link">Cerrar sesión<div className="nav__icon"><FaSignOutAlt size={20} color={colors.secondary}/></div></div></a></li></ul></li>
-                            
-                    </ul> }
+          </ul>}
 
-            {isModalVisible && <Modal>
-                    <h2 className={global.title3}>Cerrar sesión</h2>
-                    <p className={global.text2}>¿Estás seguro de que quieres cerrar sesión?</p>
-                            <div className="buttons">
-                                    <button className={global.buttonSecondary} onClick={() => signOut()}>Sí</button>
-                                    <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-                            </div>
-            </Modal>}
-            
-                <style jsx>{`
+        {isModalVisible && <Modal>
+          <h2 className={global.title3}>Cerrar sesión</h2>
+          <p className={global.text2}>¿Estás seguro de que quieres cerrar sesión?</p>
+          <div className='buttons'>
+            <button className={global.buttonSecondary} onClick={() => signOut()}>Sí</button>
+            <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+          </div>
+        </Modal>}
+
+        <style jsx>{`
 
             
 
@@ -226,7 +223,7 @@ export default function Header(props){
 
                     display: none;
                     margin-bottom: 1rem;
-                    margin-right: 2rem;
+                    margin-right: 1.5rem;
                     
                     z-index: 100000;
 
@@ -398,30 +395,31 @@ export default function Header(props){
                     list-style-type: none;
                 }
 
-            `}</style></>)
-    }else{
-   
-        return(
-            <>
-                <div className="header">
-                
-                    <div className="logo">
-                        <TrademarkWhite link="/"/>
-                    </div>
-                    <div className="header__links">
-                        <Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${text1}'>{props.text1}</a></Link>
-                        <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
-                        <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link> 
-                    </div>
-                    <ThemeButton/>
-                    <div className="header__buttons">
-                        <button className="button1" onClick={() => handleClick()}><a>{props.text4}</a></button>
-                        {router.route !== "/auth/signIn" && router.route !== "/auth/signUp" && router.route !== '/auth/signUpCare' && <button className="button2" onClick={() => router.push("/auth/signUp")}><a>{props.text5}</a></button>}
-                    </div>
-                </div>
+    `}
+        </style>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <div className='header'>
 
-            
-                <style jsx>{`
+          <div className='logo'>
+            <TrademarkWhite link='/' />
+          </div>
+          <div className='header__links'>
+            <Link href={props.url1} as={props.url1} passHref><a aria-label='Ir a ${text1}'>{props.text1}</a></Link>
+            <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
+            <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link>
+          </div>
+          <ThemeButton />
+          <div className='header__buttons'>
+            <button className='button1' onClick={() => handleClick()}><a>{props.text4}</a></button>
+            {router.route !== '/auth/signIn' && router.route !== '/auth/signUp' && router.route !== '/auth/signUpCare' && <button className='button2' onClick={() => router.push('/auth/signUp')}><a>{props.text5}</a></button>}
+          </div>
+        </div>
+
+        <style jsx>{`
 
 
                     .logo{
@@ -689,7 +687,9 @@ export default function Header(props){
                 
 
 
-            `}</style></>)
-                
-            }
-    }
+        `}
+        </style>
+      </>
+    )
+  }
+}

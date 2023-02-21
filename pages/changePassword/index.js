@@ -1,17 +1,14 @@
 import Head from 'next/head'
-import {useState} from "react"
-import global from "styles/global.module.css"
-import {colors, statusColors} from "styles/frontend-conf.js"
-import {fonts} from "styles/frontend-conf.js"
-import Layout from "components/Layout/Layout"
-import {MdEmail} from "react-icons/md"
-import {BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill} from "react-icons/bs"
-import { MdOutlineError } from 'react-icons/md'
-import {AiFillEye, AiFillEyeInvisible, AiFillInfoCircle} from "react-icons/ai"
-import {server} from "/server"
+import { useState } from 'react'
+import global from 'styles/global.module.css'
+import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
+import Layout from 'components/Layout/Layout'
+import { MdEmail, MdOutlineError } from 'react-icons/md'
+import { BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
+import { AiFillEye, AiFillEyeInvisible, AiFillInfoCircle } from 'react-icons/ai'
+import { server } from '/server'
 
-
-/* 
+/*
     * @author Sergio García Navarro
     * @returns Change password page
     * @version 1.0
@@ -22,249 +19,226 @@ import {server} from "/server"
  * It returns a div with a form inside of it
  * @returns A form with two inputs and a submit button.
  */
-export default function ChangePassword(){
+export default function ChangePassword () {
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [newPassword2, setNewPassword2] = useState('')
+  const [isValidate, setIsValidate] = useState(false)
+  const [email, setEmail] = useState('')
 
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [newPassword2, setNewPassword2] = useState("");
-    const [isValidate, setIsValidate] = useState(false);
-    const [email, setEmail] = useState("");
+  const showPassword = () => {
+    const passwordInput = document.getElementById('password')
 
-    const showPassword = () => {
-
-        let passwordInput = document.getElementById("password");
-        
-        if (passwordInput.type === "password") {
-    
-          document.getElementById("show__icon1").style.display = "none";
-          document.getElementById("show__icon2").style.display = "inline";
-          passwordInput.type = "text";
-    
-        }
-        else {
-    
-          document.getElementById("show__icon1").style.display = "inline";
-          document.getElementById("show__icon2").style.display = "none";
-          passwordInput.type = "password";
-    
-        }
-      }
-
-
-  const validate = (e) => {
-
-    // Regular expressions
-
-    let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    let regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-
-    if(e.target.name =="password"){
-
-      if(password.length < 8 || !password.match(regPassword) ){
-          
-          document.getElementById("password__error").classList.add("form__input-passwordError--active");
-          document.getElementById("error__password").classList.add("form__icon-error--active");
-          document.getElementById("success__password").classList.remove("form__icon-success--active");
-          setIsValidate(false);
-
-      }else{
-
-          document.getElementById("password__error").classList.remove("form__input-passwordError--active");
-          document.getElementById("error__password").classList.remove("form__icon-error--active");
-          document.getElementById("success__password").classList.add("form__icon-success--active");
-          setIsValidate(true);
-
-      }
+    if (passwordInput.type === 'password') {
+      document.getElementById('show__icon1').style.display = 'none'
+      document.getElementById('show__icon2').style.display = 'inline'
+      passwordInput.type = 'text'
+    } else {
+      document.getElementById('show__icon1').style.display = 'inline'
+      document.getElementById('show__icon2').style.display = 'none'
+      passwordInput.type = 'password'
+    }
   }
 
-    // Validación del formato del email
-    if(e.target.name == "email"){
+  const validate = (e) => {
+    // Regular expressions
 
-      if(!email.match(regEmail)){
-          
-          document.getElementById("email__error").classList.add("form__input-emailError--active");
-          document.getElementById("error__email").classList.add("form__error-icon--active");
-          document.getElementById("success__email").classList.remove("form__success-icon--active");
-          setIsValidate(false);
+    const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+    const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 
-      }else{
-          
-            document.getElementById("email__error").classList.remove("form__input-emailError--active");
-            document.getElementById("error__email").classList.remove("form__error-icon--active");
-            document.getElementById("success__email").classList.add("form__success-icon--active");
-            setIsValidate(true);
+    if (e.target.name == 'password') {
+      if (password.length < 8 || !password.match(regPassword)) {
+        document.getElementById('password__error').classList.add('form__input-passwordError--active')
+        document.getElementById('error__password').classList.add('form__icon-error--active')
+        document.getElementById('success__password').classList.remove('form__icon-success--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('password__error').classList.remove('form__input-passwordError--active')
+        document.getElementById('error__password').classList.remove('form__icon-error--active')
+        document.getElementById('success__password').classList.add('form__icon-success--active')
+        setIsValidate(true)
       }
     }
 
- 
+    // Validación del formato del email
+    if (e.target.name == 'email') {
+      if (!email.match(regEmail)) {
+        document.getElementById('email__error').classList.add('form__input-emailError--active')
+        document.getElementById('error__email').classList.add('form__error-icon--active')
+        document.getElementById('success__email').classList.remove('form__success-icon--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('email__error').classList.remove('form__input-emailError--active')
+        document.getElementById('error__email').classList.remove('form__error-icon--active')
+        document.getElementById('success__email').classList.add('form__success-icon--active')
+        setIsValidate(true)
+      }
+    }
   }
 
-      const changePassword = (e) => {
+  const changePassword = (e) => {
+    e.preventDefault()
 
-        e.preventDefault();
-        
-        if(newPassword === newPassword2){
+    if (newPassword === newPassword2) {
+      fetch(`${server}/api/changePassword"`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          password: newPassword
+        })
+      })
+    } else {
+      alert('Las contraseñas no coinciden')
+    }
+  }
+  return (
 
-            fetch(`${server}/api/changePassword"`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    password: newPassword,
-                }),
-            })
-
-
-        }else{
-
-            alert("Las contraseñas no coinciden");
-
-        }
-
-      }
-    return(
-
-        <Layout>
-        <>
-            <Head><title>Cambiar contraseña</title></Head>
-            <div className={global.content}>
-                <div className="form">
-                    <h1 className="form__title">Cambiar contraseña</h1>
-                        <form>
-                        <div className="form-vertical__email">
-                            <div className="label">
-                                <p className={global.text}>Email</p>
-                                <MdEmail size={20} color={colors.secondary} />
-                            </div>
-                            <div className="email__input">
-                                <input
-                                    title="Introducir email"
-                                    type="email"
-                                    name="email"
-                                    value={email}
-                                    required
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    onKeyUp={(e) => validate(e)}
-                                    onBlur={(e) => validate(e)}
-                                    placeholder="p. ej.: javier@gmail.com"
-                                    className="input">
-                                </input>
-                                <div id="error__email" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                                <div id="success__email" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                                <div id="email__error" className="form__input-emailError">
-                                <div className="error__icon">
-                                    <MdOutlineError size={30} color={colors.secondary}/>
-                                </div>
-                                <p className={global.text2}>Debe seguir el formato correcto</p>
-                            </div>
-                        </div>
-                        </div>
-                        <div className="form-vertical__old">
-                            <div className="label">
-                                <p className={global.text}>Contraseña antigua</p>
-                                <BsFillLockFill size={25} color={colors.secondary} />
-                            </div> 
-                            <div className="password__input">
-                                <input 
-                                    title="Introducir contraseña antigua"
-                                    type="password" 
-                                    id="password"
-                                    name="password" 
-                                    value={oldPassword}
-                                    required
-                                    onChange={(e) => setOldPassword(e.target.value)}
-                                    onKeyUp={(e) => validate(e)}
-                                    onBlur={() => validate(e)}
-                                    placeholder="Contraseña actual"
-                                    className="input"> 
-                                </input>
-                                <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                                <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                                <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                                <div id="password__error" className="form__input-passwordError">
-                                <div className="error__icon">
-                                    <MdOutlineError size={30} color={colors.secondary}/>
-                                </div>
-                                <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
-                            </div>
-                        </div>
-                        </div>
-                        <div className="form-vertical__new">
-                            <div className="label">
-                                <p className={global.text}>Contraseña nueva</p>
-                                <BsFillLockFill size={25} color={colors.secondary} />
-                            </div> 
-                            <div className="password__input">
-                                <input  
-                                    title="Introducir contraseña nueva"
-                                    type="password" 
-                                    id="password"
-                                    name="ContraseñaN"
-                                    value={newPassword} 
-                                    required
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    onKeyUp={(e) => validate(e)}
-                                    onBlur={() => validate(e)}
-                                    placeholder="Contraseña nueva"
-                                    className="input">       
-                                </input>
-                                <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                                <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                                <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                                <div id="password__error" className="form__input-passwordError">
-                                <div className="error__icon">
-                                    <MdOutlineError size={30} color={colors.secondary}/>
-                                </div>
-                                <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
-                            </div>
-                        </div>
-                        </div>
-                        <div className="form-vertical__new2">
-                            <div className="label">
-                                <p className={global.text}>Repetir contraseña nueva</p>
-                                <BsFillLockFill size={25} color={colors.secondary} />
-                            </div> 
-                            <div className="password__input">
-                                <input  
-                                    title="Repetir contraseña nueva"
-                                    type="password" 
-                                    id="password"
-                                    name="Contraseña" 
-                                    value={newPassword2}
-                                    required
-                                    onChange={(e) => setNewPassword2(e.target.value)}
-                                    placeholder="Confirmar contraseña"
-                                    className="input">       
-                                </input>
-                                <a className="password--visibility" onClick={() => showPassword()}><AiFillEye id="show__icon1" size={20} color={colors.primary}/><div style={{display: "none"}} id="show__icon2"><AiFillEyeInvisible size={20} color={colors.primary}/></div></a>
-                                <div id="error__password" className="form__error-icon"><BsFillXCircleFill size={20} color={statusColors.error}/></div>
-                                <div id="success__password" className="form__success-icon"><BsFillCheckCircleFill size={20} color={statusColors.success}/></div>
-                                <div id="password__error" className="form__input-passwordError">
-                                <div className="error__icon">
-                                    <MdOutlineError size={30} color={colors.secondary}/>
-                                </div>
-                                <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
-                            </div>
-                        </div>
-                        </div>
-                        </form>  
-                            <div className="tooltip">
-                                <div className="tooltip__icon">
-                                    <AiFillInfoCircle size={20} color={colors.secondary} />
-                                    <p className={global.text2}> Información contraseña</p>
-                                </div>
-                                <div className="tooltiptext">
-                                    <p> - La contraseña debe tener al menos 8 caracteres.</p>
-                                    <p> - La contraseña debe tener al menos una letra mayúscula.</p>
-                                    <p> - La contraseña debe tener al menos un carácter especial.</p>
-                                    <p> - La contraseña debe tener al menos un número.</p>
-                                </div>
-                            </div> 
-                            <input className={global.buttonPrimary} type="submit" onSubmit={(e) => changePassword(e)} value="Confirmar"/> 
-                        </div>
+    <Layout>
+      <>
+        <Head><title>Cambiar contraseña</title></Head>
+        <div className={global.content}>
+          <div className='form'>
+            <h1 className='form__title'>Cambiar contraseña</h1>
+            <form>
+              <div className='form-vertical__email'>
+                <div className='label'>
+                  <p className={global.text}>Email</p>
+                  <MdEmail size={20} color={colors.secondary} />
                 </div>
-            <style jsx>{`
+                <div className='email__input'>
+                  <input
+                    title='Introducir email'
+                    type='email'
+                    name='email'
+                    value={email}
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    placeholder='p. ej.: javier@gmail.com'
+                    className='input'
+                  >
+                  </input>
+                  <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='email__error' className='form__input-emailError'>
+                    <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                    <p className={global.text2}>Debe seguir el formato correcto</p>
+                  </div>
+                </div>
+              </div>
+              <div className='form-vertical__old'>
+                <div className='label'>
+                  <p className={global.text}>Contraseña antigua</p>
+                  <BsFillLockFill size={25} color={colors.secondary} />
+                </div>
+                <div className='password__input'>
+                  <input
+                    title='Introducir contraseña antigua'
+                    type='password'
+                    id='password'
+                    name='password'
+                    value={oldPassword}
+                    required
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={() => validate(e)}
+                    placeholder='Contraseña actual'
+                    className='input'
+                  >
+                  </input>
+                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='password__error' className='form__input-passwordError'>
+                    <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                  </div>
+                </div>
+              </div>
+              <div className='form-vertical__new'>
+                <div className='label'>
+                  <p className={global.text}>Contraseña nueva</p>
+                  <BsFillLockFill size={25} color={colors.secondary} />
+                </div>
+                <div className='password__input'>
+                  <input
+                    title='Introducir contraseña nueva'
+                    type='password'
+                    id='password'
+                    name='ContraseñaN'
+                    value={newPassword}
+                    required
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={() => validate(e)}
+                    placeholder='Contraseña nueva'
+                    className='input'
+                  >
+                  </input>
+                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='password__error' className='form__input-passwordError'>
+                    <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                  </div>
+                </div>
+              </div>
+              <div className='form-vertical__new2'>
+                <div className='label'>
+                  <p className={global.text}>Repetir contraseña nueva</p>
+                  <BsFillLockFill size={25} color={colors.secondary} />
+                </div>
+                <div className='password__input'>
+                  <input
+                    title='Repetir contraseña nueva'
+                    type='password'
+                    id='password'
+                    name='Contraseña'
+                    value={newPassword2}
+                    required
+                    onChange={(e) => setNewPassword2(e.target.value)}
+                    placeholder='Confirmar contraseña'
+                    className='input'
+                  >
+                  </input>
+                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='password__error' className='form__input-passwordError'>
+                    <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div className='tooltip'>
+              <div className='tooltip__icon'>
+                <AiFillInfoCircle size={20} color={colors.secondary} />
+                <p className={global.text2}> Información contraseña</p>
+              </div>
+              <div className='tooltiptext'>
+                <p> - La contraseña debe tener al menos 8 caracteres.</p>
+                <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                <p> - La contraseña debe tener al menos un carácter especial.</p>
+                <p> - La contraseña debe tener al menos un número.</p>
+              </div>
+            </div>
+            <input className={global.buttonPrimary} type='submit' onSubmit={(e) => changePassword(e)} value='Confirmar' />
+          </div>
+        </div>
+        <style jsx>{`
 
                 .form{
 
@@ -751,9 +725,9 @@ export default function ChangePassword(){
                     cursor: pointer;
                 }
 
-            `}</style>
-        </>
-        </Layout>
-    )
-
+            `}
+        </style>
+      </>
+    </Layout>
+  )
 }

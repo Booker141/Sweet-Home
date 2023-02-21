@@ -1,12 +1,10 @@
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Layout from '/components/Layout/Layout'
-import global from "styles/global.module.css"
-import {MdPets} from 'react-icons/md'
-import {colors} from '/styles/frontend-conf.js'
-import {fonts} from '/styles/frontend-conf.js'
-
+import global from 'styles/global.module.css'
+import { MdPets } from 'react-icons/md'
+import { colors, fonts } from '/styles/frontend-conf.js'
 
 /*
     * @author Sergio García Navarro
@@ -18,32 +16,32 @@ import {fonts} from '/styles/frontend-conf.js'
 /**
  * A function that returns an error message if the page is not found.
  */
-function Error({ statusCode }) {
-    const router = useRouter();
-  
-    return (
-      <Layout>
+function Error ({ statusCode }) {
+  const router = useRouter()
+
+  return (
+    <Layout>
       <>
         <Head>
           <title>¡Ups! Algo ha salido mal.. Error {router.error}{statusCode}</title>
         </Head>
         <div className={global.content}>
 
-          <div className="error">
-            <div className="first-line">
-              <MdPets size={35} color={colors.primary} className="icon"/>
+          <div className='error'>
+            <div className='first-line'>
+              <MdPets size={35} color={colors.primary} className='icon' />
               <h1 className={global.title}>Error {statusCode}</h1>
-              <MdPets size={35} color={colors.primary} className="icon"/>
+              <MdPets size={35} color={colors.primary} className='icon' />
             </div>
 
-            <div className="second-line">
+            <div className='second-line'>
               <h1 className={global.title}>
-                Vaya... este perro se ha comido la página 
+                Vaya... este perro se ha comido la página
               </h1>
               <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
               <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
             </div>
-            <Image src="/error-1.svg" alt="Imagen de perro" width={1000} height={1000}/>
+            <Image src='/error-1.svg' alt='Imagen de perro' width={1000} height={1000} />
           </div>
         </div>
         <style jsx>{`
@@ -144,15 +142,16 @@ function Error({ statusCode }) {
             to {opacity: 1;}
           }
           
-        `}</style>
+        `}
+        </style>
       </>
-      </Layout>
-    )
-  }
-  
-  Error.getInitialProps = ({ res, err }) => {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-    return { statusCode }
-  }
-  
-  export default Error
+    </Layout>
+  )
+}
+
+Error.getInitialProps = ({ res, err }) => {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+  return { statusCode }
+}
+
+export default Error
