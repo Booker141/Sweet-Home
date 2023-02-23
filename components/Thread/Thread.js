@@ -11,22 +11,43 @@ export default function Thread (props) {
 
   const { data: session, status } = useSession({ required: true })
   const [date, setDate] = useState(new Date(props.createdAt))
+  const [numPosts, setNumPosts] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({});
   const Router = useRouter();
 
-  useEffect(() => {
-    const getUser = async () => {
+  useEffect(async () => {
+ 
       const res = await fetch(`${server}/api/users/${props.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
+
+      const attendance = await fetch(`${server}/api/attendances/${props.title}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
       const data = await res.json();
+      
       setUser(data);
-    }
-    getUser()
+
+      if(attendance === null ){
+
+        setNumPosts(0);
+
+      }else{
+
+        const attendances = await attendance.json();
+      
+        setNumPosts(attendances.length);
+        
+    
+      }
   }, [])
 
   const deleteThread = async () => {
@@ -54,18 +75,22 @@ export default function Thread (props) {
 
     <>
       <div className={global.thread}>
-        <div className='thread__header'>
-          <div className='thread__header__title'>
+        <div className="thread__header">
+          <div className="thread__header__title">
             <h2>{props.title}</h2>
             {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
           </div>
-          <div className='thread__header__date'>
-            <p>Fecha de creación: {date.toLocaleDateString()}</p>
+          <div className="thread__header__date">
+            <p><strong>Fecha de creación:</strong> {date.toLocaleDateString()}</p>
           </div>
           <div className="thread__header__username">
-            <p>Creado por: {props.username}</p>
-        </div>
+            <p><strong>Creado por:</strong> {props.username}</p>
+          </div>
+          <div className="thread__numPosts">
+            <strong>Nº de publicaciones:</strong> {numPosts}
+          </div>
       </div>
+      <button id="access__button" className={global.buttonTertiary} onClick={() => Router.push(`/attendances/${Router.query.typeAttendance}/${props.title}`)} aria-label={'Ir a ' + `${props.title}`}>Acceder</button>
       </div>
       {isModalVisible && <Modal>
         <h2 className={global.title3}>Eliminar hilo</h2>
@@ -78,6 +103,23 @@ export default function Thread (props) {
 
       <style jsx>{`
 
+        #access__button{
+
+          /*Box model*/
+
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+          margin-left: 1rem;
+        }
+
+        .thread__header{
+
+          /*Box model*/
+
+          margin-left: 1rem;
+
+        }
+
         .thread__header__title{
 
           /*Box model*/
@@ -86,6 +128,7 @@ export default function Thread (props) {
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
+          
 
         }
 
@@ -106,7 +149,7 @@ export default function Thread (props) {
 
           display: flex;
           align-items: center;
-          margin-bottom: 0.5rem;
+
 
           /*Visuals*/
 
@@ -115,6 +158,7 @@ export default function Thread (props) {
           cursor: pointer;
 
           }
+
       `}</style>
 
     </>

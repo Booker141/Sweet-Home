@@ -52,12 +52,14 @@ export default function Settings () {
       }).catch(err => console.log(err))
 
       const complaintsList = await complaints.json()
-      const petsList = await pets.json()
+      const petsList = await pets.json();
+
+      console.log(currentUser);
 
       setComplaints(complaintsList)
       setPets(petsList)
       setUser(currentUser)
-      setName(currentUser.name)
+      setName(currentUser.firstname)
       setLastname(currentUser.lastname)
       setPhone(currentUser.phone)
       setBiography(currentUser.biography)
@@ -244,14 +246,14 @@ export default function Settings () {
                     type='text'
                     name='name'
                     id='name'
-                    value={name}
+                    value={user.firstname}
                     required
                     onChange={(e) => setName(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder='p. ej.: Javier'
+                    placeholder={`${user.firstname}`}
                     className='input'
-                  />
+                  >{user.firstname}</input>
                   <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                   <div id='name__error' className='form__input-nameError'>

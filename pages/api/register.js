@@ -25,7 +25,7 @@ export default async function handler (req, res) {
     const salt = await bcrypt.genSalt(10)
     const hashPassword = await bcrypt.hash(body.password, salt)
 
-    await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), image: '/userPhotos/default.png', status: userStatus, role: userRole, createdAt: new Date(), accountId: null, biography: '', followers: [], following: [], isCaretaker: false, pets: [] })
+    await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), image: '/userPhotos/default.png', status: userStatus, role: userRole, createdAt: new Date(), accountId: null, biography: '', followers: [], following: [],  likes: [], saves: [], pets: [], isCaretaker: false })
 
     if (res.statusCode == 500) {
       res.status(500).json({ message: 'Error al registrar el usuario.' })

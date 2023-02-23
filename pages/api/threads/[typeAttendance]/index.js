@@ -4,9 +4,9 @@ import { ObjectId } from 'mongodb'
 export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()
-  const { typeAttendanceId } = req.query
+  const {typeAttendance} = req.query
   const body = req.body
-  const typeAttendanceThread = await db.collection('typeAttendance').findOne({ _id: ObjectId(typeAttendanceId) })
+  const typeAttendanceThread = await db.collection('typeAttendance').findOne({ urlName: typeAttendance })
   const user = await db.collection('users').findOne({ username: body.username })
 
   if (req.method === 'GET') {

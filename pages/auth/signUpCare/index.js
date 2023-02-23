@@ -11,7 +11,7 @@ import { FaUser, FaUserPlus } from 'react-icons/fa'
 import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import { server } from '../../../../../../../../server'
+import { server } from '/server'
 
 /*
     * @author Sergio García Navarro

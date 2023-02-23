@@ -23,10 +23,24 @@ export default function Dashboard () {
       <>
         <Layout>
           <Head>
-            <title>Panel</title>
+            <title>Panel de administración</title>
           </Head>
           <h1 className={global.title}>Panel de administración</h1>
-          <p className={global.text}>Bienvenido a tu dashboard</p>
+          <h2 className={global.secondary}>¡Bienvenido a tu dashboard!</h2>
+          <div className={global.cards}>
+            <div className={global.card__short}>
+              <h2 className={global.title2}>Noticias</h2>
+                <p className={global.text}>Panel de administración de noticias</p>
+            </div>
+            <div className={global.card__short}>
+              <h2 className={global.title2}>Preguntas frecuentes</h2>
+                <p className={global.text}>Panel de administración de preguntas frecuentes</p>
+            </div>
+            <div className={global.card__short}>
+              <h2 className={global.title2}>Denuncias</h2>
+                <p className={global.text}>Panel de administración de denuncias</p>
+            </div>
+          </div>
         </Layout>
       </>
     )

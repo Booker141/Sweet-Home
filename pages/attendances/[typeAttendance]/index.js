@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
@@ -180,21 +180,9 @@ export default function TypeAttendance ({ threads }) {
 }
 
 export async function getServerSideProps (context) {
+  const { typeAttendance } = context.params
 
-  const { typeAttendance } = context.params;
-
-  const typeAttendanceRes = await fetch(`${server}/api/typeAttendance/${typeAttendance}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-
-  const typeAttendanceId = await typeAttendanceRes.json();
-
-  console.log(typeAttendanceId._id)
-
-  const res = await fetch(`${server}/api/threads/${typeAttendanceId._id}`, {
+  const res = await fetch(`${server}/api/threads/${typeAttendance}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

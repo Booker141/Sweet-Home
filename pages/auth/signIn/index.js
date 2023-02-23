@@ -10,7 +10,7 @@ import BasicFooter from 'components/BasicFooter/BasicFooter'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import { server } from '../../../../../../../../server'
+import { server } from '/server'
 
 /*
     * @author Sergio García Navarro

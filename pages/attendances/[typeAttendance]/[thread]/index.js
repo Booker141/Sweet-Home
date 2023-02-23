@@ -5,6 +5,7 @@ import { useState } from 'react'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
+import Attendance from '/components/Attendance/Attendance'
 import { server } from '/server'
 
 export default function Thread ({ attendances }) {
@@ -56,37 +57,50 @@ export default function Thread ({ attendances }) {
     return (
       <Layout>
         <Head>
-          <title>Hilo {router.query.thread}</title>
+          <title>{router.query.thread}</title>
         </Head>
         <h1 className={global.title}>{router.query.thread}</h1>
         <div className='sort__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push(`/attendances/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear nuevo cuidado</button>
+          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear nuevo cuidado</button>
           <button className={global.buttonPrimary} onClick={() => sortThreadByUsername()} aria-label='Ordenar categorías por usuario'>Ordenar por usuario</button>
           <button className={global.buttonPrimary} onClick={() => sortThreadByDate()} aria-label='Ordenar categorías por nombre'>Ordenar por fecha</button>
         </div>
         {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
-        {isSortedByUsername && sortedAttendances.map(({ _id, name, typeAttendanceId, createdAt, userId }) => {
+        {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <Attendance key={_id} name={name} typeAttendanceId={typeAttendance} createdAt={createdAt} userId={userId} />
+              <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId} />
             </>
           )
         })}
-        {isSortedByDate && sortedAttendances.map(({ _id, name, typeAttendanceId, createdAt, userId }) => {
+        {isSortedByDate && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <Attendance key={_id} name={name} typeAttendanceId={typeAttendance} createdAt={createdAt} userId={userId} />
+              <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/>
             </>
           )
         })}
-        {(!isSortedByUsername || !isSortedByDate) && attendances.map(({ _id, name, typeAttendanceId, createdAt, userId }) => {
+        {(!isSortedByUsername || !isSortedByDate) && attendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <Attendance key={_id} name={name} typeAttendanceId={typeAttendance} createdAt={createdAt} userId={userId} />
+              <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/>
             </>
           )
         })}
+      <style jsx>{`
+        
+        .sort__buttons{
 
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+
+        }
+      
+      `}</style>
       </Layout>
     )
   } else {
@@ -123,7 +137,10 @@ export default function Thread ({ attendances }) {
 }
 
 export async function getServerSideProps (context) {
-  const { thread } = context.params
+
+  const { thread } = context.params;
+
+  console.log(thread);
 
   const res = await fetch(`${server}/api/attendances/${thread}`, {
     method: 'GET',

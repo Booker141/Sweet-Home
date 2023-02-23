@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import global from 'styles/global.module.css'
-import Layout from '../../../../../../../components/Layout/Layout'
+import Layout from '/components/Layout/Layout'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import TypeAttendance from 'components/TypeAttendance/TypeAttendance'
 import Loader from 'components/Loader/Loader'
-import { server } from '../../../../../../../server'
+import { server } from '/server'
 
 /*
     * @author Sergio García Navarro

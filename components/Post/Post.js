@@ -7,6 +7,8 @@ import { fonts, colors } from 'styles/frontend-conf'
 import Comment from 'components/Comment/Comment'
 import Toast from 'components/Toast/Toast'
 import Modal from 'components/Modal/Modal'
+import Like from "components/Like/Like"
+import Save from "components/Save/Save"
 import { IoPawOutline, IoPaw } from 'react-icons/io5'
 import { MdDeleteOutline } from 'react-icons/md'
 import { BsBookmark, BsBookmarkFill, BsPatchCheckFill } from 'react-icons/bs'
@@ -82,17 +84,9 @@ export default function Post (props) {
     Router.reload()
   }
 
-  const Like = () => {
-    setIsLike(!isLike)
 
-    // Like function
-  }
 
-  const Save = () => {
-    setIsSave(!isSave)
-
-    // Save function
-  }
+  
   return (
     <>
       <div className='post__content'>
@@ -145,14 +139,8 @@ export default function Post (props) {
               <button onClick={() => Commentate()} className={global.buttonTertiary}>Enviar</button>
             </div>
             <div className='post__icons'>
-              <div className='like'>
-                <p className={global.text2__bold}>{props.likes.length === null ? 0 : props.likes.length}</p>
-                <a className='like--status' onClick={() => Like()}>{isLike ? <IoPaw size={20} color={colors.secondary} /> : <IoPawOutline size={20} color={colors.secondary} />}</a>
-              </div>
-              <div className='save'>
-                <p className={global.text2__bold}>{props.saves.length === null ? 0 : props.saves.length}</p>
-                <a className='save--status' onClick={() => Save()}>{isSave ? <BsBookmarkFill size={20} color={colors.secondary} /> : <BsBookmark className='bookmark1' size={20} color={colors.secondary} />}</a>
-              </div>
+              <Like likes={props.likes}/>
+              <Save saves={props.saves}/>
             </div>
           </div>
           <Toast isActive={isToastActive}>Se ha publicado tu comentario a @{user.username}</Toast>
@@ -402,12 +390,7 @@ export default function Post (props) {
                 }
 
 
-                .like--status .save--status{
-
-                    /*Misc*/
-
-                    cursor: pointer;
-                }
+                
 
                 .description p{
 
@@ -545,30 +528,6 @@ export default function Post (props) {
 
                 }
 
-                
-                .like{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 1rem;
-
-                }
-
-                .save{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 1rem;
-                }
-
-
-             
 
                 a{
 

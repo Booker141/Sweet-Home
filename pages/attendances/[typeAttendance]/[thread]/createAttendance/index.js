@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdLocationOn } from 'react-icons/md'
 import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
-import { colors, fonts } from '../../../../../../../../../../styles/frontend-conf'
-import global from '../../../../../../../../../../styles/global.module.css'
-import Layout from '../../../../../../../../../../components/Layout/Layout'
-import Loader from '../../../../../../../../../../components/Loader/Loader'
-import { server } from '../../../../../../../../../../server'
+import { colors, fonts } from '/styles/frontend-conf'
+import global from '/styles/global.module.css'
+import Layout from '/components/Layout/Layout'
+import Loader from '/components/Loader/Loader'
+import { server } from '/server'
 
 export default function CreateAttendance () {
   const { data: session, status } = useSession({ required: true })
@@ -111,7 +111,6 @@ export default function CreateAttendance () {
                         />
                   </div>
                 </div>
-
               </form>
               <input className={global.buttonPrimary} type='submit' onClick={(e) => createAttendance(e)} value='Crear' />
             </div>

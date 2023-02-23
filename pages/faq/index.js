@@ -23,7 +23,7 @@ export default function Use ({ questions }) {
       <Head><title>Preguntas frecuentes</title></Head>
 
       <div className='faq'>
-        <h1 id='title' className={global.title4}>Preguntas frecuentes</h1>
+        <h1 id='title' className={global.title}>Preguntas frecuentes</h1>
         <div className='top__image'>
           <Image src={faq1} alt='Imagen de un perro mirando al frente' priority />
         </div>

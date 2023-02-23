@@ -191,7 +191,10 @@ export const authOptions = {
               accountId: account._id,
               followers: [],
               following: [],
-              isCaretaker: false
+              likes: [],
+              saves: [],
+              pets: [],
+              isCaretaker: false,
             })
           } else {
             if (accountExist.userId == userExist._id) {
@@ -246,6 +249,9 @@ export const authOptions = {
               accountId: account._id,
               followers: [],
               following: [],
+              likes: [],
+              saves: [],
+              pets: [],
               isCaretaker: false
             })
           } else {

@@ -5,10 +5,9 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import { RiSearchLine } from 'react-icons/ri'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import Layout from 'components/Layout/Layout'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
+import SearchBar from "components/SearchBar/SearchBar"
 import Post from 'components/Post/Post'
 import User from 'components/User/User'
 import Loader from 'components/Loader/Loader'
@@ -73,20 +72,7 @@ export default function Home ({ posts, users }) {
           <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label='Ordenar publicaciones por usuario'>Ordenar por usuario</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
         </div>
-        <div className='column1__search'>
-          <div className='search__icon'>
-            <RiSearchLine size={20} color={colors.primary} />
-          </div>
-          <input
-            type='search'
-            name='search'
-            value={search}
-            placeholder='Buscar..'
-            onBlur={(e) => searchPost(e)}
-            onKeyUp={(e) => searchPost(e)}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+        <SearchBar/>
         <div className='container'>
 
           <div className='container__column1'>
@@ -117,7 +103,7 @@ export default function Home ({ posts, users }) {
             <div className='column2__follow'>
               <h1 className={global.title}>Seguir</h1>
               {users.length === 0 && <div><p className={global.loading}>No existe ningún usuario</p></div>}
-              {users.filter(user => user.username !== (session.user.username)).slice(0, 5).map(({ _id, userImage, username, isCaretaker }) => {
+              {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, userImage, username, isCaretaker }) => {
                 return (
                   <>
                     <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker} />
@@ -283,6 +269,12 @@ export default function Home ({ posts, users }) {
 
               .refresh__button{
 
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-top: 0.5rem;
                 /*Visuals*/
 
                 background: transparent;
@@ -342,7 +334,7 @@ export default function Home ({ posts, users }) {
 
                 border: 2px solid ${colors.primary};
                 outline: none;
-                box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+                box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
                 }
 

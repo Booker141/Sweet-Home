@@ -26,7 +26,7 @@ export default function News ({ news }) {
       <Head><title>Noticias</title></Head>
 
       <section>
-        <h1 className={global.secondary__bold}>¡Últimas noticias de <span className={global.colorized}>Sweet Home</span>!</h1>
+        <h1 className={global.title}>¡Últimas noticias de Sweet Home!</h1>
         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
         {news.map(({ _id, id, title, date, author, introduction }) => {
@@ -66,7 +66,7 @@ export default function News ({ news }) {
 
                         border-radius: 10px;
                         background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-
+                        box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
                     }
 
                     .list{

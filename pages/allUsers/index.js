@@ -25,7 +25,7 @@ export default function allUsers ({ users }) {
       <Layout>
 
         <h1 className={global.title}>Usuarios</h1>
-        {users.filter(user => user.username !== (session.user.username)).map(({ _id, image, username, isCaretaker }) => {
+        {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").map(({ _id, image, username, isCaretaker }) => {
           return (
             <>
               <User key={_id} image={image} username={username} isCaretaker={isCaretaker} />
@@ -38,7 +38,8 @@ export default function allUsers ({ users }) {
   }
 }
 
-export async function getServerSideProps (context) {
+export async function getServerSideProps () {
+
   const res = await fetch(`${server}/api/users`, {
     method: 'GET',
     headers: {
