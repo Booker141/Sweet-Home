@@ -4,43 +4,46 @@ import {RiSearchLine} from "react-icons/ri"
 import {useState, useEffect} from "react"
 
 
-export default function SearchBar(){
+export default function SearchBar(props){
 
     const [search, setSearch] = useState('');
+    const [isActive, setIsActive] = useState(false);
 
-    useEffect(() => {
-    
-    }, [])
 
-    const searchPost = (e) => {
-        /*Búsqueda por usuario*/
-        /*Búsqueda por localización*/
-        if(e.target.value === ''){
-            console.log('No hay nada que buscar')
+    const displaySearch = () => {
+        setIsActive(!isActive);
+    }
+
+    const searchKeyword = (e) => {
+        if(e){
+            if(e.key === 'Enter'){
+                console.log(search)
+            }
         }else{
-            console.log('Buscando..')
+            console.log(search)
         }
 
     }
 
 
-
     return(
-
         <>
         <div className='search-bar'>
           <div className='search-bar__icon'>
-            <RiSearchLine size={20} color={colors.primary} />
+            <button onClick={() => displaySearch()}><RiSearchLine size={20} color={props.color} /></button>
           </div>
-          <input
-            type='search'
-            name='search'
-            value={search}
-            placeholder='Buscar..'
-            onBlur={(e) => searchPost(e)}
-            onKeyUp={(e) => searchPost(e)}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          {isActive &&
+            <div className="search-bar__input">
+            <input
+              type='search'
+              name='search'
+              value={search}
+              placeholder='Buscar..'
+              onBlur={(e) => searchKeyword(e)}
+              onKeyUp={(e) => searchKeyword(e)}
+              onChange={(e) => setSearch(e.target.value)}
+            /><button className={global.buttonTertiary} aria-label="Hacer búsqueda relacionada" onClick={() => search()}>Buscar</button></div>}
+
         </div>
         <style jsx>{`
 
@@ -71,7 +74,7 @@ export default function SearchBar(){
 
             width: 100%;
             height: 2rem;
-            padding: 0.4rem;
+
 
             /*Text*/
 
@@ -81,19 +84,20 @@ export default function SearchBar(){
             /*Visuals*/
 
             border-radius: 5px;
-            border: 1px solid ${colors.primary};
+            border: 1px solid ${props.color};
             background: transparent;
             transition: 0.2s ease all;
 
 
           }
 
+
             input[type="search"]:focus{
 
 
             /*Visuals*/
 
-            border: 2px solid ${colors.primary};
+            border: 2px solid ${props.color};
             outline: none;
             box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
@@ -103,9 +107,20 @@ export default function SearchBar(){
 
                 /*Text*/
 
-                color: ${colors.primary};
+                color: ${props.color};
 
                 }
+
+              button{
+
+                /*Visuals*/
+
+                background: transparent;
+                border: none;
+                cursor: pointer;
+
+
+              }
         
         
         `}

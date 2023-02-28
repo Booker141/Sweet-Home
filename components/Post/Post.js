@@ -192,7 +192,7 @@ export default function Post (props) {
           <button className={global.buttonSecondary} onClick={() => deletePost()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-                         </Modal>}
+      </Modal>}
 
       <style jsx>{`
 

@@ -80,6 +80,7 @@ export default function CreatePost () {
     return (
       <Layout>
         <Head><title>Crear publicación</title></Head>
+        <div className={global.content}>
           <div className={global.dots}>
             <div className='form'>
               <h1 className='form__title'>Crear publicación</h1>
@@ -143,6 +144,7 @@ export default function CreatePost () {
               <input className={global.buttonPrimary} type='submit' onClick={(e) => createPost(e)} value='Crear' />
             </div>
           </div>
+        </div>
         <style jsx>{`
 
                     .form{

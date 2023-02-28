@@ -2,7 +2,7 @@ import global from '/styles/global.module.css'
 import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
 
-export default function Manual () {
+export default function UserManual () {
   return (
 
     <Layout>

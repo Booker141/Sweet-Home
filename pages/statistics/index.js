@@ -28,7 +28,7 @@ export default function Statistics () {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe ser gerente</h1>
+              <h1 className={global.title}>Para acceder a esta página debe ser tener el rol de gerente</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

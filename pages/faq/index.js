@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import global from 'styles/global.module.css'
 import Layout from 'components/Layout/Layout'
 import Question from 'components/Question/Question'
@@ -18,6 +20,10 @@ import { server } from '/server'
  * @returns A React element.
  */
 export default function Use ({ questions }) {
+
+  const {data: session} = useSession({});
+  const router = useRouter();
+
   return (
     <Layout>
       <Head><title>Preguntas frecuentes</title></Head>
@@ -27,6 +33,7 @@ export default function Use ({ questions }) {
         <div className='top__image'>
           <Image src={faq1} alt='Imagen de un perro mirando al frente' priority />
         </div>
+        {session.user.role === 'admin' && <button className={global.buttonPrimary} onClick={() => router.push('/createQuestion')}>Crear pregunta</button>}
 
         {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
@@ -79,6 +86,14 @@ export default function Use ({ questions }) {
 
                         border-radius: 10px;
 
+                    }
+
+                    button{
+
+                        /*Box model*/
+
+                        margin-top: 1rem;
+                        margin-bottom: 3rem;
                     }
                     
                     

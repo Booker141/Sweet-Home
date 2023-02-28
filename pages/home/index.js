@@ -72,7 +72,7 @@ export default function Home ({ posts, users }) {
           <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label='Ordenar publicaciones por usuario'>Ordenar por usuario</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
         </div>
-        <SearchBar/>
+        <SearchBar color={colors.primary}/>
         <div className='container'>
 
           <div className='container__column1'>

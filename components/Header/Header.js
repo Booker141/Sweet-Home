@@ -10,6 +10,7 @@ import { RiChat3Line, RiSearchLine, RiSettings4Fill } from 'react-icons/ri'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { VscBell, VscBellDot } from 'react-icons/vsc'
 import { MdOutlineChatBubbleOutline, MdOutlineMarkChatUnread } from 'react-icons/md'
+import SearchBar from "components/SearchBar/SearchBar"
 import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
 import Modal from 'components/Modal/Modal'
 import ThemeButton from 'components/ThemeButton/ThemeButton'
@@ -75,9 +76,9 @@ export default function Header (props) {
             </div>
             <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
             <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-            <li><Link href='/search' as='/search'><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
             <li><Link href='/chat' as='/chat'><a aria-label='Ir a Chat'><MdOutlineChatBubbleOutline /></a></Link></li>
             <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><VscBell /></a></Link></li>
+            <li><SearchBar color={colors.secondary}/></li>
             <ThemeButton />
             <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
               <ul className='menu'>
@@ -124,7 +125,6 @@ export default function Header (props) {
             </div>
             <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
             <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-            <li><Link href='/search' as='/search'><a aria-label='Ir a Buscar'><RiSearchLine /></a></Link></li>
             <li><Link href='/statistics' as='/statistics'><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
             <ThemeButton />
             <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
@@ -170,7 +170,21 @@ export default function Header (props) {
 
 
  
-                                    
+                .search__button{
+
+
+                    /*Box model*/
+
+                    margin-bottom: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                    color: white;
+
+                }        
                 .logo{
 
   

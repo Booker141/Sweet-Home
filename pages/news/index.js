@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
@@ -20,6 +22,10 @@ import { server } from '../../server'
  * @returns the Layout component with the children props being the <> component.
  */
 export default function News ({ news }) {
+
+  const {data: session} = useSession({});
+  const router = useRouter();
+
   return (
     <Layout>
 
@@ -27,7 +33,9 @@ export default function News ({ news }) {
 
       <section>
         <h1 className={global.title}>¡Últimas noticias de Sweet Home!</h1>
+        {session.user.role === "admin" && <button className={global.buttonPrimary} onClick={() => Router.push("/createNew")}>Crear noticia</button>}
         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+
 
         {news.map(({ _id, id, title, date, author, introduction }) => {
           return (
@@ -96,6 +104,13 @@ export default function News ({ news }) {
                         /*Text*/
 
                         font-size: 2rem;
+                    }
+
+                    button{
+
+                        /*Box model*/
+
+                        margin-bottom: 2rem;
                     }
 
                     h1 > span{
