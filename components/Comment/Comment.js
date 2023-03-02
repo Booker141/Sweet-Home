@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf'
+import {ToastContainer, toast} from 'react-toastify'
 import { MdDeleteOutline } from 'react-icons/md'
 import Modal from 'components/Modal/Modal'
 
@@ -36,6 +37,7 @@ export default function Comment (props) {
     const data = await res.json()
 
     console.log(data)
+    
 
     setComment(data)
     setIsCaretaker(data.isCaretaker)
@@ -50,6 +52,14 @@ export default function Comment (props) {
     }).catch(err => console.log(err))
 
     const data = await res.json()
+    toast.error('Se ha eliminado el comentario',{ position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,  
+    theme: "colored", })
 
     console.log(data)
 

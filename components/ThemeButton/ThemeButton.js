@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { theme, colors } from 'styles/frontend-conf.js'
-import { BsSun, BsMoon } from 'react-icons/bs'
+import { RiSunLine, RiMoonLine } from 'react-icons/ri'
 
 /**
  * It's a button that changes the theme of the page
@@ -30,8 +30,8 @@ export default function ThemeButton () {
 
   return (
     <>
-      {actualTheme === 'dark' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><BsSun color={colors.secondary} size={20} /></button></div>}
-      {actualTheme === 'light' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><BsMoon color={colors.secondary} size={20} /></button></div>}
+      {actualTheme === 'dark' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><RiSunLine color={colors.secondary} size={20} /></button></div>}
+      {actualTheme === 'light' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><RiMoonLine color={colors.secondary} size={20} /></button></div>}
 
       <style jsx>{`
 

@@ -7,7 +7,6 @@ import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import Layout from 'components/Layout/Layout'
-import SearchBar from "components/SearchBar/SearchBar"
 import Post from 'components/Post/Post'
 import User from 'components/User/User'
 import Loader from 'components/Loader/Loader'
@@ -28,7 +27,6 @@ import { server } from '/server'
 export default function Home ({ posts, users }) {
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState(posts)
-  const [search, setSearch] = useState('')
   const [isSortedByUsername, setIsSortedByUsername] = useState(false)
   const [isSortedByLikes, setIsSortedByLikes] = useState(false)
   const Router = useRouter()
@@ -45,15 +43,6 @@ export default function Home ({ posts, users }) {
     setPostList(sortedPosts)
   }
 
-  const searchPost = (e) => {
-    e.preventDefault()
-    setSearch(e.target.value)
-
-    if (search.length > 0 && search !== ' ') {
-      const filteredPosts = posts.filter(post => post.username.toLowerCase().includes(search.toLowerCase()))
-      setPostList(filteredPosts)
-    }
-  }
 
   if (status == 'loading') {
     return (
@@ -72,7 +61,6 @@ export default function Home ({ posts, users }) {
           <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label='Ordenar publicaciones por usuario'>Ordenar por usuario</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
         </div>
-        <SearchBar color={colors.primary}/>
         <div className='container'>
 
           <div className='container__column1'>

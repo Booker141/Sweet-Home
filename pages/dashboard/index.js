@@ -42,9 +42,9 @@ export default function Dashboard () {
                 <h2 className={global.title2}>Preguntas frecuentes</h2>
                   <p className={global.text}>Panel de administración de preguntas frecuentes. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createQuestion")}>Crear noticia</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editQuestion")}>Editar noticia</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/faq")}>Eliminar noticia</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/createQuestion")}>Crear pregunta</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/editQuestion")}>Editar pregunta</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/faq")}>Eliminar pregunta</button>
                   </div>
               </div>
             </div>

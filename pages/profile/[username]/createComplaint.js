@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { BsFillExclamationDiamondFill } from 'react-icons/bs'
 import { colors, fonts, statusColors } from '/styles/frontend-conf'
+import { toast } from 'react-toastify'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
@@ -13,12 +14,11 @@ export default function CreateComplaint () {
   const { data: session, status } = useSession({ required: true })
   const router = useRouter()
   const [reason, setReason] = useState('')
-  const [message, setMessage] = useState('')
 
   const createComplaint = async (e) => {
     e.preventDefault()
 
-    const res = await fetch(`${server}/api/complaints`, {
+    const res = await fetch(`${server}/api/complaints/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -28,15 +28,29 @@ export default function CreateComplaint () {
         usernameFrom: session.user.username,
         usernameTo: router.query.username
       })
-    }).catch(err => console.log(err))
+    })
 
     const data = await res.json()
 
     if (data.error) {
       console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
+      toast.error('Introduzca los campos obligatorios',{ position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,}
+      )
     } else {
-      setMessage('Denuncia creada correctamente')
+
+      
+      toast.success('Denuncia creada correctamente',{ position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,}
+      )
       router.push('/profile/' + `${router.query.username}`)
     }
   }
@@ -51,9 +65,9 @@ export default function CreateComplaint () {
   }
   if (session) {
     return (
+
       <Layout>
         <Head><title>Crear denuncia</title></Head>
-        <div className={global.content}>
           <div className='form'>
             <h1 className='form__title'>Denuncia hacia @{router.query.username}</h1>
             <h3 className={global.text2}>De parte de @{session.user.username}</h3>
@@ -74,11 +88,9 @@ export default function CreateComplaint () {
                   />
                 </div>
               </div>
-
             </form>
             <input className={global.buttonPrimary} type='submit' onClick={(e) => createComplaint(e)} value='Enviar' />
           </div>
-        </div>
         <style jsx>{`
 
                     .form{

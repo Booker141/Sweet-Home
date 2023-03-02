@@ -2,12 +2,16 @@ import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Layout from 'components/Layout/Layout'
 import global from '/styles/global.module.css'
-import { server } from '/server'
 import Loader from 'components/Loader/Loader'
+import {server} from "/server"
+
+
 export default function Search () {
+
   const { data: session, status } = useSession({ required: true })
 
-  if (status == 'loading') {
+
+  if (status === 'loading') {
     return (
       <>
         <div className={global.loading}><p className={global.title}>Cargando..</p></div>
@@ -18,8 +22,10 @@ export default function Search () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Buscar</title></Head>
-        <p className={global.title}>Buscar</p>
+        <Head><title>Búsqueda</title></Head>
+        <p className={global.title}>Destacado</p>
+        <p className={global.secondary}>Usuarios</p>
+        <p className={global.secondary}>Publicaciones</p>
       </Layout>
     )
   } else {
@@ -28,7 +34,7 @@ export default function Search () {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe ser administrador</h1>
+              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>
@@ -52,5 +58,23 @@ export default function Search () {
         </>
       </Layout>
     )
+  }
+}
+
+export async function getServerSideProps (context) {
+
+  const res = await fetch(`${server}/search/${context.query.keyword}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }})
+
+  const data = await res.json();
+
+  return {
+    props: {
+      data
+    }
   }
 }

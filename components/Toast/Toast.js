@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react'
 
 export default function Toast (props) {
   const [isActive, setIsActive] = useState(false)
-  console.log(props)
   useEffect(() => {
-    const toast = document.getElementById('toast')
+    const toast = document.getElementById('toast');
 
     setIsActive(props.isActive)
 
@@ -18,12 +17,12 @@ export default function Toast (props) {
       toast.classList.remove('active')
     }, 5000)
   }, [])
+  
   return (
     <>
       <div id='toast' className='toast__container'>
         <div className={global.toast}>
           {props.children}
-          {console.log('Toast impreso')}
         </div>
       </div>
       <style jsx>{`
@@ -32,7 +31,11 @@ export default function Toast (props) {
 
                 /*Position*/
 
-                transform: translateY(100%);
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                transform: translate(-100%);
+
                 z-index: 1000;
 
                 /*Visuals*/

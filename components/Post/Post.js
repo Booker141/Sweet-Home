@@ -14,6 +14,8 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { BsBookmark, BsBookmarkFill, BsPatchCheckFill } from 'react-icons/bs'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import { server } from '/server'
+
+import { ToastContainer, toast, Slide } from "react-toastify"
 import InputEmoji from 'react-input-emoji'
 
 export default function Post (props) {
@@ -57,13 +59,17 @@ export default function Post (props) {
       })
     })
 
-    const data = await res.json()
 
-    if (data.error) {
-      console.log(data.error)
-    }
-
-    setIsToastActive(!isToastActive)
+      toast.success('Se ha publicado tu comentario', { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Slide,
+      theme: "colored", })
+    
   }
 
   const deletePost = async () => {
@@ -74,11 +80,15 @@ export default function Post (props) {
       }
     })
 
-    const data = await res.json()
 
-    if (data.error) {
-      console.log(data.error)
-    }
+    toast.error(`Se ha eliminado la publicación`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
 
     setIsModalVisible(false)
     Router.reload()
@@ -143,7 +153,6 @@ export default function Post (props) {
               <Save saves={props.saves}/>
             </div>
           </div>
-          <Toast isActive={isToastActive}>Se ha publicado tu comentario a @{user.username}</Toast>
           <div className='comment__container'>
             <div className='comment__title'>
               <p className={global.tertiary2__bold}>Comentarios</p>

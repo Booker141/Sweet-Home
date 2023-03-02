@@ -9,8 +9,7 @@ import Modal from "/components/Modal/Modal"
 
 export default function New (props) {
 
-  const { data: session } = useSession();
-  console.log(session);
+  const { data: session, status } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const deleteNew = async () => {
@@ -22,6 +21,7 @@ export default function New (props) {
     })
 
     const data = await res.json()
+    console.log(props.date);
 
     if (data.error) {
       console.log(data.error)

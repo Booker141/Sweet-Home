@@ -928,6 +928,71 @@
 }
 
 
+.searchButton {
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 5vh;
+  width: 5vw;
+  padding: 1vw;
+
+  /*Text*/
+
+  color: #f0810f;
+  font-family: "Poppins", sans-serif;
+  font-style: 500;
+
+  /*Visuals*/
+
+  cursor: pointer;
+
+  border: none;
+  background: white;
+  border-radius: 50px;
+
+  /*Misc*/
+
+  transition: all 0.3s ease-in-out;
+
+}
+
+
+.searchButton:hover {
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 5vh;
+  width: 5vw;
+  padding: 1vw;
+
+  /*Text*/
+
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-style: 500;
+
+  /*Visuals*/
+
+  cursor: pointer;
+
+  background-color: #f9a603;
+  border-radius: 40px;
+
+  /*Misc*/
+
+  transition: all 0.3s ease-in-out;
+
+}
+
+
 .buttonDelete {
 
   /*Box model*/

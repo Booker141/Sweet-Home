@@ -5,11 +5,9 @@ import { useState, useEffect } from 'react'
 import global from 'styles/global.module.css'
 import { colors } from '/styles/frontend-conf.js'
 import { fonts } from 'styles/frontend-conf.js'
-import { FaUserAlt, FaSignOutAlt, FaSearch } from 'react-icons/fa'
-import { RiChat3Line, RiSearchLine, RiSettings4Fill } from 'react-icons/ri'
+import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
+import { RiChat3Line, RiSettings4Fill, RiNotification4Line } from 'react-icons/ri'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { VscBell, VscBellDot } from 'react-icons/vsc'
-import { MdOutlineChatBubbleOutline, MdOutlineMarkChatUnread } from 'react-icons/md'
 import SearchBar from "components/SearchBar/SearchBar"
 import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
 import Modal from 'components/Modal/Modal'
@@ -39,6 +37,7 @@ import ThemeButton from 'components/ThemeButton/ThemeButton'
  */
 
 export default function Header (props) {
+
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
@@ -76,8 +75,8 @@ export default function Header (props) {
             </div>
             <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
             <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-            <li><Link href='/chat' as='/chat'><a aria-label='Ir a Chat'><MdOutlineChatBubbleOutline /></a></Link></li>
-            <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><VscBell /></a></Link></li>
+            <li><Link href='/chat' as='/chat'><a aria-label='Ir a Chat'><RiChat3Line /></a></Link></li>
+            <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><RiNotification4Line /></a></Link></li>
             <li><SearchBar color={colors.secondary}/></li>
             <ThemeButton />
             <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
@@ -163,6 +162,7 @@ export default function Header (props) {
                     text-decoration: none;
                     color: ${colors.secondary};
                     font-size: 1.2rem;
+
                     font-family: ${fonts.default};
                     cursor: default;
 
