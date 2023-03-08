@@ -33,15 +33,15 @@ export default function News ({ news }) {
 
       <section>
         <h1 className={global.title}>¡Últimas noticias de Sweet Home!</h1>
-        {session.user.role === "admin" && <button className={global.buttonPrimary} onClick={() => Router.push("/createNew")}>Crear noticia</button>}
+        {session.user.role === "admin" && <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>}
         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
 
-        {news.map(({ _id, id, title, date, author, introduction }) => {
+        {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, id, title, date, author, introduction }) => {
           return (
             <>
               <div className='new'>
-                <New key={_id} id={id} title={title} date={date} author={author} introduction={introduction} />
+                <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
                 <Link href={`/news/${id}`} as={`/news/${id}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
               </div>
             </>

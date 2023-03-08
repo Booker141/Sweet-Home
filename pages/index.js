@@ -40,7 +40,7 @@ export default function Principal () {
         <div className='content__container1'>
           <div className='container1__title'>
             <h1 className='title'>
-              <span>
+              {/*<span>
                 <span>S</span>
                 <span>w</span>
                 <span>e</span>
@@ -51,7 +51,8 @@ export default function Principal () {
                 <span>o</span>
                 <span>m</span>
                 <span>e</span>
-              </span>
+              </span>*/}
+              Sweet Home
             </h1>
           </div>
           <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de
@@ -538,9 +539,14 @@ export default function Principal () {
               /*Text*/
 
               font-size: 5rem;
-              font-weight: 500;
-              color: ${colors.primary};
-              font-family: 'Satisfy';
+              font-weight: bold;
+              background-color: ${colors.primary};
+              font-family: "Archivo Black", sans-serif;
+              background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+              background-repeat: repeat;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent; 
+              background-size: 100%
               text-align: center;
               margin: 0;
               padding: 0;

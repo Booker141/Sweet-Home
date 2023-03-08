@@ -206,6 +206,7 @@ export default function About () {
                             display: flex;
                             flex-direction: column;
                             align-items: center;
+
                             
 
                         }
@@ -214,13 +215,17 @@ export default function About () {
 
                             /*Text*/
 
-                            font-size: 5rem;
-                            font-weight: 500;
-                            color: ${colors.primary};
-                            font-family: 'Satisfy';
-                            text-align: center;
-                            margin: 0;
-                            padding: 0;
+                              font-size: 5rem;
+                              font-weight: bold;
+                              background-color: ${colors.primary};
+                              font-family: "Archivo Black", sans-serif;
+                              background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                              background-repeat: repeat;
+                              -webkit-background-clip: text;
+                              -webkit-text-fill-color: transparent; 
+                              background-size: 100%
+                              text-align: center;
+                             
                         }
 
                         .title h2:last-child{

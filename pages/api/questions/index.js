@@ -1,24 +1,27 @@
 import clientPromise from '../lib/MongoDB'
 
 export default async function handler (req, res) {
+
   const client = await clientPromise
   const db = await client.db()
+  const body = req.body
 
-  if (req.method == 'GET') {
+  if (req.method === 'GET') {
+
     const data = await db.collection('questions').find({}).limit(50).toArray()
 
     const questions = JSON.parse(JSON.stringify(data))
 
     res.status(200).json(questions)
+
   }
 
-  if (req.method == 'POST') {
-    const body = JSON.parse(req.body)
+  if (req.method === 'POST') {
 
-    const data = await db.collection('questions').insertOne(body)
+   await db.collection('questions').insertOne({title: body.title, description: body.description})
 
-    const question = JSON.parse(JSON.stringify(data))
 
-    res.json(question)
+    res.status(201).json({ message: 'Creada con éxito.' })
   }
+
 }

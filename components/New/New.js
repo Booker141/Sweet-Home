@@ -4,30 +4,35 @@ import { MdDeleteOutline, MdOutlineEdit} from 'react-icons/md'
 import { useState } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
+import { toast } from 'react-toastify'
 import Router from 'next/router'
 import Modal from "/components/Modal/Modal"
 
 export default function New (props) {
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const deleteNew = async () => {
-    const res = await fetch(`${server}/api/news/${props.id}`, {
+
+    await fetch(`${server}/api/news/${props.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       }
     })
 
-    const data = await res.json()
-    console.log(props.date);
-
-    if (data.error) {
-      console.log(data.error)
-    }
 
     setIsModalVisible(false)
+    toast.error('Se ha eliminado la noticia', { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+      Router.push(`${server}/news`)
     Router.reload()
   }
 

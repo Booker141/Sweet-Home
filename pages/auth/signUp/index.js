@@ -141,6 +141,7 @@ export default function SignUp () {
    * @param e - The event object
    */
   const signUp = async (e) => {
+  
     e.preventDefault()
 
     if (isValidate) {

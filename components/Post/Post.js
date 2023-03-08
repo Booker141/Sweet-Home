@@ -5,7 +5,6 @@ import Image from 'next/image'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf'
 import Comment from 'components/Comment/Comment'
-import Toast from 'components/Toast/Toast'
 import Modal from 'components/Modal/Modal'
 import Like from "components/Like/Like"
 import Save from "components/Save/Save"
@@ -15,10 +14,11 @@ import { BsBookmark, BsBookmarkFill, BsPatchCheckFill } from 'react-icons/bs'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import { server } from '/server'
 
-import { ToastContainer, toast, Slide } from "react-toastify"
+import { toast, Slide } from "react-toastify"
 import InputEmoji from 'react-input-emoji'
 
 export default function Post (props) {
+
   const { data: session, status } = useSession()
   const [user, setUser] = useState({})
   const [comment, setComment] = useState('')
@@ -29,6 +29,7 @@ export default function Post (props) {
   const [isSave, setIsSave] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
+
   const Router = useRouter()
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export default function Post (props) {
   }
 
   const deletePost = async () => {
-    const res = await fetch(`${server}/api/posts/${session.user.username}/${props.id}`, {
+    await fetch(`${server}/api/posts/${session.user.username}/${props.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

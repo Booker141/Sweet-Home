@@ -28,6 +28,7 @@ export default function CreatePost () {
   }
 
   const createPost = async (e) => {
+    
     e.preventDefault()
 
     if (image !== null && image !== undefined) {

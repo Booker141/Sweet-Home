@@ -2,60 +2,61 @@ import Head from 'next/head'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { MdLocationOn } from 'react-icons/md'
-import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
-import { colors, fonts } from '../../styles/frontend-conf'
+import { MdTitle, MdOutlineError } from 'react-icons/md'
+import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill} from 'react-icons/bs'
+import { statusColors, colors, fonts } from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
+import {toast} from 'react-toastify'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
 export default function CreatePost () {
-  const { data: session, status } = useSession({ required: true })
-  const Router = useRouter()
-  const [description, setDescription] = useState('')
-  const [location, setLocation] = useState('')
-  const [image, setImage] = useState(null)
-  const [imageURL, setImageURL] = useState(null)
-  const [message, setMessage] = useState('')
 
-  const uploadImage = async (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const imageUploaded = e.target.files[0]
-      setImage(imageUploaded)
-      setImageURL(URL.createObjectURL(imageUploaded))
+  const { data: session, status } = useSession({ required: true })
+
+  const Router = useRouter()
+  const [answer, setAnswer] = useState('')
+  const [title, setTitle] = useState('')
+  const [isValidate, setIsValidate] = useState(false)
+  const [message, setMessage] = useState('')
+  
+
+  const validate = (e) => {
+    // Regular expressions
+
+    const regTitle = /^¿?.+\?/g;
+
+    if (e.target.name === 'title') {
+      if (!title.match(regTitle)) {
+        document.getElementById('title__error').classList.add('form__input-titleError--active')
+        document.getElementById('error__title').classList.add('form__error-icon--active')
+        document.getElementById('success__title').classList.remove('form__success-icon--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('title__error').classList.remove('form__input-titleError--active')
+        document.getElementById('error__title').classList.remove('form__error-icon--active')
+        document.getElementById('success__title').classList.add('form__success-icon--active')
+        setIsValidate(true)
+      }
     }
+
   }
 
-  const createPost = async (e) => {
+  const createQuestion = async (e) => {
+
     e.preventDefault()
 
-    if (image !== null && image !== undefined) {
-      const body = new FormData()
-      body.append('postImage', image, image?.name)
-
-      await fetch(`${server}/api/images`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        body
-      })
-    }
-
-    const res = await fetch(`${server}/api/posts`, {
+    const res = await fetch(`${server}/api/questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: session.user.id,
-        location,
-        description,
-        username: session.user.username,
-        image: '/postImages/' + image?.name
+        title: title,
+        answer: answer,
       })
-    }).catch(err => console.log(err))
+    })
 
     const data = await res.json()
 
@@ -63,8 +64,15 @@ export default function CreatePost () {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
     } else {
-      setMessage('Publicación creada correctamente')
-      Router.push(`${server}/home`)
+      toast.success('Se ha publicado la pregunta', { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+      Router.push(`${server}/faq`)
     }
   }
 
@@ -76,73 +84,64 @@ export default function CreatePost () {
       </>
     )
   }
-  if (session) {
+  if (session.user.role === "admin") {
     return (
       <Layout>
-        <Head><title>Crear publicación</title></Head>
+        <Head><title>Crear pregunta</title></Head>
         <div className={global.content}>
-          <div className={global.dots}>
             <div className='form'>
-              <h1 className='form__title'>Crear publicación</h1>
-              <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
-              <form action='/api/posts' id='form' enctype='multipart/form-data'>
-                <div className='form-vertical__location'>
+              <h1 className='form__title'>Crear pregunta</h1>
+              <p className={global.text2}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              <form action='/api/questions' id='form'>
+                <div className='form-vertical__title'>
                   <div className='label'>
-                    <p className={global.text}>Ubicación</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <p className={global.text}>Título (*)</p>
+                    <MdTitle size={18} color={colors.secondary} />
                   </div>
-                  <div className='location__input'>
+                  <div className='title__input'>
                     <input
-                          title='Introducir ubicación'
+                          title='Introducir título'
                           type='text'
-                          name='location'
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                          placeholder='p. ej.: Cádiz'
+                          name='title'
+                          value={title}
+                          required
+                          onChange={(e) => setTitle(e.target.value)}
+                          onKeyUp={(e) => validate(e)}
+                          onBlur={(e) => validate(e)}
+                          placeholder='p. ej.: ¿Es necesario...?'
                           className='input'
                          />
+                  
+                    <div id='error__title' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                    <div id='success__title' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                    <div id='title__error' className='form__input-titleError'>
+                      <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                      <p className={global.text2}>Debe ser una pregunta</p>
+                    </div>
                   </div>
                 </div>
-                <div className='form-vertical__description'>
+                <div className='form-vertical__answer'>
                   <div className='label'>
-                    <p className={global.text}>Descripción (*)</p>
-                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                    <p className={global.text}>Respuesta (*)</p>
+                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
-                  <div className='description__input'>
+                  <div className='answer__input'>
                     <textarea
-                          title='Introducir descripción'
-                          name='Description'
-                          value={description}
+                          title='Introducir respuesta'
+                          name='answer'
+                          value={answer}
                           required
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder='p. ej.: Esta es mi mascota...'
+                          onChange={(e) => setAnswer(e.target.value)}
+                          placeholder='p. ej.: Si, es necesario..'
                         />
-                  </div>
-                  <div className='form-vertical__image'>
-                    <div className='label'>
-                          <p className={global.text}>Seleccionar imagen:</p>
-                          <BsImageFill size={25} color={colors.secondary} />
-                        </div>
-                    <div className='image__input'>
-                          <input
-                            title='Introducir imagen'
-                            type='file'
-                            name='image'
-                            id='image'
-                            onChange={(e) => uploadImage(e)}
-                            accept='image/png, image/jpeg'
-                            placeholder='Ningún archivo seleccionado'
-                            className='input'
-                          >
-                          </input>
-                        </div>
                   </div>
 
                 </div>
 
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createPost(e)} value='Crear' />
-            </div>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createQuestion(e)} value='Crear' />
           </div>
         </div>
         <style jsx>{`
@@ -228,18 +227,7 @@ export default function CreatePost () {
 
                 
 
-                    .form-vertical__image {
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        width: 100%;
-
-                    }
-
-                    .form-vertical__description {
+                    .form-vertical__answer {
 
                         /*Box model*/
 
@@ -251,7 +239,7 @@ export default function CreatePost () {
                     }
 
 
-                    .description__input{
+                    .answer__input{
 
                         /*Box model*/
 
@@ -263,28 +251,252 @@ export default function CreatePost () {
 
                     }
 
-                    .location__input{
+                    .title__input{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: row;
                         align-items: center;
-                    }
-
-                    .image__input{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 1rem;
 
                     }
 
-                    
+                    /*ERRORES*/
+
+                    .form__input-titleError{
+
+                      /*Position*/
+
+                      position: absolute;
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      margin-left: 20rem;
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: #fafafa;
+
+                      /*Visuals*/
+
+                      border-radius: 10px;
+                      background-color: ${statusColors.error};
+                      opacity: 0;
+
+                      }
+
+
+                      .form__input-titleError p{
+
+                      /*Box model*/
+
+                      margin-left: 2rem;
+
+                      }
+
+                      .form__input-titleError--active{
+
+                      /*Position*/
+
+                      position: absolute;
+                      margin-left: 20rem;
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      width: 30vw;
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: #fafafa;
+
+                      /*Visuals*/
+
+                      border-radius: 10px;
+                      background-color: ${statusColors.error};
+                      opacity: 1;
+
+                      }
+
+
+
+                      .error__icon{
+
+                      /*Box model*/
+
+                      margin-left: 1rem;
+
+                      }
+
+                      .form__error-icon{
+
+                        /*Position*/
+
+                        position: relative;
+                        right: -1.1rem;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        z-index: 999;
+
+                        /*Visuals*/
+
+                        opacity: 0;
+                        color: ${statusColors.error};
+
+
+                      }
+
+                      .form__success-icon{
+
+                      /*Position*/
+
+                      position: relative;
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      right: -1.1rem;
+                      z-index: 999;
+
+                      /*Visuals*/
+
+                      opacity: 0;
+                      color: ${statusColors.success};
+
+                      }
+
+                      .form__error-icon--active{
+
+                      /*Position*/
+
+                      position: relative;
+                      right: -1.1rem;
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      z-index: 999;
+
+                      /*Visuals*/
+
+                      opacity: 1;
+                      color: ${statusColors.error};
+
+                      }
+
+                      .form__success-icon--active{
+
+                      /*Position*/
+
+                      position: relative;
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      right: -1.1rem;
+                      z-index: 999;
+
+                      /*Visuals*/
+
+                      opacity: 1;
+                      color: ${statusColors.success};
+
+                      }
+
+
+
+
+                      .submit__error{
+
+                      /*Box model*/
+
+                      display: none;
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      background-color: ${statusColors.error};
+
+                      }
+
+                      .submit__error--active{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 0.5rem;
+                      width: 65%;
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      border-radius: 10px;
+                      background-color: ${statusColors.error};
+
+                      }
+
+                      .submit__error--active2{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 0.5rem;
+                      width: 65%;
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      border-radius: 10px;
+                      background-color: ${statusColors.success};
+
+                      }
+
+
+
+                    input[type="text"]{
+
+
+                        /*Box model*/
+
+                        width: 20vw;
+                        height: 2rem;
+                        padding: 0.4rem;
+
+                        /*Text*/
+
+                        font-family: ${fonts.default};
+                        font-size: 1rem;
+
+                        /*Visuals*/
+
+                        border-radius: 5px;
+                        border: 1px solid ${colors.primary};
+
+                    }
+
                     input[type="submit"]{
 
                         /*Box model*/
@@ -298,68 +510,7 @@ export default function CreatePost () {
 
                     }
 
-                    input[type="file"]{
-
-                        /*Box model*/
-
-                        width: 100%;
-                        height: 100%;
-
-                        /*Visuals*/
-
-                        border-radius: 10px;
-                        background-color: transparent;
-                        border: 1px solid ${colors.secondary};
-                        color: ${colors.secondary};
-
-                    }
-
-                    input[type="file"]::before{
-
-                        /*Box model*/
-
-                        padding: 0.5rem;
-                        margin-right: 1rem;
-
-                        /*Visuals*/
-
-                        cursor: pointer;
-                        content: 'Subir imagen..';
-                        background-color: ${colors.primary};
-                        color: ${colors.secondary};
-                        border-radius: 5px;
-                    
-
-
-                    }
-
-                    input[type="file"]::-webkit-file-upload-button {
-
-                        display: none;
-
-                    }
-
-
-                    input[type="email"]:focus {
-
-                        /*Visuals*/
-
-                        border: 2px solid #4d97f7;
-                        outline: none;
-                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-                    input[type="password"]:focus {
-
-                        /*Visuals*/
-
-                        border: 2px solid #4d97f7;
-                        outline: none;
-                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
+                   
                     ::placeholder{
 
                         /*Text*/

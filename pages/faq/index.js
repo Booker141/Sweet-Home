@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import global from 'styles/global.module.css'
+import { colors } from 'styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
 import Question from 'components/Question/Question'
 import faq1 from '../../public/faq-1.svg'
@@ -37,10 +38,10 @@ export default function Use ({ questions }) {
 
         {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
-        {questions.map(({ _id, title, description }) => {
+        {questions.map(({ _id, title, answer }) => {
           return (
             <>
-              <Question key={_id} title={title} description={description} />
+              <Question key={_id} id={_id} title={title} answer={answer} />
             </>
           )
         })}
@@ -52,7 +53,24 @@ export default function Use ({ questions }) {
                     #title{
 
                         /*Box model*/
+
                             margin-bottom: 4rem;
+                          
+                      /*Text*/
+
+                      font-size: 4rem;
+                      font-weight: 600;
+                      background-color: ${colors.primary};
+                      font-family: "Archivo Black", sans-serif;
+                      background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                      background-repeat: repeat;
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent; 
+                      background-size: 100%
+                      text-align: center;
+                      margin: 0;
+                      padding: 0;
+                    
                     }
 
                 

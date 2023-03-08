@@ -2,8 +2,9 @@ import Head from 'next/head'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { MdLocationOn, MdDateRange, MdOutlineError } from 'react-icons/md'
-import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
+import {toast} from 'react-toastify'
+import { MdDateRange, MdOutlineError, MdTitle } from 'react-icons/md'
+import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsFillPersonFill } from 'react-icons/bs'
 import { colors, statusColors, fonts } from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
@@ -20,48 +21,43 @@ export default function CreateNew () {
   const [body, setBody] = useState('')
   const [conclusion, setConclusion] = useState('')   
   const [author, setAuthor] = useState('')
-  const [message, setMessage] = useState('')
+  const [isValidate, setIsValidate] = useState(false)
 
+
+  const calcDate = () => {
+
+    const currentDate= new Date();
+    const maxDate = currentDate.getFullYear()+'-'+(currentDate.getMonth()+1)+'-'+currentDate.getDate();
+
+    return maxDate;
+  }
   const validate = (e) => {
 
-    const regAuthor = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
-    const regDate = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+    const regAuthor = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/
 
     //Validación autor
 
-    if (e.target.name == 'password') {
-      if (password.length < 8 || !password.match(regPassword)) {
-        document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('error__password').classList.add('form__icon-error--active')
-        document.getElementById('success__password').classList.remove('form__icon-success--active')
+    if (e.target.name == 'author') {
+      if (!author.match(regAuthor)) {
+        document.getElementById('author__error').classList.add('form__input-authorError--active')
+        document.getElementById('error__author').classList.add('form__error-icon--active')
+        document.getElementById('success__author').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
-        document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-        document.getElementById('error__password').classList.remove('form__icon-error--active')
-        document.getElementById('success__password').classList.add('form__icon-success--active')
+        document.getElementById('author__error').classList.remove('form__input-authorError--active')
+        document.getElementById('error__author').classList.remove('form__error-icon--active')
+        document.getElementById('success__author').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
 
-    // Validación del formato de la fecha
-    if (e.target.name == 'email') {
-      if (!email.match(regEmail)) {
-        document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('error__email').classList.add('form__error-icon--active')
-        document.getElementById('success__email').classList.remove('form__success-icon--active')
-        setIsValidate(false)
-      } else {
-        document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('error__email').classList.remove('form__error-icon--active')
-        document.getElementById('success__email').classList.add('form__success-icon--active')
-        setIsValidate(true)
-      }
-    }
   }
 
   const createNew = async (e) => {
 
     e.preventDefault()
+
+    if(isValidate){
 
       const res = await fetch(`${server}/api/news`, {
         method: 'POST',
@@ -69,7 +65,7 @@ export default function CreateNew () {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            title: session.user.id,
+            title: title,
             date: date,
             introduction: introduction,
             body: body,
@@ -77,15 +73,27 @@ export default function CreateNew () {
             author: author,
           })
       })
+    }
 
     const data = await res.json()
 
     if (data.error) {
+
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
+
     } else {
-      setMessage('Noticia creada correctamente')
+
+      toast.success('Se ha publicado la noticia', { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
       Router.push(`${server}/news`)
+
     }
   }
 
@@ -109,13 +117,14 @@ export default function CreateNew () {
                 <div className='form-vertical__title'>
                   <div className='label'>
                     <p className={global.text}>Título (*)</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <MdTitle size={18} color={colors.secondary} />
                   </div>
                   <div className='title__input'>
                     <input
                           title='Introducir título'
                           type='text'
                           name='title'
+                          required
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
                           placeholder='p. ej.: Nueva mascota adoptada en..'
@@ -126,7 +135,7 @@ export default function CreateNew () {
                 <div className='form-vertical__author'>
                   <div className='label'>
                     <p className={global.text}>Autor (*)</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <BsFillPersonFill size={18} color={colors.secondary} />
                   </div>
                   <div className='author__input'>
                     <input
@@ -134,52 +143,46 @@ export default function CreateNew () {
                           type='text'
                           name='author'
                           value={author}
-                          onChange={(e) => setTitle(e.target.value)}
+                          required
+                          onChange={(e) => setAuthor(e.target.value)}
                           onKeyUp={(e) => validate(e)}
                           onBlur={(e) => validate(e)}
                           placeholder='p. ej.: Marta Sánchez'
                           className='input'
                          />
-                         <div id='error__author' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                        <div id='error__author' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                         <div id='success__author' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                         <div id='author__error' className='form__input-authorError'>
                         <div className='error__icon'>
                           <MdOutlineError size={30} color={colors.secondary} />
                         </div>
-                      <p className={global.text2}>Debe seguir el formato correcto</p>
-                    </div>
+                        <p className={global.text2}>Debe seguir el formato correcto</p>
+                        </div>
                   </div>
                 </div>
                 <div className='form-vertical__date'>
                     <div className='label'>
                         <p className={global.text}>Fecha (*)</p>
-                        <MdDateRange size={20} color={colors.secondary} />
+                        <MdDateRange size={18} color={colors.secondary} />
                     </div>
                     <input
                     title='Introducir fecha de noticia'
                     type='date'
                     id='date'
-                    max={new Date()}
+                    max={calcDate()}
                     name='date'
+                    required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     className='input'
                     />
-                    <div id='error__date' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__date' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    <div id='date__error' className='form__input-dateError'>
-                      <div className='error__icon'>
-                          <MdOutlineError size={30} color={colors.secondary} />
-                        </div>
-                      <p className={global.text2}>Debe seguir el formato correcto</p>
-                    </div>
                 </div>
                 <div className='form-vertical__introduction'>
                   <div className='label'>
                     <p className={global.text}>Introducción (*)</p>
-                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
                   <div className='introduction__input'>
                     <textarea
@@ -195,7 +198,7 @@ export default function CreateNew () {
                   <div className='form-vertical__body'>
                   <div className='label'>
                     <p className={global.text}>Desarrollo (*)</p>
-                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
                   <div className='body__input'>
                     <textarea
@@ -211,7 +214,7 @@ export default function CreateNew () {
                 <div className='form-vertical__conclusion'>
                   <div className='label'>
                     <p className={global.text}>Conclusión</p>
-                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
                   <div className='conclusion__input'>
                     <textarea
@@ -291,9 +294,9 @@ export default function CreateNew () {
 
                         /*Box model*/
 
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.4rem;
+                        width: 30vw;
+                        height: 2vh;
+                        padding: 0.4vw;
                         margin-bottom: 1rem;
                         
 
@@ -318,7 +321,6 @@ export default function CreateNew () {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
 
                     }
 
@@ -328,10 +330,35 @@ export default function CreateNew () {
                         /*Box model*/
 
                         display: flex;
+                        flex-direction: row;       
+
+                    }
+
+                    .author__input{
+
+                        /*Box model*/
+
+                        display: flex;
                         flex-direction: row;
-                        justify-content: center;
-                        width: 115%;
-                        
+                        align-items: center;
+
+                    }
+
+                    .conclusion__input{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+
+                    }
+
+                    .introduction__input{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
 
                     }
 
@@ -344,7 +371,7 @@ export default function CreateNew () {
                         justify-content: center;
                         width: 100%;
 
-                        }
+                      }
 
 
                         .date__input{
@@ -366,22 +393,10 @@ export default function CreateNew () {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
 
                         }
 
 
-                        .introduction__input{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        width: 115%;
-
-
-                        }
 
                         .form-vertical__conclusion {
 
@@ -390,22 +405,9 @@ export default function CreateNew () {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
 
                         }
 
-
-                        .conclusion__input{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        width: 115%;
-
-
-                        }
 
                         .form-vertical__author {
 
@@ -414,22 +416,10 @@ export default function CreateNew () {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
+                        
 
                         }
 
-
-                        .body__input{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        width: 115%;
-
-
-                        }
 
 
                     .title__input{
@@ -446,19 +436,18 @@ export default function CreateNew () {
 
                     /*ERRORES*/
 
-            .form__input-authorError{
+                .form__input-authorError{
 
                 /*Position*/
 
                 position: absolute;
-                margin-left: 22rem;
+                left: 35rem;
 
                 /*Box model*/
 
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                width: 100%;
                 margin-bottom: 2rem;
 
 
@@ -484,31 +473,39 @@ export default function CreateNew () {
 
                 }
 
-                .form__input-authorError--active{
-
-                /*Position*/
-
-                position: absolute;
-                margin-left: 22rem;
-                margin-bottom: 2rem;
-                width: 100%;
+                .error__icon{
 
                 /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
+                margin-left: 1rem;
 
-                /*Text*/
+                }
 
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
+                .form__input-authorError--active{
 
-                /*Visuals*/
+                  /*Position*/
 
-                border-radius: 10px;
-                background-color: ${statusColors.error};
-                opacity: 1;
+                  position: absolute;
+                  margin-left: 23rem;
+                  margin-bottom: 2rem;
+                  width: 22vw;
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+
+                  /*Text*/
+
+                  font-family: 'Poppins', sans-serif;
+                  color: #fafafa;
+
+                  /*Visuals*/
+
+                  border-radius: 10px;
+                  background-color: ${statusColors.error};
+                  opacity: 1;
 
                 }
 
@@ -553,48 +550,40 @@ export default function CreateNew () {
 
                 .form__input-dateError--active{
 
-                /*Position*/
+                  /*Position*/
 
-                position: absolute;
-                margin-left: 20rem;
-                margin-bottom: 2rem;
+                  position: absolute;
+                  margin-left: 20rem;
+                  margin-bottom: 2rem;
 
-                /*Box model*/
+                  /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                width: 100%;
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  width: 100%;
 
-                /*Text*/
+                  /*Text*/
 
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
+                  font-family: 'Poppins', sans-serif;
+                  color: #fafafa;
 
-                /*Visuals*/
+                  /*Visuals*/
 
-                border-radius: 10px;
-                background-color: ${statusColors.error};
-                opacity: 1;
-
-                }
-
-
-                .error__icon{
-
-                /*Box model*/
-
-                margin-left: 1rem;
+                  border-radius: 10px;
+                  background-color: ${statusColors.error};
+                  opacity: 1;
 
                 }
+
+
 
                 .form__error-icon{
 
                   /*Position*/
 
                   position: relative;
-                  right: -1.1rem;
-                  bottom: 0.5rem;
+                  right: -0.5rem;
                   z-index: 999;
 
                   /*Visuals*/
@@ -607,55 +596,55 @@ export default function CreateNew () {
 
                 .form__success-icon{
 
-                /*Position*/
+                  /*Position*/
 
-                position: relative;
-                right: 0.1rem;
-                bottom: 0.5rem;
-                z-index: 999;
+                  position: relative;
+                  right: -0.5rem;
+                  bottom: 0.5rem;
+                  z-index: 999;
 
-                /*Visuals*/
+                  /*Visuals*/
 
-                opacity: 0;
-                color: ${statusColors.success};
+                  opacity: 0;
+                  color: ${statusColors.success};
 
                 }
 
                 .form__error-icon--active{
 
-                /*Position*/
+                  /*Position*/
 
-                position: relative;
-                right: -1.1rem;
-                bottom: 0.5rem;
-                z-index: 999;
+                  position: relative;
+                  right: -1.1rem;
+                  bottom: 0.5rem;
+                  z-index: 999;
 
-                /*Visuals*/
+                  /*Visuals*/
 
-                opacity: 1;
-                color: ${statusColors.error};
+                  opacity: 1;
+                  color: ${statusColors.error};
 
                 }
 
                 .form__success-icon--active{
 
-                /*Position*/
+                  /*Position*/
 
-                position: relative;
-                right: 0.1rem;
-                bottom: 0.5rem;
-                z-index: 999;
+                  position: relative;
+                  right: -1.1rem;
+                  bottom: 0.5rem;
+                  z-index: 999;
 
-                /*Visuals*/
+                  /*Visuals*/
 
-                opacity: 1;
-                color: ${statusColors.success};
+                  opacity: 1;
+                  color: ${statusColors.success};
 
                 }
 
                 .submit__error{
 
-                /*Box model*/
+                  /*Box model*/
 
                   display: none;
 
@@ -672,30 +661,27 @@ export default function CreateNew () {
 
                   .submit__error--active{
 
-                  /*Box model*/
+                    /*Box model*/
 
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  justify-content: center;
-                  padding: 0.5rem;
-                  width: 65%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.5rem;
+                    width: 65%;
 
-                  /*Text*/
+                    /*Text*/
 
-                  font-family: 'Poppins', sans-serif;
-                  color: ${colors.secondary};
+                    font-family: 'Poppins', sans-serif;
+                    color: ${colors.secondary};
 
-                  /*Visuals*/
+                    /*Visuals*/
 
-                  border-radius: 10px;
-                  background-color: ${statusColors.error};
+                    border-radius: 10px;
+                    background-color: ${statusColors.error};
 
                 }
 
-
-
-                    
                     input[type="submit"]{
 
                         /*Box model*/
@@ -713,9 +699,9 @@ export default function CreateNew () {
 
                     /*Box model*/
 
-                    width: 100%;
-                    height: 2rem;
-                    padding: 0.4rem;
+                    width: 40vw;
+                    height: 5vh;
+                    padding: 0.4vw;
                     margin-bottom: 2rem;
 
                     /*Text*/
@@ -741,6 +727,29 @@ export default function CreateNew () {
 
                     }
 
+                    input[type="date"] {
+
+                      /*Box model*/
+
+                      width: 40vw;
+                      height: 5vh;
+                      padding: 0.4vw;
+                      margin-bottom: 2rem;
+
+                      /*Text*/
+
+                      font-family: ${fonts.default};
+                      color: ${colors.primary};
+                      font-size: 1rem;
+
+                      /*Visuals*/
+
+                      border-radius: 5px;
+                      border: 0;
+                      transition: 0.2s ease all;
+
+                      }
+
 
                     ::placeholder{
 
@@ -753,9 +762,9 @@ export default function CreateNew () {
 
                     /*Box model*/
 
-                    width: 100%;
-                    height: 3rem;
-                    padding: 0.4rem;
+                    width: 40vw;
+                    height: 10vh;
+                    padding: 0.4vw;
                     margin-bottom: 2rem;
 
                     /*Text*/

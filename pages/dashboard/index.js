@@ -1,15 +1,15 @@
 import global from '../../styles/global.module.css'
-import { colors } from '../../styles/frontend-conf'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Layout from '../../components/Layout/Layout'
 import Head from 'next/head'
-import { useState } from 'react'
 import Loader from '../../components/Loader/Loader'
 
 export default function Dashboard () {
+
   const { data: session, status } = useSession({ required: true })
   const router = useRouter()
+
   if (status == 'loading') {
     return (
       <>

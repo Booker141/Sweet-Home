@@ -23,6 +23,7 @@
   /*Text*/
 
   font-size: 2rem;
+  font-weight: 550;
   font-family: "Poppins", sans-serif;
 
 }
@@ -60,7 +61,7 @@
 
   font-family: "Raleway", sans-serif;
   font-size: 1.7rem;
-  font-weight: bold;
+  font-weight: 600;
 
 }
 .secondary2 {

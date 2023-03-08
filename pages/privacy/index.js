@@ -191,6 +191,23 @@ export default function Privacy () {
                         font-weight: 400;
                         color: ${colors.primary};
                     }
+
+                    h1{
+                      /*Text*/
+
+                      font-size: 4rem;
+                      font-weight: 600;
+                      background-color: ${colors.primary};
+                      font-family: "Archivo Black", sans-serif;
+                      background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                      background-repeat: repeat;
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent; 
+                      background-size: 100%
+                      text-align: center;
+                      margin: 0;
+                      padding: 0;
+                    }
                 `}
       </style>
     </Layout>
