@@ -47,23 +47,37 @@ export default function News ({ news }) {
         {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>}
         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
-
-        {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, index, title, date, author, introduction }) => {
-          return (
-            <>
-              <div className='new'>
-                <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
-                <Link href={`/news/${index}`} as={`/news/${index}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
-              </div>
-            </>
-          )
-        })}
-
+        <div className="news__list">
+          {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, index, title, date, author, introduction }) => {
+            return (
+              <>
+                <div className='new'>
+                  <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
+                  <Link href={`/news/${index}`} as={`/news/${index}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
+                </div>
+              </>
+            )
+          })}
+        </div>
       </section>
 
       <style jsx>{`
 
+                    .news__list{
 
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+
+
+
+
+                    }
                     .new{
 
                          /*Box model*/
