@@ -6,8 +6,8 @@ export default async function handler (req, res) {
   const db = await client.db()
   const body = req.body
   const data = await db.collection('news').find({}).limit(50).toArray()
-  const last = data.findLast()
-  const index = last.id
+  const index = data.length + 1;
+
   
 
   if (req.method === 'GET') {
@@ -20,7 +20,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'POST') {
 
-    await db.collection('news').insertOne({title: body.title, date: new Date(body.date), introduction: body.introduction, body: body.body, conclusion: body.conclusion, author: body.author, id: index+1 })
+    await db.collection('news').insertOne({title: body.title, date: new Date(body.date), introduction: body.introduction, body: body.body, conclusion: body.conclusion, author: body.author, index })
     res.status(201).json({ message: 'Creada con éxito.' })
 
   }

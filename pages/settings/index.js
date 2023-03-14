@@ -384,7 +384,7 @@ export default function Settings () {
                 <button className={global.buttonSecondary} onClick={(e) => deleteAccount(e)}>Sí</button>
                 <button className={global.buttonTertiary3} onClick={() => setIsModalVisible(false)}>No</button>
               </div>
-                               </Modal>}
+            </Modal>}
           </div>
 
           <div className='saved'>
@@ -1128,6 +1128,22 @@ export default function Settings () {
                 font-family: ${fonts.default};
                 color: ${colors.primary};
             }
+
+            h1{
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                  }
 
 
               ::placeholder {

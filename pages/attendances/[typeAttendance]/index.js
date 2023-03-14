@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useSession, signIn } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import global from '/styles/global.module.css'
+import { colors } from '/styles/frontend-conf.js'
 import Layout from '/components/Layout/Layout'
 import Thread from '/components/Thread/Thread'
 import { server } from '/server'
@@ -138,6 +139,22 @@ export default function TypeAttendance ({ threads }) {
                     gap: 1rem;
                     align-items: center;
                 }
+
+                h1{
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                  }
 
 
                 

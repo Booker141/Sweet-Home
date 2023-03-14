@@ -81,10 +81,12 @@ export default function CreatePost () {
     return (
       <Layout>
         <Head><title>Crear publicación</title></Head>
-          <div className={global.dots}>
+          <div className="create__header">
+            <h1 className="form__title">Crear publicación</h1>
+            <p className={global.text}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
+          </div>
+          <div className="form__position">
             <div className='form'>
-              <h1 className='form__title'>Crear publicación</h1>
-              <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
               <form action='/api/posts' id='form' enctype='multipart/form-data'>
                 <div className='form-vertical__location'>
                   <div className='label'>
@@ -153,15 +155,35 @@ export default function CreatePost () {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                    
-                        width: 100%;
+                        justify-content: center;
+                        width: 50vw;
 
                         /*Visuals*/
 
                         background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
-                        background-size: 100% 110%;
                         border-radius: 20px;
                         
+                    }
+
+                    .form__position{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .create__header{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 3rem;
                     }
 
                     .form__title{
@@ -171,15 +193,8 @@ export default function CreatePost () {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 1rem;
+                        justify-content: center;
 
-                        /*Text*/
-
-                        font-family: 'Satisfy';
-                        font-size: 4rem;
-                        font-weight: 500;
-                        color: ${colors.secondary};
                     }
 
                     .label{
@@ -225,7 +240,13 @@ export default function CreatePost () {
                         border: 1px solid ${colors.primary};
                     }
 
-                
+                    .form-vertical__location {
+
+                        /*Box model*/
+
+                        margin-top: 2rem;
+
+                    }
 
                     .form-vertical__image {
 
@@ -282,6 +303,22 @@ export default function CreatePost () {
                     gap: 1rem;
 
                     }
+
+                    h1{
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                  }
 
                     
                     input[type="submit"]{

@@ -213,7 +213,7 @@ export default function Header (props) {
                     flex-direction: row;
                     align-items: center;
                     justify-content: space-around;
-                    width: 100%;
+                    width: 97.5vw;
                     padding: 0;
                     margin-bottom: 8rem;
 
@@ -396,7 +396,6 @@ export default function Header (props) {
                     /*Text*/
 
                     color: ${colors.secondary};
-                    font-size: 1.5rem;
                     background-color: ${colors.primary};
 
 
@@ -461,8 +460,7 @@ export default function Header (props) {
                     flex-direction: row;
                     align-items: center;
                     justify-content: space-between;
-                    width: 100%;
-                    height: 100%;
+                    width: 97vw;
 
                     margin-bottom: 8rem;
                     margin-left: 0.1rem;
@@ -569,7 +567,6 @@ export default function Header (props) {
                     /*Text*/
 
                     color: ${colors.secondary};
-                    font-size: 1.5rem;
                     background-color: ${colors.primary};
 
 
@@ -694,7 +691,6 @@ export default function Header (props) {
                     /*Text*/
                     
                     color: ${colors.tertiary};
-                    font-size: 1.5rem;
                     
                     
                 }

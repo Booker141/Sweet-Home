@@ -5,12 +5,7 @@ module.exports = (phase, { defaultConfig }) => {
 
   const nextConfig = {
     /* config options here */
-    /* Internacionalización - Cambio de idiomas */
 
-    i18n: {
-      locales: ['es-ES', 'en'],
-      defaultLocale: 'es-ES'
-    },
     images: {
       remotePatterns: [
         {

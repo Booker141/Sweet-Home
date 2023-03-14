@@ -13,4 +13,12 @@ export default async function handler (req, res) {
 
     res.status(200).json(typeAttendanceData);
   }
+
+  if (req.method === 'DELETE') {
+
+    await db.collection('typeAttendance').deleteOne({_id: typeAttendance});
+
+    res.status(200).json({message: 'Categoría eliminada correctamente'});
+
+  }
 }

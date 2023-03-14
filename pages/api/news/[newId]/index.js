@@ -9,7 +9,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'GET') {
     
-    const data = await db.collection('news').findOne({ id: parseInt(req.query.newId) })
+    const data = await db.collection('news').findOne({index: parseInt(req.query.newId)})
 
     const news = JSON.parse(JSON.stringify(data))
 

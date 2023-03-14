@@ -73,28 +73,32 @@ export default function CreateNew () {
             author: author,
           })
       })
+
+      const data = await res.json()
+
+      if (data.error) {
+
+        console.log(data.error)
+        setMessage('Introduzca los campos obligatorios')
+  
+      } else {
+  
+        toast.success('Se ha publicado la noticia', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        Router.push(`${server}/news`)
+  
+      }
     }
 
-    const data = await res.json()
+    
 
-    if (data.error) {
-
-      console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
-
-    } else {
-
-      toast.success('Se ha publicado la noticia', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-      Router.push(`${server}/news`)
-
-    }
+    
   }
 
   if (status === 'loading') {
@@ -109,10 +113,12 @@ export default function CreateNew () {
     return (
       <Layout>
         <Head><title>Crear noticia</title></Head>
-          <div className={global.dots}>
+        <div className='createNew__header'>
+            <h1 className='form__title'>Crear noticia</h1>
+            <p className={global.text}>Introduzca los datos de la noticia. Los campos obligatorios vienen indicados con un asterisco *:</p>
+        </div>
+        <div className='createNew__form'>
             <div className='form'>
-              <h1 className='form__title'>Crear noticia</h1>
-              <p className={global.text2}>Introduzca los datos de la noticia. Los campos obligatorios vienen indicados con un asterisco *:</p>
               <form action='/api/news' id='form'>
                 <div className='form-vertical__title'>
                   <div className='label'>
@@ -230,6 +236,7 @@ export default function CreateNew () {
               <input className={global.buttonPrimary} type='submit' onClick={(e) => createNew(e)} value='Crear' />
           </div>
         </div>
+
         <style jsx>{`
 
                     .form{
@@ -240,7 +247,7 @@ export default function CreateNew () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 100%;
+                        width: 50vw;
 
                         /*Visuals*/
 
@@ -250,6 +257,27 @@ export default function CreateNew () {
                         
                     }
 
+                    .createNew__header{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 3rem;
+                    }
+
+                    .createNew__form{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
                     .form__title{
 
                         /*Box model*/
@@ -257,15 +285,6 @@ export default function CreateNew () {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 1rem;
-
-                        /*Text*/
-
-                        font-family: 'Satisfy';
-                        font-size: 4rem;
-                        font-weight: 500;
-                        color: ${colors.secondary};
                     }
 
                     .label{
@@ -322,6 +341,13 @@ export default function CreateNew () {
                         flex-direction: column;
                         justify-content: center;
 
+                    }
+
+                    .form-vertical__title{
+
+                        /*Box model*/ 
+
+                        margin-top: 2rem;
                     }
 
 
@@ -681,7 +707,22 @@ export default function CreateNew () {
                     background-color: ${statusColors.error};
 
                 }
+                
+                h1{
+                        /*Text*/
 
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                  }
                     input[type="submit"]{
 
                         /*Box model*/

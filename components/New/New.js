@@ -1,7 +1,7 @@
 import global from 'styles/global.module.css'
-import { fonts, colors } from 'styles/frontend-conf.js'
+import { colors } from 'styles/frontend-conf.js'
 import { MdDeleteOutline, MdOutlineEdit} from 'react-icons/md'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
@@ -12,6 +12,16 @@ export default function New (props) {
 
   const { data: session } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+
+  useEffect(() => {
+    if (session !== undefined){
+      if (session.user.role === "admin" ) {
+        setIsAdmin(true);
+      }
+    }
+  }, []);
 
   const deleteNew = async () => {
 
@@ -43,9 +53,9 @@ export default function New (props) {
         <article>
           <div className="new__header">
             <h2 className={global.secondary}>{props.title}</h2>
-            {session.user.role === "admin" && <div className="buttons"><button className='edit__button' onClick={() => Router.push("/editNew")}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+            {isAdmin && <div className="buttons"><button className='edit__button' onClick={() => Router.push("/editNew")}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
-          <h3 className={global.tertiary__bold}>{props.date}</h3>
+          <h3 className={global.tertiary__bold}>{new Date(props.date).toLocaleDateString().slice(0,10)}</h3>
           <h3 className={global.tertiary__bold}>{props.author}</h3>
           <p className={global.text}>{props.introduction}</p>
           <p className={global.text}>{props.body}</p>

@@ -11,13 +11,13 @@ import {toast} from 'react-toastify'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
-export default function CreatePost () {
+export default function CreateTypeAttendance () {
 
   const { data: session, status } = useSession({ required: true })
 
   const Router = useRouter()
-  const [answer, setAnswer] = useState('')
-  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [name, setName] = useState('')
   const [isValidate, setIsValidate] = useState(false)
   const [message, setMessage] = useState('')
   
@@ -25,36 +25,36 @@ export default function CreatePost () {
   const validate = (e) => {
     // Regular expressions
 
-    const regTitle = /^¿?.+\?/g;
+    const regName = /^¿?.+\?/g;
 
-    if (e.target.name === 'title') {
-      if (!title.match(regTitle)) {
-        document.getElementById('title__error').classList.add('form__input-titleError--active')
-        document.getElementById('error__title').classList.add('form__error-icon--active')
-        document.getElementById('success__title').classList.remove('form__success-icon--active')
+    if (e.target.name === 'name') {
+      if (!name.match(regName)) {
+        document.getElementById('name__error').classList.add('form__input-nameError--active')
+        document.getElementById('error__name').classList.add('form__error-icon--active')
+        document.getElementById('success__name').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
-        document.getElementById('title__error').classList.remove('form__input-titleError--active')
-        document.getElementById('error__title').classList.remove('form__error-icon--active')
-        document.getElementById('success__title').classList.add('form__success-icon--active')
+        document.getElementById('name__error').classList.remove('form__input-nameError--active')
+        document.getElementById('error__name').classList.remove('form__error-icon--active')
+        document.getElementById('success__name').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
 
   }
 
-  const createQuestion = async (e) => {
+  const createTypeAttendance = async (e) => {
 
     e.preventDefault()
 
-    const res = await fetch(`${server}/api/questions`, {
+    const res = await fetch(`${server}/api/typeAttendance`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        title: title,
-        answer: answer,
+        name: name,
+        description: description,
       })
     })
 
@@ -64,7 +64,7 @@ export default function CreatePost () {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
     } else {
-      toast.success('Se ha publicado la pregunta', { position: "bottom-right",
+      toast.success('Se ha publicado el tipo de cuidado', { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -72,11 +72,11 @@ export default function CreatePost () {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      Router.push(`${server}/faq`)
+      Router.push(`${server}/attendances`)
     }
   }
 
-  if (status == 'loading') {
+  if (status === 'loading') {
     return (
       <>
         <div className={global.loading}><p className={global.title}>Cargando..</p></div>
@@ -87,64 +87,64 @@ export default function CreatePost () {
   if (session.user.role === "admin") {
     return (
       <Layout>
-        <Head><title>Crear pregunta</title></Head>
-        <div className="createQuestion__header">
-            <h1 className='form__title'>Crear pregunta</h1>
-            <p className={global.text}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
+        <Head><title>Crear tipo de cuidado</title></Head>
+        <div className="createTypeAttendance__header">
+            <h1 className='form__title'>Crear tipo de cuidado</h1>
+            <p className={global.text}>Introduzca los datos del tipo de cuidado. Los campos obligatorios vienen indicados con un asterisco *:</p>
         </div>
           <div className="form__position">
             <div className='form'>
 
-              <form action='/api/questions' id='form'>
-                <div className='form-vertical__title'>
+              <form action='/api/typeAttendance' id='form'>
+                <div className='form-vertical__name'>
                   <div className='label'>
-                    <p className={global.text}>Título (*)</p>
+                    <p className={global.text}>Tipo de cuidado (*)</p>
                     <MdTitle size={18} color={colors.secondary} />
                   </div>
-                  <div className='title__input'>
+                  <div className='name__input'>
                     <input
-                          title='Introducir título'
+                          title='Introducir tipo de cuidado'
                           type='text'
-                          name='title'
-                          value={title}
+                          name='name'
+                          value={name}
                           required
-                          onChange={(e) => setTitle(e.target.value)}
+                          onChange={(e) => setName(e.target.value)}
                           onKeyUp={(e) => validate(e)}
                           onBlur={(e) => validate(e)}
-                          placeholder='p. ej.: ¿Es necesario...?'
+                          placeholder='p. ej.: Alimentación'
                           className='input'
                          />
                   
-                    <div id='error__title' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__title' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    <div id='title__error' className='form__input-titleError'>
+                    <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                    <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                    <div id='name__error' className='form__input-nameError'>
                       <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
-                      <p className={global.text2}>Debe ser una pregunta</p>
+                      <p className={global.text2}>Debe seguir el formato correcto</p>
                     </div>
                   </div>
                 </div>
-                <div className='form-vertical__answer'>
+                <div className='form-vertical__description'>
                   <div className='label'>
-                    <p className={global.text}>Respuesta (*)</p>
+                    <p className={global.text}>Descripción (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
-                  <div className='answer__input'>
+                  <div className='description__input'>
                     <textarea
-                          title='Introducir respuesta'
-                          name='answer'
-                          value={answer}
+                          title='Introducir descripción'
+                          name='description'
+                          value={description}
                           required
-                          onChange={(e) => setAnswer(e.target.value)}
-                          placeholder='p. ej.: Si, es necesario..'
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder='p. ej.: Es importante...'
                         />
                   </div>
 
                 </div>
 
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createQuestion(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createTypeAttendance(e)} value='Crear' />
           </div>
         </div>
         <style jsx>{`
@@ -178,7 +178,7 @@ export default function CreatePost () {
                         
                     }
 
-                    .form__title{
+                    .form__name{
 
                         /*Box model*/
 
@@ -189,14 +189,14 @@ export default function CreatePost () {
 
                     }
 
-                    .createQuestion__header{
+                    .createTypeAttendance__header{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        margin-bottom: 1rem;
+                        margin-bottom: 2rem;
                     }
 
                     .label{
@@ -244,18 +244,18 @@ export default function CreatePost () {
 
                 
 
-                    .form-vertical__answer {
+                    .form-vertical__description {
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
+                        width: 40vw;
 
                     }
 
-                    .form-vertical__title {
+                    .form-vertical__name {
 
                         /*Box model*/
 
@@ -264,19 +264,19 @@ export default function CreatePost () {
                     }
 
 
-                    .answer__input{
+                    .description__input{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
-                        width: 115%;
+                        width: 40vw;
                         
 
                     }
 
-                    .title__input{
+                    .name__input{
 
                         /*Box model*/
 
@@ -288,7 +288,7 @@ export default function CreatePost () {
 
                     /*ERRORES*/
 
-                    .form__input-titleError{
+                    .form__input-nameError{
 
                       /*Position*/
 
@@ -315,7 +315,7 @@ export default function CreatePost () {
                       }
 
 
-                      .form__input-titleError p{
+                      .form__input-nameError p{
 
                       /*Box model*/
 
@@ -323,7 +323,7 @@ export default function CreatePost () {
 
                       }
 
-                      .form__input-titleError--active{
+                      .form__input-nameError--active{
 
                       /*Position*/
 

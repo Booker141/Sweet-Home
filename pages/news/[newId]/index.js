@@ -7,9 +7,8 @@ import New from 'components/New/New'
 import { server } from '/server'
 
 export default function NewsId ({ news }) {
-  const router = useRouter()
 
-  console.log(news)
+  const router = useRouter()
 
   return (
 
@@ -89,6 +88,22 @@ export default function NewsId ({ news }) {
                         margin-bottom: 4rem;
                     }
 
+                    h1{
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                  }
+
                     h2{
 
                         /*Visuals*/
@@ -120,7 +135,9 @@ export default function NewsId ({ news }) {
 }
 
 export async function getServerSideProps (context) {
-  const { newId } = context.query
+
+  const { newId } = context.params;
+
 
   const res = await fetch(`${server}/api/news/${newId}`, {
     method: 'GET',
@@ -134,7 +151,6 @@ export async function getServerSideProps (context) {
   return {
     props: {
       news
-
     }
 
   }

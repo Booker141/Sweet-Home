@@ -15,6 +15,7 @@ export default function CreateThread () {
   const [message, setMessage] = useState('')
 
   const createThread = async (e) => {
+
     e.preventDefault()
 
     const res = await fetch(`${server}/api/threads/${Router.query.typeAttendance}`, {
@@ -47,13 +48,15 @@ export default function CreateThread () {
     return (
       <Layout>
         <Head><title>Crear hilo</title></Head>
-        <div className={global.content}>
-          <div className={global.dots}>
+        <div className="createThread__header">
+          <h1 className="form__title">Crear hilo</h1>
+          <p className={global.text}>Introduzca el título del hilo:</p>
+        </div>
+        <div className="form__position">
             <div className='form'>
-              <h1 className='form__title'>Crear hilo</h1>
-              <p className={global.text2}>Introduzca el título del hilo:</p>
+              
               <form action='/api/posts' id='form'>
-                <div className='form-vertical__email'>
+                <div className='form-vertical__title'>
                   <div className='label'>
                     <p className={global.text}>Título</p>
                     <MdOutlineSubtitles size={25} color={colors.secondary} />
@@ -74,7 +77,6 @@ export default function CreateThread () {
               <input className={global.buttonPrimary} type='submit' onClick={(e) => createThread(e)} value='Crear' />
             </div>
           </div>
-        </div>
         <style jsx>{`
 
                     .form{
@@ -85,7 +87,7 @@ export default function CreateThread () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 100%;
+                        width: 50vw;
 
                         /*Visuals*/
 
@@ -95,6 +97,28 @@ export default function CreateThread () {
                         
                     }
 
+                    .createThread__header{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 2rem;
+                    }
+
+                    .form__position{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
+                    
                     .form__title{
 
                         /*Box model*/
@@ -102,15 +126,7 @@ export default function CreateThread () {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 1rem;
-
-                        /*Text*/
-
-                        font-family: 'Satisfy';
-                        font-size: 4rem;
-                        font-weight: 500;
-                        color: ${colors.secondary};
+                      
                     }
 
                     .label{
@@ -156,6 +172,13 @@ export default function CreateThread () {
                         border: 1px solid ${colors.primary};
                     }
 
+                    .form-vertical__title{
+
+                        /*Box model*/
+
+                        margin-top: 2rem;
+
+                    }
         
 
                     .title__input{
@@ -166,6 +189,22 @@ export default function CreateThread () {
                         flex-direction: row;
                         align-items: center;
                     }
+
+                    h1{
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                  }
 
 
                     input[type="text"] {

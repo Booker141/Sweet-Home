@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
@@ -23,7 +24,18 @@ import { server } from '/server'
 export default function Use ({ questions }) {
 
   const {data: session} = useSession({});
+
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+
+    if(session !== undefined){
+      if(session.user.role === "admin"){
+        setIsAdmin(true);
+      }
+    }
+  },[]);
 
   return (
     <Layout>
@@ -34,7 +46,7 @@ export default function Use ({ questions }) {
         <div className='top__image'>
           <Image src={faq1} alt='Imagen de un perro mirando al frente' priority />
         </div>
-        {session.user.role === 'admin' && <button className={global.buttonPrimary} onClick={() => router.push('/createQuestion')}>Crear pregunta</button>}
+        {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push('/createQuestion')}>Crear pregunta</button>}
 
         {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
@@ -68,8 +80,7 @@ export default function Use ({ questions }) {
                       -webkit-text-fill-color: transparent; 
                       background-size: 100%
                       text-align: center;
-                      margin: 0;
-                      padding: 0;
+                      
                     
                     }
 

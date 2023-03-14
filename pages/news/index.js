@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import global from 'styles/global.module.css'
@@ -23,8 +24,18 @@ import { server } from '../../server'
  */
 export default function News ({ news }) {
 
-  const {data: session} = useSession({});
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const {data: session} = useSession({required: false});
   const router = useRouter();
+
+  useEffect(() => {
+
+      if(session.user.role === "admin"){
+        setIsAdmin(true);
+      }
+
+  },[]);
 
   return (
     <Layout>
@@ -33,16 +44,16 @@ export default function News ({ news }) {
 
       <section>
         <h1 className={global.title}>¡Últimas noticias de Sweet Home!</h1>
-        {session.user.role === "admin" && <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>}
+        {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>}
         {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
 
-        {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, id, title, date, author, introduction }) => {
+        {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, index, title, date, author, introduction }) => {
           return (
             <>
               <div className='new'>
                 <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
-                <Link href={`/news/${id}`} as={`/news/${id}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
+                <Link href={`/news/${index}`} as={`/news/${index}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
               </div>
             </>
           )
@@ -103,7 +114,18 @@ export default function News ({ news }) {
 
                         /*Text*/
 
-                        font-size: 2rem;
+                        font-size: 4rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        
+                    
                     }
 
                     button{
@@ -187,6 +209,7 @@ export default function News ({ news }) {
 }
 
 export async function getServerSideProps () {
+
   const res = await fetch(`${server}/api/news`, {
     method: 'GET',
     headers: {

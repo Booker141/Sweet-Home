@@ -1,7 +1,7 @@
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
 import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
 import {toast} from 'react-toastify'
@@ -18,6 +18,13 @@ export default function Question (props) {
 
   const { data: session } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+      if (session.user.role === "admin" ) {
+        setIsAdmin(true);
+      }
+  }, []);
 
   const deleteQuestion = async () => {
 
@@ -45,10 +52,11 @@ export default function Question (props) {
     <>
 
       <div key={props._id} className={global.question}>
-        <div className="question__header">
-          <h2 className={global.secondary2}>{props.title}</h2>
-          {session.user.role === "admin" && <div className="header__buttons"><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button><button className='edit__button' onClick={() => Router.push("/editQuestion/")}><MdOutlineEdit size={20} color={colors.secondary} /></button></div>}
-        </div>
+
+          <div className="question__header">
+            <h2 className={global.secondary2}>{props.title}</h2>
+            {isAdmin && <div className="header__buttons"><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button><button className='edit__button' onClick={() => Router.push("/editQuestion/")}><MdOutlineEdit size={20} color={colors.secondary} /></button></div>}
+          </div>
         <p className={global.text2}>{props.answer}</p>
       </div>
       {isModalVisible && <Modal>
@@ -61,6 +69,7 @@ export default function Question (props) {
       </Modal>}
 
       <style jsx>{`
+
 
         .question__header{
 
@@ -107,13 +116,16 @@ export default function Question (props) {
 
         .header__buttons{
 
+
           /*Box model*/
 
           display: flex;
           flex-direction: row;
           align-items: center;
+          
           margin-top: 0.5rem;
-
+          
+        
         }
 
         .buttons{

@@ -278,8 +278,9 @@ export default function Principal () {
             /*Box model*/
 
             display: block;
-            width: 100%;
-            height: 40rem;
+            width: 99vw;
+            height: 96.5vh;
+            margin-bottom: 2rem;
 
             /*Visuals*/
 
@@ -542,7 +543,7 @@ export default function Principal () {
               font-weight: bold;
               background-color: ${colors.primary};
               font-family: "Archivo Black", sans-serif;
-              background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+              background-image: linear-gradient(180deg, #f0810f, #ffe45c);
               background-repeat: repeat;
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent; 
