@@ -602,7 +602,7 @@ export default function Header (props) {
 
                     cursor: pointer;
                     background-color: ${colors.primary};
-                    border-radius: 5px;
+                    border-radius: 50px;
                     border: none;
                     
                     
@@ -642,7 +642,7 @@ export default function Header (props) {
                     /*Visuals*/
 
                     cursor: pointer;
-                    border-radius: 5px;
+                    border-radius: 50px;
                     border: none;
                     background-color: #ffe0b8;
                     
