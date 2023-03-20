@@ -47,6 +47,20 @@
 
 }
 
+.title5{
+
+  /*Text*/
+
+  font-size: 3.5rem;
+  font-weight: 600;
+  font-family: "Archivo Black", sans-serif;
+  color: white;
+  background-repeat: repeat;
+  background-size: 100%;
+  text-align: center;
+
+}
+
 .secondary {
   /*Text*/
 

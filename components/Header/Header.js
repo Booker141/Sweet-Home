@@ -139,7 +139,7 @@ export default function Header (props) {
           </ul>}
 
         {isModalVisible && <Modal>
-          <h2 className={global.title3}>Cerrar sesión</h2>
+          <h2 className={global.title5}>Cerrar sesión</h2>
           <p className={global.text2}>¿Estás seguro de que quieres cerrar sesión?</p>
           <div className='buttons'>
             <button className={global.buttonSecondary} onClick={() => signOut()}>Sí</button>
@@ -425,8 +425,9 @@ export default function Header (props) {
             <Link href={props.url2} as={props.url2} passHref><a aria-label='Ir a ${text2}'>{props.text2}</a></Link>
             <Link href={props.url3} as={props.url3} passHref><a aria-label='Ir a ${text3}'>{props.text3}</a></Link>
           </div>
-          <ThemeButton />
+          
           <div className='header__buttons'>
+            <ThemeButton />
             <button className='button1' onClick={() => handleClick()}><a>{props.text4}</a></button>
             {router.route !== '/auth/signIn' && router.route !== '/auth/signUp' && router.route !== '/auth/signUpCare' && <button className='button2' onClick={() => router.push('/auth/signUp')}><a>{props.text5}</a></button>}
           </div>

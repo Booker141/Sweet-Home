@@ -524,7 +524,6 @@ export default function SignUp () {
           align-items: center;
           justify-content: center;
           margin-bottom: 1rem;
-          margin-top: 0;
 
         }
 
@@ -1018,6 +1017,7 @@ export default function SignUp () {
 
               display: flex;
               flex-direction: column;
+              align-items: center;
               justify-content: center;
               margin-top: 13rem;
               margin-bottom: 13rem;

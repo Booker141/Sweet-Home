@@ -72,7 +72,7 @@ export default function Carousel () {
             </a>
             <div className='item__text'>
               <h2 className={global.title3}>{title}</h2>
-              <h3 className='text__date'>{date}</h3>
+              <h3 className='text__date'>{new Date(date).toLocaleDateString().slice(0,10)}</h3>
               <h3 className='text__date'>{author}</h3>
               <p className='text__paragraph'>{introduction}</p>
               <button className={global.buttonTertiary} onClick={() => { router.push(`/news/${id}`) }}>Saber más</button>
