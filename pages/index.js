@@ -279,7 +279,7 @@ export default function Principal () {
 
             display: block;
             width: 99vw;
-            height: 96.5vh;
+            height: 40rem;
             margin-bottom: 2rem;
 
             /*Visuals*/
