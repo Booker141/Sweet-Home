@@ -24,6 +24,7 @@ export const authOptions = {
       id: 'credentials',
       name: 'Credentials',
       async authorize (credentials) {
+        
         const { email, password } = credentials
         const client = await clientPromise
         const db = await client.db()

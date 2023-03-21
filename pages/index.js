@@ -63,7 +63,7 @@ export default function Principal () {
           <div className='container1__video' />
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '40rem', objectFit: 'cover', zIndex: '-99', translate: 'transform(-50%,-50%)', borderRadius: '0 0 30px 30px' }}
+            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '40rem', objectFit: 'cover', zIndex: '-99', translate: 'transform(-50%,-50%)', borderRadius: '0 0 30px 30px', marginBottom: '3rem' }}
           >
             <source src='/videos/video1.mp4' />
           </video>
@@ -322,8 +322,9 @@ export default function Principal () {
 
             display: flex;
             flex-direction: column;
+            justify-content: center;
             line-height: 3.5rem;
-            margin: 2rem;
+            margin-top: 3rem;
 
           }
 
