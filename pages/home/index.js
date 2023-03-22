@@ -25,6 +25,7 @@ import { server } from '/server'
  * @returns An array of objects.
  */
 export default function Home ({ posts, users }) {
+  
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState(posts)
   const [isSortedByUsername, setIsSortedByUsername] = useState(false)

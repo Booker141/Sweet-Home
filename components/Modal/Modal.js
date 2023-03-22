@@ -39,8 +39,8 @@ export default function Modal ({ children }) {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 50vw;
-            height: 60vh;
+            width: 40vw;
+            height: 45vh;
 
             /*Visuals*/
 

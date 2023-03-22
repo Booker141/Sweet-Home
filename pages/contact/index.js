@@ -155,6 +155,7 @@ export default function Contact () {
                         margin-bottom: 2rem;
 
                         color: ${colors.secondary};
+                        font-family: ${fonts.default};
 
                         
                     }

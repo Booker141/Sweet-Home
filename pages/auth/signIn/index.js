@@ -7,6 +7,7 @@ import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import Header from 'components/Header/Header'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
+import Loader from 'components/Loader/Loader'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
@@ -26,6 +27,7 @@ import { server } from '/server'
  * @returns A React component.
  */
 export default function SignIn ({ providers, csrfToken }) {
+
   const { data: session, status } = useSession()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -102,6 +104,7 @@ export default function SignIn ({ providers, csrfToken }) {
   * @returns The user is being returned to the home page.
   */
   const Login = async (e) => {
+    
     e.preventDefault()
 
     document.getElementById('submit__error').classList.remove('submit__error--active')
@@ -119,6 +122,14 @@ export default function SignIn ({ providers, csrfToken }) {
     }
   }
 
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
   return (
 
     <>
@@ -136,7 +147,7 @@ export default function SignIn ({ providers, csrfToken }) {
             <div className='page__video' />
             <video
               autoPlay loop muted
-              style={{ position: 'absolute', width: '70rem', height: '80rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
+              style={{ position: 'absolute', width: '90vw', height: '80rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
             >
               <source src='/videos/video2.mp4' />
             </video>
@@ -283,7 +294,7 @@ export default function SignIn ({ providers, csrfToken }) {
               /*Box model*/
 
               display: block;
-              width: 70rem;
+              width: 90vw;
               height: 80rem;
 
               /*Visuals*/

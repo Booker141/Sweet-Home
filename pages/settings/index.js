@@ -389,7 +389,8 @@ export default function Settings () {
 
           <div className='saved'>
             <h1 className={global.title}>Guardados</h1>
-            <div className='saved__content' />
+            <div className='saved__content'>
+            </div>
           </div>
 
           <div className='complaints'>

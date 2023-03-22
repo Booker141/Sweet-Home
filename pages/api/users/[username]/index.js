@@ -5,6 +5,7 @@ export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()
   const user = await db.collection('users').findOne({ username: req.query.username })
+  const account = await db.collection('accounts').findOne({ username: req.query.username })
   const body = req.body
 
   console.log(user)
@@ -40,6 +41,24 @@ export default async function handler (req, res) {
       following: user.following,
       isCaretaker: user.isCaretaker,
       pets: user.pets
+    })
+    await db.collection('accounts').replaceOne({ username: req.query.username }, {
+      _id: account._id,
+      provider: account.provider,
+      type: account.type,
+      access_token: account.access_token,
+      expires_at: account.expires_at,
+      scope: account.scope,
+      token_type: account.token_type,
+      refresh_token: account.refresh_token,
+      providerAccountId: account.providerAccountId,
+      email: user.email,
+      firstname: body.firstname,
+      lastname: body.lastname,
+      username: user.username,
+      image: user.image,
+      createdAt: account.createdAt,
+      userId: user._id
     })
 
     res.status(201).json({ message: 'Se ha guardado la información correctamente' })

@@ -22,6 +22,7 @@ import { server } from '/server'
 */
 
 export default function SignUp () {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -38,6 +39,7 @@ export default function SignUp () {
    * the input type to password
    */
   const showPassword = () => {
+
     const passwordInput = document.getElementById('password')
 
     if (passwordInput.type === 'password') {
@@ -194,7 +196,7 @@ export default function SignUp () {
           <div className='page__video' />
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', width: '70rem', height: '110rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
+            style={{ position: 'absolute', width: '90vw', height: '110rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
           >
             <source src='/videos/video2.mp4' />
           </video>
@@ -203,7 +205,7 @@ export default function SignUp () {
               <h2>¡Bienvenido a Sweet Home!</h2>
 
               <p className={global.text}>Introduzca los siguientes datos:</p>
-            </div>
+            
 
             <form className='form-vertical' action='/api/register' id='form'>
               <div className='form-vertical__email'>
@@ -295,7 +297,7 @@ export default function SignUp () {
                 </div>
 
               </div>
-              <div classname='form-vertical__username'>
+              <div className='form-vertical__username'>
                 <div className='label'>
                   <p className={global.text}>Nombre de usuario</p>
                   <FaUser size={20} color={colors.secondary} />
@@ -326,7 +328,7 @@ export default function SignUp () {
                 </div>
 
               </div>
-              <div classname='form-vertical__password'>
+              <div className='form-vertical__password'>
                 <div className='label'>
                   <p className={global.text}>Contraseña</p>
                   <BsFillLockFill size={25} color={colors.secondary} />
@@ -387,6 +389,7 @@ export default function SignUp () {
               <Link href='/auth/signUpCare'><a aria-label='Ir a formulario de registro de cuidadora'>Registrate aquí</a></Link>
             </div>
           </div>
+          </div>
         </div>
       </div>
       <BasicFooter
@@ -441,7 +444,7 @@ export default function SignUp () {
           /*Box model*/
 
           display: block;
-          width: 70rem;
+          width: 90vw;
           height: 110rem;
 
           /*Visuals*/
@@ -466,7 +469,7 @@ export default function SignUp () {
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              width: 40rem;
+              width: 35rem;
               margin-bottom: 2rem;
               margin-top: 3rem;
 
@@ -1027,28 +1030,40 @@ export default function SignUp () {
 
         }
 
-        .form-vertical__username {
 
-            /*Box model*/
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
+        .form-vertical__email{
+
+            /*Box model*/ 
+
+            margin-left: 3rem;
+
+        }
+
+        .form-vertical__name{
+
+          /*Box model*/ 
+
+          margin-left: 3rem;
 
         }
 
-        .form-vertical__password {
+        .form-vertical__lastname{
 
-            /*Box model*/
+          /*Box model*/ 
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
+          margin-left: 3rem;
 
         }
+
+        .form-vertical__username{
+
+          /*Box model*/ 
+
+          margin-left: 3rem;
+
+        }
+
 
         .form-vertical__button {
 

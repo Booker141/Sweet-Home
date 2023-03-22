@@ -8,6 +8,7 @@ import { fonts, colors } from 'styles/frontend-conf.js'
 import Header from 'components/Header/Header'
 import Carousel from 'components/Carousel/Carousel'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
+import Loader from 'components/Loader/Loader'
 import { AiOutlineMobile, AiOutlineTablet } from 'react-icons/ai'
 import { ImArrowUp2 } from 'react-icons/im'
 import { BsLaptop } from 'react-icons/bs'
@@ -22,9 +23,18 @@ import component2 from '../public/component2-home.svg'
 import component3 from '../public/component3-home.svg'
 
 export default function Principal () {
+
   const { data: session, status } = useSession({ required: false })
   const router = useRouter()
 
+  if (status == 'loading') {
+    return (
+      <>
+        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <Loader />
+      </>
+    )
+  }
   return (
 
     <>
@@ -72,6 +82,7 @@ export default function Principal () {
         <div className='content__container2'>
           <div className='container2__column1'>
             <h1>¡Únete ahora a nuestra <span className={global.colorized}>comunidad</span>!</h1>
+            <p className={global.text}>¡Disfruta de todos los beneficios que te ofrece  <span className={global.colorized}>&nbsp; Sweet Home &nbsp; </span> creándote una cuenta ahora mismo!</p>
             <button className={global.buttonPrimary} onClick={() => router.push('/auth/signUp')}>Regístrate ➤</button>
             <p className='subtext'>La mayor comunidad de amantes de los animales 🐾</p>
           </div>
@@ -240,9 +251,7 @@ export default function Principal () {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
-            margin-bottom: 10rem;
+            margin-bottom: 13rem;
 
           }
 
@@ -307,6 +316,7 @@ export default function Principal () {
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            margin-top: 2rem;
             gap: 10rem;
             margin-bottom: 3rem;
 
@@ -325,6 +335,13 @@ export default function Principal () {
             justify-content: center;
             line-height: 3.5rem;
             margin-top: 3rem;
+            padding: 3rem;
+
+            /*Visuals*/
+
+            border: 1px solid ${colors.primary};
+            box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
+            border-radius: 50px;
 
           }
 
@@ -332,11 +349,22 @@ export default function Principal () {
 
             /*Box model*/
 
-            margin-bottom: 4rem;
+            margin-bottom: 1rem;
 
             /*Text*/
 
             font-size: 2.5rem;
+
+
+          }
+
+          .container2__column1 p:first-of-type{
+
+            /*Box model*/
+
+            margin-left: 0;
+            margin-right: 0
+            margin-bottom: 1.5rem;
 
 
           }
@@ -544,7 +572,7 @@ export default function Principal () {
               font-weight: bold;
               background-color: ${colors.primary};
               font-family: "Archivo Black", sans-serif;
-              background-image: linear-gradient(180deg, #f0810f, #ffe45c);
+              background-image: linear-gradient(180deg, #f0810f, #ffe45c 130%);
               background-repeat: repeat;
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent; 
