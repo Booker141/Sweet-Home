@@ -80,7 +80,7 @@ export default function Header (props) {
             <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><RiNotification4Line /></a></Link></li>
             <li><SearchBar color={colors.secondary}/></li>
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={10} color={colors.secondary} /></a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={22} color={colors.secondary} /></a>
               <ul className='menu'>
                 <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
@@ -104,7 +104,7 @@ export default function Header (props) {
             <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
             <li><Link href='/dashboard' as='/dashboard'><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={22} color={colors.secondary} /></a>
               <ul className='menu'>
                 <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
@@ -127,7 +127,7 @@ export default function Header (props) {
             <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
             <li><Link href='/statistics' as='/statistics'><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={22} color={colors.secondary} /></a>
               <ul className='menu'>
                 <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
@@ -156,7 +156,9 @@ export default function Header (props) {
 
                     /*Box model*/
 
-                    margin-bottom: 1rem;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
                     
                     /*Text*/
 
@@ -362,6 +364,7 @@ export default function Header (props) {
                     flex-direction: row;
                     justify-content: space-between;
                     margin-top: 2rem;
+                    margin-bottom: 2rem;
                 }
 
 
@@ -374,9 +377,6 @@ export default function Header (props) {
 
                 a{
 
-                    /*Box model*/
-
-                    margin-bottom: 1rem;
 
                     /*Text*/
 

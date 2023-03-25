@@ -8,13 +8,12 @@ export default async function handler (req, res) {
 
   if (req.method === 'GET') {
 
-    const data = await db.collection('users').find({}).toArray()
+    const data = await db.collection('users').find({}).limit(50).toArray()
 
     const users = JSON.parse(JSON.stringify(data))
 
     res.status(200).json(users)
-
+    
   }
-
 
 }

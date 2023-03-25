@@ -1,5 +1,5 @@
 import global from '/styles/global.module.css'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import Image from 'next/image'
 import {server} from '/server'
 import Modal from '/components/Modal/Modal'
@@ -18,10 +18,13 @@ export default function BlockedUser (props) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
-      }
-    })
+      },
+      body: JSON.stringify({
+        _id: props._id
+      })})
 
-    toast.success(`Se ha revisado la denuncia`, { position: "bottom-right",
+
+    toast.success(`Se ha revisado el bloqueo`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -36,35 +39,6 @@ export default function BlockedUser (props) {
 
   }
 
-  async function getUsers () {
-
-    const response = await fetch(`${server}/api/users/${props.usernameFrom}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const response2 = await fetch(`${server}/api/users/${props.usernameTo}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const data = await response.json()
-    const data2 = await response2.json()
-    console.log(data)
-
-    setUser(data);
-    setUser2(data2);
-
-  }
-  useEffect( () => {
-
-    getUsers();
-
-  }, []);
 
   return (
       <>
