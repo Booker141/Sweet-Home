@@ -1,13 +1,37 @@
 import global from '/styles/global.module.css'
+import {colors} from '/styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
+import {useState, useEffect} from 'react'
 import Complaint from "/components/Complaint/Complaint"
+import Loader from '/components/Loader/Loader'
 import {server} from "/server"
 
 export default function Complaints ({complaints}){
 
     const {data: session, status} = useSession({required: true})
+    const [blockedUsers, setBlockedUsers] = useState({})
+
+    async function getBlockedUsers() {
+
+        const response = await fetch(`${server}/api/blockedUsers`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        })
+    
+        const data = await response.json()
+    
+        setBlockedUsers(data);
+    }
+
+    useEffect(() => {
+
+        getBlockedUsers();
+
+    }, []);
 
     if (status == 'loading') {
         return (
@@ -22,20 +46,47 @@ export default function Complaints ({complaints}){
 
             <Layout>
                 <Head>
-                    <title>Denuncias</title>
+                    <title>Panel de denuncias</title>
                 </Head>
-                <div className='complaints'>
-                    <h1 className={global.title4}>Denuncias</h1>
-                    {complaints.length === 0 && <div><p className={global.loading}>No hay denuncias que revisar..</p></div>}
-                    {complaints.map(({_id, description, adminId, createdAt, isApproved, isChecked, userIdFrom, userIdTo}) => {
-                        return(
-                            <>
-                                <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
-                            </> 
-                    )})}
+                <div className="content">
+                <div className="content__column1">
+                  <div className='complaints'>
+                      <h1 className="title">Denuncias</h1>
+                      {complaints.length === 0 && <div><p className={global.loading}>No hay denuncias que revisar..</p></div>}
+                      {complaints.map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
+                          return(
+                              <>
+                                  <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
+                              </> 
+                      )})}
+                  </div>
+                </div>
+                <div className="content__column2">
+                    <h1 className="title">Bloquear usuarios</h1>
+
+                </div>
                 </div>
 
                 <style jsx>{`
+
+                    .content{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 6rem;
+                        padding: 3rem;
+
+                        /*Visuals*/
+
+                        border: 1px solid ${colors.primary};
+                        border-radius: 20px;
+                        box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
+
+
+                    }
 
                     .complaints{
 
@@ -47,6 +98,24 @@ export default function Complaints ({complaints}){
                         margin-top: 2rem;
                         margin-bottom: 1rem;
 
+                    }
+
+                    .title{
+
+                      /*Text*/
+
+                      font-size: 3.5rem;
+                      font-weight: bold;
+                      background-color: ${colors.primary};
+                      font-family: "Archivo Black", sans-serif;
+                      background-image: linear-gradient(180deg, #f0810f, #ffe45c 130%);
+                      background-repeat: repeat;
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent; 
+                      background-size: 100%
+                      text-align: center;
+                      margin-bottom: 3rem;
+                      padding: 0;
                     }
 
                 `}
@@ -85,7 +154,7 @@ export default function Complaints ({complaints}){
 
 export async function getServerSideProps(){
 
-    const res = await fetch(`${server}/complaints`, {
+    const res = await fetch(`${server}/api/complaints`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -96,7 +165,7 @@ export async function getServerSideProps(){
 
     return {
         props: {
-            complaints
+            complaints: JSON.parse(JSON.stringify(complaints))
         }
     }
 }

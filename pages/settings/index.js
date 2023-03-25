@@ -13,6 +13,7 @@ import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
 export default function Settings () {
+
   const { data: session, status } = useSession({ required: true })
   const [user, setUser] = useState({})
   const [name, setName] = useState('')
@@ -51,9 +52,10 @@ export default function Settings () {
         }
       }).catch(err => console.log(err))
 
-      const complaintsList = await complaints.json()
-      const petsList = await pets.json();
+      const complaintsList = await JSON.parse(JSON.stringify(complaints.json()));
+      const petsList = await JSON.parse(JSON.stringify(pets.json()));
 
+      console.log(complaintsList)
       console.log(currentUser);
 
       setComplaints(complaintsList)
@@ -397,10 +399,10 @@ export default function Settings () {
             <h1 className={global.title}>Denuncias</h1>
             <div className='complaints__content'>
               {complaints.length === 0 && <div><p className={global.loading2}>No ha interpuesto ninguna denuncia</p></div>}
-              {complaints.map(({ _id, description, adminId, createdAt, isApproved, isChecked, userIdFrom, userIdTo }) => {
+              {complaints.map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
                 return (
                   <>
-                    <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} userIdFrom={userIdFrom} userIdTo={userIdTo} />
+                    <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
                   </>
                 )
               })}

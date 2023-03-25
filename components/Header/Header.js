@@ -8,6 +8,7 @@ import { fonts } from 'styles/frontend-conf.js'
 import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
 import { RiChat3Line, RiSettings4Fill, RiNotification4Line } from 'react-icons/ri'
 import { BsPatchCheckFill } from 'react-icons/bs'
+import {MdKeyboardArrowDown} from 'react-icons/md'
 import SearchBar from "components/SearchBar/SearchBar"
 import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
 import Modal from 'components/Modal/Modal'
@@ -79,7 +80,7 @@ export default function Header (props) {
             <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><RiNotification4Line /></a></Link></li>
             <li><SearchBar color={colors.secondary}/></li>
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} ▽</a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={10} color={colors.secondary} /></a>
               <ul className='menu'>
                 <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
@@ -216,6 +217,7 @@ export default function Header (props) {
                     width: 97.5vw;
                     padding: 0;
                     margin-bottom: 8rem;
+                    margin-left: 0.5rem;
 
 
                     /*Visuals*/
@@ -455,6 +457,7 @@ export default function Header (props) {
                     top: 0;
                     left: 0;
 
+
                     /*Box model*/
 
                     display: flex;  
@@ -464,7 +467,7 @@ export default function Header (props) {
                     width: 97vw;
 
                     margin-bottom: 8rem;
-                    margin-left: 0.1rem;
+                    margin-left: 0.6rem;
 
                     /*Visuals*/
 
