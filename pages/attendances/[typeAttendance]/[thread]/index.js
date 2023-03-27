@@ -49,7 +49,7 @@ export default function Thread ({ attendances }) {
   if (status == 'loading') {
     return (
       <>
-        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <div className={global.loading}><p>Cargando..</p></div>
         <Loader />
       </>
     )

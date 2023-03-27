@@ -30,12 +30,12 @@ function Error ({ statusCode }) {
           <div className='error'>
             <div className='first-line'>
               <MdPets size={35} color={colors.primary} className='icon' />
-              <h1 className={global.title}>Error {statusCode}</h1>
+              <h1 className="title">Error {statusCode}</h1>
               <MdPets size={35} color={colors.primary} className='icon' />
             </div>
 
             <div className='second-line'>
-              <h1 className={global.title}>
+              <h1 className="title">
                 Vaya... este perro se ha comido la página
               </h1>
               <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
@@ -45,6 +45,22 @@ function Error ({ statusCode }) {
           </div>
         </div>
         <style jsx>{`
+
+          .title{
+
+            /*Text*/
+
+            font-size: 3.5rem;
+            font-weight: 600;
+            background-color: ${colors.primary};
+            font-family: "Archivo Black", sans-serif;
+            background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+            background-repeat: repeat;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; 
+            background-size: 100%
+            text-align: center;
+          }
 
           .text{
 

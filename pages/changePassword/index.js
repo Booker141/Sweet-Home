@@ -20,6 +20,7 @@ import { server } from '/server'
  * @returns A form with two inputs and a submit button.
  */
 export default function ChangePassword () {
+  
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [newPassword2, setNewPassword2] = useState('')

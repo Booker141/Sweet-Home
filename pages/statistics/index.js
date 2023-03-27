@@ -1,52 +1,148 @@
 import Layout from '/components/Layout/Layout'
 import Head from 'next/head'
 import global from '/styles/global.module.css'
+import {useState} from 'react'
 import {colors} from '/styles/frontend-conf'
 import { useSession } from 'next-auth/react'
-import {Chart} from 'chart.js';
+import {BarChart} from '/components/BarChart/BarChart';
+import {RadarChart} from '/components/RadarChart/RadarChart';
+import {PolarAreaChart} from '/components/PolarAreaChart/PolarAreaChart';
 import Loader from '/components/Loader/Loader'
 
 export default function Statistics () {
 
   const { data: session, status } = useSession({ required: true })
+  const [data, setData] = useState({})
 
-  function Charts(){
-
-    const ctx1 = document.getElementById('numPosts');
-    const ctx2 = document.getElementById('numLikes');
-    const ctx3 = document.getElementById('numThreads');
-    const ctx4 = document.getElementById('numComments');
-    const ctx5 = document.getElementById('numUsers');
-    const ctx6 = document.getElementById('numComplaints');
-    const ctx7 = document.getElementById('postUser');
-    const ctx8 = document.getElementById('followersUser');
-    const ctx9 = document.getElementById('newUsers');
-    const ctx10 = document.getElementById('threadsTypeAttendance');
-    
-
-    new Chart(ctx1, {
-      type: 'bar',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
+  const getData = async () => {
+    const res = await fetch('/api/getStatistics')
+    const data = await res.json()
+    return data
   }
+
+  const barData = {
+    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+    datasets: [
+      {
+        label: 'Registros',
+        data: [12, 19, 3, 5, 2, 3, 10],
+        backgroundColor: [
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+        ],
+        borderColor: [
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+        ],
+        borderWidth: 1,
+      },
+    ],    
+  }
+
+  const barOptions = {
+    indexAxis: 'y',
+    elements: {
+      bar: {
+        borderWidth: 2,
+      },
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Registros por día',
+      },
+    },
+  }
+
+  const radarData = {
+    labels: ['Alimentación', 'Higiene', 'Ocio', 'Salud', 'Educación'],
+    datasets: [
+      {
+        label: 'Cantidad de hilos por tipo de cuidado',
+        data: [12, 19, 3, 5, 2],
+        backgroundColor: [
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+        ],
+        borderColor: [
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const radarOptions = {
+
+    elements: {
+      line: {
+        borderWidth: 3
+      }
+    }
+  }
+
+  const polarData = {
+    labels: ['Alimentación', 'Higiene', 'Ocio', 'Salud', 'Educación'],
+    datasets: [
+      {
+        label: 'Cantidad de hilos por tipo de cuidado',
+        data: [12, 19, 3, 5, 2],
+        backgroundColor: [
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+        ],
+        borderColor: [
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+          '#f0810f',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const polarOptions = {
+
+    elements: {
+      line: {
+        borderWidth: 3
+      }
+    }
+  }
+
+
+
+
   if (status == 'loading') {
     return (
       <>
-        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <div className={global.loading}><p>Cargando..</p></div>
         <Loader />
       </>
     )
@@ -56,17 +152,9 @@ export default function Statistics () {
       <Layout>
         <Head><title>Estadísticas</title></Head>
         <h1 className="title">Estadísticas</h1>
-        {Charts()}
-        <canvas id="numPosts"></canvas>
-        <canvas id="numLikes"></canvas>
-        <canvas id="numThreads"></canvas>
-        <canvas id="numComments"></canvas>
-        <canvas id="numUsers"></canvas>
-        <canvas id="numComplaints"></canvas>
-        <canvas id="postUser"></canvas>
-        <canvas id="followersUser"></canvas>
-        <canvas id="newUsers"></canvas>
-        <canvas id="threadsTypeAttendance"></canvas>
+        <BarChart data={barData} options={barOptions}/>
+        <RadarChart data={radarData} options={radarOptions}/>
+        <PolarAreaChart data={polarData} options={polarOptions}/>
         <style jsx>{`
           .title{
 

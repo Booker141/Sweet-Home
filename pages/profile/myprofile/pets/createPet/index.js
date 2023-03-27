@@ -45,7 +45,7 @@ export default function CreatePet () {
   }
 
   if (status == 'loading') {
-    return <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+    return <div className={global.loading}><p>Cargando..</p></div>
   }
   if (session) {
     return (
