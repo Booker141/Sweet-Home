@@ -8,11 +8,16 @@ import Complaint from "/components/Complaint/Complaint"
 import Loader from '/components/Loader/Loader'
 import {server} from "/server"
 
+
 export default function Complaints ({complaints}){
 
     const {data: session, status} = useSession({required: true})
     const [blockedUsers, setBlockedUsers] = useState({})
 
+   /**
+    * It fetches the data from the server and sets the state of the blockedUsers array to the data that
+    * was fetched.
+    */
     async function getBlockedUsers() {
 
         const response = await fetch(`${server}/api/blockedUsers`, {
