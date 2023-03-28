@@ -6,6 +6,11 @@ import Layout from '../../components/Layout/Layout'
 import Head from 'next/head'
 import Loader from '../../components/Loader/Loader'
 
+/**
+ * This function is the dashboard of the administrator, it is only accessible to the administrator, if
+ * the user is not an administrator, it will be redirected to the login page
+ * @returns a component.
+ */
 export default function Dashboard () {
 
   const { data: session, status } = useSession({ required: true })

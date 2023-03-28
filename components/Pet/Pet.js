@@ -1,5 +1,17 @@
 import global from '../../styles/global.module.css'
 
+/**
+ * It returns a div with a class of pet, which contains a div with a class of pet__header, which
+ * contains a div with a class of pet__image, which contains the image prop, and a div with a class of
+ * pet__info, which contains a div with a class of pet__name, which contains an h1 with a class of
+ * text2, which contains the text "Nombre: " and the name prop, and a div with a class of pet__animal,
+ * which contains an h1 with a class of text2, which contains the text "Animal: " and the animal prop,
+ * and a div with a class of pet__breed, which contains an h1 with a class of text2, which contains the
+ * text "Raza: " and the breed prop, and a div with a class of pet__age, which contains an h1 with a
+ * class of text2, which contains the text "Año de nacimiento
+ * @param props - {
+ * @returns A component that shows the information of a pet.
+ */
 export default function Pet (props) {
   return (
     <>

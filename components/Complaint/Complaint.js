@@ -10,6 +10,11 @@ import {MdDeleteOutline, MdCheckCircleOutline} from 'react-icons/md'
 import Modal from '/components/Modal/Modal'
 
 
+/**
+ * It's a component that shows a complaint, and it has a button to delete it
+ * @param props - The props that are passed to the component.
+ * @returns A component that shows the complaints of the user.
+ */
 export default function Complaint (props) {
 
   const [user, setUser] = useState({});
@@ -18,6 +23,9 @@ export default function Complaint (props) {
   const Router = useRouter();
   const {data: session} = useSession()
 
+  /**
+   * It deletes a complaint from the database
+   */
   const denyComplaint = async () => {
 
     await fetch(`${server}/api/complaints/${session.user.username}`, {
@@ -49,6 +57,10 @@ export default function Complaint (props) {
 
   }
 
+  /**
+   * This function is called when the component is mounted and it fetches the user data from the
+   * database and sets the state of the component
+   */
   async function getUsers () {
 
     const response = await fetch(`${server}/api/users/${props.usernameFrom}`, {
@@ -73,6 +85,9 @@ export default function Complaint (props) {
     setUser2(data2);
 
   }
+
+
+  /* It's a hook that is called when the component is mounted. */
   useEffect( () => {
 
     getUsers();

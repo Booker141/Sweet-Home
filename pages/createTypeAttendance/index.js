@@ -11,6 +11,10 @@ import {toast} from 'react-toastify'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
+/**
+ * This function is used to create a new type of care
+ * @returns a component.
+ */
 export default function CreateTypeAttendance () {
 
   const { data: session, status } = useSession({ required: true })
@@ -20,6 +24,14 @@ export default function CreateTypeAttendance () {
   const [name, setName] = useState('')
   const [isValidate, setIsValidate] = useState(false)
   const [message, setMessage] = useState('')
+  
+
+  /**
+   * The function validates the input field by checking if the input matches the regular expression. If
+   * it does, it adds a class to the error message and error icon to show them. If it doesn't, it
+   * removes the class to hide them
+   * @param e - event
+   */
   
 
   const validate = (e) => {
@@ -43,6 +55,10 @@ export default function CreateTypeAttendance () {
 
   }
 
+  /**
+   * It creates a new type of attendance in the database
+   * @param e - event
+   */
   const createTypeAttendance = async (e) => {
 
     e.preventDefault()

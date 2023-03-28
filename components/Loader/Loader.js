@@ -1,4 +1,8 @@
 
+/**
+ * It returns a div with a class of loader__container, which contains an image of a loader
+ * @returns A function that returns a JSX element.
+ */
 export default function Loader () {
   return (
     <>

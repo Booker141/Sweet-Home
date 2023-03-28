@@ -1,6 +1,11 @@
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf'
 
+/**
+ * It renders a notification
+ * @param props - {
+ * @returns A div with a class of notification.
+ */
 export default function Notification (props) {
   return (
     <>

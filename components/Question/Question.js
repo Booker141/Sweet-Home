@@ -20,12 +20,16 @@ export default function Question (props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  /* Checking if the user is an admin and if it is, it sets the isAdmin state to true. */
   useEffect(() => {
       if (session.user.role === "admin" ) {
         setIsAdmin(true);
       }
   }, []);
 
+  /**
+   * It deletes the question from the database and then shows a toast message to the user
+   */
   const deleteQuestion = async () => {
 
     await fetch(`${server}/api/questions/${props.id}`, {

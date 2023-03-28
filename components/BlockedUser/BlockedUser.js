@@ -5,6 +5,11 @@ import {server} from '/server'
 import Modal from '/components/Modal/Modal'
 
 
+/**
+ * It renders a div with a complaint, and a modal that appears when the user clicks on the button
+ * @param props - The props that are passed to the component.
+ * @returns A component that shows the user who has been blocked and the reason why.
+ */
 export default function BlockedUser (props) {
 
   const [user, setUser] = useState({});
@@ -12,6 +17,10 @@ export default function BlockedUser (props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
 
+  /**
+   * It sends a request to the server to update the user's status to "checked" and then reloads the
+   * page
+   */
   const checkBlock = async () => {
 
     await fetch(`${server}/api/users/${session.user.username}`, {

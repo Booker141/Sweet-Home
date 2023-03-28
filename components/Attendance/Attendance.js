@@ -1,10 +1,19 @@
 import global from '/styles/global.module.css'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+
+
+
+/**
+ * It fetches the user's data from the database and displays it in the attendance component
+ * @param props - {
+ * @returns An object with the following properties:
+ */
 export default function Attendance (props) {
 
   const [user, setUser] = useState({});
 
+  /* Fetching the user's data from the database and displaying it in the attendance component. */
   useEffect(async () => {
     const res = await fetch(`${server}/api/users/${props.username}`, {
       method: 'GET',

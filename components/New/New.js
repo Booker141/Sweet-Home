@@ -8,6 +8,12 @@ import { toast } from 'react-toastify'
 import Router from 'next/router'
 import Modal from "/components/Modal/Modal"
 
+/**
+ * It's a function that returns a div with a title, a date, an author, an introduction, a body and a
+ * conclusion
+ * @param props - The props that are passed to the component.
+ * @returns A component that shows a new.
+ */
 export default function New (props) {
 
   const { data: session } = useSession();
@@ -15,6 +21,7 @@ export default function New (props) {
   const [isAdmin, setIsAdmin] = useState(false);
 
 
+  /* It's checking if the user is an admin. */
   useEffect(() => {
     if (session !== undefined){
       if (session.user.role === "admin" ) {
@@ -23,6 +30,9 @@ export default function New (props) {
     }
   }, []);
 
+  /**
+   * It deletes the news item from the database and then reloads the page
+   */
   const deleteNew = async () => {
 
     await fetch(`${server}/api/news/${props.id}`, {

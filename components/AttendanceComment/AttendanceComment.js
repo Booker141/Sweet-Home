@@ -1,5 +1,8 @@
 
 
+/**
+ * This function returns a div with two child divs, one for the user and one for the description
+ */
 export default function AttendanceComment(){
 
     return(

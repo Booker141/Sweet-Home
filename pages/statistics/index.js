@@ -9,6 +9,9 @@ import {RadarChart} from '/components/RadarChart/RadarChart';
 import {PolarAreaChart} from '/components/PolarAreaChart/PolarAreaChart';
 import Loader from '/components/Loader/Loader'
 
+/**
+ * A function that returns a component.
+ */
 export default function Statistics () {
 
   const { data: session, status } = useSession({ required: true })

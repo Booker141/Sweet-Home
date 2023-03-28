@@ -3,8 +3,10 @@ import Image from 'next/image'
 import global from 'styles/global.module.css'
 
 export default function Follower (props) {
+
   const [user, setUser] = useState({})
 
+  /* A hook that is used to fetch data from the server. */
   useEffect(async () => {
     const res = await fetch(`http://localhost:3000/api/users/${props.id}`,
       {

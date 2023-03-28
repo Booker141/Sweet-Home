@@ -10,7 +10,13 @@ import Layout from '/components/Layout/Layout'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
+/**
+ * It renders a form to create a post, and when the user clicks on the submit button, it sends a
+ * request to the server to create the post
+ * @returns a component.
+ */
 export default function CreatePost () {
+
   const { data: session, status } = useSession({ required: true })
   const Router = useRouter()
   const [description, setDescription] = useState('')
@@ -19,6 +25,10 @@ export default function CreatePost () {
   const [imageURL, setImageURL] = useState(null)
   const [message, setMessage] = useState('')
 
+  /**
+   * It takes the image uploaded by the user and sets the image and imageURL state variables
+   * @param e - the event that is triggered when the user uploads an image
+   */
   const uploadImage = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0]
@@ -27,6 +37,11 @@ export default function CreatePost () {
     }
   }
 
+
+  /**
+   * It creates a post in the database
+   * @param e - the event object
+   */
   const createPost = async (e) => {
     
     e.preventDefault()

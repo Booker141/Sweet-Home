@@ -21,7 +21,7 @@ import { server } from '/server'
  * It returns a div with a title
  * @returns A React element.
  */
-export default function Use ({ questions }) {
+export default function FAQ ({ questions }) {
 
   const {data: session} = useSession({});
 

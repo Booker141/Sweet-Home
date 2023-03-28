@@ -13,7 +13,6 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { BsBookmark, BsBookmarkFill, BsPatchCheckFill } from 'react-icons/bs'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import { server } from '/server'
-
 import { toast, Slide } from "react-toastify"
 import InputEmoji from 'react-input-emoji'
 
@@ -32,6 +31,8 @@ export default function Post (props) {
 
   const Router = useRouter()
 
+  /* The above code is fetching the user from the database and setting the user state to the user that
+  was fetched. */
   useEffect(() => {
     const fetchUser = async () => {
       const res = await fetch(`${server}/api/users/${props.username}`, {
@@ -47,6 +48,10 @@ export default function Post (props) {
     fetchUser()
   }, [])
 
+ 
+  /**
+   * It sends a POST request to the server with the comment and the postId.
+   */
   const Commentate = async () => {
     const res = await fetch(`${server}/api/comments`, {
       method: 'POST',
@@ -73,6 +78,9 @@ export default function Post (props) {
     
   }
 
+  /**
+   * It deletes a post from the database
+   */
   const deletePost = async () => {
     await fetch(`${server}/api/posts/${session.user.username}/${props.id}`, {
       method: 'DELETE',

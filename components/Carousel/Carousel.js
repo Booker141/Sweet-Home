@@ -43,6 +43,8 @@ export default function Carousel () {
     }
   }
 
+  /* A hook that is called when the component is mounted. It is used to fetch the news from the
+  database. */
   useEffect(async () => {
     await fetch(`${server}/api/news`, {
       method: 'GET',

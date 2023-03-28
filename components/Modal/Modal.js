@@ -1,4 +1,9 @@
 
+/**
+ * It returns a div with a class of center, which contains a div with a class of card, which contains
+ * the children of the Modal component
+ * @returns The Modal component is being returned.
+ */
 export default function Modal ({ children }) {
   return (
     <>

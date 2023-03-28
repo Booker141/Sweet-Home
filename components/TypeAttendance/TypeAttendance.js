@@ -8,6 +8,12 @@ import {toast} from 'react-toastify'
 import Modal from 'components/Modal/Modal'
 import {useRouter} from 'next/router'
 
+/**
+ * It's a component that renders a type of attendance, and it has a button that redirects to the
+ * attendances of that type
+ * @param props - The props that are passed to the component.
+ * @returns a JSX element.
+ */
 export default function TypeAttendance (props) {
 
   const router = useRouter();
@@ -15,12 +21,17 @@ export default function TypeAttendance (props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  /* It's a hook that is used to detect changes in the session, and if the user is an admin, it sets
+  the isAdmin state to true. */
   useEffect(() => {
     if (session.user.role === "admin" ) {
       setIsAdmin(true);
     }
 }, []);
 
+  /**
+   * It deletes a type of care from the database
+   */
   const deleteTypeAttendance = async () => {
 
     await fetch(`${server}/api/typeAttendance/${props.id}`, {

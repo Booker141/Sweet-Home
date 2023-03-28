@@ -2,17 +2,24 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import global from 'styles/global.module.css'
-import { colors, statusColors, fonts } from 'styles/frontend-conf'
-import {ToastContainer, toast} from 'react-toastify'
+import { colors } from 'styles/frontend-conf'
+import {toast} from 'react-toastify'
 import { MdDeleteOutline } from 'react-icons/md'
 import Modal from 'components/Modal/Modal'
 
+/**
+ * It fetches the comment from the database and displays it
+ * @param props - The props that are passed to the component.
+ * @returns A component that shows a comment.
+ */
 export default function Comment (props) {
+
   const { data: session } = useSession()
   const [comment, setComment] = useState({})
   const [isCaretaker, setIsCaretaker] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
+  /* Fetching the comment from the database and displaying it. */
   useEffect(async () => {
     const res = await fetch(`/api/comments/${props.id}`, {
       method: 'GET',
@@ -26,6 +33,10 @@ export default function Comment (props) {
     setIsCaretaker(data.isCaretaker)
   }, [])
 
+  /**
+   * This function fetches the comments from the database and sets the state of the comments to the
+   * data that is returned
+   */
   const fetchComments = async () => {
     const res = await fetch(`/api/comments/${props.id}`, {
       method: 'GET',
@@ -43,6 +54,9 @@ export default function Comment (props) {
     setIsCaretaker(data.isCaretaker)
   }
 
+  /**
+   * It deletes a comment from the database
+   */
   const deleteComment = async () => {
     const res = await fetch(`/api/comments/${props.id}`, {
       method: 'DELETE',

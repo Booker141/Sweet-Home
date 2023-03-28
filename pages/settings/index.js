@@ -29,6 +29,7 @@ export default function Settings () {
   const [complaints, setComplaints] = useState([])
   const [pets, setPets] = useState([])
 
+  /* The above code is fetching the user's complaints, pets, and user information from the database. */
   useEffect(async () => {
     if (session) {
       const complaints = await fetch(`${server}/api/complaints/${session.user.username}`, {
@@ -70,6 +71,10 @@ export default function Settings () {
     }
   }, [])
 
+  /**
+   * It returns the current date minus 4 years
+   * @returns The current date minus 4 years.
+   */
   const calcDate = () => {
     const date = new Date()
     const year = date.getFullYear() - 4
@@ -80,6 +85,12 @@ export default function Settings () {
     return maxDate
   }
 
+  /**
+   * It checks if the input is valid and if it is, it adds a class to the input and the icon to show
+   * that it's valid. If it's not, it adds a class to the input and the icon to show that it's not
+   * valid
+   * @param e - event
+   */
   const validate = (e) => {
     // Regular expressions
 
@@ -130,6 +141,10 @@ export default function Settings () {
     }
   }
 
+  /**
+   * It deletes the user's account from the database and signs them out
+   * @param e - the event object
+   */
   const deleteAccount = async (e) => {
     e.preventDefault()
 
@@ -144,6 +159,11 @@ export default function Settings () {
     signOut()
   }
 
+  /**
+   * It's a function that changes the display of the different sections of the page depending on the
+   * button that was clicked
+   * @param e - The event that triggers the function.
+   */
   const handleClick = (e) => {
     const edit = document.querySelector('.form-page')
     const saved = document.querySelector('.saved')
@@ -191,6 +211,10 @@ export default function Settings () {
     }
   }
 
+  /**
+   * It's a function that sends a request to the server to update the user's information
+   * @param e - the event object
+   */
   const edit = async (e) => {
     e.preventDefault()
 

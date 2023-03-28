@@ -9,6 +9,10 @@ import { useEffect, useState } from 'react'
 import { server } from '/server'
 
 
+/**
+ * It renders a page with a chat, where the user can send messages
+ * @returns The chat page is being returned.
+ */
 export default function Chat ({messages}) {
 
   const { data: session, status } = useSession({ required: true })

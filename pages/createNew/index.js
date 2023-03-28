@@ -11,6 +11,10 @@ import Layout from '/components/Layout/Layout'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
+/**
+ * This function is used to create a new news
+ * @returns a component.
+ */
 export default function CreateNew () {
 
   const { data: session, status } = useSession({ required: true })
@@ -24,6 +28,10 @@ export default function CreateNew () {
   const [isValidate, setIsValidate] = useState(false)
 
 
+  /**
+   * It returns the current date in the format YYYY-MM-DD
+   * @returns The current date in the format of YYYY-MM-DD
+   */
   const calcDate = () => {
 
     const currentDate= new Date();
@@ -31,6 +39,11 @@ export default function CreateNew () {
 
     return maxDate;
   }
+  /**
+   * It validates the author's name, if it doesn't match the regular expression, it shows an error
+   * message and icon, if it does, it shows a success message and icon
+   * @param e - event
+   */
   const validate = (e) => {
 
     const regAuthor = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/
@@ -53,6 +66,10 @@ export default function CreateNew () {
 
   }
 
+  /**
+   * It creates a new news item in the database
+   * @param e - event
+   */
   const createNew = async (e) => {
 
     e.preventDefault()
@@ -95,9 +112,6 @@ export default function CreateNew () {
   
       }
     }
-
-    
-
     
   }
 

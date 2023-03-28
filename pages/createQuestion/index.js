@@ -11,7 +11,11 @@ import {toast} from 'react-toastify'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
-export default function CreatePost () {
+/**
+ * This function is used to create a question in the FAQ section
+ * @returns a component.
+ */
+export default function CreateQuestion () {
 
   const { data: session, status } = useSession({ required: true })
 
@@ -22,6 +26,12 @@ export default function CreatePost () {
   const [message, setMessage] = useState('')
   
 
+  /**
+   * It validates the title input field by checking if the input matches the regular expression. If it
+   * does, it adds the success icon and removes the error icon. If it doesn't, it adds the error icon
+   * and removes the success icon
+   * @param e - event
+   */
   const validate = (e) => {
     // Regular expressions
 
@@ -43,6 +53,11 @@ export default function CreatePost () {
 
   }
 
+  /**
+   * It sends a POST request to the server with the title and answer of the question, and if there's no
+   * error, it redirects the user to the FAQ page
+   * @param e - The event object
+   */
   const createQuestion = async (e) => {
 
     e.preventDefault()

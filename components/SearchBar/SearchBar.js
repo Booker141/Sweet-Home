@@ -16,6 +16,10 @@ export default function SearchBar(props){
     const [keyword, setKeyword] = useState('');
     const [isActive, setIsActive] = useState(false);
 
+
+    /**
+     * It toggles the display of the search bar.
+     */
     const displaySearch = () => {
         setIsActive(!isActive);
         document.addEventListener("DOMContentLoaded", function () { 
@@ -30,7 +34,7 @@ export default function SearchBar(props){
 
     const searchKeyword = () => {
 
-          Router.push(`/search?keyword=${encodeURIComponent(search)}`);
+      Router.push(`/search?keyword=${encodeURIComponent(search)}`);
 
     }
 

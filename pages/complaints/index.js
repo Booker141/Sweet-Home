@@ -9,6 +9,11 @@ import Loader from '/components/Loader/Loader'
 import {server} from "/server"
 
 
+/**
+ * It renders the complaints page, which is only accessible by the admin
+ * @returns It is being returned a layout with a content div that has two columns. The first column has
+ * a title and a list of complaints. The second column has a title and a list of blocked users.
+ */
 export default function Complaints ({complaints}){
 
     const {data: session, status} = useSession({required: true})
@@ -157,6 +162,10 @@ export default function Complaints ({complaints}){
                   }
 }
 
+/**
+ * It fetches the data from the API and returns it as props to the page
+ * @returns An object with a property called props.
+ */
 export async function getServerSideProps(){
 
     const res = await fetch(`${server}/api/complaints`, {

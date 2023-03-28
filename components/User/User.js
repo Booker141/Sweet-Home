@@ -5,6 +5,12 @@ import { useState, useEffect } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
 
+/**
+ * It's a component that renders a user's profile picture, username, and a button that allows you to
+ * follow them
+ * @param props - {
+ * @returns A component that shows a user's profile.
+ */
 export default function User (props) {
   const [isFollowing, setIsFollowing] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
@@ -19,6 +25,8 @@ export default function User (props) {
     }
   }
 
+  /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
+  the isCaretaker prop. */
   useEffect(() => {
     setIsCaretaker(props.isCaretaker)
   }, [])

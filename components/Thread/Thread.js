@@ -7,6 +7,11 @@ import { colors } from '/styles/frontend-conf'
 import { server } from '/server'
 import { useRouter } from 'next/router'
 
+/**
+ * It renders a thread with the information of the thread and the number of posts it has
+ * @param props - The props that are passed to the component.
+ * @returns A thread is being returned.
+ */
 export default function Thread (props) {
 
   const { data: session, status } = useSession({ required: true })
@@ -16,6 +21,7 @@ export default function Thread (props) {
   const [user, setUser] = useState({});
   const Router = useRouter();
 
+  /* Fetching the user that created the thread and the number of posts that the thread has. */
   useEffect(async () => {
  
       const res = await fetch(`${server}/api/users/${props.username}`, {
@@ -50,6 +56,9 @@ export default function Thread (props) {
       }
   }, [])
 
+  /**
+   * It deletes a thread from the database
+   */
   const deleteThread = async () => {
     const res = await fetch(`${server}/api/threads/${props.typeAttendanceId}`, {
       method: 'DELETE',

@@ -6,6 +6,10 @@ import Notification from 'components/Notification/Notification'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 
+/**
+ * It fetches the notifications of the user and displays them
+ * @returns a component.
+ */
 export default function Notifications () {
   const { data: session, status } = useSession({ required: true })
 
