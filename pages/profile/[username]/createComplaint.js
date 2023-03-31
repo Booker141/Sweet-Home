@@ -11,6 +11,7 @@ import Loader from '/components/Loader/Loader'
 import { server } from '/server'
 
 export default function CreateComplaint () {
+  
   const { data: session, status } = useSession({ required: true })
   const router = useRouter()
   const [reason, setReason] = useState('')

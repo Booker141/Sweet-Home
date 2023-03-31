@@ -30,7 +30,7 @@ export default function Settings () {
   const [pets, setPets] = useState([])
 
   /* The above code is fetching the user's complaints, pets, and user information from the database. */
-  useEffect(async () => {
+  async function getData(){
     if (session) {
       const complaints = await fetch(`${server}/api/complaints/${session.user.username}`, {
         method: 'GET',
@@ -69,6 +69,9 @@ export default function Settings () {
       setBirthdate(currentUser.birthdate)
       setGender(currentUser.gender)
     }
+  }
+  useEffect(async () => {
+    getData()
   }, [])
 
   /**

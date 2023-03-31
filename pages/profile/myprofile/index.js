@@ -12,6 +12,7 @@ import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 
 export default function MyProfile ({ posts }) {
+
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
@@ -26,6 +27,7 @@ export default function MyProfile ({ posts }) {
       setIsCaretaker(session.user.isCaretaker)
     }
   }, [])
+
   if (status == 'loading') {
     return (
       <>
@@ -34,6 +36,7 @@ export default function MyProfile ({ posts }) {
       </>
     )
   }
+  
   if (session) {
     const numFollowers = followers.length
     const numFollowing = following.length

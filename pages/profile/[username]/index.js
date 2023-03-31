@@ -14,6 +14,7 @@ import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 
 export default function Username ({ posts, user, pets }) {
+  
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])

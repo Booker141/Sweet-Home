@@ -9,7 +9,7 @@ export default function Like(props){
     const [isLike, setIsLike] = useState(false);
 
     useEffect(() => {
-
+        
     }, [])
 
     const Like = () => {

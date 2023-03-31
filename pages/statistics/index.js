@@ -1,7 +1,7 @@
 import Layout from '/components/Layout/Layout'
 import Head from 'next/head'
 import global from '/styles/global.module.css'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {colors} from '/styles/frontend-conf'
 import { useSession } from 'next-auth/react'
 import {BarChart} from '/components/BarChart/BarChart';
@@ -17,11 +17,25 @@ export default function Statistics () {
   const { data: session, status } = useSession({ required: true })
   const [data, setData] = useState({})
 
-  const getData = async () => {
-    const res = await fetch('/api/getStatistics')
+  /**
+   * It fetches the data from the server and returns it as a JSON object
+   * @returns The data is being returned as a JSON object.
+   */
+  async function getData () {
+    const res = await fetch('/api/statistics', { 
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
     const data = await res.json()
     return data
   }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   const barData = {
     labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],

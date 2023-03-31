@@ -1470,6 +1470,8 @@ export default function SignUp () {
 
           }
 
+          
+
         `}
       </style>
     </>

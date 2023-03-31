@@ -40,7 +40,7 @@ export default function Complaint (props) {
 
     toast.error(`Se ha eliminado la denuncia`, { position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,

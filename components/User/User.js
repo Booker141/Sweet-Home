@@ -12,11 +12,10 @@ import { AiOutlineCheck } from 'react-icons/ai'
  * @returns A component that shows a user's profile.
  */
 export default function User (props) {
+  
   const [isFollowing, setIsFollowing] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
 
-  console.log(props)
-  console.log(isCaretaker)
   const followUser = () => {
     setIsFollowing(!isFollowing)
 

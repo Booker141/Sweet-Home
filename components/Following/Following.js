@@ -6,8 +6,8 @@ export default function Following (props) {
 
   const [user, setUser] = useState({})
 
-  /* A hook that is used to fetch data from the server. */
-  useEffect(async () => {
+  async function getFollowing(){
+
     const res = await fetch(`http://localhost:3000/api/users/${props.id}`,
       {
         method: 'GET',
@@ -17,6 +17,11 @@ export default function Following (props) {
       })
     const following = await res.json()
     setUser(following)
+
+  }
+  /* A hook that is used to fetch data from the server. */
+  useEffect(() => {
+    getFollowing()
   }, [])
 
   return (

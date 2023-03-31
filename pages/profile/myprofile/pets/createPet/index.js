@@ -8,6 +8,7 @@ import Layout from '/components/Layout/Layout'
 import { server } from '/server'
 
 export default function CreatePet () {
+  
   const { data: session, status } = useSession({ required: true })
   const Router = useRouter()
   const [name, setName] = useState('')

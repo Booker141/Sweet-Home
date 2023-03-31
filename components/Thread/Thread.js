@@ -20,46 +20,52 @@ export default function Thread (props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({});
   const Router = useRouter();
+  
+/* Fetching the user that created the thread and the number of posts that the thread has. */
+  async function getData(){
 
-  /* Fetching the user that created the thread and the number of posts that the thread has. */
-  useEffect(async () => {
- 
-      const res = await fetch(`${server}/api/users/${props.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      const attendance = await fetch(`${server}/api/attendances/${props.title}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      const data = await res.json();
-      
-      setUser(data);
-
-      if(attendance === null ){
-
-        setNumPosts(0);
-
-      }else{
-
-        const attendances = await attendance.json();
-      
-        setNumPosts(attendances.length);
-        
-    
+    const res = await fetch(`${server}/api/users/${props.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
       }
+    })
+
+    const attendance = await fetch(`${server}/api/attendances/${props.title}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const data = await res.json();
+    
+    setUser(data);
+
+    if(attendance === null ){
+
+      setNumPosts(0);
+
+    }else{
+
+      const attendances = await attendance.json();
+    
+      setNumPosts(attendances.length);
+      
+  
+    }
+
+  }
+  
+  useEffect(() => {
+    getData()
   }, [])
 
   /**
    * It deletes a thread from the database
    */
   const deleteThread = async () => {
+
     const res = await fetch(`${server}/api/threads/${props.typeAttendanceId}`, {
       method: 'DELETE',
       headers: {
@@ -75,6 +81,15 @@ export default function Thread (props) {
     if (data.error) {
       console.log(data.error)
     }
+
+    toast.error(`Se ha eliminado el hilo`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
 
     setIsModalVisible(false)
     Router.reload()

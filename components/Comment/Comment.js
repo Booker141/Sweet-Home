@@ -20,24 +20,15 @@ export default function Comment (props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   /* Fetching the comment from the database and displaying it. */
-  useEffect(async () => {
-    const res = await fetch(`/api/comments/${props.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).catch(err => console.log(err))
-
-    const data = await res.json()
-    setComment(data)
-    setIsCaretaker(data.isCaretaker)
+  useEffect(() => {
+    getComments()
   }, [])
 
   /**
    * This function fetches the comments from the database and sets the state of the comments to the
    * data that is returned
    */
-  const fetchComments = async () => {
+  const getComments = async () => {
     const res = await fetch(`/api/comments/${props.id}`, {
       method: 'GET',
       headers: {
@@ -68,7 +59,7 @@ export default function Comment (props) {
     const data = await res.json()
     toast.error('Se ha eliminado el comentario',{ position: "bottom-right",
     autoClose: 5000,
-    hideProgressBar: false,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,

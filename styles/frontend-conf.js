@@ -9,11 +9,11 @@
 export const theme = {
   light: {
     textColor: '#1c1c1c',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   dark: {
     textColor: '#fafafa',
-    backgroundColor: '#343541'
+    backgroundColor: '#343541',
   }
 }
 

@@ -13,8 +13,8 @@ export default function Attendance (props) {
 
   const [user, setUser] = useState({});
 
-  /* Fetching the user's data from the database and displaying it in the attendance component. */
-  useEffect(async () => {
+  async function getUsers(){
+
     const res = await fetch(`${server}/api/users/${props.username}`, {
       method: 'GET',
       headers: {
@@ -23,6 +23,12 @@ export default function Attendance (props) {
       })
       const data = await res.json();
       setUser(data);
+
+  }
+
+  /* Fetching the user's data from the database and displaying it in the attendance component. */
+  useEffect(() => {
+    getUsers()
   }, [])
 
   return (

@@ -31,21 +31,25 @@ export default function Post (props) {
 
   const Router = useRouter()
 
+  /**
+   * This function is called when the component mounts and it fetches the user from the database and
+   * sets the user state to the user that was fetched
+   */
+  async function getUser(){
+    const res = await fetch(`${server}/api/users/${props.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const user = await res.json()
+    setUser(user)
+    setIsCaretaker(user.isCaretaker)
+  }
   /* The above code is fetching the user from the database and setting the user state to the user that
   was fetched. */
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch(`${server}/api/users/${props.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      const user = await res.json()
-      setUser(user)
-      setIsCaretaker(user.isCaretaker)
-    }
-    fetchUser()
+    getUser()
   }, [])
 
  
@@ -68,7 +72,7 @@ export default function Post (props) {
 
       toast.success('Se ha publicado tu comentario', { position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -92,7 +96,7 @@ export default function Post (props) {
 
     toast.error(`Se ha eliminado la publicación`, { position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,

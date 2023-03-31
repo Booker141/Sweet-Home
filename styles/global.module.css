@@ -269,7 +269,6 @@
   border-radius: 10px;
 
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 
@@ -294,7 +293,6 @@
   border-radius: 10px;
   border: 1px solid #f0810f;
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 }
 
 .user{
@@ -338,7 +336,6 @@
   background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
   backdrop-filter: blur(5px);
   border-radius: 5px;
-  box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
 
 }
 
@@ -363,7 +360,6 @@
 
   border-radius: 10px;
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 
@@ -387,7 +383,6 @@
 
   border-radius: 10px;
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 
@@ -411,7 +406,6 @@
 
   border-radius: 10px;
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
   
 
 }
@@ -433,7 +427,6 @@
   font-family: 'Poppins', sans-serif;
   border-radius: 10px;
   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 }
 
 .new{
@@ -498,7 +491,6 @@
 
   border: 2px solid #f0810f;
   border-radius: 10px;
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 
@@ -521,7 +513,6 @@
   border: 2px solid #f0810f;
   border-top: 10px solid #f0810f;
   border-radius: 10px;
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 
@@ -541,7 +532,6 @@
 
   border: 2px solid #f0810f;
   border-radius: 10px;
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 
@@ -567,7 +557,6 @@
 
   border-radius: 10px;
   background-color: #f0810f;
-  box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
 }
 

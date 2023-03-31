@@ -43,9 +43,11 @@ export default function Carousel () {
     }
   }
 
-  /* A hook that is called when the component is mounted. It is used to fetch the news from the
-  database. */
-  useEffect(async () => {
+  /**
+   * It fetches the news from the server and sets the state of the news and newsLength variables
+   */
+  async function getNews(){
+
     await fetch(`${server}/api/news`, {
       method: 'GET',
       headers: {
@@ -59,6 +61,13 @@ export default function Carousel () {
       .catch((error) => {
         console.log('Error en la petición:' + error.message)
       })
+
+  }
+
+  /* A hook that is called when the component is mounted. It is used to fetch the news from the
+  database. */
+  useEffect(() => {
+    getNews()
   }, [])
 
   return (

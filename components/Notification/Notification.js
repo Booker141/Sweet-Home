@@ -1,5 +1,4 @@
 import global from 'styles/global.module.css'
-import { fonts, colors } from 'styles/frontend-conf'
 
 /**
  * It renders a notification

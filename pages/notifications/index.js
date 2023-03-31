@@ -11,12 +11,17 @@ import { server } from '/server'
  * @returns a component.
  */
 export default function Notifications () {
+
   const { data: session, status } = useSession({ required: true })
 
   const [notifications, setNotifications] = useState([])
 
-  console.log(notifications)
-  useEffect(async () => {
+  /**
+   * It fetches the notifications for the current user from the server and sets the notifications state
+   * to the response
+   */
+  async function getNotifications(){
+
     if (session) {
       const res = await fetch(`${server}/api/notifications/${session.user.username}`, {
         method: 'GET',
@@ -28,6 +33,11 @@ export default function Notifications () {
       const notifications = await res.json()
       setNotifications(notifications)
     }
+
+  }
+
+  useEffect(() => {
+    getNotifications()
   }, [])
 
   if (status == 'loading') {
