@@ -114,7 +114,6 @@ export default function Carousel () {
                     /*Visuals*/
 
                     border-radius: 10px;
-                    box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
                     
                    
                 }

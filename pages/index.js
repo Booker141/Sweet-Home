@@ -339,8 +339,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border: 1px solid ${colors.primary};
-            box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
+            border: 2px solid ${colors.primary};
             border-radius: 50px;
 
           }
@@ -391,7 +390,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border: 1px solid ${colors.primary};
+            border: 2px solid ${colors.primary};
             border-radius: 20px;
             
           }
@@ -494,7 +493,6 @@ export default function Principal () {
             /*Visuals*/
 
             background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-            box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
             border-radius: 0 70px 70px 0;
 
           }
