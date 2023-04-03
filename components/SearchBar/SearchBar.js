@@ -46,14 +46,14 @@ export default function SearchBar(props){
             <button onClick={() => displaySearch()}><RiSearchLine size={20} color={props.color} /></button>
           </div>
           {isActive &&
-            <div id='search' className="search-bar__input">
+            <search id='search' className="search-bar__input">
             <input
               type='search'
               name='search'
               value={keyword}
               placeholder='Buscar..'
               onChange={(e) => setKeyword(e.target.value)}
-            /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}>Buscar</button></div>}
+            /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}>Buscar</button></search>}
 
         </div>
         <style jsx>{`
