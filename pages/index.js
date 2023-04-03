@@ -96,7 +96,7 @@ export default function Principal () {
         </div>
         <Carousel />
         <div className='content__container3'>
-          <h2 className={global.title}>¿Qué es Sweet Home?</h2>
+          <h2 className="title2">¿Qué es Sweet Home?</h2>
           <p className={global.text}>Es una red social que abarca el mundo animal
             y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños
             y a una mejora diaria de su vida.
@@ -108,7 +108,7 @@ export default function Principal () {
         </div>
         <div className='content__container4'>
           <div className='container4__column1'>
-            <h2 className={global.title}>¿Qué nos diferencia?</h2>
+            <h2 className="title2">¿Qué nos diferencia?</h2>
             <p className={global.text}>Nuestra red social se diferencia de otras
               redes sociales en las siguientes características:
             </p>
@@ -145,7 +145,7 @@ export default function Principal () {
         </div>
 
         <div className='content__container5'>
-          <h2 className={global.title}>Rompemos las limitaciones</h2>
+          <h2 className="title2">Rompemos las limitaciones</h2>
           <p className={global.text}>Nuestra red social rompe las limitaciones en cuanto
             a los <span className={global.colorized}> &nbsp;dispositivos&nbsp; </span> en las que se puede utilizar:
           </p>
@@ -580,6 +580,21 @@ export default function Principal () {
               padding: 0;
 
           }
+
+          .title2{
+
+            /*Text*/
+
+              font-size: 3.2rem;
+              font-weight: bold;
+              background-color: ${colors.primary};
+              font-family: "Archivo Black", sans-serif;
+              background-image: linear-gradient(180deg, #f0810f, #ffe45c 130%);
+              background-repeat: repeat;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent; 
+              text-align: center;
+          }
           
           
           .column2__component{
@@ -680,6 +695,7 @@ export default function Principal () {
 
             border-radius: 10px;
           }
+          
       
           @keyframes texto {
             0% { bottom: -1em; opacity: 0.3; }

@@ -60,6 +60,10 @@ export default function SignIn ({ providers, csrfToken }) {
     }
   }
 
+  /**
+   * It validates the email and password inputs by checking if they match the regular expressions
+   * @param e - event
+   */
   const validate = (e) => {
     // Regular expressions
 
@@ -679,7 +683,7 @@ export default function SignIn ({ providers, csrfToken }) {
                 align-items: center;
                 height: 3rem;
                 width: 100%;
-                padding: 0.5rem;
+                padding: 1rem;
                 margin-bottom: 1rem;
 
                 /*Text*/
