@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:e2e": "playwright test"
+    "test": "jest --watchAll"
   },
   "engines": {
     "node": "^16.13.0"
@@ -20,6 +20,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "formidable": "^2.1.1",
+    "jest-environment-jsdom": "^29.5.0",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^4.12.1",
     "morgan": "^1.10.0",
@@ -38,6 +39,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.31.2",
+    "@shelf/jest-mongodb": "^4.1.7",
+    "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "file-loader": "^6.1.1",

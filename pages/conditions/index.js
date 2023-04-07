@@ -81,12 +81,13 @@ export default function Conditions () {
         poseer para hacer uso de la aplicación. Los costes de estos servicios
         son responsabilidad del usuario. La aplicación incluye enlaces a
         sitios web de terceros, redes sociales de la empresa en su totalidad.
-        Si el usuario hace uso de estos enlaces, deberá revisar los términos y
+        
+      </p>
+      <p className={global.text}>Si el usuario hace uso de estos enlaces, deberá revisar los términos y
         condiciones de estos sitios web. Sweet Home no ha sido patrocinado por
         ninguno de estas aplicaciones de terceros. Si se produce alguna actividad ilegal
         dentro de la app que afecte al funcionamiento de la app, Sweet Home tiene el
-        derecho de cerrar dicha aplicación sin deber nada a los usuarios.
-      </p>
+        derecho de cerrar dicha aplicación sin deber nada a los usuarios.</p>
 
       <style jsx>{`
 

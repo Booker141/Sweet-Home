@@ -42,13 +42,13 @@ export default function About () {
         <p className={global.text}>Sweet Home es una red
           social que abarca el mundo animal y trata de facilitar
           su <span className={global.colorized}>adaptación a nuevos cuidados</span>, <span className={global.colorized}>a nuevos dueños </span> y a
-          <span className={global.colorized}> una mejora diaria de su vida.</span>
+          <span className={global.colorized}> &nbsp; una mejora diaria de su vida.</span>
         </p>
       </div>
 
       <div className='container1'>
         <div className='container1__column1'>
-          <h2 className={global.title}>Nuestra misión</h2>
+          <h3 className={global.title}>Nuestra misión</h3>
           <p className={global.text}>¿Alguna vez has sentido rechazo o ignorancia
             en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales
             perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se
@@ -56,7 +56,7 @@ export default function About () {
             preguntas.
           </p>
           <p className={global.text}>El objetivo principal de Sweet Home es
-            <span className={global.colorized}> mejorar la calidad de vida de los animales</span> facilitándole
+            <span className={global.colorized}> &nbsp; mejorar la calidad de vida de los animales</span> facilitándole
             a los dueños funcionalidades que usar en su día a día.
           </p>
 
@@ -79,7 +79,7 @@ export default function About () {
       </div>
 
       <div className='benefits-title'>
-        <h2 className={global.title}>Ventajas</h2>
+        <h3>Ventajas</h3>
       </div>
 
       <div className={global.cards}>
@@ -87,7 +87,7 @@ export default function About () {
           <div style={{ color: '#f0810f' }}>
             <MdPets size={37} />
           </div>
-          <h2 className={global.secondary}>Promover el derecho de los animales</h2>
+          <h2 className={global.title2}>Promover el derecho de los animales</h2>
           <p className={global.text}><span className={global.colorized}>La libertad y los derechos de los animales</span> son la base de Sweet Home. </p>
           <p className={global.text}>En nuestro planeta habitan una gran variedad de animales pero solo un pequeño
             porcentaje convive con nosotros, así que debemos darles el mejor cuidado
@@ -98,7 +98,7 @@ export default function About () {
           <div style={{ color: '#f0810f' }}>
             <FaSlideshare size={37} />
           </div>
-          <h2 className={global.secondary}>Compartir de forma rápida y segura</h2>
+          <h2 className={global.title2}>Compartir de forma rápida y segura</h2>
           <p className={global.text}>Con Sweet Home puedes <span className={global.colorized}> compartir
             información
                                                            </span> sin tener que preocuparte de la inmediatez o de la
@@ -112,7 +112,7 @@ export default function About () {
           <div style={{ color: '#f0810f' }}>
             <BsChatRightText size={37} />
           </div>
-          <h2 className={global.secondary}>Chatea con gente de todo el mundo</h2>
+          <h2 className={global.title2}>Chatea con gente de todo el mundo</h2>
           <p className={global.text}>Dispones de una <span className={global.colorized}> función de chat</span> para
             conectar con gente de tu mismo entorno o gente a kilómetros de
             distancia para preguntarles dudas o consejos.
@@ -122,9 +122,9 @@ export default function About () {
           <div style={{ color: '#f0810f' }}>
             <AiOutlineEdit size={37} />
           </div>
-          <h2 className={global.secondary}>Modifica el perfil a tu gusto</h2>
+          <h2 className={global.title2}>Modifica el perfil a tu gusto</h2>
           <p className={global.text}>¡Sweet Home permite modificar el
-            perfil para que puedas <span className={global.colorized}>añadir información sobre ti y tu mascota </span>
+            perfil para que puedas <span className={global.colorized}>añadir información sobre ti y tu mascota &nbsp; </span>
             a tu gusto!
           </p>
         </div>
@@ -225,6 +225,7 @@ export default function About () {
                               -webkit-text-fill-color: transparent; 
                               background-size: 100%
                               text-align: center;
+                              margin-bottom: 0;
                              
                         }
 
@@ -252,6 +253,20 @@ export default function About () {
                             /*Box model*/
 
                             margin-bottom: 1rem;
+                        }
+
+                        h3{
+
+                          font-size: 3rem;
+                              font-weight: bold;
+                              background-color: ${colors.primary};
+                              font-family: "Archivo Black", sans-serif;
+                              background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                              background-repeat: repeat;
+                              -webkit-background-clip: text;
+                              -webkit-text-fill-color: transparent; 
+                              background-size: 100%
+                              text-align: center;
                         }
                     `}
       </style>

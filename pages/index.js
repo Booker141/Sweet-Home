@@ -65,11 +65,13 @@ export default function Principal () {
               Sweet Home
             </h1>
           </div>
-          <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de
-            mascotas
-                                                                      </span>, brindando servicios de cuidado y hospedaje para <span className={global.colorized}> &nbsp; todo tipos de 
-            mascotas</span>.
-          </p>
+          <div className="container1__text">
+            <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de
+              mascotas
+                                                                        </span>, brindando servicios de cuidado y hospedaje para <span className={global.colorized}> &nbsp; todo tipos de 
+              mascotas</span>.
+            </p>
+          </div>
           <div className='container1__video' />
           <video
             autoPlay loop muted
@@ -122,6 +124,7 @@ export default function Principal () {
               <p className={global.text}>En nuestra red social podrás encontrar
                 cuidados que mejoren la calidad de vida de tu mascota.
               </p>
+              <Link href='/attendances'><a className={global.link} aria-label='Ir a Cuidados'>Acceder →</a></Link>
             </div>
             <div className={global.card__short}>
               <div style={{ color: '#f0810f' }}>
@@ -131,6 +134,7 @@ export default function Principal () {
               <p className={global.text}>Aquí encontrarás una comunidad de amantes
                 de los animales que pueden darte consejos sobre vuestras mascotas.
               </p>
+              <Link href='/home'><a className={global.link} aria-label='Ir a página inicial de Sweet Home'>Acceder →</a></Link>
             </div>
             <div className={global.card__short}>
               <div style={{ color: '#f0810f' }}>
@@ -140,6 +144,7 @@ export default function Principal () {
               <p className={global.text}>¡Existen perfiles exclusivos de cuidadoras
                 si quieres encontrar tu mascota ideal!
               </p>
+              <Link href='/allCaretakers'><a className={global.link} aria-label='Ir a cuidadoras'>Acceder →</a></Link>
             </div>
           </div>
         </div>
@@ -275,6 +280,13 @@ export default function Principal () {
             align-items: center;
             margin-bottom: 2rem;
 
+          }
+          .container1__text{
+
+            /*Box model*/
+
+            display: inline-block;
+            text-align: center;
           }
 
           .container1__video{
@@ -583,17 +595,18 @@ export default function Principal () {
 
           .title2{
 
-            /*Text*/
+           /*Text*/
 
-              font-size: 3.2rem;
-              font-weight: bold;
-              background-color: ${colors.primary};
-              font-family: "Archivo Black", sans-serif;
-              background-image: linear-gradient(180deg, #f0810f, #ffe45c 130%);
-              background-repeat: repeat;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent; 
-              text-align: center;
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
           }
           
           

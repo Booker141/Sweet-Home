@@ -38,7 +38,7 @@ export default function Accessibility () {
 
       <div className='content__container'>
         <div className='container__column'>
-          <h2 className={global.secondary__bold}>Color y contraste</h2>
+          <h2 className={global.title2}>Color y contraste</h2>
           <hr className='discontinuous' />
           <p className={global.text}>Hemos elegido colores con
             mucho contraste respecto al fondo para una fácil lectura e
@@ -56,7 +56,7 @@ export default function Accessibility () {
           <Image src={accessibility2} alt='Constructor de sitios' />
         </div>
         <div className='container__column'>
-          <h2 className={global.secondary__bold}>Diseño minimalista</h2>
+          <h2 className={global.title2}>Diseño minimalista</h2>
           <hr className='discontinuous' />
           <p className={global.text}>En Sweet Home, los diseñadores
             han apostado por un diseño claro y bien distribuido,
@@ -68,7 +68,7 @@ export default function Accessibility () {
 
       <div className='content__container'>
         <div className='container__column'>
-          <h2 className={global.secondary__bold}>Enlaces y botones</h2>
+          <h2 className={global.title2}>Enlaces y botones</h2>
           <hr className='discontinuous' />
           <p className={global.text}>Hemos diseñado enlaces y botones
             suficientemente contrastados para facilitar su uso; y con un tamaño medido
@@ -85,7 +85,7 @@ export default function Accessibility () {
           <Image src={accessibility4} alt='Diseño web' />
         </div>
         <div className='container__column'>
-          <h2 className={global.secondary__bold}>Fuente clara</h2>
+          <h2 className={global.title2}>Fuente clara</h2>
           <hr className='discontinuous' />
           <p className={global.text}>Hemos elegido una tipografía
             agradable a la vista y que cuadrase con las personalidad
@@ -97,7 +97,7 @@ export default function Accessibility () {
 
       <div className='content__container'>
         <div className='container__column'>
-          <h2 className={global.secondary__bold}>Contenido de lectura fácil</h2>
+          <h2 className={global.title2}>Contenido de lectura fácil</h2>
           <hr className='discontinuous' />
           <p className={global.text}>En Sweet Home, todas las páginas
             han sido estructuradas de tal forma para facilitar la

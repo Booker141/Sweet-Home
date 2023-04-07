@@ -332,6 +332,7 @@ export default function Header (props) {
                     /*Box model*/
 
                     margin-top: 1rem;
+                    margin-bottom: 1rem; 
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
