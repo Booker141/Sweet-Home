@@ -346,6 +346,7 @@ export default function Principal () {
             flex-direction: column;
             justify-content: center;
             line-height: 3.5rem;
+            width: fit-content;
             margin-top: 3rem;
             padding: 3rem;
 

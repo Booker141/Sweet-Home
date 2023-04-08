@@ -1,22 +1,22 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 describe("insert documents in all collections", () => {
-  let connection;
-  let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(process.env.MONGODB_URI, {
+
+    const connection = await MongoClient.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    db = await connection.db(process.env.MONGODB_DATABASE);
+
+    const db = await connection.db(process.env.MONGODB_DATABASE);
   });
 
   afterAll(async () => {
     await connection.close();
   });
 
-  it("should insert a doc into user collection", async () => {
+  test("should insert a doc into user collection", async () => {
     const users = db.collection("users");
 
     const userExample = {
@@ -55,10 +55,11 @@ describe("insert documents in all collections", () => {
     const insertedUser = await users.findOne({
       email: "test@gmail.com",
     });
+
     expect(insertedUser).toEqual(userExample);
   });
 
-  it("should insert a doc into userStatus collection", async () => {
+  test("should insert a doc into userStatus collection", async () => {
     const userStatus = db.collection("userStatus");
 
     const userStatusExample = {
@@ -70,10 +71,10 @@ describe("insert documents in all collections", () => {
     const insertedUserStatus = await userStatus.findOne({
       name: "desactivado",
     });
-    expect(insertedUserStatus).toEqual(userStatusExample);
+    expect(insertedUserStatus).toBe(userStatusExample);
   });
 
-  it("should insert a doc into userRole collection", async () => {
+  test("should insert a doc into userRole collection", async () => {
     const userRole = db.collection("userRole");
 
     const userRoleExample = {
@@ -85,10 +86,10 @@ describe("insert documents in all collections", () => {
     const insertedUserRole = await userRole.findOne({
       name: "informático",
     });
-    expect(insertedUserRole).toEqual(userRoleExample);
+    expect(insertedUserRole).toBe(userRoleExample);
   });
 
-  it("should insert a doc into typeNotification collection", async () => {
+  test("should insert a doc into typeNotification collection", async () => {
     const typeNotification = db.collection("typeNotification");
 
     const typeNotificationExample = {
@@ -100,10 +101,10 @@ describe("insert documents in all collections", () => {
     const insertedTypeNotification = await typeNotification.findOne({
       name: "visto",
     });
-    expect(insertedTypeNotification).toEqual(typeNotificationExample);
+    expect(insertedTypeNotification).toBe(typeNotificationExample);
   });
 
-  it("should insert a doc into typeAttendance collection", async () => {
+  test("should insert a doc into typeAttendance collection", async () => {
     const typeAttendance = db.collection("typeAttendance");
 
     const typeAttendanceExample = {
@@ -119,10 +120,10 @@ describe("insert documents in all collections", () => {
     const insertedTypeAttendance = await typeAttendance.findOne({
       name: "Gimnasia",
     });
-    expect(insertedTypeAttendance).toEqual(typeAttendanceExample);
+    expect(insertedTypeAttendance).toBe(typeAttendanceExample);
   });
 
-  it("should insert a doc into threads collection", async () => {
+  test("should insert a doc into threads collection", async () => {
     const thread = db.collection("threads");
 
     const threadExample = {
@@ -140,10 +141,10 @@ describe("insert documents in all collections", () => {
     const insertedThread = await thread.findOne({
       title: "Gimnasia en 10 pasos",
     });
-    expect(insertedThread).toEqual(threadExample);
+    expect(insertedThread).toBe(threadExample);
   });
 
-  it("should insert a doc into questions collection", async () => {
+  test("should insert a doc into questions collection", async () => {
     const question = db.collection("questions");
 
     const questionExample = {
@@ -157,10 +158,10 @@ describe("insert documents in all collections", () => {
     const insertedQuestion = await question.findOne({
       title: "¿Pregunta frecuente?",
     });
-    expect(insertedQuestion).toEqual(questionExample);
+    expect(insertedQuestion).toBe(questionExample);
   });
 
-  it("should insert a doc into posts collection", async () => {
+  test("should insert a doc into posts collection", async () => {
     const post = db.collection("posts");
 
     const id = new ObjectId();
@@ -183,10 +184,10 @@ describe("insert documents in all collections", () => {
     const insertedPost = await post.findOne({
       _id: id,
     });
-    expect(insertedPost).toEqual(postExample);
+    expect(insertedPost).toBe(postExample);
   });
 
-  it("should insert a doc into pets collection", async () => {
+  test("should insert a doc into pets collection", async () => {
     const pet = db.collection("pets");
 
     const id = new ObjectId();
@@ -208,10 +209,10 @@ describe("insert documents in all collections", () => {
     const insertedPet = await pet.findOne({
       _id: id,
     });
-    expect(insertedPet).toEqual(petExample);
+    expect(insertedPet).toBe(petExample);
   });
 
-  it("should insert a doc into notifications collection", async () => {
+  test("should insert a doc into notifications collection", async () => {
     const notification = db.collection("notifications");
 
     const id = new ObjectId();
@@ -227,10 +228,10 @@ describe("insert documents in all collections", () => {
     const insertedNotification = await notification.findOne({
       _id: id,
     });
-    expect(insertedNotification).toEqual(notificationExample);
+    expect(insertedNotification).toBe(notificationExample);
   });
 
-  it("should insert a doc into news collection", async () => {
+  test("should insert a doc into news collection", async () => {
     const newCollection = db.collection("news");
 
     const id = new ObjectId();
@@ -252,10 +253,10 @@ describe("insert documents in all collections", () => {
     const insertedNew = await newCollection.findOne({
       _id: id,
     });
-    expect(insertedNew).toEqual(newExample);
+    expect(insertedNew).toBe(newExample);
   });
 
-  it("should insert a doc into messages collection", async () => {
+  test("should insert a doc into messages collection", async () => {
     const message = db.collection("messages");
 
     const id = new ObjectId();
@@ -271,10 +272,10 @@ describe("insert documents in all collections", () => {
     const insertedMessage = await message.findOne({
       _id: id,
     });
-    expect(insertedMessage).toEqual(messageExample);
+    expect(insertedMessage).toBe(messageExample);
   });
 
-  it("should insert a doc into complaints collection", async () => {
+  test("should insert a doc into complaints collection", async () => {
     const complaint = db.collection("complaints");
 
     const id = new ObjectId();
@@ -297,10 +298,10 @@ describe("insert documents in all collections", () => {
     const insertedComplaint = await complaint.findOne({
       _id: id,
     });
-    expect(insertedComplaint).toEqual(complaintExample);
+    expect(insertedComplaint).toBe(complaintExample);
   });
 
-  it("should insert a doc into comments collection", async () => {
+  test("should insert a doc into comments collection", async () => {
     const comment = db.collection("comments");
 
     const id = new ObjectId();
@@ -317,10 +318,10 @@ describe("insert documents in all collections", () => {
     const insertedComment = await comment.findOne({
       _id: id,
     });
-    expect(insertedComment).toEqual(commentExample);
+    expect(insertedComment).toBe(commentExample);
   });
 
-  it("should insert a doc into chats collection", async () => {
+  test("should insert a doc into chats collection", async () => {
     const chat = db.collection("chats");
 
     const id = new ObjectId();
@@ -336,10 +337,10 @@ describe("insert documents in all collections", () => {
     const insertedChat = await chat.findOne({
       _id: id,
     });
-    expect(insertedChat).toEqual(chatExample);
+    expect(insertedChat).toBe(chatExample);
   });
 
-  it("should insert a doc into attendances collection", async () => {
+  test("should insert a doc into attendances collection", async () => {
     const attendance = db.collection("attendances");
 
     const id = new ObjectId();
@@ -363,10 +364,10 @@ describe("insert documents in all collections", () => {
     const insertedAttendance = await attendance.findOne({
       _id: id,
     });
-    expect(insertedAttendance).toEqual(attendanceExample);
+    expect(insertedAttendance).toBe(attendanceExample);
   });
 
-  it("should insert a doc into accounts collection", async () => {
+  test("should insert a doc into accounts collection", async () => {
     const account = db.collection("accounts");
 
     const id = new ObjectId();
@@ -394,27 +395,25 @@ describe("insert documents in all collections", () => {
     const insertedAccount = await account.findOne({
       _id: id,
     });
-    expect(insertedAccount).toEqual(accountExample);
+    expect(insertedAccount).toBe(accountExample);
   });
 });
 
 describe("update inserted documents in all collections", () => {
-  let connection;
-  let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(process.env.MONGODB_URI, {
+    const connection = await MongoClient.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    db = await connection.db(process.env.MONGODB_DATABASE);
+    const db = await connection.db(process.env.MONGODB_DATABASE);
   });
 
   afterAll(async () => {
     await connection.close();
   });
 
-  it("should update a doc into collection", async () => {
+  test("should update a doc into collection", async () => {
     const users = db.collection("users");
 
     const mockUser = {
@@ -426,27 +425,25 @@ describe("update inserted documents in all collections", () => {
     const insertedUser = await users.findOne({
       _id: "some-user-id",
     });
-    expect(insertedUser).toEqual(mockUser);
+    expect(insertedUser).toBe(mockUser);
   });
 });
 
 describe("delete", () => {
-  let connection;
-  let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(process.env.MONGODB_URI, {
+    const connection = await MongoClient.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    db = await connection.db(process.env.MONGODB_DATABASE);
+    const db = await connection.db(process.env.MONGODB_DATABASE);
   });
 
   afterAll(async () => {
     await connection.close();
   });
 
-  it("should insert a doc into collection", async () => {
+  test("should delete a doc into collection", async () => {
     const users = db.collection("users");
 
     const mockUser = {
@@ -458,6 +455,6 @@ describe("delete", () => {
     const insertedUser = await users.findOne({
       _id: "some-user-id",
     });
-    expect(insertedUser).toEqual(mockUser);
+    expect(insertedUser).toBe(mockUser);
   });
 });

@@ -41,6 +41,7 @@ export default function Like(props){
 
                     cursor: pointer;
                 }
+
                 a{
 
                 /*Misc*/
