@@ -6,7 +6,8 @@ import {toast} from 'react-toastify'
 import Image from 'next/image'
 import {colors} from '/styles/frontend-conf.js'
 import {server} from '/server'
-import {MdDeleteOutline, MdCheckCircleOutline} from 'react-icons/md'
+import { MdCheckCircleOutline} from 'react-icons/md'
+import {TiDeleteOutline} from 'react-icons/ti'
 import Modal from '/components/Modal/Modal'
 
 
@@ -23,22 +24,25 @@ export default function Complaint (props) {
   const Router = useRouter();
   const {data: session} = useSession()
 
+  console.log(props)
+
   /**
    * It deletes a complaint from the database
    */
   const denyComplaint = async () => {
 
-    await fetch(`${server}/api/complaints/${session.user.username}`, {
+    await fetch(`${server}/api/complaints/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id: props._id
+        id: props.id,
+        adminUsername: session.user.username
       
       })})
 
-    toast.error(`Se ha eliminado la denuncia`, { position: "bottom-right",
+    toast.error(`Se ha denegado la denuncia`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
@@ -53,7 +57,27 @@ export default function Complaint (props) {
 
   const checkComplaint = async () => {
 
+  await fetch(`${server}/api/complaints/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: props.id,
+        adminUsername: session.user.username
+      })})
 
+    toast.success(`Se ha aprobado la denuncia`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+
+    setIsModalVisible(false)
+    Router.reload()
 
   }
 
@@ -79,7 +103,6 @@ export default function Complaint (props) {
 
     const data = await response.json()
     const data2 = await response2.json()
-    console.log(data)
 
     setUser(data);
     setUser2(data2);
@@ -99,15 +122,15 @@ export default function Complaint (props) {
         <div className={global.complaint}>
           <div className="complaint__header">
             <div className="complaint__users">
-              <p className={global.text}><strong>De:</strong> <Image src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />{props.usernameFrom}</p>
-
-              <p className={global.text}><strong>Para:</strong> <Image src={user2.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>{props.usernameTo}</p>
-              
+              <div className="userFrom"><p className={global.text}><strong>De:</strong> <Image src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />{props.usernameFrom}</p></div>
+              <div className="userTo"><p className={global.text}><strong>Para:</strong> <Image src={user2.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>{props.usernameTo}</p></div>           
             </div>
             <div className="complaint__date">
               <p className={global.text}><strong>Fecha</strong> {new Date(props.createdAt).toLocaleDateString().slice(0,10)}</p>
-              <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircleOutline size={20} color={colors.secondary} /></button>
-              <button className='deny__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>   
+              <div className="action__buttons">
+                <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircleOutline size={25} color={colors.secondary} /></button>
+                <button className='deny__button' onClick={() => setIsModalVisible(true)}><TiDeleteOutline size={28} color={colors.secondary} /></button>   
+              </div>   
             </div>
             
           </div>
@@ -149,6 +172,17 @@ export default function Complaint (props) {
 
           }
 
+          .userFrom, .userTo{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+
+          }
+
           .complaint__date{
 
             /*Box model*/
@@ -179,7 +213,16 @@ export default function Complaint (props) {
           gap: 1rem;
         }
 
+        .action__buttons{
+
+          /*Box model*/
+
+          display: flex;
+          align-items: center;
+
+        }
         .check__button, .deny__button{
+
 
           /*Visuals*/
 

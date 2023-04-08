@@ -50,7 +50,6 @@ export default function Chat ({messages}) {
     });
 
     const data = await res.json();
-    console.log(data);
     setChatMessage('');
     getMessages();
 

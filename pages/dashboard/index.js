@@ -83,7 +83,14 @@ export default function Dashboard () {
                   </div>
               </div>
             </div>
+            <div className="panels__row">
+              <div className={global.card__variable}>
+                <h2 className={global.title2}>Usuarios bloqueados</h2>
+                  <p className={global.text}>Panel de administración de los usuarios que han recibido un mínimo de cinco denuncias. Accede al panel de usuarios bloqueados:</p>
+                  <a className={global.link} aria-label="Acceder al panel de usuarios bloqueados" href="/blockedUsers">Acceder ▷</a>
+              </div>
           </div>
+        </div>
           <style jsx>{`
 
             .dashboard__header{

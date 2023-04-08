@@ -11,6 +11,8 @@ export default async function handler (req, res) {
   const complaints = await db.collection('complaints').find({}).toArray()
   const threads = await db.collection('threads').find({}).toArray()
 
+  
+
   let statistics = {
 
     users: users.length,

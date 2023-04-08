@@ -23,13 +23,13 @@ export default function BlockedUser (props) {
    */
   const checkBlock = async () => {
 
-    await fetch(`${server}/api/users/${session.user.username}`, {
+    await fetch(`${server}/api/blockedUsers`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        _id: props._id
+        _id: props.id
       })})
 
 

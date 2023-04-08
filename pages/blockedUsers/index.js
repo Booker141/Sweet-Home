@@ -3,21 +3,16 @@ import {colors} from '/styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
-import {useState, useEffect} from 'react'
-import Complaint from "/components/Complaint/Complaint"
+import BlockedUser from "/components/BlockedUser/BlockedUser"
 import Loader from '/components/Loader/Loader'
 import {server} from "/server"
 
 
-/**
- * It renders the complaints page, which is only accessible by the admin
- * @returns It is being returned a layout with a content div that has two columns. The first column has
- * a title and a list of complaints. The second column has a title and a list of blocked users.
- */
-export default function Complaints ({complaints}){
+
+export default function BlockedUsers ({blockedUsers}){
 
     const {data: session, status} = useSession({required: true})
-   
+
     if (status == 'loading') {
         return (
           <>
@@ -31,31 +26,30 @@ export default function Complaints ({complaints}){
 
             <Layout>
                 <Head>
-                    <title>Panel de denuncias</title>
+                    <title>Usuarios bloqueados</title>
                 </Head>
-                  <div className='complaints'>
-                      <h1 className="title">Denuncias</h1>
-                      {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar..</p></div>}
-                      {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar..</p></div>}
-                      {complaints.filter(complaint => complaint.isChecked === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
-                          return(
-                              <>
-                                  <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
-                              </> 
-                      )})}
-                      
-                  </div>
+                <div className="blockedUsers">
+                  <h1 className="title">Bloquear usuarios</h1>
+                    {blockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados..</p></div>}
+                    {blockedUsers.map(({_id, username, email, role, complaints}) => {
+                        return(
+                            <>
+                                <BlockedUser key={_id} id={_id} username={username} email={email} firstname={firstname} lastname={lastname} role={role} complaints={complaints} />
+                            </>
+                        )
+                    })}
+
+                </div>
+
                 <style jsx>{`
 
 
-                    .complaints{
+                    .blockedUsers{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
                         gap: 1rem;
                         margin-top: 2rem;
                         margin-bottom: 1rem;
@@ -120,19 +114,19 @@ export default function Complaints ({complaints}){
  */
 export async function getServerSideProps(){
 
-    const res = await fetch(`${server}/api/complaints`, {
+
+      const res = await fetch(`${server}/api/blockedUsers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
-
-    const complaints = await res.json();
+    const blockedUsers = await res.json();
 
     return {
         props: {
-            complaints: JSON.parse(JSON.stringify(complaints)), 
+            blockedUsers: JSON.parse(JSON.stringify(blockedUsers))
         }
     }
 }

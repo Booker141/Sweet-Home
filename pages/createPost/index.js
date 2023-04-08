@@ -22,7 +22,6 @@ export default function CreatePost () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [image, setImage] = useState(null)
-  const [imageURL, setImageURL] = useState(null)
   const [message, setMessage] = useState('')
 
   /**
@@ -33,7 +32,6 @@ export default function CreatePost () {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0]
       setImage(imageUploaded)
-      setImageURL(URL.createObjectURL(imageUploaded))
     }
   }
 
@@ -47,17 +45,24 @@ export default function CreatePost () {
     e.preventDefault()
 
     if (image !== null && image !== undefined) {
-      const body = new FormData()
-      body.append('postImage', image, image?.name)
 
-      await fetch(`${server}/api/images`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        body
-      })
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = async () => {
+
+        const imageData = reader.result;
+  
+        // Call the API to upload the image
+        const response = await fetch('/api/images', {
+          method: 'POST',
+          body: JSON.stringify({ image: imageData }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+
     }
+
+  }
 
     const res = await fetch(`${server}/api/posts`, {
       method: 'POST',
@@ -69,7 +74,7 @@ export default function CreatePost () {
         location,
         description,
         username: session.user.username,
-        image: '/postImages/' + image?.name
+        image: '/postPhotos/' + image?.name
       })
     }).catch(err => console.log(err))
 

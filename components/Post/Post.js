@@ -31,6 +31,8 @@ export default function Post (props) {
 
   const Router = useRouter()
 
+  console.log(props.id)
+
   /**
    * This function is called when the component mounts and it fetches the user from the database and
    * sets the user state to the user that was fetched

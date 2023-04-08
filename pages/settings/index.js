@@ -53,6 +53,8 @@ export default function Settings () {
         }
       }).catch(err => console.log(err))
 
+      document.getElementById('birthdate').valueAsDate = new Date(currentUser.birthdate)
+
       const complaintsList = await JSON.parse(JSON.stringify(complaints.json()));
       const petsList = await JSON.parse(JSON.stringify(pets.json()));
 
@@ -70,7 +72,7 @@ export default function Settings () {
       setGender(currentUser.gender)
     }
   }
-  useEffect(async () => {
+  useEffect(() => {
     getData()
   }, [])
 
@@ -280,7 +282,7 @@ export default function Settings () {
                     onChange={(e) => setName(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder={`${user.firstname}`}
+                    placeholder={`${name}`}
                     className='input'
                   >{user.firstname}</input>
                   <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
@@ -309,7 +311,7 @@ export default function Settings () {
                     onChange={(e) => setLastname(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder='p. ej.: García Navarro'
+                    placeholder={`${lastname}`}
                     className='input'
                   />
                   <div id='error__lastname' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
@@ -337,7 +339,7 @@ export default function Settings () {
                     onChange={(e) => setPhone(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder='p. ej.: 654897612'
+                    placeholder={`${phone}`}
                     className='input'
                   />
                   <div id='error__phone' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
@@ -361,7 +363,7 @@ export default function Settings () {
                   id='biography'
                   value={biography}
                   onChange={(e) => setBiography(e.target.value)}
-                  placeholder='p. ej.: Soy un estudiante de 4º de ESO.'
+                  placeholder={`${biography}`}
                   className='input'
                 />
               </div>
@@ -419,6 +421,14 @@ export default function Settings () {
           <div className='saved'>
             <h1 className={global.title}>Guardados</h1>
             <div className='saved__content'>
+            {user.saves.length === 0 && <div><p className={global.loading2}>No ha guardado ninguna publicación</p></div>}
+              {user.saves.map(({ _id}) => {
+                return (
+                  <>
+                    <Post key={_id} id={_id}/>
+                  </>
+                )
+              })}
             </div>
           </div>
 
@@ -426,7 +436,7 @@ export default function Settings () {
             <h1 className={global.title}>Denuncias</h1>
             <div className='complaints__content'>
               {complaints.length === 0 && <div><p className={global.loading2}>No ha interpuesto ninguna denuncia</p></div>}
-              {complaints.map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
+              {complaints.filter(complaint => complaint.usernameTo = session.user.username).map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
                 return (
                   <>
                     <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />

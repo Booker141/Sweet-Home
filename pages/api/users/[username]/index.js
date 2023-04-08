@@ -8,19 +8,16 @@ export default async function handler (req, res) {
   const account = await db.collection('accounts').findOne({ username: req.query.username })
   const body = req.body
 
-  console.log(user)
-  console.log(ObjectId(user._id))
 
   if (req.method === 'GET') {
-    const data = await db.collection('users').findOne({ username: req.query.username })
 
-    console.log(data)
-
-    const user = JSON.parse(JSON.stringify(data))
-    res.status(200).json(user)
+    const userData = JSON.parse(JSON.stringify(user))
+    userData.birthdate = new Date(userData.birthdate).toISOString().split('T')[0]
+    res.status(200).json(userData)
   }
 
   if (req.method === 'PUT') {
+    
     await db.collection('users').replaceOne({ username: req.query.username }, {
       _id: user._id,
       email: user.email,
