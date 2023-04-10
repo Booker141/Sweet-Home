@@ -32,8 +32,8 @@
   /*Text*/
 
   font-family: "Poppins", sans-serif;
-  font-size: 3rem;
-  font-weight: 500;
+  font-size: 3.5rem;
+  font-weight: 600;
   color: #fafafa;
 }
 
@@ -164,29 +164,24 @@
 
 .text2 {
 
-  /*Box model*/
-
-  margin-bottom: 1.5rem;
 
   /*Text*/
 
   font-size: 1rem;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 550;
   color: #fafafafa;
 
 }
 
 .text2__bold {
 
-  /*Box model*/
-
-  margin-bottom: 1.5rem;
 
   /*Text*/
 
   font-size: 1rem;
   font-weight: bold;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fafafafa;
 
 }
@@ -308,6 +303,7 @@
   justify-content: space-between;
   width: 100%;
   margin-bottom: 1rem;
+  padding: 1rem;
 
   /*Text*/
 
@@ -316,7 +312,7 @@
   /*Visuals*/
 
   border-radius: 10px;
-  border: 1px solid #f0810f;
+  border: 2px solid #f0810f;
 
 }
 
@@ -617,27 +613,18 @@
 
 }
 
-.dots {
-
-  /*Visuals*/
-
-  background-image: radial-gradient(rgba(240, 129, 15, 1) 1px, transparent 1px), radial-gradient(rgba(240, 129, 15, 1) 1px, transparent 1px);
-  background-position: 0 0, 500px 500px;
-  background-size: 50px 50px;
-
-}
 
 .line {
   /*Box model*/
 
   width: 97%;
-  height: 0.09rem;
+  height: 0.12rem;
 
   /*Visuals*/
 
   background-color: #f0810f;
   border: none;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .white__line {
@@ -649,7 +636,7 @@
 
   /*Visuals*/
 
-  background-color: #fafafa;
+  background-color: white;
   border: none;
   opacity: 0.8;
 }
@@ -663,9 +650,8 @@
 
   /*Visuals*/
 
-  background-color: #fafafa;
+  background-color: white;
   border: none;
-  opacity: 0.8;
 
 }
 

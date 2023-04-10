@@ -21,17 +21,30 @@ export default function CreatePost () {
   const Router = useRouter()
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
-  const [image, setImage] = useState(null)
+  const [postImage, setPostImage] = useState("")
   const [message, setMessage] = useState('')
 
-  /**
-   * It takes the image uploaded by the user and sets the image and imageURL state variables
-   * @param e - the event that is triggered when the user uploads an image
-   */
+ 
   const uploadImage = async (e) => {
+
+
     if (e.target.files && e.target.files[0]) {
-      const imageUploaded = e.target.files[0]
-      setImage(imageUploaded)
+
+
+          const imageUploaded = e.target.files[0]
+
+          const reader = new FileReader()
+
+          reader.readAsDataURL(imageUploaded)
+
+          reader.onload = () => {
+
+            const imageData = reader.result
+
+            setPostImage(imageData)
+      
+          }
+
     }
   }
 
@@ -44,26 +57,6 @@ export default function CreatePost () {
     
     e.preventDefault()
 
-    if (image !== null && image !== undefined) {
-
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-
-      reader.onload = async () => {
-
-        const imageData = reader.result;
-  
-        // Call the API to upload the image
-        const response = await fetch('/api/images', {
-          method: 'POST',
-          body: JSON.stringify({ image: imageData }),
-          headers: { 'Content-Type': 'application/json' }
-        });
-
-    }
-
-  }
-
     const res = await fetch(`${server}/api/posts`, {
       method: 'POST',
       headers: {
@@ -74,7 +67,7 @@ export default function CreatePost () {
         location,
         description,
         username: session.user.username,
-        image: '/postPhotos/' + image?.name
+        image: postImage
       })
     }).catch(err => console.log(err))
 
@@ -150,7 +143,7 @@ export default function CreatePost () {
                             title='Introducir imagen'
                             type='file'
                             name='image'
-                            id='image'
+                            id='image__input'
                             onChange={(e) => uploadImage(e)}
                             accept='image/png, image/jpeg'
                             placeholder='Ningún archivo seleccionado'

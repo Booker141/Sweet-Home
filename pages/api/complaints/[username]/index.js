@@ -10,10 +10,9 @@ export default async function handler (req, res) {
   if (req.method === 'GET') {
 
       const data = await db.collection('complaints').find({usernameTo: req.query.username}).toArray()
-    
-      const complaints = JSON.parse(JSON.stringify(data))
   
-      res.status(200).json(complaints)
+  
+      res.status(200).json(data)
   
   }
 

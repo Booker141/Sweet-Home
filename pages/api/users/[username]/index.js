@@ -1,6 +1,15 @@
 import clientPromise from '../../lib/MongoDB'
 import { ObjectId } from 'mongodb'
 
+
+export const config = {
+  api: {
+      bodyParser: {
+          sizeLimit: '20mb' 
+      }
+  }
+}
+
 export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()
@@ -12,7 +21,6 @@ export default async function handler (req, res) {
   if (req.method === 'GET') {
 
     const userData = JSON.parse(JSON.stringify(user))
-    userData.birthdate = new Date(userData.birthdate).toISOString().split('T')[0]
     res.status(200).json(userData)
   }
 
@@ -28,7 +36,7 @@ export default async function handler (req, res) {
       phone: body.phone,
       gender: body.gender,
       birthdate: Date.parse(body.birthdate),
-      image: user.image,
+      image: body.image,
       status: user.status,
       role: user.role,
       createdAt: user.createdAt,
@@ -53,7 +61,6 @@ export default async function handler (req, res) {
       firstname: body.firstname,
       lastname: body.lastname,
       username: user.username,
-      image: user.image,
       createdAt: account.createdAt,
       userId: user._id
     })

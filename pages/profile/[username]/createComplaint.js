@@ -69,28 +69,33 @@ export default function CreateComplaint () {
 
       <Layout>
         <Head><title>Crear denuncia</title></Head>
-          <div className='form'>
-            <h1 className='form__title'>Denuncia hacia @{router.query.username}</h1>
-            <h3 className={global.text2}>De parte de @{session.user.username}</h3>
-            <p className={global.text2}>Introduzca los datos de la denuncia. Los campos obligatorios vienen indicados con un asterisco *:</p>
-            <form action='/api/complaints' id='form'>
-              <div className='form-vertical__reason'>
-                <div className='label'>
-                  <p className={global.text}>Motivo</p>
-                  <BsFillExclamationDiamondFill size={25} color={colors.secondary} />
+          <div className='container__header'>
+            <h1 className='title'>Denuncia hacia @{router.query.username}</h1>
+            <h3 className={global.text__bold}>De parte de @{session.user.username}</h3>
+            <p className={global.text}>Introduzca los datos de la denuncia. Los campos obligatorios vienen indicados con un asterisco *:</p>
+          </div>
+          <div className='container__form'>
+            <div className='form'>
+
+              <form action='/api/complaints' id='form'>
+                <div className='form-vertical__reason'>
+                  <div className='label'>
+                    <p className={global.text}>Motivo</p>
+                    <BsFillExclamationDiamondFill size={25} color={colors.secondary} />
+                  </div>
+                  <div className='reason__input'>
+                    <textarea
+                      title='Introducir motivo'
+                      name='reason'
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                      placeholder='p. ej.: El usuario ha infringido las normas...'
+                    />
+                  </div>
                 </div>
-                <div className='reason__input'>
-                  <textarea
-                    title='Introducir motivo'
-                    name='reason'
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    placeholder='p. ej.: El usuario ha infringido las normas...'
-                  />
-                </div>
-              </div>
-            </form>
-            <input className={global.buttonPrimary} type='submit' onClick={(e) => createComplaint(e)} value='Enviar' />
+              </form>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createComplaint(e)} value='Enviar' />
+            </div>
           </div>
         <style jsx>{`
 
@@ -101,8 +106,9 @@ export default function CreateComplaint () {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
+                        justify-content: center;
                     
-                        width: 100%;
+                        width: 40vw;
 
                         /*Visuals*/
 
@@ -112,22 +118,45 @@ export default function CreateComplaint () {
                         
                     }
 
-                    .form__title{
+                    .container__header{
 
-                        /*Box model*/
+                      /*Box model*/
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 1rem;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+                      margin-bottom: 2rem;
+
+                    }
+
+                    .container__form{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+
+                    }
+                    
+
+                    .title{
 
                         /*Text*/
 
-                        font-family: 'Satisfy';
-                        font-size: 4rem;
-                        font-weight: 500;
-                        color: ${colors.secondary};
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        margin: 0;
                     }
 
                     .label{
@@ -171,6 +200,15 @@ export default function CreateComplaint () {
 
                         border-radius: 5px;
                         border: 1px solid ${colors.primary};
+                    }
+
+                    .form-vertical__reason{
+
+
+                        /*Box model*/
+
+                        margin-top: 2rem;
+
                     }
 
 

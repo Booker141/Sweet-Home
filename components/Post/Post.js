@@ -31,8 +31,6 @@ export default function Post (props) {
 
   const Router = useRouter()
 
-  console.log(props.id)
-
   /**
    * This function is called when the component mounts and it fetches the user from the database and
    * sets the user state to the user that was fetched
@@ -130,21 +128,23 @@ export default function Post (props) {
               {(user.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
             </div>
           </div>
-          <img src={props.mediaUrl} />
+          <hr className={global.white__line2} />
           <div className='description'>
-            <div className='description__content'>
-              <Image className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={30} height={30} priority />
-              <p className={global.tertiary2__bold}>
+            <div className='description__content'>           
+              <Image className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} priority />
+              <p className={global.link3__bold}>
                 @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary} />}:
               </p>
               <div className='description__text'>
-                <p className={global.tertiary2}>
+                <p className={global.text2}>
                   {props.description}
                 </p>
               </div>
             </div>
           </div>
-          <Image src={props.image} size={30} />
+          <div className="post__image">
+            <img src={props.image} style={{ borderRadius: '5px', maxWidth: '50vw'}} alt="Imagen del post"/>
+          </div>
           <div className='post__block'>
             <div className='post__comment'>
               <div className='comment__input'>
@@ -159,6 +159,7 @@ export default function Post (props) {
                   onEnter={Commentate}
                   placeholder='Escribir comentario...'
                   fontFamily={`${fonts.default}`}
+                  borderColor={`${colors.primary}`}
                 />
               </div>
               <button onClick={() => Commentate()} className={global.buttonTertiary}>Enviar</button>
@@ -220,7 +221,6 @@ export default function Post (props) {
 
       <style jsx>{`
 
-               
                 .post__content{
 
                     /*Box model*/
@@ -237,7 +237,18 @@ export default function Post (props) {
                     flex-direction: row;
                     justify-content: space-between;
                     align-items: center;
+                    margin-bottom: 1rem;
 
+                }
+
+                .post__image{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
                 }
 
                 .post__block{
@@ -272,7 +283,7 @@ export default function Post (props) {
                     /*Visuals*/
 
                     border-radius: 5px;
-                    background-color: white;
+                    background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 250%);
   
                 }
 
@@ -285,16 +296,23 @@ export default function Post (props) {
                     align-items: center;
                     justify-content: flex-start;
                     margin-right: 1rem;
-                    width: 30vw;
+                    width: 35vw;
 
                     /*Text*/
 
                     font-family: ${fonts.default};
                     font-size: 1rem;
                     font-weight: 400;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
 
 
+                }
+
+                .comment__input:after{
+
+                    /*Box model*/
+
+                    color: ${colors.secondary};
                 }
 
                 .post__icons{
@@ -360,7 +378,6 @@ export default function Post (props) {
 
                     /*Visuals*/
 
-                    background-color: white;
                     border-radius: 5px;
 
                 }
@@ -382,6 +399,7 @@ export default function Post (props) {
 
                     word-wrap: break-word;
                     max-width: 28rem;
+                    align-items:center;
         
                 }
 
@@ -526,7 +544,7 @@ export default function Post (props) {
 
                     display: flex;
                     align-items: center;
-                    margin-bottom: 0.5rem;
+
 
                     /*Visuals*/
 

@@ -105,7 +105,7 @@ export const authOptions = {
   },
   callbacks: {
 
-    async signIn ({ user, account, profile, credentials }) {
+    async signIn ({ user, account }) {
       const client = await clientPromise
       const db = await client.db()
 
@@ -140,7 +140,6 @@ export const authOptions = {
             firstname: user.firstname,
             lastname: user.lastname,
             username: user.username,
-            image: user.image,
             createdAt: new Date(),
             userId: user._id
           })
@@ -167,7 +166,6 @@ export const authOptions = {
             firstname: '',
             lastname: '',
             username: user.name,
-            image: user.image,
             createdAt: new Date(),
             userId: randomId
           })
@@ -224,7 +222,6 @@ export const authOptions = {
               firstname: '',
               lastname: '',
               username: user.name,
-              image: user.image,
               createdAt: new Date(),
               userId: randomId
             }
@@ -275,7 +272,6 @@ export const authOptions = {
               firstname: user.firstname,
               lastname: user.lastname,
               username: user.name,
-              image: user.image,
               status: user.status,
               role: user.role,
               createdAt: user.createdAt,
@@ -290,7 +286,7 @@ export const authOptions = {
       return true
     },
     async jwt ({ token, user }) {
-      console.log(user)
+
 
       if (user) {
         token = {
@@ -306,12 +302,11 @@ export const authOptions = {
         }
       }
 
-      console.log(token)
 
       return Promise.resolve(token)
     },
     async session ({ session, token }) {
-      console.log(token)
+
 
       if (token) {
         session = {
@@ -329,7 +324,6 @@ export const authOptions = {
         }
       }
 
-      console.log(session)
 
       return Promise.resolve(session)
     }

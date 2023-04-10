@@ -1,5 +1,6 @@
 import clientPromise from '../lib/MongoDB'
 
+
 export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()

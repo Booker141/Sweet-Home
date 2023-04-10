@@ -1,6 +1,6 @@
 import global from "/styles/global.module.css"
 import {colors} from "styles/frontend-conf"
-import {BsBookmark, BsBookmarkFill} from "react-icons/bs"
+import {HiOutlineBookmark, HiBookmark} from "react-icons/hi"
 import {useState, useEffect} from 'react'
 
 /**
@@ -25,23 +25,28 @@ export default function Save(props){
     return(
         <>
             <div className='save'>
-                    <p className={global.text2__bold}>{props.saves.length === null ? 0 : props.saves.length}</p>
-                    <a className='save--status' onClick={() => Save()}>{isSave ? <BsBookmarkFill size={20} color={colors.secondary} /> : <BsBookmark className='bookmark1' size={20} color={colors.secondary} />}</a>
+                    <p className={global.text2}>{props.saves.length === null ? 0 : props.saves.length}</p>
+                    <a className='save--status' onClick={() => Save()}>{isSave ? <HiBookmark size={20} color={colors.secondary} /> : <HiOutlineBookmark className='bookmark1' size={20} color={colors.secondary} />}</a>
             </div>
             <style jsx>{`
                 
                 .save{
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 1rem;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 1rem;
 
                 }
 
                 .save--status{
+
+                    /*Box model*/
+
+                    display: flex;
+                    align-items:center;
 
                     /*Misc*/
 

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Logo from '../../public/LogoWebBlanco.png'
+import Logo from '../../public/LogoWebBlanco.svg'
 
 /*
     * @author Sergio García Navarro
@@ -18,7 +18,7 @@ export default function Trademark ({ link }) {
 
     <>
       <div className='img'>
-        <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={150} height={65} /></a>
+        <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={110} height={100} /></a>
       </div>
     </>
 

@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
+import {colors} from '/styles/frontend-conf'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import Layout from '/components/Layout/Layout'
@@ -31,7 +32,7 @@ export default function FollowingUser ({ user }) {
     return (
       <Layout>
         <Head><title>Seguidores</title></Head>
-        <h1 className={global.title}>Seguidores</h1>
+        <h1 className="title">Seguidores</h1>
         <p className={global.text}>Sigues a {numFollowing} personas</p>
         <div className='following'>
           {following.map((_id) => (
@@ -39,8 +40,29 @@ export default function FollowingUser ({ user }) {
           ))}
         </div>
         <style jsx>{`
-                        `}
-        </style>
+        
+          .title{
+
+             /*Text*/
+
+             font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+
+          }
+        
+        
+        
+        
+        
+        `}</style>
       </Layout>
     )
   } else {

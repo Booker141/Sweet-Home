@@ -22,28 +22,24 @@ class MyDocument extends Document {
             href='/fonts/Poppins/Poppins-Regular.ttf'
             as='font'
             type='font/ttf'
-            crossOrigin='anonymous'
           />
           <link
             rel='preload'
             href='/fonts/Poppins/Poppins-Black.ttf'
             as='font'
             type='font/ttf'
-            crossOrigin='anonymous'
           />
           <link
             rel='preload'
             href='/fonts/Raleway/Raleway-VariableFont_wght.ttf'
             as='font'
             type='font/ttf'
-            crossOrigin='anonymous'
           />
           <link
             rel='preload'
             href='/fonts/Satisfy/Satisfy-Regular.ttf'
             as='font'
             type='font/ttf'
-            crossOrigin='anonymous'
           />
         </Head>
 

@@ -6,15 +6,18 @@ import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
 import { AiFillPhone } from 'react-icons/ai'
 import { MdOutlineError } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
+import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill } from 'react-icons/bs'
 import Layout from '/components/Layout/Layout'
 import Modal from '/components/Modal/Modal'
 import { server } from '/server'
+import {toast} from 'react-toastify'
 import Loader from '/components/Loader/Loader'
 
 export default function Settings () {
 
   const { data: session, status } = useSession({ required: true })
+  
+  const [userImage, setUserImage] = useState('')
   const [user, setUser] = useState({})
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
@@ -23,43 +26,63 @@ export default function Settings () {
   const [birthdate, setBirthdate] = useState('')
   const [gender, setGender] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [isValidate, setIsValidate] = useState(false)
+  const [isValidate, setIsValidate] = useState(true)
   const [maxDate, setMaxDate] = useState('')
-  const [message, setMessage] = useState('')
   const [complaints, setComplaints] = useState([])
   const [pets, setPets] = useState([])
 
+  const uploadImage = async (e) => {
+
+
+    if (e.target.files && e.target.files[0]) {
+
+
+          const imageUploaded = e.target.files[0]
+
+          const reader = new FileReader()
+
+          reader.readAsDataURL(imageUploaded)
+
+          reader.onload = () => {
+
+            const imageData = reader.result
+
+            setUserImage(imageData)
+      
+          }
+
+    }
+  }
+
   /* The above code is fetching the user's complaints, pets, and user information from the database. */
   async function getData(){
-    if (session) {
+
       const complaints = await fetch(`${server}/api/complaints/${session.user.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).catch(err => console.log(err))
+      })
 
       const pets = await fetch(`${server}/api/pets/${session.user.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).catch(err => console.log(err))
+      })
 
       const currentUser = await fetch(`${server}/api/users/${session.user.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).catch(err => console.log(err))
+      })
 
       document.getElementById('birthdate').valueAsDate = new Date(currentUser.birthdate)
 
-      const complaintsList = await JSON.parse(JSON.stringify(complaints.json()));
-      const petsList = await JSON.parse(JSON.stringify(pets.json()));
+      const complaintsList = JSON.parse(JSON.stringify(complaints.json()));
+      const petsList = JSON.parse(JSON.stringify(pets.json()));
 
-      console.log(complaintsList)
-      console.log(currentUser);
 
       setComplaints(complaintsList)
       setPets(petsList)
@@ -70,7 +93,7 @@ export default function Settings () {
       setBiography(currentUser.biography)
       setBirthdate(currentUser.birthdate)
       setGender(currentUser.gender)
-    }
+  
   }
   useEffect(() => {
     getData()
@@ -103,7 +126,7 @@ export default function Settings () {
     const regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/
     const regPhone = /^(?:6[0-9]|7[1-9])[0-9]{7}$/
 
-    if (e.target.name == 'name' && e.target.value != null) {
+    if (e.target.name == 'name' && e.target.value != undefined && e.target.value!== '') {
       if (!name.match(regName)) {
         document.getElementById('name__error').classList.add('form__input-nameError--active')
         document.getElementById('error__name').classList.add('form__error-icon--active')
@@ -117,7 +140,7 @@ export default function Settings () {
       }
     }
 
-    if (e.target.name == 'lastname' && e.target.value != null) {
+    if (e.target.name == 'lastname' && e.target.value != undefined && e.target.value!== '') {
       if (!regLastname.test(lastname)) {
         document.getElementById('lastname__error').classList.add('form__input-lastnameError--active')
         document.getElementById('error__lastname').classList.add('form__error-icon--active')
@@ -131,7 +154,7 @@ export default function Settings () {
       }
     }
 
-    if (e.target.name == 'phone' && e.target.value != null) {
+    if (e.target.name == 'phone' && e.target.value != undefined && e.target.value!== '') {
       if (phone.length < 9 || phone.length > 9 || !regPhone.test(phone)) {
         document.getElementById('phone__error').classList.add('form__input-phoneError--active')
         document.getElementById('error__phone').classList.add('form__error-icon--active')
@@ -160,7 +183,15 @@ export default function Settings () {
       }
     }).catch(err => console.log(err))
 
-    setMessage('Se ha eliminado la cuenta correctamente')
+    toast.error(`Se ha eliminado la cuenta correctamente`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+    
     signOut()
   }
 
@@ -221,10 +252,11 @@ export default function Settings () {
    * @param e - the event object
    */
   const edit = async (e) => {
+
     e.preventDefault()
 
     if (isValidate) {
-      document.getElementById('submit__error').classList.add('submit__error--active')
+
       await fetch(`${server}/api/users/${session.user.username}`, {
         method: 'PUT',
         headers: {
@@ -236,18 +268,36 @@ export default function Settings () {
           phone: phone !== user.phone ? phone : user.phone,
           biography: biography !== user.biography ? biography : user.biography,
           birthdate: birthdate !== user.birthdate ? birthdate : user.birthdate,
-          gender: gender !== user.gender ? gender : user.gender
+          gender: gender !== user.gender ? gender : user.gender,
+          image: userImage
         })
       }).catch(err => console.log(err))
+
+      toast.success(`Se han guardado los datos`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+
     } else {
-      document.getElementById('submit__error').classList.remove('submit__error--active')
-      document.getElementById('submit__error').classList.add('submit__error--active2')
+      toast.error(`Introduzca los datos correctamente`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
     }
   }
-  if (status == 'loading') {
+
+  if (status === 'loading') {
     return (
       <>
-        <div className={global.loading}><p className={global.title}>Cargando..</p></div>
+        <div className={global.loading}><p>Cargando..</p></div>
         <Loader />
       </>
     )
@@ -265,7 +315,26 @@ export default function Settings () {
           </nav>
           <div className='form-page'>
             <h1 className={global.title}>Editar perfil</h1>
-            <form className='form-vertical' action='/api/users'>
+            <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
+            <div className='form-vertical__image'>
+                    <div className='label'>
+                          <p className={global.text}>Imagen de perfil:</p>
+                          <BsImageFill size={20} color={colors.secondary} />
+                        </div>
+                    <div className='image__input'>
+                          <input
+                            title='Introducir imagen'
+                            type='file'
+                            name='image'
+                            id='image__input'
+                            onChange={(e) => uploadImage(e)}
+                            accept='image/png, image/jpeg, image/jpg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+                        </div>
+                  </div>
               <div className='form-vertical__name'>
                 <div className='label'>
                   <p className={global.text}>Nombre</p>
@@ -399,15 +468,7 @@ export default function Settings () {
                 <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
               </div>
             </form>
-            <div className={global.error}>{message}</div>
-            <div id='submit__error' className='submit__error'>
-              {message}
-            </div>
-            <div id='success__form' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-            <p className={global.text2}>Se han guardado los datos correctamente</p>
             <input type='submit' value='Guardar' className={global.buttonPrimary} onClick={(e) => edit(e)} />
-            <div id='success__form' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-            <p className={global.text2}>Se han guardado los datos correctamente</p>
             {isModalVisible && <Modal>
               <h2 className={global.title3}>Eliminar cuenta</h2>
               <p className={global.text2}>¿Estás seguro de que quieres eliminar tu cuenta?</p>
@@ -421,7 +482,7 @@ export default function Settings () {
           <div className='saved'>
             <h1 className={global.title}>Guardados</h1>
             <div className='saved__content'>
-            {user.saves.length === 0 && <div><p className={global.loading2}>No ha guardado ninguna publicación</p></div>}
+            {/*{user.saves.length === 0 && <div><p className={global.loading2}>No ha guardado ninguna publicación</p></div>}
               {user.saves.map(({ _id}) => {
                 return (
                   <>
@@ -429,6 +490,7 @@ export default function Settings () {
                   </>
                 )
               })}
+            */}
             </div>
           </div>
 
@@ -436,13 +498,13 @@ export default function Settings () {
             <h1 className={global.title}>Denuncias</h1>
             <div className='complaints__content'>
               {complaints.length === 0 && <div><p className={global.loading2}>No ha interpuesto ninguna denuncia</p></div>}
-              {complaints.filter(complaint => complaint.usernameTo = session.user.username).map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
+             { /*{complaints.filter(complaint => complaint.usernameTo = session.user.username).map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
                 return (
                   <>
                     <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
                   </>
                 )
-              })}
+              })}*/}
             </div>
           </div>
 
@@ -450,10 +512,10 @@ export default function Settings () {
             <h1 className={global.title}>Mascotas</h1>
             <div className='pets__content'>
               {pets.length === 0 && <div><p className={global.loading2}>No tienes mascotas registradas</p></div>}
-              {pets.map(({ _id, animal, breed, name, weight, birthYear, image, ownerUsername }) => {
+              {pets.map(({ _id, animal, breed, name, weight, birthdate, image, ownerUsername }) => {
                 return (
                   <>
-                    <Pet key={_id} animal={animal} breed={breed} name={name} weight={weight} bithYear={birthYear} image={image} ownerUsername={ownerUsername} />
+                    <Pet key={_id} animal={animal} breed={breed} name={name} weight={weight} bithdate={birthdate} image={image} ownerUsername={ownerUsername} />
                   </>
                 )
               })}
@@ -477,9 +539,8 @@ export default function Settings () {
 
                     /*Visuals*/
 
-                    border: 1px solid ${colors.primary};
+                    border: 2px solid ${colors.primary};
                     border-radius: 10px;
-                    box-shadow: 10px 10px 5px 0px rgba(214,214,214,0.42);
 
                    
 
@@ -654,14 +715,26 @@ export default function Settings () {
                   justify-content: center;
                   margin-top: 2rem;
                   margin-bottom: 2rem;
-                  height: 25rem;
-                  padding: 15rem;
+                  height: 100vh;
+                  padding: 5rem;
 
                   /*Visuals*/
 
                   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
                   border-radius: 10px;
                   
+            }
+
+            .form-vertical__image {
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 100%;
+              margin-bottom: 2rem;
+
             }
 
             .form-vertical__name {
@@ -1087,6 +1160,7 @@ export default function Settings () {
               display: flex;
               flex-direction: row;
               align-items: center;
+              margin-bottom: 1rem;
               
               /*Text*/
 
@@ -1113,6 +1187,19 @@ export default function Settings () {
               background: transparent;
               border-radius: 5px;
               border: 1px solid ${colors.secondary};
+
+            }
+
+            .image__input{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-between;
+              gap: 1rem;
+              height: 2rem;
 
             }
 
@@ -1168,6 +1255,50 @@ export default function Settings () {
                 font-family: ${fonts.default};
                 color: ${colors.primary};
             }
+            input[type="file"]{
+
+                /*Box model*/
+
+                width: 5vw;
+                height: 10vh;
+                display: flex;
+                align-items: center;
+                margin-top: 1rem;
+
+                /*Visuals*/
+
+                border-radius: 100px;
+                cursor: pointer;
+                background-color: transparent;
+                border: 1px solid ${colors.secondary};
+                color: ${colors.secondary};
+
+              }
+
+              input[type="file"]::before{
+
+                /*Box model*/
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+                margin-right: 1rem;
+
+                /*Visuals*/
+
+                cursor: pointer;
+                background-color: ${colors.primary};
+                color: ${colors.secondary};
+                border-radius: 50px;
+
+              }
+
+              input[type="file"]::-webkit-file-upload-button {
+
+              display: none;
+
+              }
 
             h1{
                         /*Text*/

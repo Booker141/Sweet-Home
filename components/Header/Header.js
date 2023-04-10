@@ -226,7 +226,7 @@ export default function Header (props) {
 
                     background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
-                    border-radius: 20px;
+                    border-radius: 80px;
                     
 
                 }
@@ -242,13 +242,14 @@ export default function Header (props) {
                     display: none;
                     margin-bottom: 1rem;
                     margin-right: 1.5rem;
+                    margin-top: 1.2rem;
                     
                     z-index: 100000;
 
 
                     /*Visuals*/
 
-                    border-radius: 10px 10px 10px 10px;
+                    border-radius: 40px 40px 40px 40px;
                     background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
 
@@ -474,7 +475,7 @@ export default function Header (props) {
 
                     background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
-                    border-radius: 20px;
+                    border-radius: 80px;
                    
 
                     }

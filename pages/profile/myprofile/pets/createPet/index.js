@@ -3,9 +3,12 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdLocationOn } from 'react-icons/md'
+import { BsImageFill } from 'react-icons/bs'
+import {colors, fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import { server } from '/server'
+import {toast} from 'react-toastify'
 
 export default function CreatePet () {
   
@@ -13,10 +16,34 @@ export default function CreatePet () {
   const Router = useRouter()
   const [name, setName] = useState('')
   const [animal, setAnimal] = useState('')
+  const [petImage, setPetImage] = useState("")
   const [breed, setBreed] = useState('')
   const [weight, setWeight] = useState('')
-  const [birthYear, setBirthYear] = useState('')
+  const [birthdate, setBirthdate] = useState('')
   const [message, setMessage] = useState('')
+
+  const uploadImage = async (e) => {
+
+
+    if (e.target.files && e.target.files[0]) {
+
+
+          const imageUploaded = e.target.files[0]
+
+          const reader = new FileReader()
+
+          reader.readAsDataURL(imageUploaded)
+
+          reader.onload = () => {
+
+            const imageData = reader.result
+
+            setPetImage(imageData)
+      
+          }
+
+    }
+  }
 
   const createPet = async (e) => {
     e.preventDefault()
@@ -28,19 +55,36 @@ export default function CreatePet () {
       },
       body: JSON.stringify({
         userId: session.user.id,
-        location,
-        description,
-        username: session.user.username
+        name: name,
+        animal: animal,
+        breed: breed,
+        weight: weight,
+        birthdate: birthdate,
+        username: session.user.username,
+        image: petImage
       })
     }).catch(err => console.log(err))
 
     const data = await res.json()
 
     if (data.error) {
-      console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
+      toast.error(`Introduzca los campos obligatorios`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
     } else {
-      setMessage('Mascota creada correctamente')
+      toast.success(`La mascota ha sido creada correctamente`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
       Router.push('/profile/myprofile/pets')
     }
   }
@@ -53,105 +97,166 @@ export default function CreatePet () {
       <Layout>
         <Head><title>Crear mascota</title></Head>
         <div className={global.content}>
-          <div className={global.dots}>
-            <div className='form'>
-              <h1 className='form__title'>Crear mascota</h1>
-              <p className={global.text2}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
-              <form action='/api/posts' id='form'>
-                <div className='form-vertical__name'>
-                  <div className='label'>
-                    <p className={global.text}>Nombre</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
-                  </div>
-                  <div className='animal__input'>
-                    <input
-                          title='Introducir nombre'
-                          type='text'
-                          name='name'
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          placeholder='p. ej.: Hank'
-                          className='input'
-                         />
-                  </div>
-                </div>
-
-                <div className='form-vertical__animal'>
-                  <div className='label'>
-                    <p className={global.text}>Animal</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
-                  </div>
-                  <div className='animal__input'>
-                    <input
-                          title='Introducir tipo de animal'
-                          type='text'
-                          name='animal'
-                          value={animal}
-                          onChange={(e) => setAnimal(e.target.value)}
-                          placeholder='p. ej.: Perro'
-                          className='input'
-                         />
-                  </div>
-                </div>
-                <div className='form-vertical__breed'>
-                  <div className='label'>
-                    <p className={global.text}>Raza</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
-                  </div>
-                  <div className='breed__input'>
-                    <input
-                          title='Introducir raza'
-                          type='text'
-                          name='breed'
-                          value={breed}
-                          onChange={(e) => setBreed(e.target.value)}
-                          placeholder='p. ej.: Retriever'
-                          className='input'
-                         />
-                  </div>
-                </div>
-                <div className='form-vertical__weight'>
-                  <div className='label'>
-                    <p className={global.text}>Peso</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
-                  </div>
-                  <div className='weight__input'>
-                    <input
-                          title='Introducir peso'
-                          type='text'
-                          name='weight'
-                          value={weight}
-                          onChange={(e) => setWeight(e.target.value)}
-                          placeholder='p. ej.: 16'
-                          className='input'
-                         />
-                    <p className={global.text2}>Kg</p>
-                  </div>
-                </div>
-                <div className='form-vertical__birthYear'>
-                  <div className='label'>
-                    <p className={global.text}>Año de nacimiento</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
-                  </div>
-                  <div className='birthYear__input'>
-                    <input
-                          title='Introducir año de nacimiento'
-                          type='text'
-                          name='birthYear'
-                          value={birthYear}
-                          onChange={(e) => setBirthYear(e.target.value)}
-                          placeholder='p. ej.: Cádiz'
-                          className='input'
-                         />
-                  </div>
-                </div>
-              </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createPet(e)} value='Crear' />
+          <div className="container__header">
+              <h1 className='title'>Crear mascota</h1>
+              <p className={global.text}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
             </div>
+            <div className='container__form'>
+              <div className='form'>
+                
+                <form action='/api/posts' id='form'>
+                  <div className='form-vertical__name'>
+                    <div className='label'>
+                      <p className={global.text}>Nombre</p>
+                      <MdLocationOn size={25} color={colors.secondary} />
+                    </div>
+                    <div className='animal__input'>
+                      <input
+                            title='Introducir nombre'
+                            type='text'
+                            name='name'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder='p. ej.: Hank'
+                            className='input'
+                          />
+                    </div>
+                  </div>
 
+                  <div className='form-vertical__animal'>
+                    <div className='label'>
+                      <p className={global.text}>Animal</p>
+                      <MdLocationOn size={25} color={colors.secondary} />
+                    </div>
+                    <div className='animal__input'>
+                      <input
+                            title='Introducir tipo de animal'
+                            type='text'
+                            name='animal'
+                            value={animal}
+                            onChange={(e) => setAnimal(e.target.value)}
+                            placeholder='p. ej.: Perro'
+                            className='input'
+                          />
+                    </div>
+                  </div>
+                  <div className='form-vertical__breed'>
+                    <div className='label'>
+                      <p className={global.text}>Raza</p>
+                      <MdLocationOn size={25} color={colors.secondary} />
+                    </div>
+                    <div className='breed__input'>
+                      <input
+                            title='Introducir raza'
+                            type='text'
+                            name='breed'
+                            value={breed}
+                            onChange={(e) => setBreed(e.target.value)}
+                            placeholder='p. ej.: Retriever'
+                            className='input'
+                          />
+                    </div>
+                  </div>
+                  <div className='form-vertical__image'>
+                    <div className='label'>
+                          <p className={global.text}>Seleccionar imagen:</p>
+                          <BsImageFill size={25} color={colors.secondary} />
+                        </div>
+                    <div className='image__input'>
+                          <input
+                            title='Introducir imagen'
+                            type='file'
+                            name='image'
+                            id='image__input'
+                            onChange={(e) => uploadImage(e)}
+                            accept='image/png, image/jpeg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+                        </div>
+                  </div>
+                  <div className='form-vertical__weight'>
+                    <div className='label'>
+                      <p className={global.text}>Peso</p>
+                      <MdLocationOn size={25} color={colors.secondary} />
+                    </div>
+                    <div className='weight__input'>
+                      <input
+                            title='Introducir peso'
+                            type='text'
+                            name='weight'
+                            value={weight}
+                            onChange={(e) => setWeight(e.target.value)}
+                            placeholder='p. ej.: 16'
+                            className='input'
+                          />
+                      <p className={global.text2}>Kg</p>
+                    </div>
+                  </div>
+                  <div className='form-vertical__birthdate'>
+                    <div className='label'>
+                      <p className={global.text}>Año de nacimiento</p>
+                      <MdLocationOn size={25} color={colors.secondary} />
+                    </div>
+                    <div className='birthdate__input'>
+                      <input
+                            title='Introducir fecha de nacimiento'
+                            type='date'
+                            name='birthdate'
+                            value={birthdate}
+                            onChange={(e) => setBirthdate(e.target.value)}
+                            className='input'
+                          />
+                    </div>
+                  </div>
+                </form>
+                <input className={global.buttonPrimary} type='submit' onClick={(e) => createPet(e)} value='Crear' />
+              </div>
+            </div>
           </div>
-        </div>
         <style jsx>{`
+
+                    .title{
+
+                       /*Text*/
+
+                       font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+                        margin: 0;
+                    }
+
+                    .container__header{
+
+                        /*Box model*/ 
+
+                        display: flex;
+
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 2rem;
+
+                    }
+
+                    .container__form{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+
+                    }
 
                     .form{
 
@@ -161,7 +266,7 @@ export default function CreatePet () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 100%;
+                        width: 30vw;
 
                         /*Visuals*/
 
@@ -232,7 +337,12 @@ export default function CreatePet () {
                         border: 1px solid ${colors.primary};
                     }
 
-                
+                    .form-vertical__name{
+
+                        /*Box model*/
+
+                        margin-top: 2rem;
+                    }
 
                     .form-vertical__image {
 
@@ -375,6 +485,37 @@ export default function CreatePet () {
                         box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
+
+                    input[type="date"] {
+
+                      /*Box model*/
+
+                      height: 2rem;
+                      width: 20rem;
+                      padding: 0.4rem;
+                      margin-bottom: 2rem;
+
+                      /*Text*/
+
+                      font-family: ${fonts.default};
+                      font-size: 1rem;
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      border-radius: 5px;
+                      border: 1px solid ${colors.secondary};
+                      background: transparent;
+
+                      }
+
+                      input[type="date"]::-webkit-calendar-picker-indicator {
+
+                      /*Visuals*/
+
+                      cursor: pointer;
+
+                      }
 
                     ::placeholder{
 

@@ -68,21 +68,20 @@ export default function Home ({ posts, users }) {
 
             <div className='column1__header'>
               <h1 className={global.title}>Reciente</h1>
-              <button className='refresh__button' onClick={() => Router.reload()}><HiOutlineRefresh size={30} color={colors.primary} /></button>
             </div>
             {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
-            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, mediaUrl, description, comments, likes, saves }) => {
+            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, comments, likes, saves }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} comments={comments} likes={likes} saves={saves} />
                 </>
               )
             })}
             {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
-            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, mediaUrl, description, comments, likes, saves }) => {
+            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, comments, likes, saves }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} likes={likes} saves={saves} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} comments={comments} likes={likes} saves={saves} />
                 </>
               )
             })}
@@ -92,10 +91,10 @@ export default function Home ({ posts, users }) {
             <div className='column2__follow'>
               <h1 className={global.title}>Seguir</h1>
               {users.length === 0 && <div><p className={global.loading}>No existe ningún usuario</p></div>}
-              {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, userImage, username, isCaretaker }) => {
+              {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, isCaretaker }) => {
                 return (
                   <>
-                    <User key={_id} id={_id} userImage={userImage} username={username} isCaretaker={isCaretaker} />
+                    <User key={_id} id={_id} image={image} username={username} isCaretaker={isCaretaker} />
                   </>
                 )
               })}
@@ -256,21 +255,7 @@ export default function Home ({ posts, users }) {
 
               }
 
-              .refresh__button{
 
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                margin-top: 0.5rem;
-                /*Visuals*/
-
-                background: transparent;
-                border: none;
-                cursor: pointer;
-
-              }
 
               .column1__search{
 

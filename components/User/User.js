@@ -4,6 +4,7 @@ import { colors } from 'styles/frontend-conf'
 import { useState, useEffect } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
+import FollowButton from 'components/FollowButton/FollowButton'
 
 /**
  * It's a component that renders a user's profile picture, username, and a button that allows you to
@@ -13,16 +14,9 @@ import { AiOutlineCheck } from 'react-icons/ai'
  */
 export default function User (props) {
   
-  const [isFollowing, setIsFollowing] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
 
-  const followUser = () => {
-    setIsFollowing(!isFollowing)
-
-    if (isFollowing) {
-
-    }
-  }
+  
 
   /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
   the isCaretaker prop. */
@@ -35,13 +29,13 @@ export default function User (props) {
 
       <div key={props._id} className={global.user}>
         <div className='user__image'>
-          <Image src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={30} height={30} />
+          <Image src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} />
         </div>
         <div className='user__username'>
           <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}>@{props.username}</a>
           {isCaretaker && <BsPatchCheckFill size={20} color={colors.primary} />}
         </div>
-        {isFollowing ? <button className={global.buttonTertiary2} onClick={() => followUser()}>Seguir <AiOutlineCheck /></button> : <button className={global.buttonFollowed} onClick={() => followUser()}>Seguido</button>}
+        <FollowButton/>
       </div>
       <style jsx>{`
 
@@ -50,8 +44,12 @@ export default function User (props) {
 
                     /*Box model*/
 
+                    display: flex;
+                    align-items: center;
+
                     margin-left: 1rem;
                 }
+
                 .user__username{
 
                     /*Box model*/

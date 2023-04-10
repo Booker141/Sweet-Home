@@ -21,7 +21,7 @@ export default function Chat ({messages}) {
 
   useEffect(() => {
 
-    setMessage(messages);
+    setMessages(messages);
   
   }, [])
 

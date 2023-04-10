@@ -12,6 +12,7 @@ import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { server } from '/server'
+import {toast} from 'react-toastify'
 
 /*
     * @author Sergio García Navarro
@@ -143,11 +144,11 @@ export default function SignUp () {
    * @param e - The event object
    */
   const signUp = async (e) => {
-  
+
     e.preventDefault()
 
+
     if (isValidate) {
-      document.getElementById('submit__error').classList.add('submit__error--active')
 
       const res = await fetch(`${server}/api/register`, {
         method: 'POST',
@@ -159,7 +160,7 @@ export default function SignUp () {
           password,
           name,
           lastname,
-          username
+          username,
         })
       }).catch(err => console.log(err))
 
@@ -168,14 +169,52 @@ export default function SignUp () {
       setMessage(data.message)
 
       if (data.message == 'Registrado con éxito.') {
-        document.getElementById('submit__error').classList.remove('submit__error--active')
-        document.getElementById('submit__error').classList.add('submit__error--active2')
+
+        toast.success('Se ha registrado con éxito', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
 
         Router.push('/auth/signIn')
       }
+
+      if(data.message == 'Ya está registrado con este nombre de usuario.'){
+        toast.error('Ya está registrado con este nombre de usuario', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+      }
+
+      if(data.message == 'Ya está registrado con este correo electrónico.'){
+
+        toast.error('Ya está registrado con este correo electrónico', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+      }
     } else {
-      setMessage('Por favor, verifica que todos los campos estén correctos.')
-      document.getElementById('submit__error').classList.add('submit__error--active')
+
+      toast.error('Por favor, verifique que todos los campos estén correctos', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+
     }
   }
 
@@ -192,7 +231,6 @@ export default function SignUp () {
       />
       <div className={global.content}>
         <div className='page'>
-
           <div className='page__video' />
           <video
             autoPlay loop muted
@@ -376,9 +414,6 @@ export default function SignUp () {
             <div className='form__conditions'>
               <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className='form__link' aria-label='Ir a Condiciones' href='/conditions'>Condiciones</a> y  <a className='form__link' aria-label='Ir a Privacidad' href='/privacity'>Privacidad</a> encontrará más información.</p>
             </div>
-            <div id='submit__error' className='submit__error'>
-              {message}
-            </div>
             <input type='submit' value='Confirmar' className='form-vertical__button' onClick={(e) => signUp(e)} />
             <div className='form-login'>
               <h6>¿Ya tienes una cuenta?</h6>
@@ -397,6 +432,7 @@ export default function SignUp () {
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
       <style jsx>{`
+
 
         .page {
           /*Box model*/

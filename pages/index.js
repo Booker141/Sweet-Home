@@ -49,7 +49,7 @@ export default function Principal () {
         <a name='top' />
         <div className='content__container1'>
           <div className='container1__title'>
-            <h1 className='title'>
+           {/* <h1 className='title'>
               {/*<span>
                 <span>S</span>
                 <span>w</span>
@@ -61,9 +61,10 @@ export default function Principal () {
                 <span>o</span>
                 <span>m</span>
                 <span>e</span>
-              </span>*/}
+              </span>
               Sweet Home
-            </h1>
+            </h1>*/}
+              <Image src="/LogoWeb.svg" alt="Imagen del logo" width={400} height={400}/>
           </div>
           <div className="container1__text">
             <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de
@@ -75,7 +76,7 @@ export default function Principal () {
           <div className='container1__video' />
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '40rem', objectFit: 'cover', zIndex: '-99', translate: 'transform(-50%,-50%)', borderRadius: '0 0 30px 30px', marginBottom: '3rem' }}
+            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '58rem', objectFit: 'cover', zIndex: '-99', translate: 'transform(-50%,-50%)', borderRadius: '0 0 30px 30px', marginBottom: '3rem' }}
           >
             <source src='/videos/video1.mp4' />
           </video>
@@ -248,6 +249,8 @@ export default function Principal () {
           }
 
 
+
+
           .content__container1{
 
             /*Box model*/
@@ -278,9 +281,11 @@ export default function Principal () {
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
+
 
           }
+
           .container1__text{
 
             /*Box model*/
@@ -300,7 +305,7 @@ export default function Principal () {
 
             display: block;
             width: 99vw;
-            height: 40rem;
+            height: 58rem;
             margin-bottom: 2rem;
 
             /*Visuals*/
@@ -330,7 +335,7 @@ export default function Principal () {
             justify-content: center;
             margin-top: 2rem;
             gap: 10rem;
-            margin-bottom: 3rem;
+            margin-bottom: 6rem;
 
             /*Text*/
 

@@ -1,30 +1,87 @@
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, getSession,signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
+import { AiOutlineCheck } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
+import { MdOutlineBlock } from 'react-icons/md'
 import Layout from 'components/Layout/Layout'
 import Post from 'components/Post/Post'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 
-export default function MyProfile ({ posts }) {
-
+export default function Username ({ posts, users, pets }) {
+  
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
+  const [isFollowing, setIsFollowing] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
-
+  const [profileUser, setProfileUser] = useState(users)
+  const [isPosts, setIsPosts] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
+  const [isPets, setIsPets] = useState(false)
   const router = useRouter()
+
+
+  const followUser = () => {
+
+    setIsFollowing(!isFollowing)
+
+    if (isFollowing) {
+
+    }
+  }
+
+  const handleClick = (e) => {
+    const posts = document.querySelector('.posts')
+    const saved = document.querySelector('.saved')
+    const pets = document.querySelector('.pets')
+
+    if (e === 'Publicaciones') {
+      setIsPosts(!isPosts)
+      setIsSaved(false)
+      setIsPets(false)
+      const button = document.querySelector('#posts')
+      posts.style.display = 'flex'
+      saved.style.display = 'none'
+      pets.style.display = 'none'
+      button.addEventListener('click', () => {
+        button.focus()
+      })
+    } else if (e === 'Guardados') {
+      setIsSaved(!isSaved)
+      setIsPosts(false)
+      setIsPets(false)
+      const button = document.querySelector('#saved')
+      posts.style.display = 'none'
+      saved.style.display = 'flex'
+      pets.style.display = 'none'
+      button.addEventListener('click', () => {
+        button.focus()
+      })
+    } else if (e === 'Mascotas') {
+      setIsPets(!isPets)
+      setIsSaved(false)
+      setIsPosts(false)
+      const button = document.querySelector('#pets')
+      posts.style.display = 'none'
+      saved.style.display = 'none'
+      pets.style.display = 'flex'
+      button.addEventListener('click', () => {
+        button.focus()
+      })
+    }
+  }
 
   useEffect(() => {
     if (session) {
-      setFollowers(session.user.followers)
-      setFollowing(session.user.following)
-      setIsCaretaker(session.user.isCaretaker)
+      setFollowers(profileUser.followers)
+      setFollowing(profileUser.following)
+      setIsCaretaker(profileUser.isCaretaker)
     }
   }, [])
 
@@ -36,7 +93,6 @@ export default function MyProfile ({ posts }) {
       </>
     )
   }
-  
   if (session) {
     const numFollowers = followers.length
     const numFollowing = following.length
@@ -47,39 +103,61 @@ export default function MyProfile ({ posts }) {
         <Head><title>Mi perfil</title></Head>
 
         <div className='container__profile'>
-          <Image src={session.user.image} style={{ borderRadius: '50px' }} width={100} height={100} />
+
           <div className='profile__text'>
 
             <div className='text__username'>
+              <Image src={profileUser.image} style={{ borderRadius: '50px' }} width={100} height={100} alt='Imagen de perfil' priority />
               <div className={global.title2}>@{session.user.username}</div>
               {isCaretaker && <BsPatchCheckFill size={30} color={colors.primary} />}
-              <button className={global.buttonTertiary} onClick={() => router.push('/settings')}>Editar perfil</button>
+              <button className={global.buttonTertiary} onClick={() => router.push("/settings")}>Editar perfil</button>
             </div>
-
+            <p className={global.text}>{profileUser.biography}</p>
             <div className='profile__followers'>
               <div className='followers'>
-                <a href='/profile/myprofile/followers' aria-label={`Ir a los seguidores de ${session.user.username}`} className={global.text}>Seguidores</a>
+                <a href={`/profile/${profileUser.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser.username}`} className={global.link}>Seguidores</a>
                 <div className={global.text__bold}>{numFollowers}</div>
               </div>
               <div className='following'>
-                <a href='/profile/myprofile/following' aria-label={`Ir a los usuarios seguidos por ${session.user.username}`} className={global.text}>Siguiendo</a>
+                <a href={`/profile/${profileUser.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser.username}`} className={global.link}>Siguiendo</a>
                 <div className={global.text__bold}>{numFollowing}</div>
               </div>
             </div>
-            <p className={global.text}>{session.user.biography}</p>
+
           </div>
           <div className='profile__functions'>
-            <div className='function__title'>Publicaciones</div>
-            <div className='function__title'> Guardados </div>
-            <div className='function__title'> Mascotas </div>
+            <button id='posts' className='function__title' onClick={() => handleClick('Publicaciones')}>Publicaciones</button>
+            <button id='saved' className='function__title' onClick={() => handleClick('Guardados')}> Guardados </button>
+            <button id='pets' className='function__title' onClick={() => handleClick('Publicaciones')}> Mascotas </button>
           </div>
 
           <div className='posts'>
-
-            {posts.map(({ _id, userImage, username, location, mediaUrl, description, comments }) => {
+            {isPosts && posts.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
+            {isPosts && posts.map(({ _id, username, location, image, description, likes, saves, comments }) => {
               return (
                 <>
-                  <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} />
+                  <Post id={_id} username={username} location={location} image={image} likes={likes} saves={saves} description={description} comments={comments} />
+                </>
+              )
+            })}
+          </div>
+          <div className='saved'>
+            {isSaved && saved.length === 0 && <p className={global.text}>No hay publicaciones guardadas en este momento</p>}
+            {isSaved && saved.map(({ _id, username, location, image, description, comments, likes, saves }) => {
+              return (
+                <>
+                  <Post id={_id} username={username} location={location} image={image} likes={likes} saves={saves} description={description} comments={comments} />
+                </>
+              )
+            })}
+          </div>
+
+          <div className='pets'>
+            {isPets && pets.length === 0 && <p className={global.text}>No tiene mascotas en este momento</p>}
+            {isPets && pets.map(({ _id, animal, name, breed, weight, birthdate, image, ownerId, ownerUsername }) => {
+              return (
+                <>
+                  <Pet key={_id} animal={animal} name={name} breed={breed} weight={weight} birthdate={birthdate} image={image} ownerId={ownerId} ownerUsername={ownerUsername} />
                 </>
               )
             })}
@@ -98,7 +176,7 @@ export default function MyProfile ({ posts }) {
                         
                         /*Visuals*/
 
-                        border: 1px solid ${colors.primary};
+                        border: 2px solid ${colors.primary};
                         border-radius: 10px;
                     
                     }
@@ -119,6 +197,15 @@ export default function MyProfile ({ posts }) {
                         /*Box model*/
 
                         margin-bottom: 2rem;
+                    }
+
+                    .profile__block{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+
                     }
 
                     .text__username{
@@ -190,6 +277,28 @@ export default function MyProfile ({ posts }) {
 
                     }
 
+                    .saved{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
+
+                    .pets{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                    }
+
                     .profile__functions{
 
                         /*Box model*/
@@ -219,14 +328,43 @@ export default function MyProfile ({ posts }) {
 
                         /*Visuals*/
 
+                        border: none;
+                        background: transparent;
                         border-bottom: 2px solid ${colors.primary}
                     }
 
-                    button{
+                    
+
+                    .function__title:hover{
 
                         /*Box model*/
 
-                        margin: 2rem 2rem 2rem 0;
+                        padding: 0.8rem;
+
+                        /*Visuals*/
+
+                        cursor: pointer;
+
+                        background: ${colors.primary};
+                        border-radius: 10px;
+                        color: ${colors.secondary};
+                        transition: 0.5s ease all;
+
+                    }
+
+                    .function__title:focus{
+
+                        /*Box model*/
+
+                        padding: 0.8rem;
+
+                        /*Visuals*/
+
+                        background: ${colors.primary};
+                        border-radius: 10px;
+                        color: ${colors.secondary};
+                        transition: 0.3s ease all;
+
                     }
 
                     a{
@@ -234,7 +372,7 @@ export default function MyProfile ({ posts }) {
                         /*Visuals*/
 
                         text-decoration: none;
-                        color: ${colors.quaternary};
+                        
                     }
                 `}
         </style>
@@ -273,9 +411,31 @@ export default function MyProfile ({ posts }) {
 }
 
 export async function getServerSideProps (context) {
-  const { username } = context.query
 
-  const post = await fetch(`${server}/api/posts/${username}`, {
+
+  const session = await getSession(context)
+
+  const post = await fetch(`${server}/api/posts/${session.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  
+
+    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+
+
+
+
+  const pet = await fetch(`${server}/api/pets/${session.user.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -283,10 +443,13 @@ export async function getServerSideProps (context) {
   })
 
   const posts = await post.json()
+  const pets = await pet.json()
+  const user = await res.json()
+
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts))
+      posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(user)), pets: JSON.parse(JSON.stringify(pets))
     }
   }
 }

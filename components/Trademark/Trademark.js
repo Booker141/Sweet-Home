@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Logo from '../../public/LogoWeb.png'
+import Logo from '../../public/LogoWeb.svg'
 
 /*
     * @author Sergio García Navarro
