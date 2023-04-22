@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import Header from 'components/Header/Header'
+import Header from 'components/BasicHeader/BasicHeader'
 import Carousel from 'components/Carousel/Carousel'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Loader from 'components/Loader/Loader'
@@ -112,7 +112,7 @@ export default function Principal () {
         <div className='content__container4'>
           <div className='container4__column1'>
             <h2 className="title2">¿Qué nos diferencia?</h2>
-            <p className={global.text}>Nuestra red social se diferencia de otras
+            <p className={global.text4}>Nuestra red social se diferencia de otras
               redes sociales en las siguientes características:
             </p>
           </div>
@@ -121,8 +121,8 @@ export default function Principal () {
               <div style={{ color: '#f0810f' }}>
                 <MdPets size={37} />
               </div>
-              <h2 className={global.title2}>Cuidados</h2>
-              <p className={global.text}>En nuestra red social podrás encontrar
+              <h2 className={global.title6}>Cuidados</h2>
+              <p className={global.text4}>En nuestra red social podrás encontrar
                 cuidados que mejoren la calidad de vida de tu mascota.
               </p>
               <Link href='/attendances'><a className={global.link} aria-label='Ir a Cuidados'>Acceder →</a></Link>
@@ -131,8 +131,8 @@ export default function Principal () {
               <div style={{ color: '#f0810f' }}>
                 <GiPlantsAndAnimals size={37} />
               </div>
-              <h2 className={global.title2}>Comunidad</h2>
-              <p className={global.text}>Aquí encontrarás una comunidad de amantes
+              <h2 className={global.title6}>Comunidad</h2>
+              <p className={global.text4}>Aquí encontrarás una comunidad de amantes
                 de los animales que pueden darte consejos sobre vuestras mascotas.
               </p>
               <Link href='/home'><a className={global.link} aria-label='Ir a página inicial de Sweet Home'>Acceder →</a></Link>
@@ -141,8 +141,8 @@ export default function Principal () {
               <div style={{ color: '#f0810f' }}>
                 <CgCommunity size={37} />
               </div>
-              <h2 className={global.title2}>Cuidadoras</h2>
-              <p className={global.text}>¡Existen perfiles exclusivos de cuidadoras
+              <h2 className={global.title6}>Cuidadoras</h2>
+              <p className={global.text4}>¡Existen perfiles exclusivos de cuidadoras
                 si quieres encontrar tu mascota ideal!
               </p>
               <Link href='/allCaretakers'><a className={global.link} aria-label='Ir a cuidadoras'>Acceder →</a></Link>
@@ -175,42 +175,47 @@ export default function Principal () {
         </div>
       </div>
       <div className='content__container6'>
-        <h2 className={global.title}>Nuestra misión</h2>
+        
         <div className='container6__column1'>
           <div className='column1__text'>
-            <p className={global.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas
-              publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes
-              cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer?
-              Con Sweet Home daremos respuesta a estas preguntas.
-            </p>
-            <p className={global.text}>El objetivo principal de Sweet Home es facilitándole a los dueños funcionalidades que usar en su día a día.
-              Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato
-              con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales
-              que sean de interés.
-            </p>
-
+          <h2 className={global.title5}>Nuestra misión</h2>
+            <div className='text'>
+              <p className={global.text}>¿Alguna vez has sentido rechazo o ignorancia en ciertas
+                publicaciones en Twitter, Instagram o Facebook sobre animales perdidos? ¿No puedes
+                cuidar de tu mascota o has encontrado a una que se ha perdido y no sabes que hacer?
+                Con Sweet Home daremos respuesta a estas preguntas.
+              </p>
+              <p className={global.text}>El objetivo principal de Sweet Home es facilitándole a los dueños funcionalidades que usar en su día a día.
+                Entre ellas están: publicar fotos e información de los animales, permitir el contacto inmediato
+                con el usuario que ha realizado una publicación y seguir a los centros de acogida de animales
+                que sean de interés.
+              </p>
+            </div>
           </div>
           <div className='imagen-inicio2'>
             <Image src={inicio2} alt='Familia en la naturaleza' />
           </div>
         </div>
-        <h2 className={global.title}>¿Cómo la llevamos a cabo?</h2>
+        
         <div className='container6__column2'>
           <div className='imagen-inicio3'>
             <Image src={inicio3} alt='Personas trabajando' />
           </div>
           <div className='column2__text'>
-            <p className={global.text}>Para llevar a cabo nuestra misión, hemos
-              creado una red social que permite a los usuarios compartir información
-              sobre sus mascotas, así como también, información sobre animales
-              perdidos o encontrados. Además, los usuarios podrán seguir a los
-              centros de acogida de animales que sean de su interés.
-            </p>
-            <p className={global.text}>Además, los usuarios podrán publicar fotos
-              e información de los animales, permitir el contacto inmediato con el
-              usuario que ha realizado una publicación y seguir a los centros de
-              acogida de animales que sean de interés.
-            </p>
+          <h2 className={global.title5}>¿Cómo la llevamos a cabo?</h2>
+            <div className='text'>
+              <p className={global.text}>Para llevar a cabo nuestra misión, hemos
+                creado una red social que permite a los usuarios compartir información
+                sobre sus mascotas, así como también, información sobre animales
+                perdidos o encontrados. Además, los usuarios podrán seguir a los
+                centros de acogida de animales que sean de su interés.
+              </p>
+              <p className={global.text}>Además, los usuarios podrán publicar fotos
+                e información de los animales, permitir el contacto inmediato con el
+                usuario que ha realizado una publicación y seguir a los centros de
+                acogida de animales que sean de interés.
+              </p>
+            </div>
           </div>
 
         </div>
@@ -357,7 +362,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border: 2px solid ${colors.primary};
+            border: 1px solid ${colors.primary};
             border-radius: 50px;
 
           }
@@ -408,7 +413,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border: 2px solid ${colors.primary};
+            border: 1px solid ${colors.primary};
             border-radius: 20px;
             
           }
@@ -447,6 +452,19 @@ export default function Principal () {
             flex-direction: column;
             justify-content: center;
             margin-bottom: 3rem;
+            width: 100%;
+            height: 100%;
+
+            /*Visuals*/
+
+            background-image: url("/inicio-4.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 20px 20px 20px 20px;
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 89%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 89%);
+
+
 
           }
 
@@ -568,6 +586,7 @@ export default function Principal () {
 
             display: flex;
             flex-direction: column;
+            gap: 6rem;
 
           }
 
@@ -577,6 +596,7 @@ export default function Principal () {
 
             display: flex;
             flex-direction: column;
+            gap: 6rem;
           
           }
 
@@ -675,6 +695,8 @@ export default function Principal () {
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 6rem;
+            margin-top: 4rem;
             
             /*Visuals*/
 

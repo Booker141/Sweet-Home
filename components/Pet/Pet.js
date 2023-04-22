@@ -73,7 +73,7 @@ export default function Pet (props) {
               </div>
               <hr className={global.white__line}/>
               <div className='pet__age'>
-                <h1 className={global.text2}><strong>Fecha de nacimiento:</strong> {new Date(props.birthdate).toLocaleDateString()}</h1>
+                <h1 className={global.text2}><strong>Fecha de nacimiento:</strong>{new Date(props.birthdate).toLocaleDateString().slice(0, 10)}</h1>
               </div>
               <hr className={global.white__line}/>
               <div className='pet__weight'>

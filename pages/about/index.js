@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 import { BsChatRightText } from 'react-icons/bs'
 import { FaSlideshare } from 'react-icons/fa'
 import { AiOutlineEdit } from 'react-icons/ai'
@@ -28,45 +28,45 @@ import about1 from '../../public/about-1.svg'
 export default function About () {
   return (
 
-    <Layout>
+    <BasicLayout>
       <Head>
         <title>Sobre nosotros</title>
       </Head>
-
-      <div className='title'>
-        <h2>Sweet Home</h2>
-        <h2 className={global.secondary__bold}>Más que una aplicación</h2>
+      <div className="header__block">
+        <div className='title'>
+          <h2>Sweet Home</h2>
+          <h2 className={global.secondary__bold}>Más que una aplicación</h2>
+        </div>
+      
+        <div className='banner'>
+          <p className={global.text}>Sweet Home es una red
+            social que abarca el mundo animal y trata de facilitar
+            su <span className={global.colorized}>adaptación a nuevos cuidados</span>, <span className={global.colorized}>a nuevos dueños </span> y a
+            <span className={global.colorized}> &nbsp; una mejora diaria de su vida.</span>
+          </p>
+        </div>
       </div>
-
-      <div className='banner'>
-        <p className={global.text}>Sweet Home es una red
-          social que abarca el mundo animal y trata de facilitar
-          su <span className={global.colorized}>adaptación a nuevos cuidados</span>, <span className={global.colorized}>a nuevos dueños </span> y a
-          <span className={global.colorized}> &nbsp; una mejora diaria de su vida.</span>
-        </p>
-      </div>
-
       <div className='container1'>
         <div className='container1__column1'>
-          <h3 className={global.title}>Nuestra misión</h3>
-          <p className={global.text}>¿Alguna vez has sentido rechazo o ignorancia
+          <h3 className={global.title5}>Nuestra misión</h3>
+          <p className={global.text3}>¿Alguna vez has sentido rechazo o ignorancia
             en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales
             perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se
             ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas
             preguntas.
           </p>
-          <p className={global.text}>El objetivo principal de Sweet Home es
-            <span className={global.colorized}> &nbsp; mejorar la calidad de vida de los animales</span> facilitándole
+          <p className={global.text3}>El objetivo principal de Sweet Home es
+            <strong> &nbsp; mejorar la calidad de vida de los animales</strong> facilitándole
             a los dueños funcionalidades que usar en su día a día.
           </p>
 
-          <p className={global.text}>Entre ellas están: </p>
-          <ul className={global.list}>
-            <li className={global.list__item}> Publicar fotos e información de los animales.</li>
-            <li className={global.list__item}> Permitir el contacto inmediato con el usuario
+          <p className={global.text3}>Entre ellas están: </p>
+          <ul className={global.list2}>
+            <li className={global.list__item2}> Publicar fotos e información de los animales.</li>
+            <li className={global.list__item2}> Permitir el contacto inmediato con el usuario
               que ha realizado una publicación.
             </li>
-            <li className={global.list__item}> Seguir a los centros
+            <li className={global.list__item2}> Seguir a los centros
               de acogida de animales que sean de interés.
             </li>
           </ul>
@@ -129,7 +129,16 @@ export default function About () {
           </p>
         </div>
       </div>
-      <style jsx>{`
+      <style jsx>{` 
+
+                        .header__block{
+
+                            /*Box model*/
+
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 5rem;
+                        }
 
                         .container1{
 
@@ -140,6 +149,13 @@ export default function About () {
                             justify-content: center;
                             align-items: center;
                             margin-bottom: 2rem;
+                            padding: 2rem;
+
+                            /*Visuals*/
+
+                            background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
+                            border-radius: 70px 0 0 70px;
+
 
                         }
 
@@ -151,6 +167,8 @@ export default function About () {
                             flex-direction: column;
                             justify-content: center;
                             margin-right: 5rem;
+                            margin-left: 5rem;
+                            margin-bottom: 3rem;
 
                         }
                         
@@ -191,10 +209,16 @@ export default function About () {
                        
                         .benefits-title{
 
+
+                            /*Box model*/
+
+
                             display: flex;
                             flex-direction: row;
                             justify-content: center;
                             align-items: center;
+
+                             margin-bottom: 4rem;
                         
                         }
 
@@ -245,6 +269,7 @@ export default function About () {
                             flex-direction: column;
                             align-items: center;
                             margin: 0 0 2rem 0;
+                            margin-bottom: 4rem;
                         
                         }
                         
@@ -255,7 +280,12 @@ export default function About () {
                             margin-bottom: 1rem;
                         }
 
-                        h3{
+                        .benefits-title h3{
+
+                          
+
+                          /*Text*/
+
 
                           font-size: 3rem;
                               font-weight: bold;
@@ -267,10 +297,12 @@ export default function About () {
                               -webkit-text-fill-color: transparent; 
                               background-size: 100%
                               text-align: center;
+
+
                         }
                     `}
       </style>
-    </Layout>
+    </BasicLayout>
 
   )
 }

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 
 /*
     * @author Sergio García Navarro
@@ -18,7 +18,7 @@ import Layout from 'components/Layout/Layout'
  */
 export default function Conditions () {
   return (
-    <Layout>
+    <BasicLayout>
       <Head><title>Condiciones</title></Head>
       <h2 className='first-line'>5 de agosto de 2022</h2>
       <hr className={global.line} />
@@ -169,6 +169,6 @@ export default function Conditions () {
                     
                 `}
       </style>
-    </Layout>
+    </BasicLayout>
   )
 }

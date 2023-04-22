@@ -5,8 +5,8 @@ import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
 import { AiFillPhone } from 'react-icons/ai'
-import { MdOutlineError } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill } from 'react-icons/bs'
+import { MdOutlineError, MdLocationOn } from 'react-icons/md'
+import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill, BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
 import Layout from '/components/Layout/Layout'
 import Modal from '/components/Modal/Modal'
 import { server } from '/server'
@@ -18,6 +18,7 @@ export default function Settings () {
   const { data: session, status } = useSession({ required: true })
   
   const [userImage, setUserImage] = useState('')
+  const [bannerImage, setBannerImage] = useState('')
   const [user, setUser] = useState({})
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
@@ -25,6 +26,8 @@ export default function Settings () {
   const [biography, setBiography] = useState('')
   const [birthdate, setBirthdate] = useState('')
   const [gender, setGender] = useState('')
+  const [location, setLocation] = useState('')
+  const [links, setLinks] = useState({Instagram: "", Twitter: "", Facebook: ""})
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
   const [maxDate, setMaxDate] = useState('')
@@ -48,6 +51,29 @@ export default function Settings () {
             const imageData = reader.result
 
             setUserImage(imageData)
+      
+          }
+
+    }
+  }
+
+  const uploadBanner = async (e) => {
+
+
+    if (e.target.files && e.target.files[0]) {
+
+
+          const imageUploaded = e.target.files[0]
+
+          const reader = new FileReader()
+
+          reader.readAsDataURL(imageUploaded)
+
+          reader.onload = () => {
+
+            const imageData = reader.result
+
+            setBannerImage(imageData)
       
           }
 
@@ -96,7 +122,10 @@ export default function Settings () {
   
   }
   useEffect(() => {
-    getData()
+    if(session){
+      getData()
+    }
+    
   }, [])
 
   /**
@@ -267,6 +296,8 @@ export default function Settings () {
           lastname: lastname !== user.lastname ? lastname : user.lastname,
           phone: phone !== user.phone ? phone : user.phone,
           biography: biography !== user.biography ? biography : user.biography,
+          location: location !== user.location ? location : user.location,
+          links: links !== user.links ? links : user.links,
           birthdate: birthdate !== user.birthdate ? birthdate : user.birthdate,
           gender: gender !== user.gender ? gender : user.gender,
           image: userImage
@@ -307,12 +338,6 @@ export default function Settings () {
       <Layout>
         <Head><title>Configuración</title></Head>
         <div className='settings'>
-          <nav className='settings__links'>
-            <button id='edit' className='config__style  active' onClick={() => handleClick('Editar')} aria-label='Ir a Editar Perfil'>Editar perfil</button>
-            <button id='saved' className='config__style' onClick={() => handleClick('Guardados')} aria-label='Ir a Guardados'>Guardados</button>
-            <button id='complaints' className='config__style' onClick={() => handleClick('Denuncias')} aria-label='Ir a Denuncias'>Denuncias</button>
-            <button id='pets' className='config__style' onClick={() => handleClick('Mascotas')} aria-label='Ir a Mascotas'>Mascotas</button>
-          </nav>
           <div className='form-page'>
             <h1 className={global.title}>Editar perfil</h1>
             <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
@@ -328,6 +353,25 @@ export default function Settings () {
                             name='image'
                             id='image__input'
                             onChange={(e) => uploadImage(e)}
+                            accept='image/png, image/jpeg, image/jpg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+                        </div>
+                  </div>
+                  <div className='form-vertical__banner'>
+                    <div className='label'>
+                          <p className={global.text}>Banner:</p>
+                          <BsImageFill size={20} color={colors.secondary} />
+                        </div>
+                    <div className='banner__input'>
+                          <input
+                            title='Introducir banner'
+                            type='file'
+                            name='banner'
+                            id='banner__input'
+                            onChange={(e) => uploadBanner(e)}
                             accept='image/png, image/jpeg, image/jpg'
                             placeholder='Ningún archivo seleccionado'
                             className='input'
@@ -421,6 +465,34 @@ export default function Settings () {
                   </div>
                 </div>
               </div>
+              <div className='form-vertical__location'>
+                <div className='label'>
+                  <p className={global.text}>Ubicación</p>
+                  <MdLocationOn size={20} color={colors.secondary} />
+                </div>
+                <div className='location__input'>
+                  <input
+                    title='Introducir ubicación'
+                    type='text'
+                    name='location'
+                    id='location'
+                    value={user.location}
+                    required
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder={`${location}`}
+                    className='input'
+                  >{user.location}</input>
+                  <div id='error__location' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__location' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='location__error' className='form__input-locationError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
+                  </div>
+                </div>
+              </div>
+              
               <div className='form-vertical__biography'>
                 <div className='label'>
                   <p className={global.text}>Biografía</p>
@@ -463,6 +535,99 @@ export default function Settings () {
                   className='input'
                 />
               </div>
+              <div className='form-vertical__linkInstagram'>
+                <div className='label'>
+                  <p className={global.text}>Instagram</p>
+                  <BsInstagram size={20} color={colors.secondary} />
+                </div>
+                <div className='linkInstagram__input'>
+                  <input
+                    title='Introducir link de Instagram'
+                    type='url'
+                    name='linkInstagram'
+                    id='linkInstagram'
+                    value={user.links?.Instagram}
+                    required
+                    onChange={(e) => setLinks(links.Instagram = e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    placeholder={`${links.Instagram}`}
+                    pattern="https://.*" 
+                    size="30"
+                    className='input'
+                  >{user.links.Instagram}</input>
+                  <div id='error__linkInstagram' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__linkInstagram' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='linkInstagram__error' className='form__input-linkInstagramError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>Debe seguir el formato de un enlace.</p>
+                  </div>
+                </div>
+              </div>
+              <div className='form-vertical__linkTwitter'>
+                <div className='label'>
+                  <p className={global.text}>Twitter</p>
+                  <BsTwitter size={20} color={colors.secondary} />
+                </div>
+                <div className='linkTwitter__input'>
+                  <input
+                    title='Introducir link de Twitter'
+                    type='url'
+                    name='linkTwitter'
+                    id='linkTwitter'
+                    value={user.links?.Twitter}
+                    required
+                    onChange={(e) => setLinks(links.Twitter = e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    placeholder={`${links.Twitter}`}
+                    pattern="https://.*" 
+                    size="30"
+                    className='input'
+                  >{user.links?.Twitter}</input>
+                  <div id='error__linkTwitter' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__linkTwitter' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='linkTwitter__error' className='form__input-linkTwitterError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>Debe seguir el formato de un enlace.</p>
+                  </div>
+                </div>
+              </div>
+              <div className='form-vertical__linkFacebook'>
+                <div className='label'>
+                  <p className={global.text}>Facebook</p>
+                  <BsFacebook size={20} color={colors.secondary} />
+                </div>
+                <div className='linkFacebook__input'>
+                  <input
+                    title='Introducir link de Facebook'
+                    type='url'
+                    name='linkFacebook'
+                    id='linkFacebook'
+                    value={user.links?.Facebook}
+                    required
+                    onChange={(e) => setLinks(links.Facebook = e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    placeholder={`${links.Facebook}`}
+                    pattern="https://.*" 
+                    size="30"
+                    className='input'
+                  >{user.links?.Facebook}</input>
+                  <div id='error__linkFacebook' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__linkFacebook' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <div id='linkFacebook__error' className='form__input-linkFacebookError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>Debe seguir el formato de un enlace.</p>
+                  </div>
+                </div>
+              </div>
               <div className='settings__buttons'>
                 <button className={global.buttonTertiary3}><a href='/changePassword' title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button>
                 <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
@@ -479,32 +644,18 @@ export default function Settings () {
             </Modal>}
           </div>
 
-          <div className='saved'>
-            <h1 className={global.title}>Guardados</h1>
-            <div className='saved__content'>
-            {/*{user.saves.length === 0 && <div><p className={global.loading2}>No ha guardado ninguna publicación</p></div>}
-              {user.saves.map(({ _id}) => {
-                return (
-                  <>
-                    <Post key={_id} id={_id}/>
-                  </>
-                )
-              })}
-            */}
-            </div>
-          </div>
 
           <div className='complaints'>
             <h1 className={global.title}>Denuncias</h1>
             <div className='complaints__content'>
               {complaints.length === 0 && <div><p className={global.loading2}>No ha interpuesto ninguna denuncia</p></div>}
-             { /*{complaints.filter(complaint => complaint.usernameTo = session.user.username).map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
+             {complaints.filter(complaint => complaint.usernameTo = session.user.username).map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
                 return (
                   <>
                     <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
                   </>
                 )
-              })}*/}
+              })}
             </div>
           </div>
 
@@ -533,8 +684,8 @@ export default function Settings () {
                     /*Box model*/
 
                     display: flex;
-                    flex-direction: row;
-                    justify-content: space-around;
+                    flex-direction: column;
+                    align-items: center;
                     gap: 2rem;
 
                     /*Visuals*/
@@ -546,17 +697,7 @@ export default function Settings () {
 
                 }
 
-                .settings__links{
 
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: column;
-                    margin-left: 2rem;
-                    margin-top: 2.5rem;
-                    margin-bottom: 1rem;
-
-                }
 
                 .buttons{
 

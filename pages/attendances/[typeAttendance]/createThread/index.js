@@ -48,12 +48,13 @@ export default function CreateThread () {
     return (
       <Layout>
         <Head><title>Crear hilo</title></Head>
-        <div className="createThread__header">
-          <h1 className="form__title">Crear hilo</h1>
-          <p className={global.text}>Introduzca el título del hilo:</p>
-        </div>
+        
         <div className="form__position">
             <div className='form'>
+            <div className="createThread__header">
+              <h1 className="form__title">Crear hilo</h1>
+              <p className={global.text2}>Introduzca el título del hilo:</p>
+            </div>
               
               <form action='/api/posts' id='form'>
                 <div className='form-vertical__title'>
@@ -191,17 +192,18 @@ export default function CreateThread () {
                     }
 
                     h1{
+
+                        /*Box model*/
+
+                        margin-top: 2rem;
+                        margin-bottom: 3rem;
+
                         /*Text*/
 
                         font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
+                        font-weight: 500;
+                        font-family: "Satisfy", sans-serif;
+                        color: white;
                         text-align: center;
                         
                   }
@@ -283,13 +285,6 @@ export default function CreateThread () {
 
                     }
 
-                    h1{
-
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
-                    }
 
                     a{
 

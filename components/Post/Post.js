@@ -1,20 +1,22 @@
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
+import FallbackImage from '/components/FallbackImage/FallbackImage'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf'
 import Comment from 'components/Comment/Comment'
 import Modal from 'components/Modal/Modal'
 import Like from "components/Like/Like"
 import Save from "components/Save/Save"
-import { IoPawOutline, IoPaw } from 'react-icons/io5'
-import { MdDeleteOutline } from 'react-icons/md'
-import { BsBookmark, BsBookmarkFill, BsPatchCheckFill } from 'react-icons/bs'
+import CommentsCounter from "components/CommentsCounter/CommentsCounter"
+import { MdDeleteOutline, MdClose } from 'react-icons/md'
+import { BsPatchCheckFill } from 'react-icons/bs'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import { server } from '/server'
 import { toast, Slide } from "react-toastify"
 import InputEmoji from 'react-input-emoji'
+
+
 
 export default function Post (props) {
 
@@ -30,6 +32,34 @@ export default function Post (props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const Router = useRouter()
+
+  const calcTime = () => {
+
+    const currentDate = new Date()
+    const milliseconds =  currentDate - new Date(props.createdAt)
+
+    const seconds = Math.floor(milliseconds/1000);
+    const minutes = Math.floor(seconds/60);
+    const hours = Math.floor(minutes/60);
+    const days = Math.floor(hours/24)
+
+    
+    if (minutes > 0 && hours <= 0 && days <= 0) {
+      return `${minutes} min`
+    }
+    
+    if (hours > 0 && days <= 0) {
+      return `${hours} h`
+    }
+
+    if (days > 0 ) {
+      return `${days} d`
+    }
+
+    return `${Math.floor(seconds)} s`
+
+
+  }
 
   /**
    * This function is called when the component mounts and it fetches the user from the database and
@@ -116,10 +146,13 @@ export default function Post (props) {
         <div key={props._id} className={global.post}>
           <div className='post__header'>
             <div className='header__user'>
-              <Image src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50} priority />
-              <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
-                {user.username}
-              </a>
+              <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
+              <div className="user__info">
+                <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
+                  {user.username}
+                </a>
+                <p className={global.time}>Hace {calcTime()}</p>
+              </div>
             </div>
             <div className='header__location'>
               <p className={global.text2}>
@@ -131,7 +164,7 @@ export default function Post (props) {
           <hr className={global.white__line2} />
           <div className='description'>
             <div className='description__content'>           
-              <Image className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} priority />
+              <a href={`${server}/profile/${user.username}`}><FallbackImage className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px'}} width={40} height={40} priority /></a>
               <p className={global.link3__bold}>
                 @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary} />}:
               </p>
@@ -143,7 +176,7 @@ export default function Post (props) {
             </div>
           </div>
           <div className="post__image">
-            <img src={props.image} style={{ borderRadius: '5px', maxWidth: '50vw'}} alt="Imagen del post"/>
+            <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>
           </div>
           <div className='post__block'>
             <div className='post__comment'>
@@ -165,8 +198,9 @@ export default function Post (props) {
               <button onClick={() => Commentate()} className={global.buttonTertiary}>Enviar</button>
             </div>
             <div className='post__icons'>
-              <Like likes={props.likes}/>
-              <Save saves={props.saves}/>
+              <Like likes={props.likes} postId={props.id}/>
+              <Save saves={props.saves} postId={props.id}/>
+              <CommentsCounter comments={props.comments}/>
             </div>
           </div>
           <div className='comment__container'>
@@ -176,10 +210,10 @@ export default function Post (props) {
             </div>
             <hr className={global.line} />
             {props.comments.length === 0 && <p className={global.tertiary2}>No hay ningún comentario</p>}
-            {props.comments.slice(0, 3).map((id) => {
+            {props.comments.slice(0, 3).map((_id) => {
               return (
                 <>
-                  <Comment id={id} />
+                  <Comment key={_id} id={_id} />
                   <hr className={global.divider} />
                 </>
               )
@@ -189,13 +223,12 @@ export default function Post (props) {
                 setMoreComments(!moreComments)
                 setIsVisible(!isVisible)
               }}
-                                                                 >Ver más..
-            </button>}
+             >Ver más..</button>}
 
-            {moreComments && props.comments.slice(3, props.comments.length).map((id) => {
+            {moreComments && props.comments.slice(3, props.comments.length).map((_id) => {
               return (
                 <>
-                  <Comment id={id} />
+                  <Comment key={_id} id={_id} />
                   <hr className={global.divider} />
                 </>
               )
@@ -211,6 +244,7 @@ export default function Post (props) {
         </div>
       </div>
       {isModalVisible && <Modal>
+        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar publicación</h2>
         <p className={global.text2}>¿Estás seguro de eliminar esta publicación?</p>
         <div className='buttons'>
@@ -322,7 +356,6 @@ export default function Post (props) {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    justify-content: center;
 
 
                 }
@@ -335,8 +368,11 @@ export default function Post (props) {
                     flex-direction: row;
                     align-items: center;
                     gap: 0.8rem;
+                    margin-left: 0.5rem;
+                    margin-top: 0.5rem;
 
                 }
+
 
                 .header__user > p{
 
@@ -524,6 +560,23 @@ export default function Post (props) {
                     /*Visuals*/
 
                     color: ${colors.tertiary};
+
+                }
+
+                .close__modal{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-self: flex-end;
+                    margin-right: 2rem;
+
+                    /*Visuals*/
+
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
 
                 }
 

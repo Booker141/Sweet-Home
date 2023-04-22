@@ -7,6 +7,7 @@ import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import Layout from 'components/Layout/Layout'
+import Sidebar from 'components/Sidebar/Sidebar'
 import Post from 'components/Post/Post'
 import User from 'components/User/User'
 import Loader from 'components/Loader/Loader'
@@ -24,7 +25,7 @@ import { server } from '/server'
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function Home ({ posts, users }) {
+export default function Home ({ posts }) {
   
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState(posts)
@@ -57,6 +58,9 @@ export default function Home ({ posts, users }) {
     return (
       <Layout>
         <Head><title>Reciente</title></Head>
+        <div className='column1__header'>
+              <h1 className={global.title}>Reciente</h1>
+        </div>
         <div className='column1__buttons'>
           <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label='Ordenar publicaciones por usuario'>Ordenar por usuario</button>
@@ -66,55 +70,26 @@ export default function Home ({ posts, users }) {
 
           <div className='container__column1'>
 
-            <div className='column1__header'>
-              <h1 className={global.title}>Reciente</h1>
-            </div>
+            
             {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
-            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, comments, likes, saves }) => {
+            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} comments={comments} likes={likes} saves={saves} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} />
                 </>
               )
             })}
             {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
-            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, comments, likes, saves }) => {
+            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} comments={comments} likes={likes} saves={saves} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} />
                 </>
               )
             })}
           </div>
 
-          <div className='container__column2'>
-            <div className='column2__follow'>
-              <h1 className={global.title}>Seguir</h1>
-              {users.length === 0 && <div><p className={global.loading}>No existe ningún usuario</p></div>}
-              {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, isCaretaker }) => {
-                return (
-                  <>
-                    <User key={_id} id={_id} image={image} username={username} isCaretaker={isCaretaker} />
-                  </>
-                )
-              })}
-              <div className='users__link'>
-                <Link href='/allUsers'><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
-              </div>
-            </div>
-            <div className='footer'>
-              <div className='footer__links'>
-                <Link className={global.link} href='/use' passHref><a aria-label='Ir a Información'>Información</a></Link>
-                <Link className={global.link} href='/privacy' passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
-                <Link className={global.link} href='/conditions' passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
-                <Link className={global.link} href='/accessibility' passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                <Link className={global.link} href='/rules' passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
-                <div className='copyright'>
-                  <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
 
         <style jsx>{`
@@ -129,61 +104,6 @@ export default function Home ({ posts, users }) {
 
               }
 
-              .footer{
-
-                /*Box model*/ 
-
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-
-              }
-
-              .footer__links{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-wrap: wrap;
-                    flex-direction: row;
-
-                    gap: 1rem;
-                    align-items: center;
-                    
-
-
-                }
-
-                .footer__links a{
-
-                  /*Text*/
-
-                  font-family: ${fonts.default};
-                  text-decoration: none;
-                  color: ${colors.primary};
-
-                }
-
-                .footer__links a:hover{
-
-                  /*Text*/
-
-                  font-family: ${fonts.default};
-                  color: ${colors.tertiary};
-                  transition: 0.3s ease all;
-
-                }
-
-                .copyright{
-
-                  /*Text*/
-
-                  font-family: ${fonts.default};
-                  text-decoration: none;
-                  color: ${colors.primary};
-
-                }
 
               .container__column1{
 
@@ -203,37 +123,12 @@ export default function Home ({ posts, users }) {
                 flex-direction: row;
                 gap: 1rem;
                 align-items: center;
-              }
-
-              .container__column2{
-
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: column;
-                width: 30%;
-
-              }
-
-              .column2__follow{
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 3rem;
-              }
-
-
-
-              .users__link{
-
-                /*Box model*/
-
                 margin-bottom: 2rem;
-
               }
+
+
+
+
 
               .column1__buttons{
 
@@ -242,7 +137,7 @@ export default function Home ({ posts, users }) {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                margin-bottom: 1rem;
+                margin-bottom: 2rem;
                 
                
               }
@@ -278,28 +173,7 @@ export default function Home ({ posts, users }) {
 
               }
 
-              input[type="search"]{
 
-                /*Box model*/
-
-                width: 100%;
-                height: 2rem;
-                padding: 0.4rem;
-
-                /*Text*/
-
-                font-family: ${fonts.default};
-                font-size: 1rem;
-
-                /*Visuals*/
-
-                border-radius: 5px;
-                border: 1px solid ${colors.primary};
-                background: transparent;
-                transition: 0.2s ease all;
-
-
-              }
 
               h1{
                         /*Text*/
@@ -316,17 +190,6 @@ export default function Home ({ posts, users }) {
                         text-align: center;
                         
                   }
-
-                input[type="search"]:focus{
-
-
-                /*Visuals*/
-
-                border: 2px solid ${colors.primary};
-                outline: none;
-                box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
-
-                }
 
 
 
@@ -386,17 +249,9 @@ export async function getServerSideProps (context) {
     }
   })
 
-  const user = await fetch(`${server}/api/users`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-
   const posts = await res.json()
-  const users = await user.json()
 
   return {
-    props: { posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(users)) }
+    props: { posts: JSON.parse(JSON.stringify(posts))}
   }
 }

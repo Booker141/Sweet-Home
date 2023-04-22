@@ -97,13 +97,13 @@ export default function CreatePet () {
       <Layout>
         <Head><title>Crear mascota</title></Head>
         <div className={global.content}>
-          <div className="container__header">
-              <h1 className='title'>Crear mascota</h1>
-              <p className={global.text}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
-            </div>
+          
             <div className='container__form'>
               <div className='form'>
-                
+              <div className="container__header">
+                <h1 className='title'>Crear mascota</h1>
+                <p className={global.text}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              </div>
                 <form action='/api/posts' id='form'>
                   <div className='form-vertical__name'>
                     <div className='label'>
@@ -545,13 +545,6 @@ export default function CreatePet () {
 
                     }
 
-                    h1{
-
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
-                    }
 
                     a{
 

@@ -5,9 +5,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import { AiOutlineCheck } from 'react-icons/ai'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { MdOutlineBlock } from 'react-icons/md'
+import { BsPatchCheckFill, BsInstagram, BsTwitter, BsFacebook } from 'react-icons/bs'
+import {HiCamera} from 'react-icons/hi'
+import {FaUserAlt} from 'react-icons/fa'
+import { MdOutlineEdit, MdCake, MdLocationPin} from 'react-icons/md'
 import Layout from 'components/Layout/Layout'
 import Post from 'components/Post/Post'
 import Loader from 'components/Loader/Loader'
@@ -18,28 +19,106 @@ export default function Username ({ posts, users, pets }) {
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
-  const [isFollowing, setIsFollowing] = useState(false)
   const [isCaretaker, setIsCaretaker] = useState(false)
   const [profileUser, setProfileUser] = useState(users)
+  const [userImage, setUserImage] = useState("")
+  const [userBanner, setUserBanner] = useState("")
   const [isPosts, setIsPosts] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
   const [isPets, setIsPets] = useState(false)
   const router = useRouter()
 
+  const changeBanner = async (e) => {
 
-  const followUser = () => {
+    if (e.target.files && e.target.files[0]) {
 
-    setIsFollowing(!isFollowing)
+      const imageUploaded = e.target.files[0]
 
-    if (isFollowing) {
+      const reader = new FileReader()
 
-    }
+      reader.readAsDataURL(imageUploaded)
+
+      reader.onload = () => {
+
+        const imageData = reader.result
+
+        setUserBanner(imageData)
+  
+      }
+
+
+
+  await fetch(`${server}/api/users/${session.user.username}`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT',
+    body: JSON.stringify({
+      image: profileUser.image,
+      banner: userBanner,
+      firstname: profileUser.firstname,
+      lastname: profileUser.lastname,
+      phone: profileUser.phone,
+      gender: profileUser.gender,
+      birthdate: profileUser.birthdate,
+      biography: profileUser.biography,
+      location: profileUser.location,
+      links: profileUser.links
+
+
+    })
+  })
+}
+  }
+
+  const changeProfilePic = async (e) => {
+
+    if (e.target.files && e.target.files[0]) {
+
+      const imageUploaded = e.target.files[0]
+
+      const reader = new FileReader()
+
+      reader.readAsDataURL(imageUploaded)
+
+      reader.onload = () => {
+
+        const imageData = reader.result
+
+        setUserImage(imageData)
+  
+      }
+
+
+
+  await fetch(`${server}/api/users/${session.user.username}`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT',
+    body: JSON.stringify({
+      image: userImage,
+      banner: profileUser.banner,
+      firstname: profileUser.firstname,
+      lastname: profileUser.lastname,
+      phone: profileUser.phone,
+      gender: profileUser.gender,
+      birthdate: profileUser.birthdate,
+      biography: profileUser.biography,
+      location: profileUser.location,
+      links: profileUser.links
+      
+    })
+  })
+
+}
   }
 
   const handleClick = (e) => {
     const posts = document.querySelector('.posts')
     const saved = document.querySelector('.saved')
     const pets = document.querySelector('.pets')
+
 
     if (e === 'Publicaciones') {
       setIsPosts(!isPosts)
@@ -104,15 +183,58 @@ export default function Username ({ posts, users, pets }) {
 
         <div className='container__profile'>
 
+          <div className="profile__banner">  
+            <Image src={profileUser.banner} style={{ borderRadius: '20px', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>
+            <div className="edit__banner">
+              <label className={global.buttonEdit}><MdOutlineEdit size={20} color={`${colors.secondary}`}/>Cambiar banner
+              <input
+                              title='Introducir imagen de perfil'
+                              type='file'
+                              name='image'
+                              id='image__input'
+                              onChange={(e) => changeProfilePic(e)}
+                              accept='image/png, image/jpeg, image/jpg'
+                            ></input>
+              </label>
+              
+            </div>
+          </div>
           <div className='profile__text'>
 
             <div className='text__username'>
-              <Image src={profileUser.image} style={{ borderRadius: '50px' }} width={100} height={100} alt='Imagen de perfil' priority />
+              <Image src={profileUser.image} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' priority />
+              <div className="edit__profilePic">
+                <label className={global.buttonEdit}><HiCamera size={20} color={`${colors.secondary}`}/>Cambiar foto
+                <input
+                              title='Introducir imagen de perfil'
+                              type='file'
+                              name='image'
+                              id='image__input'
+                              onChange={(e) => changeProfilePic(e)}
+                              accept='image/png, image/jpeg, image/jpg'
+                            ></input>
+                </label>
+                
+              </div>
               <div className={global.title2}>@{session.user.username}</div>
               {isCaretaker && <BsPatchCheckFill size={30} color={colors.primary} />}
-              <button className={global.buttonTertiary} onClick={() => router.push("/settings")}>Editar perfil</button>
+              <button className={global.buttonTertiary4} onClick={() => router.push("/settings")}>Editar perfil</button>
             </div>
-            <p className={global.text}>{profileUser.biography}</p>
+            <div className="profile__biography">
+              <p className={global.text}>{profileUser.biography}</p>
+            </div>
+            <div className="profile__dates">
+                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
+            </div>
+            <div className="profile__location">
+              <div className={global.text}><strong className={global.strong}></strong>{profileUser.location}<MdLocationPin color={`${colors.primary}`}/></div>
+            </div>
+            <div className="profile__links">
+              <div className={global.text}><a href={profileUser.links?.Instagram} target="_blank"><BsInstagram color={`${colors.primary}`}/></a></div>
+              <div className={global.text}><a href={profileUser.links?.Twitter} target="_blank"><BsTwitter color={`${colors.primary}`}/></a></div>
+              <div className={global.text}><a href={profileUser.links?.Facebook} target="_blank"><BsFacebook color={`${colors.primary}`}/></a></div>
+            </div>
             <div className='profile__followers'>
               <div className='followers'>
                 <a href={`/profile/${profileUser.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser.username}`} className={global.link}>Seguidores</a>
@@ -173,12 +295,60 @@ export default function Username ({ posts, users, pets }) {
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
-                        
+
                         /*Visuals*/
 
-                        border: 2px solid ${colors.primary};
-                        border-radius: 10px;
+                        border: 1px solid ${colors.primary};
+                        
                     
+                    }
+
+
+                    .profile__biography{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        margin-top: 1rem;
+                        margin-bottom: 1rem;
+
+                    }
+
+                    .profile__banner{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        
+
+                        /*Visuals*/
+
+                        border-radius: 20px;
+                    }
+
+                    .profile__banner button{
+
+                        /*Position*/
+
+                        position: relative;
+                        bottom: 0;
+                        right: 0;
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 0.5rem;
+
+
+
+
                     }
                     
                     .profile__text{
@@ -187,9 +357,28 @@ export default function Username ({ posts, users, pets }) {
 
                         display: flex;
                         flex-direction: column;
-                        margin-top: 1rem;
                         align-items: center;
 
+                    }
+
+                    .profile__dates{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 2rem;
+                        align-items: center;
+                    }
+
+                    .profile__dates div{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 1rem;
                     }
 
                     .profile__text > div {
@@ -228,6 +417,18 @@ export default function Username ({ posts, users, pets }) {
                         align-items: center;
                         justify-content: center;
                         
+                    }
+
+                    .profile__links{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 2rem;
+                        align-items: center;
+                        margin-bottom: 2rem;
+
                     }
 
                  
@@ -316,8 +517,8 @@ export default function Username ({ posts, users, pets }) {
 
                         /*Box model*/
                         
-
                         margin-bottom: 2rem;
+                        padding: 0.8rem;
 
                         /*Text*/
                         
@@ -367,12 +568,65 @@ export default function Username ({ posts, users, pets }) {
 
                     }
 
+                    input[type="file"]{
+
+                          /*Box model*/
+
+                          width: 15vw;
+                          height: 5vh;
+                          display: none;
+                          align-items: center;
+                          margin-top: 1rem;
+
+                          /*Visuals*/
+
+                          border-radius: 100px;
+                          cursor: pointer;
+                          background-color: ${colors.primary};
+                          color: ${colors.secondary};
+
+                          }
+
+                          input[type="file"]::before{
+
+                          /*Box model*/
+
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          padding: 1rem;
+                          margin-right: 1rem;
+
+                          /*Visuals*/
+
+                          cursor: pointer;
+                          background-color: ${colors.primary};
+                          color: ${colors.secondary};
+                          border-radius: 50px;
+
+                          }
+
+                          input[type="file"]::-webkit-file-upload-button {
+
+                          display: none;
+
+                          }
+
                     a{
 
                         /*Visuals*/
 
                         text-decoration: none;
                         
+                    }
+
+                    a:hover{
+
+                        /*Visuals*/
+
+                        cursor: pointer;
+                        color: ${colors.tertiary};
+                        transition: 0.5s ease all;
                     }
                 `}
         </style>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { getProviders, useSession, signIn, getCsrfToken } from 'next-auth/react'
 import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
-import Header from 'components/Header/Header'
+import Header from 'components/BasicHeader/BasicHeader'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Loader from 'components/Loader/Loader'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
@@ -33,13 +33,14 @@ export default function SignIn ({ providers, csrfToken }) {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [isValidate, setIsValidate] = useState(false)
+  const [isSignIn, setIsSignIn] = useState(false)
   const Router = useRouter()
 
   useEffect(() => {
     if (session) {
       return Router.replace('/home')
     }
-  }, [Router])
+  }, [])
 
   /**
   * If the password input type is password, then hide the first icon and show the second icon, and
@@ -111,9 +112,13 @@ export default function SignIn ({ providers, csrfToken }) {
     
     e.preventDefault()
 
+    
+
     document.getElementById('submit__error').classList.remove('submit__error--active')
 
     if (isValidate) {
+
+      setIsSignIn(true)
       const res = await signIn('credentials', { redirect: false, email, password, callbackUrl: '/home' })
 
       if (res?.error) {
@@ -239,7 +244,7 @@ export default function SignIn ({ providers, csrfToken }) {
               <div id='submit__error' className='submit__error'>
                 {message}
               </div>
-              <input type='submit' value='Iniciar sesión' className='form-vertical__button' onClick={(e) => Login(e)} />
+              <input type='submit' value={isSignIn ? 'Iniciando sesión..' : 'Iniciar sesión'} className='form-vertical__button' onClick={(e) => Login(e)} />
               <div className='form-register'>
                 <h6>¿No tiene una cuenta?</h6>
                 <Link href='/auth/signUp'><a aria-label='Ir al formulario de registro'>Registrarse</a></Link>

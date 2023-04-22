@@ -8,6 +8,7 @@ import { colors, fonts } from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
+import {toast} from 'react-toastify'
 import { server } from '/server'
 
 export default function CreateAttendance () {
@@ -15,12 +16,37 @@ export default function CreateAttendance () {
   const Router = useRouter()
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
+  const [attendanceImage, setAttendanceImage] = useState('')
   const [message, setMessage] = useState('')
 
+  const uploadImage = async (e) => {
+
+
+    if (e.target.files && e.target.files[0]) {
+
+
+          const imageUploaded = e.target.files[0]
+
+          const reader = new FileReader()
+
+          reader.readAsDataURL(imageUploaded)
+
+          reader.onload = () => {
+
+            const imageData = reader.result
+
+            setAttendanceImage(imageData)
+      
+          }
+
+    }
+  }
+
   const createAttendance = async (e) => {
+
     e.preventDefault()
 
-    const res = await fetch(`${server}/api/attendances`, {
+    const res = await fetch(`${server}/api/attendances/${Router.query.thread}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,7 +55,8 @@ export default function CreateAttendance () {
         userId: session.user.id,
         location,
         description,
-        username: session.user.username
+        username: session.user.username,
+        image: attendanceImage
       })
     }).catch(err => console.log(err))
 
@@ -38,7 +65,23 @@ export default function CreateAttendance () {
     if (data.error) {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
+      toast.error('Introduzca los campos obligatorios', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
     } else {
+      toast.success('Se ha publicado el cuidado correctamente', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
       setMessage('Publicación de cuidado creada correctamente')
       Router.push('/home')
     }
@@ -85,15 +128,18 @@ export default function CreateAttendance () {
                     <BsImageFill size={25} color={colors.secondary} />
                   </div>
                   <div className='image__input'>
-                    <input
-                          title='Introducir imagen'
-                          type='file'
-                          name='image'
-                          accept='image/*'
-                          placeholder='Ningún archivo seleccionado'
-                          className='input'
-                         />
-                    <input type='submit' className={global.buttonPrimary} />
+                          <input
+                            title='Introducir imagen'
+                            type='file'
+                            name='image'
+                            id='image__input'
+                            onChange={(e) => uploadImage(e)}
+                            accept='image/png, image/jpeg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+              
                   </div>
                 </div>
                 <div className='form-vertical__new'>
@@ -126,11 +172,11 @@ export default function CreateAttendance () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 100%;
+                        width: 70vw;
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
                         background-size: 100% 110%;
                         border-radius: 20px;
                         
@@ -266,17 +312,17 @@ export default function CreateAttendance () {
                     }
 
                     h1{
+                         /*Box model*/
+
+                         margin-top: 2rem;
+                        margin-bottom: 3rem;
+
                         /*Text*/
 
                         font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
+                        font-weight: 500;
+                        font-family: "Satisfy", sans-serif;
+                        color: white;
                         text-align: center;
                         
                   }
@@ -385,13 +431,6 @@ export default function CreateAttendance () {
 
                     }
 
-                    h1{
-
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
-                    }
 
                     a{
 

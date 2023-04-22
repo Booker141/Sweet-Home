@@ -5,6 +5,8 @@
  * @returns The Modal component is being returned.
  */
 export default function Modal ({ children }) {
+
+
   return (
     <>
       <div className='center'>
@@ -34,6 +36,7 @@ export default function Modal ({ children }) {
             width: 100%;
             height: 100%;
 
+
         }
 
         .card{
@@ -49,7 +52,7 @@ export default function Modal ({ children }) {
 
             /*Visuals*/
 
-            border-radius: 10px;
+            border-radius: 20px;
             background-color: #f0810f;
             background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
             opacity: 0.97;
@@ -73,6 +76,8 @@ export default function Modal ({ children }) {
 
             margin: 1rem;
             }
+
+
 
 
         `}

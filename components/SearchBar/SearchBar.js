@@ -1,4 +1,4 @@
-import {fonts} from "styles/frontend-conf"
+import {fonts, colors} from "styles/frontend-conf"
 import Router from "next/router"
 import global from "styles/global.module.css"
 import {RiSearchLine} from "react-icons/ri"
@@ -11,26 +11,15 @@ import {useState} from "react"
  * @param props - This is the props object that is passed to the component.
  * @returns A search bar component.
  */
-export default function SearchBar(props){
+export default function SearchBar(){
 
     const [keyword, setKeyword] = useState('');
-    const [isActive, setIsActive] = useState(false);
 
 
     /**
      * It toggles the display of the search bar.
      */
-    const displaySearch = () => {
-        setIsActive(!isActive);
-        document.addEventListener("DOMContentLoaded", function () { 
-          if(isActive){
-            document.getElementById('search').style.display = "none"
-          }else{
-            document.getElementById('search').style.display = "flex"
-          }
-       })
-        
-    }
+   
 
     const searchKeyword = () => {
 
@@ -42,19 +31,15 @@ export default function SearchBar(props){
     return(
         <>
         <div className='search-bar'>
-          <div className='search-bar__icon'>
-            <button onClick={() => displaySearch()}><RiSearchLine size={20} color={props.color} /></button>
-          </div>
-          {isActive &&
             <search id='search' className="search-bar__input">
-            <input
-              type='search'
-              name='search'
-              value={keyword}
-              placeholder='Buscar..'
-              onChange={(e) => setKeyword(e.target.value)}
-            /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}>Buscar</button></search>}
-
+              <input
+                type='search'
+                name='search'
+                value={keyword}
+                placeholder='Buscar..'
+                onChange={(e) => setKeyword(e.target.value)}
+              /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><RiSearchLine size={20}/></button>
+            </search>
         </div>
         <style jsx>{`
 
@@ -64,7 +49,6 @@ export default function SearchBar(props){
 
             display: flex;
             flex-direction: row;
-            width: 20vw;
 
           }
 
@@ -94,8 +78,9 @@ export default function SearchBar(props){
 
             /*Box model*/
 
-            width: fit-content;
-            height: 2rem;
+            width: 27vw;
+            height: 2vh;
+            padding: 1rem;
 
 
             /*Text*/
@@ -106,7 +91,7 @@ export default function SearchBar(props){
             /*Visuals*/
 
             border-radius: 50px;
-            background: ${props.color};
+            background: white;
             border: none;
             transition: 0.2s ease all;
 
@@ -119,7 +104,6 @@ export default function SearchBar(props){
 
             /*Visuals*/
 
-            border: 2px solid ${props.color};
             outline: none;
             box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
@@ -136,10 +120,18 @@ export default function SearchBar(props){
 
               button{
 
+                /*Position*/
+
+                position: relative;
+                right: 5rem;
+
                 /*Visuals*/
 
                 background: transparent;
-                border: none;
+                border-left: 2px solid ${colors.primary};
+                border-top: 0;
+                border-right: 0;
+                border-bottom: 0;
                 cursor: pointer;
 
 

@@ -33,7 +33,8 @@ export default function FollowingUser ({ user }) {
       <Layout>
         <Head><title>Seguidores</title></Head>
         <h1 className="title">Seguidores</h1>
-        <p className={global.text}>Sigues a {numFollowing} personas</p>
+        {numFollowing === 0 && <p className={global.text}>No sigues a ningún usuario</p>}
+        <p className={global.text}>Sigues a {numFollowing} usuarios</p>
         <div className='following'>
           {following.map((_id) => (
             <Following key={_id} id={_id} />

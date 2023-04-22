@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
 
 /*
@@ -18,7 +18,7 @@ import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
  */
 export default function Contact () {
   return (
-    <Layout>
+    <BasicLayout>
       <>
         <Head>
           <title>Contacto</title>
@@ -27,7 +27,7 @@ export default function Contact () {
         <div className='contact__container'>
           <div className='container__info'>
             <h2 className={global.title2}>¿Quieres contactar con nosotros?</h2>
-            <p className={global.text2}>Para contactar con Sweet Home y
+            <p className={global.text3}>Para contactar con Sweet Home y
               así recoger feedback para mejorar nuestro servicio, puede hacerlo
               a través de nuestras redes sociales.
             </p>
@@ -35,7 +35,7 @@ export default function Contact () {
           <div className='container__social'>
             <h2 className={global.title2}>Redes sociales</h2>
             <div className='social__link'>
-              <a className={global.text} aria-label='Enlace de Facebook' href='https://www.facebook.com/sweethome.es/'>
+              <a aria-label='Enlace de Facebook' href='https://www.facebook.com/sweethome.es/'>
                 Facebook
               </a>
               <BsFacebook />
@@ -138,9 +138,9 @@ export default function Contact () {
 
                         display: flex;
                         flex-direction: row;
+                        align-items: center;
                         gap: 1rem;
-                        justify-content: center;
-                        width: 100%;
+                        margin-bottom: 2rem;
 
                         /*Misc*/
                         
@@ -152,8 +152,6 @@ export default function Contact () {
 
                         /*Box model*/
 
-                        margin-bottom: 2rem;
-
                         color: ${colors.secondary};
                         font-family: ${fonts.default};
 
@@ -164,17 +162,9 @@ export default function Contact () {
 
                         /*Text*/
 
-                        color: ${colors.tertiary};
                         font-size: 1.2rem;
                     }
 
-                    .social__link a:hover{
-
-                        /*Text*/
-
-                        color: ${colors.tertiary};
-
-                    }
 
 
 
@@ -233,7 +223,7 @@ export default function Contact () {
 
                         /*Text*/
 
-                        font-family: ${fonts.secondary};
+                        font-family: ${fonts.default};
                         text-decoration: none;
                         color: ${colors.primary};
                     }
@@ -278,7 +268,7 @@ export default function Contact () {
             `}
         </style>
       </>
-    </Layout>
+    </BasicLayout>
 
   )
 }

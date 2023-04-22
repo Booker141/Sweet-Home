@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 import New from 'components/New/New'
 import { server } from '../../server'
 
@@ -38,7 +38,7 @@ export default function News ({ news }) {
   },[]);
 
   return (
-    <Layout>
+    <BasicLayout>
 
       <Head><title>Noticias</title></Head>
 
@@ -99,7 +99,6 @@ export default function News ({ news }) {
 
                         border-radius: 10px;
                         background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-                        box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
                     }
 
                     .list{
@@ -218,7 +217,7 @@ export default function News ({ news }) {
                 `}
       </style>
 
-    </Layout>
+    </BasicLayout>
   )
 }
 

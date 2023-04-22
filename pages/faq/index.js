@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 import Question from 'components/Question/Question'
 import faq1 from '../../public/faq-1.svg'
 import { server } from '/server'
@@ -38,7 +38,7 @@ export default function FAQ ({ questions }) {
   },[]);
 
   return (
-    <Layout>
+    <BasicLayout>
       <Head><title>Preguntas frecuentes</title></Head>
 
       <div className='faq'>
@@ -128,7 +128,7 @@ export default function FAQ ({ questions }) {
                     
                 `}
       </style>
-    </Layout>
+    </BasicLayout>
 
   )
 }

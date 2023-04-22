@@ -1,10 +1,11 @@
-import Image from 'next/image'
 import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf'
 import { useState, useEffect } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { AiOutlineCheck } from 'react-icons/ai'
+import {useSession} from 'next-auth/react'
+import FallbackImage from 'components/FallbackImage/FallbackImage'
 import FollowButton from 'components/FollowButton/FollowButton'
+import {server} from '/server'
 
 /**
  * It's a component that renders a user's profile picture, username, and a button that allows you to
@@ -13,6 +14,8 @@ import FollowButton from 'components/FollowButton/FollowButton'
  * @returns A component that shows a user's profile.
  */
 export default function User (props) {
+
+  const {data: session} = useSession()
   
   const [isCaretaker, setIsCaretaker] = useState(false)
 
@@ -29,13 +32,13 @@ export default function User (props) {
 
       <div key={props._id} className={global.user}>
         <div className='user__image'>
-          <Image src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} />
+          <a href={`${server}/profile/${props.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={50} height={50} /></a>
         </div>
         <div className='user__username'>
           <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}>@{props.username}</a>
           {isCaretaker && <BsPatchCheckFill size={20} color={colors.primary} />}
         </div>
-        <FollowButton/>
+        <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={props.id} usernameTo={props.username}/>
       </div>
       <style jsx>{`
 
@@ -46,8 +49,12 @@ export default function User (props) {
 
                     display: flex;
                     align-items: center;
+                    margin-left: 0.2rem;
 
-                    margin-left: 1rem;
+                    /*Visuals*/
+
+                    border-radius: 70px;
+                    border-image: linear-gradient(45 deg, #f0810f, #f9A603) 30;
                 }
 
                 .user__username{
@@ -77,6 +84,16 @@ export default function User (props) {
 
                     display: flex;
                     float: right;
+                }
+
+                .user__image a {
+
+                  /*Visuals*/
+
+                  text-decoration: none;
+                  width: 50px;
+                  height: 50px;
+
                 }
 
                 a{

@@ -7,6 +7,7 @@ import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
 import { colors, fonts } from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
+import { toast } from 'react-toastify'
 import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
@@ -77,6 +78,14 @@ export default function CreatePost () {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
     } else {
+      toast.success('Se ha publicado correctamente', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
       setMessage('Publicación creada correctamente')
       Router.push(`${server}/home`)
     }
@@ -94,12 +103,14 @@ export default function CreatePost () {
     return (
       <Layout>
         <Head><title>Crear publicación</title></Head>
-          <div className="create__header">
-            <h1 className="form__title">Crear publicación</h1>
-            <p className={global.text}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
-          </div>
+          
           <div className="form__position">
             <div className='form'>
+
+              <div className="create__header">
+                <h1 className="form__title">Crear publicación</h1>
+                <p className={global.text}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              </div>
               <form action='/api/posts' id='form' enctype='multipart/form-data'>
                 <div className='form-vertical__location'>
                   <div className='label'>
@@ -169,11 +180,11 @@ export default function CreatePost () {
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        width: 50vw;
+                        width: 70vw;
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
                         border-radius: 20px;
                         
                     }
@@ -318,17 +329,17 @@ export default function CreatePost () {
                     }
 
                     h1{
+                        /*Box model*/
+
+                        margin-top: 2rem;
+                        margin-bottom: 3rem;
+
                         /*Text*/
 
                         font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
+                        font-weight: 500;
+                        font-family: "Satisfy", sans-serif;
+                        color: white;
                         text-align: center;
                         
                   }
@@ -437,13 +448,6 @@ export default function CreatePost () {
 
                     }
 
-                    h1{
-
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
-                    }
 
                     a{
 

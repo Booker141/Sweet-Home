@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react'
 import global from 'styles/global.module.css'
+import { colors } from 'styles/frontend-conf'
 import User from 'components/User/User'
 import Layout from 'components/Layout/Layout'
 import Loader from 'components/Loader/Loader'
@@ -24,7 +25,7 @@ export default function AllUsers ({ users }) {
     return (
       <Layout>
 
-        <h1 className={global.title}>Usuarios</h1>
+        <h1 className="title">Usuarios</h1>
         {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").map(({ _id, image, username, isCaretaker }) => {
           return (
             <>
@@ -32,7 +33,27 @@ export default function AllUsers ({ users }) {
             </>
           )
         })}
+      <style jsx>{`
+      
+          .title{
 
+            /*Text*/
+
+            font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+          }
+      
+      
+      
+      `}</style>
       </Layout>
     )
   }

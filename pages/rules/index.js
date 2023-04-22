@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import {colors} from 'styles/frontend-conf'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 
 /*
     * @author Sergio García Navarro
@@ -20,7 +20,7 @@ import Layout from 'components/Layout/Layout'
 */
 export default function Rules () {
   return (
-    <Layout>
+    <BasicLayout>
       <Head><title>Reglas y políticas</title></Head>
       <h1 className={global.title}>Reglas y políticas</h1>
       <hr className={global.line} />
@@ -138,6 +138,6 @@ export default function Rules () {
                     `}
       </style>
 
-    </Layout>
+    </BasicLayout>
   )
 }

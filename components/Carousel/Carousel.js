@@ -86,7 +86,7 @@ export default function Carousel () {
               <h3 className='text__date'>{new Date(date).toLocaleDateString().slice(0,10)}</h3>
               <h3 className='text__date'>{author}</h3>
               <p className='text__paragraph'>{introduction}</p>
-              <button className={global.buttonTertiary} onClick={() => { router.push(`/news/${id}`) }}>Saber más</button>
+              <button className={global.carouselButton} onClick={() => { router.push(`/news/${id}`) }}>Saber más</button>
             </div>
             <div className='item__image'>
               <Image src={carousel} />
@@ -203,6 +203,50 @@ export default function Carousel () {
                     color: ${colors.secondary};
 
                 }
+
+                .item__text button{
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 0.5rem;
+                  height: 50px;
+                  width: fit-content;
+                  min-width: 120px;
+                  max-width: 200px;
+                  padding: 0.5rem;
+
+                  /*Text*/
+
+                  color: #f0810f;
+                  font-family: "Poppins", sans-serif;
+                  font-style: 500;
+
+                  /*Visuals*/
+
+                  cursor: pointer;
+
+                  background-color: ${colors.secondary};
+                  border-radius: 40px;
+
+                  /*Misc*/
+
+                  transition: all 0.3s ease-in-out;
+                }
+
+                .item__text button:hover{
+
+                  /*Box model*/
+
+                  color: ${colors.secondary};
+                  background-color: ${colors.tertiary};
+
+                  }
+
+                
 
                 .text__title{
 

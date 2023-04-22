@@ -18,7 +18,7 @@ export default function Trademark ({ link }) {
 
     <>
       <div className='img'>
-        <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={110} height={100} /></a>
+        <a href={link} aria-label='Ir a Inicio'><Image src={Logo} width={100} height={90} priority/></a>
       </div>
     </>
 

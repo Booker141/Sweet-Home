@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import global from 'styles/global.module.css'
 import { colors, fonts, statusColors } from 'styles/frontend-conf.js'
-import Header from 'components/Header/Header'
+import Header from 'components/BasicHeader/BasicHeader'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import { FaUser, FaUserPlus } from 'react-icons/fa'
 import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
@@ -24,12 +24,14 @@ import {toast} from 'react-toastify'
 */
 
 export default function SignUp () {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [message, setMessage] = useState(null)
   const [isValidate, setIsValidate] = useState(false)
+  const [isSignUp, setIsSignUp] = useState(false)
 
   const Router = useRouter()
 
@@ -130,6 +132,8 @@ export default function SignUp () {
     e.preventDefault()
 
     if (isValidate) {
+
+      setIsSignUp(true)
 
       const res = await fetch(`${server}/api/registerCare`, {
         method: 'POST',
@@ -367,7 +371,7 @@ export default function SignUp () {
             <div className='form__conditions'>
               <p>Al confirmar, aceptará las condiciones de la empresa. En los apartados <a className='form__link' aria-label='Ir a Condiciones' href='/conditions'>Condiciones</a> y  <a className='form__link' aria-label='Ir a Privacidad' href='/privacity'>Privacidad</a> encontrará más información.</p>
             </div>
-            <input type='submit' value='Confirmar' className='form-vertical__button' onClick={(e) => signUp(e)} />
+            <input type='submit' value={isSignUp ? 'Registrando..' : 'Confirmar'} className='form-vertical__button' onClick={(e) => signUp(e)} />
             <div className='form-login'>
               <h6>¿Ya tienes una cuenta?</h6>
               <Link href='/auth/signIn'><a aria-label='Ir a formulario de inicio de sesión'>Entrar</a></Link>

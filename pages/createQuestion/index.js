@@ -103,13 +103,13 @@ export default function CreateQuestion () {
     return (
       <Layout>
         <Head><title>Crear pregunta</title></Head>
-        <div className="createQuestion__header">
-            <h1 className='form__title'>Crear pregunta</h1>
-            <p className={global.text}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
-        </div>
+        
           <div className="form__position">
             <div className='form'>
-
+            <div className="createQuestion__header">
+              <h1 className='form__title'>Crear pregunta</h1>
+              <p className={global.text}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
+            </div>
               <form action='/api/questions' id='form'>
                 <div className='form-vertical__title'>
                   <div className='label'>
@@ -172,11 +172,11 @@ export default function CreateQuestion () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 50vw;
+                        width: 70vw;
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
                         background-size: 100% 110%;
                         border-radius: 20px;
                         
@@ -515,17 +515,17 @@ export default function CreateQuestion () {
                       }
 
                       h1{
+                        /*Box model*/
+
+                        margin-top: 2rem;
+                        margin-bottom: 3rem;
+
                         /*Text*/
 
                         font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
+                        font-weight: 500;
+                        font-family: "Satisfy", sans-serif;
+                        color: white;
                         text-align: center;
                         
                   }
@@ -593,14 +593,6 @@ export default function CreateQuestion () {
                     border-radius: 5px;
                     border: 1px solid ${colors.primary};
 
-                    }
-
-                    h1{
-
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
                     }
 
                     a{

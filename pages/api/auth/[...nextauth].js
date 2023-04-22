@@ -183,17 +183,21 @@ export const authOptions = {
               phone: '',
               gender: '',
               birthdate: new Date('<2012-12-12>'),
+              biography: "",
+              location: "",
               image: user.image,
+              banner: user.banner,
               status: userStatus,
               role: userRole,
-              createdAt: new Date(),
-              accountId: account._id,
+              links: {Instagram: "", Twitter: "", Facebook: ""},
               followers: [],
               following: [],
               likes: [],
               saves: [],
               pets: [],
               isCaretaker: false,
+              accountId: account._id,
+              createdAt: new Date()
             })
           } else {
             if (accountExist.userId == userExist._id) {
@@ -240,17 +244,21 @@ export const authOptions = {
               phone: '',
               gender: '',
               birthdate: new Date('<2012-12-12>'),
+              biography: "",
+              location: "",
               image: user.image,
+              banner: user.banner,
               status: userStatus,
               role: userRole,
-              createdAt: new Date(),
-              accountId: account._id,
+              links: {Instagram: "", Twitter: "", Facebook: ""},
               followers: [],
               following: [],
               likes: [],
               saves: [],
               pets: [],
-              isCaretaker: false
+              isCaretaker: false,
+              accountId: account._id,
+              createdAt: new Date()
             })
           } else {
             if (accountExist.userId == userExist._id) {

@@ -35,17 +35,22 @@ export default async function handler (req, res) {
       password: user.password,
       phone: body.phone,
       gender: body.gender,
-      birthdate: Date.parse(body.birthdate),
+      birthdate: new Date(body.birthdate),
+      biography: body.biography,
+      location: user.location,
       image: body.image,
+      banner: body.banner,
       status: user.status,
       role: user.role,
-      createdAt: user.createdAt,
-      accountId: user.accountId,
-      biography: body.biography,
+      links: user.links,
       followers: user.followers,
       following: user.following,
+      likes: user.likes,
+      saves: user.saves,
+      pets: user.pets,
       isCaretaker: user.isCaretaker,
-      pets: user.pets
+      accountId: user.accountId,
+      createdAt: user.createdAt   
     })
     await db.collection('accounts').replaceOne({ username: req.query.username }, {
       _id: account._id,
@@ -69,6 +74,7 @@ export default async function handler (req, res) {
   }
 
   if (req.method === 'DELETE') {
+
     await db.collection('users').deleteOne({ username: req.query.username })
     await db.collection('accounts').deleteOne({ userId: ObjectId(user._id) })
     await db.collection('pets').remove({ ownerId: ObjectId(user._id) })

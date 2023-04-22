@@ -58,7 +58,7 @@ export default function TypeAttendance (props) {
     <>
       <div className={global.typeAttendance}>
         <div className="typeAttendance__header">
-          <h1 className={global.tertiary}>{props.name}</h1>
+          <h1 className="typeAttendance__title">{props.name}</h1>
           {isAdmin && <div className="header__buttons"><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button><button className='edit__button' onClick={() => Router.push("/editQuestion/")}><MdOutlineEdit size={20} color={colors.secondary} /></button></div>}
         </div>
         <hr className={global.white__line2} />
@@ -83,6 +83,17 @@ export default function TypeAttendance (props) {
           margin-bottom: 1rem;
           margin-left: 2rem;
         }
+
+        .typeAttendance__title{
+
+          /*Text*/
+
+          font-size: 1.4rem;
+          font-weight: 600;
+          font-family: ${fonts.default};
+
+        }
+        
         .typeAttendance__header{
 
           /*Box model*/ 

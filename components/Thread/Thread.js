@@ -5,6 +5,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import Modal from 'components/Modal/Modal'
 import { colors } from '/styles/frontend-conf'
 import { server } from '/server'
+import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 
 /**
@@ -20,6 +21,8 @@ export default function Thread (props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({});
   const Router = useRouter();
+  
+  console.log(props)
   
 /* Fetching the user that created the thread and the number of posts that the thread has. */
   async function getData(){

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 import accessibility1 from '../../public/accessibility-1.svg'
 import accessibility2 from '../../public/accessibility-2.svg'
 import accessibility3 from '../../public/accessibility-3.svg'
@@ -23,7 +23,7 @@ import accessibility5 from '../../public/accessibility-5.svg'
 export default function Accessibility () {
   return (
 
-    <Layout>
+    <BasicLayout>
 
       <Head><title>Accesibilidad</title></Head>
 
@@ -174,6 +174,6 @@ export default function Accessibility () {
             
             `}
       </style>
-    </Layout>
+    </BasicLayout>
   )
 }

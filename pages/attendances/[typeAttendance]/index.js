@@ -1,45 +1,26 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useSession, signIn } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import global from '/styles/global.module.css'
 import { colors } from '/styles/frontend-conf.js'
 import Layout from '/components/Layout/Layout'
 import Thread from '/components/Thread/Thread'
+import {toast} from 'react-toastify'
 import { server } from '/server'
 
-export default function TypeAttendance ({ threads }) {
+export default function TypeAttendance ({ threads, typeAttendance }) {
+
   const { data: session, status } = useSession({ required: true })
 
   const [isSortedByName, setIsSortedByName] = useState(false)
   const [isSortedByDate, setIsSortedByDate] = useState(false)
   const [isSortedByNumPosts, setIsSortedByNumPosts] = useState(false)
   const [sortedThreads, setSortedThreads] = useState(threads)
-  const [typeAttendance, setTypeAttendance] = useState({ nutrition: false, hygiene: false, leisure: false, health: false, education: false, physichalActivity: false, attendance: '' })
   const [numPosts, setNumPosts] = useState(0)
 
   const router = useRouter()
 
-  useEffect(() => {
-    if (router.query.typeAttendance === 'nutrition') {
-      setTypeAttendance({ nutrition: true, hygiene: false, leisure: false, health: false, education: false, physichalActivity: false, attendance: 'Nutrición' })
-    }
-    if (router.query.typeAttendance === 'hygiene') {
-      setTypeAttendance({ nutrition: false, hygiene: true, leisure: false, health: false, education: false, physichalActivity: false, attendance: 'Higiene' })
-    }
-    if (router.query.typeAttendance === 'leisure') {
-      setTypeAttendance({ nutrition: false, hygiene: false, leisure: true, health: false, education: false, physichalActivity: false, attendance: 'Ocio' })
-    }
-    if (router.query.typeAttendance === 'health') {
-      setTypeAttendance({ nutrition: false, hygiene: false, leisure: false, health: true, education: false, physichalActivity: false, attendance: 'Salud' })
-    }
-    if (router.query.typeAttendance === 'education') {
-      setTypeAttendance({ nutrition: false, hygiene: false, leisure: false, health: false, education: true, physichalActivity: false, attendance: 'Educación' })
-    }
-    if (router.query.typeAttendance === 'physichalActivity') {
-      setTypeAttendance({ nutrition: false, hygiene: false, leisure: false, health: false, education: false, physichalActivity: true, attendance: 'Actividad física' })
-    }
-  }, [])
 
   const sortThreadByName = () => {
     const sortedThreads = threads.sort((a, b) => {
@@ -90,9 +71,9 @@ export default function TypeAttendance ({ threads }) {
     return (
       <Layout>
         <Head>
-          <title>Hilos sobre {typeAttendance.attendance}</title>
+          <title>Hilos sobre {typeAttendance}</title>
         </Head>
-        <h1 className={global.title}>Hilos sobre {typeAttendance.attendance}</h1>
+        <h1 className={global.title}>Hilos sobre {typeAttendance}</h1>
         <div className='sort__buttons'>
           <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/createThread`)} aria-label='Crear nuevo hilo'>Crear hilo</button>
           <button className={global.buttonPrimary} onClick={() => sortThreadByName()} aria-label='Ordenar categorías por nombre'>Ordenar por nombre</button>
@@ -197,6 +178,7 @@ export default function TypeAttendance ({ threads }) {
 }
 
 export async function getServerSideProps (context) {
+
   const { typeAttendance } = context.params
 
   const res = await fetch(`${server}/api/threads/${typeAttendance}`, {
@@ -210,7 +192,7 @@ export async function getServerSideProps (context) {
 
   return {
     props: {
-      threads: JSON.parse(JSON.stringify(threads))
+      threads: JSON.parse(JSON.stringify(threads)), typeAttendance: typeAttendance
     }
   }
 }

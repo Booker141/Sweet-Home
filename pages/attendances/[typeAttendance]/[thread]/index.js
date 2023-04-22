@@ -10,6 +10,7 @@ import Attendance from '/components/Attendance/Attendance'
 import { server } from '/server'
 
 export default function Thread ({ attendances }) {
+
   const { data: session, status } = useSession({ required: true })
 
   const [isSortedByUsername, setIsSortedByUsername] = useState(false)
@@ -18,7 +19,7 @@ export default function Thread ({ attendances }) {
 
   const router = useRouter()
 
-  const sortAttendanceByUsername = () => {
+  const sortAttendancesByUsername = () => {
     const sortedAttendances = attendances.sort((a, b) => {
       if (a.username > b.username) {
         return 1
@@ -32,7 +33,7 @@ export default function Thread ({ attendances }) {
     setSortedAttendances(sortedAttendances)
   }
 
-  const sortAttendanceByDate = () => {
+  const sortAttendancesByDate = () => {
     const sortedAttendances = attendances.sort((a, b) => {
       if (a.createdAt > b.createdAt) {
         return 1
@@ -62,9 +63,9 @@ export default function Thread ({ attendances }) {
         </Head>
         <h1 className={global.title}>{router.query.thread}</h1>
         <div className='sort__buttons'>
-          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear nuevo cuidado</button>
-          <button className={global.buttonPrimary} onClick={() => sortThreadByUsername()} aria-label='Ordenar categorías por usuario'>Ordenar por usuario</button>
-          <button className={global.buttonPrimary} onClick={() => sortThreadByDate()} aria-label='Ordenar categorías por nombre'>Ordenar por fecha</button>
+          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear nuevo cuidado</button>
+          <button className={global.buttonPrimary} onClick={() => sortAttendancesByUsername()} aria-label='Ordenar categorías por usuario'>Ordenar por usuario</button>
+          <button className={global.buttonPrimary} onClick={() => sortAttendancesByDate()} aria-label='Ordenar categorías por nombre'>Ordenar por fecha</button>
         </div>
         {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
         {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
@@ -88,6 +89,7 @@ export default function Thread ({ attendances }) {
             </>
           )
         })}
+
       <style jsx>{`
         
         .sort__buttons{
@@ -157,7 +159,7 @@ export async function getServerSideProps (context) {
 
   const { thread } = context.params;
 
-  console.log(thread);
+  console.log(thread)
 
   const res = await fetch(`${server}/api/attendances/${thread}`, {
     method: 'GET',

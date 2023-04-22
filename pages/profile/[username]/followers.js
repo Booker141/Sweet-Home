@@ -33,7 +33,8 @@ export default function FollowersUser ({ user }) {
       <Layout>
         <Head><title>Seguidores</title></Head>
         <h1 className="title">Seguidores</h1>
-        <p className={global.text}>Te siguen {numFollowers} personas</p>
+        {numFollowers === 0 && <p className={global.text}>Te siguen {numFollowers} usuarios</p>}
+        <p className={global.text}>Te siguen {numFollowers} usuarios</p>
         <div className='followers'>
           {followers.map((_id) => (
             <Follower key={_id} id={_id} />

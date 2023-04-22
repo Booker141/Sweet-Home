@@ -2,7 +2,7 @@ import global from '../../styles/global.module.css'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {colors} from '../../styles/frontend-conf'
-import Layout from '../../components/Layout/Layout'
+import Layout from '../../components/BasicLayout/BasicLayout'
 import Head from 'next/head'
 import Loader from '../../components/Loader/Loader'
 

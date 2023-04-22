@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
+import BasicLayout from 'components/BasicLayout/BasicLayout'
 
 /*
     * @author Sergio García Navarro
@@ -16,22 +16,24 @@ import Layout from 'components/Layout/Layout'
  */
 export default function Privacy () {
   return (
-    <Layout>
+    <BasicLayout>
       <Head>
         <title>Privacidad </title>
       </Head>
       <h1 className={global.title}>Privacidad ✎</h1>
       <h2 className='first-line'>Última actualización el 4 de agosto de 2022</h2>
       <hr className={global.line} />
-      <p className={global.text}>La política de privacidad de Sweet
-        Home describe el modo de uso y recopilación de los datos
-        personales de aquellos usuarios que hacen uso de la aplicación.
-        Es usuario aquella persona que hace uso habitual de la
-        aplicación, entendiéndose por uso, la modificación e
-        inserción de datos así como la interacción con las funciones
-        que ofrece la aplicación.La presente política de privacidad
-        tiene una aplicación a nivel mundial.
-      </p>
+      <div className="privacy__text1">
+        <p className={global.text}>La política de privacidad de Sweet
+          Home describe el modo de uso y recopilación de los datos
+          personales de aquellos usuarios que hacen uso de la aplicación.
+          Es usuario aquella persona que hace uso habitual de la
+          aplicación, entendiéndose por uso, la modificación e
+          inserción de datos así como la interacción con las funciones
+          que ofrece la aplicación.La presente política de privacidad
+          tiene una aplicación a nivel mundial.
+        </p>
+      </div>
       <h2 className={global.secondary}>Política de Privacidad de Sweet Home ⚠︎</h2>
       <hr className={global.line} />
       <h6 className={global.text}>Sweet Home es responsable del
@@ -144,6 +146,13 @@ export default function Privacy () {
 
       <style jsx>{`
 
+                    .privacy__text1{
+
+                        /*Box model*/
+
+                        margin-top: 4rem;
+                    }
+
                     .first-line{
 
                         /*Text*/
@@ -210,6 +219,6 @@ export default function Privacy () {
                     }
                 `}
       </style>
-    </Layout>
+    </BasicLayout>
   )
 }
