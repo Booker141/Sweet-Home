@@ -8,6 +8,7 @@ import {fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Link from 'next/link'
 import UserSidebar from '/components/UserSidebar/UserSidebar'
+import {useSession} from 'next-auth/react'
 import {useEffect, useState} from 'react'
 import {server} from '/server'
 import {useRouter} from 'next/router'
@@ -19,6 +20,7 @@ export default function Sidebar(){
     const [users, setUsers] = useState([])
     const [following, setFollowing] = useState([])
     const [typeAttendances, setTypeAttendances] = useState([])
+    const {data: session, status} = useSession()
     const router = useRouter()
 
     const fetchUsers = async () => {
