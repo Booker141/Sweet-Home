@@ -37,7 +37,7 @@ export default function Chat ({messages}) {
 
     e.preventDefault();
 
-    const res = await fetch(`${server}/api/messages`, {
+    await fetch(`${server}/api/messages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
