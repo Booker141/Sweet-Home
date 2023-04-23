@@ -17,4 +17,25 @@ export default async function handler (req, res) {
     res.status(200).json(attendances)
 
   }
+
+  if(req.method === 'POST'){
+
+    const {userId, location, description, image, username, typeAttendanceId, threadId} = req.body;
+
+    const data = await db.collection('attendances').insertOne({username, typeAttendanceId, threadId})
+
+    res.status(200).json(data)
+
+  }
+
+
+  if (req.method === 'DELETE') {
+
+    const { id } = req.body
+
+    const data = await db.collection('attendances').deleteOne({ _id: ObjectId(id) })
+
+    res.status(200).json(data)
+
+  }
 }
