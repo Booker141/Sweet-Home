@@ -81,13 +81,13 @@ export default function Header (props) {
             <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><RiNotification4Line /></a></Link></li>
             
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.secondary} />} <MdKeyboardArrowDown size={22} color={colors.secondary} /></a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.secondary} />} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
               <ul className='menu'>
-                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
-                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
-                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={20} color={colors.secondary} /></div></div></a></li>
+                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
               </ul>
             </li>
 
@@ -106,13 +106,13 @@ export default function Header (props) {
             <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
             <li><Link href='/dashboard' as='/dashboard'><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={22} color={colors.secondary} /></a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
               <ul className='menu'>
-                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
-                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={20} color={colors.secondary} /></div></div></a></Link></li>
+                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
-                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={20} color={colors.secondary} /></div></div></a></li>
+                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
               </ul>
             </li>
 
@@ -130,19 +130,20 @@ export default function Header (props) {
             <li><SearchBar/></li>
             <li><Link href='/statistics' as='/statistics'><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
             <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={22} color={colors.secondary} /></a>
+            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
               <ul className='menu'>
-                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={18} color={colors.secondary} /></div></div></a></Link></li>
+                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
-                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={18} color={colors.secondary} /></div></div></a></Link></li>
+                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                 <hr className='line' />
-                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={18} color={colors.secondary} /></div></div></a></li>
+                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
               </ul>
             </li>
 
           </ul>}
 
         {isModalVisible && <Modal>
+          <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title5}>Cerrar sesión</h2>
           <p className={global.text2}>¿Estás seguro de que quieres cerrar sesión?</p>
           <div className='buttons'>
@@ -206,6 +207,23 @@ export default function Header (props) {
 
                 }
 
+                .close__modal{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-self: flex-end;
+                margin-right: 2rem;
+
+                /*Visuals*/
+
+                border: none;
+                background: transparent;
+                cursor: pointer;
+
+                }
+
                 .header{
 
                     /*Position*/
@@ -235,6 +253,7 @@ export default function Header (props) {
 
                     /*Visuals*/
 
+                    border-radius: 0 0 20px 20px;
                     background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
                     
 

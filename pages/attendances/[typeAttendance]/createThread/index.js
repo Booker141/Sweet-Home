@@ -88,11 +88,11 @@ export default function CreateThread () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 50vw;
+                        width: 70vw;
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                        background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
                         background-size: 100% 110%;
                         border-radius: 20px;
                         

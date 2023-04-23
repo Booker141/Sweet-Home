@@ -81,31 +81,31 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
           <button className={global.buttonPrimary} onClick={() => sortThreadByNumPosts()} aria-label='Ordenar por actividad'>Ordenar por actividad</button>
         </div>
         {threads.length === 0 && <div className={global.loading2}><p>No hay ningún hilo en este momento.</p></div>}
-        {isSortedByName && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username }) => {
+        {isSortedByName && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username}/>
+              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
             </>
           )
         })}
-        {isSortedByDate && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username }) => {
+        {isSortedByDate && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username}/>
+              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
             </>
           )
         })}
-        {isSortedByNumPosts && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username }) => {
+        {isSortedByNumPosts && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} />
+              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
             </>
           )
         })}
-        {!isSortedByNumPosts && threads.map(({ _id, title, typeAttendanceId, createdAt, userId, username }) => {
+        {!isSortedByNumPosts && threads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} />
+              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
             </>
           )
         })}

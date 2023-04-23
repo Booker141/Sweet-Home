@@ -1,6 +1,6 @@
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineEdit, MdClose } from 'react-icons/md'
 import { useState, useEffect } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
@@ -61,9 +61,11 @@ export default function Question (props) {
             <h2 className={global.secondary2}>{props.title}</h2>
             {isAdmin && <div className="header__buttons"><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button><button className='edit__button' onClick={() => Router.push("/editQuestion/")}><MdOutlineEdit size={20} color={colors.secondary} /></button></div>}
           </div>
+          <hr className={global.white__line}></hr>
         <p className={global.text2}>{props.answer}</p>
       </div>
       {isModalVisible && <Modal>
+        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar pregunta</h2>
         <p className={global.text2}>¿Estás seguro de eliminar esta pregunta?</p>
         <div className='buttons'>
@@ -91,7 +93,7 @@ export default function Question (props) {
           /*Box model*/
 
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           margin-bottom: 0.5rem;
 
           /*Visuals*/
@@ -99,6 +101,23 @@ export default function Question (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+
+        }
+
+        .close__modal{
+
+        /*Box model*/
+
+        display: flex;
+        flex-direction: row;
+        align-self: flex-end;
+        margin-right: 2rem;
+
+        /*Visuals*/
+
+        border: none;
+        background: transparent;
+        cursor: pointer;
 
         }
 
@@ -125,7 +144,7 @@ export default function Question (props) {
 
           display: flex;
           flex-direction: row;
-          align-items: center;
+          align-items: flex-end;
           
           margin-top: 0.5rem;
           
@@ -140,6 +159,14 @@ export default function Question (props) {
           flex-direction: row;
           align-items: center;
           gap: 1rem;
+        }
+
+        hr{
+
+          /*Box model*/
+
+          width: 100%;
+          margin-bottom: 3rem;
         }
 
             `}

@@ -14,7 +14,6 @@ export default function Thread ({ attendances }) {
   const { data: session, status } = useSession({ required: true })
 
   const [isSortedByUsername, setIsSortedByUsername] = useState(false)
-  const [isSortedByDate, setIsSortedByDate] = useState(false)
   const [sortedAttendances, setSortedAttendances] = useState(attendances)
 
   const router = useRouter()
@@ -33,19 +32,6 @@ export default function Thread ({ attendances }) {
     setSortedAttendances(sortedAttendances)
   }
 
-  const sortAttendancesByDate = () => {
-    const sortedAttendances = attendances.sort((a, b) => {
-      if (a.createdAt > b.createdAt) {
-        return 1
-      }
-      if (a.createdAt < b.createdAt) {
-        return -1
-      }
-      return 0
-    })
-    setIsSortedByDate(!isSortedByDate)
-    setSortedAttendances(sortedAttendances)
-  }
 
   if (status == 'loading') {
     return (
@@ -65,20 +51,12 @@ export default function Thread ({ attendances }) {
         <div className='sort__buttons'>
           <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear nuevo cuidado</button>
           <button className={global.buttonPrimary} onClick={() => sortAttendancesByUsername()} aria-label='Ordenar categorías por usuario'>Ordenar por usuario</button>
-          <button className={global.buttonPrimary} onClick={() => sortAttendancesByDate()} aria-label='Ordenar categorías por nombre'>Ordenar por fecha</button>
         </div>
         {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
         {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
               <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId} />
-            </>
-          )
-        })}
-        {isSortedByDate && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
-          return (
-            <>
-              <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/>
             </>
           )
         })}

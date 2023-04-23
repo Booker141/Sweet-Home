@@ -13,7 +13,7 @@ export const theme = {
   },
   dark: {
     textColor: '#fafafa',
-    backgroundColor: '#343541',
+    backgroundColor: '#3F3F46',
   }
 }
 

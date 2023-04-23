@@ -17,7 +17,13 @@ export default function CreateAttendance () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [attendanceImage, setAttendanceImage] = useState('')
+  const [animal, setAnimal] = useState('')
+  const [breed, setBreed] = useState('')
   const [message, setMessage] = useState('')
+
+
+
+
 
   const uploadImage = async (e) => {
 
@@ -55,6 +61,8 @@ export default function CreateAttendance () {
         userId: session.user.id,
         location,
         description,
+        animal,
+        breed,
         username: session.user.username,
         image: attendanceImage
       })
@@ -83,7 +91,7 @@ export default function CreateAttendance () {
         progress: undefined,
         theme: "colored", })
       setMessage('Publicación de cuidado creada correctamente')
-      Router.push('/home')
+      Router.push(`/attendances/${Router.query.typeAttendance}/${Router.query.thread}`)
     }
   }
 
@@ -155,6 +163,40 @@ export default function CreateAttendance () {
                           onChange={(e) => setDescription(e.target.value)}
                           placeholder='p. ej.: Esta es mi mascota...'
                         />
+                  </div>
+                </div>
+                <div className='form-vertical__animal'>
+                  <div className='label'>
+                    <p className={global.text}>Tipo de animal</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='animal__input'>
+                    <input
+                          title='Introducir animal'
+                          type='text'
+                          name='animal'
+                          value={animal}
+                          onChange={(e) => setAnimal(e.target.value)}
+                          placeholder='p. ej.: Perro'
+                          className='input'
+                         />
+                  </div>
+                </div>
+                <div className='form-vertical__breed'>
+                  <div className='label'>
+                    <p className={global.text}>Raza</p>
+                    <MdLocationOn size={25} color={colors.secondary} />
+                  </div>
+                  <div className='breed__input'>
+                    <input
+                          title='Introducir raza'
+                          type='text'
+                          name='breed'
+                          value={breed}
+                          onChange={(e) => setBreed(e.target.value)}
+                          placeholder='p. ej.: Retriever'
+                          className='input'
+                         />
                   </div>
                 </div>
               </form>

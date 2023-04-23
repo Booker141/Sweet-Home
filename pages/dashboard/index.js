@@ -1,8 +1,8 @@
 import global from '../../styles/global.module.css'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import {colors} from '../../styles/frontend-conf'
-import Layout from '../../components/BasicLayout/BasicLayout'
+import {colors, fonts} from '../../styles/frontend-conf'
+import Layout from '../../components/Layout/Layout'
 import Head from 'next/head'
 import Loader from '../../components/Loader/Loader'
 
@@ -37,8 +37,16 @@ export default function Dashboard () {
           </div>
           <div className="panels">
             <div className="panels__row">
+                <div className={global.info__card}>
+                  <h2 className={global.secondary}>¡Sweet Home da libertad a los administradores!</h2>
+                  <p className={global.text2}>En Sweet Home, los administradores tienen acceso a varias 
+                  funciones exclusivas. Estas están relacionadas con la creación, edición y eliminación 
+                  de datos del sitio web. Puede acceder a la documentación a través del siguiente enlace:</p>
+                </div>
+              </div>
+            <div className="panels__row">
               <div className={global.card__variable}>
-                <h2 className={global.title2}>Noticias</h2>
+                <h2 className="title__admin">Noticias</h2>
                   <p className={global.text}>Panel de administración de noticias. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
                     <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>
@@ -47,7 +55,7 @@ export default function Dashboard () {
                   </div>
               </div>
               <div className={global.card__variable}>
-                <h2 className={global.title2}>Preguntas frecuentes</h2>
+                <h2 className="title__admin">Preguntas frecuentes</h2>
                   <p className={global.text}>Panel de administración de preguntas frecuentes. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
                     <button className={global.buttonPrimary} onClick={() => router.push("/createQuestion")}>Crear pregunta</button>
@@ -56,25 +64,17 @@ export default function Dashboard () {
                   </div>
               </div>
             </div>
-            <div className="panels__row">
-              <div className={global.info__card}>
-                <h2 className={global.secondary}>¡Sweet Home da libertad a los administradores!</h2>
-                <p className={global.text}>En Sweet Home, los administradores tienen acceso a varias 
-                funciones exclusivas. Estas están relacionadas con la creación, edición y eliminación 
-                de datos del sitio web. Puede acceder a la documentación a través del siguiente enlace:</p>
-                <a className={global.link3} aria-label="Acceder al manual del administrador" href="/adminManual">Acceder ▷</a>
-              </div>
-            </div>
+            
             <div className="panels__row">
               <div className={global.card__variable}>
-                <h2 className={global.title2}>Denuncias</h2>
+                <h2 className="title__admin">Denuncias</h2>
                   <p className={global.text}>Panel de administración de denuncias. Accede al panel de denuncias 
                   interpuestas por los usuarios:</p>
                   <a className={global.link} aria-label="Acceder al panel de Denuncias" href="/complaints">Acceder ▷</a>
               </div>
 
               <div className={global.card__variable}>
-                <h2 className={global.title2}>Tipos de cuidado</h2>
+                <h2 className="title__admin">Tipos de cuidado</h2>
                   <p className={global.text}>Panel de administración de tipos de cuidado. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
                     <button className={global.buttonPrimary} onClick={() => router.push("/createTypeAttendance")}>Crear tipo de cuidado</button>
@@ -85,7 +85,7 @@ export default function Dashboard () {
             </div>
             <div className="panels__row">
               <div className={global.card__variable}>
-                <h2 className={global.title2}>Usuarios bloqueados</h2>
+                <h2 className="title__admin">Usuarios bloqueados</h2>
                   <p className={global.text}>Panel de administración de los usuarios que han recibido un mínimo de cinco denuncias. Accede al panel de usuarios bloqueados:</p>
                   <a className={global.link} aria-label="Acceder al panel de usuarios bloqueados" href="/blockedUsers">Acceder ▷</a>
               </div>
@@ -135,6 +135,16 @@ export default function Dashboard () {
               gap: 1rem;
               align-items: center
             
+            }
+
+            .title__admin{
+
+              /*Text*/
+
+              font-size: 2rem;
+              font-weight: 600;
+              font-family: ${fonts.default};
+
             }
 
             h1{

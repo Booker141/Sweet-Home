@@ -340,6 +340,28 @@
   color: #fafafa;
 }
 
+.attendance{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+  height: fit-content;
+  margin-top: 2rem;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+
+
+  /*Visuals*/
+
+  border: 1px solid #f0810f;
+  border-radius: 20px;
+
+}
+
 .post {
 
   /*Box model*/
@@ -441,6 +463,23 @@
   font-size: 0.7rem;
 }
 
+.date{
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+}
+
+.date2{
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  color: #fafafa;
+
+}
 .toast {
 
 
@@ -805,6 +844,7 @@
 
 
 .line {
+  
   /*Box model*/
 
   width: 97%;
@@ -815,6 +855,21 @@
   background-color: #f0810f;
   border: none;
   opacity: 1;
+  
+}
+
+.attendance__line{
+
+  /*Box model*/
+
+  width: 100%;
+
+  /*Visuals*/
+
+  border-top: 1px solid #f0810f;
+  opacity: 1;
+
+
 }
 
 .sidebar__line{
@@ -837,7 +892,7 @@
   /*Box model*/
 
   width: 13rem;
-  height: 0.1rem;
+  height: 0.08rem;
 
   /*Visuals*/
 
@@ -851,7 +906,7 @@
   /*Box model*/
 
   width: 100%;
-  height: 0.1rem;
+  height: 0.08rem;
 
   /*Visuals*/
 

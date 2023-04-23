@@ -132,7 +132,7 @@ export default function CreateNew () {
             <div className='form'>
             <div className='createNew__header'>
                 <h1 className='form__title'>Crear noticia</h1>
-                <p className={global.text}>Introduzca los datos de la noticia. Los campos obligatorios vienen indicados con un asterisco *:</p>
+                <p className={global.text2}>Introduzca los datos de la noticia. Los campos obligatorios vienen indicados con un asterisco *:</p>
             </div>
               <form action='/api/news' id='form'>
                 <div className='form-vertical__title'>

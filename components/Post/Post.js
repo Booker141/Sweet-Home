@@ -317,7 +317,7 @@ export default function Post (props) {
                     /*Visuals*/
 
                     border-radius: 5px;
-                    background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 250%);
+                    background: transparent;
   
                 }
 

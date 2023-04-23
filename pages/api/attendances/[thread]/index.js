@@ -6,7 +6,9 @@ export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()
   const {thread} = req.query;
+  const body = req.body;
   const threadFound = await db.collection('threads').findOne({title: thread})
+  const user = await db.collection('users').findOne({username: body.username})
 
   if (req.method === 'GET') {
 
@@ -20,10 +22,10 @@ export default async function handler (req, res) {
 
   if(req.method === 'POST'){
 
-    const {userId, location, description, image, username, typeAttendanceId, threadId} = req.body;
+    const {location, description, image, animal, breed, username} = req.body;
 
-    const data = await db.collection('attendances').insertOne({username, typeAttendanceId, threadId})
-
+    const data = await db.collection('attendances').insertOne({location, description, animal, breed, image, username, userId: ObjectId(user._id) , threadId: ObjectId(threadFound._id), createdAt: new Date()})
+    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$push: {attendances: ObjectId(data._id)}})
     res.status(200).json(data)
 
   }

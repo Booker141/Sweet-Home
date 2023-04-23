@@ -299,6 +299,7 @@ export default function Username ({ posts, users, pets }) {
                         /*Visuals*/
 
                         border: 1px solid ${colors.primary};
+                        border-radius: 0 0 20px 20px;
                         
                     
                     }

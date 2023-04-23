@@ -171,6 +171,8 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     width: 10%;
+                    min-width: 10%;
+                    max-width: 10%;
                     padding: 2rem;
                     margin-top: 0;
                     margin-left: 0;
@@ -184,6 +186,7 @@ export default function Sidebar(){
 
                     border-right: 1px solid ${colors.primary};
                     border-bottom: 1px solid ${colors.primary};
+                    border-radius: 0 0 20px 0;
 
                 }
 

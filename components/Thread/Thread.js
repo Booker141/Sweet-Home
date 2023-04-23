@@ -1,7 +1,7 @@
 import global from '/styles/global.module.css'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdClose } from 'react-icons/md'
 import Modal from 'components/Modal/Modal'
 import { colors } from '/styles/frontend-conf'
 import { server } from '/server'
@@ -18,12 +18,11 @@ export default function Thread (props) {
   const { data: session, status } = useSession({ required: true })
   const [date, setDate] = useState(new Date(props.createdAt))
   const [numPosts, setNumPosts] = useState(0);
+  const [lastAttendance, setLastAttendance] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({});
   const Router = useRouter();
-  
-  console.log(props)
-  
+
 /* Fetching the user that created the thread and the number of posts that the thread has. */
   async function getData(){
 
@@ -59,9 +58,18 @@ export default function Thread (props) {
     }
 
   }
+
+  const getLastAttendance = () => {
+
+    const lastAttendance = props.attendances[props.attendances.length - 1]
+
+    setLastAttendance(lastAttendance)
+
+  }
   
   useEffect(() => {
     getData()
+    getLastAttendance()
   }, [])
 
   /**
@@ -105,8 +113,17 @@ export default function Thread (props) {
         <div className="thread__header">
           <div className="thread__header__title">
             <h2>{props.title}</h2>
-            {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+            <div className="thread__delete">
+              {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              <div className="thread__lastPostTime">
+                <strong>Última respuesta:</strong> {new Date(lastAttendance.createdAt).getDate()}
+              </div>
+              <div className="thread__lastPostUser">
+                <strong>Por: </strong> {lastAttendance.username}
+              </div>
+            </div> 
           </div>
+          <hr className={global.white__line2}></hr>
           <div className="thread__header__date">
             <p><strong>Fecha de creación:</strong> {date.toLocaleDateString()}</p>
           </div>
@@ -114,12 +131,14 @@ export default function Thread (props) {
             <p><strong>Creado por:</strong> {props.username}</p>
           </div>
           <div className="thread__numPosts">
-            <strong>Nº de publicaciones:</strong> {numPosts}
+            <strong>Réplicas:</strong> {numPosts}
           </div>
+          
       </div>
       <button id="access__button" className={global.buttonTertiary} onClick={() => Router.push(`/attendances/${Router.query.typeAttendance}/${props.title}`)} aria-label={'Ir a ' + `${props.title}`}>Acceder</button>
       </div>
       {isModalVisible && <Modal>
+        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar hilo</h2>
         <p className={global.text2}>¿Estás seguro de eliminar este hilo?</p>
         <div className='buttons'>
@@ -147,6 +166,16 @@ export default function Thread (props) {
 
         }
 
+        .thread__delete{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 1rem;
+        }
+
         .thread__header__title{
 
           /*Box model*/
@@ -156,6 +185,23 @@ export default function Thread (props) {
           align-items: center;
           justify-content: space-between;
           
+
+        }
+
+        .close__modal{
+
+        /*Box model*/
+
+        display: flex;
+        flex-direction: row;
+        align-self: flex-end;
+        margin-right: 2rem;
+
+        /*Visuals*/
+
+        border: none;
+        background: transparent;
+        cursor: pointer;
 
         }
 
@@ -183,6 +229,15 @@ export default function Thread (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+
+          }
+
+          hr{
+
+          /*Box model*/
+
+          width: 100%;
+          margin-bottom: 3rem;
 
           }
 
