@@ -4,9 +4,9 @@ import global from '/styles/global.module.css'
 import {useState, useEffect} from 'react'
 import {colors} from '/styles/frontend-conf'
 import { useSession } from 'next-auth/react'
-import {BarChart} from '/components/BarChart/BarChart';
-import {RadarChart} from '/components/RadarChart/RadarChart';
-import {PolarAreaChart} from '/components/PolarAreaChart/PolarAreaChart';
+import BarChart from '/components/BarChart/BarChart';
+import RadarChart from '/components/RadarChart/RadarChart';
+import PolarAreaChart from '/components/PolarAreaChart/PolarAreaChart';
 import Loader from '/components/Loader/Loader'
 
 /**

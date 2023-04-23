@@ -9,7 +9,6 @@ import global from '/styles/global.module.css'
 import Link from 'next/link'
 import UserSidebar from '/components/UserSidebar/UserSidebar'
 import {useEffect, useState} from 'react'
-import {useSession} from 'next-auth/react'
 import {server} from '/server'
 import {useRouter} from 'next/router'
 
@@ -21,7 +20,6 @@ export default function Sidebar(){
     const [following, setFollowing] = useState([])
     const [typeAttendances, setTypeAttendances] = useState([])
     const router = useRouter()
-    const {data: session} = useSession()
 
     const fetchUsers = async () => {
 
@@ -52,7 +50,7 @@ export default function Sidebar(){
 
     const fetchFollowing = async () => {
 
-        const res = await fetch(`${server}/api/following/${session.user.username}`, {
+        const res = await fetch(`${server}/api/following/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
