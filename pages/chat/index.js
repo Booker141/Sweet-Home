@@ -16,7 +16,7 @@ import { server } from '/server'
 export default function Chat ({messages}) {
 
   const { data: session, status } = useSession({ required: true })
-  const [messages, setMessages] = useState({});
+  const [messagesList, setMessagesList] = useState({});
   const [chatMessage, setChatMessage] = useState('')
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Chat ({messages}) {
     });
 
     setChatMessage('');
-    getMessages();
+    getMessagesList();
 
   }
 
