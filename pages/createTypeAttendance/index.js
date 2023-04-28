@@ -23,6 +23,7 @@ export default function CreateTypeAttendance () {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [isValidate, setIsValidate] = useState(false)
+  const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
   
 
@@ -113,10 +114,10 @@ export default function CreateTypeAttendance () {
               </div>
               <form action='/api/typeAttendance' id='form'>
                 <div className='form-vertical__name'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Tipo de cuidado (*)</p>
                     <MdTitle size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='name__input'>
                     <input
                           title='Introducir tipo de cuidado'
@@ -142,10 +143,10 @@ export default function CreateTypeAttendance () {
                   </div>
                 </div>
                 <div className='form-vertical__description'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Descripción (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='description__input'>
                     <textarea
                           title='Introducir descripción'
@@ -160,7 +161,7 @@ export default function CreateTypeAttendance () {
                 </div>
 
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createTypeAttendance(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createTypeAttendance(e)} value={isPosting ? 'Creando..' : 'Crear'}/>
           </div>
         </div>
         <style jsx>{`

@@ -28,7 +28,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'POST') {
 
-    await db.collection('posts').insertOne({ _id: id, location: body.location, description: body.description, comments: [], likes: [], saves: [], userId: user._id, username: body.username, createdAt: new Date(), image: body.image })
+    await db.collection('posts').insertOne({ _id: id, location: body.location, description: body.description, image: body.image, comments: [], likes: [], saves: [], userId: user._id, username: body.username, isAdoption: body.isAdoption, isLost: body.isLost, createdAt: new Date()})
     const post = await db.collection('posts').findOne({_id: id})
     await db.collection('users').updateOne({_id: user._id}, {$push: {posts: post._id}})
 

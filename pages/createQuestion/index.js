@@ -23,6 +23,7 @@ export default function CreateQuestion () {
   const [answer, setAnswer] = useState('')
   const [title, setTitle] = useState('')
   const [isValidate, setIsValidate] = useState(false)
+  const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
   
 
@@ -112,10 +113,10 @@ export default function CreateQuestion () {
             </div>
               <form action='/api/questions' id='form'>
                 <div className='form-vertical__title'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Título (*)</p>
                     <MdTitle size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='title__input'>
                     <input
                           title='Introducir título'
@@ -141,10 +142,10 @@ export default function CreateQuestion () {
                   </div>
                 </div>
                 <div className='form-vertical__answer'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Respuesta (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='answer__input'>
                     <textarea
                           title='Introducir respuesta'
@@ -159,7 +160,7 @@ export default function CreateQuestion () {
                 </div>
 
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createQuestion(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createQuestion(e)} value={isPosting ? 'Creando..' : 'Crear'} />
           </div>
         </div>
         <style jsx>{`

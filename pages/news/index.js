@@ -29,13 +29,31 @@ export default function News ({ news }) {
   const {data: session} = useSession({required: false});
   const router = useRouter();
 
+  const getUser = async () => {
+
+    const res = await fetch(`${server}/api/users/${session.user.username}`, 
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+      })
+
+    const user = await res.json();
+
+    if(user.role.name === "admin"){
+      setIsAdmin(true);
+    }
+  }
+
   useEffect(() => {
 
-      if(session.user.role === "admin"){
-        setIsAdmin(true);
-      }
+    if(session !== undefined)
+      getUser();
 
-  },[]);
+  }, []);
+
+
 
   return (
     <BasicLayout>
@@ -43,9 +61,13 @@ export default function News ({ news }) {
       <Head><title>Noticias</title></Head>
 
       <section>
-        <h1 className={global.title}>¡Últimas noticias de Sweet Home!</h1>
-        {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>}
-        {news.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+        <div className="news__header">
+          <h1 className={global.title}>¡Últimas noticias de Sweet Home!</h1>
+          <p className={global.text}>¡En este apartado podrá encontrar las últimas noticias relacionadas con nuestra plataforma!</p>
+          {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear</button>}
+        </div>
+
+        {news.length === 0 && <div><p className={global.loading2}>No hay ninguna noticia publicada.</p></div>}
 
         <div className="news__list">
           {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, index, title, date, author, introduction }) => {
@@ -73,11 +95,17 @@ export default function News ({ news }) {
                         justify-content: center;
                         align-items: center;
 
-
-
-
-
                     }
+                    .news__header{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
                     .new{
 
                          /*Box model*/
@@ -86,9 +114,9 @@ export default function News ({ news }) {
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
-                        width: 68rem;
+                        width: 70vw;
                         margin-bottom: 1rem;
-                        padding: 1rem;
+                        padding: 2rem;
 
                         /*Text*/
 
@@ -97,7 +125,7 @@ export default function News ({ news }) {
 
                         /*Visuals*/
 
-                        border-radius: 10px;
+                        border-radius: 20px;
                         background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
                     }
 

@@ -3,17 +3,35 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdOutlineSubtitles } from 'react-icons/md'
-import { colors, fonts, statusColors } from '/styles/frontend-conf'
+import { colors, fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import { server } from '/server'
 
+/**
+ * The CreateThread function creates a new thread for a specific type of attendance and sends a POST
+ * request to the server with the necessary data.
+ * @returns a React component that renders a form for creating a new thread. The component uses the
+ * Next.js framework and includes hooks such as useState and useRouter. It also includes conditional
+ * rendering based on the user's authentication status, and sends a POST request to the server to
+ * create a new thread.
+ */
 export default function CreateThread () {
+
   const { data: session, status } = useSession({ required: true })
   const Router = useRouter()
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
+  const [isPosting, setIsPosting] = useState(false)
 
+  /**
+   * This function creates a new thread for a specific type of attendance and sends a POST request to
+   * the server with the necessary data.
+   * @param e - The "e" parameter is an event object that is passed to the function when it is
+   * triggered by an event, such as a form submission or a button click. It is commonly used to prevent
+   * the default behavior of the event, in this case, preventing the form from submitting and reloading
+   * the page.
+   */
   const createThread = async (e) => {
 
     e.preventDefault()
@@ -58,10 +76,10 @@ export default function CreateThread () {
               
               <form action='/api/posts' id='form'>
                 <div className='form-vertical__title'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Título</p>
                     <MdOutlineSubtitles size={25} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='title__input'>
                     <input
                           title='Introducir título'
@@ -75,7 +93,7 @@ export default function CreateThread () {
                   </div>
                 </div>
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createThread(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createThread(e)} value={isPosting ? 'Creando..' : 'Crear'} />
             </div>
           </div>
         <style jsx>{`

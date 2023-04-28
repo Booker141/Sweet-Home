@@ -3,9 +3,9 @@ import {colors} from '/styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
-import {useState, useEffect} from 'react'
 import Complaint from "/components/Complaint/Complaint"
 import Loader from '/components/Loader/Loader'
+import {useRouter} from 'next/router'
 import {server} from "/server"
 
 
@@ -17,6 +17,7 @@ import {server} from "/server"
 export default function Complaints ({complaints}){
 
     const {data: session, status} = useSession({required: true})
+    const Router = useRouter()
    
     if (status == 'loading') {
         return (
@@ -33,18 +34,41 @@ export default function Complaints ({complaints}){
                 <Head>
                     <title>Panel de denuncias</title>
                 </Head>
+                  <h1 className="title">Denuncias</h1>
+                  <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/blockedUsers`)}>Usuarios bloqueados</button>
                   <div className='complaints'>
-                      <h1 className="title">Denuncias</h1>
-                      {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar..</p></div>}
-                      {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar..</p></div>}
+                      {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                      {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {complaints.filter(complaint => complaint.isChecked === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
                           return(
                               <>
                                   <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
                               </> 
                       )})}
-                      
-                  </div>
+
+                    </div>
+                    <h1 className="title">Denuncias comprobadas denegadas</h1>
+                    <div className="complaints">
+                      {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                      {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                      {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
+                          return(
+                              <>
+                                  <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
+                              </> 
+                      )})}
+                    </div>
+                    <h1 className="title">Denuncias comprobadas validadas</h1>
+                    <div className="complaints">
+                        {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                        {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                        {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === true ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
+                            return(
+                                <>
+                                    <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
+                                </> 
+                        )})}
+                    </div>
                 <style jsx>{`
 
 
@@ -64,6 +88,7 @@ export default function Complaints ({complaints}){
 
                     .title{
 
+
                       /*Text*/
 
                       font-size: 3.5rem;
@@ -75,9 +100,7 @@ export default function Complaints ({complaints}){
                       -webkit-background-clip: text;
                       -webkit-text-fill-color: transparent; 
                       background-size: 100%
-                      text-align: center;
-                      margin-bottom: 3rem;
-                      padding: 0;
+                      margin-bottom: 2rem;
                     }
 
                 `}

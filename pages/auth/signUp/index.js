@@ -423,8 +423,8 @@ export default function SignUp () {
               <Link href='/auth/signIn'><a aria-label='Ir a formulario de inicio de sesión'>Entrar</a></Link>
             </div>
             <div className='form-caretaker'>
-              <h6>¿Eres una cuidadora de animales?</h6>
-              <Link href='/auth/signUpCare'><a aria-label='Ir a formulario de registro de cuidadora'>Registrate aquí</a></Link>
+              <h6>¿Eres una protectora de animales o clínica veterinaria?</h6>
+              <Link href='/auth/signUpCare'><a aria-label='Ir a formulario de registro de protectora o veterinaria'>¡Registrate aquí!</a></Link>
             </div>
           </div>
           </div>
@@ -1129,7 +1129,7 @@ export default function SignUp () {
 
             cursor: pointer;
             background-color: rgba(240, 142, 15, 0.5);
-            border-radius: 5px;
+            border-radius: 20px;
             border: 1px solid ${colors.secondary};
 
           }

@@ -34,10 +34,9 @@ export default async function handler (req, res) {
   if (req.method === 'DELETE') {
 
     const { id } = req.body
+    await db.collection('attendances').deleteOne({ _id: ObjectId(id) })
+    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$pull: {attendances: ObjectId(id)}})
 
-    const data = await db.collection('attendances').deleteOne({ _id: ObjectId(id) })
-
-    res.status(200).json(data)
 
   }
 }

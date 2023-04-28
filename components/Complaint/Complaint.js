@@ -3,11 +3,11 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import { useSession } from 'next-auth/react'
 import {toast} from 'react-toastify'
-import Image from 'next/image'
+import FallbackImage from '/components/FallbackImage/FallbackImage'
 import {colors} from '/styles/frontend-conf.js'
 import {server} from '/server'
-import { MdCheckCircleOutline} from 'react-icons/md'
-import {TiDeleteOutline} from 'react-icons/ti'
+import { MdCheckCircle, MdCancel} from 'react-icons/md'
+import { HiOutlineClock } from 'react-icons/hi'
 import Modal from '/components/Modal/Modal'
 
 
@@ -24,7 +24,6 @@ export default function Complaint (props) {
   const Router = useRouter();
   const {data: session} = useSession()
 
-  console.log(props)
 
   /**
    * It deletes a complaint from the database
@@ -122,25 +121,49 @@ export default function Complaint (props) {
         <div className={global.complaint}>
           <div className="complaint__header">
             <div className="complaint__users">
-              <div className="userFrom"><p className={global.text}><strong>De:</strong> <Image src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />{props.usernameFrom}</p></div>
-              <div className="userTo"><p className={global.text}><strong>Para:</strong> <Image src={user2.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>{props.usernameTo}</p></div>           
-            </div>
-            <div className="complaint__date">
-              <p className={global.text}><strong>Fecha</strong> {new Date(props.createdAt).toLocaleDateString().slice(0,10)}</p>
-              <div className="action__buttons">
-                <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircleOutline size={25} color={colors.secondary} /></button>
-                <button className='deny__button' onClick={() => setIsModalVisible(true)}><TiDeleteOutline size={28} color={colors.secondary} /></button>   
-              </div>   
+              <div className="userFrom">
+                <p className={global.text2__bold}>De:</p>
+                <FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />
+                <p className={global.text}>@{props.usernameFrom}</p>
+              </div>       
+              <div className="userTo">
+                <p className={global.text2__bold}>Para:</p>
+                <FallbackImage src={user2.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>
+                <p className={global.text}>@{props.usernameTo}</p>
+              </div>           
             </div>
             
-          </div>
+            <div className="complaint__type">
+                <div className="action__buttons">
+                  <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircle size={25} color={colors.secondary} /></button>
+                  <button className='deny__button' onClick={() => setIsModalVisible(true)}><MdCancel size={25} color={colors.secondary} /></button>   
+                </div> 
+                <div className="complaint__reason">
+                  <p className={global.text2}><strong>Motivo:</strong>{props?.typeComplaint}</p>
+                </div>
+                <div className="complaint__date">
+                  <p className={global.text2__bold}>Fecha:</p>
+                  <HiOutlineClock size={17}/>
+                  <p className={global.text}>{new Date(props.createdAt).toLocaleDateString().slice(0,10)}</p>
+                </div>
+                <div className="complaint__status">
+                  <p className={global.text2__bold}>Estado:</p>
+                  {props.isChecked === true && <p className={global.text2}>{props.isApproved ? 'Aprobada' : 'Denegada'}</p>}
+                  <p className={global.text2}>{props.isChecked ? 'Comprobada' : 'No comprobada'}</p>
+                </div>
+            </div>
+            </div>
+          <hr className={global.white__line}></hr>
           <div className="complaint__body">
-            <p className={global.text}><strong>Descripción: </strong>{props.description}</p>
+            <p className={global.text2__bold}>Motivo de la denuncia: </p>
+            <p className={global.text}>{props.description}</p>
           </div>
+        
         </div>
         {isModalVisible && <Modal>
           <h2 className={global.title3}>Denegar denuncia</h2>
-          <p className={global.text2}>¿Estás seguro de anular el trámite de esta denuncia?</p>
+          <p className={global.text2}>Está a punto de denegar la denuncia que ha interpuesto @{props.usernameFrom} a @{props.usernameTo}</p>
+          <p className={global.text2__bold}>¿Estás seguro de anular el trámite de esta denuncia?</p>
           <div className='buttons'>
             <button className={global.buttonSecondary} onClick={() => denyComplaint()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
@@ -159,20 +182,7 @@ export default function Complaint (props) {
 
           }
 
-          .complaint__users{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 2rem;
-            justify-content: center;
-            margin-left: 1rem;
-
-          }
-
-          .userFrom, .userTo{
+          .complaint__date{
 
             /*Box model*/
 
@@ -183,22 +193,67 @@ export default function Complaint (props) {
 
           }
 
-          .complaint__date{
-
-            /*Box model*/
-
-            margin-right: 1rem;
-
-          }
-          .complaint__body{
-
+          .complaint__status{
 
             /*Box model*/
 
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-left: 1rem;
+            gap: 1rem;
+
+          }
+
+          .complaint__users{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+          }
+
+          .complaint__type{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-self: flex-end;
+
+          }
+
+          .userFrom{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+
+          }
+
+          .userTo{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+
+          }
+
+
+          .complaint__body{
+
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
 
           }
 
@@ -211,16 +266,18 @@ export default function Complaint (props) {
           justify-content: space-around;
           align-items: center;
           gap: 1rem;
-        }
+
+          }
 
         .action__buttons{
 
           /*Box model*/
 
           display: flex;
-          align-items: center;
+          align-self: flex-end;
 
         }
+
         .check__button, .deny__button{
 
 
@@ -229,10 +286,23 @@ export default function Complaint (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+
+        }
+
+        hr{
+
+          /*Box model*/
+          
+          width: 100%;
+
         }
         
+
         `}</style>
+
       </>
 
   )
 }
+
+

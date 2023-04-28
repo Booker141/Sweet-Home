@@ -11,7 +11,7 @@ import Save from "components/Save/Save"
 import CommentsCounter from "components/CommentsCounter/CommentsCounter"
 import { MdDeleteOutline, MdClose } from 'react-icons/md'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { HiOutlineRefresh } from 'react-icons/hi'
+import { HiOutlineRefresh, HiOutlineClock } from 'react-icons/hi'
 import { server } from '/server'
 import { toast, Slide } from "react-toastify"
 import InputEmoji from 'react-input-emoji'
@@ -25,13 +25,13 @@ export default function Post (props) {
   const [comment, setComment] = useState('')
   const [moreComments, setMoreComments] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
-  const [isLike, setIsLike] = useState(false)
-  const [isToastActive, setIsToastActive] = useState(false)
-  const [isSave, setIsSave] = useState(false)
+  const [isAdoption, setIsAdoption] = useState(props.isAdoption)
+  const [isLost, setIsLost] = useState(props.isLost)
   const [isCaretaker, setIsCaretaker] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const Router = useRouter()
+
 
   const calcTime = () => {
 
@@ -151,14 +151,21 @@ export default function Post (props) {
                 <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
                   {user.username}
                 </a>
-                <p className={global.time}>Hace {calcTime()}</p>
+                <div className="post__time">
+                  <HiOutlineClock color={`${colors.secondary}`} size={17}/>
+                  <p className={global.time}>Hace {calcTime()}</p>
+                </div>      
               </div>
             </div>
             <div className='header__location'>
-              <p className={global.text2}>
-                {props.location}
-              </p>
-              {(user.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              <div className='location__delete'>
+                <p className={global.text2__bold}>
+                  {props.location}
+                </p>
+                {(user.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              </div>
+              {isAdoption && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
+              {isLost && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Animal perdido</a>}
             </div>
           </div>
           <hr className={global.white__line2} />
@@ -246,7 +253,8 @@ export default function Post (props) {
       {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar publicación</h2>
-        <p className={global.text2}>¿Estás seguro de eliminar esta publicación?</p>
+        <p className={global.text2}>Eliminando esta publicación, será eliminada de todas las páginas de la aplicación así como todos las respuestas que provengan de otros usuarios</p>
+        <p className={global.text2__bold}>¿Estás seguro de eliminar esta publicación?</p>
         <div className='buttons'>
           <button className={global.buttonSecondary} onClick={() => deletePost()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
@@ -273,6 +281,16 @@ export default function Post (props) {
                     align-items: center;
                     margin-bottom: 1rem;
 
+                }
+
+                .post__time{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.3rem;
                 }
 
                 .post__image{
@@ -396,10 +414,20 @@ export default function Post (props) {
                     /*Box model*/
 
                     display: flex;
-                    flex-direction: row;
+                    flex-direction: column;
                     align-items: center;
                     gap: 0.8rem;
 
+                }
+
+                .location__delete{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.8rem;
                 }
 
                 .description{

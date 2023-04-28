@@ -53,7 +53,7 @@ export default function Notifications () {
       <Layout>
         <div className='container'>
           <h1 className={global.title}>Notificaciones</h1>
-          {notifications.length === 0 && <div><p className={global.loading2}>No tiene ninguna notificación</p></div>}
+          {notifications.length === 0 && <div><p className={global.loading2}>No tiene ninguna notificación.</p></div>}
           {notifications.map(({ _id, typeNotification, userIdFrom, userIdTo }) => {
             return (
               <>

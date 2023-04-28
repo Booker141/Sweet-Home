@@ -3,20 +3,34 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { BsFillExclamationDiamondFill } from 'react-icons/bs'
-import { colors, fonts, statusColors } from '/styles/frontend-conf'
+import { colors, fonts} from '/styles/frontend-conf'
 import { toast } from 'react-toastify'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
 import { server } from '/server'
 
+/* The above code is a React component that creates a form for users to submit a complaint. It uses the
+Next.js framework and includes functionality for handling form submission, displaying success/error
+messages using the toast library, and redirecting the user to a different page after successful
+submission. It also includes conditional rendering based on whether the user is logged in or not. */
 export default function CreateComplaint () {
   
   const { data: session, status } = useSession({ required: true })
   const router = useRouter()
   const [reason, setReason] = useState('')
+  const [reasonList, setReasonList] = useState('')
+  const [isSending, setIsSending] = useState(false)
 
+  /**
+   * This function creates a complaint by sending a POST request to the server with the complaint
+   * details and displays a success or error message using the toast library.
+   * @param e - The "e" parameter is an event object that is passed to the function when it is called.
+   * It is commonly used in event listeners to access information about the event that triggered the
+   * listener. In this case, it is used to prevent the default behavior of a form submission.
+   */
   const createComplaint = async (e) => {
+
     e.preventDefault()
 
     const res = await fetch(`${server}/api/complaints/`, {
@@ -27,7 +41,8 @@ export default function CreateComplaint () {
       body: JSON.stringify({
         description: reason,
         usernameFrom: session.user.username,
-        usernameTo: router.query.username
+        usernameTo: router.query.username,
+        reason: reasonList
       })
     })
 
@@ -68,21 +83,31 @@ export default function CreateComplaint () {
     return (
 
       <Layout>
-        <Head><title>Crear denuncia</title></Head>
-          <div className='container__header'>
-            <h1 className='title'>Denuncia hacia @{router.query.username}</h1>
-            <h3 className={global.text__bold}>De parte de @{session.user.username}</h3>
-            <p className={global.text}>Introduzca los datos de la denuncia. Los campos obligatorios vienen indicados con un asterisco *:</p>
-          </div>
+        <Head><title>Crear denuncia</title></Head>        
           <div className='container__form'>
             <div className='form'>
-
+            <div className='container__header'>
+              <h1 className='title'>Denuncia hacia @{router.query.username}</h1>
+              <h3 className={global.text2__bold}>De parte de @{session.user.username}</h3>
+              <p className={global.text2}>Introduzca los datos de la denuncia. Los campos obligatorios vienen indicados con un asterisco *:</p>
+            </div>
               <form action='/api/complaints' id='form'>
+              <div className='form-vertical__reasonList'>
+                <label className="label">Elige el motivo de la denuncia:</label>
+                  <select name="reason" onChange={() => setReasonList()} required>
+                      <option default value="spam">Spam</option>
+                      <option value="badContent">Contenido inapropiado</option>
+                      <option value="impostor">Finge ser otra persona</option>
+                      <option value="inapropiate">Datos de perfil inapropiados</option>
+                      <option value="rules">Infracción de normas y reglas de Sweet Home</option>
+                      <option value="other">Otro</option>
+                  </select>
+                </div>
                 <div className='form-vertical__reason'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Motivo</p>
                     <BsFillExclamationDiamondFill size={25} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='reason__input'>
                     <textarea
                       title='Introducir motivo'
@@ -94,7 +119,7 @@ export default function CreateComplaint () {
                   </div>
                 </div>
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createComplaint(e)} value='Enviar' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createComplaint(e)} value={isSending ? 'Enviando..' : 'Enviar'} />
             </div>
           </div>
         <style jsx>{`
@@ -108,7 +133,8 @@ export default function CreateComplaint () {
                         align-items: center;
                         justify-content: center;
                     
-                        width: 40vw;
+                        width: 70vw;
+                        padding: 2rem;
 
                         /*Visuals*/
 
@@ -144,19 +170,20 @@ export default function CreateComplaint () {
 
                     .title{
 
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        margin-top: 2rem;
+                        margin-bottom: 1rem;
+
                         /*Text*/
 
-                        font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
-                        text-align: center;
-                        margin: 0;
+                        font-family: 'Satisfy';
+                        font-size: 4rem;
+                        font-weight: 500;
+                        color: ${colors.secondary};
                     }
 
                     .label{
@@ -261,6 +288,27 @@ export default function CreateComplaint () {
 
                     border-radius: 5px;
                     border: 1px solid ${colors.primary};
+
+                    }
+
+                    select{
+
+                      /*Box model*/
+
+                      width: 40rem;
+                      height: 2rem;
+                      padding: 0.4rem;
+                      margin-bottom: 2rem;
+
+                      /*Text*/
+
+                      font-family: ${fonts.default};
+                      font-size: 1rem;
+
+                      /*Visuals*/
+
+                      border-radius: 20px;
+                      border: 1px solid ${colors.primary};
 
                     }
 

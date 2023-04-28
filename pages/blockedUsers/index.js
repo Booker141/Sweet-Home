@@ -30,7 +30,7 @@ export default function BlockedUsers ({blockedUsers}){
                 </Head>
                 <div className="blockedUsers">
                   <h1 className="title">Bloquear usuarios</h1>
-                    {blockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados..</p></div>}
+                    {blockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados.</p></div>}
                     {blockedUsers.map(({_id, username, email, role, complaints}) => {
                         return(
                             <>

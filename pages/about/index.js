@@ -7,6 +7,7 @@ import { BsChatRightText } from 'react-icons/bs'
 import { FaSlideshare } from 'react-icons/fa'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { MdPets } from 'react-icons/md'
+import { server } from '/server'
 import about1 from '../../public/about-1.svg'
 
 /*
@@ -34,7 +35,7 @@ export default function About () {
       </Head>
       <div className="header__block">
         <div className='title'>
-          <h2>Sweet Home</h2>
+          <Image src="/LogoWeb.svg" alt="Imagen del logo" width={500} height={500}/>
           <h2 className={global.secondary__bold}>Más que una aplicación</h2>
         </div>
       
@@ -46,6 +47,14 @@ export default function About () {
           </p>
         </div>
       </div>
+      <a className="about__video" href={`${server}/auth/signUp`}>
+      <video
+            autoPlay loop muted
+            style={{ position: 'relative', top: '0', left: '0', width: '100%', height: '58rem', objectFit: 'cover', translate: 'transform(-50%,-50%)', borderRadius: '20px 20px 20px 20px', marginBottom: '3rem' }}
+          >
+            <source src='/videos/video3.mp4' />
+        </video>
+      </a>
       <div className='container1'>
         <div className='container1__column1'>
           <h3 className={global.title5}>Nuestra misión</h3>
@@ -84,7 +93,7 @@ export default function About () {
 
       <div className={global.cards}>
         <div className={global.card__large}>
-          <div style={{ color: '#f0810f' }}>
+          <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
             <MdPets size={37} />
           </div>
           <h2 className={global.title2}>Promover el derecho de los animales</h2>
@@ -95,7 +104,7 @@ export default function About () {
           </p>
         </div>
         <div className={global.card__large}>
-          <div style={{ color: '#f0810f' }}>
+          <div style={{ color: '#f0810f', marginTop: '2rem' }}>
             <FaSlideshare size={37} />
           </div>
           <h2 className={global.title2}>Compartir de forma rápida y segura</h2>
@@ -109,7 +118,7 @@ export default function About () {
           </p>
         </div>
         <div className={global.card__large}>
-          <div style={{ color: '#f0810f' }}>
+          <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
             <BsChatRightText size={37} />
           </div>
           <h2 className={global.title2}>Chatea con gente de todo el mundo</h2>
@@ -119,7 +128,7 @@ export default function About () {
           </p>
         </div>
         <div className={global.card__large}>
-          <div style={{ color: '#f0810f' }}>
+          <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
             <AiOutlineEdit size={37} />
           </div>
           <h2 className={global.title2}>Modifica el perfil a tu gusto</h2>
@@ -159,6 +168,19 @@ export default function About () {
 
                         }
 
+                        .about__video{
+
+                            /*Box model*/
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            /*Visuals*/
+
+                            border-radius: 20px;
+
+                        }
                         .container1__column1{
 
                             /*Box model*/
@@ -235,23 +257,7 @@ export default function About () {
 
                         }
 
-                        .title h2:first-child{
 
-                            /*Text*/
-
-                              font-size: 5rem;
-                              font-weight: bold;
-                              background-color: ${colors.primary};
-                              font-family: "Archivo Black", sans-serif;
-                              background-image: linear-gradient(45deg, #f0810f, #ffe45c);
-                              background-repeat: repeat;
-                              -webkit-background-clip: text;
-                              -webkit-text-fill-color: transparent; 
-                              background-size: 100%
-                              text-align: center;
-                              margin-bottom: 0;
-                             
-                        }
 
                         .title h2:last-child{
 
@@ -268,8 +274,6 @@ export default function About () {
                             display: flex;
                             flex-direction: column;
                             align-items: center;
-                            margin: 0 0 2rem 0;
-                            margin-bottom: 4rem;
                         
                         }
                         

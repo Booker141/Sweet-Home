@@ -378,7 +378,7 @@ export default function SignUp () {
             </div>
             <div className='form-caretaker'>
               <h6>¿Eres un usuario corriente?</h6>
-              <Link href='/auth/signUp'><a aria-label='Ir a formulario de registro de usuario'>Registrate aquí</a></Link>
+              <Link href='/auth/signUp'><a aria-label='Ir a formulario de registro de usuario'>¡Registrate aquí!</a></Link>
             </div>
           </div>
         </div>
@@ -1087,7 +1087,7 @@ margin-left: 3rem;
 
             cursor: pointer;
             background-color: rgba(240, 142, 15, 0.5);
-            border-radius: 5px;
+            border-radius: 20px;
             border: 1px solid ${colors.secondary};
 
           }

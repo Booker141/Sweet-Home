@@ -47,7 +47,7 @@ export const authOptions = {
           throw new Error('Usuario no encontrado.')
         }
 
-        if (user.status == 'blocked') {
+        if (user.status == 'bloqueado') {
           throw new Error('Usuario bloqueado.')
         }
 
@@ -90,7 +90,6 @@ export const authOptions = {
         biography: token.biography,
         followers: token.followers,
         following: token.following,
-        isCaretaker: token.isCaretaker
       }
 
       const codedToken = jwt.sign(tokenJWT, secret)
@@ -106,6 +105,7 @@ export const authOptions = {
   callbacks: {
 
     async signIn ({ user, account }) {
+      
       const client = await clientPromise
       const db = await client.db()
 
@@ -195,7 +195,6 @@ export const authOptions = {
               likes: [],
               saves: [],
               pets: [],
-              isCaretaker: false,
               accountId: account._id,
               createdAt: new Date()
             })
@@ -256,7 +255,6 @@ export const authOptions = {
               likes: [],
               saves: [],
               pets: [],
-              isCaretaker: false,
               accountId: account._id,
               createdAt: new Date()
             })
@@ -326,7 +324,6 @@ export const authOptions = {
             biography: token.biography,
             followers: token.followers,
             following: token.following,
-            isCaretaker: token.isCaretaker,
             role: token.role
           }
         }

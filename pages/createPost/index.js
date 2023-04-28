@@ -23,9 +23,18 @@ export default function CreatePost () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [postImage, setPostImage] = useState("")
+  const [isAdoption, setIsAdoption] = useState(false)
+  const [isLost, setIsLost] = useState(false)
+  const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
 
  
+  /**
+   * The function uploads an image and sets it as the post image.
+   * @param e - The parameter "e" is an event object that is passed to the function when it is called.
+   * It represents the event that triggered the function, in this case, the "change" event of an input
+   * element that allows the user to upload an image file.
+   */
   const uploadImage = async (e) => {
 
 
@@ -68,7 +77,9 @@ export default function CreatePost () {
         location,
         description,
         username: session.user.username,
-        image: postImage
+        image: postImage,
+        isAdoption,
+        isLost
       })
     }).catch(err => console.log(err))
 
@@ -109,7 +120,7 @@ export default function CreatePost () {
 
               <div className="create__header">
                 <h1 className="form__title">Crear publicación</h1>
-                <p className={global.text}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
+                <p className={global.text2}>Introduzca los datos de la publicación. Los campos obligatorios vienen indicados con un asterisco *:</p>
               </div>
               <form action='/api/posts' id='form' enctype='multipart/form-data'>
                 <div className='form-vertical__location'>
@@ -144,6 +155,7 @@ export default function CreatePost () {
                           placeholder='p. ej.: Esta es mi mascota...'
                         />
                   </div>
+                  </div>
                   <div className='form-vertical__image'>
                     <div className='label'>
                           <p className={global.text}>Seleccionar imagen:</p>
@@ -163,11 +175,18 @@ export default function CreatePost () {
                           </input>
                         </div>
                   </div>
-
-                </div>
-
+                  <div className="form-vertical__check">
+                    <label className="label">
+                        <p className={global.text}>¿Esta publicación está relacionada con la adopción de un animal?:</p>
+                        <input type="checkbox" checked={isAdoption} onChange={() => setIsAdoption(!isAdoption)}/>
+                    </label>           
+                    <label className="label">
+                        <p className={global.text}>¿Esta publicación está relacionada con un animal perdido o abandonado?:</p>
+                        <input type="checkbox" checked={isLost} onChange={() => setIsLost(!isLost)}/> 
+                    </label> 
+                  </div>  
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createPost(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createPost(e)} value={isPosting ? 'Creando..' : 'Crear'} />
             </div>
           </div>
         <style jsx>{`

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { theme, colors } from 'styles/frontend-conf.js'
-import { RiSunLine, RiMoonLine } from 'react-icons/ri'
+import { BsFillSunFill, BsFillMoonFill} from 'react-icons/bs'
 
 /**
  * It's a button that changes the theme of the page
@@ -30,8 +30,8 @@ export default function ThemeButton () {
 
   return (
     <>
-      {actualTheme === 'dark' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><RiSunLine color={colors.secondary} size={18} /></button></div>}
-      {actualTheme === 'light' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><RiMoonLine color={colors.secondary} size={18} /></button></div>}
+      {actualTheme === 'dark' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><BsFillSunFill color={colors.secondary} size={18} /></button></div>}
+      {actualTheme === 'light' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><BsFillMoonFill color={colors.secondary} size={18} /></button></div>}
 
       <style jsx>{`
 
@@ -62,9 +62,19 @@ export default function ThemeButton () {
                     border-radius: 50px;
                     cursor: pointer;
 
+                    transition: 0.3s ease all;
 
 
-            
+
+                }
+
+                .toggleButton:hover{
+
+                    /*Text*/
+
+                    color: ${colors.secondary};
+                    background-color: ${colors.primary};
+                    box-shadow: 5px 2px 20px 0px rgba(255,206,59,1);
             `}
       </style>
     </>

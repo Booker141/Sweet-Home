@@ -7,8 +7,10 @@ import { colors } from '/styles/frontend-conf.js'
 import { fonts } from 'styles/frontend-conf.js'
 import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
 import { RiChat3Line, RiSettings4Fill, RiNotification4Line } from 'react-icons/ri'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import {MdKeyboardArrowDown} from 'react-icons/md'
+import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill } from 'react-icons/bs'
+import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety} from 'react-icons/md'
+import { server } from '/server'
+import FallbackImage from '/components/FallbackImage/FallbackImage'
 import SearchBar from "components/SearchBar/SearchBar"
 import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
 import Modal from 'components/Modal/Modal'
@@ -41,13 +43,40 @@ export default function Header (props) {
 
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [isCaretaker, setIsCaretaker] = useState(false)
+  const [user, setUser] = useState({})
+  const [isShelter, setIsShelter] = useState(false)
+  const [isVet, setIsVet] = useState(false)
+
+  console.log(session)
 
   const router = useRouter()
 
+  const getUser = async () => {
+
+    const res = await fetch(`${server}/api/users/${session.user.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+    const data = await res.json()
+
+    setUser(data)
+
+
+  }
+
   useEffect(() => {
     if (session) {
-      setIsCaretaker(session.user.isCaretaker)
+      if (session.user.role === 'protectora') {
+        setIsShelter(true)
+      }
+      if (session.user.role === 'veterinaria') {
+        setIsVet(true)
+      }
+      getUser()
     }
   }, [])
 
@@ -74,22 +103,25 @@ export default function Header (props) {
             <div className='logo'>
               <li><TrademarkWhite link='/' /></li>
             </div>
-            <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
-            <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-            <li><SearchBar/></li>
-            <li><Link href='/chat' as='/chat'><a aria-label='Ir a Chat'><RiChat3Line /></a></Link></li>
-            <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><RiNotification4Line /></a></Link></li>
-            
-            <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.secondary} />} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
-              <ul className='menu'>
-                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                <hr className='line' />
-                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                <hr className='line' />
-                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-              </ul>
-            </li>
+            <div className="header__align">
+              <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+              <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+              <li><SearchBar/></li>
+              
+                <li><Link href='/chat' as='/chat'><a aria-label='Ir a Chat'><BsFillChatFill size={18} /></a></Link></li>
+                <li><Link href='/notifications' as='/notifications'><a aria-label='Ir a Notificaciones'><BsFillBellFill size={18} /></a></Link></li>
+                <ThemeButton />
+              
+                <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}{isShelter && <BsPatchCheckFill size={15} color={colors.secondary} />}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
+                <ul className='menu'>
+                  <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
+                </ul>
+              </li>
+            </div>
 
           </ul>}
 
@@ -100,21 +132,23 @@ export default function Header (props) {
             <div className='logo'>
               <li><TrademarkWhite link='/' /></li>
             </div>
-            <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
-            <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-            <li><SearchBar/></li>
-            <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
-            <li><Link href='/dashboard' as='/dashboard'><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
-            <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
-              <ul className='menu'>
-                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                <hr className='line' />
-                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                <hr className='line' />
-                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-              </ul>
-            </li>
+            <div className="header__align">
+              <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+              <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+              <li><SearchBar/></li>
+              <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
+              <li><Link href='/dashboard' as='/dashboard'><a aria-label='Ir al Panel de administración'>Panel</a></Link></li>
+              <ThemeButton />
+              <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}&nbsp; <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
+                <ul className='menu'>
+                  <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
+                </ul>
+              </li>
+            </div>
 
           </ul>}
 
@@ -125,27 +159,56 @@ export default function Header (props) {
             <div className='logo'>
               <li><TrademarkWhite link='/' /></li>
             </div>
-            <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
-            <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
-            <li><SearchBar/></li>
-            <li><Link href='/statistics' as='/statistics'><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
-            <ThemeButton />
-            <li className='menu-visible'><a id='profile'>@{session.user.username}&nbsp;{isCaretaker && <BsPatchCheckFill size={18} color={colors.secondary} />} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
-              <ul className='menu'>
-                <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                <hr className='line' />
-                <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                <hr className='line' />
-                <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-              </ul>
-            </li>
+            <div className="header__align">
+              <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+              <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+              <li><SearchBar/></li>
+              <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
+              <li><Link href='/statistics' as='/statistics'><a aria-label='Ir a Estadísticas'>Estadísticas</a></Link></li>
+              <ThemeButton />
+              <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}&nbsp; <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
+                <ul className='menu'>
+                  <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
+                </ul>
+              </li>
+          </div>
+          </ul>}
 
+          {session.user.role === 'veterinaria' &&
+
+          <ul className='header'>
+
+            <div className='logo'>
+              <li><TrademarkWhite link='/' /></li>
+            </div>
+            <div className="header__align">
+              <li><Link href='/home' as='/home'><a aria-label='Ir a Reciente'>Inicio</a></Link></li>
+              <li><Link href='/attendances' as='attendances' passHref><a aria-label='Ir a Cuidados'>Cuidados</a></Link></li>
+              <li><SearchBar/></li>
+              <li><Link href='/news' as='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link></li>
+              <li><Link href='/appointments' as='/appointments'><a aria-label='Ir a Citas'>Citas</a></Link></li>
+              <ThemeButton />
+              <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}&nbsp; <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>
+                <ul className='menu'>
+                  <li className='nav__link'><Link href='/profile/myprofile'><a><div className='align__link'>Perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><Link href='/settings'><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <hr className='line' />
+                  <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
+                </ul>
+              </li>
+          </div>
           </ul>}
 
         {isModalVisible && <Modal>
           <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title5}>Cerrar sesión</h2>
-          <p className={global.text2}>¿Estás seguro de que quieres cerrar sesión?</p>
+          <p className={global.text2}>Está a punto de cerrar sesión con esta cuenta</p>
+          <p className={global.text2__bold}>¿Estás seguro de que quieres cerrar sesión?</p>
           <div className='buttons'>
             <button className={global.buttonSecondary} onClick={() => signOut()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
@@ -163,7 +226,7 @@ export default function Header (props) {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 0.5rem;
+                    gap: 1rem;
                     
                     /*Text*/
 
@@ -178,6 +241,21 @@ export default function Header (props) {
                 }
 
 
+                .header__align
+                {
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 3rem;
+
+                    /*Text*/
+
+                    font-size: 1.5rem;
+
+                }
  
                 .search__button{
 
@@ -202,7 +280,8 @@ export default function Header (props) {
 
                     margin-top: 1rem;
                     margin-bottom: 1rem;
-                    margin-left: 0.2rem;
+                    margin-left: 2rem;
+                    margin-right: 8rem;
                     
 
                 }
@@ -228,9 +307,11 @@ export default function Header (props) {
 
                     /*Position*/
 
+                    position: sticky;
                     z-index: 999999;
                     top: 0;
                     left: 0;
+
            
 
                     /*Box model*/
@@ -239,17 +320,14 @@ export default function Header (props) {
                     flex-direction: row;
                     align-items: center;
                     justify-content: space-around;
-                    width: 98.5%;
+                    width: 98.5%; 
                     min-height: 7vh;
                     height: 7vh;
                     padding: 1rem;
-                    /*margin-bottom: 8rem;*/
                     margin-top: 0;
                     margin-left: 0;
                     margin-right: 0;
                     margin-bottom: 0;
-
-
 
                     /*Visuals*/
 
@@ -270,7 +348,7 @@ export default function Header (props) {
                     display: none;
                     margin-bottom: 1rem;
                     margin-right: 1.5rem;
-                    margin-top: 2.1rem;
+                    margin-top: 2.0rem;
                     
                     z-index: 100000;
 
@@ -335,7 +413,7 @@ export default function Header (props) {
                     align-items: center;
                
                     position: absolute;
-                    top: 3.7rem;
+                    top: 3.5rem;
                     right: 0.1rem;
                     z-index: 1;
 
@@ -415,7 +493,7 @@ export default function Header (props) {
                     font-size: 1rem;
                     font-family: ${fonts.default};
                     cursor: pointer;
-                    border-radius: 20px;
+                    border-radius: 50px;
                     padding: 1.5rem;
 
                     /*Animation*/

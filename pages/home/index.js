@@ -62,7 +62,7 @@ export default function Home ({ posts }) {
               <h1 className={global.title}>Reciente</h1>
         </div>
         <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
+          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByUsername()} aria-label='Ordenar publicaciones por usuario'>Ordenar por usuario</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
         </div>
@@ -71,19 +71,19 @@ export default function Home ({ posts }) {
           <div className='container__column1'>
 
             
-            {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
-            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
+            {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, isLost, isAdoption }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} isLost={isLost} isAdoption={isAdoption} />
                 </>
               )
             })}
-            {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
-            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
+            {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, isLost, isAdoption }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} isLost={isLost} isAdoption={isAdoption}/>
                 </>
               )
             })}

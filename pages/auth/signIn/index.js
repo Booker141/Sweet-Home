@@ -247,7 +247,7 @@ export default function SignIn ({ providers, csrfToken }) {
               <input type='submit' value={isSignIn ? 'Iniciando sesión..' : 'Iniciar sesión'} className='form-vertical__button' onClick={(e) => Login(e)} />
               <div className='form-register'>
                 <h6>¿No tiene una cuenta?</h6>
-                <Link href='/auth/signUp'><a aria-label='Ir al formulario de registro'>Registrarse</a></Link>
+                <Link href='/auth/signUp'><a aria-label='Ir al formulario de registro'>¡Regístrate aquí!</a></Link>
               </div>
 
             </div>
@@ -665,7 +665,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 cursor: pointer;
                 background-color: rgba(240, 142, 15, 0.5);
-                border-radius: 5px;
+                border-radius: 20px;
                 border: 1px solid ${colors.secondary};
 
             }
@@ -702,7 +702,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 cursor: pointer;
                 background-color: rgba(240, 142, 15, 0.5);
-                border-radius: 5px;
+                border-radius: 20px;
                 border: 1px solid ${colors.secondary};
 
             }

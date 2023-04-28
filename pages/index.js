@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import Header from 'components/BasicHeader/BasicHeader'
+import BasicHeader from 'components/BasicHeader/BasicHeader'
 import Carousel from 'components/Carousel/Carousel'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Loader from 'components/Loader/Loader'
@@ -40,7 +40,7 @@ export default function Principal () {
     <>
       <Head><title>Sweet Home</title></Head>
 
-      <Header
+      <BasicHeader
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn' url5='/auth/signUp'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión' text5='Registrarse'
       />
@@ -76,7 +76,7 @@ export default function Principal () {
           <div className='container1__video' />
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '58rem', objectFit: 'cover', zIndex: '-99', translate: 'transform(-50%,-50%)', borderRadius: '0 0 30px 30px', marginBottom: '3rem' }}
+            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '58rem', objectFit: 'cover', zIndex: '-99', translate: 'transform(-50%,-50%)', borderRadius: '0 0 20px 20px', marginBottom: '3rem' }}
           >
             <source src='/videos/video1.mp4' />
           </video>
@@ -161,10 +161,6 @@ export default function Principal () {
               <div style={{ color: '#f0810f' }} className='icon__item'>
                 <AiOutlineMobile size={80} />
                 <p className={global.text}>Móviles</p>
-              </div>
-              <div style={{ color: '#f0810f' }} className='icon__item'>
-                <AiOutlineTablet size={80} />
-                <p className={global.text}>Tablets</p>
               </div>
               <div style={{ color: '#f0810f' }} className='icon__item'>
                 <BsLaptop size={80} />

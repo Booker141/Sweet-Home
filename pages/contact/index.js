@@ -3,7 +3,12 @@ import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf.js'
 import BasicLayout from 'components/BasicLayout/BasicLayout'
 import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
-
+import {HiMail, HiPhone, HiQuestionMarkCircle} from 'react-icons/hi'
+import {AiFillMessage} from 'react-icons/ai'
+import {MdLocationOn} from 'react-icons/md'
+import contact1 from '/public/contact1.png'
+import Image from 'next/image'
+import {server} from '/server'
 /*
     * @author Sergio García Navarro
     * @returns Contact page
@@ -23,7 +28,26 @@ export default function Contact () {
         <Head>
           <title>Contacto</title>
         </Head>
-        <h1 className={global.title}>Contacto</h1>
+
+        <div className='contact__image'>
+          <Image src={contact1} style={{borderRadius: '20px'}} size={500} priority/>
+        </div>
+        <div className="contact__card-location">     
+          <div className="contact__card">
+            <div className='card__container1'>
+              <h2 className={global.title2}>24/7</h2>
+              <p className={global.text3}>Servicio al cliente</p>
+            </div>
+            <div className='card__container2'>
+              <h2 className={global.title2}>100%</h2>
+              <p className={global.text3}>Satisfacción garantizada</p>
+            </div>
+            <div className='card__container3'>
+              <h2 className={global.title2}>+1000</h2>
+              <p className={global.text3}>Personas a tu disposición</p>
+            </div>
+          </div>
+        </div>
         <div className='contact__container'>
           <div className='container__info'>
             <h2 className={global.title2}>¿Quieres contactar con nosotros?</h2>
@@ -32,6 +56,8 @@ export default function Contact () {
               a través de nuestras redes sociales.
             </p>
           </div>
+
+          
           <div className='container__social'>
             <h2 className={global.title2}>Redes sociales</h2>
             <div className='social__link'>
@@ -56,18 +82,147 @@ export default function Contact () {
           </div>
 
         </div>
-        <div className='personal__container'>
-          <div className='email'>
-            <p className={global.text}>A través del siguiente correo electrónico: <a title='Enviar correo' aria-label='Enlace a correo de atención al cliente' href='mailto:atenciónSH@gmail.com'>atenciónSH@gmail.com</a></p>
+        <div className="contact__location">
+          <div className='location__container'>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.476486491192!2d-6.147650961113595!3d36.69966794360945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0dc6af434684e7%3A0xa0544d1a96755bd8!2sCtra.%20Trebujena%2C%2011404%20Jerez%20de%20la%20Frontera%2C%20C%C3%A1diz!5e0!3m2!1ses!2ses!4v1682413325803!5m2!1ses!2ses" width="1000" height="450" style={{borderRadius: '20px', border: '1px solid #f0810f'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>             
           </div>
-          <div className='phone'>
-            <p className={global.text}>A través del teléfono de contacto: +34 XXX XX XX XX. </p>
+          <div className='personal__container'>
+          <div className="location__text">
+                <p className={global.text__bold}>Puedes encontrarnos en la siguiente dirección:</p>
+                <div className='street'>
+                  <MdLocationOn color={`${colors.primary}`} size={25}/>
+                  <p className={global.text}>Ctra. Trebujena, 11404 Jerez de la Frontera, Cádiz</p>
+                </div>
+              </div>
+              <p className={global.text__bold}>Puedes contactar con nosotros:</p>
+              <div className='email'>
+                <HiMail size={20} color={`${colors.primary}`}/>
+                <p className={global.text}>A través del siguiente correo electrónico: <a title='Enviar correo' aria-label='Enlace a correo de atención al cliente' href='mailto:atenciónSH@gmail.com'>atenciónSH@gmail.com</a></p>
+              </div>
+              <div className='phone'>
+                <HiPhone size={20} color={`${colors.primary}`}/>
+                <p className={global.text}>A través del teléfono de contacto: +34 XXX XX XX XX. </p>
+              </div>
+              <div className='account'>
+                <AiFillMessage size={20} color={`${colors.primary}`}/>
+                <p className={global.text}>O envía un mensaje a la cuenta de: <a className={global.link}>atencion.sh</a>.</p>
+              </div>
+              <div className='faq'>
+                <HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>
+                <p className={global.text}>Puedes consultar las preguntas frecuentes en el siguiente enlace: <a href={`${server}/faq`} className={global.link}>FAQ</a>.</p>
+            </div>
+            </div>
+          
           </div>
-          <div className='account'>
-            <p className={global.text}>O envía un mensaje a la cuenta de: <a className={global.link}>atencion.sh</a>.</p>
-          </div>
-        </div>
+        
         <style jsx>{`
+
+
+                    .contact__image{
+
+                      /*Box model*/
+
+
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      margin-bottom: 3rem;
+
+                    }
+
+                    .contact__card-location{
+
+                      /*Box model*/
+
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+
+                    }
+
+                    .contact__card{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-around;
+                      align-items: center;
+                      gap: 5rem;
+                      width: 82vw;
+                      margin-bottom: 2rem;
+
+                      /*Visuals*/
+
+                      border-radius: 20px;
+                      background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
+
+                    }
+
+                    .card__container1{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      align-items: center;
+
+                      /*Text*/
+
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      padding: 2rem;
+
+                    }
+
+                    .card__container2{
+
+                      /*Box model*/
+
+                      display: flex;
+
+                      flex-direction: column;
+
+                      justify-content: center;
+
+                      align-items: center;
+
+                      /*Text*/
+
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      padding: 2rem;
+
+                    }
+
+
+                    .card__container3{
+
+                      /*Box model*/
+
+                      display: flex;
+
+                      flex-direction: column;
+
+                      justify-content: center;
+
+                      align-items: center;
+
+                      /*Text*/
+
+                      color: ${colors.secondary};
+
+                      /*Visuals*/
+
+                      padding: 2rem;
+
+                    }
+
 
 
                     .contact__container{
@@ -83,7 +238,30 @@ export default function Contact () {
                         /*Visuals*/
 
                         background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-                        border-radius: 10px;            
+                        border-radius: 20px;            
+                        
+                    }
+
+                    .location__container{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 2rem;
+                        align-items: center;
+                        width: 100%;
+
+
+                    }
+
+                    .contact__location{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 1rem;
                         
                     }
 
@@ -125,11 +303,12 @@ export default function Contact () {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
+                        width: 100%;
 
                         /*Visuals*/
 
-                        border: 2px solid ${colors.primary};
-                        border-radius: 10px;
+                        border: 1px solid ${colors.primary};
+                        border-radius: 20px;
                     }
 
                     .social__link{
@@ -167,23 +346,11 @@ export default function Contact () {
 
 
 
-
-                    .personal__container{
-
-                        /*Box model*/
-
-                        display: flex;  
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-
-                    }
-
                     .personal__container p{
 
                         /*Box model*/
 
-                        margin-bottom: 2rem;
+                        margin-bottom: 1rem;
 
                     }
 
@@ -195,8 +362,7 @@ export default function Contact () {
                         flex-direction: row;
                         align-items: center;
                         justify-content: center;
-                        margin-top: 1rem;
-                        margin-bottom: 1rem;
+                        gap: 1rem;
 
                     }
 
@@ -204,8 +370,63 @@ export default function Contact () {
 
                         /*Box model*/
 
-                        margin-bottom: 1rem;
+                        display: flex;
+
+                        flex-direction: row;
+
+                        align-items: center;
+
+                        justify-content: center;
+                        gap: 1rem;
                     }
+
+                    .account{
+
+                        /*Box model*/
+
+                        display: flex;
+
+                        flex-direction: row;
+
+                        align-items: center;
+
+                        justify-content: center;
+                        gap: 1rem;
+
+                    }
+
+                    .faq{
+
+                        /*Box model*/
+
+                        display: flex;
+
+                        flex-direction: row;
+
+                        align-items: center;
+
+                        justify-content: center;
+                        gap: 1rem;
+
+                    }
+
+                    .street{
+
+                        /*Box model*/
+
+                        display: flex;
+
+                        flex-direction: row;
+
+                        align-items: center;
+
+                        justify-content: center;
+
+                        gap: 1rem;
+                    }
+
+
+
   
 
                     .privacidad{

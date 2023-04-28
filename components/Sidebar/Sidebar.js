@@ -2,7 +2,7 @@
 import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
 import {MdPets, MdContactMail} from 'react-icons/md'
 import {BsFillFilePostFill} from 'react-icons/bs'
-import {GiDogHouse} from 'react-icons/gi'
+import {GiDogHouse, GiDogBowl, GiSittingDog} from 'react-icons/gi'
 import {colors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
@@ -14,6 +14,11 @@ import {server} from '/server'
 import {useRouter} from 'next/router'
 
 
+/**
+ * This is a React component that renders a sidebar with links to various sections of a website, as
+ * well as lists of suggested users and types of care.
+ * @returns The Sidebar component is being returned.
+ */
 export default function Sidebar(){
 
 
@@ -23,6 +28,10 @@ export default function Sidebar(){
     const {data: session, status} = useSession()
     const router = useRouter()
 
+    /**
+     * The function fetches a list of users from a server and sets the retrieved data to a state
+     * variable.
+     */
     const fetchUsers = async () => {
 
         const res = await fetch(`${server}/api/users`, {
@@ -37,6 +46,9 @@ export default function Sidebar(){
 
     }
 
+    /**
+     * This function fetches data of type attendances from a server and sets it to a state variable.
+     */
     const fetchTypeAttendances = () => {
         fetch(`${server}/api/typeAttendance`, {
             method: 'GET',
@@ -50,6 +62,10 @@ export default function Sidebar(){
         })
     }
 
+/**
+ * This function fetches data about the user's following list from a server and sets it to a state
+ * variable.
+ */
     const fetchFollowing = async () => {
 
         const res = await fetch(`${server}/api/following/`, {
@@ -64,8 +80,7 @@ export default function Sidebar(){
     }
 
     useEffect(() => {
-
-    
+ 
         fetchUsers()
         {/*fetchFollowing()*/}
         fetchTypeAttendances()
@@ -98,6 +113,8 @@ export default function Sidebar(){
                     <a className="sidebar__link" href="/news" alt="Ir a apartado de noticias"><HiNewspaper size={20} color={`${colors.primary}`}/>Noticias</a>
                     <a className="sidebar__link" href="/contact" alt="Ir a apartado de contacto"><MdContactMail size={20} color={`${colors.primary}`}/>Contacto</a>
                     <a className="sidebar__link" href="/about" alt="Ir a apartado de sobre nosotros"><HiHand size={20} color={`${colors.primary}`}/>Quiénes somos</a>
+                    <a className="sidebar__link" href="/adoption" alt="Ir a apartado de adopción de mascotas"><GiDogBowl size={20} color={`${colors.primary}`}/>Adopción</a>
+                    <a className="sidebar__link" href="/lost" alt="Ir a apartado de mascotas perdidas"><GiSittingDog size={20} color={`${colors.primary}`}/>Mascotas perdidas</a>
                     <a className="sidebar__link" href="/faq" alt="Ir a apartado de preguntas frecuentes"><HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>FAQ</a>
                     <a className="sidebar__link" href="/userManual" alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.primary}`}/>Ayuda</a>
                 </div>
@@ -171,6 +188,7 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     width: 10%;
+                    height: 100%;
                     min-width: 10%;
                     max-width: 10%;
                     padding: 2rem;

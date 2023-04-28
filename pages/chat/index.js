@@ -71,7 +71,7 @@ export default function Chat ({messages}) {
         <p className={global.title}>Chat</p>
         <Sidebar user={session.user.username}/>
         <div className={global.chat}>
-            {message.length === 0 && <div className={global.text}>No hay mensajes</div>}
+            {message.length === 0 && <div className={global.text}>No hay mensajes.</div>}
             {message.map((_id, chatId, description, createdAt) => {
               <Message key={_id} chatId={chatId} description={description} createdAt={createdAt}/>
             })}

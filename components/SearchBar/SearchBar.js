@@ -30,8 +30,7 @@ export default function SearchBar(){
 
     return(
         <>
-        <div className='search-bar'>
-            <search id='search' className="search-bar__input">
+        <search className='search-bar'>
               <input
                 type='search'
                 name='search'
@@ -39,8 +38,7 @@ export default function SearchBar(){
                 placeholder='Buscar..'
                 onChange={(e) => setKeyword(e.target.value)}
               /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><RiSearchLine size={20}/></button>
-            </search>
-        </div>
+        </search>
         <style jsx>{`
 
         .search-bar{
@@ -49,6 +47,11 @@ export default function SearchBar(){
 
             display: flex;
             flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+
+
 
           }
 
@@ -59,20 +62,10 @@ export default function SearchBar(){
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-right: 0.5rem;
 
           }
 
-          .search-bar__input{
 
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1rem;
-
-          }
 
           input[type="search"]{
 
@@ -108,6 +101,8 @@ export default function SearchBar(){
             box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
 
             }
+
+
 
             ::placeholder{
 

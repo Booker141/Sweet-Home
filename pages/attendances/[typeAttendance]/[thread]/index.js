@@ -49,7 +49,7 @@ export default function Thread ({ attendances }) {
         </Head>
         <h1 className={global.title}>{router.query.thread}</h1>
         <div className='sort__buttons'>
-          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear nuevo cuidado</button>
+          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear</button>
           <button className={global.buttonPrimary} onClick={() => sortAttendancesByUsername()} aria-label='Ordenar categorías por usuario'>Ordenar por usuario</button>
         </div>
         {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}

@@ -75,7 +75,7 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
         </Head>
         <h1 className={global.title}>Hilos sobre {typeAttendance}</h1>
         <div className='sort__buttons'>
-          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/createThread`)} aria-label='Crear nuevo hilo'>Crear hilo</button>
+          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/createThread`)} aria-label='Crear nuevo hilo'>Crear</button>
           <button className={global.buttonPrimary} onClick={() => sortThreadByName()} aria-label='Ordenar categorías por nombre'>Ordenar por nombre</button>
           <button className={global.buttonPrimary} onClick={() => sortThreadByDate()} aria-label='Ordenar categorías por nombre'>Ordenar por fecha</button>
           <button className={global.buttonPrimary} onClick={() => sortThreadByNumPosts()} aria-label='Ordenar por actividad'>Ordenar por actividad</button>

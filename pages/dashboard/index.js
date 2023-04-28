@@ -38,7 +38,7 @@ export default function Dashboard () {
           <div className="panels">
             <div className="panels__row">
                 <div className={global.info__card}>
-                  <h2 className={global.secondary}>¡Sweet Home da libertad a los administradores!</h2>
+                  <h2 className="title__admin">¡Sweet Home da libertad a los administradores!</h2>
                   <p className={global.text2}>En Sweet Home, los administradores tienen acceso a varias 
                   funciones exclusivas. Estas están relacionadas con la creación, edición y eliminación 
                   de datos del sitio web. Puede acceder a la documentación a través del siguiente enlace:</p>
@@ -49,18 +49,18 @@ export default function Dashboard () {
                 <h2 className="title__admin">Noticias</h2>
                   <p className={global.text}>Panel de administración de noticias. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear noticia</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editNew")}>Editar noticia</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/news")}>Eliminar noticia</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/editNew")}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/news")}>Eliminar</button>
                   </div>
               </div>
               <div className={global.card__variable}>
                 <h2 className="title__admin">Preguntas frecuentes</h2>
                   <p className={global.text}>Panel de administración de preguntas frecuentes. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createQuestion")}>Crear pregunta</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editQuestion")}>Editar pregunta</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/faq")}>Eliminar pregunta</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/createQuestion")}>Crear</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/editQuestion")}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/faq")}>Eliminar</button>
                   </div>
               </div>
             </div>
@@ -77,9 +77,9 @@ export default function Dashboard () {
                 <h2 className="title__admin">Tipos de cuidado</h2>
                   <p className={global.text}>Panel de administración de tipos de cuidado. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createTypeAttendance")}>Crear tipo de cuidado</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editTypeAttendance")}>Editar tipo de cuidado</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/attendances")}>Eliminar tipo de cuidado</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/createTypeAttendance")}>Crear</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/editTypeAttendance")}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push("/attendances")}>Eliminar</button>
                   </div>
               </div>
             </div>

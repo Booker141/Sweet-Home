@@ -25,6 +25,7 @@ export default function CreateNew () {
   const [body, setBody] = useState('')
   const [conclusion, setConclusion] = useState('')   
   const [author, setAuthor] = useState('')
+  const [isPosting, setIsPosting] = useState(false)
   const [isValidate, setIsValidate] = useState(false)
 
 
@@ -136,10 +137,10 @@ export default function CreateNew () {
             </div>
               <form action='/api/news' id='form'>
                 <div className='form-vertical__title'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Título (*)</p>
                     <MdTitle size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='title__input'>
                     <input
                           title='Introducir título'
@@ -154,10 +155,10 @@ export default function CreateNew () {
                   </div>
                 </div>
                 <div className='form-vertical__author'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Autor (*)</p>
                     <BsFillPersonFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='author__input'>
                     <input
                           title='Introducir autor'
@@ -182,10 +183,10 @@ export default function CreateNew () {
                   </div>
                 </div>
                 <div className='form-vertical__date'>
-                    <div className='label'>
+                    <label className='label'>
                         <p className={global.text}>Fecha (*)</p>
                         <MdDateRange size={18} color={colors.secondary} />
-                    </div>
+                    </label>
                     <input
                     title='Introducir fecha de noticia'
                     type='date'
@@ -201,10 +202,10 @@ export default function CreateNew () {
                     />
                 </div>
                 <div className='form-vertical__introduction'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Introducción (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='introduction__input'>
                     <textarea
                           title='Introducir introducción'
@@ -217,10 +218,10 @@ export default function CreateNew () {
                    </div>
                   </div>
                   <div className='form-vertical__body'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Desarrollo (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='body__input'>
                     <textarea
                           title='Introducir desarrollo'
@@ -233,10 +234,10 @@ export default function CreateNew () {
                   </div>
                 </div>
                 <div className='form-vertical__conclusion'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Conclusión</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='conclusion__input'>
                     <textarea
                           title='Introducir conclusión'
@@ -248,7 +249,7 @@ export default function CreateNew () {
                   </div>
                 </div>
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createNew(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createNew(e)} value={isPosting ? 'Publicando..' : 'Publicar'} />
           </div>
         </div>
 

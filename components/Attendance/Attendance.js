@@ -2,6 +2,7 @@ import global from '/styles/global.module.css'
 import { useState, useEffect } from 'react'
 import {colors} from '/styles/frontend-conf'
 import {MdDeleteOutline, MdClose} from 'react-icons/md'
+import {HiOutlineClock} from 'react-icons/hi'
 import FallbackImage from '/components/FallbackImage/FallbackImage'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
@@ -22,6 +23,7 @@ export default function Attendance (props) {
   const [user, setUser] = useState({});
   const [thread, setThread] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isImage, setIsImage] = useState(props?.image ? true : false);
   const { data: session, status } = useSession()
 
   const Router = useRouter()
@@ -129,18 +131,27 @@ export default function Attendance (props) {
               <p className={global.text2__bold}>{props.location}</p>
               {(thread.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
             </div>
+            
             <p className={global.date2}>{date.toLocaleDateString().slice(0,10)}</p>
-            <p className={global.date2}>{getFull(date.getHours())}:{getFull(date.getMinutes())}:{getFull(date.getSeconds())}</p>
+            <div className="attendance__hour">
+              <HiOutlineClock color={`${colors.secondary}`} size={17}/>
+              <p className={global.date2}>{getFull(date.getHours())}:{getFull(date.getMinutes())}:{getFull(date.getSeconds())}</p>
+            </div>    
           </div>
         </div>
         <div className="attendance__user">
           <div className="user__column1">
             <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
             <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}>{props.username}</a>
+            <p className={global.date}>- {date.toLocaleDateString()}</p>
+            <div className="attendance__hour">
+              <HiOutlineClock color={`${colors.quaternary}`} size={17}/>
+              <p className={global.date}>{getFull(date.getHours())}:{getFull(date.getMinutes())}:{getFull(date.getSeconds())}</p>
+            </div>
           </div>
           <div className="user__column2">
-            <p><strong>Animal:</strong> {props.animal}</p>
-            <p><strong>Raza:</strong> {props.breed}</p>
+            <p><strong>{props.animal === "" ? "" : "Animal:"}</strong> {props.animal}</p>
+            <p><strong>{props.breed === "" ? "" : "Raza:"}</strong> {props.breed}</p>
         </div>
         </div>
         
@@ -149,7 +160,7 @@ export default function Attendance (props) {
           <p>{props.description}</p>
         </div>
         <div className="attendance__image">
-          <Image src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1000} height={800} />
+          {isImage && <Image src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
         </div>
       </div>
       {isModalVisible && <Modal>
@@ -181,6 +192,16 @@ export default function Attendance (props) {
           /*Box model*/
 
           padding: 1rem;
+        }
+
+        .attendance__hour{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.3rem;
         }
 
         .close__modal{
