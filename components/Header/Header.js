@@ -98,17 +98,17 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
-                <li><Link href={`${server}/home`} as={`${server}/home`}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href={`${server}/attendances`} as={`${server}/attendances`} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><SearchBar/></li>
                 
-                  <li><Link href={`${server}/chat`} as={`${server}/chat`}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                  <li><Link href={`${server}/notifications`} as={`${server}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+                  <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
+                  <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
                 </div>
                 <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                 <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
-                  <a className='user__card' href={`${server}/profile/myprofile`}>
+                  <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
                         <p className="info__text">{session.user.username}</p>
@@ -117,14 +117,14 @@ export default function Header (props) {
                   </a>
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
-                  <li className='nav__link'><Link href={`${server}/profile/myprofile`}><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
-                  <li className='nav__link'><Link href={`${server}/settings`}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/faq`}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/conditions`}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/privacy`}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/accessibility`}><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/faq"><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/conditions"><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/privacy"><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
                 </ul>
@@ -142,17 +142,17 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
-                <li><Link href={`${server}/home`} as={`${server}/home`}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href={`${server}/attendances`} as={`${server}/attendances`} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><SearchBar/></li>
                 
-                  <li><Link href={`${server}/chat`} as={`${server}/chat`}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                  <li><Link href={`${server}/notifications`} as={`${server}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+                  <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
+                  <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
               </div>
                 <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={25} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                 <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
-                  <a className='user__card' href={`${server}/profile/myprofile`}>
+                  <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
                         <p className="info__text">{session.user.username}</p>
@@ -161,14 +161,14 @@ export default function Header (props) {
                   </a>
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
-                  <li className='nav__link'><Link href={`${server}/profile/myprofile`}><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
-                  <li className='nav__link'><Link href={`${server}/settings`}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/faq`}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/conditions`}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/privacy`}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/accessibility`}><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/faq"><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/conditions"><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/privacy"><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
                 </ul>
@@ -186,16 +186,16 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
-                <li ><Link href={`${server}/home`} as={`${server}/home`}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li ><Link href={`${server}/attendances`} as={`${server}/attendances`} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li ><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li ><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><SearchBar/></li>
-                <li><Link href={`${server}/news`} as={`${server}/news`}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href={`${server}/dashboard`} as={`${server}/dashboard`}><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={30} color={`${colors.secondary}`}/>Panel</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={30} color={`${colors.secondary}`}/>Panel</a></Link></li>
               </div>
               <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                 <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
-                  <a className='user__card' href={`${server}/profile/myprofile`}>
+                  <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
                         <p className="info__text">{session.user.username}</p>
@@ -204,14 +204,14 @@ export default function Header (props) {
                   </a>
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
-                  <li className='nav__link'><Link href={`${server}/profile/myprofile`}><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
-                  <li className='nav__link'><Link href={`${server}/settings`}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/faq`}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/conditions`}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/privacy`}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/accessibility`}><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/faq"><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/conditions"><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/privacy"><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
                 </ul>
@@ -229,17 +229,17 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
-                <li><Link href={`${server}/home`} as={`${server}/home`}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href={`${server}/attendances`} as={`${server}/attendances`} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><SearchBar/></li>
-                <li><Link href={`${server}/news`} as={`${server}/news`}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href={`${server}/statistics`} as={`${server}/statistics`}><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={30} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={30} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
               </div>
                 <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>    
 
                 <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
-                  <a className='user__card' href={`${server}/profile/myprofile`}>
+                  <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
                         <p className="info__text">{session.user.username}</p>
@@ -248,14 +248,14 @@ export default function Header (props) {
                   </a>
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
-                  <li className='nav__link'><Link href={`${server}/profile/myprofile`}><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
-                  <li className='nav__link'><Link href={`${server}/settings`}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/faq`}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/conditions`}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/privacy`}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/accessibility`}><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/faq"><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/conditions"><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/privacy"><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
                 </ul>
@@ -272,16 +272,16 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
-                <li><Link href={`${server}/home`} as={`${server}/home`}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href={`${server}/attendances`} as={`${server}/attendances`} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><SearchBar/></li>
-                <li><Link href={`${server}/news`} as={`${server}/news`}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href={`${server}/appointments`} as={`${server}/appointments`}><a className="nav__link2" aria-label='Ir a Citas'><RiHealthBookFill size={30} color={`${colors.secondary}`}/>Citas</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/appointments" as="/appointments"><a className="nav__link2" aria-label='Ir a Citas'><RiHealthBookFill size={30} color={`${colors.secondary}`}/>Citas</a></Link></li>
               </div>
               <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                 <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
-                  <a className='user__card' href={`${server}/profile/myprofile`}>
+                  <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
                         <p className="info__text">{session.user.username}</p>
@@ -290,14 +290,14 @@ export default function Header (props) {
                   </a>
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
-                  <li className='nav__link'><Link href={`${server}/profile/myprofile`}><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
-                  <li className='nav__link'><Link href={`${server}/settings`}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/faq`}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/conditions`}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/privacy`}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href={`${server}/accessibility`}><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/faq"><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/conditions"><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/privacy"><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
                 </ul>

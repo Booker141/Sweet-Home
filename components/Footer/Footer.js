@@ -48,23 +48,23 @@ export default function Footer () {
             <div className='columns__column1'>
               <h3 className='column1__title'><GiDogHouse size={20} color={`${colors.secondary}`}/>Sweet Home </h3>
               <div className='column1__links'>
-                <Link className={global.link} href={`${server}/about`}><a aria-label='Ir a información sobre Sweet Home'>Sobre nosotros</a></Link>
-                <Link className={global.link} href={`${server}/contact`}><a aria-label='Ir a información de contacto'>Contáctanos</a></Link>
+                <Link className={global.link} href="/about"><a aria-label='Ir a información sobre Sweet Home'>Sobre nosotros</a></Link>
+                <Link className={global.link} href="/contact"><a aria-label='Ir a información de contacto'>Contáctanos</a></Link>
               </div>
             </div>
             <div className='columns__column2'>
               <h3 className='column2__title'><HiDocumentSearch size={20} color={`${colors.secondary}`}/>Ayuda </h3>
               <div className='column2__links'>
-                <Link className={global.link} href={`${server}/faq`}><a aria-label='Ir a Preguntas frecuentes'>Preguntas frecuentes</a></Link>
-                <Link className={global.link} href={`${server}/rules`}><a aria-label='Ir a Reglas y políticas de Sweet Home'>Reglas y políticas</a></Link>
+                <Link className={global.link} href="/faq"><a aria-label='Ir a Preguntas frecuentes'>Preguntas frecuentes</a></Link>
+                <Link className={global.link} href="/rules"><a aria-label='Ir a Reglas y políticas de Sweet Home'>Reglas y políticas</a></Link>
               </div>
             </div>
             <div className='columns__column3'>
               <h3 className='column3__title'><HiSearch size={20} color={`${colors.secondary}`}/>Encuentra en Sweet Home </h3>
               <div className='column3__links'>
-                <Link className={global.link} href={`${server}/attendances`}><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
-                <Link className={global.link} href={`${server}/news`}><a aria-label='Ir a Noticias'>Noticias</a></Link>
-                <Link className={global.link} href={`${server}/userManual`}><a aria-label='Ir a Manual de usuario'>Documentación</a></Link>
+                <Link className={global.link} href="/attendances"><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
+                <Link className={global.link} href="/news"><a aria-label='Ir a Noticias'>Noticias</a></Link>
+                <Link className={global.link} href="/userManual"><a aria-label='Ir a Manual de usuario'>Documentación</a></Link>
               </div>
             </div>
 

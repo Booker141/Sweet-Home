@@ -18,7 +18,13 @@ export const authOptions = {
     TwitterProvider({
       clientId: process.env.TWITTER_ID,
       clientSecret: process.env.TWITTER_SECRET,
-      version: '2.0'
+      version: '2.0',
+      authorization: {
+        url: "https://twitter.com/i/oauth2/authorize",
+        params: {
+          scope: "users.read tweet.read offline.access like.read list.read",
+        },
+      },
     }),
     CredentialsProvider({
       id: 'credentials',
