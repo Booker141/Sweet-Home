@@ -167,14 +167,14 @@ export default function SignIn ({ providers, csrfToken }) {
               {providers && Object.values(providers).filter(provider => provider.name != 'Credentials' && provider.name == 'Twitter').map((provider) => (
                 <div key={provider.name}>
                   <button className='form-vertical__button2' onClick={() => signIn(provider.id, { callbackUrl: '/home' })}>
-                    Inicia sesión con {provider.name} &nbsp; <BsTwitter size={20} color={colors.secondary} />
+                    Inicia sesión con {provider.name} &nbsp; <BsTwitter size={18} color={colors.secondary} />
                   </button>
                 </div>
               ))}
               {providers && Object.values(providers).filter(provider => provider.name != 'Credentials' && provider.name == 'Google').map((provider) => (
                 <div key={provider.name}>
                   <button className='form-vertical__button2' onClick={() => signIn(provider.id, { callbackUrl: '/home' })}>
-                    Inicia sesión con {provider.name} &nbsp; <BsGoogle size={20} color={colors.secondary} />
+                    Inicia sesión con {provider.name} &nbsp; <BsGoogle size={18} color={colors.secondary} />
                   </button>
                 </div>
               ))}
@@ -189,7 +189,7 @@ export default function SignIn ({ providers, csrfToken }) {
                 <div className='form-vertical__email'>
                   <div className='label'>
                     <p className={global.text}>Email</p>
-                    <MdEmail size={20} color={colors.secondary} />
+                    <MdEmail size={18} color={colors.secondary} />
                   </div>
                   <div className='email__input'>
                     <input
@@ -217,7 +217,7 @@ export default function SignIn ({ providers, csrfToken }) {
                 <div className='form-vertical__password'>
                   <div className='label'>
                     <p className={global.text}>Contraseña</p>
-                    <BsFillLockFill size={25} color={colors.secondary} />
+                    <BsFillLockFill size={18} color={colors.secondary} />
                   </div>
                   <div className='password__input'>
                     <input

@@ -29,7 +29,6 @@ export default function SignUp () {
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
   const [username, setUsername] = useState('')
-  const [message, setMessage] = useState(null)
   const [isValidate, setIsValidate] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
 
@@ -151,7 +150,7 @@ export default function SignUp () {
 
     if (isValidate) {
 
-      setIsSignUp(true)
+      
 
       const res = await fetch(`${server}/api/register`, {
         method: 'POST',
@@ -169,9 +168,11 @@ export default function SignUp () {
 
       const data = await res.json()
 
-      setMessage(data.message)
 
-      if (data.message == 'Registrado con éxito.') {
+      setIsSignUp(true)
+
+      if (data.message === 'Registrado con éxito.') {
+
 
         toast.success('Se ha registrado con éxito', { position: "bottom-right",
         autoClose: 5000,
@@ -185,7 +186,10 @@ export default function SignUp () {
         Router.push('/auth/signIn')
       }
 
-      if(data.message == 'Ya está registrado con este nombre de usuario.'){
+      if(data.message === 'Ya está registrado con este nombre de usuario.'){
+
+        setIsSignUp(false)
+
         toast.error('Ya está registrado con este nombre de usuario', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -196,7 +200,9 @@ export default function SignUp () {
         theme: "colored", })
       }
 
-      if(data.message == 'Ya está registrado con este correo electrónico.'){
+      if(data.message === 'Ya está registrado con este email.'){
+
+        setIsSignUp(false)
 
         toast.error('Ya está registrado con este correo electrónico', { position: "bottom-right",
         autoClose: 5000,
@@ -253,7 +259,7 @@ export default function SignUp () {
               <div className='form-vertical__email'>
                 <div className='label'>
                   <p className={global.text}>Email</p>
-                  <MdEmail size={20} color={colors.secondary} />
+                  <MdEmail size={18} color={colors.secondary} />
                 </div>
                 <div className='email__input'>
                   <input
@@ -282,7 +288,7 @@ export default function SignUp () {
               <div className='form-vertical__name'>
                 <div className='label'>
                   <p className={global.text}>Nombre</p>
-                  <FaUserPlus size={20} color={colors.secondary} />
+                  <FaUserPlus size={18} color={colors.secondary} />
                 </div>
                 <div className='name__input'>
                   <input
@@ -312,7 +318,7 @@ export default function SignUp () {
               <div className='form-vertical__lastname'>
                 <div className='label'>
                   <p className={global.text}>Apellidos</p>
-                  <FaUserPlus size={20} color={colors.secondary} />
+                  <FaUserPlus size={18} color={colors.secondary} />
                 </div>
                 <div className='lastname__input'>
                   <input
@@ -342,7 +348,7 @@ export default function SignUp () {
               <div className='form-vertical__username'>
                 <div className='label'>
                   <p className={global.text}>Nombre de usuario</p>
-                  <FaUser size={20} color={colors.secondary} />
+                  <FaUser size={15} color={colors.secondary} />
                 </div>
                 <div className='username__input'>
                   <input
@@ -373,7 +379,7 @@ export default function SignUp () {
               <div className='form-vertical__password'>
                 <div className='label'>
                   <p className={global.text}>Contraseña</p>
-                  <BsFillLockFill size={25} color={colors.secondary} />
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
                 <div className='password__input'>
                   <input
@@ -403,7 +409,7 @@ export default function SignUp () {
 
                 <div className='tooltip'>
                   <div className='tooltip__icon'>
-                    <AiFillInfoCircle size={20} color={colors.secondary} />
+                    <AiFillInfoCircle size={18} color={colors.secondary} />
                     <p className={global.text}> Información contraseña</p>
                   </div>
                   <div className='tooltiptext'>

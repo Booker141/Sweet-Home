@@ -53,18 +53,17 @@ export default function UserSidebar (props) {
   return (
     <>
 
-      <div key={props._id} className={global.user__sidebar}>
+      <a key={props._id} href={`/profile/${props.username}`} className={global.user__sidebar}>
         <div className='user__image'>
           <a href={`${server}/profile/${props.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} /></a>
         </div>
         <div className="user__text">
             <div className='user__username'>
-            <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong>{isShelter && <BsPatchCheckFill size={20} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.primary}/>}</a>
-            {isCaretaker && <BsPatchCheckFill size={20} color={colors.primary} />} 
+            <a className={global.link3} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong>{isShelter && <BsPatchCheckFill size={20} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}</a>
             </div>
             <p className={global.sidebar__date}>Se unió el {calcCreated(props.createdAt)}</p>
         </div>
-      </div>
+      </a>
       <style jsx>{`
 
 
@@ -80,7 +79,6 @@ export default function UserSidebar (props) {
                     /*Visuals*/
 
                     border-radius: 70px;
-                    border-image: linear-gradient(45 deg, #f0810f, #f9A603) 30;
                 }
 
                 .user__text{

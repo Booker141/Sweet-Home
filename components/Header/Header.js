@@ -502,7 +502,7 @@ export default function Header (props) {
 
                     /*Visuals*/
 
-                    border-radius: 0 0 20px 20px;
+                    border-radius: 0 0 20px 0;
                     background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
                     
 

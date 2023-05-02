@@ -13,7 +13,7 @@ import {useEffect, useState} from 'react'
 import {server} from '/server'
 import {useRouter} from 'next/router'
 import {toast} from 'react-toastify'
-import Trademark from '/components/Trademark/Trademark'
+import TrademarkWhite from '/components/TrademarkWhite/TrademarkWhite'
 import Modal from '/components/Modal/Modal'
 
 
@@ -208,39 +208,39 @@ export default function Sidebar(){
             <aside className="sidebar-layout">
 
                 <div className="sidebar-layout__container1">
-                    <a className="sidebar__link" href="/home" alt="Ir a apartado de reciente en home"><HiHome size={20} color={`${colors.primary}`}/>Reciente</a>
-                    <a className="sidebar__link" href="/followingPosts" alt="Ir a publicaciones de usuarios seguidos"><HiUser size={20} color={`${colors.primary}`}/>Seguidos</a>
-                    <a className="sidebar__link" href="/allShelters" alt="Ir a apartado de protectoras"><MdPets size={20} color={`${colors.primary}`}/>Protectoras</a>
-                    <a className="sidebar__link" href="/allVets" alt="Ir a apartado de veterinarias"><MdHealthAndSafety size={20} color={`${colors.primary}`}/>Veterinarias</a>
-                    <hr className={global.divider}/>
+                    <a className="sidebar__link" href="/home" alt="Ir a apartado de reciente en home"><HiHome size={20} color={`${colors.secondary}`}/>Reciente</a>
+                    <a className="sidebar__link" href="/followingPosts" alt="Ir a publicaciones de usuarios seguidos"><HiUser size={20} color={`${colors.secondary}`}/>Seguidos</a>
+                    <a className="sidebar__link" href="/allShelters" alt="Ir a apartado de protectoras"><MdPets size={20} color={`${colors.secondary}`}/>Protectoras</a>
+                    <a className="sidebar__link" href="/allVets" alt="Ir a apartado de veterinarias"><MdHealthAndSafety size={20} color={`${colors.secondary}`}/>Veterinarias</a>
+                    <hr className={global.white__line}/>
                 </div>
 
                 
                 <div className="sidebar-layout__container2">
-                    <a className="sidebar__link" href="/myPosts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.primary}`}/>Mis publicaciones</a>
-                    <a className="sidebar__link" href={`/pets/${session.user.username}`} alt="Ir a mascotas"><GiDogHouse size={20} color={`${colors.primary}`}/>Mis mascotas</a>
-                    <a className="sidebar__link" href="/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.primary} styles={{fontWeight: 'bold'}}/>Guardados</a>
-                    <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.primary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
-                    <hr className={global.divider}/>
+                    <a className="sidebar__link" href="/myPosts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.secondary}`}/>Mis publicaciones</a>
+                    <a className="sidebar__link" href={`/pets/${session.user.username}`} alt="Ir a mascotas"><GiDogHouse size={20} color={`${colors.secondary}`}/>Mis mascotas</a>
+                    <a className="sidebar__link" href="/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
+                    <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
+                    <hr className={global.white__line}/>
                 </div>
 
                 <div className="sidebar-layout__container3">
                     <h1 className="title__sidebar">Explorar</h1>
-                    <a className="sidebar__link" href="/news" alt="Ir a apartado de noticias"><HiNewspaper size={20} color={`${colors.primary}`}/>Noticias</a>
-                    <a className="sidebar__link" href="/contact" alt="Ir a apartado de contacto"><MdContactMail size={20} color={`${colors.primary}`}/>Contacto</a>
-                    <a className="sidebar__link" href="/about" alt="Ir a apartado de sobre nosotros"><HiHand size={20} color={`${colors.primary}`}/>Quiénes somos</a>
-                    <a className="sidebar__link" href="/adoption" alt="Ir a apartado de adopción de mascotas"><GiDogBowl size={20} color={`${colors.primary}`}/>Adopción</a>
-                    <a className="sidebar__link" href="/lost" alt="Ir a apartado de mascotas perdidas"><GiSittingDog size={20} color={`${colors.primary}`}/>Mascotas perdidas</a>
-                    <a className="sidebar__link" href="/faq" alt="Ir a apartado de preguntas frecuentes"><HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>FAQ</a>
-                    <a className="sidebar__link" href="/userManual" alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.primary}`}/>Ayuda</a>
+                    <a className="sidebar__link" href="/news" alt="Ir a apartado de noticias"><HiNewspaper size={20} color={`${colors.secondary}`}/>Noticias</a>
+                    <a className="sidebar__link" href="/contact" alt="Ir a apartado de contacto"><MdContactMail size={20} color={`${colors.secondary}`}/>Contacto</a>
+                    <a className="sidebar__link" href="/about" alt="Ir a apartado de sobre nosotros"><HiHand size={20} color={`${colors.secondary}`}/>Quiénes somos</a>
+                    <a className="sidebar__link" href="/adoption" alt="Ir a apartado de adopción de mascotas"><GiDogBowl size={20} color={`${colors.secondary}`}/>Adopción</a>
+                    <a className="sidebar__link" href="/lost" alt="Ir a apartado de mascotas perdidas"><GiSittingDog size={20} color={`${colors.secondary}`}/>Mascotas perdidas</a>
+                    <a className="sidebar__link" href="/faq" alt="Ir a apartado de preguntas frecuentes"><HiQuestionMarkCircle size={20} color={`${colors.secondary}`}/>FAQ</a>
+                    <a className="sidebar__link" href="/userManual" alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.secondary}`}/>Ayuda</a>
                 </div>
 
-                <hr className={global.divider}/>
+                <hr className={global.white__line}/>
 
                 <div className="sidebar-layout__container4">
                     <h1 className="title__sidebar">Cuentas seguidas</h1>
-                    {following.length === 0 && <p className={global.text}>No ha seguido a ningún usuario.</p>}
-                    {following.filter(following => following.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {following.length === 0 && <p className={global.text2}>No ha seguido a ningún usuario.</p>}
+                    {following.filter(following => following.username !== (session.user.username) && following.role.name !== "admin" && following.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -253,10 +253,10 @@ export default function Sidebar(){
 
                     </div>
                 </div>
-                <hr className={global.divider}/>
+                <hr className={global.white__line}/>
                 <div className="sidebar-layout__container5">
                     <h1 className="title__sidebar">Cuentas sugeridas</h1>
-                    {users.length === 0 && <p className={global.text}>No existe ningún usuario.</p>}
+                    {users.length === 0 && <p className={global.text2}>No existe ningún usuario.</p>}
                     {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
@@ -268,10 +268,10 @@ export default function Sidebar(){
                         <Link href="/allUsers"><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
                     </div>
                 </div>
-                <hr className={global.divider}/>
+                <hr className={global.white__line}/>
                 <div className="sidebar-layout__container6">
                     <h1 className="title__sidebar">Cuentas de protectoras</h1>
-                    {shelters.length === 0 && <p className={global.text}>No hay ninguna protectora.</p>}
+                    {shelters.length === 0 && <p className={global.text2}>No hay ninguna protectora.</p>}
                     {shelters.filter(shelter => shelter.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
@@ -285,10 +285,10 @@ export default function Sidebar(){
 
                     </div>
                 </div>
-                <hr className={global.divider}/>
+                <hr className={global.white__line}/>
                 <div className="sidebar-layout__container7">
                     <h1 className="title__sidebar">Cuentas de veterinarias</h1>
-                    {vets.length === 0 && <p className={global.text}>No hay ninguna veterinaria.</p>}
+                    {vets.length === 0 && <p className={global.text2}>No hay ninguna veterinaria.</p>}
                     {vets.filter(vet => vet.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
@@ -302,10 +302,10 @@ export default function Sidebar(){
 
                     </div>
                 </div>
-                <hr className={global.divider}/>
+                <hr className={global.white__line}/>
                 <div className="sidebar-layout__container8">
                     <h1 className="title__sidebar">Cuidados</h1>
-                    {typeAttendances.length === 0 && <p className={global.text}>No existe ningún cuidado.</p>}
+                    {typeAttendances.length === 0 && <p className={global.text2}>No existe ningún cuidado.</p>}
                     {typeAttendances.map(({ name }) => {
                         return (
                         <>
@@ -314,17 +314,17 @@ export default function Sidebar(){
                         )
                     })}
                 </div>
-                <hr className={global.divider}/>
+                <hr className={global.white__line}/>
                 <div className='footer'>
                     <div className='footer__links'>
-                        <Link className={global.link} href="/userManual" passHref><a aria-label='Ir a Información'>Información</a></Link>
-                        <Link className={global.link} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
-                        <Link className={global.link} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
-                        <Link className={global.link} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                        <Link className={global.link} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
+                        <Link className={global.link3} href="/userManual" passHref><a aria-label='Ir a Información'>Información</a></Link>
+                        <Link className={global.link3} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
+                        <Link className={global.link3} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
+                        <Link className={global.link3} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
+                        <Link className={global.link3} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className='copyright'>
                         
-                        <p><Trademark/>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
+                            <p><TrademarkWhite/>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
                         </div>
                     </div>
                 </div>
@@ -389,8 +389,7 @@ export default function Sidebar(){
               
                     /*Visuals*/
 
-                    border-right: 1px solid ${colors.primary};
-                    border-bottom: 1px solid ${colors.primary};
+                    background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
                     border-radius: 0 0 20px 0;
 
                 }
@@ -410,13 +409,13 @@ export default function Sidebar(){
 
                     /*Text*/
 
-                    color: #f0810f;
+                    color: #fafafa;
                     font-family: 'Poppins', sans-serif;
 
                     /*Visuals*/
 
                     border-radius: 70px;
-                    border: 1px solid #f0810f;
+                    border: 1px solid #fafafa;
                     transition: 0.3s ease all;
                     cursor: pointer;
                     background: transparent;
@@ -604,7 +603,7 @@ export default function Sidebar(){
 
                     font-family: ${fonts.default};
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
                     font-size: 1rem;
 
 
@@ -714,7 +713,7 @@ export default function Sidebar(){
 
                     font-family: ${fonts.default};
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
 
                 }
 
@@ -739,6 +738,16 @@ export default function Sidebar(){
                 align-items: center;
                 margin-top: 2rem;
 
+            }
+
+            .copyright{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
             }
 
             .footer__links{
@@ -770,7 +779,7 @@ export default function Sidebar(){
 
                 font-family: ${fonts.default};
                 text-decoration: none;
-                color: ${colors.primary};
+                color: ${colors.secondary};
 
                 }
 
@@ -790,7 +799,7 @@ export default function Sidebar(){
 
                     font-family: ${fonts.default};
                     text-decoration: none;
-                    color: ${colors.primary};
+                    color: ${colors.secondary};
 
                 }
 
@@ -799,14 +808,9 @@ export default function Sidebar(){
 
                         font-size: 3.5rem;
                         font-weight: 600;
-                        background-color: ${colors.primary};
                         font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
-                        text-align: center;
+                        color: #fafafa;
+
                         
                   }
 

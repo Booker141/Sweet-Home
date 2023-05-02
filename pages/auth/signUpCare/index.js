@@ -29,12 +29,10 @@ export default function SignUp () {
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [role, setRole] = useState('')
-  const [message, setMessage] = useState(null)
   const [isValidate, setIsValidate] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
 
   const Router = useRouter()
-  console.log(role)
 
   /**
    * If the password input type is password, then hide the first icon and show the second icon, and
@@ -135,7 +133,7 @@ export default function SignUp () {
 
     if (isValidate) {
 
-      setIsSignUp(true)
+      
 
       const res = await fetch(`${server}/api/registerShelterVet`, {
         method: 'POST',
@@ -154,10 +152,11 @@ export default function SignUp () {
 
       const data = await res.json()
 
-      setMessage(data.message)
+      setIsSignUp(true)
 
       if (data.message == 'Registrado con éxito.') {
 
+        setIsSignUp(true)
         toast.success('Se ha registrado con éxito', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -171,6 +170,9 @@ export default function SignUp () {
       }
 
       if(data.message == 'Ya está registrado con este nombre de usuario.'){
+
+        setIsSignUp(false)
+
         toast.error('Ya está registrado con este nombre de usuario', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -181,7 +183,9 @@ export default function SignUp () {
         theme: "colored", })
       }
 
-      if(data.message == 'Ya está registrado con este correo electrónico.'){
+      if(data.message == 'Ya está registrado con este email.'){
+
+        setIsSignUp(false)
 
         toast.error('Ya está registrado con este correo electrónico', { position: "bottom-right",
         autoClose: 5000,
@@ -193,6 +197,8 @@ export default function SignUp () {
         theme: "colored", })
       }
     } else {
+
+      setIsSignUp(false)
 
       toast.error('Por favor, verifique que todos los campos estén correctos', { position: "bottom-right",
         autoClose: 5000,
@@ -241,7 +247,7 @@ export default function SignUp () {
               <div className='form-vertical__role'>
                 <div className='label'>
                   <p className={global.text}>Tipo de usuario</p>
-                  <FaUserTag size={20} color={colors.secondary} />
+                  <FaUserTag size={18} color={colors.secondary} />
                 </div>
                 <div className='role__input'>
                   <input type="radio" id="vet" name="radio" value="veterinaria" checked={role === "veterinaria"} onChange={(e) => setRole(e.target.value)} />
@@ -254,7 +260,7 @@ export default function SignUp () {
               <div className='form-vertical__email'>
                 <div className='label'>
                   <p className={global.text}>Email</p>
-                  <MdEmail size={20} color={colors.secondary} />
+                  <MdEmail size={18} color={colors.secondary} />
                 </div>
                 <div className='email__input'>
                   <input
@@ -283,7 +289,7 @@ export default function SignUp () {
               <div className='form-vertical__name'>
                 <div className='label'>
                   <p className={global.text}>Nombre de la empresa</p>
-                  <FaUserPlus size={20} color={colors.secondary} />
+                  <FaUserPlus size={18} color={colors.secondary} />
                 </div>
                 <div className='name__input'>
                   <input
@@ -312,7 +318,7 @@ export default function SignUp () {
               <div className='form-vertical__username'>
                 <div className='label'>
                   <p className={global.text}>Nombre de usuario</p>
-                  <FaUser size={20} color={colors.secondary} />
+                  <FaUser size={15} color={colors.secondary} />
                 </div>
                 <div className='username__input'>
                   <input
@@ -343,7 +349,7 @@ export default function SignUp () {
               <div className='form-vertical__password'>
                 <div className='label'>
                   <p className={global.text}>Contraseña</p>
-                  <BsFillLockFill size={25} color={colors.secondary} />
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
                 <div className='password__input'>
                   <input
@@ -373,7 +379,7 @@ export default function SignUp () {
 
                 <div className='tooltip'>
                   <div className='tooltip__icon'>
-                    <AiFillInfoCircle size={20} color={colors.secondary} />
+                    <AiFillInfoCircle size={18} color={colors.secondary} />
                     <p className={global.text}> Información contraseña</p>
                   </div>
                   <div className='tooltiptext'>

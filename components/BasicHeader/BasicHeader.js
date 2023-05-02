@@ -104,9 +104,8 @@ export default function BasicHeader (props) {
                         
                           <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
                           <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
-                          <ThemeButton />
                         
-                          <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
+                          <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                           <ul className='menu'>
                             <li className='nav__title'>Autenticado como:</li>
                             <a className='user__card' href="/profile/myprofile">
@@ -148,9 +147,8 @@ export default function BasicHeader (props) {
                         
                           <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
                           <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
-                          <ThemeButton />
                         
-                          <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
+                          <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                           <ul className='menu'>
                             <li className='nav__title'>Autenticado como:</li>
                             <a className='user__card' href="/profile/myprofile">
@@ -191,8 +189,7 @@ export default function BasicHeader (props) {
                         <li><SearchBar/></li>
                         <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                         <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={30} color={`${colors.secondary}`}/>Panel</a></Link></li>
-                        <ThemeButton />
-                        <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
+                        <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                         <ul className='menu'>
                           <li className='nav__title'>Autenticado como:</li>
                           <a className='user__card' href="/profile/myprofile">
@@ -233,8 +230,8 @@ export default function BasicHeader (props) {
                         <li><SearchBar/></li>
                         <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                         <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={30} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
-                        <ThemeButton />
-                        <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
+
+                        <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                         <ul className='menu'>
                           <li className='nav__title'>Autenticado como:</li>
                           <a className='user__card' href="/profile/myprofile">
@@ -274,8 +271,8 @@ export default function BasicHeader (props) {
                         <li><SearchBar/></li>
                         <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                         <li><Link href="/appointments" as="/appointments"><a className="nav__link2" aria-label='Ir a Citas'><RiHealthBookFill size={30} color={`${colors.secondary}`}/>Citas</a></Link></li>
-                        <ThemeButton />
-                        <li className='menu-visible'><a id='profile'><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
+
+                        <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
                           <ul className='menu'>
                             <li className='nav__title'>Autenticado como:</li>
                             <a className='user__card' href="/profile/myprofile">
