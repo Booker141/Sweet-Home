@@ -42,8 +42,9 @@ export const colors = {
 
 export const statusColors = {
   success: '#22e34f',
-  error: '#f55b5b',
-  warning: '#ffcf4a'
+  error: '#e74c3c',
+  warning: '#f1c40f',
+  info: '#3498db'
 }
 
 /**

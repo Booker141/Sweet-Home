@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdLocationOn } from 'react-icons/md'
@@ -66,6 +66,18 @@ export default function CreatePost () {
   const createPost = async (e) => {
     
     e.preventDefault()
+
+    if(description.trim() === ''){
+      toast.error('El campo descripción es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
 
     const res = await fetch(`${server}/api/posts`, {
       method: 'POST',
@@ -363,6 +375,16 @@ export default function CreatePost () {
                         
                   }
 
+                    input[type="text"]:focus {
+
+                        /*Visuals*/
+
+                        border: 2px solid #4d97f7;
+                        outline: none;
+                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                    }
+
                     
                     input[type="submit"]{
 
@@ -466,6 +488,18 @@ export default function CreatePost () {
                     border: 1px solid ${colors.primary};
 
                     }
+
+                    textarea:focus {
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                    }
+
+                    
 
 
                     a{

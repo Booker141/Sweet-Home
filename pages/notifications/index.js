@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import global from '/styles/global.module.css'
 import Layout from 'components/Layout/Layout'
 import Notification from 'components/Notification/Notification'

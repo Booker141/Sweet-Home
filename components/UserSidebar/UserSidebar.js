@@ -80,6 +80,7 @@ export default function UserSidebar (props) {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
+                    width: fit-content;
 
 
                 }
@@ -90,27 +91,11 @@ export default function UserSidebar (props) {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                    width: fit-content;
                     gap: 0.5rem;
 
                 }
 
-                .text{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-
-                .buttonTertiary{
-
-                    /*Box model*/
-
-                    display: flex;
-                    float: right;
-                }
 
                 .user__image a {
 
@@ -129,14 +114,7 @@ export default function UserSidebar (props) {
                     text-decoration: none;
                 }
 
-                button{
 
-                    /*Box model*/
-
-                    margin-right: 1rem;
-                    margin-top: 1rem;
-                    margin-bottom: 1rem;
-                }
             
             `}
       </style>

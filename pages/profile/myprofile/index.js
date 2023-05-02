@@ -1,4 +1,4 @@
-import { useSession, getSession,signIn } from 'next-auth/react'
+import { useSession, getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'

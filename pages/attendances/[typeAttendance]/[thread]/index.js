@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
 import global from '/styles/global.module.css'
 import {colors} from '/styles/frontend-conf'

@@ -1,4 +1,4 @@
-import { useSession, getSession } from 'next-auth/react'
+import { useSession, getSession, signIn } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import {colors, fonts} from '/styles/frontend-conf'
 import Head from 'next/head'

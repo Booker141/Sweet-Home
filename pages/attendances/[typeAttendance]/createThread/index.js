@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdOutlineSubtitles } from 'react-icons/md'
@@ -35,6 +35,18 @@ export default function CreateThread () {
   const createThread = async (e) => {
 
     e.preventDefault()
+
+    if(title.trim() === ''){
+      toast.error('El campo Título es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
 
     const res = await fetch(`${server}/api/threads/${Router.query.typeAttendance}`, {
       method: 'POST',
@@ -77,7 +89,7 @@ export default function CreateThread () {
               <form action='/api/posts' id='form'>
                 <div className='form-vertical__title'>
                   <label className='label'>
-                    <p className={global.text}>Título</p>
+                    <p className={global.text}>Título (*)</p>
                     <MdOutlineSubtitles size={25} color={colors.secondary} />
                   </label>
                   <div className='title__input'>
@@ -110,7 +122,7 @@ export default function CreateThread () {
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
+                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
                         background-size: 100% 110%;
                         border-radius: 20px;
                         

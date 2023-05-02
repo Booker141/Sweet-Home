@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { BsFillExclamationDiamondFill } from 'react-icons/bs'

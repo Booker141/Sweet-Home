@@ -145,7 +145,7 @@ export default function Attendance (props) {
             <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}>{props.username}</a>
             <p className={global.date}>- {date.toLocaleDateString()}</p>
             <div className="attendance__hour">
-              <HiOutlineClock color={`${colors.quaternary}`} size={17}/>
+              <HiOutlineClock size={17}/>
               <p className={global.date}>{getFull(date.getHours())}:{getFull(date.getMinutes())}:{getFull(date.getSeconds())}</p>
             </div>
           </div>

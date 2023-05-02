@@ -1,10 +1,11 @@
 import global from '../../styles/global.module.css'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {colors, fonts} from '../../styles/frontend-conf'
 import Layout from '../../components/Layout/Layout'
 import Head from 'next/head'
 import Loader from '../../components/Loader/Loader'
+import {server} from '/server'
 
 /**
  * This function is the dashboard of the administrator, it is only accessible to the administrator, if
@@ -24,7 +25,7 @@ export default function Dashboard () {
       </>
     )
   }
-  if (session.user.role === 'admin') {
+  if (session.user.role === 'administrador') {
     return (
       <>
         <Layout>
@@ -49,18 +50,18 @@ export default function Dashboard () {
                 <h2 className="title__admin">Noticias</h2>
                   <p className={global.text}>Panel de administración de noticias. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createNew")}>Crear</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editNew")}>Editar</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/news")}>Eliminar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createNew`)}>Crear</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/editNew`)}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/news`)}>Eliminar</button>
                   </div>
               </div>
               <div className={global.card__variable}>
                 <h2 className="title__admin">Preguntas frecuentes</h2>
                   <p className={global.text}>Panel de administración de preguntas frecuentes. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createQuestion")}>Crear</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editQuestion")}>Editar</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/faq")}>Eliminar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createQuestion`)}>Crear</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/editQuestion`)}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/faq`)}>Eliminar</button>
                   </div>
               </div>
             </div>
@@ -70,16 +71,16 @@ export default function Dashboard () {
                 <h2 className="title__admin">Denuncias</h2>
                   <p className={global.text}>Panel de administración de denuncias. Accede al panel de denuncias 
                   interpuestas por los usuarios:</p>
-                  <a className={global.link} aria-label="Acceder al panel de Denuncias" href="/complaints">Acceder ▷</a>
+                  <a className={global.link} aria-label="Acceder al panel de Denuncias" href={`${server}/dashboard/complaints`}>Acceder ▷</a>
               </div>
 
               <div className={global.card__variable}>
                 <h2 className="title__admin">Tipos de cuidado</h2>
                   <p className={global.text}>Panel de administración de tipos de cuidado. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
-                    <button className={global.buttonPrimary} onClick={() => router.push("/createTypeAttendance")}>Crear</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/editTypeAttendance")}>Editar</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push("/attendances")}>Eliminar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createTypeAttendance`)}>Crear</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/editTypeAttendance`)}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/attendances`)}>Eliminar</button>
                   </div>
               </div>
             </div>
@@ -87,7 +88,14 @@ export default function Dashboard () {
               <div className={global.card__variable}>
                 <h2 className="title__admin">Usuarios bloqueados</h2>
                   <p className={global.text}>Panel de administración de los usuarios que han recibido un mínimo de cinco denuncias. Accede al panel de usuarios bloqueados:</p>
-                  <a className={global.link} aria-label="Acceder al panel de usuarios bloqueados" href="/blockedUsers">Acceder ▷</a>
+                  <a className={global.link} aria-label="Acceder al panel de usuarios bloqueados" href={`${server}/dashboard/blockedUsers`}>Acceder ▷</a>
+              </div>
+              <div className={global.card__variable}>
+                <h2 className="title__admin">Informes</h2>
+                  <p className={global.text}>Panel de administración de informes. Accede al panel de los informes enviados por los usuarios:</p>
+                  <div className="panel__buttons">
+                    <a className={global.link} aria-label="Acceder al panel de Informes" href={`${server}/dashboard/reports`}>Acceder ▷</a>
+                  </div>
               </div>
           </div>
         </div>

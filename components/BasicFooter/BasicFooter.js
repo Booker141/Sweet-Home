@@ -26,7 +26,7 @@ export default function BasicFooter (props) {
     <>
 
       <div className='footer'>
-        <hr className={global.line} />
+        {props.color === "#fafafa" && <hr className={global.white__line}/>}{props.color === "#f0810f" && <hr className={global.line} />}
         <div className='footer__links'>
           <Link className={global.link} href={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
           <Link className={global.link} href={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
@@ -113,6 +113,13 @@ export default function BasicFooter (props) {
                     /*Text*/
 
                     color: ${props.hover};
+                }
+
+                hr{
+
+                    /*Box model*/
+
+                    width: 100%;
                 }
             `}
       </style>

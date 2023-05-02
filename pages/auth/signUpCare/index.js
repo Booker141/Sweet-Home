@@ -1,13 +1,12 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import global from 'styles/global.module.css'
 import { colors, fonts, statusColors } from 'styles/frontend-conf.js'
 import Header from 'components/BasicHeader/BasicHeader'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
-import { FaUser, FaUserPlus } from 'react-icons/fa'
+import { FaUser, FaUserPlus, FaUserTag } from 'react-icons/fa'
 import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
@@ -29,11 +28,13 @@ export default function SignUp () {
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
+  const [role, setRole] = useState('')
   const [message, setMessage] = useState(null)
   const [isValidate, setIsValidate] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
 
   const Router = useRouter()
+  console.log(role)
 
   /**
    * If the password input type is password, then hide the first icon and show the second icon, and
@@ -129,13 +130,14 @@ export default function SignUp () {
    * @param e - The event object
    */
   const signUp = async (e) => {
+    
     e.preventDefault()
 
     if (isValidate) {
 
       setIsSignUp(true)
 
-      const res = await fetch(`${server}/api/registerCare`, {
+      const res = await fetch(`${server}/api/registerShelterVet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -145,7 +147,8 @@ export default function SignUp () {
           password,
           name,
           lastname: '',
-          username
+          username,
+          role
         })
       }).catch(err => console.log(err))
 
@@ -215,17 +218,18 @@ export default function SignUp () {
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
       />
+      <div className='page__video' />
+          <video
+            autoPlay loop muted
+            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '234vh', objectFit: 'cover', zIndex: '-99999'}}
+          >
+            <source src='/videos/video2.mp4' />
+          </video>
       <div className={global.content}>
 
         <div className='page'>
 
-          <div className='page__video' />
-          <video
-            autoPlay loop muted
-            style={{ position: 'absolute', width: '90vw', height: '110rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
-          >
-            <source src='/videos/video2.mp4' />
-          </video>
+          
           <div className='page__form'>
             <div className='form__text'>
               <h2>¡Bienvenido a Sweet Home!</h2>
@@ -234,6 +238,19 @@ export default function SignUp () {
             </div>
 
             <form className='form-vertical' action='/api/register' id='form'>
+              <div className='form-vertical__role'>
+                <div className='label'>
+                  <p className={global.text}>Tipo de usuario</p>
+                  <FaUserTag size={20} color={colors.secondary} />
+                </div>
+                <div className='role__input'>
+                  <input type="radio" id="vet" name="radio" value="veterinaria" checked={role === "veterinaria"} onChange={(e) => setRole(e.target.value)} />
+                  <label for="vet">Veterinaria</label>
+
+                  <input type="radio" id="shelter" name="radio" value="protectora" checked={role === "protectora"} onChange={(e) => setRole(e.target.value)}/>
+                  <label for="shelter">Protectora</label>
+                </div>
+              </div>
               <div className='form-vertical__email'>
                 <div className='label'>
                   <p className={global.text}>Email</p>
@@ -250,7 +267,7 @@ export default function SignUp () {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder='p. ej.: cuidadora@gmail.com'
+                    placeholder='p. ej.: protectora@gmail.com'
                   />
                   <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
@@ -265,7 +282,7 @@ export default function SignUp () {
               </div>
               <div className='form-vertical__name'>
                 <div className='label'>
-                  <p className={global.text}>Nombre de la cuidadora</p>
+                  <p className={global.text}>Nombre de la empresa</p>
                   <FaUserPlus size={20} color={colors.secondary} />
                 </div>
                 <div className='name__input'>
@@ -280,7 +297,7 @@ export default function SignUp () {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder='p. ej.: Cuidadora S.L'
+                    placeholder='p. ej.: Protectora S.L'
                   />
                   <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
@@ -309,7 +326,7 @@ export default function SignUp () {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder='p. ej.: cuidadora45'
+                    placeholder='p. ej.: protectora45'
                     className='input'
                   />
                   <div id='error__username' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
@@ -340,7 +357,7 @@ export default function SignUp () {
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder='p. ej.: 1Cuidadora!'
+                    placeholder='p. ej.: 1Protectora!'
                     className='input'
                   />
                   <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
@@ -384,7 +401,7 @@ export default function SignUp () {
         </div>
       </div>
       <BasicFooter
-        color='#f0810f' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
+        color='#fafafa' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
       <style jsx>{`
@@ -428,6 +445,8 @@ export default function SignUp () {
           /*Position*/
 
           position: absolute;
+          top: 0;
+          left: 0;
 
 
           z-index: -9;
@@ -435,12 +454,12 @@ export default function SignUp () {
           /*Box model*/
 
           display: block;
-          width: 90vw;
-          height: 110rem;
+          object-fit: cover;
+          width: 99.1vw;
+          height: 234vh;
 
           /*Visuals*/
 
-          border-radius: 30px 30px 30px 30px;
           backdrop-filter: blur(5px);
           background-color: rgba(0,0,0,0.2);
 
@@ -519,6 +538,19 @@ export default function SignUp () {
           justify-content: center;
           margin-bottom: 1rem;
           margin-top: 0;
+
+        }
+
+        .form-vertical__role{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: column;
+
+          margin-left: 3rem;
+          margin-bottom: 2rem;
+
 
         }
 
@@ -778,6 +810,7 @@ export default function SignUp () {
 
           display: flex;
           flex-direction: row;
+          align-items: center;
           
 
           /*Text*/
@@ -887,6 +920,8 @@ export default function SignUp () {
 
 
           }
+
+          
 
           .form__success-icon{
 
@@ -1024,43 +1059,43 @@ export default function SignUp () {
         
         .form-vertical__email{
 
-/*Box model*/ 
+        /*Box model*/ 
 
-margin-left: 3rem;
+        margin-left: 3rem;
 
-}
+        }
 
-.form-vertical__name{
+        .form-vertical__name{
 
-/*Box model*/ 
+        /*Box model*/ 
 
-margin-left: 3rem;
+        margin-left: 3rem;
 
-}
+        }
 
-.form-vertical__lastname{
+        .form-vertical__lastname{
 
-/*Box model*/ 
+        /*Box model*/ 
 
-margin-left: 3rem;
+        margin-left: 3rem;
 
-}
+        }
 
-.form-vertical__username{
+        .form-vertical__username{
 
-/*Box model*/ 
+        /*Box model*/ 
 
-margin-left: 3rem;
+        margin-left: 3rem;
 
-}
+        }
 
-.form-vertical__password{
+        .form-vertical__password{
 
-/*Box model*/
+        /*Box model*/
 
-margin-left: 3rem;
+        margin-left: 3rem;
 
-}
+        }
 
         .form-vertical__button {
 
@@ -1147,6 +1182,24 @@ margin-left: 3rem;
           width: 20rem;
           gap: 1rem;
 
+        }
+
+        .role__input{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 20rem;
+          gap: 1rem;
+
+          /*Text*/
+
+          color: ${colors.secondary};
+          font-size: 1rem;
+          font-weight: 400;
+          font-family: ${fonts.default};
         }
 
         .name__input{
@@ -1391,6 +1444,7 @@ margin-left: 3rem;
             transition: 0.2s ease all;
 
           }
+
 
           input[type="text"]:focus {
 

@@ -2,7 +2,7 @@ import global from '/styles/global.module.css'
 import {colors} from '/styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import BlockedUser from "/components/BlockedUser/BlockedUser"
 import Loader from '/components/Loader/Loader'
 import {server} from "/server"

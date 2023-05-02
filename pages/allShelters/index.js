@@ -1,7 +1,7 @@
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import global from 'styles/global.module.css'
 import {colors} from 'styles/frontend-conf'
-import User from 'components/User/User'
+import User from 'components/UserCard/User'
 import Layout from 'components/Layout/Layout'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
@@ -26,15 +26,30 @@ export default function AllCaretakers ({ users }) {
     return (
       <Layout>
 
-        <h1 className="title">Cuidadoras</h1>
-        {users.filter(user => user.username !== (session.user.username) && user.isCaretaker === true && user.role.name !== "admin" && user.role.name !== "gerente").map(({ _id, image, username, isCaretaker }) => {
-          return (
-            <>
-              <User key={_id} image={image} username={username} isCaretaker={isCaretaker} />
-            </>
-          )
-        })}
+        <h1 className="title">Protectoras</h1>
+        <div className='users'>
+          {users.length === 0 && <div><p className={global.loading2}>No hay ninguna protectora de animales.</p></div>}
+          {users.filter(user => user.username !== (session.user.username)).map(({ _id, image, banner, username, role }) => {
+            return (
+              <>
+                <User key={_id} image={image} banner={banner} username={username} role={role} />
+              </>
+            )
+          })}
+        </div>
+        
       <style jsx>{`
+
+          .users{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          gap: 2rem;
+          flex-wrap: wrap;
+
+          }
 
           .title{
 
@@ -56,11 +71,42 @@ export default function AllCaretakers ({ users }) {
       </Layout>
     )
   }
+  else {
+  return (
+    <Layout>
+      <>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
+
+                .message{
+
+                    /*Box model*/
+
+                    display: flex
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    
+                }
+
+                
+            `}
+        </style>
+      </>
+    </Layout>
+  )
+}
 }
 
 export async function getServerSideProps () {
 
-  const res = await fetch(`${server}/api/users`, {
+  const res = await fetch(`${server}/api/shelters`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

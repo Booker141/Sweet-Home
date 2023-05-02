@@ -2,7 +2,7 @@ import global from '/styles/global.module.css'
 import {colors} from '/styles/frontend-conf.js'
 import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import Complaint from "/components/Complaint/Complaint"
 import Loader from '/components/Loader/Loader'
 import {useRouter} from 'next/router'
@@ -27,7 +27,7 @@ export default function Complaints ({complaints}){
           </>
         )
     }
-    if(session.user.role === "admin"){
+    if(session.user.role === "administrador"){
         return(
 
             <Layout>

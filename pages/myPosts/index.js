@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useSession} from 'next-auth/react'
+import { useSession, signIn} from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import global from 'styles/global.module.css'

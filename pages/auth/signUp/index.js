@@ -232,15 +232,16 @@ export default function SignUp () {
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
       />
-      <div className={global.content}>
-        <div className='page'>
-          <div className='page__video' />
+      <div className='page__video' />
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', width: '90vw', height: '110rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
+            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '234vh', objectFit: 'cover', zIndex: '-99999'}}
           >
             <source src='/videos/video2.mp4' />
           </video>
+      <div className={global.content}>
+        <div className='page'>
+
           <div className='page__form'>
             <div className='form__text'>
               <h2>¡Bienvenido a Sweet Home!</h2>
@@ -431,7 +432,7 @@ export default function SignUp () {
         </div>
       </div>
       <BasicFooter
-        color='#f0810f' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
+        color='#fafafa' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
       <style jsx>{`
@@ -476,6 +477,8 @@ export default function SignUp () {
           /*Position*/
 
           position: absolute;
+          top: 0;
+          left: 0;
 
 
           z-index: -9;
@@ -483,12 +486,12 @@ export default function SignUp () {
           /*Box model*/
 
           display: block;
-          width: 90vw;
-          height: 110rem;
+          object-fit: cover;
+          width: 99.1vw;
+          height: 234vh;
 
           /*Visuals*/
 
-          border-radius: 30px 30px 30px 30px;
           backdrop-filter: blur(5px);
           background-color: rgba(0,0,0,0.2);
 

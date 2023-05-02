@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {FaRegComment} from 'react-icons/fa'
+import {BsChat} from 'react-icons/bs'
 import {colors} from 'styles/frontend-conf'
 import global from 'styles/global.module.css'
 
@@ -12,7 +12,7 @@ export default function CommentsCounter(props){
         <>
             <div className='commentsCounter'>
                 <p className={global.text2}>{commentsCount}</p>
-                <FaRegComment size={20} color={`${colors.secondary}`}/>
+                <BsChat size={20} color={colors.secondary}/>
             </div>
 
             <style jsx>{`
@@ -23,8 +23,10 @@ export default function CommentsCounter(props){
 
 
                     display: flex;
+                    flex-direction: row;
+                    justify-content: center;
                     align-items: center;
-                    gap: 1rem;
+                    gap: 0.5rem;
 
                     /*Visuals*/
 

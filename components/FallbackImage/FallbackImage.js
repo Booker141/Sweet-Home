@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 export default function FallbackImage(props){
 
-    const [fallback, setFallback] = useState(props.src != "" ? props.src : fallbackImage)
+    const [fallback, setFallback] = useState(props.src ? props.src : fallbackImage)
 
     return(
 

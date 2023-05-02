@@ -30,7 +30,7 @@ export default function SearchBar(){
 
     return(
         <>
-        <search className='search-bar'>
+        <div className='search-bar'>
               <input
                 type='search'
                 name='search'
@@ -38,7 +38,7 @@ export default function SearchBar(){
                 placeholder='Buscar..'
                 onChange={(e) => setKeyword(e.target.value)}
               /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><RiSearchLine size={20}/></button>
-        </search>
+        </div>
         <style jsx>{`
 
         .search-bar{

@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import Head from 'next/head'
 import Layout from 'components/Layout/Layout'
 import global from '/styles/global.module.css'

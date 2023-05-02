@@ -114,9 +114,10 @@ export const authOptions = {
       const userExist = await db.collection('users').findOne({ _id: user._id })
       const userStatus = await db.collection('userStatus').findOne({ name: 'activo' })
       const userRole = await db.collection('userRole').findOne({ name: 'usuario' })
-
-      console.log(user)
-      console.log(account)
+      let providerId = '';
+      for (let i = 0; i < 21; i++) {
+        providerId += Math.floor(Math.random() * 10);
+      }
 
       const randomId = new ObjectId()
       const maxAge = 3600 * 24
@@ -135,7 +136,7 @@ export const authOptions = {
             scope: 'user.read',
             token_type: 'Bearer',
             refresh_token: token2,
-            providerAccountId: account.providerAccountId,
+            providerAccountId: providerId,
             email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
@@ -298,7 +299,6 @@ export const authOptions = {
         token = {
           ...token,
           id: user._id,
-          isCaretaker: user.isCaretaker,
           email: user.email,
           username: user.username,
           biography: user.biography,

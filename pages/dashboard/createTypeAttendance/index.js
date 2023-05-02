@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdTitle, MdOutlineError } from 'react-icons/md'
 import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill} from 'react-icons/bs'
-import { statusColors, colors, fonts } from '../../styles/frontend-conf'
+import { statusColors, colors, fonts } from '../../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import Layout from '/components/Layout/Layout'
 import {toast} from 'react-toastify'
@@ -12,42 +12,44 @@ import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
 /**
- * This function is used to create a question in the FAQ section
+ * This function is used to create a new type of care
  * @returns a component.
  */
-export default function CreateQuestion () {
+export default function CreateTypeAttendance () {
 
   const { data: session, status } = useSession({ required: true })
 
   const Router = useRouter()
-  const [answer, setAnswer] = useState('')
-  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [name, setName] = useState('')
   const [isValidate, setIsValidate] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
   
 
   /**
-   * It validates the title input field by checking if the input matches the regular expression. If it
-   * does, it adds the success icon and removes the error icon. If it doesn't, it adds the error icon
-   * and removes the success icon
+   * The function validates the input field by checking if the input matches the regular expression. If
+   * it does, it adds a class to the error message and error icon to show them. If it doesn't, it
+   * removes the class to hide them
    * @param e - event
    */
+  
+
   const validate = (e) => {
     // Regular expressions
 
-    const regTitle = /^¿?.+\?/g;
+    const regName = /^¿?.+\?/g;
 
-    if (e.target.name === 'title') {
-      if (!title.match(regTitle)) {
-        document.getElementById('title__error').classList.add('form__input-titleError--active')
-        document.getElementById('error__title').classList.add('form__error-icon--active')
-        document.getElementById('success__title').classList.remove('form__success-icon--active')
+    if (e.target.name === 'name') {
+      if (!name.match(regName)) {
+        document.getElementById('name__error').classList.add('form__input-nameError--active')
+        document.getElementById('error__name').classList.add('form__error-icon--active')
+        document.getElementById('success__name').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
-        document.getElementById('title__error').classList.remove('form__input-titleError--active')
-        document.getElementById('error__title').classList.remove('form__error-icon--active')
-        document.getElementById('success__title').classList.add('form__success-icon--active')
+        document.getElementById('name__error').classList.remove('form__input-nameError--active')
+        document.getElementById('error__name').classList.remove('form__error-icon--active')
+        document.getElementById('success__name').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -55,22 +57,45 @@ export default function CreateQuestion () {
   }
 
   /**
-   * It sends a POST request to the server with the title and answer of the question, and if there's no
-   * error, it redirects the user to the FAQ page
-   * @param e - The event object
+   * It creates a new type of attendance in the database
+   * @param e - event
    */
-  const createQuestion = async (e) => {
+  const createTypeAttendance = async (e) => {
 
     e.preventDefault()
 
-    const res = await fetch(`${server}/api/questions`, {
+    if(name.trim() === ''){
+      toast.error('El campo Tipo de cuidado es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(description.trim() === ''){
+      toast.error('El campo Descripción es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    const res = await fetch(`${server}/api/typeAttendance`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        title: title,
-        answer: answer,
+        name: name,
+        description: description,
       })
     })
 
@@ -80,7 +105,7 @@ export default function CreateQuestion () {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
     } else {
-      toast.success('Se ha publicado la pregunta', { position: "bottom-right",
+      toast.success('Se ha publicado el tipo de cuidado', { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -88,11 +113,11 @@ export default function CreateQuestion () {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      Router.push(`${server}/faq`)
+      Router.push(`${server}/attendances`)
     }
   }
 
-  if (status == 'loading') {
+  if (status === 'loading') {
     return (
       <>
         <div className={global.loading}><p>Cargando..</p></div>
@@ -103,64 +128,64 @@ export default function CreateQuestion () {
   if (session.user.role === "admin") {
     return (
       <Layout>
-        <Head><title>Crear pregunta</title></Head>
+        <Head><title>Crear tipo de cuidado</title></Head>
         
           <div className="form__position">
             <div className='form'>
-            <div className="createQuestion__header">
-              <h1 className='form__title'>Crear pregunta</h1>
-              <p className={global.text}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
-            </div>
-              <form action='/api/questions' id='form'>
-                <div className='form-vertical__title'>
+              <div className="createTypeAttendance__header">
+                <h1 className='form__title'>Crear tipo de cuidado</h1>
+                <p className={global.text2}>Introduzca los datos del tipo de cuidado. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              </div>
+              <form action='/api/typeAttendance' id='form'>
+                <div className='form-vertical__name'>
                   <label className='label'>
-                    <p className={global.text}>Título (*)</p>
+                    <p className={global.text2}>Tipo de cuidado (*)</p>
                     <MdTitle size={18} color={colors.secondary} />
                   </label>
-                  <div className='title__input'>
+                  <div className='name__input'>
                     <input
-                          title='Introducir título'
+                          title='Introducir tipo de cuidado'
                           type='text'
-                          name='title'
-                          value={title}
+                          name='name'
+                          value={name}
                           required
-                          onChange={(e) => setTitle(e.target.value)}
+                          onChange={(e) => setName(e.target.value)}
                           onKeyUp={(e) => validate(e)}
                           onBlur={(e) => validate(e)}
-                          placeholder='p. ej.: ¿Es necesario...?'
+                          placeholder='p. ej.: Alimentación'
                           className='input'
                          />
                   
-                    <div id='error__title' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__title' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    <div id='title__error' className='form__input-titleError'>
+                    <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                    <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                    <div id='name__error' className='form__input-nameError'>
                       <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
-                      <p className={global.text2}>Debe ser una pregunta</p>
+                      <p className={global.text2}>Debe seguir el formato correcto</p>
                     </div>
                   </div>
                 </div>
-                <div className='form-vertical__answer'>
+                <div className='form-vertical__description'>
                   <label className='label'>
-                    <p className={global.text}>Respuesta (*)</p>
+                    <p className={global.text}>Descripción (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </label>
-                  <div className='answer__input'>
+                  <div className='description__input'>
                     <textarea
-                          title='Introducir respuesta'
-                          name='answer'
-                          value={answer}
+                          title='Introducir descripción'
+                          name='description'
+                          value={description}
                           required
-                          onChange={(e) => setAnswer(e.target.value)}
-                          placeholder='p. ej.: Si, es necesario..'
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder='p. ej.: Es importante...'
                         />
                   </div>
 
                 </div>
 
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createQuestion(e)} value={isPosting ? 'Creando..' : 'Crear'} />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createTypeAttendance(e)} value={isPosting ? 'Creando..' : 'Crear'}/>
           </div>
         </div>
         <style jsx>{`
@@ -194,7 +219,7 @@ export default function CreateQuestion () {
                         
                     }
 
-                    .form__title{
+                    .form__name{
 
                         /*Box model*/
 
@@ -205,14 +230,14 @@ export default function CreateQuestion () {
 
                     }
 
-                    .createQuestion__header{
+                    .createTypeAttendance__header{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        margin-bottom: 1rem;
+                        margin-bottom: 2rem;
                     }
 
                     .label{
@@ -260,18 +285,18 @@ export default function CreateQuestion () {
 
                 
 
-                    .form-vertical__answer {
+                    .form-vertical__description {
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
+                        width: 40vw;
 
                     }
 
-                    .form-vertical__title {
+                    .form-vertical__name {
 
                         /*Box model*/
 
@@ -280,19 +305,19 @@ export default function CreateQuestion () {
                     }
 
 
-                    .answer__input{
+                    .description__input{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
-                        width: 115%;
+                        width: 40vw;
                         
 
                     }
 
-                    .title__input{
+                    .name__input{
 
                         /*Box model*/
 
@@ -304,7 +329,7 @@ export default function CreateQuestion () {
 
                     /*ERRORES*/
 
-                    .form__input-titleError{
+                    .form__input-nameError{
 
                       /*Position*/
 
@@ -331,7 +356,7 @@ export default function CreateQuestion () {
                       }
 
 
-                      .form__input-titleError p{
+                      .form__input-nameError p{
 
                       /*Box model*/
 
@@ -339,7 +364,7 @@ export default function CreateQuestion () {
 
                       }
 
-                      .form__input-titleError--active{
+                      .form__input-nameError--active{
 
                       /*Position*/
 
@@ -529,7 +554,7 @@ export default function CreateQuestion () {
                         color: white;
                         text-align: center;
                         
-                  }
+                    }
 
 
 
@@ -553,6 +578,17 @@ export default function CreateQuestion () {
                         border: 1px solid ${colors.primary};
 
                     }
+
+                    input[type="text"]:focus{
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                    }
+
 
                     input[type="submit"]{
 
@@ -595,6 +631,17 @@ export default function CreateQuestion () {
                     border: 1px solid ${colors.primary};
 
                     }
+
+                    textarea:focus{
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                    }
+
 
                     a{
 

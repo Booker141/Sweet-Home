@@ -20,8 +20,6 @@ export default function Save(props){
     const [user, setUser] = useState({});
     const isSavedByUser = props.likes?.filter(save => save === user._id);
 
-    console.log(isSavedByUser)
-    
 
 
     const getUser = async () => {
@@ -113,7 +111,7 @@ export default function Save(props){
                     flex-direction: row;
                     align-items: center;
                     justify-content: center;
-                    gap: 1rem;
+                    gap: 0.5rem;
 
 
                 }

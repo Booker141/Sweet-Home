@@ -142,7 +142,7 @@ export default function Like(props){
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 1rem;
+                    gap: 0.5rem;
 
                 }
                 .like--status{

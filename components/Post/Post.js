@@ -9,7 +9,7 @@ import Modal from 'components/Modal/Modal'
 import Like from "components/Like/Like"
 import Save from "components/Save/Save"
 import CommentsCounter from "components/CommentsCounter/CommentsCounter"
-import { MdDeleteOutline, MdClose } from 'react-icons/md'
+import { MdDeleteOutline, MdClose, MdHealthAndSafety } from 'react-icons/md'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { HiOutlineRefresh, HiOutlineClock } from 'react-icons/hi'
 import { server } from '/server'
@@ -27,7 +27,8 @@ export default function Post (props) {
   const [isVisible, setIsVisible] = useState(false)
   const [isAdoption, setIsAdoption] = useState(props.isAdoption)
   const [isLost, setIsLost] = useState(props.isLost)
-  const [isCaretaker, setIsCaretaker] = useState(false)
+  const [isVet, setIsVet] = useState(false)
+  const [isShelter, setIsShelter] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const Router = useRouter()
@@ -66,6 +67,7 @@ export default function Post (props) {
    * sets the user state to the user that was fetched
    */
   async function getUser(){
+    
     const res = await fetch(`${server}/api/users/${props.username}`, {
       method: 'GET',
       headers: {
@@ -74,7 +76,13 @@ export default function Post (props) {
     })
     const user = await res.json()
     setUser(user)
-    setIsCaretaker(user.isCaretaker)
+
+    console.log(user.role)
+
+    if(user.role === "protectora")
+      setIsShelter(true)
+    if(user.role === "veterinaria")
+      setIsVet(true)
   }
   /* The above code is fetching the user from the database and setting the user state to the user that
   was fetched. */
@@ -149,7 +157,7 @@ export default function Post (props) {
               <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
               <div className="user__info">
                 <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
-                  {user.username}
+                  {user.username}{isShelter && <BsPatchCheckFill size={15} color={colors.primary} />}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}
                 </a>
                 <div className="post__time">
                   <HiOutlineClock color={`${colors.secondary}`} size={17}/>
@@ -173,7 +181,7 @@ export default function Post (props) {
             <div className='description__content'>           
               <a href={`${server}/profile/${user.username}`}><FallbackImage className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px'}} width={40} height={40} priority /></a>
               <p className={global.link3__bold}>
-                @{user.username}{isCaretaker && <BsPatchCheckFill size={15} color={colors.primary} />}:
+                @{user.username}{isShelter && <BsPatchCheckFill size={15} color={colors.primary} />}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}:
               </p>
               <div className='description__text'>
                 <p className={global.text2}>
@@ -372,8 +380,9 @@ export default function Post (props) {
                     /*Box model*/
 
                     display: flex;
-                    flex-direction: column;
+                    flex-direction: row;
                     align-items: center;
+                    gap: 1.5rem;
 
 
                 }

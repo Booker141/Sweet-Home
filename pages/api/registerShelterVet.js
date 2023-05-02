@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { MongoClient, ObjectId } from 'mongodb'
 
 export default async function handler (req, res) {
+
   if (req.method === 'POST') {
 
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -10,7 +11,13 @@ export default async function handler (req, res) {
     const body = req.body
     const userExist1 = await db.collection('users').findOne({ email: body.email })
     const userExist2 = await db.collection('users').findOne({ username: body.username })
-    const userRole = await db.collection('userRole').findOne({ name: 'protectora' })
+    let userRole = await db.collection('userRole').findOne({ name: 'veterinaria' })
+
+
+    if(body.role === "protectora"){
+      userRole = await db.collection('userRole').findOne({ name: 'protectora' })
+    }
+
     const userStatus = await db.collection('userStatus').findOne({ name: 'activo' })
 
     if (userExist1) {
@@ -27,7 +34,7 @@ export default async function handler (req, res) {
     const hashPassword = await bcrypt.hash(body.password, salt)
 
     await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, 
-      password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: '/userPhotos/default.svg', banner: "/userPhotos/defaultBanner.svg", status: userStatus, 
+      password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: '/userPhotos/default.png', banner: "/userPhotos/defaultBanner.svg", status: userStatus, 
       role: userRole, links: {Instagram: "", Twitter: "", Facebook: ""}, followers: [], 
       following: [], likes: [], saves: [], pets: [], accountId: ObjectId, createdAt: new Date()})
 

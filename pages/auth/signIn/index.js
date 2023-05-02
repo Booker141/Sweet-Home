@@ -112,8 +112,6 @@ export default function SignIn ({ providers, csrfToken }) {
     
     e.preventDefault()
 
-    
-
     document.getElementById('submit__error').classList.remove('submit__error--active')
 
     if (isValidate) {
@@ -150,16 +148,17 @@ export default function SignIn ({ providers, csrfToken }) {
         url1='/news' url2='/about' url3='/contact' url4='/auth/signUp'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Registrarse'
       />
+       <div className='page__video' />
+          <video
+            autoPlay loop muted
+            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '168.5vh', objectFit: 'cover', zIndex: '-99999'}}
+          >
+            <source src='/videos/video2.mp4' />
+          </video>
       <div className={global.content}>
-        <div className={global.content}>
+
           <div className='page'>
-            <div className='page__video' />
-            <video
-              autoPlay loop muted
-              style={{ position: 'absolute', width: '90vw', height: '80rem', objectFit: 'cover', zIndex: '-99999', borderRadius: '30px 30px 30px 30px' }}
-            >
-              <source src='/videos/video2.mp4' />
-            </video>
+           
 
             <div className='page__form'>
               <div className='form__text'>
@@ -253,9 +252,8 @@ export default function SignIn ({ providers, csrfToken }) {
             </div>
           </div>
         </div>
-      </div>
       <BasicFooter
-        color='#f0810f' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
+        color='#fafafa' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
       <style jsx>{`
@@ -293,24 +291,26 @@ export default function SignIn ({ providers, csrfToken }) {
 
             .page__video{
 
-              /*Position*/
+            /*Position*/
 
-              position: absolute;
+            position: absolute;
+            top: 0;
+            left: 0;
 
-             
-              z-index: -9;
 
-              /*Box model*/
+            z-index: -9;
 
-              display: block;
-              width: 90vw;
-              height: 80rem;
+            /*Box model*/
 
-              /*Visuals*/
+            display: block;
+            object-fit: cover;
+            width: 99.1vw;
+            height: 168.5vh;
 
-              border-radius: 30px 30px 30px 30px;
-              backdrop-filter: blur(5px);
-              background-color: rgba(0,0,0,0.2);
+            /*Visuals*/
+
+            backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.2);
 
 
             }

@@ -10,7 +10,7 @@ import { server } from '/server'
  * It's a function that returns a layout component with a title and a list of users
  * @returns the Layout component with the title "Usuarios" and the User component.
  */
-export default function AllUsers ({ users }) {
+export default function AllVets ({ users }) {
 
   const { data: session, status } = useSession({ required: true })
 
@@ -26,11 +26,10 @@ export default function AllUsers ({ users }) {
     return (
       <Layout>
 
-        <h1 className="title">Usuarios</h1>
-        <div className="users">
-          {users.length === 0 && <div><p className={global.loading2}>No hay ningún usuario.</p></div>}
-          {users.filter(user => user.username !== (session.user.username) && user.role.name !== "administrador" 
-          && user.role.name !== "gerente" ).map(({ _id, image, banner, username, role }) => {
+        <h1 className="title">Veterinarias</h1>
+        <div className="users">  
+          {users.length === 0 && <div><p className={global.loading2}>No hay ninguna veterinaria.</p></div>}
+          {users.filter(user => user.username !== (session.user.username)).map(({ _id, image, banner, username, role }) => {
             return (
               <>
                 <User key={_id} image={image} banner={banner} username={username} role={role} />
@@ -39,19 +38,19 @@ export default function AllUsers ({ users }) {
           })}
         </div>
       <style jsx>{`
-          
+
           .users{
 
-            /*Box model*/
+          /*Box model*/
 
-            display: flex;
-            flex-direction: row;
-            gap: 2rem;
-            flex-wrap: wrap;
+          display: flex;
+          flex-direction: row;
+          gap: 2rem;
+          flex-wrap: wrap;
 
 
           }
-
+      
           .title{
 
             /*Text*/
@@ -74,11 +73,42 @@ export default function AllUsers ({ users }) {
       </Layout>
     )
   }
+else {
+  return (
+    <Layout>
+      <>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          </div>
+        </div>
+        <style jsx>{`
+
+                .message{
+
+                    /*Box model*/
+
+                    display: flex
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    
+                }
+
+                
+            `}
+        </style>
+      </>
+    </Layout>
+  )
+}
 }
 
 export async function getServerSideProps () {
 
-  const res = await fetch(`${server}/api/users`, {
+  const res = await fetch(`${server}/api/vets`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

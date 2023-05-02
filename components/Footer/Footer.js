@@ -3,6 +3,10 @@ import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf.js'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
+import {GiDogHouse} from 'react-icons/gi'
+import { HiDocumentSearch, HiSearch } from 'react-icons/hi'
+import {FaUserPlus} from 'react-icons/fa'
+import {server} from '/server'
 
 /*
     * @author Sergio García Navarro
@@ -42,32 +46,32 @@ export default function Footer () {
 
           <div className='columns'>
             <div className='columns__column1'>
-              <h3 className='column1__title'>Sweet Home</h3>
+              <h3 className='column1__title'><GiDogHouse size={20} color={`${colors.secondary}`}/>Sweet Home </h3>
               <div className='column1__links'>
-                <Link className={global.link} href='/about'><a aria-label='Ir a información sobre Sweet Home'>Sobre nosotros</a></Link>
-                <Link className={global.link} href='/contact'><a aria-label='Ir a información de contacto'>Contáctanos</a></Link>
+                <Link className={global.link} href={`${server}/about`}><a aria-label='Ir a información sobre Sweet Home'>Sobre nosotros</a></Link>
+                <Link className={global.link} href={`${server}/contact`}><a aria-label='Ir a información de contacto'>Contáctanos</a></Link>
               </div>
             </div>
             <div className='columns__column2'>
-              <h3 className='column2__title'>Ayuda</h3>
+              <h3 className='column2__title'><HiDocumentSearch size={20} color={`${colors.secondary}`}/>Ayuda </h3>
               <div className='column2__links'>
-                <Link className={global.link} href='/faq'><a aria-label='Ir a Preguntas frecuentes'>Preguntas frecuentes</a></Link>
-                <Link className={global.link} href='/rules'><a aria-label='Ir a Reglas y políticas de Sweet Home'>Reglas y políticas</a></Link>
+                <Link className={global.link} href={`${server}/faq`}><a aria-label='Ir a Preguntas frecuentes'>Preguntas frecuentes</a></Link>
+                <Link className={global.link} href={`${server}/rules`}><a aria-label='Ir a Reglas y políticas de Sweet Home'>Reglas y políticas</a></Link>
               </div>
             </div>
             <div className='columns__column3'>
-              <h3 className='column3__title'>Encuentra en Sweet Home</h3>
+              <h3 className='column3__title'><HiSearch size={20} color={`${colors.secondary}`}/>Encuentra en Sweet Home </h3>
               <div className='column3__links'>
-                <Link className={global.link} href='/attendances'><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
-                <Link className={global.link} href='/news'><a aria-label='Ir a Noticias'>Noticias</a></Link>
-                <Link className={global.link} href='/userManual'><a aria-label='Ir a Manual de usuario'>Documentación</a></Link>
+                <Link className={global.link} href={`${server}/attendances`}><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
+                <Link className={global.link} href={`${server}/news`}><a aria-label='Ir a Noticias'>Noticias</a></Link>
+                <Link className={global.link} href={`${server}/userManual`}><a aria-label='Ir a Manual de usuario'>Documentación</a></Link>
               </div>
             </div>
 
           </div>
 
           <div className='columns__column4'>
-            <h3 className='column4__title'>Síguenos</h3>
+            <h3 className='column4__title'><FaUserPlus size={20} color={`${colors.secondary}`}/>Síguenos </h3>
             <div className='column4__icons'>
               <a aria-label='Ir a Instagram' className='icons__instagram'><BsInstagram /></a>
               <a aria-label='Ir a Facebook' className='icons__facebook'><BsFacebook /></a>
@@ -242,6 +246,55 @@ export default function Footer () {
                     width: 5rem;
 
                 }
+
+                .column1__title{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+
+                }
+
+                .column2__title{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+
+                }
+
+                .column3__title{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+
+                }
+
+                .column4__title{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+
+                }
+
 
 
                 h3{

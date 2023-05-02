@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import {toast} from 'react-toastify'
 import { MdDateRange, MdOutlineError, MdTitle } from 'react-icons/md'
 import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsFillPersonFill } from 'react-icons/bs'
-import { colors, statusColors, fonts } from '../../styles/frontend-conf'
+import { colors, statusColors, fonts } from '../../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 import BasicLayout from '/components/Layout/Layout'
 import { server } from '/server'
@@ -74,6 +74,54 @@ export default function CreateNew () {
   const createNew = async (e) => {
 
     e.preventDefault()
+
+    if(title.trim() === ''){
+      toast.error('El campo Título es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(author.trim() === ''){
+      toast.error('El campo Autor es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(introduction.trim() === ''){
+      toast.error('El campo Introducción es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(body.trim() === ''){
+      toast.error('El campo Desarrollo es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
 
     if(isValidate){
 
@@ -178,7 +226,7 @@ export default function CreateNew () {
                         <div className='error__icon'>
                           <MdOutlineError size={30} color={colors.secondary} />
                         </div>
-                        <p className={global.text2}>Debe seguir el formato correcto</p>
+                          <p className={global.text2}>Debe seguir el formato correcto</p>
                         </div>
                   </div>
                 </div>
@@ -807,6 +855,15 @@ export default function CreateNew () {
 
                       }
 
+                      input[type="date"]:focus {
+
+                        /*Visuals*/
+
+                        border: 2px solid #4d97f7;
+                        outline: none;
+                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                      }
 
                     ::placeholder{
 
@@ -833,6 +890,16 @@ export default function CreateNew () {
 
                     border-radius: 5px;
                     border: 1px solid ${colors.primary};
+
+                    }
+
+                    textarea:focus{
+
+                      /*Visuals*/
+
+                      border: 2px solid #4d97f7;
+                        outline: none;
+                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
 
