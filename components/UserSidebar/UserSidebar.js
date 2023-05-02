@@ -2,9 +2,9 @@ import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf'
 import { useState, useEffect } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
+import { MdHealthAndSafety } from 'react-icons/md'
 import {useSession} from 'next-auth/react'
 import FallbackImage from 'components/FallbackImage/FallbackImage'
-import FollowButton from 'components/FollowButton/FollowButton'
 import {server} from '/server'
 
 /**
@@ -17,10 +17,16 @@ export default function UserSidebar (props) {
 
   const {data: session} = useSession()
   
-  const [isCaretaker, setIsCaretaker] = useState(false)
+  const [isShelter, setIsShelter] = useState(false)
+  const [isVet, setIsVet] = useState(false)
 
 
 
+/**
+ * The function calculates and returns the creation date of a given object in a specific format.
+ * @returns The function `calcCreated` returns a string in the format "day/month/year", where day,
+ * month, and year are extracted from the `createdAt` prop passed to the function.
+ */
   const calcCreated = () => {
 
     const date = new Date(props.createdAt)
@@ -37,7 +43,11 @@ export default function UserSidebar (props) {
   /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
   the isCaretaker prop. */
   useEffect(() => {
-    setIsCaretaker(props.isCaretaker)
+    if(props.role.name ===  "protectora")
+      setIsShelter(true)
+    else if(props.role.name === "veterinario")
+      setIsVet(true)
+
   }, [])
 
   return (
@@ -49,7 +59,7 @@ export default function UserSidebar (props) {
         </div>
         <div className="user__text">
             <div className='user__username'>
-            <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}>@{props.username}</a>
+            <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong>{isShelter && <BsPatchCheckFill size={20} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.primary}/>}</a>
             {isCaretaker && <BsPatchCheckFill size={20} color={colors.primary} />} 
             </div>
             <p className={global.sidebar__date}>Se unió el {calcCreated(props.createdAt)}</p>

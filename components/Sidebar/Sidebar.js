@@ -208,31 +208,31 @@ export default function Sidebar(){
             <aside className="sidebar-layout">
 
                 <div className="sidebar-layout__container1">
-                    <a className="sidebar__link" href={`${server}/home`} alt="Ir a apartado de reciente en home"><HiHome size={20} color={`${colors.primary}`}/>Reciente</a>
-                    <a className="sidebar__link" href={`${server}/followingPosts`} alt="Ir a publicaciones de usuarios seguidos"><HiUser size={20} color={`${colors.primary}`}/>Seguidos</a>
-                    <a className="sidebar__link" href={`${server}/allShelters`} alt="Ir a apartado de protectoras"><MdPets size={20} color={`${colors.primary}`}/>Protectoras</a>
-                    <a className="sidebar__link" href={`${server}/allVets`} alt="Ir a apartado de veterinarias"><MdHealthAndSafety size={20} color={`${colors.primary}`}/>Veterinarias</a>
+                    <a className="sidebar__link" href="/home" alt="Ir a apartado de reciente en home"><HiHome size={20} color={`${colors.primary}`}/>Reciente</a>
+                    <a className="sidebar__link" href="/followingPosts" alt="Ir a publicaciones de usuarios seguidos"><HiUser size={20} color={`${colors.primary}`}/>Seguidos</a>
+                    <a className="sidebar__link" href="/allShelters" alt="Ir a apartado de protectoras"><MdPets size={20} color={`${colors.primary}`}/>Protectoras</a>
+                    <a className="sidebar__link" href="/allVets" alt="Ir a apartado de veterinarias"><MdHealthAndSafety size={20} color={`${colors.primary}`}/>Veterinarias</a>
                     <hr className={global.divider}/>
                 </div>
 
                 
                 <div className="sidebar-layout__container2">
-                    <a className="sidebar__link" href={`${server}/myPosts`}alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.primary}`}/>Mis publicaciones</a>
-                    <a className="sidebar__link" href={`${server}/pets/${session.user.username}`} alt="Ir a mascotas"><GiDogHouse size={20} color={`${colors.primary}`}/>Mis mascotas</a>
-                    <a className="sidebar__link" href={`${server}/saved`} alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.primary} styles={{fontWeight: 'bold'}}/>Guardados</a>
+                    <a className="sidebar__link" href="/myPosts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.primary}`}/>Mis publicaciones</a>
+                    <a className="sidebar__link" href={`/pets/${session.user.username}`} alt="Ir a mascotas"><GiDogHouse size={20} color={`${colors.primary}`}/>Mis mascotas</a>
+                    <a className="sidebar__link" href="/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.primary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.primary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
                     <hr className={global.divider}/>
                 </div>
 
                 <div className="sidebar-layout__container3">
                     <h1 className="title__sidebar">Explorar</h1>
-                    <a className="sidebar__link" href={`${server}/news`} alt="Ir a apartado de noticias"><HiNewspaper size={20} color={`${colors.primary}`}/>Noticias</a>
-                    <a className="sidebar__link" href={`${server}/contact`} alt="Ir a apartado de contacto"><MdContactMail size={20} color={`${colors.primary}`}/>Contacto</a>
-                    <a className="sidebar__link" href={`${server}/about`} alt="Ir a apartado de sobre nosotros"><HiHand size={20} color={`${colors.primary}`}/>Quiénes somos</a>
-                    <a className="sidebar__link" href={`${server}/adoption`} alt="Ir a apartado de adopción de mascotas"><GiDogBowl size={20} color={`${colors.primary}`}/>Adopción</a>
-                    <a className="sidebar__link" href={`${server}/lost`} alt="Ir a apartado de mascotas perdidas"><GiSittingDog size={20} color={`${colors.primary}`}/>Mascotas perdidas</a>
-                    <a className="sidebar__link" href={`${server}/faq`} alt="Ir a apartado de preguntas frecuentes"><HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>FAQ</a>
-                    <a className="sidebar__link" href={`${server}/userManual`} alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.primary}`}/>Ayuda</a>
+                    <a className="sidebar__link" href="/news" alt="Ir a apartado de noticias"><HiNewspaper size={20} color={`${colors.primary}`}/>Noticias</a>
+                    <a className="sidebar__link" href="/contact" alt="Ir a apartado de contacto"><MdContactMail size={20} color={`${colors.primary}`}/>Contacto</a>
+                    <a className="sidebar__link" href="/about" alt="Ir a apartado de sobre nosotros"><HiHand size={20} color={`${colors.primary}`}/>Quiénes somos</a>
+                    <a className="sidebar__link" href="/adoption" alt="Ir a apartado de adopción de mascotas"><GiDogBowl size={20} color={`${colors.primary}`}/>Adopción</a>
+                    <a className="sidebar__link" href="/lost" alt="Ir a apartado de mascotas perdidas"><GiSittingDog size={20} color={`${colors.primary}`}/>Mascotas perdidas</a>
+                    <a className="sidebar__link" href="/faq" alt="Ir a apartado de preguntas frecuentes"><HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>FAQ</a>
+                    <a className="sidebar__link" href="/userManual" alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.primary}`}/>Ayuda</a>
                 </div>
 
                 <hr className={global.divider}/>
@@ -240,16 +240,16 @@ export default function Sidebar(){
                 <div className="sidebar-layout__container4">
                     <h1 className="title__sidebar">Cuentas seguidas</h1>
                     {following.length === 0 && <p className={global.text}>No ha seguido a ningún usuario.</p>}
-                    {following.filter(following => following.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, isCaretaker, createdAt }) => {
+                    {following.filter(following => following.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
-                            <UserSidebar key={_id} id={_id} image={image} username={username} isCaretaker={isCaretaker} createdAt={createdAt}/>
+                            <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
                         </>
                         )
                     })}
                     <div className='users__link'>
 
-                        {following.length !== 0 && <Link href='/allUsers'><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>}
+                        {following.length !== 0 && <Link href={`/profile/${session.user.username}/following`}><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>}
 
                     </div>
                 </div>
@@ -257,31 +257,31 @@ export default function Sidebar(){
                 <div className="sidebar-layout__container5">
                     <h1 className="title__sidebar">Cuentas sugeridas</h1>
                     {users.length === 0 && <p className={global.text}>No existe ningún usuario.</p>}
-                    {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, isCaretaker, createdAt }) => {
+                    {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
-                            <UserSidebar key={_id} id={_id} image={image} username={username} isCaretaker={isCaretaker} createdAt={createdAt}/>
+                            <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
                         </>
                         )
                     })}
                     <div className='users__link'>
-                        <Link href={`${server}/allUsers`}><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
+                        <Link href="/allUsers"><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
                     </div>
                 </div>
                 <hr className={global.divider}/>
                 <div className="sidebar-layout__container6">
                     <h1 className="title__sidebar">Cuentas de protectoras</h1>
                     {shelters.length === 0 && <p className={global.text}>No hay ninguna protectora.</p>}
-                    {shelters.filter(shelter => shelter.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, isCaretaker, createdAt }) => {
+                    {shelters.filter(shelter => shelter.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
-                            <UserSidebar key={_id} id={_id} image={image} username={username} isCaretaker={isCaretaker} createdAt={createdAt}/>
+                            <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
                         </>
                         )
                     })}
                     <div className='users__link'>
 
-                        {shelters.length !== 0 && <Link href={`${server}/allShelters`}><a className={global.link} aria-label='Ir a ver más protectoras'>Ver todos →</a></Link>}
+                        {shelters.length !== 0 && <Link href="/allShelters"><a className={global.link} aria-label='Ir a ver más protectoras'>Ver todos →</a></Link>}
 
                     </div>
                 </div>
@@ -289,16 +289,16 @@ export default function Sidebar(){
                 <div className="sidebar-layout__container7">
                     <h1 className="title__sidebar">Cuentas de veterinarias</h1>
                     {vets.length === 0 && <p className={global.text}>No hay ninguna veterinaria.</p>}
-                    {vets.filter(vet => vet.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, isCaretaker, createdAt }) => {
+                    {vets.filter(vet => vet.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
-                            <UserSidebar key={_id} id={_id} image={image} username={username} isCaretaker={isCaretaker} createdAt={createdAt}/>
+                            <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
                         </>
                         )
                     })}
                     <div className='users__link'>
 
-                        {vets.length !== 0 && <Link href={`${server}/allVets`}><a className={global.link} aria-label='Ir a ver más veterinarias'>Ver todos →</a></Link>}
+                        {vets.length !== 0 && <Link href="/allVets"><a className={global.link} aria-label='Ir a ver más veterinarias'>Ver todos →</a></Link>}
 
                     </div>
                 </div>
@@ -309,7 +309,7 @@ export default function Sidebar(){
                     {typeAttendances.map(({ name }) => {
                         return (
                         <>
-                            <button className="attendance__tag" onClick={() => router.push(`${server}/attendances/${name}`)}>#{`${name}`}</button>
+                            <button className="attendance__tag" onClick={() => router.push(`/attendances/${name}`)}>#{`${name}`}</button>
                         </>
                         )
                     })}
@@ -317,11 +317,11 @@ export default function Sidebar(){
                 <hr className={global.divider}/>
                 <div className='footer'>
                     <div className='footer__links'>
-                        <Link className={global.link} href={`${server}/userManual`} passHref><a aria-label='Ir a Información'>Información</a></Link>
-                        <Link className={global.link} href={`${server}/privacy`} passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
-                        <Link className={global.link} href={`${server}/conditions`} passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
-                        <Link className={global.link} href={`${server}/accessibility`} passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                        <Link className={global.link} href={`${server}/rules`} passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
+                        <Link className={global.link} href="/userManual" passHref><a aria-label='Ir a Información'>Información</a></Link>
+                        <Link className={global.link} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
+                        <Link className={global.link} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
+                        <Link className={global.link} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
+                        <Link className={global.link} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className='copyright'>
                         
                         <p><Trademark/>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
