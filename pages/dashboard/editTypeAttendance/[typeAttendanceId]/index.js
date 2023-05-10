@@ -113,7 +113,9 @@ export default function EditTypeAttendance ({typeAttendance}) {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      Router.push(`${server}/attendances`)
+      setTimeout(() => {
+        Router.push(`${server}/attendances`)
+      }, 5000)
     }
   }
 

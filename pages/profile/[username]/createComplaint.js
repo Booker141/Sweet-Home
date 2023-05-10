@@ -19,7 +19,7 @@ export default function CreateComplaint () {
   const { data: session, status } = useSession({ required: true })
   const router = useRouter()
   const [reason, setReason] = useState('')
-  const [reasonList, setReasonList] = useState('')
+  const [reasonList, setReasonList] = useState('Spam')
   const [isSending, setIsSending] = useState(false)
 
   /**
@@ -32,6 +32,20 @@ export default function CreateComplaint () {
   const createComplaint = async (e) => {
 
     e.preventDefault()
+
+    if(reason.trim() === ''){
+      toast.error('El campo Motivo es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    console.log(reasonList)
 
     const res = await fetch(`${server}/api/complaints/`, {
       method: 'POST',
@@ -46,13 +60,15 @@ export default function CreateComplaint () {
       })
     })
 
+    setIsSending(true)
+
     const data = await res.json()
 
     if (data.error) {
       console.log(data.error)
       toast.error('Introduzca los campos obligatorios',{ position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,}
@@ -62,7 +78,7 @@ export default function CreateComplaint () {
       
       toast.success('Denuncia creada correctamente',{ position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,}
@@ -93,20 +109,22 @@ export default function CreateComplaint () {
             </div>
               <form action='/api/complaints' id='form'>
               <div className='form-vertical__reasonList'>
-                <label className="label">Elige el motivo de la denuncia:</label>
-                  <select name="reason" onChange={() => setReasonList()} required>
-                      <option default value="spam">Spam</option>
-                      <option value="badContent">Contenido inapropiado</option>
-                      <option value="impostor">Finge ser otra persona</option>
-                      <option value="inapropiate">Datos de perfil inapropiados</option>
-                      <option value="rules">Infracción de normas y reglas de Sweet Home</option>
-                      <option value="other">Otro</option>
+                <label className="label">
+                  <p className={global.text}>Elige el motivo de la denuncia:</p>
+                </label>
+                  <select name="reason" onChange={(e) => setReasonList(e.target.value)} required>
+                      <option default value="Spam">Spam</option>
+                      <option value="Contenido inapropiado">Contenido inapropiado</option>
+                      <option value="Finge ser otra persona">Finge ser otra persona</option>
+                      <option value="Datos de perfil inapropiados">Datos de perfil inapropiados</option>
+                      <option value="Infracción de normas y reglas de Sweet Home">Infracción de normas y reglas de Sweet Home</option>
+                      <option value="Otro">Otro</option>
                   </select>
                 </div>
                 <div className='form-vertical__reason'>
                   <label className='label'>
                     <p className={global.text}>Motivo</p>
-                    <BsFillExclamationDiamondFill size={25} color={colors.secondary} />
+                    <BsFillExclamationDiamondFill size={18} color={colors.secondary} />
                   </label>
                   <div className='reason__input'>
                     <textarea
@@ -138,7 +156,7 @@ export default function CreateComplaint () {
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
                         background-size: 100% 110%;
                         border-radius: 20px;
                         
@@ -239,6 +257,7 @@ export default function CreateComplaint () {
                     }
 
 
+
                     .reason__input{
 
                         /*Box model*/
@@ -286,8 +305,18 @@ export default function CreateComplaint () {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
+                    border-radius: 20px;
                     border: 1px solid ${colors.primary};
+
+                    }
+
+                    textarea:focus{
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
 

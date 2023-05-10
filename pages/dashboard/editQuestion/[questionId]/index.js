@@ -112,7 +112,9 @@ export default function EditQuestion ({question}) {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      Router.push(`${server}/faq`)
+      setTimeout(() => {
+        Router.push(`${server}/faq`)
+      }, 5000)
     }
   }
 

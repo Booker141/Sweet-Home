@@ -122,9 +122,6 @@ export const authOptions = {
       const userStatus = await db.collection('userStatus').findOne({ name: 'activo' })
       const userRole = await db.collection('userRole').findOne({ name: 'usuario' })
 
-      console.log(user.id)
-      console.log(account)
-
       let providerId = '';
       for (let i = 0; i < 21; i++) {
         providerId += Math.floor(Math.random() * 10);
@@ -207,6 +204,7 @@ export const authOptions = {
               likes: [],
               saves: [],
               pets: [],
+              complaints: [],
               accountId: account._id,
               createdAt: new Date()
             })
@@ -267,6 +265,7 @@ export const authOptions = {
               likes: [],
               saves: [],
               pets: [],
+              complaints: [],
               accountId: account._id,
               createdAt: new Date()
             })

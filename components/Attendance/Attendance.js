@@ -108,7 +108,10 @@ export default function Attendance (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 5000)
+
   }
 
 

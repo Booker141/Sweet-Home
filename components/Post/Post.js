@@ -142,7 +142,9 @@ export default function Post (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 5000)
   }
 
 

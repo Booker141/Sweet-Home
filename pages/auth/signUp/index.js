@@ -66,11 +66,13 @@ export default function SignUp () {
     if (e.target.name == 'password') {
       if (password.length < 8 || !password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-
+        document.getElementById('error__password').classList.add('form__icon-error--active')
+        document.getElementById('success__password').classList.remove('form__icon-success--active')
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-
+        document.getElementById('error__password').classList.remove('form__error-icon--active')
+        document.getElementById('success__password').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -80,11 +82,13 @@ export default function SignUp () {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
- 
+        document.getElementById('error__email').classList.add('form__error-icon--active')
+        document.getElementById('success__email').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-
+        document.getElementById('error__email').classList.remove('form__error-icon--active')
+        document.getElementById('success__email').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -92,11 +96,13 @@ export default function SignUp () {
     if (e.target.name == 'name') {
       if (!name.match(regName)) {
         document.getElementById('name__error').classList.add('form__input-nameError--active')
-
+        document.getElementById('error__name').classList.add('form__error-icon--active')
+        document.getElementById('success__name').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('name__error').classList.remove('form__input-nameError--active')
-
+        document.getElementById('error__name').classList.remove('form__error-icon--active')
+        document.getElementById('success__name').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -104,11 +110,13 @@ export default function SignUp () {
     if (e.target.name == 'lastname') {
       if (!regLastname.test(lastname)) {
         document.getElementById('lastname__error').classList.add('form__input-lastnameError--active')
-
+        document.getElementById('error__lastname').classList.add('form__error-icon--active')
+        document.getElementById('success__lastname').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('lastname__error').classList.remove('form__input-lastnameError--active')
-
+        document.getElementById('error__lastname').classList.remove('form__error-icon--active')
+        document.getElementById('success__lastname').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -118,11 +126,13 @@ export default function SignUp () {
     if (e.target.name == 'username') {
       if (username.length < 4 || !username.match(regUsername)) {
         document.getElementById('username__error').classList.add('form__input-usernameError--active')
-
+        document.getElementById('error__username').classList.add('form__error-icon--active')
+        document.getElementById('success__username').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('username__error').classList.remove('form__input-usernameError--active')
-
+        document.getElementById('error__username').classList.remove('form__error-icon--active')
+        document.getElementById('success__username').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -172,7 +182,9 @@ export default function SignUp () {
         progress: undefined,
         theme: "colored", })
 
-        Router.push('/auth/signIn')
+        setTimeout(() => {
+          Router.push(`auth/signIn`)
+        }, 5000)
       }
 
       if(data.message === 'Ya está registrado con este nombre de usuario.'){
@@ -262,7 +274,8 @@ export default function SignUp () {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder='p. ej.: javier@gmail.com'
                   />
-
+                  <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
               </div>
               <div id='email__error' className='form__input-emailError'>
                     <div className='error__icon'>
@@ -290,7 +303,8 @@ export default function SignUp () {
                     onChange={(e) => setName(e.target.value)}
                     placeholder='p. ej.: Javier'
                   />
-
+                  <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
               </div>
               <div id='name__error' className='form__input-nameError'>
                     <div className='error__icon'>
@@ -319,7 +333,8 @@ export default function SignUp () {
                     placeholder='p. ej.: García Navarro'
                   />
                  
-                 
+                 <div id='error__lastname' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__lastname' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='lastname__error' className='form__input-lastnameError'>
                     <div className='error__icon'>
@@ -349,7 +364,8 @@ export default function SignUp () {
                     className='input'
                   />
 
-                  
+                  <div id='error__username' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__username' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='username__error' className='form__input-usernameError'>
                     <div className='error__icon'>
@@ -379,7 +395,8 @@ export default function SignUp () {
                     className='input'
                   />
                   <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                 
+                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='password__error' className='form__input-passwordError'>
                     <div className='error__icon'>
@@ -562,6 +579,85 @@ export default function SignUp () {
         }
 
         /*ERRORES*/
+
+        
+        .error__icon{
+
+        /*Box model*/
+
+        margin-left: 1rem;
+
+        }
+
+        .form__error-icon{
+
+          /*Position*/
+
+          position: relative;
+          right: -1.1rem;
+          bottom: 0.9rem;
+          z-index: 999;
+
+          /*Visuals*/
+
+          opacity: 0;
+          color: ${statusColors.error};
+
+
+        }
+
+        .form__success-icon{
+
+        /*Position*/
+
+        position: relative;
+
+        bottom: 0.9rem;
+        z-index: 999;
+
+        /*Visuals*/
+
+        opacity: 0;
+        color: ${statusColors.success};
+
+        }
+
+        .form__error-icon--active{
+
+        /*Position*/
+
+        position: relative;
+        right: -1.1rem;
+        bottom: 0.9rem;
+        z-index: 999;
+
+        /*Visuals*/
+
+        opacity: 1;
+        color: ${statusColors.error};
+
+        }
+
+        .form__success-icon--active{
+
+        /*Position*/
+
+        position: relative;
+
+        bottom: 0.9rem;
+        z-index: 999;
+
+        /*Visuals*/
+
+        opacity: 1;
+        color: ${statusColors.success};
+
+        }
+
+
+
+
+
 
         .form__input-passwordError{
 

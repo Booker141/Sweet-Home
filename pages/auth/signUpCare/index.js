@@ -64,11 +64,13 @@ export default function SignUp () {
     if (e.target.name == 'password') {
       if (password.length < 8 || !password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-
+        document.getElementById('error__password').classList.add('form__error-icon--active')
+        document.getElementById('success__password').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-
+        document.getElementById('error__password').classList.remove('form__error-icon--active')
+        document.getElementById('success__password').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -78,11 +80,13 @@ export default function SignUp () {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
-
+        document.getElementById('error__email').classList.add('form__error-icon--active')
+        document.getElementById('success__email').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-
+        document.getElementById('error__email').classList.remove('form__error-icon--active')
+        document.getElementById('success__email').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -90,11 +94,13 @@ export default function SignUp () {
     if (e.target.name == 'name') {
       if (!name.match(regName)) {
         document.getElementById('name__error').classList.add('form__input-nameError--active')
-
+        document.getElementById('error__name').classList.add('form__error-icon--active')
+        document.getElementById('success__name').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('name__error').classList.remove('form__input-nameError--active')
-
+        document.getElementById('error__name').classList.remove('form__error-icon--active')
+        document.getElementById('success__name').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -104,11 +110,13 @@ export default function SignUp () {
     if (e.target.name == 'username') {
       if (username.length < 4 || !username.match(regUsername)) {
         document.getElementById('username__error').classList.add('form__input-usernameError--active')
- 
+        document.getElementById('error__username').classList.add('form__error-icon--active')
+        document.getElementById('success__username').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('username__error').classList.remove('form__input-usernameError--active')
-
+        document.getElementById('error__username').classList.remove('form__error-icon--active')
+        document.getElementById('success__username').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -125,7 +133,6 @@ export default function SignUp () {
 
     if (isValidate) {
 
-      
 
       const res = await fetch(`${server}/api/registerShelterVet`, {
         method: 'POST',
@@ -158,7 +165,9 @@ export default function SignUp () {
         progress: undefined,
         theme: "colored", })
 
-        Router.push('/auth/signIn')
+        setTimeout(() => {
+          Router.push(`/auth/signIn`)
+        }, 5000)
       }
 
       if(data.message == 'Ya está registrado con este nombre de usuario.'){
@@ -242,10 +251,10 @@ export default function SignUp () {
                   <FaUserTag size={18} color={colors.secondary} />
                 </label>
                 <div className='role__input'>
-                  <input type="radio" id="vet" name="radio" value="veterinaria" checked={role === "veterinaria"} onChange={(e) => setRole(e.target.value)} />
+                  <input type="radio" id="vet" name="radio" value="veterinaria" onChange={(e) => setRole(e.target.value)} checked/>
                   <label for="vet">Veterinaria</label>
 
-                  <input type="radio" id="shelter" name="radio" value="protectora" checked={role === "protectora"} onChange={(e) => setRole(e.target.value)}/>
+                  <input type="radio" id="shelter" name="radio" value="protectora" onChange={(e) => setRole(e.target.value)}/>
                   <label for="shelter">Protectora</label>
                 </div>
               </div>
@@ -268,7 +277,8 @@ export default function SignUp () {
                     placeholder='p. ej.: protectora@gmail.com'
                   />
                  
-                  
+                 <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='email__error' className='form__input-emailError'>
                     <div className='error__icon'>
@@ -298,7 +308,8 @@ export default function SignUp () {
                     placeholder='p. ej.: Protectora S.L'
                   />
                  
-                 
+                 <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='name__error' className='form__input-nameError'>
                     <div className='error__icon'>
@@ -329,7 +340,8 @@ export default function SignUp () {
                     className='input'
                   />
                  
-                  
+                 <div id='error__username' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__username' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='username__error' className='form__input-usernameError'>
                     <div className='error__icon'>
@@ -360,7 +372,8 @@ export default function SignUp () {
                     className='input'
                   />
                   <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                  
+                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='password__error' className='form__input-passwordError'>
                     <div className='error__icon'>
@@ -555,379 +568,452 @@ export default function SignUp () {
         }
 
         /*ERRORES*/
+/*ERRORES*/
 
-        .form__input-passwordError{
-
-
-          /*Box model*/
-
-          display: none;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
-
-
-          /*Text*/
-
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
         
-          /*Visuals*/
+.error__icon{
 
-          border-radius: 20px;
-          background-color: ${statusColors.error};
-          opacity: 0;
+/*Box model*/
 
-        }
-        
+margin-left: 1rem;
 
-        .form__input-passwordError p{
+}
 
-          /*Box model*/
+.form__error-icon{
 
-          margin-left: 2rem;
+  /*Position*/
 
-        }
+  position: relative;
+  right: -1.1rem;
+  bottom: 0.9rem;
+  z-index: 999;
 
-        .form__input-passwordError--active{
+  /*Visuals*/
 
+  opacity: 0;
+  color: ${statusColors.error};
 
-          /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
+}
 
-          /*Text*/
+.form__success-icon{
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+/*Position*/
 
+position: relative;
 
-          border-radius: 20px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          background-color: ${statusColors.error};
-          opacity: 1;
+bottom: 0.9rem;
+z-index: 999;
 
-        }
+/*Visuals*/
 
+opacity: 0;
+color: ${statusColors.success};
 
-        .form__input-nameError{
+}
 
+.form__error-icon--active{
 
-          /*Box model*/
+/*Position*/
 
-          display: none;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
+position: relative;
+right: -1.1rem;
+bottom: 0.9rem;
+z-index: 999;
 
+/*Visuals*/
 
-          /*Text*/
+opacity: 1;
+color: ${statusColors.error};
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+}
 
-          border-radius: 20px;
-          background-color: ${statusColors.error};
-          opacity: 0;
+.form__success-icon--active{
 
-        }
-        
+/*Position*/
 
-        .form__input-nameError p{
+position: relative;
 
-          /*Box model*/
+bottom: 0.9rem;
+z-index: 999;
 
-          margin-left: 2rem;
+/*Visuals*/
 
-        }
+opacity: 1;
+color: ${statusColors.success};
 
-        .form__input-nameError--active{
+}
 
 
-          /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
 
-          /*Text*/
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
 
-          border-radius: 20px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          background-color: ${statusColors.error};
-          opacity: 1;
+.form__input-passwordError{
 
-        }
 
+  /*Box model*/
 
-        .form__input-lastnameError{
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  width: 17vw;
 
 
-          /*Box model*/
+  /*Text*/
 
-          display: none;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
+  /*Visuals*/
 
-          /*Text*/
+  border-radius: 20px;
+  background-color: ${statusColors.error};
+  opacity: 0;
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+}
 
-          border-radius: 20px;
-          background-color: ${statusColors.error};
-          opacity: 0;
 
-        }
-        
+.form__input-passwordError p{
 
-        .form__input-lastnameError p{
+  /*Box model*/
 
-          /*Box model*/
+  margin-left: 2rem;
 
-          margin-left: 2rem;
+}
 
-        }
+.form__input-passwordError--active{
 
-        .form__input-lastnameError--active{
 
-          
 
-          /*Box model*/
+  /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-          /*Text*/
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+  /*Text*/
 
-          border-radius: 20px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          background-color: ${statusColors.error};
-          opacity: 1;
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-        }
+  /*Visuals*/
 
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+  background-color: ${statusColors.error};
+  opacity: 1;
 
-        .form__input-emailError{
+}
 
 
-          /*Box model*/
+.form__input-nameError{
 
-          display: none;
-          flex-direction: row;
-          align-items: center;
+  /*Box model*/
 
-          margin-bottom: 2rem;
-          
+  display: none;
+  flex-direction: row;
+  align-items: center;
 
-          /*Text*/
+  /*Text*/
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-          border-radius: 20px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          background-color: ${statusColors.error};
-          opacity: 0;
+  /*Visuals*/
 
-        }
-        
+  border-radius: 20px;
+  background-color: ${statusColors.error};
+  opacity: 0;
 
-        .form__input-emailError p{
+}
 
-          /*Box model*/
 
-          margin-left: 2rem;
+.form__input-nameError p{
 
-        }
+  /*Box model*/
 
-        .form__input-emailError--active{
+  margin-left: 2rem;
 
+}
 
-          /*Box model*/
+.form__input-nameError--active{
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
-          
 
-          /*Text*/
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+  /*Box model*/
 
-          border-radius: 20px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          background-color: ${statusColors.error};
-          opacity: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
 
-        }
+  /*Text*/
 
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-        .form__input-usernameError{
+  /*Visuals*/
 
-          /*Position*/
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+  background-color: ${statusColors.error};
+  opacity: 1;
 
-          position: absolute;
+}
 
-          /*Box model*/
 
-          display: none;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
+.form__input-lastnameError{
 
 
-          /*Text*/
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+  /*Box model*/
 
-          border-radius: 20px;
-          background-color: ${statusColors.error};
-          opacity: 0;
+  display: none;
+  flex-direction: row;
+  align-items: center;
 
-        }
-        
 
-        .form__input-usernameError p{
+  /*Text*/
 
-          /*Box model*/
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-          margin-left: 2rem;
+  /*Visuals*/
 
-        }
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+  background-color: ${statusColors.error};
+  opacity: 0;
 
-        .form__input-usernameError--active{
+}
 
 
+.form__input-lastnameError p{
 
-          /*Box model*/
+  /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 2rem;
-          
+  margin-left: 2rem;
 
-          /*Text*/
+}
 
-          font-family: 'Poppins', sans-serif;
-          color: #fafafa;
-        
-          /*Visuals*/
+.form__input-lastnameError--active{
 
-          border-radius: 20px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          background-color: ${statusColors.error};
-          opacity: 1;
 
-        }
+  /*Box model*/
 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
 
+  /*Text*/
 
-        .error__icon{
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-          /*Box model*/
+  /*Visuals*/
 
-          margin-left: 1rem;
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+  background-color: ${statusColors.error};
+  opacity: 1;
 
-          }
+}
 
 
-        .submit__error{
+.form__input-emailError{
 
-          /*Box model*/
 
-          display: none;
+  /*Box model*/
 
-          /*Text*/
+  display: none;
+  flex-direction: row;
+  align-items: center;
 
-          font-family: 'Poppins', sans-serif;
-          color: ${colors.secondary};
+  
 
-          /*Visuals*/
+  /*Text*/
 
-          background-color: ${statusColors.error};
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-        }
+  /*Visuals*/
 
-        .submit__error--active{
+  border-radius: 20px;
+  background-color: ${statusColors.error};
+  opacity: 0;
 
-          /*Box model*/
+}
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          padding: 0.5rem;
-          width: 65%;
 
-          /*Text*/
+.form__input-emailError p{
 
-          font-family: 'Poppins', sans-serif;
-          color: ${colors.secondary};
+  /*Box model*/
 
-          /*Visuals*/
+  margin-left: 2rem;
 
-          border-radius: 20px;
-          background-color: ${statusColors.error};
+}
 
-        }
+.form__input-emailError--active{
 
-        .submit__error--active2{
 
-          /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          padding: 0.5rem;
-          width: 65%;
+  /*Box model*/
 
-          /*Text*/
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
 
-          font-family: 'Poppins', sans-serif;
-          color: ${colors.secondary};
+  /*Text*/
 
-          /*Visuals*/
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
 
-          border-radius: 20px;
-          background-color: ${statusColors.success};
+  /*Visuals*/
 
-        }
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+  background-color: ${statusColors.error};
+  opacity: 1;
+
+}
+
+
+.form__input-usernameError{
+
+
+  /*Box model*/
+
+  display: none;
+  flex-direction: row;
+  align-items: center;
+
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
+
+  /*Visuals*/
+
+  border-radius: 20px;
+  background-color: ${statusColors.error};
+  opacity: 0;
+
+}
+
+
+.form__input-usernameError p{
+
+  /*Box model*/
+
+  margin-left: 2rem;
+
+}
+
+.form__input-usernameError--active{
+
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: #fafafa;
+
+  /*Visuals*/
+
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+  background-color: ${statusColors.error};
+  opacity: 1;
+
+}
+
+
+
+.error__icon{
+
+  /*Box model*/
+
+  margin-left: 1rem;
+
+  }
+
+
+
+
+
+.submit__error{
+
+  /*Box model*/
+
+  display: none;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: ${colors.secondary};
+
+  /*Visuals*/
+
+  background-color: ${statusColors.error};
+
+}
+
+.submit__error--active{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 65%;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: ${colors.secondary};
+
+  /*Visuals*/
+
+  border-radius: 20px;
+  background-color: ${statusColors.error};
+
+}
+
+.submit__error--active2{
+
+  /*Box model*/
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 65%;
+
+  /*Text*/
+
+  font-family: 'Poppins', sans-serif;
+  color: ${colors.secondary};
+
+  /*Visuals*/
+
+  border-radius: 20px;
+  background-color: ${statusColors.success};
+
+}
 
         .form-vertical {
 

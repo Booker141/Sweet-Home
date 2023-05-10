@@ -30,7 +30,7 @@ export default async function handler (req, res) {
 
     await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, 
       password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: "/userPhotos/default.png", banner: "/userPhotos/defaultBanner.svg", status: userStatus, 
-      role: userRole, links: {Instagram: "", Twitter: "", Facebook: ""}, followers: [], following: [],  likes: [], saves: [], pets: [], 
+      role: userRole, links: {Instagram: "", Twitter: "", Facebook: ""}, followers: [], following: [],  likes: [], saves: [], pets: [], complaints: [], 
       accountId: null, createdAt: new Date() })
 
     if (res.statusCode == 500) {

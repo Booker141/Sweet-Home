@@ -4,12 +4,13 @@ import Layout from 'components/Layout/Layout'
 import Head from 'next/head'
 import { useSession, signIn } from 'next-auth/react'
 import BlockedUser from "/components/BlockedUser/BlockedUser"
+import UnblockedUser from "/components/UnblockedUser/UnblockedUser"
 import Loader from '/components/Loader/Loader'
 import {server} from "/server"
 
 
 
-export default function BlockedUsers ({blockedUsers}){
+export default function BlockedUsers ({blockedUsers, unblockedUsers}){
 
     const {data: session, status} = useSession({required: true})
 
@@ -21,20 +22,32 @@ export default function BlockedUsers ({blockedUsers}){
           </>
         )
     }
-    if(session.user.role === "admin"){
+    if(session.user.role === "administrador"){
         return(
 
             <Layout>
                 <Head>
                     <title>Usuarios bloqueados</title>
                 </Head>
-                <div className="blockedUsers">
-                  <h1 className="title">Bloquear usuarios</h1>
-                    {blockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados.</p></div>}
-                    {blockedUsers.map(({_id, username, email, role, complaints}) => {
+                <div className="unblockedUsers">
+                  <h1 className="title">Usuarios a bloquear</h1>
+                    {unblockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios con más de cinco denuncias y que no haya sido bloqueado.</p></div>}
+                    {unblockedUsers.map(({_id, username, email, image, role, complaints}) => {
                         return(
                             <>
-                                <BlockedUser key={_id} id={_id} username={username} email={email} firstname={firstname} lastname={lastname} role={role} complaints={complaints} />
+                                <BlockedUser key={_id} id={_id} username={username} email={email} image={image} role={role} complaints={complaints} />
+                            </>
+                        )
+                    })}
+
+                </div>
+                <div className="blockedUsers">
+                  <h1 className="title">Usuarios bloqueados</h1>
+                    {blockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados.</p></div>}
+                    {blockedUsers.map(({_id, username, email, role, image, complaints}) => {
+                        return(
+                            <>
+                                <UnblockedUser key={_id} id={_id} username={username} email={email} image={image} role={role} complaints={complaints} />
                             </>
                         )
                     })}
@@ -115,18 +128,26 @@ export default function BlockedUsers ({blockedUsers}){
 export async function getServerSideProps(){
 
 
-      const res = await fetch(`${server}/api/blockedUsers`, {
+      const res = await fetch(`${server}/api/unblockedUsers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
-    const blockedUsers = await res.json();
+      const block = await fetch(`${server}/api/blockedUsers`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+    const unblockedUsers = await res.json();
+    const blockedUsers = await block.json();
 
     return {
         props: {
-            blockedUsers: JSON.parse(JSON.stringify(blockedUsers))
+            unblockedUsers: JSON.parse(JSON.stringify(unblockedUsers)), blockedUsers: JSON.parse(JSON.stringify(blockedUsers))
         }
     }
 }

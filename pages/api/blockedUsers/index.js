@@ -1,4 +1,5 @@
 import clientPromise from '../lib/MongoDB'
+import { ObjectId } from 'mongodb'
 
 export default async function handler (req, res) {
 
@@ -9,19 +10,18 @@ export default async function handler (req, res) {
 
   if (req.method === 'GET') {
 
-    const users = await db.collection('users').find({}).toArray()
+    const users = await db.collection('users').find({"status.name": "bloqueado"}).limit(50).toArray()
 
-    const filteredUsers = users.filter(user => user.complaints.length >= 5);
+    const blockedUsers = JSON.parse(JSON.stringify(users))
 
-    res.status(200).json(JSON.parse(JSON.stringify(filteredUsers)))
+    res.status(200).json(blockedUsers)
 
   }
 
   if (req.method === 'PUT') {
 
-    const user = await db.collection('users').findOne({_id: body._id})
 
-    await db.collection('users').updateOne({_id: user._id}, {$set: {status: {_id: id, name: "bloqueado"}}})
+    await db.collection('users').updateOne({_id: ObjectId(body._id)}, {$set: {status: {_id: id, name: "bloqueado"}}})
 
     res.status(200).json(JSON.parse(JSON.stringify(filteredUsers)))
 

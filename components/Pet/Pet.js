@@ -49,7 +49,9 @@ export default function Pet (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 5000)
   }
 
   return (

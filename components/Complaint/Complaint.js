@@ -51,7 +51,9 @@ export default function Complaint (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 5000)
   }
 
   const checkComplaint = async () => {
@@ -76,7 +78,9 @@ export default function Complaint (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 5000)
 
   }
 

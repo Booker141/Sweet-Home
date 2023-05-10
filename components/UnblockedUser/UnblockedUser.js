@@ -10,7 +10,6 @@ import { MdHealthAndSafety, MdClose } from 'react-icons/md'
 import {toast} from 'react-toastify'
 
 
-
 /**
  * It renders a div with a complaint, and a modal that appears when the user clicks on the button
  * @param props - The props that are passed to the component.
@@ -24,16 +23,16 @@ export default function BlockedUser (props) {
   const [isVet, setIsVet] = useState(props.role.name === "veterinaria" ? true : false)
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const Router = useRouter()
+    const Router = useRouter()
 
 
   /**
    * It sends a request to the server to update the user's status to "checked" and then reloads the
    * page
    */
-  const checkBlock = async () => {
+  const checkActive = async () => {
 
-    await fetch(`${server}/api/blockedUsers`, {
+    await fetch(`${server}/api/unblockedUsers`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -43,7 +42,7 @@ export default function BlockedUser (props) {
       })})
 
 
-    toast.success(`Se ha revisado el bloqueo`, { position: "bottom-right",
+    toast.success(`Se ha activado al usuario`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
@@ -70,17 +69,17 @@ export default function BlockedUser (props) {
             </div>
             <hr className={global.white__line}></hr>
           <div className="blocked__body">
-            <p className={global.text}>Este usuario ha sido denunciado <strong>{props.complaints.length}</strong> veces</p>
+            <p className={global.text}>Este usuario ha sido bloqueado</p>
           </div>
-          <button className={global.buttonPrimary} onClick={() => setIsModalVisible(true)}>Bloquear</button>
+          <button className={global.buttonPrimary} onClick={() => setIsModalVisible(true)}>Activar</button>
         </div>
         {isModalVisible && <Modal>
-          <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-          <h2 className={global.title3}>Bloquear al usuario</h2>
-          <p className={global.text2__bold}>Esta acción no es irreversible, podrá activar de nuevo al usuario si es necesario</p>
+        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
+          <h2 className={global.title3}>Activar al usuario</h2>
+          <p className={global.text2}>Esta acción no es irreversible, podrá bloquear de nuevo al usuario si es necesario</p>
           <p className={global.text2}>¿Estás seguro de bloquear a este usuario?</p>
           <div className='buttons'>
-            <button className={global.buttonSecondary} onClick={() => checkBlock()}>Sí</button>
+            <button className={global.buttonSecondary} onClick={() => checkActive()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
         </Modal>}
@@ -100,20 +99,20 @@ export default function BlockedUser (props) {
 
           .close__modal{
 
-          /*Box model*/
+            /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-self: flex-end;
-          margin-right: 2rem;
+            display: flex;
+            flex-direction: row;
+            align-self: flex-end;
+            margin-right: 2rem;
 
-          /*Visuals*/
+            /*Visuals*/
 
-          border: none;
-          background: transparent;
-          cursor: pointer;
+            border: none;
+            background: transparent;
+            cursor: pointer;
 
-          }
+            }
 
           .blocked__body{
 

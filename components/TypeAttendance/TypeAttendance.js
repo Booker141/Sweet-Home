@@ -50,7 +50,9 @@ export default function TypeAttendance (props) {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      Router.push(`${server}/faq`)
+      setTimeout(() => {
+        Router.push(`${server}/attendances`)
+      }, 5000)
   }
 
 

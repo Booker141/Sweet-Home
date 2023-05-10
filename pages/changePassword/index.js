@@ -7,6 +7,7 @@ import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
 import { AiFillEye, AiFillEyeInvisible, AiFillInfoCircle } from 'react-icons/ai'
 import { server } from '/server'
+import {toast} from 'react-toastify'
 
 /*
     * @author Sergio García Navarro
@@ -28,6 +29,7 @@ export default function ChangePassword () {
   const [email, setEmail] = useState('')
 
   const showPassword = () => {
+
     const passwordInput = document.getElementById('password')
 
     if (passwordInput.type === 'password') {
@@ -77,21 +79,77 @@ export default function ChangePassword () {
     }
   }
 
-  const changePassword = (e) => {
+  const changePassword = async (e) => {
+
     e.preventDefault()
 
-    if (newPassword === newPassword2) {
-      fetch(`${server}/api/changePassword"`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          password: newPassword
+    if(isValidate){
+
+      if (newPassword === newPassword2) {
+
+        const res = await fetch(`${server}/api/changePassword"`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            password: newPassword,
+            oldPassword: oldPassword
+          })
         })
-      })
-    } else {
-      alert('Las contraseñas no coinciden')
+
+        const data = await res.json()
+
+        if (data.status === 'ok') {
+          
+          toast.error(`Se ha cambiado la contraseña correctamente`, { position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored", })
+
+          setTimeout(() => {
+            Router.reload('/login')
+          }, 5000)
+
+          } else {
+
+            toast.error(`La contraseña antigua no es correcta`, { position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored", })
+          }
+
+      } else {
+        
+        toast.error(`La nueva contraseña no coincide`, { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+      }
+    }else{
+
+      
+      toast.error(`Por favor, introduzca los daots correctamente`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
     }
   }
   return (
@@ -253,7 +311,7 @@ export default function ChangePassword () {
 
                     /*Visuals*/
 
-                    background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                    background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
                     background-size: 100% 110%;
                     border-radius: 20px;
                     
@@ -316,8 +374,8 @@ export default function ChangePassword () {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
-                    border: 1px solid ${colors.primary};
+                    border-radius: 20px;
+                    border: none;
                 }
 
                 .tooltip{

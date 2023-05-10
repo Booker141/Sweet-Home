@@ -36,7 +36,7 @@ export default async function handler (req, res) {
     await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, 
       password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: '/userPhotos/default.png', banner: "/userPhotos/defaultBanner.svg", status: userStatus, 
       role: userRole, links: {Instagram: "", Twitter: "", Facebook: ""}, followers: [], 
-      following: [], likes: [], saves: [], pets: [], accountId: ObjectId, createdAt: new Date()})
+      following: [], likes: [], saves: [], pets: [], complaints: [], accountId: ObjectId, createdAt: new Date()})
 
     if (res.statusCode == 500) {
       res.status(500).json({ message: 'Error al registrar el usuario.' })

@@ -8,6 +8,8 @@ export default async function handler (req, res) {
   const body = req.body
   const id = new ObjectId()
 
+  const typeComplaint = await db.collection('typeComplaint').findOne({name: body.reason})
+
   const admin = await db.collection('users').findOne({username: body.adminUsername})
 
   if (req.method === 'GET') {
@@ -23,7 +25,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'POST') {
 
-    await db.collection('complaints').insertOne({_id: id, description: body.description, adminId: null, createdAt: new Date(), isApproved: false, isChecked: false, usernameFrom: body.usernameFrom, usernameTo: body.usernameTo})
+    await db.collection('complaints').insertOne({_id: id, description: body.description, adminId: null, createdAt: new Date(), isApproved: false, isChecked: false, usernameFrom: body.usernameFrom, usernameTo: body.usernameTo, typeComplaint: typeComplaint})
     const complaint = await db.collection('complaints').findOne({_id: id})
     await db.collection('users').updateOne({username: body.usernameTo}, {$push: {complaints: complaint._id}})
 

@@ -47,6 +47,7 @@ export default function Header (props) {
 
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [user, setUser] = useState({})
 
   const router = useRouter()
@@ -106,8 +107,8 @@ export default function Header (props) {
                   <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
                   <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
                 </div>
-                <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
-                <ul className='menu'>
+                <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+                {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
@@ -129,7 +130,7 @@ export default function Header (props) {
                   <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-                </ul>
+                </ul>}
               </li>
             </div>
 
@@ -151,8 +152,8 @@ export default function Header (props) {
                   <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
                   <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
               </div>
-                <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={25} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
-                <ul className='menu'>
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={25} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+                {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
@@ -174,7 +175,7 @@ export default function Header (props) {
                   <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-                </ul>
+                </ul>}
               </li>
             </div>
 
@@ -195,8 +196,8 @@ export default function Header (props) {
                 <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={30} color={`${colors.secondary}`}/>Panel</a></Link></li>
               </div>
-              <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
-                <ul className='menu'>
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
@@ -218,7 +219,7 @@ export default function Header (props) {
                   <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-                </ul>
+                </ul>}
               </li>
             </div>
 
@@ -239,9 +240,9 @@ export default function Header (props) {
                 <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={30} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
               </div>
-                <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>    
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>    
 
-                <ul className='menu'>
+                {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
@@ -263,7 +264,7 @@ export default function Header (props) {
                   <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-                </ul>
+                </ul>}
               </li>
           </div>
           </ul>}
@@ -283,8 +284,8 @@ export default function Header (props) {
                 <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/appointments" as="/appointments"><a className="nav__link2" aria-label='Ir a Citas'><RiHealthBookFill size={30} color={`${colors.secondary}`}/>Citas</a></Link></li>
               </div>
-              <li className='menu-visible'><a id='profile'><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></a>           
-                <ul className='menu'>
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><ThemeButton /><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
@@ -306,7 +307,7 @@ export default function Header (props) {
                   <li className='nav__link'><Link href="/accessibility"><a><div className='align__link'>Accesibilidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__link'><a onClick={() => setIsModalVisible(true)}><div className='align__link'>Cerrar sesión<div className='nav__icon'><FaSignOutAlt size={15} color={colors.secondary} /></div></div></a></li>
-                </ul>
+                </ul>}
               </li>
           </div>
           </ul>}
@@ -333,6 +334,7 @@ export default function Header (props) {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                    padding: 0.5rem;
                     gap: 1rem;
                     
                     /*Text*/
@@ -343,8 +345,10 @@ export default function Header (props) {
 
                     font-family: ${fonts.default};
                     box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-                    cursor: default;
+                    border-radius: 70px;
+                    cursor: pointer;
+                    border: none;
+                    background: transparent;
                     
 
                 }
@@ -523,20 +527,28 @@ export default function Header (props) {
 
                     position: absolute;
 
-                    /*Box model*/
 
-                    display: none;
-                    margin-bottom: 1rem;
-                    margin-right: 1.5rem;
-                    margin-top: 2.0rem;
-                    
                     z-index: 100000;
 
+                    /*Box model*/
 
-                    /*Visuals*/
 
-                    border-radius: 20px 20px 20px 20px;
+                    display: flex;
+                    flex-direction: column;
+
+   
+                            
+
+                    /*Text*/
+
+                    font-family: ${fonts.default};
+                    color: ${colors.secondary};
+
+                    /*Visual*/  
+ 
                     background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
+                    border-radius: 0 0 0 20px;
+
 
                 }
 
@@ -584,33 +596,6 @@ export default function Header (props) {
                     list-style-type: none;
                 }
 
-                .menu-visible:hover .menu{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: column;
-               
-                    position: absolute;
-                    top: 3.5rem;
-                    right: 0.1rem;
-                    z-index: 1;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    color: ${colors.secondary};
-
-                    /*Visual*/  
- 
-                    background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
-                    
-
-
-                    /*Text*/
-
-                    color: ${colors.secondary};
-                }
 
                 .nav__link{
 
@@ -691,6 +676,7 @@ export default function Header (props) {
                     /*Box model*/
 
                     margin: 1rem;
+
                 }
 
                 a{

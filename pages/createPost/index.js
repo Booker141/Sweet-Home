@@ -110,7 +110,9 @@ export default function CreatePost () {
         progress: undefined,
         theme: "colored", })
       setMessage('Publicación creada correctamente')
-      Router.push(`${server}/home`)
+      setTimeout(() => {
+        Router.push(`${server}/home`)
+      }, 5000)
     }
   }
 

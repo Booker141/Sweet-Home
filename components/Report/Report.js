@@ -56,7 +56,10 @@ export default function Report(props){
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+
+    setTimeout(() => {
+        Router.reload()
+      }, 5000)
   }
 
      /**
