@@ -41,13 +41,11 @@ export default function CreateQuestion () {
     if (e.target.name === 'title') {
       if (!title.match(regTitle)) {
         document.getElementById('title__error').classList.add('form__input-titleError--active')
-        document.getElementById('error__title').classList.add('form__error-icon--active')
-        document.getElementById('success__title').classList.remove('form__success-icon--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('title__error').classList.remove('form__input-titleError--active')
-        document.getElementById('error__title').classList.remove('form__error-icon--active')
-        document.getElementById('success__title').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -124,7 +122,7 @@ export default function CreateQuestion () {
       </>
     )
   }
-  if (session.user.role === "admin") {
+  if (session.user.role === "administrador") {
     return (
       <Layout>
         <Head><title>Crear pregunta</title></Head>
@@ -155,14 +153,14 @@ export default function CreateQuestion () {
                           className='input'
                          />
                   
-                    <div id='error__title' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__title' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  
+                    
+                    </div>
                     <div id='title__error' className='form__input-titleError'>
                       <div className='error__icon'>
-                        <MdOutlineError size={30} color={colors.secondary} />
+                        <MdOutlineError size={25} color={colors.secondary} />
                       </div>
                       <p className={global.text2}>Debe ser una pregunta</p>
-                    </div>
                   </div>
                 </div>
                 <div className='form-vertical__answer'>
@@ -330,16 +328,11 @@ export default function CreateQuestion () {
 
                     .form__input-titleError{
 
-                      /*Position*/
-
-                      position: absolute;
 
                       /*Box model*/
 
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      margin-left: 20rem;
+                      display: none;
+
 
                       /*Text*/
 
@@ -348,7 +341,7 @@ export default function CreateQuestion () {
 
                       /*Visuals*/
 
-                      border-radius: 10px;
+                      border-radius: 20px;
                       background-color: ${statusColors.error};
                       opacity: 0;
 
@@ -365,17 +358,13 @@ export default function CreateQuestion () {
 
                       .form__input-titleError--active{
 
-                      /*Position*/
-
-                      position: absolute;
-                      margin-left: 20rem;
 
                       /*Box model*/
 
                       display: flex;
                       flex-direction: row;
                       align-items: center;
-                      width: 30vw;
+                      width: 15vw;
 
                       /*Text*/
 
@@ -384,7 +373,7 @@ export default function CreateQuestion () {
 
                       /*Visuals*/
 
-                      border-radius: 10px;
+                      border-radius: 20px;
                       background-color: ${statusColors.error};
                       opacity: 1;
 
@@ -395,85 +384,13 @@ export default function CreateQuestion () {
                       .error__icon{
 
                       /*Box model*/
-
+                      
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
                       margin-left: 1rem;
 
                       }
-
-                      .form__error-icon{
-
-                        /*Position*/
-
-                        position: relative;
-                        right: -1.1rem;
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        z-index: 999;
-
-                        /*Visuals*/
-
-                        opacity: 0;
-                        color: ${statusColors.error};
-
-
-                      }
-
-                      .form__success-icon{
-
-                      /*Position*/
-
-                      position: relative;
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      right: -1.1rem;
-                      z-index: 999;
-
-                      /*Visuals*/
-
-                      opacity: 0;
-                      color: ${statusColors.success};
-
-                      }
-
-                      .form__error-icon--active{
-
-                      /*Position*/
-
-                      position: relative;
-                      right: -1.1rem;
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      z-index: 999;
-
-                      /*Visuals*/
-
-                      opacity: 1;
-                      color: ${statusColors.error};
-
-                      }
-
-                      .form__success-icon--active{
-
-                      /*Position*/
-
-                      position: relative;
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      right: -1.1rem;
-                      z-index: 999;
-
-                      /*Visuals*/
-
-                      opacity: 1;
-                      color: ${statusColors.success};
-
-                      }
-
-
 
 
                       .submit__error{
@@ -511,7 +428,7 @@ export default function CreateQuestion () {
 
                       /*Visuals*/
 
-                      border-radius: 10px;
+                      border-radius: 20px;
                       background-color: ${statusColors.error};
 
                       }
@@ -534,7 +451,7 @@ export default function CreateQuestion () {
 
                       /*Visuals*/
 
-                      border-radius: 10px;
+                      border-radius: 20px;
                       background-color: ${statusColors.success};
 
                       }
@@ -573,8 +490,8 @@ export default function CreateQuestion () {
 
                         /*Visuals*/
 
-                        border-radius: 5px;
-                        border: 1px solid ${colors.primary};
+                        border-radius: 20px;
+                        border: 2px solid ${colors.primary};
 
                     }
 
@@ -625,8 +542,8 @@ export default function CreateQuestion () {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
-                    border: 1px solid ${colors.primary};
+                    border-radius: 20px;
+                    border: 2px solid ${colors.primary};
 
                     }
 

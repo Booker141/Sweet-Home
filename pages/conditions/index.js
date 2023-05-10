@@ -33,7 +33,7 @@ export default function Conditions () {
         aplicación. A estos usuarios se les puede seguir para enterarte
         de las últimas novedades.
       </p>
-      <hr className='black-line' />
+      <hr className={global.line} />
 
       <h2 className={global.secondary}>2. ¿Cuál es el alcance de la aplicación?</h2>
       <p className={global.text}>Sweet Home contempla una gran diversidad
@@ -46,7 +46,7 @@ export default function Conditions () {
         crearse un perfil adaptado en la aplicación, por lo que también fue
         pensada para este perfil de usuario desde los inicios.
       </p>
-      <hr className='black-line' />
+      <hr className={global.line} />
 
       <h2 className={global.secondary}>3. Uso de la aplicación como usuario registrado</h2>
       <p className={global.text}>Para acceder a las funciones de la aplicación,
@@ -56,7 +56,7 @@ export default function Conditions () {
         El usuario registrado podrá utilizar todas las funciones que ofrece Sweet Home,
         publicación de información y contenido multimedia e interacción con los usuarios.
       </p>
-      <hr className='black-line' />
+      <hr className={global.line} />
 
       <h2 className={global.secondary}>4. Política de datos</h2>
       <p className={global.text}>Para llevar a cabo todas las funciones,
@@ -64,7 +64,7 @@ export default function Conditions () {
         En el apartado “enlace a política de privacidad” describimos las formas
         de recopilación y uso de los datos proporcionados.
       </p>
-      <hr className='black-line' />
+      <hr className={global.line} />
 
       <h2 className={global.secondary}>5. ¿Cómo eliminar mi cuenta de la aplicación?</h2>
       <p className={global.text}>Todos los usuarios pueden eliminar su cuenta desde la configuración de su perfil.
@@ -72,7 +72,7 @@ export default function Conditions () {
         de las eliminaciones accidentales. Si la cuenta ya ha sido eliminada no podrá
         ser recuperada
       </p>
-      <hr className='black-line' />
+      <hr className={global.line} />
 
       <h2 className={global.secondary}>6. Responsabilidad de Sweet Home</h2>
       <p className={global.text}>Sweet Home garantiza la seguridad del uso de su aplicación
@@ -125,12 +125,7 @@ export default function Conditions () {
 
                     }
 
-                    .black-line{
-                        /*Box model*/
 
-                        margin-bottom: 3rem;
-
-                    }
 
                     hr{
                         /*Box model*/

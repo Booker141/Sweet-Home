@@ -7,7 +7,7 @@ import { server } from 'server'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import Router from 'next/router'
-import Modal from "/components/Modal/Modal"
+
 
 /**
  * It's a function that returns a div with a title, a date, an author, an introduction, a body and a
@@ -18,44 +18,33 @@ import Modal from "/components/Modal/Modal"
 export default function New (props) {
 
   const { data: session } = useSession();
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
 
   /* It's checking if the user is an admin. */
   useEffect(() => {
-    if (session !== undefined){
-      if (session.user.role === "admin" ) {
-        setIsAdmin(true);
-      }
+    if (session) {
+      getRole()
     }
   }, []);
 
-  /**
-   * It deletes the news item from the database and then reloads the page
-   */
-  const deleteNew = async () => {
+  const getRole = async () =>
+  {
 
-    await fetch(`${server}/api/news/${props.id}`, {
-      method: 'DELETE',
+    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
 
-
-    setIsModalVisible(false)
-    toast.error('Se ha eliminado la noticia', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-      Router.push(`${server}/news`)
-    Router.reload()
+    const data = await res.json();
+    if(data.role.name === 'administrador')
+    {
+      setIsAdmin(true)
+    }
   }
+  
 
   return (
     <>
@@ -63,29 +52,21 @@ export default function New (props) {
       <div key={props._id} className={global.new}>
         <article key={props.id}>
           <div className="new__header">
-            <h2 className="new__title">{props.title}</h2>
-            {isAdmin && <div className="buttons"><button className='edit__button' onClick={() => Router.push("/editNew")}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+            <h2 className={"new__title"}>{props.title}</h2>
+            
           </div>
           <hr className={global.white__line}></hr>
           <div className="new__time">
             <HiOutlineClock size={17}/>
             <h3 className={global.date}>Publicada el {new Date(props.date).toLocaleDateString().slice(0,10)}</h3>
           </div> 
-          <h3 className={global.tertiary__bold}>Autor: {props.author}</h3>
+          <h3 className={global.tertiary__bold}>{props.author}</h3>
           <p className={global.text}>{props.introduction}</p>
           <p className={global.text}>{props.body}</p>
           <p className={global.text}>{props.conclusion}</p>
         </article>
       </div>
-      {isModalVisible && <Modal>
-        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-        <h2 className={global.title3}>Eliminar noticia</h2>
-        <p className={global.text2}>¿Estás seguro de eliminar esta noticia?</p>
-        <div className='buttons'>
-          <button className={global.buttonSecondary} onClick={() => deleteNew()}>Sí</button>
-          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-        </div>
-      </Modal>}
+      
       <style jsx>{`
 
                 
@@ -110,22 +91,7 @@ export default function New (props) {
 
                 }
 
-                .close__modal{
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-self: flex-end;
-                margin-right: 2rem;
-
-                /*Visuals*/
-
-                border: none;
-                background: transparent;
-                cursor: pointer;
-
-                }
+             
 
                 .new__title{
 
@@ -155,37 +121,7 @@ export default function New (props) {
                     align-items: center;
                 }
 
-                .delete__button{
-
-                /*Box model*/
-
-                display: flex;
-                align-items: center;
-                margin-bottom: 0.5rem;
-
-                /*Visuals*/
-
-                border: none;
-                background: transparent;
-                cursor: pointer;
-
-                }
-
-                .edit__button{
-
-                  /*Box model*/
-
-                  display: flex;
-                  align-items: center;
-                  margin-bottom: 0.5rem;
-
-                  /*Visuals*/
-
-                  border: none;
-                  background: transparent;
-                  cursor: pointer;
-
-                  }
+               
 
                 p{
                     white-space: pre-wrap;
@@ -198,6 +134,8 @@ export default function New (props) {
                     width: 100%;
                     margin-bottom: 3rem;
                 }
+
+
 
             
             `}

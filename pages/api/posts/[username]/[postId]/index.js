@@ -15,6 +15,6 @@ export default async function handler (req, res) {
     await db.collection('users').updateOne({username: post.username},{$pull: {posts: id}})
     await db.collection('posts').deleteOne({ _id: id })
     
-    res.status(200).json({ message: 'Publicación eliminada' })
+    res.status(200).json({ message: 'Publicación eliminada correctamente' })
   }
 }

@@ -1,8 +1,8 @@
 
-import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand, HiEnvelope} from 'react-icons/hi'
+import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
 import {MdPets, MdContactMail, MdHealthAndSafety, MdReport, MdClose} from 'react-icons/md'
 import {BsFillFilePostFill} from 'react-icons/bs'
-import {GiDogHouse, GiDogBowl, GiSittingDog} from 'react-icons/gi'
+import { GiDogBowl, GiSittingDog} from 'react-icons/gi'
 import {colors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
@@ -36,6 +36,8 @@ export default function Sidebar(){
     const {data: session, status} = useSession()
     const router = useRouter()
 
+  
+
 
     const uploadImage = async (e) => {
 
@@ -60,6 +62,14 @@ export default function Sidebar(){
         }
       }
 
+    /**
+     * This function sends a report to a server and displays a success or error message using toast
+     * notifications.
+     * @param e - The event object, which is passed as an argument to the function when it is triggered
+     * by an event (such as a form submission or button click).
+     * @returns The function `sendReport` does not explicitly return anything, but it does update the
+     * state of `isModalVisible` to `false` at the end.
+     */
     const sendReport = async (e) => {
 
         e.preventDefault();
@@ -126,7 +136,8 @@ export default function Sidebar(){
         })
 
         const data = await res.json()
-        setUsers(data)
+        const userList = JSON.parse(JSON.stringify(data))
+        setUsers(userList)
 
     }
 
@@ -143,6 +154,10 @@ export default function Sidebar(){
         setShelters(data)
 
     }
+/**
+ * This is an asynchronous function that fetches data from a server's API endpoint and sets the
+ * retrieved data to a variable called "vets".
+ */
 
     const fetchVets = async () => {
 
@@ -194,7 +209,6 @@ export default function Sidebar(){
     useEffect(() => {
  
         fetchUsers()
-        {/*fetchFollowing()*/}
         fetchTypeAttendances()
         fetchShelters()
         fetchVets()
@@ -212,16 +226,15 @@ export default function Sidebar(){
                     <a className="sidebar__link" href="/followingPosts" alt="Ir a publicaciones de usuarios seguidos"><HiUser size={20} color={`${colors.secondary}`}/>Seguidos</a>
                     <a className="sidebar__link" href="/allShelters" alt="Ir a apartado de protectoras"><MdPets size={20} color={`${colors.secondary}`}/>Protectoras</a>
                     <a className="sidebar__link" href="/allVets" alt="Ir a apartado de veterinarias"><MdHealthAndSafety size={20} color={`${colors.secondary}`}/>Veterinarias</a>
-                    <hr className={global.white__line}/>
+
                 </div>
 
                 
                 <div className="sidebar-layout__container2">
                     <a className="sidebar__link" href="/myPosts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.secondary}`}/>Mis publicaciones</a>
-                    <a className="sidebar__link" href={`/pets/${session.user.username}`} alt="Ir a mascotas"><GiDogHouse size={20} color={`${colors.secondary}`}/>Mis mascotas</a>
                     <a className="sidebar__link" href="/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
-                    <hr className={global.white__line}/>
+
                 </div>
 
                 <div className="sidebar-layout__container3">
@@ -235,7 +248,7 @@ export default function Sidebar(){
                     <a className="sidebar__link" href="/userManual" alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.secondary}`}/>Ayuda</a>
                 </div>
 
-                <hr className={global.white__line}/>
+
 
                 <div className="sidebar-layout__container4">
                     <h1 className="title__sidebar">Cuentas seguidas</h1>
@@ -253,11 +266,11 @@ export default function Sidebar(){
 
                     </div>
                 </div>
-                <hr className={global.white__line}/>
+
                 <div className="sidebar-layout__container5">
                     <h1 className="title__sidebar">Cuentas sugeridas</h1>
                     {users.length === 0 && <p className={global.text2}>No existe ningún usuario.</p>}
-                    {users.filter(user => user.username !== (session.user.username) && user.role.name !== "admin" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {users.filter(user => user.username !== (session.user.username) && user.role.name !== "administrador" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -268,7 +281,7 @@ export default function Sidebar(){
                         <Link href="/allUsers"><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
                     </div>
                 </div>
-                <hr className={global.white__line}/>
+
                 <div className="sidebar-layout__container6">
                     <h1 className="title__sidebar">Cuentas de protectoras</h1>
                     {shelters.length === 0 && <p className={global.text2}>No hay ninguna protectora.</p>}
@@ -285,7 +298,7 @@ export default function Sidebar(){
 
                     </div>
                 </div>
-                <hr className={global.white__line}/>
+
                 <div className="sidebar-layout__container7">
                     <h1 className="title__sidebar">Cuentas de veterinarias</h1>
                     {vets.length === 0 && <p className={global.text2}>No hay ninguna veterinaria.</p>}
@@ -302,19 +315,19 @@ export default function Sidebar(){
 
                     </div>
                 </div>
-                <hr className={global.white__line}/>
+
                 <div className="sidebar-layout__container8">
                     <h1 className="title__sidebar">Cuidados</h1>
                     {typeAttendances.length === 0 && <p className={global.text2}>No existe ningún cuidado.</p>}
-                    {typeAttendances.map(({ name }) => {
+                    {typeAttendances.map(({ _id, name }) => {
                         return (
                         <>
-                            <button className="attendance__tag" onClick={() => router.push(`/attendances/${name}`)}>#{`${name}`}</button>
+                            <button key={_id} className="attendance__tag" onClick={() => router.push(`/attendances/${name}`)}>#{`${name}`}</button>
                         </>
                         )
                     })}
                 </div>
-                <hr className={global.white__line}/>
+
                 <div className='footer'>
                     <div className='footer__links'>
                         <Link className={global.link3} href="/userManual" passHref><a aria-label='Ir a Información'>Información</a></Link>
@@ -323,8 +336,8 @@ export default function Sidebar(){
                         <Link className={global.link3} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
                         <Link className={global.link3} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className='copyright'>
-                        
-                            <p><TrademarkWhite/>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
+                            <TrademarkWhite/>
+                            <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
                         </div>
                     </div>
                 </div>
@@ -374,10 +387,10 @@ export default function Sidebar(){
 
                     display: flex;
                     flex-direction: column;
-                    width: 12%;
+                    width: 17%;
                     height: 100%;
-                    min-width: 12%;
-                    max-width: 12%;
+                    min-width: 17%;
+                    max-width: 17%;
                     padding: 2rem;
                     margin-top: 0;
                     margin-left: 0;
@@ -389,7 +402,7 @@ export default function Sidebar(){
               
                     /*Visuals*/
 
-                    background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
+                    background-color: #fa9820;
                     border-radius: 0 0 20px 0;
 
                 }
@@ -415,8 +428,11 @@ export default function Sidebar(){
                     /*Visuals*/
 
                     border-radius: 70px;
-                    border: 1px solid #fafafa;
+                    border: 2px solid #fafafa;
                     transition: 0.3s ease all;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+
                     cursor: pointer;
                     background: transparent;
 
@@ -628,6 +644,14 @@ export default function Sidebar(){
                     flex-direction: column;
                     gap: 1rem;
                     margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
 
                 }
@@ -639,7 +663,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
-                    margin-bottom: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -650,7 +682,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
-                    margin-bottom: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -661,7 +701,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
-                    margin-bottom: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -672,6 +720,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -682,6 +739,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -692,6 +758,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -702,6 +777,15 @@ export default function Sidebar(){
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
+                    margin-bottom: 2rem;
+                    padding: 2rem;
+
+                    /*Visuals*/
+
+                    background-color: ${colors.primary};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                    border-radius: 20px;
 
                 }
 
@@ -748,6 +832,10 @@ export default function Sidebar(){
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+
+                /*Text*/
+
+                font-size: 0.9rem;
             }
 
             .footer__links{
@@ -757,7 +845,7 @@ export default function Sidebar(){
                     display: flex;
                     flex-wrap: wrap;
                     flex-direction: row;
-
+                    font-size: 0.9rem;
                     gap: 1rem;
                     align-items: center;
                     

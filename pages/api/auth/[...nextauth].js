@@ -36,25 +36,25 @@ export const authOptions = {
         const db = await client.db()
 
         if (!email && !password) {
-          throw new Error('Introduzca las credenciales.')
+          throw new Error('Por favor, introduzca las credenciales.')
         }
 
         if (!email) {
-          throw new Error('Introduzca el email.')
+          throw new Error('Por favor, introduzca el correo electrónico.')
         }
 
         if (!password) {
-          throw new Error('Introduzca la contraseña.')
+          throw new Error('Por favor, introduzca la contraseña.')
         }
 
         const user = await db.collection('users').findOne({ email })
 
-        if (!user) {
-          throw new Error('Usuario no encontrado.')
+        if(user === null){
+          throw new Error('No existe ningún usuario con el email indicado.')
         }
 
-        if (user.status == 'bloqueado') {
-          throw new Error('Usuario bloqueado.')
+        if (user.status.name == 'bloqueado') {
+          throw new Error('Este usuario ha sido bloqueado.')
         }
 
         const isValid = await bcrypt.compare(password, user.password)
@@ -118,8 +118,13 @@ export const authOptions = {
       const accountExist = await db.collection('accounts').findOne({ providerAccountId: account.providerAccountId })
       const accountExist2 = await db.collection('accounts').findOne({ userId: user._id })
       const userExist = await db.collection('users').findOne({ _id: user._id })
+      const userExist2 = await db.collection('users').findOne({_id: user.id})
       const userStatus = await db.collection('userStatus').findOne({ name: 'activo' })
       const userRole = await db.collection('userRole').findOne({ name: 'usuario' })
+
+      console.log(user.id)
+      console.log(account)
+
       let providerId = '';
       for (let i = 0; i < 21; i++) {
         providerId += Math.floor(Math.random() * 10);
@@ -218,8 +223,8 @@ export const authOptions = {
 
       if (account.provider === 'twitter') {
         if (!accountExist) {
-          const accountInserted = await db.collection('accounts').updateOne({ _id: account.id }, {
-            $set: {
+          const accountInserted = await db.collection('accounts').insertOne({
+
               provider: account.provider,
               type: account.type,
               access_token: account.access_token,
@@ -234,12 +239,12 @@ export const authOptions = {
               username: user.name,
               createdAt: new Date(),
               userId: randomId
-            }
+            
           })
 
-          await db.collection('users').updateOne({ _id: user._id }, { $set: { accountId: accountInserted._id } })
+          
 
-          if (!userExist) {
+          if (!userExist2) {
             await db.collection('users').insertOne({
               _id: randomId,
               email: user.email,
@@ -266,8 +271,11 @@ export const authOptions = {
               createdAt: new Date()
             })
           } else {
-            if (accountExist.userId == userExist._id) {
-              await db.collection('users').updateOne({ _id: userExist._id }, { $set: { accountId: accountExist._id } })
+
+            await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: accountInserted._id } })
+            
+            if (accountExist.userId === userExist2._id) {
+              await db.collection('users').updateOne({ _id: userExist2._id }, { $set: { accountId: accountExist._id } })
             }
           }
         } else {
@@ -288,12 +296,12 @@ export const authOptions = {
               status: user.status,
               role: user.role,
               createdAt: user.createdAt,
-              userId: user._id
+              userId: randomId
             }
           })
         }
 
-        await db.collection('users').updateOne({ _id: user._id }, { $set: { accountId: accountExist._id } })
+        await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: accountExist._id } })
       }
 
       return true

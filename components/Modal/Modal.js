@@ -48,7 +48,7 @@ export default function Modal ({ children }) {
             align-items: center;
             justify-content: center;
             width: 45vw;
-            height: 55vh;
+            height: fit-content;
             padding: 2rem;
 
             /*Visuals*/

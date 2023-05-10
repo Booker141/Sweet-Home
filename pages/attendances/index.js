@@ -65,14 +65,14 @@ export default function Attendances ({ typeAttendance }) {
         {isSorted && sortedAttendance.map(({ _id, name, description, urlName }) => {
           return (
             <>
-              <TypeAttendance key={_id} name={name} description={description} urlName={urlName} />
+              <TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} />
             </>
           )
         })}
-        {!isSorted && typeAttendance.map(({ _id, name, description, urlName }) => {
+        {!isSorted && typeAttendance.map(({ _id,  name, description, urlName }) => {
           return (
             <>
-              <TypeAttendance key={_id} name={name} description={description} urlName={urlName} />
+              <TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} />
             </>
           )
         })}
@@ -138,7 +138,8 @@ export default function Attendances ({ typeAttendance }) {
   }
 }
 
-export async function getServerSideProps () {
+export async function getServerSideProps (context) {
+
   const res = await fetch(`${server}/api/typeAttendance`, {
     method: 'GET',
     headers: {

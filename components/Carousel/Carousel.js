@@ -113,7 +113,7 @@ export default function Carousel () {
 
                     /*Visuals*/
 
-                    border-radius: 10px;
+                    border-radius: 20px;
                     
                    
                 }
@@ -281,12 +281,15 @@ export default function Carousel () {
                     /*Box model*/
 
                     margin-bottom: 4rem;
+                    padding: 0.2rem;
                     
                     /*Visuals*/
 
                     cursor: pointer;
                     border: none;
                     background: none;
+                    border-radius: 70px;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
                 }
 

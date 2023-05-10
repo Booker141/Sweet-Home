@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {toast} from 'react-toastify'
 import { MdDateRange, MdOutlineError, MdTitle } from 'react-icons/md'
 import { BsFillChatLeftTextFill, BsFillCheckCircleFill, BsFillPersonFill } from 'react-icons/bs'
@@ -15,18 +15,18 @@ import Loader from '/components/Loader/Loader'
  * This function is used to create a new news
  * @returns a component.
  */
-export default function CreateNew () {
+export default function EditNew ({news}) {
 
   const { data: session, status } = useSession({ required: true })
   const Router = useRouter()
-  const [title, setTitle] = useState('')
-  const [date, setDate] = useState(new Date())
-  const [introduction, setIntroduction] = useState('')
-  const [body, setBody] = useState('')
-  const [conclusion, setConclusion] = useState('')   
-  const [author, setAuthor] = useState('')
+  const [title, setTitle] = useState(news.title)
+  const [date, setDate] = useState(new Date(news.date))
+  const [introduction, setIntroduction] = useState(news.introduction)
+  const [body, setBody] = useState(news.body)
+  const [conclusion, setConclusion] = useState(news.conclusion)   
+  const [author, setAuthor] = useState(news.author)
   const [isPosting, setIsPosting] = useState(false)
-  const [isValidate, setIsValidate] = useState(false)
+  const [isValidate, setIsValidate] = useState(true)
 
 
   /**
@@ -63,11 +63,9 @@ export default function CreateNew () {
 
   }
 
-  /**
-   * It creates a new news item in the database
-   * @param e - event
-   */
-  const createNew = async (e) => {
+
+
+  const editNew = async (e) => {
 
     e.preventDefault()
 
@@ -95,6 +93,7 @@ export default function CreateNew () {
         return
     }
 
+
     if(introduction.trim() === ''){
       toast.error('El campo Introducción es obligatorio', { position: "bottom-right",
         autoClose: 5000,
@@ -121,16 +120,18 @@ export default function CreateNew () {
 
     if(isValidate){
 
-      const res = await fetch(`${server}/api/news`, {
-        method: 'POST',
+      setIsPosting(true)
+
+      const res = await fetch(`${server}/api/news/${Router.query.newId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             title: title,
-            date: date,
             introduction: introduction,
             body: body,
+            date: date,
             conclusion: conclusion,
             author: author,
           })
@@ -141,11 +142,18 @@ export default function CreateNew () {
       if (data.error) {
 
         console.log(data.error)
-        setMessage('Introduzca los campos obligatorios')
+        toast.error('Introduzca los campos obligatorios', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
   
       } else {
   
-        toast.success('Se ha publicado la noticia', { position: "bottom-right",
+        toast.success('Se ha editado la noticia correctamente', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -160,6 +168,7 @@ export default function CreateNew () {
     
   }
 
+
   if (status === 'loading') {
     return (
       <>
@@ -171,13 +180,13 @@ export default function CreateNew () {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Crear noticia</title></Head>
+        <Head><title>Editar noticia</title></Head>
         
-        <div className='createNew__form'>
+        <div className='editNew__form'>
             <div className='form'>
-            <div className='createNew__header'>
-                <h1 className='form__title'>Crear noticia</h1>
-                <p className={global.text2}>Introduzca los datos de la noticia. Los campos obligatorios vienen indicados con un asterisco *:</p>
+            <div className='editNew__header'>
+                <h1 className='form__title'>Editar noticia</h1>
+                <p className={global.text2}>Introduzca los datos de la noticia. Los campos obligatorios vienen indicados con un asterisco (*):</p>
             </div>
               <form action='/api/news' id='form'>
                 <div className='form-vertical__title'>
@@ -193,7 +202,7 @@ export default function CreateNew () {
                           required
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
-                          placeholder='p. ej.: Nueva mascota adoptada en..'
+
                           className='input'
                          />
                   </div>
@@ -225,25 +234,7 @@ export default function CreateNew () {
                           <p className={global.text2}>Debe seguir el formato indicado</p>
                         </div>
                 </div>
-                <div className='form-vertical__date'>
-                    <label className='label'>
-                        <p className={global.text}>Fecha (*)</p>
-                        <MdDateRange size={18} color={colors.secondary} />
-                    </label>
-                    <input
-                    title='Introducir fecha de noticia'
-                    type='date'
-                    id='date'
-                    max={calcDate()}
-                    name='date'
-                    required
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    className='input'
-                    />
-                </div>
+                
                 <div className='form-vertical__introduction'>
                   <label className='label'>
                     <p className={global.text}>Introducción (*)</p>
@@ -292,7 +283,7 @@ export default function CreateNew () {
                   </div>
                 </div>
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createNew(e)} value={isPosting ? 'Publicando..' : 'Publicar'} />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => editNew(e)} value={isPosting ? 'Editando..' : 'Editar'} />
           </div>
         </div>
 
@@ -316,7 +307,7 @@ export default function CreateNew () {
                         
                     }
 
-                    .createNew__header{
+                    .editNew__header{
 
                         /*Box model*/
 
@@ -327,7 +318,7 @@ export default function CreateNew () {
                         margin-bottom: 3rem;
                     }
 
-                    .createNew__form{
+                    .editNew__form{
 
                         /*Box model*/
 
@@ -934,4 +925,25 @@ export default function CreateNew () {
       </Layout>
     )
   }
+}
+
+export async function getServerSideProps(context){
+
+    const res = await fetch(`${server}/api/news/${context.query.newId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+  
+      const data = await res.json()
+
+      return{
+
+        props: {
+
+            news: JSON.parse(JSON.stringify(data))
+      }
+    }
+  
 }

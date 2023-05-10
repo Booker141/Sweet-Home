@@ -12,41 +12,39 @@ import { server } from '/server'
 import Loader from '/components/Loader/Loader'
 
 /**
- * This function is used to create a new type of care
+ * This function is used to create a question in the FAQ section
  * @returns a component.
  */
-export default function CreateTypeAttendance () {
+export default function EditQuestion ({question}) {
 
   const { data: session, status } = useSession({ required: true })
 
   const Router = useRouter()
-  const [description, setDescription] = useState('')
-  const [name, setName] = useState('')
+  const [answer, setAnswer] = useState(question.answer)
+  const [title, setTitle] = useState(question.title)
   const [isValidate, setIsValidate] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
   
 
   /**
-   * The function validates the input field by checking if the input matches the regular expression. If
-   * it does, it adds a class to the error message and error icon to show them. If it doesn't, it
-   * removes the class to hide them
+   * It validates the title input field by checking if the input matches the regular expression. If it
+   * does, it adds the success icon and removes the error icon. If it doesn't, it adds the error icon
+   * and removes the success icon
    * @param e - event
    */
-  
-
   const validate = (e) => {
     // Regular expressions
 
-    const regName = /^¿?.+\?/g;
+    const regTitle = /^¿?.+\?/g;
 
-    if (e.target.name === 'name') {
-      if (!name.match(regName)) {
-        document.getElementById('name__error').classList.add('form__input-nameError--active')
+    if (e.target.name === 'title') {
+      if (!title.match(regTitle)) {
+        document.getElementById('title__error').classList.add('form__input-titleError--active')
 
         setIsValidate(false)
       } else {
-        document.getElementById('name__error').classList.remove('form__input-nameError--active')
+        document.getElementById('title__error').classList.remove('form__input-titleError--active')
 
         setIsValidate(true)
       }
@@ -55,15 +53,16 @@ export default function CreateTypeAttendance () {
   }
 
   /**
-   * It creates a new type of attendance in the database
-   * @param e - event
+   * It sends a POST request to the server with the title and answer of the question, and if there's no
+   * error, it redirects the user to the FAQ page
+   * @param e - The event object
    */
-  const createTypeAttendance = async (e) => {
+  const editQuestion = async (e) => {
 
     e.preventDefault()
 
-    if(name.trim() === ''){
-      toast.error('El campo Tipo de cuidado es obligatorio', { position: "bottom-right",
+    if(title.trim() === ''){
+      toast.error('El campo Título es obligatorio', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -74,8 +73,8 @@ export default function CreateTypeAttendance () {
         return
     }
 
-    if(description.trim() === ''){
-      toast.error('El campo Descripción es obligatorio', { position: "bottom-right",
+    if(answer.trim() === ''){
+      toast.error('El campo Respuesta es obligatorio', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -86,16 +85,18 @@ export default function CreateTypeAttendance () {
         return
     }
 
-    const res = await fetch(`${server}/api/typeAttendance`, {
-      method: 'POST',
+    const res = await fetch(`${server}/api/questions/${Router.query.questionId}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: name,
-        description: description,
+        title: title,
+        answer: answer,
       })
     })
+
+    setIsPosting(true)
 
     const data = await res.json()
 
@@ -103,19 +104,19 @@ export default function CreateTypeAttendance () {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
     } else {
-      toast.success('Se ha publicado el tipo de cuidado', { position: "bottom-right",
+      toast.success('Se ha editado la pregunta', { position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      Router.push(`${server}/attendances`)
+      Router.push(`${server}/faq`)
     }
   }
 
-  if (status === 'loading') {
+  if (status == 'loading') {
     return (
       <>
         <div className={global.loading}><p>Cargando..</p></div>
@@ -126,63 +127,64 @@ export default function CreateTypeAttendance () {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Crear tipo de cuidado</title></Head>
+        <Head><title>Editar pregunta</title></Head>
         
           <div className="form__position">
             <div className='form'>
-              <div className="createTypeAttendance__header">
-                <h1 className='form__title'>Crear tipo de cuidado</h1>
-                <p className={global.text2}>Introduzca los datos del tipo de cuidado. Los campos obligatorios vienen indicados con un asterisco *:</p>
-              </div>
-              <form action='/api/typeAttendance' id='form'>
-                <div className='form-vertical__name'>
+            <div className="editQuestion__header">
+              <h1 className='form__title'>Editar pregunta</h1>
+              <p className={global.text2}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
+            </div>
+              <form action='/api/questions' id='form'>
+                <div className='form-vertical__title'>
                   <label className='label'>
-                    <p className={global.text2}>Tipo de cuidado (*)</p>
+                    <p className={global.text}>Título (*)</p>
                     <MdTitle size={18} color={colors.secondary} />
                   </label>
-                  <div className='name__input'>
+                  <div className='title__input'>
                     <input
-                          title='Introducir tipo de cuidado'
+                          title='Introducir título'
                           type='text'
-                          name='name'
-                          value={name}
+                          name='title'
+                          value={title}
                           required
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => setTitle(e.target.value)}
                           onKeyUp={(e) => validate(e)}
                           onBlur={(e) => validate(e)}
-                          placeholder='p. ej.: Alimentación'
+                          placeholder='p. ej.: ¿Es necesario...?'
                           className='input'
                          />
-
+                  
+                  
                     
-                  </div>
-                  <div id='name__error' className='form__input-nameError'>
+                    </div>
+                    <div id='title__error' className='form__input-titleError'>
                       <div className='error__icon'>
                         <MdOutlineError size={25} color={colors.secondary} />
                       </div>
-                      <p className={global.text2}>Debe seguir el formato correcto</p>
-                    </div>
+                      <p className={global.text2}>Debe ser una pregunta</p>
+                  </div>
                 </div>
-                <div className='form-vertical__description'>
+                <div className='form-vertical__answer'>
                   <label className='label'>
-                    <p className={global.text}>Descripción (*)</p>
+                    <p className={global.text}>Respuesta (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </label>
-                  <div className='description__input'>
+                  <div className='answer__input'>
                     <textarea
-                          title='Introducir descripción'
-                          name='description'
-                          value={description}
+                          title='Introducir respuesta'
+                          name='answer'
+                          value={answer}
                           required
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder='p. ej.: Es importante...'
+                          onChange={(e) => setAnswer(e.target.value)}
+                          placeholder='p. ej.: Si, es necesario..'
                         />
                   </div>
 
                 </div>
 
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createTypeAttendance(e)} value={isPosting ? 'Creando..' : 'Crear'}/>
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => editQuestion(e)} value={isPosting ? 'Editando..' : 'Editar'} />
           </div>
         </div>
         <style jsx>{`
@@ -216,7 +218,7 @@ export default function CreateTypeAttendance () {
                         
                     }
 
-                    .form__name{
+                    .form__title{
 
                         /*Box model*/
 
@@ -227,14 +229,14 @@ export default function CreateTypeAttendance () {
 
                     }
 
-                    .createTypeAttendance__header{
+                    .editQuestion__header{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        margin-bottom: 2rem;
+                        margin-bottom: 1rem;
                     }
 
                     .label{
@@ -276,24 +278,24 @@ export default function CreateTypeAttendance () {
 
                         /*Visuals*/
 
-                        border-radius: 20px;
+                        border-radius: 5px;
                         border: 1px solid ${colors.primary};
                     }
 
                 
 
-                    .form-vertical__description {
+                    .form-vertical__answer {
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 40vw;
+                        width: 100%;
 
                     }
 
-                    .form-vertical__name {
+                    .form-vertical__title {
 
                         /*Box model*/
 
@@ -302,19 +304,19 @@ export default function CreateTypeAttendance () {
                     }
 
 
-                    .description__input{
+                    .answer__input{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
-                        width: 40vw;
+                        width: 115%;
                         
 
                     }
 
-                    .name__input{
+                    .title__input{
 
                         /*Box model*/
 
@@ -326,13 +328,13 @@ export default function CreateTypeAttendance () {
 
                     /*ERRORES*/
 
-                    .form__input-nameError{
+                    .form__input-titleError{
 
+
+                      /*Box model*/
 
                       display: none;
-                      flex-direction: row;
-                      align-items: center;
-                      margin-left: 20rem;
+
 
                       /*Text*/
 
@@ -348,7 +350,7 @@ export default function CreateTypeAttendance () {
                       }
 
 
-                      .form__input-nameError p{
+                      .form__input-titleError p{
 
                       /*Box model*/
 
@@ -356,7 +358,7 @@ export default function CreateTypeAttendance () {
 
                       }
 
-                      .form__input-nameError--active{
+                      .form__input-titleError--active{
 
 
                       /*Box model*/
@@ -364,7 +366,7 @@ export default function CreateTypeAttendance () {
                       display: flex;
                       flex-direction: row;
                       align-items: center;
-                      width: 30vw;
+                      width: 15vw;
 
                       /*Text*/
 
@@ -391,12 +393,6 @@ export default function CreateTypeAttendance () {
                       margin-left: 1rem;
 
                       }
-
-
-
-
-
-
 
 
                       .submit__error{
@@ -476,7 +472,7 @@ export default function CreateTypeAttendance () {
                         color: white;
                         text-align: center;
                         
-                    }
+                  }
 
 
 
@@ -497,7 +493,7 @@ export default function CreateTypeAttendance () {
                         /*Visuals*/
 
                         border-radius: 20px;
-                        border: 1px solid ${colors.primary};
+                        border: 2px solid ${colors.primary};
 
                     }
 
@@ -510,7 +506,6 @@ export default function CreateTypeAttendance () {
                     box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
-
 
                     input[type="submit"]{
 
@@ -555,7 +550,6 @@ export default function CreateTypeAttendance () {
                     }
 
                     textarea:focus{
-
                     /*Visuals*/
 
                     border: 2px solid #4d97f7;
@@ -563,7 +557,6 @@ export default function CreateTypeAttendance () {
                     box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
-
 
                     a{
 
@@ -581,7 +574,7 @@ export default function CreateTypeAttendance () {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión como administrador</h1>
+            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>
@@ -604,4 +597,24 @@ export default function CreateTypeAttendance () {
       </Layout>
     )
   }
+}
+
+export async function getServerSideProps(context){
+
+    const res = await fetch(`${server}/api/questions/${context.query.questionId}`, {
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    })
+    
+    const data = await res.json();
+    
+    const question = JSON.parse(JSON.stringify(data))
+    
+    return {
+        props: {
+          question
+        }
+    }
 }

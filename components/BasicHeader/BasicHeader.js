@@ -11,6 +11,7 @@ import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill } from 'react-icons/bs
 import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets, MdContactMail} from 'react-icons/md'
 import {HiHome, HiOutlineArrowRight, HiNewspaper} from 'react-icons/hi'
 import {GoGraph} from 'react-icons/go'
+import {GiDogHouse} from 'react-icons/gi'
 import SearchBar from "components/SearchBar/SearchBar"
 import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
 import FallbackImage from 'components/FallbackImage/FallbackImage'
@@ -118,6 +119,7 @@ export default function BasicHeader (props) {
                             <hr className='line' />
                             <li className='nav__title'>Mi cuenta</li>
                             <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <hr className='line' />
                             <li className='nav__title'>Más opciones</li>               
                             <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -161,6 +163,7 @@ export default function BasicHeader (props) {
                             <hr className='line' />
                             <li className='nav__title'>Mi cuenta</li>
                             <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <hr className='line' />
                             <li className='nav__title'>Más opciones</li>               
                             <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -202,6 +205,7 @@ export default function BasicHeader (props) {
                           <hr className='line' />
                           <li className='nav__title'>Mi cuenta</li>
                           <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                          <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <hr className='line' />
                           <li className='nav__title'>Más opciones</li>               
                           <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -244,6 +248,7 @@ export default function BasicHeader (props) {
                           <hr className='line' />
                           <li className='nav__title'>Mi cuenta</li>
                           <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                          <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <hr className='line' />
                           <li className='nav__title'>Más opciones</li>               
                           <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -285,6 +290,7 @@ export default function BasicHeader (props) {
                             <hr className='line' />
                             <li className='nav__title'>Mi cuenta</li>
                             <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <hr className='line' />
                             <li className='nav__title'>Más opciones</li>               
                             <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -331,6 +337,8 @@ export default function BasicHeader (props) {
 
                     font-family: ${fonts.default};
                     cursor: default;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
 
                 }
 
@@ -351,7 +359,8 @@ export default function BasicHeader (props) {
                 backdrop-filter: blur(5px);
 
                 border-radius: 20px;
-                box-shadow: 0px 0px 10px 0px rgba(168,97,20,1);
+                box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
                 }
 
                 .user__info{
@@ -861,7 +870,7 @@ export default function BasicHeader (props) {
                     font-size: 1rem;
                     font-family: ${fonts.default};
                     cursor: pointer;
-                    border-radius: 20px;
+                    border-radius: 50px;
                     padding: 1.5rem;
 
                     /*Animation*/
@@ -922,7 +931,7 @@ export default function BasicHeader (props) {
                     transition: all 0.3s ease-in-out;
                     border-radius: 50px;
                     border: none;
-                    
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
                     
                 }
 
@@ -962,6 +971,7 @@ export default function BasicHeader (props) {
 
                     transition: all 0.3s ease-in-out;
                     background-color: #ffe0b8;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
                     
                 }
 

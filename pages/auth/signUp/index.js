@@ -66,13 +66,11 @@ export default function SignUp () {
     if (e.target.name == 'password') {
       if (password.length < 8 || !password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('error__password').classList.add('form__icon-error--active')
-        document.getElementById('success__password').classList.remove('form__icon-success--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-        document.getElementById('error__password').classList.remove('form__error-icon--active')
-        document.getElementById('success__password').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -82,13 +80,11 @@ export default function SignUp () {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('error__email').classList.add('form__error-icon--active')
-        document.getElementById('success__email').classList.remove('form__success-icon--active')
+ 
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('error__email').classList.remove('form__error-icon--active')
-        document.getElementById('success__email').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -96,13 +92,11 @@ export default function SignUp () {
     if (e.target.name == 'name') {
       if (!name.match(regName)) {
         document.getElementById('name__error').classList.add('form__input-nameError--active')
-        document.getElementById('error__name').classList.add('form__error-icon--active')
-        document.getElementById('success__name').classList.remove('form__success-icon--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('name__error').classList.remove('form__input-nameError--active')
-        document.getElementById('error__name').classList.remove('form__error-icon--active')
-        document.getElementById('success__name').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -110,13 +104,11 @@ export default function SignUp () {
     if (e.target.name == 'lastname') {
       if (!regLastname.test(lastname)) {
         document.getElementById('lastname__error').classList.add('form__input-lastnameError--active')
-        document.getElementById('error__lastname').classList.add('form__error-icon--active')
-        document.getElementById('success__lastname').classList.remove('form__success-icon--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('lastname__error').classList.remove('form__input-lastnameError--active')
-        document.getElementById('error__lastname').classList.remove('form__error-icon--active')
-        document.getElementById('success__lastname').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -126,13 +118,11 @@ export default function SignUp () {
     if (e.target.name == 'username') {
       if (username.length < 4 || !username.match(regUsername)) {
         document.getElementById('username__error').classList.add('form__input-usernameError--active')
-        document.getElementById('error__username').classList.add('form__error-icon--active')
-        document.getElementById('success__username').classList.remove('form__success-icon--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('username__error').classList.remove('form__input-usernameError--active')
-        document.getElementById('error__username').classList.remove('form__error-icon--active')
-        document.getElementById('success__username').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -150,7 +140,6 @@ export default function SignUp () {
 
     if (isValidate) {
 
-      
 
       const res = await fetch(`${server}/api/register`, {
         method: 'POST',
@@ -238,10 +227,10 @@ export default function SignUp () {
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
       />
-      <div className='page__video' />
+      <div className='page__video'>
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '234vh', objectFit: 'cover', zIndex: '-99999'}}
+            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', objectFit: 'cover', zIndex: '-99999'}}
           >
             <source src='/videos/video2.mp4' />
           </video>
@@ -253,14 +242,13 @@ export default function SignUp () {
               <h2>¡Bienvenido a Sweet Home!</h2>
 
               <p className={global.text}>Introduzca los siguientes datos:</p>
-            
 
             <form className='form-vertical' action='/api/register' id='form'>
               <div className='form-vertical__email'>
-                <div className='label'>
+                <label className='label'>
                   <p className={global.text}>Email</p>
                   <MdEmail size={18} color={colors.secondary} />
-                </div>
+                </label>
                 <div className='email__input'>
                   <input
                     title='El email debe seguir el formato correcto'
@@ -274,22 +262,20 @@ export default function SignUp () {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder='p. ej.: javier@gmail.com'
                   />
-                  <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='email__error' className='form__input-emailError'>
+
+              </div>
+              <div id='email__error' className='form__input-emailError'>
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>Debe seguir el formato correcto</p>
                   </div>
                 </div>
-
-              </div>
               <div className='form-vertical__name'>
-                <div className='label'>
+                <label className='label'>
                   <p className={global.text}>Nombre</p>
                   <FaUserPlus size={18} color={colors.secondary} />
-                </div>
+                </label>
                 <div className='name__input'>
                   <input
                     title='Introducir nombre'
@@ -304,22 +290,20 @@ export default function SignUp () {
                     onChange={(e) => setName(e.target.value)}
                     placeholder='p. ej.: Javier'
                   />
-                  <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='name__error' className='form__input-nameError'>
+
+              </div>
+              <div id='name__error' className='form__input-nameError'>
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                   </div>
                 </div>
-
-              </div>
               <div className='form-vertical__lastname'>
-                <div className='label'>
+                <label className='label'>
                   <p className={global.text}>Apellidos</p>
                   <FaUserPlus size={18} color={colors.secondary} />
-                </div>
+                </label>
                 <div className='lastname__input'>
                   <input
                     title='Introducir apellidos'
@@ -334,22 +318,21 @@ export default function SignUp () {
                     onChange={(e) => setLastname(e.target.value)}
                     placeholder='p. ej.: García Navarro'
                   />
-                  <div id='error__lastname' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__lastname' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='lastname__error' className='form__input-lastnameError'>
+                 
+                 
+                </div>
+                <div id='lastname__error' className='form__input-lastnameError'>
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                   </div>
-                </div>
-
               </div>
               <div className='form-vertical__username'>
-                <div className='label'>
+                <label className='label'>
                   <p className={global.text}>Nombre de usuario</p>
                   <FaUser size={15} color={colors.secondary} />
-                </div>
+                </label>
                 <div className='username__input'>
                   <input
                     title='Introducir nombre de usuario'
@@ -365,22 +348,21 @@ export default function SignUp () {
                     placeholder='p. ej.: javier65'
                     className='input'
                   />
-                  <div id='error__username' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__username' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='username__error' className='form__input-usernameError'>
+
+                  
+                </div>
+                <div id='username__error' className='form__input-usernameError'>
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>Debe estar compuesto por 4 caracteres como mínimo y no contener espacios</p>
                   </div>
-                </div>
-
               </div>
               <div className='form-vertical__password'>
-                <div className='label'>
+                <label className='label'>
                   <p className={global.text}>Contraseña</p>
                   <BsFillLockFill size={18} color={colors.secondary} />
-                </div>
+                </label>
                 <div className='password__input'>
                   <input
                     title='Introducir contraseña'
@@ -397,16 +379,14 @@ export default function SignUp () {
                     className='input'
                   />
                   <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='password__error' className='form__input-passwordError'>
+                 
+                </div>
+                <div id='password__error' className='form__input-passwordError'>
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                   </div>
-                </div>
-
                 <div className='tooltip'>
                   <div className='tooltip__icon'>
                     <AiFillInfoCircle size={18} color={colors.secondary} />
@@ -437,10 +417,12 @@ export default function SignUp () {
           </div>
         </div>
       </div>
+
       <BasicFooter
         color='#fafafa' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
+      </div>
       <style jsx>{`
 
 
@@ -493,8 +475,8 @@ export default function SignUp () {
 
           display: block;
           object-fit: cover;
-          width: 99.1vw;
-          height: 234vh;
+          width: 100%;
+          min-height: 100%;
 
           /*Visuals*/
 
@@ -524,7 +506,8 @@ export default function SignUp () {
               /*Visuals*/
 
               background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
-              border-radius: 30px;
+              
+              border-radius: 20px;
 
 
         }
@@ -582,19 +565,14 @@ export default function SignUp () {
 
         .form__input-passwordError{
 
-          /*Position*/
-
-          position: absolute;
 
           /*Box model*/
 
-          display: flex;
+          display: none;
           flex-direction: row;
           align-items: center;
-          margin-bottom: 2rem;
-          margin-left: 20rem;
-          
-          width: 100%;
+          width: 17vw;
+
 
           /*Text*/
 
@@ -603,7 +581,7 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           background-color: ${statusColors.error};
           opacity: 0;
 
@@ -620,18 +598,14 @@ export default function SignUp () {
 
         .form__input-passwordError--active{
 
-          /*Position*/
 
-          position: absolute;
-          margin-bottom: 2rem;
-          margin-left: 20rem;
 
           /*Box model*/
 
           display: flex;
           flex-direction: row;
           align-items: center;
-          width: 100%;
+
 
           /*Text*/
 
@@ -640,7 +614,8 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
           background-color: ${statusColors.error};
           opacity: 1;
 
@@ -649,19 +624,11 @@ export default function SignUp () {
 
         .form__input-nameError{
 
-          /*Position*/
-
-          position: absolute;
-
           /*Box model*/
 
-          display: flex;
+          display: none;
           flex-direction: row;
           align-items: center;
-          margin-bottom: 2rem;
-          margin-left: 20rem;
-          
-          width: 100%;
 
           /*Text*/
 
@@ -670,7 +637,7 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           background-color: ${statusColors.error};
           opacity: 0;
 
@@ -687,12 +654,7 @@ export default function SignUp () {
 
         .form__input-nameError--active{
 
-          /*Position*/
 
-          position: absolute;
-          margin-left: 20rem;
-          width: 100%;
-          margin-bottom: 2rem;
 
           /*Box model*/
 
@@ -708,7 +670,8 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
           background-color: ${statusColors.error};
           opacity: 1;
 
@@ -717,19 +680,14 @@ export default function SignUp () {
 
         .form__input-lastnameError{
 
-          /*Position*/
 
-          position: absolute;
 
           /*Box model*/
 
-          display: flex;
+          display: none;
           flex-direction: row;
           align-items: center;
-          margin-bottom: 2rem;
-          margin-left: 20rem;
-          
-          width: 100%;
+
 
           /*Text*/
 
@@ -738,7 +696,8 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
           background-color: ${statusColors.error};
           opacity: 0;
 
@@ -755,11 +714,6 @@ export default function SignUp () {
 
         .form__input-lastnameError--active{
 
-          /*Position*/
-
-          position: absolute;
-          margin-left: 20rem;
-          margin-bottom: 2rem;
 
           /*Box model*/
 
@@ -775,7 +729,8 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
           background-color: ${statusColors.error};
           opacity: 1;
 
@@ -784,19 +739,13 @@ export default function SignUp () {
 
         .form__input-emailError{
 
-          /*Position*/
-
-          position: absolute;
-
 
           /*Box model*/
 
-          display: flex;
+          display: none;
           flex-direction: row;
           align-items: center;
-          width: 100%;
-          margin-bottom: 2rem;
-          margin-left: 20rem;
+
           
 
           /*Text*/
@@ -806,7 +755,7 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           background-color: ${statusColors.error};
           opacity: 0;
 
@@ -823,17 +772,13 @@ export default function SignUp () {
 
         .form__input-emailError--active{
 
-          /*Position*/
 
-          position: absolute;
-          margin-bottom: 2rem;
-          margin-left: 20rem;
-          width: 100%;
 
           /*Box model*/
 
           display: flex;
           flex-direction: row;
+          align-items: center;
           
 
           /*Text*/
@@ -843,7 +788,8 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
           background-color: ${statusColors.error};
           opacity: 1;
 
@@ -852,19 +798,12 @@ export default function SignUp () {
 
         .form__input-usernameError{
 
-          /*Position*/
-
-          position: absolute;
 
           /*Box model*/
 
-          display: flex;
+          display: none;
           flex-direction: row;
           align-items: center;
-          margin-bottom: 1rem;
-          margin-left: 20rem;
-          width: 100%;
-          
 
 
           /*Text*/
@@ -874,7 +813,7 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           background-color: ${statusColors.error};
           opacity: 0;
 
@@ -891,11 +830,6 @@ export default function SignUp () {
 
         .form__input-usernameError--active{
 
-          /*Position*/
-
-          position: absolute;
-          margin-bottom: 2rem;
-          width: 100%;
 
           /*Box model*/
 
@@ -911,7 +845,8 @@ export default function SignUp () {
         
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
           background-color: ${statusColors.error};
           opacity: 1;
 
@@ -927,70 +862,6 @@ export default function SignUp () {
 
           }
 
-          .form__error-icon{
-
-            /*Position*/
-
-            position: relative;
-            right: -1.1rem;
-            bottom: 0.9rem;
-            z-index: 999;
-
-            /*Visuals*/
-
-            opacity: 0;
-            color: ${statusColors.error};
-
-
-          }
-
-          .form__success-icon{
-
-          /*Position*/
-
-          position: relative;
-          right: 0.1rem;
-          bottom: 0.9rem;
-          z-index: 999;
-
-          /*Visuals*/
-
-          opacity: 0;
-          color: ${statusColors.success};
-
-          }
-
-          .form__error-icon--active{
-
-          /*Position*/
-
-          position: relative;
-          right: -1.1rem;
-          bottom: 0.9rem;
-          z-index: 999;
-
-          /*Visuals*/
-
-          opacity: 1;
-          color: ${statusColors.error};
-
-          }
-
-          .form__success-icon--active{
-
-          /*Position*/
-
-          position: relative;
-          right: 0.1rem;
-          bottom: 0.9rem;
-          z-index: 999;
-
-          /*Visuals*/
-
-          opacity: 1;
-          color: ${statusColors.success};
-
-          }
 
         
 
@@ -1030,7 +901,7 @@ export default function SignUp () {
 
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           background-color: ${statusColors.error};
 
         }
@@ -1053,7 +924,7 @@ export default function SignUp () {
 
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           background-color: ${statusColors.success};
 
         }
@@ -1070,10 +941,10 @@ export default function SignUp () {
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              margin-top: 13rem;
-              margin-bottom: 13rem;
+              margin-top: 4rem;
+              margin-bottom: 3rem;
               width: 20vw;
-              height: 50vh;
+              height: fit-content;
               padding: 1vh 2vh;
 
         }
@@ -1138,8 +1009,9 @@ export default function SignUp () {
 
             cursor: pointer;
             background-color: rgba(240, 142, 15, 0.5);
+            box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
             border-radius: 20px;
-            border: 1px solid ${colors.secondary};
+            border: 2px solid ${colors.secondary};
 
           }
 
@@ -1317,7 +1189,7 @@ export default function SignUp () {
 
           /*Visuals*/
 
-          border-radius: 10px;
+          border-radius: 20px;
           visibility: hidden;
           background-color: ${colors.quaternary};
           color: ${colors.secondary};
@@ -1437,7 +1309,7 @@ export default function SignUp () {
 
             /*Visuals*/
 
-            border-radius: 5px;
+            border-radius: 20px;
             border: 0;
             transition: 0.2s ease all;
 
@@ -1469,7 +1341,7 @@ export default function SignUp () {
 
             /*Visuals*/
 
-            border-radius: 5px;
+            border-radius: 20px;
             border: 0;
             transition: 0.2s ease all;
 
@@ -1501,7 +1373,7 @@ export default function SignUp () {
 
             /*Visuals*/
 
-            border-radius: 5px;
+            border-radius: 20px;
             border: 0;
             transition: 0.2s ease all;
 

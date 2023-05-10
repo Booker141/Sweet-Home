@@ -24,7 +24,7 @@ export default function TypeAttendance (props) {
   /* It's a hook that is used to detect changes in the session, and if the user is an admin, it sets
   the isAdmin state to true. */
   useEffect(() => {
-    if (session.user.role === "admin" ) {
+    if (session.user.role === "administrador" ) {
       setIsAdmin(true);
     }
 }, []);
@@ -59,7 +59,7 @@ export default function TypeAttendance (props) {
       <div className={global.typeAttendance}>
         <div className="typeAttendance__header">
           <h1 className="typeAttendance__title">{props.name}</h1>
-          {isAdmin && <div className="header__buttons"><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button><button className='edit__button' onClick={() => Router.push("/editQuestion/")}><MdOutlineEdit size={20} color={colors.secondary} /></button></div>}
+          {isAdmin && <div className="header__buttons"><button className='edit__button' onClick={() => router.push(`/dashboard/editTypeAttendance/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
         </div>
         <hr className={global.white__line2} />
         <p className={global.text}>{props.description}</p>
@@ -116,6 +116,7 @@ export default function TypeAttendance (props) {
           display: flex;
           flex-direction: row;
           align-items: center;
+          gap: 1rem;
 
           margin-top: 0.5rem;
           margin-right: 1rem;
@@ -125,21 +126,33 @@ export default function TypeAttendance (props) {
 
         .delete__button{
 
+          /*Box model*/
+
+          padding: 1rem;
+
           /*Visuals*/
 
           border: none;
           background: transparent;
           cursor: pointer;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          border-radius: 70px;
 
         }
 
         .edit__button{
 
+          /*Box model*/
+
+          padding: 1rem;
+          
           /*Visuals*/
 
           border: none;
           background: transparent;
           cursor: pointer;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          border-radius: 70px;
 
         }
 

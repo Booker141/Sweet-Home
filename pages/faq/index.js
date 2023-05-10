@@ -26,34 +26,58 @@ export default function FAQ ({ questions }) {
   const {data: session} = useSession({});
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState({});
   const router = useRouter();
+
+  const getUser = async () => {
+
+    if(session){
+
+      const res = await fetch(`${server}/api/users/${session.user.username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const user = await res.json()
+
+      setUser(user)
+
+      if(user.role.name === 'administrador'){
+
+        setIsAdmin(true)
+
+      }
+
+    }
+
+  }
 
   useEffect(() => {
 
-    if(session !== undefined){
-      if(session.user.role === "admin"){
-        setIsAdmin(true);
-      }
-    }
+    if(session != undefined)
+
+      getUser()
+    
   },[]);
 
   return (
     <BasicLayout>
       <Head><title>Preguntas frecuentes</title></Head>
-
       <div className='faq'>
         <h1 id='title' className={global.title}>Preguntas frecuentes</h1>
         <div className='top__image'>
           <Image src={faq1} alt='Imagen de un perro mirando al frente' priority />
         </div>
-        {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push('/createQuestion')}>Crear pregunta</button>}
+        {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push('/dashboard/createQuestion')}>Crear pregunta</button>}
 
         {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
         {questions.map(({ _id, title, answer }) => {
           return (
             <>
-              <Question key={_id} id={_id} title={title} answer={answer} />
+              <Question key={_id} id={_id} title={title} answer={answer} isAdmin={isAdmin} />
             </>
           )
         })}

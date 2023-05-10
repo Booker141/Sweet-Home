@@ -55,11 +55,12 @@ export default function UserSidebar (props) {
 
       <a key={props._id} href={`/profile/${props.username}`} className={global.user__sidebar}>
         <div className='user__image'>
-          <a href={`${server}/profile/${props.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} /></a>
+          <FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} />
         </div>
         <div className="user__text">
             <div className='user__username'>
-            <a className={global.link3} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong>{isShelter && <BsPatchCheckFill size={20} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}</a>
+            <strong>@{props.username}</strong>
+            {isShelter && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}
             </div>
             <p className={global.sidebar__date}>Se unió el {calcCreated(props.createdAt)}</p>
         </div>
@@ -101,6 +102,10 @@ export default function UserSidebar (props) {
                     align-items: center;
                     width: fit-content;
                     gap: 0.5rem;
+
+                    /*Text*/
+
+                    color: #fafafa;
 
                 }
 

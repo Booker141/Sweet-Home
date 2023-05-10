@@ -11,7 +11,7 @@ import Loader from 'components/Loader/Loader'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import { server } from '/server'
+import { toast } from 'react-toastify'
 
 /*
     * @author Sergio García Navarro
@@ -74,13 +74,11 @@ export default function SignIn ({ providers, csrfToken }) {
     if (e.target.name == 'password') {
       if (password.length < 8 || !password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('error__password').classList.add('form__icon-error--active')
-        document.getElementById('success__password').classList.remove('form__icon-success--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-        document.getElementById('error__password').classList.remove('form__icon-error--active')
-        document.getElementById('success__password').classList.add('form__icon-success--active')
+
         setIsValidate(true)
       }
     }
@@ -89,13 +87,11 @@ export default function SignIn ({ providers, csrfToken }) {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('error__email').classList.add('form__error-icon--active')
-        document.getElementById('success__email').classList.remove('form__success-icon--active')
+
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('error__email').classList.remove('form__error-icon--active')
-        document.getElementById('success__email').classList.add('form__success-icon--active')
+
         setIsValidate(true)
       }
     }
@@ -116,14 +112,24 @@ export default function SignIn ({ providers, csrfToken }) {
 
     if (isValidate) {
 
-      setIsSignIn(true)
+      
       const res = await signIn('credentials', { redirect: false, email, password, callbackUrl: '/home' })
 
       if (res?.error) {
-        setMessage(res.error)
 
-        document.getElementById('submit__error').classList.add('submit__error--active')
+        toast.error(`${res.error}`, { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+
       }
+
+      setIsSignIn(true)
 
       return Router.push('/home')
     }
@@ -187,10 +193,10 @@ export default function SignIn ({ providers, csrfToken }) {
               <form className='form-vertical' action='/api/auth/signIn/credentials'>
                 <input name='csrfToken' type='hidden' defaultValue={csrfToken} />
                 <div className='form-vertical__email'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Email</p>
                     <MdEmail size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='email__input'>
                     <input
                       title='Introducir email'
@@ -204,21 +210,21 @@ export default function SignIn ({ providers, csrfToken }) {
                       placeholder='p.ej.: javier@email.com'
                       className='input'
                     />
-                    <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    <div id='email__error' className='form__input-emailError'>
+                    
+                    
+                  </div>
+                  <div id='email__error' className='form__input-emailError'>
                       <div className='error__icon'>
                           <MdOutlineError size={30} color={colors.secondary} />
                         </div>
                       <p className={global.text2}>Debe seguir el formato correcto</p>
                     </div>
-                  </div>
                 </div>
                 <div className='form-vertical__password'>
-                  <div className='label'>
+                  <label className='label'>
                     <p className={global.text}>Contraseña</p>
                     <BsFillLockFill size={18} color={colors.secondary} />
-                  </div>
+                  </label>
                   <div className='password__input'>
                     <input
                       title='Introducir contraseña'
@@ -334,7 +340,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
               background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
               background-size: 100% 100%;
-              border-radius: 30px;
+              border-radius: 20px;
 
             }
 
@@ -354,17 +360,12 @@ export default function SignIn ({ providers, csrfToken }) {
 
             .form__input-emailError{
 
-              /*Position*/
-
-              position: absolute;
-              margin-left: 22rem;
 
               /*Box model*/
 
-              display: flex;
+              display: none;
               flex-direction: row;
               align-items: center;
-              width: 100%;
               margin-bottom: 2rem;
 
 
@@ -375,7 +376,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 0;
 
@@ -394,9 +395,6 @@ export default function SignIn ({ providers, csrfToken }) {
 
               /*Position*/
 
-              position: absolute;
-              margin-left: 22rem;
-              margin-bottom: 2rem;
               width: 100%;
 
               /*Box model*/
@@ -412,7 +410,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 1;
 
@@ -442,7 +440,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 0;
 
@@ -455,6 +453,13 @@ export default function SignIn ({ providers, csrfToken }) {
 
               margin-left: 2rem;
 
+              }
+
+              .error__icon{
+
+                /*Box model*/
+
+                margin-left: 1rem;
               }
 
               .form__input-passwordError--active{
@@ -479,85 +484,14 @@ export default function SignIn ({ providers, csrfToken }) {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 1;
 
               }
 
 
-              .error__icon{
 
-              /*Box model*/
-
-              margin-left: 1rem;
-
-              }
-
-              .form__error-icon{
-
-                /*Position*/
-
-                position: relative;
-                right: -1.1rem;
-                bottom: 0.5rem;
-                z-index: 999;
-
-                /*Visuals*/
-
-                opacity: 0;
-                color: ${statusColors.error};
-
-
-              }
-
-              .form__success-icon{
-
-              /*Position*/
-
-              position: relative;
-              right: 0.1rem;
-              bottom: 0.5rem;
-              z-index: 999;
-
-              /*Visuals*/
-
-              opacity: 0;
-              color: ${statusColors.success};
-
-              }
-
-              .form__error-icon--active{
-
-              /*Position*/
-
-              position: relative;
-              right: -1.1rem;
-              bottom: 0.5rem;
-              z-index: 999;
-
-              /*Visuals*/
-
-              opacity: 1;
-              color: ${statusColors.error};
-
-              }
-
-              .form__success-icon--active{
-
-              /*Position*/
-
-              position: relative;
-              right: 0.1rem;
-              bottom: 0.5rem;
-              z-index: 999;
-
-              /*Visuals*/
-
-              opacity: 1;
-              color: ${statusColors.success};
-
-              }
 
               .submit__error{
 
@@ -594,7 +528,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 /*Visuals*/
 
-                border-radius: 10px;
+                border-radius: 20px;
                 background-color: ${statusColors.error};
 
               }
@@ -665,8 +599,9 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 cursor: pointer;
                 background-color: rgba(240, 142, 15, 0.5);
+                box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
                 border-radius: 20px;
-                border: 1px solid ${colors.secondary};
+                border: 2px solid ${colors.secondary};
 
             }
 
@@ -702,8 +637,9 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 cursor: pointer;
                 background-color: rgba(240, 142, 15, 0.5);
+                box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
                 border-radius: 20px;
-                border: 1px solid ${colors.secondary};
+                border: 2px solid ${colors.secondary};
 
             }
 
@@ -886,7 +822,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 /*Visuals*/
 
-                border-radius: 5px;
+                border-radius: 20px;
                 border: 0;
                 transition: 0.2s ease all;
 
@@ -918,7 +854,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 /*Visuals*/
 
-                border-radius: 5px;
+                border-radius: 20px;
                 border: 0;
                 transition: 0.2s ease all;
 
@@ -950,7 +886,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
                 /*Visuals*/
 
-                border-radius: 5px;
+                border-radius: 20px;
                 border: 0;
                 transition: 0.2s ease all;
 

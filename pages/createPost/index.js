@@ -291,8 +291,8 @@ export default function CreatePost () {
 
                         /*Visuals*/
 
-                        border-radius: 5px;
-                        border: 1px solid ${colors.primary};
+                        border-radius: 20px;
+                        border: 2px solid ${colors.primary};
                     }
 
                     .form-vertical__location {
@@ -408,9 +408,9 @@ export default function CreatePost () {
 
                         /*Visuals*/
 
-                        border-radius: 10px;
+                        border-radius: 20px;
                         background-color: transparent;
-                        border: 1px solid ${colors.secondary};
+                        border: 2px solid ${colors.secondary};
                         color: ${colors.secondary};
 
                     }
@@ -428,7 +428,7 @@ export default function CreatePost () {
                         content: 'Subir imagen..';
                         background-color: ${colors.primary};
                         color: ${colors.secondary};
-                        border-radius: 5px;
+                        border-radius: 20px;
                     
 
 
@@ -484,8 +484,8 @@ export default function CreatePost () {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
-                    border: 1px solid ${colors.primary};
+                    border-radius: 20px;
+                    border: 2px solid ${colors.primary};
 
                     }
 

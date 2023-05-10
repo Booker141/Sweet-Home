@@ -141,7 +141,7 @@ export default function Privacy () {
       </p>
       <p className='last-line'>Si presenta alguna duda con respecto a la política
         de privacidad, tiene la información para contactar con nosotros en el
-        siguiente enlace: <a className={global.link} aria-label='Ir a información de contacto' href='/contact'>Contacta con nosotros</a>.
+        siguiente enlace: &nbsp;<a className={global.link} aria-label='Ir a información de contacto' href='/contact'>Contacta con nosotros</a>.
       </p>
 
       <style jsx>{`
@@ -166,6 +166,9 @@ export default function Privacy () {
 
                         /*Box model*/
 
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
                         margin-top: 2rem;
 
                         /*Text*/

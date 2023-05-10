@@ -14,4 +14,22 @@ export default async function handler (req, res) {
     res.status(200).json({ message: 'Noticia eliminada correctamente' })
 
   }
+
+  if(req.method === 'GET'){
+
+    const data = await db.collection('questions').findOne({_id: id})
+
+    const question = JSON.parse(JSON.stringify(data))
+
+    res.status(200).json(question)
+  }
+
+  if (req.method === 'PUT') {
+
+    const { title, answer } = req.body
+
+    await db.collection('questions').updateOne({_id: id}, {$set: {title: title, answer: answer}})
+    res.status(200).json({ message: 'Pregunta editada correctamente' })
+
+  }
 }

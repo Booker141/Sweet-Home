@@ -10,6 +10,7 @@ import {  RiSettings4Fill, RiAdminFill, RiHealthBookFill } from 'react-icons/ri'
 import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill } from 'react-icons/bs'
 import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets} from 'react-icons/md'
 import {HiHome, HiNewspaper, HiOutlineArrowRight} from 'react-icons/hi'
+import {GiDogHouse} from 'react-icons/gi'
 import {GoGraph} from 'react-icons/go'
 import { server } from '/server'
 import FallbackImage from '/components/FallbackImage/FallbackImage'
@@ -118,6 +119,7 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -162,6 +164,7 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -205,6 +208,7 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -249,6 +253,7 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -291,6 +296,7 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -336,6 +342,8 @@ export default function Header (props) {
                     font-size: 1rem;
 
                     font-family: ${fonts.default};
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
                     cursor: default;
                     
 
@@ -359,7 +367,8 @@ export default function Header (props) {
                     background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
                     backdrop-filter: blur(5px);
                     border-radius: 20px;
-                    box-shadow: 0px 0px 10px 0px rgba(168,97,20,1);
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
                 }
 
                 .user__info{

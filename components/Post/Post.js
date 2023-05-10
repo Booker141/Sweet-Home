@@ -289,6 +289,7 @@ export default function Post (props) {
                     align-items: center;
                     margin-bottom: 1rem;
 
+
                 }
 
                 .post__time{
@@ -342,8 +343,9 @@ export default function Post (props) {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
-                    background: transparent;
+                    border-radius: 20px;
+                    background: #fafafa;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
   
                 }
 
@@ -383,6 +385,12 @@ export default function Post (props) {
                     flex-direction: row;
                     align-items: center;
                     gap: 1.5rem;
+                    padding: 1rem;
+
+                    /*Visuals*/
+
+                    border-radius: 20px;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
 
                 }
@@ -538,7 +546,7 @@ export default function Post (props) {
                     /*Visuals*/
 
                     border-radius: 5px;
-                    border: 1px solid ${colors.primary};
+                    border: 2px solid ${colors.primary};
                 }
 
 
@@ -549,6 +557,10 @@ export default function Post (props) {
 
                     border-radius: 10px;
                     background-color: #fff;
+
+                    /*Visuals*/
+
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
                 }
 

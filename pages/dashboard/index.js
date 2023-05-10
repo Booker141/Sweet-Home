@@ -51,7 +51,7 @@ export default function Dashboard () {
                   <p className={global.text}>Panel de administración de noticias. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
                     <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createNew`)}>Crear</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/editNew`)}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/news`)}>Editar</button>
                     <button className={global.buttonPrimary} onClick={() => router.push(`${server}/news`)}>Eliminar</button>
                   </div>
               </div>
@@ -60,7 +60,7 @@ export default function Dashboard () {
                   <p className={global.text}>Panel de administración de preguntas frecuentes. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
                     <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createQuestion`)}>Crear</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/editQuestion`)}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/faq`)}>Editar</button>
                     <button className={global.buttonPrimary} onClick={() => router.push(`${server}/faq`)}>Eliminar</button>
                   </div>
               </div>
@@ -79,7 +79,7 @@ export default function Dashboard () {
                   <p className={global.text}>Panel de administración de tipos de cuidado. En este panel puede acceder a las siguientes funcionalidades:</p>
                   <div className="panel__buttons">
                     <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createTypeAttendance`)}>Crear</button>
-                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/editTypeAttendance`)}>Editar</button>
+                    <button className={global.buttonPrimary} onClick={() => router.push(`${server}/attendances`)}>Editar</button>
                     <button className={global.buttonPrimary} onClick={() => router.push(`${server}/attendances`)}>Eliminar</button>
                   </div>
               </div>

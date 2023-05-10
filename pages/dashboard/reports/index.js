@@ -1,6 +1,5 @@
 import global from '/styles/global.module.css'
 import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import {colors, fonts} from '/styles/frontend-conf'
 import Layout from '/components/Layout/Layout'
 import Head from 'next/head'
@@ -9,10 +8,9 @@ import Report from '/components/Report/Report'
 import {server} from '/server'
 
 
-export default function Reports () {
+export default function Reports ({reports}) {
 
   const { data: session, status } = useSession({ required: true })
-  const router = useRouter()
 
   if (status == 'loading') {
     return (
@@ -32,11 +30,20 @@ export default function Reports () {
           <div className="report__header">
             <h1 className={global.title}>Panel de informes</h1>
           </div>
+          <div className='reports'>
+                      {reports.length === 0 && <div><p className={global.loading2}>No hay informes que consultar.</p></div>}
+                      {reports.map(({_id, username, reason, image, createdAt}) => {
+                          return(
+                              <>
+                                  <Report key={_id} id={_id} username={username} reason={reason} image={image} createdAt={createdAt}/>
+                              </> 
+                      )})}
+
+                    </div>
           
           <style jsx>{`
 
             
-
             h1{
                         /*Text*/
 
@@ -87,5 +94,19 @@ export default function Reports () {
         </>
       </Layout>
     )
+  }
+}
+
+export async function getServerSideProps(context){
+
+  const res = await fetch(`${server}/api/reports`, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+
+  const data = await res.json()
+  const reports = JSON.parse(JSON.stringify(data))
+
+  return{
+    props: {
+      reports: reports
+    }
   }
 }

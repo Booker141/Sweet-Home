@@ -358,7 +358,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border: 1px solid ${colors.primary};
+            border: 2px solid ${colors.primary};
             border-radius: 50px;
 
           }
@@ -409,7 +409,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border: 1px solid ${colors.primary};
+            border: 2px solid ${colors.primary};
             border-radius: 20px;
             
           }

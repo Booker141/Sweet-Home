@@ -11,6 +11,7 @@ export const config = {
 }
 
 export default async function handler (req, res) {
+  
   const client = await clientPromise
   const db = await client.db()
   const user = await db.collection('users').findOne({ username: req.query.username })

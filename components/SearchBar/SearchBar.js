@@ -35,7 +35,7 @@ export default function SearchBar(){
                 type='search'
                 name='search'
                 value={keyword}
-                placeholder='Buscar..'
+                placeholder='Buscar en Sweet Home'
                 onChange={(e) => setKeyword(e.target.value)}
               /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><RiSearchLine size={20}/></button>
         </div>
@@ -79,14 +79,16 @@ export default function SearchBar(){
             /*Text*/
 
             font-family: ${fonts.default};
-            font-size: 1rem;
+            font-size: 0.9rem;
 
             /*Visuals*/
 
             border-radius: 50px;
             background: white;
             border: none;
-            transition: 0.2s ease all;
+            transition: 0.3s ease-in-out all;
+            box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
 
 
           }
@@ -95,10 +97,11 @@ export default function SearchBar(){
             input[type="search"]:focus{
 
 
-            /*Visuals*/
+              /*Visuals*/
 
-            outline: none;
-            box-shadow: 5px 10px 12px 0px rgba(153,153,153,0.65);
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
             }
 

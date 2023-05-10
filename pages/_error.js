@@ -41,7 +41,7 @@ function Error ({ statusCode }) {
               <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
               <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
             </div>
-            <Image src='/error-1.svg' alt='Imagen de perro' width={1000} height={1000} />
+            <Image src='/error-1.svg' alt='Imagen de perro' width={1000} height={1000} priority/>
           </div>
         </div>
         <style jsx>{`

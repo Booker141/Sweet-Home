@@ -59,7 +59,8 @@ export default function ThemeButton () {
 
                     border: none;
                     background-color: transparent;
-                    border-radius: 50px;
+                    border-radius: 70px;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
                     cursor: pointer;
 
                     transition: 0.3s ease all;

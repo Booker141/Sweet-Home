@@ -13,9 +13,7 @@ export default function NewsId ({ news }) {
   return (
 
     <Layout>
-      <Head><title>Noticia {router.query.newId}</title></Head>
-      <h1 className={global.title}>Noticia {router?.query?.newId} ✧</h1>
-
+      <Head><title>{news.title}</title></Head>
       <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion} />
 
       <style jsx>{`
@@ -136,8 +134,7 @@ export default function NewsId ({ news }) {
 
 export async function getServerSideProps (context) {
 
-  const { newId } = context.params;
-
+  const { newId } = context.query;
 
   const res = await fetch(`${server}/api/news/${newId}`, {
     method: 'GET',
@@ -146,11 +143,11 @@ export async function getServerSideProps (context) {
     }
   })
 
-  const news = await res.json()
+  const news = await res.json();
 
   return {
     props: {
-      news
+      news: JSON.parse(JSON.stringify(news))
     }
 
   }

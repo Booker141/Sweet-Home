@@ -84,20 +84,20 @@ export default function Contact () {
         </div>
         <div className="contact__location">
           <div className='location__container'>
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.476486491192!2d-6.147650961113595!3d36.69966794360945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0dc6af434684e7%3A0xa0544d1a96755bd8!2sCtra.%20Trebujena%2C%2011404%20Jerez%20de%20la%20Frontera%2C%20C%C3%A1diz!5e0!3m2!1ses!2ses!4v1682413325803!5m2!1ses!2ses" width="1000" height="450" style={{borderRadius: '20px', border: '1px solid #f0810f'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>             
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.476486491192!2d-6.147650961113595!3d36.69966794360945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0dc6af434684e7%3A0xa0544d1a96755bd8!2sCtra.%20Trebujena%2C%2011404%20Jerez%20de%20la%20Frontera%2C%20C%C3%A1diz!5e0!3m2!1ses!2ses!4v1682413325803!5m2!1ses!2ses" width="1000" height="450" style={{borderRadius: '20px', border: '2px solid #f0810f'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>             
           </div>
           <div className='personal__container'>
           <div className="location__text">
                 <p className={global.text__bold}>Puedes encontrarnos en la siguiente dirección:</p>
                 <div className='street'>
                   <MdLocationOn color={`${colors.primary}`} size={25}/>
-                  <p className={global.text}>Ctra. Trebujena, 11404 Jerez de la Frontera, Cádiz</p>
+                  <p className={global.text}>Ctra. Trebujena, 11404 Jerez de la Frontera, Cádiz.</p>
                 </div>
               </div>
               <p className={global.text__bold}>Puedes contactar con nosotros:</p>
               <div className='email'>
                 <HiMail size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>A través del siguiente correo electrónico: <a title='Enviar correo' aria-label='Enlace a correo de atención al cliente' href='mailto:atenciónSH@gmail.com'>atenciónSH@gmail.com</a></p>
+                <p className={global.text}>A través del siguiente correo electrónico: <a title='Enviar correo' aria-label='Enlace a correo de atención al cliente' href='mailto:atenciónSH@gmail.com'>atenciónSH@gmail.com</a>.</p>
               </div>
               <div className='phone'>
                 <HiPhone size={20} color={`${colors.primary}`}/>
@@ -105,11 +105,11 @@ export default function Contact () {
               </div>
               <div className='account'>
                 <AiFillMessage size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>O envía un mensaje a la cuenta de: <a className={global.link}>atencion.sh</a>.</p>
+                <p className={global.text}>O envía un mensaje a la cuenta de: <a title='Cuenta de atención al cliente' aria-label='Enviar mensaje a cuenta de atención al cliente'>atencion.sh</a>.</p>
               </div>
               <div className='faq'>
                 <HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>Puedes consultar las preguntas frecuentes en el siguiente enlace: <a href={`${server}/faq`} className={global.link}>FAQ</a>.</p>
+                <p className={global.text}>Puedes consultar las preguntas frecuentes en el siguiente enlace: <a title='Preguntas frecuentes' aria-label='Ir a preguntas frecuentes' href={`${server}/faq`}>FAQ</a>.</p>
             </div>
             </div>
           
@@ -127,6 +127,7 @@ export default function Contact () {
                       justify-content: center;
                       align-items: center;
                       margin-bottom: 3rem;
+                      object-fit: cover;
 
                     }
 
@@ -175,6 +176,44 @@ export default function Contact () {
                       /*Visuals*/
 
                       padding: 2rem;
+
+                    }
+
+                    .card__container1 h2{ 
+
+                      /*Box model*/
+
+                      padding: 1rem;
+
+                      /*Visuals*/ 
+
+                      box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                      border-radius: 20px;
+                    }
+
+                    .card__container2 h2{
+
+                      /*Box model*/
+
+                      padding: 1rem;
+
+                      /*Visuals*/
+
+                      box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                      border-radius: 20px;
+
+                    }
+
+                    .card__container3 h2{
+
+                      /*Box model*/
+
+                      padding: 1rem;
+
+                      /*Visuals*/
+
+                      box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                      border-radius: 20px;
 
                     }
 
@@ -307,7 +346,7 @@ export default function Contact () {
 
                         /*Visuals*/
 
-                        border: 1px solid ${colors.primary};
+                        border: 2px solid ${colors.primary};
                         border-radius: 20px;
                     }
 
@@ -319,11 +358,14 @@ export default function Contact () {
                         flex-direction: row;
                         align-items: center;
                         gap: 1rem;
+                        padding: 1rem;
                         margin-bottom: 2rem;
 
                         /*Misc*/
                         
+                        border-radius: 20px;
                         transition: 0.3s ease;
+                        box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
                     }
 
@@ -385,11 +427,8 @@ export default function Contact () {
                         /*Box model*/
 
                         display: flex;
-
                         flex-direction: row;
-
                         align-items: center;
-
                         justify-content: center;
                         gap: 1rem;
 
@@ -400,11 +439,8 @@ export default function Contact () {
                         /*Box model*/
 
                         display: flex;
-
                         flex-direction: row;
-
                         align-items: center;
-
                         justify-content: center;
                         gap: 1rem;
 
@@ -415,13 +451,9 @@ export default function Contact () {
                         /*Box model*/
 
                         display: flex;
-
                         flex-direction: row;
-
                         align-items: center;
-
                         justify-content: center;
-
                         gap: 1rem;
                     }
 

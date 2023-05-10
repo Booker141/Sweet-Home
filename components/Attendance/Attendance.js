@@ -142,7 +142,7 @@ export default function Attendance (props) {
         <div className="attendance__user">
           <div className="user__column1">
             <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
-            <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}>{props.username}</a>
+            <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}><strong>{props.username}</strong></a>
             <p className={global.date}>- {date.toLocaleDateString()}</p>
             <div className="attendance__hour">
               <HiOutlineClock size={17}/>
@@ -302,7 +302,7 @@ export default function Attendance (props) {
           /*Visuals*/
 
           background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
-          border-radius: 20px 20px 0px 0px;
+          border-radius: 15px 15px 0px 0px;
         }
 
         .header__column1{

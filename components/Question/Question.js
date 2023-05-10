@@ -18,14 +18,10 @@ export default function Question (props) {
 
   const { data: session } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(props.isAdmin);
 
-  /* Checking if the user is an admin and if it is, it sets the isAdmin state to true. */
-  useEffect(() => {
-      if (session.user.role === "admin" ) {
-        setIsAdmin(true);
-      }
-  }, []);
+  console.log(props)
+
 
   /**
    * It deletes the question from the database and then shows a toast message to the user
@@ -59,7 +55,7 @@ export default function Question (props) {
 
           <div className="question__header">
             <h2 className={global.secondary2}>{props.title}</h2>
-            {isAdmin && <div className="header__buttons"><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button><button className='edit__button' onClick={() => Router.push("/editQuestion/")}><MdOutlineEdit size={20} color={colors.secondary} /></button></div>}
+            {props.isAdmin && <div className="header__buttons"><button className='edit__button' onClick={() => Router.push(`/dashboard/editQuestion/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
           <hr className={global.white__line}></hr>
         <p className={global.text2}>{props.answer}</p>
@@ -144,7 +140,9 @@ export default function Question (props) {
 
           display: flex;
           flex-direction: row;
-          align-items: flex-end;
+          align-items: center;
+          margin-left: 1rem;
+          gap: 1rem;
           
           margin-top: 0.5rem;
           
@@ -158,7 +156,19 @@ export default function Question (props) {
           display: flex;
           flex-direction: row;
           align-items: center;
-          gap: 1rem;
+          gap: 2rem;
+        }
+
+        button{
+
+          /*Box model*/
+
+          padding: 1rem;
+
+          /*Visuals*/
+
+          border-radius: 70px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
         }
 
         hr{
@@ -166,6 +176,7 @@ export default function Question (props) {
           /*Box model*/
 
           width: 100%;
+          height: 0.1rem;
           margin-bottom: 3rem;
         }
 
