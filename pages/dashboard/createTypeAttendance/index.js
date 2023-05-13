@@ -35,24 +35,6 @@ export default function CreateTypeAttendance () {
    */
   
 
-  const validate = (e) => {
-    // Regular expressions
-
-    const regName = /^¿?.+\?/g;
-
-    if (e.target.name === 'name') {
-      if (!name.match(regName)) {
-        document.getElementById('name__error').classList.add('form__input-nameError--active')
-
-        setIsValidate(false)
-      } else {
-        document.getElementById('name__error').classList.remove('form__input-nameError--active')
-
-        setIsValidate(true)
-      }
-    }
-
-  }
 
   /**
    * It creates a new type of attendance in the database
@@ -99,21 +81,29 @@ export default function CreateTypeAttendance () {
 
     const data = await res.json()
 
-    if (data.error) {
-      console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
-    } else {
-      toast.success('Se ha publicado el tipo de cuidado', { position: "bottom-right",
+    if (data.message === "Ya existe este tipo de cuidado") {
+
+      toast.error('Ya existe este tipo de cuidado', { position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "colored", })
-      setTimeout(() => {
+
+    } else {
+      toast.success('Se ha publicado el tipo de cuidado', { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+
         Router.push(`${server}/attendances`)
-      }, 5000)
+
     }
   }
 
@@ -150,8 +140,7 @@ export default function CreateTypeAttendance () {
                           value={name}
                           required
                           onChange={(e) => setName(e.target.value)}
-                          onKeyUp={(e) => validate(e)}
-                          onBlur={(e) => validate(e)}
+
                           placeholder='p. ej.: Alimentación'
                           className='input'
                          />

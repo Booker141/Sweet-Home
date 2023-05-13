@@ -33,61 +33,7 @@ export default function News ({ news }) {
   const {data: session} = useSession({required: false});
   const router = useRouter();
 
-  const getUser = async () => {
-
-    const res = await fetch(`${server}/api/users/${session.user.username}`, 
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-      })
-
-    const user = await res.json();
-
-    if(user.role.name === "administrador"){
-      setIsAdmin(true);
-    }
-
-
-  }
-
-  /**
-   * It deletes the news item from the database and then reloads the page
-   */
-  const deleteNew = async () => {
-
-    await fetch(`${server}/api/news/${props.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-
-    setIsModalVisible(false)
-    toast.error('Se ha eliminado la noticia', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-
-      setTimeout(() => {
-        Router.push(`${server}/news`)
-      }, 5000)
-  }
-
-  useEffect(() => {
-
-    if(session !== undefined)
-      getUser();
-
-  }, []);
-
-
+ 
 
   return (
     <BasicLayout>
@@ -107,8 +53,7 @@ export default function News ({ news }) {
           {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, index, title, date, author, introduction }) => {
             return (
               <>
-                <div className='new'>
-                  {isAdmin && <div className="buttons"><button className='edit__button' onClick={() => router.push(`dashboard/editNew/${_id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+                <div className='new'>     
                   <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} index={index} />
                   <Link href={`/news/${_id}`} as={`/news/${_id}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
                 </div>
@@ -117,15 +62,7 @@ export default function News ({ news }) {
           })}
         </div>
       </section>
-      {isModalVisible && <Modal>
-        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-        <h2 className={global.title5}>Eliminar noticia</h2>
-        <p className={global.text2}>¿Estás seguro de eliminar esta noticia?</p>
-        <div className='buttons'>
-          <button className={global.buttonSecondary} onClick={() => deleteNew()}>Sí</button>
-          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-        </div>
-      </Modal>}
+      
       <style jsx>{`
 
                     .news__list{
@@ -140,73 +77,7 @@ export default function News ({ news }) {
 
                     }
 
-                       .close__modal{
-
-                      /*Box model*/
-
-                      display: flex;
-                      flex-direction: row;
-                      align-self: flex-end;
-                      margin-right: 2rem;
-
-                      /*Visuals*/
-
-                      border: none;
-                      background: transparent;
-                      cursor: pointer;
-
-                      }
-
-                      .buttons{
-
-                      /*Box model*/
-
-                      display: flex;
-                      flex-direction: row;
-                      justify-content: center;
-                      align-items: center;
-                      align-self: flex-end;
-                      gap: 1rem;
-                      margin-bottom: 2rem;
-                      }
-
-                      .delete__button{
-
-                      /*Box model*/
-
-                      display: flex;
-                      align-items: center;
-                      margin-bottom: 0.5rem;
-                      padding: 1rem;
-
-                      /*Visuals*/
-
-                      border: none;
-                      background: transparent;
-                      box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-                      border-radius: 70px;
-                      cursor: pointer;
-
-                      }
-
-                      .edit__button{
-
-                        /*Box model*/
-
-                        display: flex;
-                        align-items: center;
-                        margin-bottom: 0.5rem;
-                        padding: 1rem;
-
-                        /*Visuals*/
-
-                        border: none;
-                        background: transparent;
-                        cursor: pointer;
-                        border-radius: 70px;
-                        box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-                        }
+                     
                     .news__header{
 
                         /*Box model*/

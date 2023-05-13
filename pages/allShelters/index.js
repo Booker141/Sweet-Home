@@ -1,7 +1,7 @@
 import { useSession, signIn } from 'next-auth/react'
 import global from 'styles/global.module.css'
 import {colors} from 'styles/frontend-conf'
-import User from 'components/UserCard/User'
+import User from 'components/UserCard/UserCard'
 import Layout from 'components/Layout/Layout'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'

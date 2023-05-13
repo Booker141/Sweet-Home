@@ -23,8 +23,7 @@ export default function CreatePost () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [postImage, setPostImage] = useState("")
-  const [isAdoption, setIsAdoption] = useState(false)
-  const [isLost, setIsLost] = useState(false)
+  const [typePost, setTypePost] = useState('Normal')
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -90,8 +89,7 @@ export default function CreatePost () {
         description,
         username: session.user.username,
         image: postImage,
-        isAdoption,
-        isLost
+        type: typePost
       })
     }).catch(err => console.log(err))
 
@@ -110,9 +108,9 @@ export default function CreatePost () {
         progress: undefined,
         theme: "colored", })
       setMessage('Publicación creada correctamente')
-      setTimeout(() => {
+
         Router.push(`${server}/home`)
-      }, 5000)
+
     }
   }
 
@@ -189,16 +187,18 @@ export default function CreatePost () {
                           </input>
                         </div>
                   </div>
-                  <div className="form-vertical__check">
+                  <div className='form-vertical__typePost'>
                     <label className="label">
-                        <p className={global.text}>¿Esta publicación está relacionada con la adopción de un animal?:</p>
-                        <input type="checkbox" checked={isAdoption} onChange={() => setIsAdoption(!isAdoption)}/>
-                    </label>           
-                    <label className="label">
-                        <p className={global.text}>¿Esta publicación está relacionada con un animal perdido o abandonado?:</p>
-                        <input type="checkbox" checked={isLost} onChange={() => setIsLost(!isLost)}/> 
-                    </label> 
-                  </div>  
+                      <p className={global.text}>Elige el tipo de publicación:</p>
+                    </label>
+                    <select name="type" onChange={(e) => setTypePost(e.target.value)} required>
+                        <option default value="Normal">Normal</option>
+                        <option value="Fauna silvestre">Fauna silvestre</option>
+                        <option value="Adopción">Adopción</option>
+                        <option value="Animal abandonado">Animal abandonado</option>
+                        <option value="Animal perdido">Animal perdido</option>
+                    </select>
+                </div>
               </form>
               <input className={global.buttonPrimary} type='submit' onClick={(e) => createPost(e)} value={isPosting ? 'Creando..' : 'Crear'} />
             </div>
@@ -376,6 +376,26 @@ export default function CreatePost () {
                         text-align: center;
                         
                   }
+
+                   select{
+
+                      /*Box model*/
+
+                      width: 40rem;
+                      height: 2rem;
+                      margin-bottom: 2rem;
+
+                      /*Text*/
+
+                      font-family: ${fonts.default};
+                      font-size: 1rem;
+
+                      /*Visuals*/
+
+                      border-radius: 20px;
+                      border: 1px solid ${colors.primary};
+
+                    }
 
                     input[type="text"]:focus {
 

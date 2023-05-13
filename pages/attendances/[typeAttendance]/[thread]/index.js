@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
 import global from '/styles/global.module.css'
-import {colors} from '/styles/frontend-conf'
+import {colors, fonts} from '/styles/frontend-conf'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
 import Attendance from '/components/Attendance/Attendance'
@@ -18,18 +18,20 @@ export default function Thread ({ attendances }) {
 
   const router = useRouter()
 
-  const sortAttendancesByUsername = () => {
-    const sortedAttendances = attendances.sort((a, b) => {
-      if (a.username > b.username) {
-        return 1
-      }
-      if (a.username < b.username) {
-        return -1
-      }
-      return 0
-    })
-    setIsSortedByUsername(!isSortedByUsername)
-    setSortedAttendances(sortedAttendances)
+  const sortByFilters = (e) =>{
+    if(e === 'name'){
+      const sortedAttendances = attendances.sort((a, b) => {
+        if (a.username > b.username) {
+          return 1
+        }
+        if (a.username < b.username) {
+          return -1
+        }
+        return 0
+      })
+      setIsSortedByUsername(!isSortedByUsername)
+      setSortedAttendances(sortedAttendances)
+    }
   }
 
 
@@ -50,7 +52,12 @@ export default function Thread ({ attendances }) {
         <h1 className={global.title}>{router.query.thread}</h1>
         <div className='sort__buttons'>
           <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear</button>
-          <button className={global.buttonPrimary} onClick={() => sortAttendancesByUsername()} aria-label='Ordenar categorías por usuario'>Ordenar por usuario</button>
+          <div className='filter__list'>
+                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
+                      <option default value="default">Selecciona un filtro</option>
+                      <option value="name">Ordenar por usuario</option>
+                  </select>
+          </div>
         </div>
         {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
         {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
@@ -60,7 +67,7 @@ export default function Thread ({ attendances }) {
             </>
           )
         })}
-        {(!isSortedByUsername || !isSortedByDate) && attendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
+        {!isSortedByUsername && attendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
               <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/>
@@ -77,9 +84,52 @@ export default function Thread ({ attendances }) {
           display: flex;
           flex-direction: row;
           align-items: center;
-          gap: 1rem;
+          justify-content: space-between;
 
         }
+
+        .filter__list{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          }
+
+          select{
+
+          /*Box model*/
+
+          width: 10vw;
+          height: 2rem;
+          align-self: flex-end;
+
+          /*Text*/
+
+          font-family: ${fonts.default};
+          color: ${colors.secondary};
+          font-size: 0.8rem;
+
+          /*Visuals*/
+
+          border-radius: 20px;
+          border: none;
+          background-color: ${colors.primary};
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+          }
+
+          select:focus{
+
+          /*Visuals*/
+
+          border: 2px solid #4d97f7;
+          outline: none;
+          box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+          }
 
         h1{
                         /*Text*/
@@ -136,8 +186,6 @@ export default function Thread ({ attendances }) {
 export async function getServerSideProps (context) {
 
   const { thread } = context.params;
-
-  console.log(thread)
 
   const res = await fetch(`${server}/api/attendances/${thread}`, {
     method: 'GET',

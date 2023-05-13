@@ -3,6 +3,7 @@ import { useState } from 'react'
 import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import Layout from 'components/BasicLayout/BasicLayout'
+import Link from 'next/link'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
 import { AiFillEye, AiFillEyeInvisible, AiFillInfoCircle } from 'react-icons/ai'
@@ -26,11 +27,12 @@ export default function ChangePassword () {
   const [newPassword, setNewPassword] = useState('')
   const [newPassword2, setNewPassword2] = useState('')
   const [isValidate, setIsValidate] = useState(false)
+  const [isChanging, setIsChanging] = useState(false)
   const [email, setEmail] = useState('')
 
-  const showPassword = () => {
+  const showOldPassword = () => {
 
-    const passwordInput = document.getElementById('password')
+    const passwordInput = document.getElementById('oldPassword')
 
     if (passwordInput.type === 'password') {
       document.getElementById('show__icon1').style.display = 'none'
@@ -43,22 +45,74 @@ export default function ChangePassword () {
     }
   }
 
+  const showNewPassword = () => {
+
+    const passwordInput = document.getElementById('newPassword')
+
+    if (passwordInput.type === 'password') {
+      document.getElementById('show__icon3').style.display = 'none'
+      document.getElementById('show__icon4').style.display = 'inline'
+      passwordInput.type = 'text'
+    } else {
+      document.getElementById('show__icon3').style.display = 'inline'
+      document.getElementById('show__icon4').style.display = 'none'
+      passwordInput.type = 'password'
+    }
+  }
+
+  const showNewPassword2 = () => {
+
+    const passwordInput = document.getElementById('newPassword2')
+
+    if (passwordInput.type === 'password') {
+      document.getElementById('show__icon5').style.display = 'none'
+      document.getElementById('show__icon6').style.display = 'inline'
+      passwordInput.type = 'text'
+    } else {
+      document.getElementById('show__icon5').style.display = 'inline'
+      document.getElementById('show__icon6').style.display = 'none'
+      passwordInput.type = 'password'
+    }
+  }
+
   const validate = (e) => {
     // Regular expressions
 
     const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
     const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 
-    if (e.target.name == 'password') {
-      if (password.length < 8 || !password.match(regPassword)) {
-        document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('error__password').classList.add('form__icon-error--active')
-        document.getElementById('success__password').classList.remove('form__icon-success--active')
+    if (e.target.name == 'oldPassword') {
+      if (oldPassword.length < 8 || !oldPassword.match(regPassword)) {
+        document.getElementById('oldPassword__error').classList.add('form__input-passwordError--active')
+        document.getElementById('success__oldPassword').classList.remove('form__icon-success--active')
         setIsValidate(false)
       } else {
-        document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-        document.getElementById('error__password').classList.remove('form__icon-error--active')
-        document.getElementById('success__password').classList.add('form__icon-success--active')
+        document.getElementById('oldPassword__error').classList.remove('form__input-passwordError--active')
+        document.getElementById('success__oldPassword').classList.add('form__icon-success--active')
+        setIsValidate(true)
+      }
+    }
+
+    if (e.target.name == 'newPassword') {
+      if (newPassword.length < 8 || !newPassword.match(regPassword)) {
+        document.getElementById('newPassword__error').classList.add('form__input-passwordError--active')
+        document.getElementById('success__newPassword').classList.remove('form__icon-success--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('newPassword__error').classList.remove('form__input-passwordError--active')
+        document.getElementById('success__newPassword').classList.add('form__icon-success--active')
+        setIsValidate(true)
+      }
+    }
+
+    if (e.target.name == 'newPassword2') {
+      if (newPassword2.length < 8 || !newPassword2.match(regPassword)) {
+        document.getElementById('newPassword2__error').classList.add('form__input-passwordError--active')
+        document.getElementById('success__newPassword2').classList.remove('form__icon-success--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('newPassword2__error').classList.remove('form__input-passwordError--active')
+        document.getElementById('success__newPassword2').classList.add('form__icon-success--active')
         setIsValidate(true)
       }
     }
@@ -67,12 +121,10 @@ export default function ChangePassword () {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('error__email').classList.add('form__error-icon--active')
         document.getElementById('success__email').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('error__email').classList.remove('form__error-icon--active')
         document.getElementById('success__email').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
@@ -85,7 +137,7 @@ export default function ChangePassword () {
 
     if(isValidate){
 
-      if (newPassword === newPassword2) {
+      if (newPassword.localeCompare(newPassword2)) {
 
         const res = await fetch(`${server}/api/changePassword"`, {
           method: 'PUT',
@@ -95,9 +147,12 @@ export default function ChangePassword () {
           body: JSON.stringify({
             email: email,
             password: newPassword,
+            confirmPassword: newPassword2,
             oldPassword: oldPassword
           })
         })
+
+        setIsChanging(true)
 
         const data = await res.json()
 
@@ -113,7 +168,7 @@ export default function ChangePassword () {
           theme: "colored", })
 
           setTimeout(() => {
-            Router.reload('/login')
+            Router.push(`${server}/auth/signIn`)
           }, 5000)
 
           } else {
@@ -142,7 +197,7 @@ export default function ChangePassword () {
     }else{
 
       
-      toast.error(`Por favor, introduzca los daots correctamente`, { position: "bottom-right",
+      toast.error(`Por favor, introduzca los datos correctamente`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
@@ -160,7 +215,7 @@ export default function ChangePassword () {
         <div className={global.content}>
           <div className='form'>
             <h1 className='form__title'>Cambiar contraseña</h1>
-            <form>
+            <form className="form-vertical">
               <div className='form-vertical__email'>
                 <div className='label'>
                   <p className={global.text}>Email</p>
@@ -180,8 +235,9 @@ export default function ChangePassword () {
                     className='input'
                   >
                   </input>
-                  <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+              </div>
+              
                   <div id='email__error' className='form__input-emailError'>
                     <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
@@ -189,80 +245,79 @@ export default function ChangePassword () {
                     <p className={global.text2}>Debe seguir el formato correcto</p>
                   </div>
                 </div>
-              </div>
               <div className='form-vertical__old'>
                 <div className='label'>
                   <p className={global.text}>Contraseña antigua</p>
-                  <BsFillLockFill size={25} color={colors.secondary} />
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
                 <div className='password__input'>
                   <input
                     title='Introducir contraseña antigua'
                     type='password'
-                    id='password'
-                    name='password'
+                    id='oldPassword'
+                    name='oldPassword'
                     value={oldPassword}
                     required
                     onChange={(e) => setOldPassword(e.target.value)}
                     onKeyUp={(e) => validate(e)}
-                    onBlur={() => validate(e)}
+                    onBlur={(e) => validate(e)}
                     placeholder='Contraseña actual'
                     className='input'
                   >
                   </input>
-                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='password__error' className='form__input-passwordError'>
+                  <a className='password--visibility' onClick={() => showOldPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                </div>
+                <div id='success__oldPassword' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+              </div>
+              
+                  <div id='oldPassword__error' className='form__input-passwordError'>
                     <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
                     <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                   </div>
-                </div>
-              </div>
               <div className='form-vertical__new'>
                 <div className='label'>
                   <p className={global.text}>Contraseña nueva</p>
-                  <BsFillLockFill size={25} color={colors.secondary} />
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
                 <div className='password__input'>
                   <input
                     title='Introducir contraseña nueva'
                     type='password'
-                    id='password'
-                    name='ContraseñaN'
+                    id='newPassword'
+                    name='password'
                     value={newPassword}
                     required
                     onChange={(e) => setNewPassword(e.target.value)}
                     onKeyUp={(e) => validate(e)}
-                    onBlur={() => validate(e)}
+                    onBlur={(e) => validate(e)}
                     placeholder='Contraseña nueva'
                     className='input'
                   >
                   </input>
-                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='password__error' className='form__input-passwordError'>
+                  <a className='password--visibility' onClick={() => showNewPassword()}><AiFillEye id='show__icon3' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon4'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                </div>
+                <div id='success__newPassword' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+              </div>
+              
+                  <div id='newPassword__error' className='form__input-passwordError'>
                     <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
                     <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                   </div>
-                </div>
-              </div>
               <div className='form-vertical__new2'>
                 <div className='label'>
                   <p className={global.text}>Repetir contraseña nueva</p>
-                  <BsFillLockFill size={25} color={colors.secondary} />
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
                 <div className='password__input'>
                   <input
                     title='Repetir contraseña nueva'
                     type='password'
-                    id='password'
-                    name='Contraseña'
+                    id='newPassword2'
+                    name='password'
                     value={newPassword2}
                     required
                     onChange={(e) => setNewPassword2(e.target.value)}
@@ -270,18 +325,20 @@ export default function ChangePassword () {
                     className='input'
                   >
                   </input>
-                  <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='password__error' className='form__input-passwordError'>
+                  <a className='password--visibility' onClick={() => showNewPassword2()}><AiFillEye id='show__icon5' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon6'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  
+                </div>
+                <div id='success__newPassword2' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+              </div>  
+                  <div id='newPassword2__error' className='form__input-passwordError'>
                     <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
                     <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
                   </div>
-                </div>
-              </div>
+                  <Link href={`${server}/auth/resetPassword`}><a aria-label='Ir al formulario de restablecer contraseña'>Restablecer contraseña</a></Link>
             </form>
+            
             <div className='tooltip'>
               <div className='tooltip__icon'>
                 <AiFillInfoCircle size={20} color={colors.secondary} />
@@ -294,7 +351,7 @@ export default function ChangePassword () {
                 <p> - La contraseña debe tener al menos un número.</p>
               </div>
             </div>
-            <input className={global.buttonPrimary} type='submit' onSubmit={(e) => changePassword(e)} value='Confirmar' />
+            <input className={global.buttonPrimary} type='submit' onSubmit={(e) => changePassword(e)} value={isChanging ? 'Cambiando..' : 'Cambiar'} />
           </div>
         </div>
         <style jsx>{`
@@ -315,6 +372,15 @@ export default function ChangePassword () {
                     background-size: 100% 110%;
                     border-radius: 20px;
                     
+                }
+
+                .form-vertical{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
                 .form__title{
@@ -461,7 +527,7 @@ export default function ChangePassword () {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    width: 100%;
+                    width: 20vw;
 
                 }
 
@@ -472,7 +538,7 @@ export default function ChangePassword () {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    width: 100%;
+                    width: 20vw;
 
                 }
 
@@ -483,7 +549,6 @@ export default function ChangePassword () {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    width: 100%;
 
                 }
 
@@ -494,7 +559,7 @@ export default function ChangePassword () {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
-                    width: 115%;
+                    width: 20vw;
                     
 
                 }
@@ -506,6 +571,7 @@ export default function ChangePassword () {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                    width: 20vw;
                 }
 
                 .password--visibility{
@@ -518,212 +584,285 @@ export default function ChangePassword () {
 
                 }
 
-                .form__input-passwordError{
+                /*ERRORES*/
 
-                /*Position*/
+        
+                  .error__icon{
 
-                position: absolute;
+                  /*Box model*/
 
-                /*Box model*/
+                  margin-left: 1rem;
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                margin-bottom: 2rem;
-                margin-left: 50rem;
+                  }
 
-                width: 100%;
 
-                /*Text*/
+                  .form__success-icon{
 
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
+                  /*Position*/
 
-                /*Visuals*/
+                  position: relative;
+                  right: -1.1rem;
+                  bottom: 0.9rem;
+                  
+                  z-index: 999;
 
-                border-radius: 10px;
-                background-color: ${statusColors.error};
-                opacity: 0;
+                  /*Visuals*/
 
-                }
+                  opacity: 0;
+                  color: ${statusColors.success};
 
+                  }
 
-                .form__input-passwordError p{
+                  .form__error-icon--active{
 
-                /*Box model*/
+                  /*Position*/
 
-                margin-left: 2rem;
+                  position: relative;
+                  right: -1.1rem;
 
-                }
+                  z-index: 999;
 
-                .form__input-passwordError--active{
+                  /*Visuals*/
 
-                /*Position*/
+                  opacity: 1;
+                  color: ${statusColors.error};
 
-                position: absolute;
-                margin-bottom: 2rem;
-                margin-left: 50rem;
+                  }
 
-                /*Box model*/
+                  .form__success-icon--active{
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                width: 100%;
+                  /*Position*/
 
-                /*Text*/
+                  position: relative;
+                  right: -1.1rem;
 
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
+                  z-index: 999;
 
-                /*Visuals*/
+                  /*Visuals*/
 
-                border-radius: 10px;
-                background-color: ${statusColors.error};
-                opacity: 1;
+                  opacity: 1;
+                  color: ${statusColors.success};
 
-                }
+                  }
 
-                .form__input-emailError{
 
-                /*Position*/
 
-                position: absolute;
+                  .form__input-passwordError{
 
 
-                /*Box model*/
+                    /*Box model*/
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                width: 100%;
-                margin-bottom: 2rem;
-                margin-left: 50rem;
+                    display: none;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 20vw;
 
 
-                /*Text*/
+                    /*Text*/
 
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
+                    font-family: 'Poppins', sans-serif;
+                    color: #fafafa;
 
-                /*Visuals*/
+                    /*Visuals*/
 
-                border-radius: 10px;
-                background-color: ${statusColors.error};
-                opacity: 0;
+                    border-radius: 20px;
+                    background-color: ${statusColors.error};
+                    opacity: 0;
 
-                }
+                  }
 
 
-                .form__input-emailError p{
+                  .form__input-passwordError p{
 
-                /*Box model*/
+                    /*Box model*/
 
-                margin-left: 2rem;
+                    margin-left: 1rem;
 
-                }
+                  }
 
-                .form__input-emailError--active{
+                  .form__input-passwordError--active{
 
-                /*Position*/
 
-                position: absolute;
-                margin-bottom: 2rem;
-                margin-left: 50rem;
-                width: 100%;
+                    /*Box model*/
 
-                /*Box model*/
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
 
-                display: flex;
-                flex-direction: row;
 
+                    /*Text*/
 
-                /*Text*/
+                    font-family: 'Poppins', sans-serif;
+                    color: #fafafa;
 
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
+                    /*Visuals*/
 
-                /*Visuals*/
+                    border-radius: 20px;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                    background-color: ${statusColors.error};
+                    opacity: 1;
 
-                border-radius: 10px;
-                background-color: ${statusColors.error};
-                opacity: 1;
+                  }
 
-                }
 
-                .error__icon{
 
-                /*Box model*/
+                  .form__input-emailError{
 
-                margin-left: 1rem;
+                    /*Position*/
 
-                }
+                    position: relative;
+                    
+                    /*Box model*/
 
-                .form__error-icon{
+                    display: none;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 20vw;
 
-                /*Position*/
 
-                position: relative;
-                right: -1.1rem;
-                bottom: 0.9rem;
-                z-index: 999;
+                    /*Text*/
 
-                /*Visuals*/
+                    font-family: 'Poppins', sans-serif;
+                    color: #fafafa;
 
-                opacity: 0;
-                color: ${statusColors.error};
+                    /*Visuals*/
 
+                    border-radius: 20px;
+                    background-color: ${statusColors.error};
+                    opacity: 0;
 
-                }
+                  }
 
-                .form__success-icon{
 
-                /*Position*/
+                  .form__input-emailError p{
 
-                position: relative;
-                right: 0.1rem;
-                bottom: 0.9rem;
-                z-index: 999;
+                    /*Box model*/
 
-                /*Visuals*/
+                    margin-left: 1rem;
 
-                opacity: 0;
-                color: ${statusColors.success};
+                  }
 
-                }
+                  .form__input-emailError--active{
 
-                .form__error-icon--active{
+                    /*Position*/
 
-                /*Position*/
+                    position: relative;
+                    
 
-                position: relative;
-                right: -1.1rem;
-                bottom: 0.9rem;
-                z-index: 999;
+                    /*Box model*/
 
-                /*Visuals*/
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 20vw;
+                    
 
-                opacity: 1;
-                color: ${statusColors.error};
+                    /*Text*/
 
-                }
+                    font-family: 'Poppins', sans-serif;
+                    color: #fafafa;
 
-                .form__success-icon--active{
+                    /*Visuals*/
 
-                /*Position*/
+                    border-radius: 20px;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                    background-color: ${statusColors.error};
+                    opacity: 1;
 
-                position: relative;
-                right: 0.1rem;
-                bottom: 0.9rem;
-                z-index: 999;
+                  }
 
-                /*Visuals*/
 
-                opacity: 1;
-                color: ${statusColors.success};
+                  .error__icon{
 
-                }
+                    /*Box model*/
 
+                    margin-left: 1rem;
+
+                    }
+
+
+                  .submit__error{
+
+                    /*Box model*/
+
+                    display: none;
+
+                    /*Text*/
+
+                    font-family: 'Poppins', sans-serif;
+                    color: ${colors.secondary};
+
+                    /*Visuals*/
+
+                    background-color: ${statusColors.error};
+
+                  }
+
+                  .submit__error--active{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.5rem;
+                    width: 65%;
+
+                    /*Text*/
+
+                    font-family: 'Poppins', sans-serif;
+                    color: ${colors.secondary};
+
+                    /*Visuals*/
+
+                    border-radius: 20px;
+                    background-color: ${statusColors.error};
+
+                  }
+
+                  .submit__error--active2{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.5rem;
+                    width: 65%;
+
+                    /*Text*/
+
+                    font-family: 'Poppins', sans-serif;
+                    color: ${colors.secondary};
+
+                    /*Visuals*/
+
+                    border-radius: 20px;
+                    background-color: ${statusColors.success};
+
+                  }
+
+                  .form-vertical {
+
+                        /*Position*/
+
+                        position: relative;
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-top: 4rem;
+                        margin-bottom: 3rem;
+                        width: 20vw;
+                        height: fit-content;
+                        padding: 1vh 2vh;
+
+                  }
 
 
 
@@ -739,6 +878,29 @@ export default function ChangePassword () {
                     margin-bottom: 2rem;
 
                 }
+
+                input[type="text"] {
+
+                  /*Box model*/
+
+                  height: 2rem;
+                  padding: 0.4rem;
+
+
+                  /*Text*/
+
+                  font-family: ${fonts.default};
+                  font-size: 1rem;
+
+                  /*Visuals*/
+
+                  border-radius: 20px;
+                  border: 0;
+                  transition: 0.2s ease all;
+
+                  }
+
+
 
 
                 input[type="email"]:focus {
@@ -779,9 +941,26 @@ export default function ChangePassword () {
 
                 a{
 
+                  /*Box model*/
+
+                  display: flex;
+                    flex-direction: row;
+                    align-self: flex-start;
+
+
+                    /*Text*/
+
+                    font-family: ${fonts.default};
+                    font-size: 0.8rem;
+                    color: ${colors.secondary};
+                    font-weight: bold;
+                    
                     /*Misc*/
 
                     cursor: pointer;
+                    text-decoration: none;
+                    border: none;
+
                 }
 
             `}

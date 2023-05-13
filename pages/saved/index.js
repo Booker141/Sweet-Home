@@ -9,7 +9,7 @@ import { HiOutlineRefresh } from 'react-icons/hi'
 import Layout from 'components/Layout/Layout'
 import Sidebar from 'components/Sidebar/Sidebar'
 import Post from 'components/Post/Post'
-import User from 'components/UserCard/User'
+import User from 'components/UserCard/UserCard'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 

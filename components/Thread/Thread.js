@@ -59,11 +59,22 @@ export default function Thread (props) {
 
   }
 
-  const getLastAttendance = () => {
+  const getLastAttendance = async () => {
 
     const lastAttendance = props.attendances[props.attendances.length - 1]
 
-    setLastAttendance(lastAttendance)
+    const res = await fetch(`${server}/api/attendances/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ lastAttendance })
+  })
+
+    const data = await res.json()
+
+
+    setLastAttendance(data)
 
   }
   
@@ -103,7 +114,10 @@ export default function Thread (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 5000)
+
   }
 
   return (
@@ -116,14 +130,14 @@ export default function Thread (props) {
             <div className="thread__delete">
               {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               <div className="thread__lastPostTime">
-                <strong>Última respuesta:</strong> {new Date(lastAttendance?.createdAt).getDate()}
+                <strong>Última respuesta:</strong> {new Date(lastAttendance.createdAt).toLocaleString()}
               </div>
               <div className="thread__lastPostUser">
-                <strong>Por: </strong> {lastAttendance?.username}
+                <strong>Por: </strong> {lastAttendance.username}
               </div>
             </div> 
           </div>
-          <hr className={global.white__line2}></hr>
+          <hr className={global.white__line}></hr>
           <div className="thread__header__date">
             <p><strong>Fecha de creación:</strong> {date.toLocaleDateString()}</p>
           </div>
@@ -184,6 +198,7 @@ export default function Thread (props) {
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
+          margin-bottom: 2rem;
           
 
         }
@@ -222,6 +237,7 @@ export default function Thread (props) {
 
           display: flex;
           align-items: center;
+          padding: 1rem;
 
 
           /*Visuals*/
@@ -229,6 +245,8 @@ export default function Thread (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+          border-radius: 70px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
           }
 

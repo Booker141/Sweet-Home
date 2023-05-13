@@ -31,6 +31,7 @@ export default function Post (props) {
   const [isShelter, setIsShelter] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
+  console.log(props)
   const Router = useRouter()
 
 
@@ -77,7 +78,6 @@ export default function Post (props) {
     const user = await res.json()
     setUser(user)
 
-    console.log(user.role)
 
     if(user.role === "protectora")
       setIsShelter(true)
@@ -142,9 +142,9 @@ export default function Post (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    setTimeout(() => {
+
       Router.reload()
-    }, 5000)
+
   }
 
 
@@ -174,8 +174,10 @@ export default function Post (props) {
                 </p>
                 {(user.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               </div>
-              {isAdoption && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
-              {isLost && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Animal perdido</a>}
+              {props.type.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
+              {props.type.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
+              {props.type.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
+              {props.type.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
             </div>
           </div>
           <hr className={global.white__line2} />

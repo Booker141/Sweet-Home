@@ -92,9 +92,7 @@ export default function Attendance (props) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: props.id
-
-    })
+      body: JSON.stringify({ id: props.id })
   })
 
 
@@ -134,12 +132,7 @@ export default function Attendance (props) {
               <p className={global.text2__bold}>{props.location}</p>
               {(thread.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
             </div>
-            
-            <p className={global.date2}>{date.toLocaleDateString().slice(0,10)}</p>
-            <div className="attendance__hour">
-              <HiOutlineClock color={`${colors.secondary}`} size={17}/>
-              <p className={global.date2}>{getFull(date.getHours())}:{getFull(date.getMinutes())}:{getFull(date.getSeconds())}</p>
-            </div>    
+ 
           </div>
         </div>
         <div className="attendance__user">
@@ -160,7 +153,7 @@ export default function Attendance (props) {
         
         <hr className={global.attendance__line}></hr>
         <div className="attendance__description">
-          <p>{props.description}</p>
+          <p className={global.text}>{props.description}</p>
         </div>
         <div className="attendance__image">
           {isImage && <Image src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
@@ -282,12 +275,15 @@ export default function Attendance (props) {
 
           display: flex;
           align-items: center;
+          padding: 1rem;
 
           /*Visuals*/
 
           border: none;
           background: transparent;
           cursor: pointer;
+          border-radius: 70px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
           }
 
@@ -327,6 +323,15 @@ export default function Attendance (props) {
           align-items: center;
           justify-content: center;
           padding: 1rem;
+        }
+
+
+
+        p{
+
+          /*Visuals*/
+
+          white-space: pre-wrap;
         }
 
         a{

@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import { useSession, signIn } from 'next-auth/react'
-import { useState } from 'react'
+import { useSession, signIn} from 'next-auth/react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import global from 'styles/global.module.css'
@@ -20,42 +20,29 @@ import { server } from '/server'
     * @date 13/12/2020
     * @description Posts page
 */
-/**
- * It returns a React fragment that contains a Head component with a title of "Reciente" and a div
- * that contains a list of posts
- * @returns An array of objects.
- */
-export default function Home ({ posts }) {
+
+export default function Wild ({posts}) {
   
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState(posts)
-  const [isSortedByUsername, setIsSortedByUsername] = useState(false)
   const [isSortedByLikes, setIsSortedByLikes] = useState(false)
+  const [isSortedByDate, setIsSortedByDate] = useState(false)
   const Router = useRouter()
 
-/**
- * The function sorts a list of posts either by activity (likes) or by user (username) based on the
- * input parameter.
- * @param e - The parameter `e` is a variable representing the event object that triggered the function
- * `sortByFilters`. It is likely an argument passed from an event listener.
- */
-  const sortByFilters = (e) => {
 
-
-    if(e === 'activity'){
-      
+  const sortPostByLikes = () => {
     setIsSortedByLikes(!isSortedByLikes)
     const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
     setPostList(sortedPosts)
-
-    }else if(e === 'user'){
-
-    setIsSortedByUsername(!isSortedByUsername)
-    const sortedPosts = posts.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
-    setPostList(sortedPosts)
-
   }
-}
+
+  const sortPostByDate = () => {
+    setIsSortedByDates(!isSortedByDate)
+    const sortedPosts = posts.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0))
+    setPostList(sortedPosts)
+  }
+
+
 
   if (status == 'loading') {
     return (
@@ -68,38 +55,32 @@ export default function Home ({ posts }) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Reciente</title></Head>
-        <div className='column1__header'>
-              <h1 className={global.title}>Reciente</h1>
-        </div>
-        <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear</button>
-          <div className='filter__list'>
-                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro</option>
-                      <option value="activity">Ordenar por popularidad</option>
-                      <option value="user">Ordenar por usuario</option>
-                  </select>
-                </div>
-        </div>
+        <Head><title>Fauna silvestre</title></Head>
+        
         <div className='container'>
 
           <div className='container__column1'>
 
-            
-            {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
-              return (
-                <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
-                </>
-              )
-            })}
-            {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
+            <div className='column1__header'>
+              <h1 className={global.title}>Fauna silvestre</h1>
+            </div>
+            <div className='column1__buttons'>
+                <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
+                <button className={global.buttonPrimary} onClick={() => sortPostByDate()} aria-label='Ordenar publicaciones por fecha'>Ordenar por fecha</button>
+            </div>
+            {((isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
                   <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/>
+                </>
+              )
+            })}
+            {((!isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type}) => {
+              return (
+                <>
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
                 </>
               )
             })}
@@ -117,17 +98,6 @@ export default function Home ({ posts }) {
                 display: flex;
                 flex-direction: row;
            
-
-              }
-
-              .filter__list{
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                align-self: flex-end;
 
               }
 
@@ -150,8 +120,11 @@ export default function Home ({ posts }) {
                 flex-direction: row;
                 gap: 1rem;
                 align-items: center;
-                margin-bottom: 2rem;
+                width: 100%;
               }
+
+
+
 
 
               .column1__buttons{
@@ -161,7 +134,6 @@ export default function Home ({ posts }) {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: space-between;
                 margin-bottom: 2rem;
                 
                
@@ -216,46 +188,6 @@ export default function Home ({ posts }) {
                         
                   }
 
-                  select{
-
-                  /*Box model*/
-
-                  width: 10vw;
-                  height: 2rem;
-                  align-self: flex-end;
-
-                  /*Text*/
-
-                  font-family: ${fonts.default};
-                  color: ${colors.secondary};
-                  font-size: 0.8rem;
-
-                  /*Visuals*/
-
-                  border-radius: 20px;
-                  border: none;
-                  background-color: ${colors.primary};
-                  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-                  }
-
-                  select:focus{
-
-                  /*Visuals*/
-
-                  border: 2px solid #4d97f7;
-                  outline: none;
-                  box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                  }
-
-                  select::part(listbox){
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                  }
-
 
 
                 ::placeholder{
@@ -306,17 +238,26 @@ export default function Home ({ posts }) {
   }
 }
 
-export async function getServerSideProps (context) {
-  const res = await fetch(`${server}/api/posts`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+export async function getServerSideProps(){
 
-  const posts = await res.json()
+    const res = await fetch(`${server}/api/wildAnimals/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    
+      const posts = await res.json()
+      
+        return {    
 
-  return {
-    props: { posts: JSON.parse(JSON.stringify(posts))}
-  }
+            props: {
+
+                posts: JSON.parse(JSON.stringify(posts))
+
+            }
+
+        }
+
+                
 }

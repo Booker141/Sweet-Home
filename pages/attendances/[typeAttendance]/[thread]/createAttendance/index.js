@@ -2,8 +2,9 @@ import Head from 'next/head'
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { MdLocationOn } from 'react-icons/md'
+import { MdLocationOn, MdPets } from 'react-icons/md'
 import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
+import { FaDog } from 'react-icons/fa'
 import { colors, fonts } from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
@@ -12,6 +13,8 @@ import {toast} from 'react-toastify'
 import { server } from '/server'
 
 export default function CreateAttendance () {
+
+
   const { data: session, status } = useSession({ required: true })
   const Router = useRouter()
   const [description, setDescription] = useState('')
@@ -20,9 +23,6 @@ export default function CreateAttendance () {
   const [animal, setAnimal] = useState('')
   const [breed, setBreed] = useState('')
   const [message, setMessage] = useState('')
-
-
-
 
 
   const uploadImage = async (e) => {
@@ -116,7 +116,7 @@ export default function CreateAttendance () {
                 <div className='form-vertical__email'>
                   <div className='label'>
                     <p className={global.text}>Ubicación</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <MdLocationOn size={18} color={colors.secondary} />
                   </div>
                   <div className='location__input'>
                     <input
@@ -133,7 +133,7 @@ export default function CreateAttendance () {
                 <div className='form-vertical__old'>
                   <div className='label'>
                     <p className={global.text}>Seleccionar imagen:</p>
-                    <BsImageFill size={25} color={colors.secondary} />
+                    <BsImageFill size={18} color={colors.secondary} />
                   </div>
                   <div className='image__input'>
                           <input
@@ -153,7 +153,7 @@ export default function CreateAttendance () {
                 <div className='form-vertical__new'>
                   <div className='label'>
                     <p className={global.text}>Descripción (*)</p>
-                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
                   <div className='password__input'>
                     <textarea
@@ -168,7 +168,7 @@ export default function CreateAttendance () {
                 <div className='form-vertical__animal'>
                   <div className='label'>
                     <p className={global.text}>Tipo de animal</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <FaDog size={18} color={colors.secondary} />
                   </div>
                   <div className='animal__input'>
                     <input
@@ -185,7 +185,7 @@ export default function CreateAttendance () {
                 <div className='form-vertical__breed'>
                   <div className='label'>
                     <p className={global.text}>Raza</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <MdPets size={18} color={colors.secondary} />
                   </div>
                   <div className='breed__input'>
                     <input
@@ -281,7 +281,7 @@ export default function CreateAttendance () {
 
                         /*Visuals*/
 
-                        border-radius: 5px;
+                        border-radius: 20px;
                         border: 1px solid ${colors.primary};
                     }
 
@@ -392,7 +392,7 @@ export default function CreateAttendance () {
 
                         /*Visuals*/
 
-                        border-radius: 10px;
+                        border-radius: 20px;
                         background-color: transparent;
                         border: 1px solid ${colors.secondary};
                         color: ${colors.secondary};
@@ -425,7 +425,7 @@ export default function CreateAttendance () {
                     }
 
 
-                    input[type="email"]:focus {
+                    input[type="text"]:focus {
 
                         /*Visuals*/
 
@@ -435,15 +435,17 @@ export default function CreateAttendance () {
 
                     }
 
-                    input[type="password"]:focus {
+                    textarea:focus {
 
-                        /*Visuals*/
+                    /*Visuals*/
 
-                        border: 2px solid #4d97f7;
-                        outline: none;
-                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
+
+
 
                     ::placeholder{
 
@@ -468,7 +470,7 @@ export default function CreateAttendance () {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
+                    border-radius: 20px;
                     border: 1px solid ${colors.primary};
 
                     }

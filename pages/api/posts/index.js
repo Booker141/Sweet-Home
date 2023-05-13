@@ -15,6 +15,8 @@ export default async function handler (req, res) {
   const body = req.body
   const user = await db.collection('users').findOne({ username: body.username })
   const id = new ObjectId()
+  let typePost
+
 
   if (req.method == 'GET') {
 
@@ -28,7 +30,37 @@ export default async function handler (req, res) {
 
   if (req.method === 'POST') {
 
-    await db.collection('posts').insertOne({ _id: id, location: body.location, description: body.description, image: body.image, comments: [], likes: [], saves: [], userId: user._id, username: body.username, isAdoption: body.isAdoption, isLost: body.isLost, createdAt: new Date()})
+    if(body.type === 'Normal') {
+
+      typePost = await db.collection('typePost').findOne({name: "Normal"})
+  
+    }
+    if(body.type === 'Adopción') {
+
+      typePost = await db.collection('typePost').findOne({name: "Adopción"})
+
+    }
+
+    if(body.type === 'Fauna silvestre'){
+
+      typePost = await db.collection('typePost').findOne({name: "Silvestre"})
+
+    }
+
+    if(body.type === 'Animal perdido'){
+
+      typePost = await db.collection('typePost').findOne({name: "Perdido"})
+
+    }
+
+    if(body.type === 'Animal abandonado'){
+
+      typePost = await db.collection('typePost').findOne({name: "Abandonado"})
+
+    }
+
+
+    await db.collection('posts').insertOne({ _id: id, location: body.location, description: body.description, image: body.image, comments: [], likes: [], saves: [], userId: user._id, username: body.username, type: typePost, createdAt: new Date()})
     const post = await db.collection('posts').findOne({_id: id})
     await db.collection('users').updateOne({_id: user._id}, {$push: {posts: post._id}})
 

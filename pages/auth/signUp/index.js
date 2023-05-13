@@ -182,9 +182,9 @@ export default function SignUp () {
         progress: undefined,
         theme: "colored", })
 
-        setTimeout(() => {
+
           Router.push(`auth/signIn`)
-        }, 5000)
+
       }
 
       if(data.message === 'Ya está registrado con este nombre de usuario.'){

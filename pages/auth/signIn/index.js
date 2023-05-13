@@ -12,6 +12,7 @@ import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCirc
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { toast } from 'react-toastify'
+import {server} from '/server'
 
 /*
     * @author Sergio García Navarro
@@ -134,9 +135,9 @@ export default function SignIn ({ providers, csrfToken }) {
 
       setIsSignIn(true)
 
-      return setTimeout(() => {
-        Router.push('/home')
-      }, 5000)
+
+        Router.push(`${server}/home`)
+
     }
   }
 
@@ -247,7 +248,7 @@ export default function SignIn ({ providers, csrfToken }) {
                     <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
 
                   </div>
-                  <Link href='/changePassword'><a aria-label='Ir al formulario de cambio de contraseña'>¿Has olvidado la contraseña?</a></Link>
+                  <Link href={`${server}/auth/changePassword`}><a aria-label='Ir al formulario de cambio de contraseña'>¿Has olvidado la contraseña?</a></Link>
 
                 </div>
               </form>
@@ -258,7 +259,7 @@ export default function SignIn ({ providers, csrfToken }) {
               <input type='submit' value={isSignIn ? 'Iniciando sesión..' : 'Iniciar sesión'} className='form-vertical__button' onClick={(e) => Login(e)} />
               <div className='form-register'>
                 <h6>¿No tiene una cuenta?</h6>
-                <Link href='/auth/signUp'><a aria-label='Ir al formulario de registro'>¡Regístrate aquí!</a></Link>
+                <Link href={`${server}/auth/signUp`}><a aria-label='Ir al formulario de registro'>¡Regístrate aquí!</a></Link>
               </div>
 
             </div>

@@ -9,7 +9,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'GET') {
     
-    const data = await db.collection('posts').find({"type.name": "Adopción"}).limit(100).toArray()
+    const data = await db.collection('posts').find({"type.name": "Silvestre"}).limit(100).toArray()
     const posts = JSON.parse(JSON.stringify(data))
 
     res.status(200).json(posts)

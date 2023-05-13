@@ -7,8 +7,9 @@ export default async function handler (req, res) {
   const db = await client.db()
   const {thread} = req.query;
   const body = req.body;
-  const threadFound = await db.collection('threads').findOne({title: thread})
   const user = await db.collection('users').findOne({username: body.username})
+  const threadFound = await db.collection('threads').findOne({title: thread})
+  const id = new ObjectId()
 
   if (req.method === 'GET') {
 
@@ -24,8 +25,8 @@ export default async function handler (req, res) {
 
     const {location, description, image, animal, breed, username} = req.body;
 
-    const data = await db.collection('attendances').insertOne({location, description, animal, breed, image, username, userId: ObjectId(user._id) , threadId: ObjectId(threadFound._id), createdAt: new Date()})
-    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$push: {attendances: ObjectId(data._id)}})
+    const data = await db.collection('attendances').insertOne({_id: id, location, description, animal, breed, image, username, userId: ObjectId(user._id) , threadId: ObjectId(threadFound._id), createdAt: new Date()})
+    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$push: {attendances: id}})
     res.status(200).json(data)
 
   }
@@ -35,7 +36,7 @@ export default async function handler (req, res) {
 
     const { id } = req.body
     await db.collection('attendances').deleteOne({ _id: ObjectId(id) })
-    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$pull: {attendances: ObjectId(id)}})
+    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$pull: {attendances: id}})
 
 
   }

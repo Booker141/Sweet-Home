@@ -71,18 +71,18 @@ export default function Adoption ({posts}) {
                 <button className={global.buttonPrimary} onClick={() => sortPostByDate()} aria-label='Ordenar publicaciones por fecha'>Ordenar por fecha</button>
             </div>
             {((isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, isLost, isAdoption }) => {
+            {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type}) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} isLost={isLost} isAdoption={isAdoption}/>
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/>
                 </>
               )
             })}
             {((!isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, isLost, isAdoption }) => {
+            {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} isLost={isLost} isAdoption={isAdoption} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
                 </>
               )
             })}

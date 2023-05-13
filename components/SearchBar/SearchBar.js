@@ -1,8 +1,9 @@
 import {fonts, colors} from "styles/frontend-conf"
 import Router from "next/router"
 import global from "styles/global.module.css"
-import {RiSearchLine} from "react-icons/ri"
+import {HiSearch} from "react-icons/hi"
 import {useState} from "react"
+import {server} from "/server"
 
 
 /**
@@ -23,22 +24,28 @@ export default function SearchBar(){
 
     const searchKeyword = () => {
 
-      Router.push(`/search?keyword=${encodeURIComponent(search)}`);
+      const encodedKeyword = encodeURIComponent(keyword)
+
+      Router.push(`${server}/search?keyword=${encodedKeyword}`);
 
     }
 
 
+
     return(
         <>
-        <div className='search-bar'>
-              <input
-                type='search'
-                name='search'
-                value={keyword}
-                placeholder='Buscar en Sweet Home'
-                onChange={(e) => setKeyword(e.target.value)}
-              /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><RiSearchLine size={20}/></button>
-        </div>
+        <form className='search-bar'>
+          <input
+                  type='search'
+                  name='search'
+                  value={keyword}
+                  placeholder='Buscar en Sweet Home'
+                  onChange={(e) => setKeyword(e.target.value)}
+                /><button className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><HiSearch size={20}/></button>
+        </form>
+
+              
+
         <style jsx>{`
 
         .search-bar{

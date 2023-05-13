@@ -153,9 +153,9 @@ export default function CreateNew () {
         draggable: true,
         progress: undefined,
         theme: "colored", })
-        setTimeout(() => {
+
           Router.push(`${server}/news`)
-        }, 5000)
+
   
       }
     }

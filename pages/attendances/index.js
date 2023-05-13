@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import global from 'styles/global.module.css'
-import {colors} from 'styles/frontend-conf.js'
+import {colors, fonts} from 'styles/frontend-conf.js'
 import Layout from '/components/Layout/Layout'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import TypeAttendance from 'components/TypeAttendance/TypeAttendance'
@@ -13,7 +13,7 @@ import { server } from '/server'
     * @author Sergio García Navarro
     * @returns Attendances page
     * @version 1.0
-    * @date 13/12/2020
+    * @date 13/12/2022
     * @description This page is the attendances page of the application
 */
 /**
@@ -27,22 +27,58 @@ export default function Attendances ({ typeAttendance }) {
   const { data: session, status } = useSession({ required: true })
 
   const [isSorted, setIsSorted] = useState(false)
+  const [user, setUser] = useState({})
+  const [isAdmin, setIsAdmin] = useState(false)
   const [sortedAttendance, setSortedAttendance] = useState(typeAttendance)
   const Router = useRouter()
 
-  const sortAttendanceByName = () => {
-    const sortedAttendance = typeAttendance.sort((a, b) => {
-      if (a.name > b.name) {
-        return 1
-      }
-      if (a.name < b.name) {
-        return -1
-      }
-      return 0
-    })
-    setIsSorted(!isSorted)
-    setSortedAttendance(sortedAttendance)
+
+/**
+ * The function sorts an array of attendance objects by name.
+ * @param e - e is a parameter representing the filter by which the attendance data needs to be sorted.
+ * In this code snippet, it is used to sort the attendance data by name.
+ */
+  const sortByFilters = (e) => {
+
+    if(e === 'name'){
+      const sortedAttendance = typeAttendance.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1
+        }
+        if (a.name < b.name) {
+          return -1
+        }
+        return 0
+      })
+      setIsSorted(!isSorted)
+      setSortedAttendance(sortedAttendance)
+    }
+
   }
+
+  const getRole = async () => {
+
+    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  
+
+    const data = await res.json()
+
+    setIsAdmin(data.role.name === "administrador" ? true : false)
+
+  } 
+
+  useEffect(() => {
+
+    getRole()
+
+  }, [])
+
+
 
   if (status == 'loading') {
     return (
@@ -60,7 +96,16 @@ export default function Attendances ({ typeAttendance }) {
         </Head>
         <h1 className={global.title}>Foro de cuidados</h1>
         <h2 className={global.title2}>Categorías</h2>
-        <button className={global.buttonPrimary} onClick={() => sortAttendanceByName()} aria-label='Ordenar categorías por nombre'>Ordenar por nombre</button>
+        <div className="header__buttons">
+          {isAdmin && <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/dashboard/createTypeAttendance`)} aria-label='Crear categoría'>Crear</button>}
+          <div className='filter__list'>
+                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
+                      <option default value="default">Selecciona un filtro</option>
+                      <option value="name">Ordenar por nombre</option>
+                  </select>
+          </div>
+        </div>
+        
         {typeAttendance.length === 0 && <div><p className={global.loading2}>No hay ninguna categoría en este momento.</p></div>}
         {isSorted && sortedAttendance.map(({ _id, name, description, urlName }) => {
           return (
@@ -77,6 +122,60 @@ export default function Attendances ({ typeAttendance }) {
           )
         })}
         <style jsx>{`
+
+                      .header__buttons{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: space-between;
+                        margin-bottom: 2rem;
+                      }
+
+                      .filter__list{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+
+                      }
+
+                      select{
+
+                      /*Box model*/
+
+                      width: 10vw;
+                      height: 2rem;
+                      align-self: flex-end;
+
+                      /*Text*/
+
+                      font-family: ${fonts.default};
+                      color: ${colors.secondary};
+                      font-size: 0.8rem;
+
+                      /*Visuals*/
+
+                      border-radius: 20px;
+                      border: none;
+                      background-color: ${colors.primary};
+                      box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+                      }
+
+                      select:focus{
+
+                      /*Visuals*/
+
+                      border: 2px solid #4d97f7;
+                      outline: none;
+                      box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                      }
 
                       button{
 
@@ -138,7 +237,9 @@ export default function Attendances ({ typeAttendance }) {
   }
 }
 
-export async function getServerSideProps (context) {
+export async function getServerSideProps () {
+
+
 
   const res = await fetch(`${server}/api/typeAttendance`, {
     method: 'GET',
@@ -146,6 +247,8 @@ export async function getServerSideProps (context) {
       'Content-Type': 'application/json'
     }
   })
+
+
 
   const typeAttendance = await res.json()
 
