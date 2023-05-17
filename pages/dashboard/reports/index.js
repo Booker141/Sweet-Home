@@ -25,7 +25,7 @@ export default function Reports ({reports}) {
       <>
         <Layout>
           <Head>
-            <title>Panel de informes</title>
+            <title>Panel de informes | Sweet Home</title>
           </Head>
           <div className="report__header">
             <h1 className={global.title}>Panel de informes</h1>

@@ -23,7 +23,7 @@ function Error ({ statusCode }) {
     <Layout>
       <>
         <Head>
-          <title>¡Ups! Algo ha salido mal.. Error {router.error}{statusCode}</title>
+          <title>¡Ups! Algo ha salido mal.. Error {router.error}{statusCode} | Sweet Home</title>
         </Head>
         <div className={global.content}>
 

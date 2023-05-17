@@ -1,37 +1,34 @@
 import global from "/styles/global.module.css"
-import {colors} from "styles/frontend-conf"
-import {server} from '/server'
-import {useSession} from 'next-auth/react'
-import {HiOutlineBookmark, HiBookmark} from "react-icons/hi"
 import {useState, useEffect} from 'react'
+import {useSession} from 'next-auth/react'
+import {colors} from "styles/frontend-conf"
+import {MdBookmark, MdBookmarkBorder} from "react-icons/md"
+import {server} from '/server'
 
-/**
- * This function is used to save a post
- * @param props - This is the props that you're passing to the component.
- * @returns A component that displays the number of saves and a bookmark icon.
- */
 
 
 export default function Save(props){
 
     const {data: session} = useSession();
-    const [isSave, setIsSave] = useState(false);
-    const [count, setCount] = useState(props.saves?.length);
     const [user, setUser] = useState({});
-    const isSavedByUser = props.likes?.filter(save => save === user._id);
+
+    const [isSavedByMe, setIsSavedByMe] = useState(false)
 
 
 
-    const getUser = async () => {
-
-        const res = await fetch(`${server}/api/users/${session.user.username}`, {headers: {
-            'Accept': 'application/json',
+    async function getUser(){
+    
+        const res = await fetch(`${server}/api/users/${session.user.username}`, {
+          method: 'GET',
+          headers: {
             'Content-Type': 'application/json'
-        }, method: 'GET'}
-        )
+          }
+        })
 
-        const data = res.json()
-        setUser(data)
+        const user = await res.json()
+
+        setUser(user)
+        setIsSavedByMe(props.saves.includes(user._id))
 
     }
 
@@ -39,19 +36,7 @@ export default function Save(props){
 
     useEffect(() => {
 
-        getUser()
-
-        if(isSavedByUser?.length > 0){
-
-            setIsSave(true);
-
-        }else{
-                
-            setIsSave(false);
-
-        }
-
-        
+        getUser();
 
     }, [])
 
@@ -60,36 +45,31 @@ export default function Save(props){
 
     const Save = async () => {
 
-        setIsSave(!isSave);
-    
 
-        // Like
+        // Save
 
-        if(isSave === true){
+        if(isSavedByMe === false){
 
             await fetch(`${server}/api/saves`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'POST', body: JSON.stringify({postId: props.postId, userId: user._id})}
+            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id})}
             )
 
-            setCount(++count);
+            setIsSavedByMe(true)
+
             
-        }
+        }else{
 
-        // Dislike
-        if(isSave === false){
-
-            await fetch(`${server}/api/saves`, {headers: {
+            await fetch(`${server}/api/unsave`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'DELETE', body: JSON.stringify({postId: props.postId, userId: user._id})}
+            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id})}
             )
 
-            if(count > 0){
-                setCount(--count);
-            }
+            setIsSavedByMe(false)
 
+            
         }
     
 
@@ -98,9 +78,9 @@ export default function Save(props){
     return(
         <>
             <div className='save'>
-                <p className={global.text2}>{count}</p>
-                <a className='save--status' onClick={() => Save()}>{isSave ? <HiOutlineBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/> : <HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}</a>
+                <button className='save--status' onClick={() => Save()}>{isSavedByMe && <MdBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}{!isSavedByMe && <MdBookmarkBorder size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}</button>
             </div>
+            
             <style jsx>{`
             
                 .save{
@@ -110,9 +90,7 @@ export default function Save(props){
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    justify-content: center;
                     gap: 0.5rem;
-
 
                 }
                 .save--status{
@@ -121,8 +99,6 @@ export default function Save(props){
 
                     display: flex;
                     align-items:center;
-                    justify-content: center;
-                    width: 2rem;
 
                     /*Misc*/
 
@@ -130,22 +106,6 @@ export default function Save(props){
                     
                 }
 
-                .close__modal{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-self: flex-end;
-                    margin-right: 2rem;
-
-                    /*Visuals*/
-
-                    border: none;
-                    background: transparent;
-                    cursor: pointer;
-
-                    }
 
                 a{
 

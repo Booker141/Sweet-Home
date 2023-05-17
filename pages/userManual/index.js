@@ -6,7 +6,7 @@ export default function UserManual () {
   return (
 
     <Layout>
-      <Head><title>Manual de usuario</title></Head>
+      <Head><title>Manual de usuario | Sweet Home</title></Head>
       <div className='manual'>
         <h1 className={global.title4}>Manual de usuario</h1>
         <aside />

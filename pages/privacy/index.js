@@ -18,7 +18,7 @@ export default function Privacy () {
   return (
     <BasicLayout>
       <Head>
-        <title>Privacidad </title>
+        <title>Privacidad | Sweet Home </title>
       </Head>
       <h1 className={global.title}>Privacidad ✎</h1>
       <h2 className='first-line'>Última actualización el 4 de agosto de 2022</h2>

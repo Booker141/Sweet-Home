@@ -59,7 +59,7 @@ export default function Lost ({posts}) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Animales perdidos</title></Head>
+        <Head><title>Animales perdidos | Sweet Home</title></Head>
         
         <div className='container'>
 

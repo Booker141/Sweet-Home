@@ -69,7 +69,7 @@ export default function Home ({ posts }) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Reciente</title></Head>
+        <Head><title>Reciente | Sweet Home</title></Head>
         <div className='column1__header'>
               <h1 className={global.title}>Reciente</h1>
         </div>

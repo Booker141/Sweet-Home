@@ -26,7 +26,7 @@ export default function Contact () {
     <BasicLayout>
       <>
         <Head>
-          <title>Contacto</title>
+          <title>Contacto | Sweet Home</title>
         </Head>
 
         <div className='contact__image'>

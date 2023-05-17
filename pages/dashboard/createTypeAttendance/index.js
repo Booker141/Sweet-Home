@@ -118,7 +118,7 @@ export default function CreateTypeAttendance () {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Crear tipo de cuidado</title></Head>
+        <Head><title>Crear tipo de cuidado | Sweet Home</title></Head>
         
           <div className="form__position">
             <div className='form'>

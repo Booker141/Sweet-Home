@@ -336,10 +336,10 @@ export default function Settings () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Configuración</title></Head>
+        <Head><title>Configuración | Sweet Home</title></Head>
         <div className='settings'>
           <div className='form-page'>
-            <h1 className={global.title}>Editar perfil</h1>
+            <h1 className={global.title}>Editar perfil </h1>
             <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
             <div className='form-vertical__image'>
                     <div className='label'>

@@ -154,7 +154,7 @@ export default function SignIn ({ providers, csrfToken }) {
     <>
 
       <Head>
-        <title>Inicio de sesión</title>
+        <title>Inicio de sesión | Sweet Home</title>
       </Head>
       <Header
         url1='/news' url2='/about' url3='/contact' url4='/auth/signUp'

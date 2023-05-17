@@ -27,7 +27,7 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
 
             <Layout>
                 <Head>
-                    <title>Usuarios bloqueados</title>
+                    <title>Usuarios bloqueados | Sweet Home</title>
                 </Head>
                 <div className="unblockedUsers">
                   <h1 className="title">Usuarios a bloquear</h1>

@@ -182,7 +182,7 @@ export default function EditNew ({news}) {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Editar noticia</title></Head>
+        <Head><title>Editar noticia | Sweet Home</title></Head>
         
         <div className='editNew__form'>
             <div className='form'>

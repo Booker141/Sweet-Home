@@ -173,7 +173,7 @@ export default function CreateNew () {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Crear noticia</title></Head>
+        <Head><title>Crear noticia | Sweet Home</title></Head>
         
         <div className='createNew__form'>
             <div className='form'>

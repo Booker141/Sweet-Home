@@ -55,7 +55,7 @@ export default function Wild ({posts}) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Fauna silvestre</title></Head>
+        <Head><title>Fauna silvestre | Sweet Home</title></Head>
         
         <div className='container'>
 

@@ -127,7 +127,7 @@ export default function CreateQuestion () {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Crear pregunta</title></Head>
+        <Head><title>Crear pregunta | Sweet Home</title></Head>
         
           <div className="form__position">
             <div className='form'>

@@ -167,7 +167,7 @@ export default function Statistics () {
   if (session.user.role === 'gerente') {
     return (
       <Layout>
-        <Head><title>Estadísticas</title></Head>
+        <Head><title>Estadísticas | Sweet Home</title></Head>
         <h1 className="title">Estadísticas</h1>
         <BarChart data={barData} options={barOptions}/>
         <RadarChart data={radarData} options={radarOptions}/>

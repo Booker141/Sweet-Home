@@ -67,7 +67,7 @@ export default function myPosts () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Mis publicaciones</title></Head>
+        <Head><title>Mis publicaciones | Sweet Home</title></Head>
         <div className='column1__buttons'>
           <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
           <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>

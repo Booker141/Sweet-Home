@@ -21,7 +21,7 @@ import BasicLayout from 'components/BasicLayout/BasicLayout'
 export default function Rules () {
   return (
     <BasicLayout>
-      <Head><title>Reglas y políticas</title></Head>
+      <Head><title>Reglas y políticas | Sweet Home</title></Head>
       <h1 className={global.title}>Reglas y políticas</h1>
       <hr className={global.line} />
       <p className={global.text}>En este apartado, conocerá las

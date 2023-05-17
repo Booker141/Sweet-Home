@@ -31,7 +31,7 @@ export default function FollowersUser ({ user }) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Seguidores</title></Head>
+        <Head><title>Seguidores | Sweet Home</title></Head>
         <h1 className="title">Seguidores</h1>
         {numFollowers === 0 && <p className={global.text}>Te siguen {numFollowers} usuarios</p>}
         <p className={global.text}>Te siguen {numFollowers} usuarios</p>

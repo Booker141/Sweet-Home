@@ -48,7 +48,7 @@ export default function Pets({petsList}) {
     return (
 
       <Layout>
-        <Head><title>Mascotas</title></Head>
+        <Head><title>Mascotas | Sweet Home</title></Head>
         <h1 className="title">Mis mascotas</h1>
         <div className="pet__buttons">
           <button className={global.buttonPrimary}><a href='/profile/myprofile/pets/createPet' title='Ir a la página para añadir mascotas' aria-label='Ir a la página para añadir mascotas'>Añadir mascotas</a></button>

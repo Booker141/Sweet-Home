@@ -30,7 +30,7 @@ export default function Dashboard () {
       <>
         <Layout>
           <Head>
-            <title>Panel de administración</title>
+            <title>Panel de administración | Sweet Home</title>
           </Head>
           <div className="dashboard__header">
             <h1 className={global.title}>Panel de administración</h1>

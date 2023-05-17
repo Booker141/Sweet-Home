@@ -25,7 +25,7 @@ export default function AllVets ({ users }) {
   if (session) {
     return (
       <Layout>
-
+        <Head><title>Veterinarias | Sweet Home</title></Head>
         <h1 className="title">Veterinarias</h1>
         <div className="users">  
           {users.length === 0 && <div><p className={global.loading2}>No hay ninguna veterinaria.</p></div>}

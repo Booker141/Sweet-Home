@@ -211,7 +211,7 @@ export default function ChangePassword () {
 
     <Layout>
       <>
-        <Head><title>Cambiar contraseña</title></Head>
+        <Head><title>Cambiar contraseña | Sweet Home</title></Head>
         <div className={global.content}>
           <div className='form'>
             <h1 className='form__title'>Cambiar contraseña</h1>

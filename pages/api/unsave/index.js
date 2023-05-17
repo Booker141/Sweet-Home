@@ -12,12 +12,11 @@ export default async function handler (req, res) {
 
   if (req.method === 'PUT') {
 
-   await db.collection('posts').updateOne({_id: ObjectId(body.postId)}, { $push: {saves: idUser}})
-   await db.collection('users').updateOne({_id: ObjectId(body.userId)}, { $push: {saves: idPost}})
+   await db.collection('posts').updateOne({_id: ObjectId(body.postId)}, { $pull: {saves: idUser}})
+   await db.collection('users').updateOne({_id: ObjectId(body.userId)}, { $pull: {saves: idPost}})
 
-    res.status(201).json({ message: 'Creado con éxito.' })
+    res.status(201).json({ message: 'Eliminado con éxito.' })
   }
-
 
 
 }

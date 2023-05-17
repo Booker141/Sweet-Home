@@ -64,7 +64,7 @@ export default function FAQ ({ questions }) {
 
   return (
     <BasicLayout>
-      <Head><title>Preguntas frecuentes</title></Head>
+      <Head><title>Preguntas frecuentes | Sweet Home</title></Head>
       <div className='faq'>
         <h1 id='title' className={global.title}>Preguntas frecuentes</h1>
         <div className='top__image'>

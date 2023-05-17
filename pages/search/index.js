@@ -11,6 +11,10 @@ import UserCard from 'components/UserCard/UserCard'
 import Post from 'components/Post/Post'
 import Attendance from 'components/Attendance/Attendance'
 import TypeAttendance from 'components/TypeAttendance/TypeAttendance'
+import New from 'components/New/New'
+import Question from 'components/Question/Question'
+
+
 
 
 
@@ -63,7 +67,7 @@ export default function Search () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Búsqueda</title></Head>
+        <Head><title>{router.query.keyword} | Búsqueda de Sweet Home</title></Head>
         <h1 className={global.title}>Búsquedas relacionadas</h1>
         {results === null && <div className={global.loading2}>No se han encontrado resultados.</div>}
         <div className={global.search__card}>
@@ -72,16 +76,16 @@ export default function Search () {
             <p className={global.secondary__search}>Por nombre de usuario</p>
             <div className="results__usersByUsername">
               {results.usersByUsername?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.usersByUsername?.length != 0 && results.usersByUsername.map((user) => (
+              {results.usersByUsername?.length != 0 && results.usersByUsername?.map((user) => (
                 <>
                     <UserCard key={user._id} image={user.image} banner={user.banner} username={user.username} role={user.role} />
                 </>
               ))}
             </div>
             <p className={global.secondary__search}>Por correo electrónico</p>
-            <div className="results__userByEmail">
+            <div className="results__usersByEmail">
               {results.usersByEmail?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.usersByEmail?.length != 0 && results.usersByEmail.map((user) => (
+              {results.usersByEmail?.length != 0 && results.usersByEmail?.map((user) => (
                       <>
                         <UserCard key={user._id} image={user.image} banner={user.banner} username={user.username} role={user.role} />
                       </>
@@ -104,7 +108,7 @@ export default function Search () {
             <p className={global.secondary__search}>Por descripción</p>
             <div className="results__postsByDescription">
               {results.postsByDescription?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsByDescription?.length != 0 && results.postsByDescription.map((post) => (
+              {results.postsByDescription?.length != 0 && results.postsByDescription?.map((post) => (
                 <>
                   <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
                 </>
@@ -126,7 +130,7 @@ export default function Search () {
             <p className={global.tertiary__search}>Animales perdidos</p>
             <div className="results__postsByTypeLost">
               {results.postsLost?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsLost.length != 0 && results.postsLost?.map((post) => (
+              {results.postsLost?.length != 0 && results.postsLost?.map((post) => (
                 <>
                   <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
                 </>
@@ -153,7 +157,7 @@ export default function Search () {
             <p className={global.secondary__search}>Por ubicación</p>
             <div className="results__postsByLocation">
               {results.postsByLocation?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsByLocation?.length != 0 && results.postsByLocation.map((post) => (
+              {results.postsByLocation?.length != 0 && results.postsByLocation?.map((post) => (
                 <>
                   <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
                 </>
@@ -167,7 +171,7 @@ export default function Search () {
               <p className={global.secondary__search}>Por descripción</p>
               <div className="results__attendancesByDescription">
                 {results.attendancesByDescription?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-                {results.attendancesByDescription?.length != 0 && results.attendancesByDescription.map((attendance) => (
+                {results.attendancesByDescription?.length != 0 && results.attendancesByDescription?.map((attendance) => (
                   <>
                     <Attendance key={attendance._id} location={attendance.location} description={attendance.description} animal={attendance.animal} breed={attendance.breed} image={attendance.image} comments={attendance.comments} createdAt={attendance.createdAt} username={attendance.username} userId={attendance.userId} threadId={attendance.threadId} />
                   </>
@@ -176,7 +180,7 @@ export default function Search () {
               <p className={global.secondary__search}>Por animal</p>
               <div className="results__attendancesByAnimal">
                 {results.attendancesByAnimal?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-                {results.attendancesByAnimal?.length != 0 && results.attendancesByAnimal.map((attendance) => (
+                {results.attendancesByAnimal?.length != 0 && results.attendancesByAnimal?.map((attendance) => (
                   <>
                     <Attendance key={attendance._id} location={attendance.location} description={attendance.description} animal={attendance.animal} breed={attendance.breed} image={attendance.image} comments={attendance.comments} createdAt={attendance.createdAt} username={attendance.username} userId={attendance.userId} threadId={attendance.threadId} />
                   </>
@@ -185,7 +189,7 @@ export default function Search () {
               <p className={global.secondary__search}>Por raza</p>
               <div className="results__attendancesByBreed">
                 {results.attendancesByBreed?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-                {results.attendancesByBreed?.length != 0 && results.attendancesByBreed.map((attendance) => (
+                {results.attendancesByBreed?.length != 0 && results.attendancesByBreed?.map((attendance) => (
                   <>
                     <Attendance key={attendance._id} location={attendance.location} description={attendance.description} animal={attendance.animal} breed={attendance.breed} image={attendance.image} comments={attendance.comments} createdAt={attendance.createdAt} username={attendance.username} userId={attendance.userId} threadId={attendance.threadId} />
                   </>
@@ -198,8 +202,8 @@ export default function Search () {
           <div className="results__container">
             <p className={global.secondary__search}>Por nombre</p>
             <div className="results__typeAttendanceByName">
-              {results.typeAtttendanceByName?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.typeAtttendanceByName?.length != 0 && results.typeAtttendanceByName.map((type) => (
+              {results.typeAttendanceByName?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
+              {results.typeAttendanceByName?.length != 0 && results.typeAttendanceByName?.map((type) => (
                 <>
                   <TypeAttendance key={type._id} name={type.name} description={type.description} />
                 </>
@@ -207,8 +211,8 @@ export default function Search () {
             </div>
             <p className={global.secondary__search}>Por descripción</p>
             <div className="results__typeAttendancesByDescription">
-              {results.typeAtttendanceByDescription?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.typeAtttendanceByDescription?.length != 0 && results.typeAtttendanceByDescription.map((type) => (
+              {results.typeAttendanceByDescription?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
+              {results.typeAttendanceByDescription?.length != 0 && results.typeAttendanceByDescription?.map((type) => (
                 <>
                   <TypeAttendance key={type._id} name={type.name} description={type.description} />
                 </>
@@ -222,9 +226,9 @@ export default function Search () {
             <p className={global.secondary__search}>Por título</p>
             <div className="results__newsByTitle">
               {results.newsByTitle?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.newsByTitle?.length != 0 && results.newsByTitle.map((news) => (
+              {results.newsByTitle?.length != 0 && results.newsByTitle?.map((news) => (
                 <>
-                  <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
+                  <New key={news._id} id={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} />
                 </>
               ))}
             </div>
@@ -232,40 +236,18 @@ export default function Search () {
             <p className={global.secondary__search}>Por autor</p>
             <div className="results__newsByAuthor">
               {results.newsByAuthor?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.newsByAuthor?.length != 0 && results.newsByAuthor.map((news) => (
+              {results.newsByAuthor?.length != 0 && results.newsByAuthor?.map((news) => (
                 <>
-                  <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
+                  <New key={news._id} id={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} />
                 </>
               ))}
             </div>
           </div>
         </div>
-        <div className={global.search__card}>
-          <p className={global.title__search}>Preguntas frecuentes</p>
-            <div className="results__container">
-            <p className={global.secondary__search}>Por título</p>
-            <div className="results__faqsByTitle">
-              {results.faqsByTitle?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.faqsByTitle?.length != 0 && results.faqsByTitle.map((faq) => (
-                <>
-                  <Question key={faq._id} id={faq._id} title={faq.title} answer={faq.answer} />
-                </>
-              ))}
-            </div>
-            <p className={global.secondary__search}>Por respuesta</p>
-            <div className="results__faqsByAnswer">
-              {results.faqsByAnswer?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.faqsByAnswer?.length != 0 && results.faqsByAnswer.map((faq) => (
-                <>
-                  <Question key={faq._id} id={faq._id} title={faq.title} answer={faq.answer} />
-                </>
-              ))}
-            </div>
-          </div>
-        </div>
+        
         <style jsx>{`
 
-            .results__userByUsername, .results__userByEmail
+            .results__usersByUsername, .results__usersByEmail
             {
 
               /*Box model*/

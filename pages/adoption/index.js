@@ -57,7 +57,7 @@ export default function Adoption ({posts}) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Animales en adopción</title></Head>
+        <Head><title>Animales en adopción | Sweet Home</title></Head>
         
         <div className='container'>
 

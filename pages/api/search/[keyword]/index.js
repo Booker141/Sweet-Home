@@ -106,14 +106,7 @@ export default async function handler (req, res) {
 
     const newsByAuthor = await db.collection('news').find({author: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
-    //Buscar preguntas frecuentes relacionadas
 
-    const faqsByTitle = await db.collection('faqs').find({title: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
-    
-    //Buscar preguntas frecuentes relacionadas por respuesta
-
-    const faqsByAnswer = await db.collection('faqs').find({answer: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
-        
 
     const data = {
 
@@ -138,8 +131,6 @@ export default async function handler (req, res) {
       newsByContent: newsByContent,
       newsByConclusion: newsByConclusion,
       newsByAuthor: newsByAuthor,
-      faqsByTitle: faqsByTitle,
-      faqsByAnswer: faqsByAnswer
 
     }
 

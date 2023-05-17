@@ -38,7 +38,7 @@ export default function Principal () {
   return (
 
     <>
-      <Head><title>Sweet Home</title></Head>
+      <Head><title>Inicio | Sweet Home</title></Head>
 
       <BasicHeader
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn' url5='/auth/signUp'

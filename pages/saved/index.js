@@ -65,7 +65,7 @@ export default function Saved () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Publicaciones guardadas</title></Head>
+        <Head><title>Publicaciones guardadas | Sweet Home</title></Head>
         <div className='container'>
 
           <div className='container__column1'>

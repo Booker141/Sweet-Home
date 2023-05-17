@@ -58,7 +58,7 @@ export default function News ({ news }) {
   return (
     <BasicLayout>
 
-      <Head><title>Noticias</title></Head>
+      <Head><title>Noticias | Sweet Home</title></Head>
 
       <section>
         <div className="news__header">

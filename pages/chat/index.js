@@ -67,7 +67,7 @@ export default function Chat ({messages}) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Chat</title></Head>
+        <Head><title>Chat | Sweet Home</title></Head>
         <p className={global.title}>Chat</p>
         <Sidebar user={session.user.username}/>
         <div className={global.chat}>

@@ -55,7 +55,7 @@ export default function Abandoned ({posts}) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Animales abandonados</title></Head>
+        <Head><title>Animales abandonados | Sweet Home</title></Head>
         
         <div className='container'>
 

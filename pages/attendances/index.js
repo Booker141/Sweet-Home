@@ -92,7 +92,7 @@ export default function Attendances ({ typeAttendance }) {
     return (
       <Layout>
         <Head>
-          <title>Cuidados</title>
+          <title>Cuidados | Sweet Home</title>
         </Head>
         <h1 className={global.title}>Foro de cuidados</h1>
         <h2 className={global.title2}>Categorías</h2>

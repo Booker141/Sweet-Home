@@ -179,7 +179,7 @@ export default function Username ({ posts, users, pets }) {
     return (
       <Layout>
 
-        <Head><title>Mi perfil</title></Head>
+        <Head><title>Mi perfil | Sweet Home</title></Head>
 
         <div className='container__profile'>
 

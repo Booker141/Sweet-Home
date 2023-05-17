@@ -86,7 +86,7 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
     return (
       <Layout>
         <Head>
-          <title>Hilos sobre {typeAttendance}</title>
+          <title>Hilos sobre {typeAttendance} | Sweet Home</title>
         </Head>
         <h1 className={global.title}>Hilos sobre {typeAttendance}</h1>
         <div className='sort__buttons'>

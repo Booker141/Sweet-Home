@@ -47,7 +47,7 @@ export default function Thread ({ attendances }) {
     return (
       <Layout>
         <Head>
-          <title>{router.query.thread}</title>
+          <title>{router.query.thread} | Sweet Home</title>
         </Head>
         <h1 className={global.title}>{router.query.thread}</h1>
         <div className='sort__buttons'>

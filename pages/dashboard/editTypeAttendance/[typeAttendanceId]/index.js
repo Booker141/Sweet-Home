@@ -130,7 +130,7 @@ export default function EditTypeAttendance ({typeAttendance}) {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Editar tipo de cuidado</title></Head>
+        <Head><title>Editar tipo de cuidado | Sweet Home</title></Head>
         
             <div className="form__position">
             <div className='form'>

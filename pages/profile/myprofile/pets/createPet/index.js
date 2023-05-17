@@ -95,7 +95,7 @@ export default function CreatePet () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Crear mascota</title></Head>
+        <Head><title>Crear mascota | Sweet Home</title></Head>
         <div className={global.content}>
           
             <div className='container__form'>

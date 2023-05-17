@@ -13,7 +13,7 @@ export default function NewsId ({ news }) {
   return (
 
     <Layout>
-      <Head><title>{news.title}</title></Head>
+      <Head><title>{news.title} | Sweet Home</title></Head>
       <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion} />
 
       <style jsx>{`

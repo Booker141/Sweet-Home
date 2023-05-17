@@ -99,7 +99,7 @@ export default function CreateComplaint () {
     return (
 
       <Layout>
-        <Head><title>Crear denuncia</title></Head>        
+        <Head><title>Crear denuncia | Sweet Home</title></Head>        
           <div className='container__form'>
             <div className='form'>
             <div className='container__header'>

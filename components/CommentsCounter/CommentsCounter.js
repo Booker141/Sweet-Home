@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {BsChat} from 'react-icons/bs'
+import {FiMessageCircle} from 'react-icons/fi'
 import {colors} from 'styles/frontend-conf'
 import global from 'styles/global.module.css'
 
@@ -12,7 +12,7 @@ export default function CommentsCounter(props){
         <>
             <div className='commentsCounter'>
                 <p className={global.text2}>{commentsCount}</p>
-                <BsChat size={20} color={colors.secondary}/>
+                <FiMessageCircle size={20} color={colors.secondary}/>
             </div>
 
             <style jsx>{`

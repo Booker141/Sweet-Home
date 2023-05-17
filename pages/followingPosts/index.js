@@ -71,7 +71,7 @@ export default function FollowingPosts () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Seguidos</title></Head>
+        <Head><title>Seguidos | Sweet Home</title></Head>
         <div className='column1__buttons'>
           <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
         </div>

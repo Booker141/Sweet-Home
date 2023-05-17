@@ -25,7 +25,7 @@ export default function Accessibility () {
 
     <BasicLayout>
 
-      <Head><title>Accesibilidad</title></Head>
+      <Head><title>Accesibilidad | Sweet Home</title></Head>
 
       <h1 className={global.title}>Accesibilidad ⦿</h1>
       <p className={global.text}>En Sweet Home, velamos por

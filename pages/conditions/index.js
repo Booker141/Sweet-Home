@@ -19,7 +19,7 @@ import BasicLayout from 'components/BasicLayout/BasicLayout'
 export default function Conditions () {
   return (
     <BasicLayout>
-      <Head><title>Condiciones</title></Head>
+      <Head><title>Condiciones | Sweet Home</title></Head>
       <h2 className='first-line'>5 de agosto de 2022</h2>
       <hr className={global.line} />
       <h1 className={global.title}>Términos y condiciones de Sweet Home ☑︎</h1>

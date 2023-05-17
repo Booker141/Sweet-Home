@@ -106,7 +106,7 @@ export default function CreateAttendance () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Crear publicación de cuidado</title></Head>
+        <Head><title>Crear publicación de cuidado | Sweet Home</title></Head>
         <div className={global.content}>
           <div className={global.dots}>
             <div className='form'>

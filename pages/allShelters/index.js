@@ -25,7 +25,7 @@ export default function AllCaretakers ({ users }) {
   if (session) {
     return (
       <Layout>
-
+        <Head><title>Protectoras | Sweet Home</title></Head>
         <h1 className="title">Protectoras</h1>
         <div className='users'>
           {users.length === 0 && <div><p className={global.loading2}>No hay ninguna protectora de animales.</p></div>}

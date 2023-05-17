@@ -31,7 +31,7 @@ export default function About () {
 
     <BasicLayout>
       <Head>
-        <title>Sobre nosotros</title>
+        <title>Sobre nosotros | Sweet Home</title>
       </Head>
       <div className="header__block">
         <div className='title'>

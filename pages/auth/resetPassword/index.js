@@ -82,7 +82,7 @@ export default function ResetPassword () {
 
     <Layout>
       <>
-        <Head><title>Restablecer contraseña</title></Head>
+        <Head><title>Restablecer contraseña | Sweet Home</title></Head>
         <div className={global.content}>
           <div className='form'>
             <h1 className='form__title'>Restablecer contraseña</h1>

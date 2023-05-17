@@ -23,7 +23,7 @@ export default function FourOhFour () {
     <Layout>
       <>
         <Head>
-          <title>¡Ups! Algo ha salido mal.. Error 404</title>
+          <title>¡Ups! Algo ha salido mal.. Error 404 | Sweet Home</title>
         </Head>
         <div className={global.content}>
 

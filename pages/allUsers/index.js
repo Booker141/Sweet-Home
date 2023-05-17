@@ -25,7 +25,7 @@ export default function AllUsers ({ users }) {
   if (session) {
     return (
       <Layout>
-
+        <Head><title>Usuarios | Sweet Home</title></Head>
         <h1 className="title">Usuarios</h1>
         <div className="users">
           {users.length === 0 && <div><p className={global.loading2}>No hay ningún usuario.</p></div>}

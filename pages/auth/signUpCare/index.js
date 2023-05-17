@@ -218,7 +218,7 @@ export default function SignUp () {
 
     <div>
       <Head>
-        <title>Registro</title>
+        <title>Registro | Sweet Home</title>
       </Head>
 
       <Header

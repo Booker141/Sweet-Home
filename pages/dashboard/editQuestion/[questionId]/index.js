@@ -129,7 +129,7 @@ export default function EditQuestion ({question}) {
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Editar pregunta</title></Head>
+        <Head><title>Editar pregunta | Sweet Home</title></Head>
         
           <div className="form__position">
             <div className='form'>

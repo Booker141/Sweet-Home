@@ -32,7 +32,7 @@ export default function Complaints ({complaints}){
 
             <Layout>
                 <Head>
-                    <title>Panel de denuncias</title>
+                    <title>Panel de denuncias | Sweet Home</title>
                 </Head>
                   <h1 className="title">Denuncias</h1>
                   <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/blockedUsers`)}>Usuarios bloqueados</button>

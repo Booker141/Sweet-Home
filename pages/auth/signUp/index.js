@@ -232,7 +232,7 @@ export default function SignUp () {
 
     <>
       <Head>
-        <title>Registro</title>
+        <title>Registro | Sweet Home</title>
       </Head>
 
       <Header

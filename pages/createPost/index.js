@@ -125,7 +125,7 @@ export default function CreatePost () {
   if (session) {
     return (
       <Layout>
-        <Head><title>Crear publicación</title></Head>
+        <Head><title>Crear publicación | Sweet Home</title></Head>
           
           <div className="form__position">
             <div className='form'>

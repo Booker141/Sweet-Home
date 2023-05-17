@@ -218,8 +218,9 @@ export default function Post (props) {
             </div>
             <div className='post__icons'>
               <Like likes={props.likes} postId={props.id}/>
-              <Save saves={props.saves} postId={props.id}/>
               <CommentsCounter comments={props.comments}/>
+              <Save saves={props.saves} postId={props.id}/>
+              
             </div>
           </div>
           <div className='comment__container'>
@@ -388,7 +389,7 @@ export default function Post (props) {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 1.5rem;
+                    gap: 2rem;
                     padding: 1rem;
 
                     /*Visuals*/
