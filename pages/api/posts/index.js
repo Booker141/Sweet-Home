@@ -30,7 +30,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'POST') {
 
-    if(body.type === 'Normal') {
+    if(body.type === 'Normal' || body.type === '') {
 
       typePost = await db.collection('typePost').findOne({name: "Normal"})
   

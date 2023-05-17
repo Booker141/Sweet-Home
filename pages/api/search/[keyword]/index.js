@@ -5,95 +5,115 @@ export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()
   const {keyword} = req.query
+  let postsAdoption
+  let postsLost
+  let postsAbandoned
+  let postsWild
+
 
   if (req.method === 'GET') {
 
     //Buscar usuarios
 
-    const usersByUsername = await db.collection('users').find({ username: { $regex: keyword }}).limit(50).toArray();
-    const usersByEmail = await db.collection('users').find({ email: { $regex: keyword }}).limit(50).toArray();
+    const usersByUsername = await db.collection('users').find({ username: { $regex: keyword, $options : 'i' }}).limit(50).toArray();
+    const usersByEmail = await db.collection('users').find({ email: { $regex: keyword, $options : 'i' }}).limit(50).toArray();
 
     //Buscar publicaciones (según usuario)
 
-    const postsByUser = await db.collection('posts').find({username: {$regex: keyword}}).limit(50).toArray();
+    const postsByUser = await db.collection('posts').find({username: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
     //Buscar publicaciones (según descripción)
 
-    const postsByDescription = await db.collection('posts').find({description: {$regex: keyword}}).limit(50).toArray();
+    const postsByDescription = await db.collection('posts').find({description: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
     //Buscar publicaciones (según tipo de publicación)
 
     if(keyword.includes('adopci')){
 
-      const postAdoption = await db.collection('posts').find({"type.name": 'Adopción'}).limit(50).toArray();
+      postsAdoption = await db.collection('posts').find({"type.name": 'Adopción'}).limit(50).toArray();
 
     }
 
     if(keyword.includes('perdido')){
     
-      const postLost = await db.collection('posts').find({"type.name": 'Animal perdido'}).limit(50).toArray();
+      postsLost = await db.collection('posts').find({"type.name": 'Perdido'}).limit(50).toArray();
 
     }
 
+    if(keyword.includes('abando')){
+      
+      postsAbandoned = await db.collection('posts').find({"type.name": 'Abandonado'}).limit(50).toArray();
+
+    }
+
+    if(keyword.includes('silve')){
+
+      postsWild = await db.collection('posts').find({"type.name": 'Silvestre'}).limit(50).toArray();
+
+    }
+
+
+
     //Buscar publicaciones (según ubicación)
 
-    const postsByLocation = await db.collection('posts').find({location: {$regex: keyword}}).limit(50).toArray();
+    const postsByLocation = await db.collection('posts').find({location: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
     //Buscar cuidados (Según descripción)
 
-    const attendancesByTypeAttendance = await db.collection('attendances').find({description: {$regex: keyword}}).limit(50).toArray()
+    const attendancesByDescription = await db.collection('attendances').find({description: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar cuidados (según raza)
 
-    const attendancesByBreed = await db.collection('attendances').find({breed: {$regex: keyword}}).limit(50).toArray();
+    const attendancesByBreed = await db.collection('attendances').find({breed: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
     //Buscar cuidados  (según animal)
 
-    const attendancesByAnimal = await db.collection('attendances').find({animal: {$regex: keyword}}).limit(50).toArray();
+    const attendancesByAnimal = await db.collection('attendances').find({animal: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
+
+    // Buscar tipo de cuidado (por nombre)
+
+    const typeAttendanceByTitle = await db.collection('typeAttendance').find({name: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
+
+    // Buscar tipo de cuidado (por descripción)
+
+    const typeAttendanceByDescription = await db.collection('typeAttendance').find({description: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
     //Buscar hilos relacionados por título
 
-    const threadsByTitle = await db.collection('threads').find({title: {$regex: keyword}}).limit(50).toArray()
+    const threadsByTitle = await db.collection('threads').find({title: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar hilos relacionados por usuarios
 
-    const threadsByUser = await db.collection('threads').find({username: {$regex: keyword}}).limit(50).toArray()
+    const threadsByUser = await db.collection('threads').find({username: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar noticias relacionadas por título
 
-    const newsByTitle = await db.collection('news').find({title: {$regex: keyword}}).limit(50).toArray()
+    const newsByTitle = await db.collection('news').find({title: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar noticias relacionadas por introducción
 
-    const newsByIntroduction = await db.collection('news').find({introduction: {$regex: keyword}}).limit(50).toArray()
+    const newsByIntroduction = await db.collection('news').find({introduction: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar noticias relacionadas por contenido
 
-    const newsByContent = await db.collection('news').find({body: {$regex: keyword}}).limit(50).toArray()
+    const newsByContent = await db.collection('news').find({body: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar noticias relacionadas por conclusión
 
-    const newsByConclusion = await db.collection('news').find({conclusion: {$regex: keyword}}).limit(50).toArray()
+    const newsByConclusion = await db.collection('news').find({conclusion: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar noticias relacionadas por autor
 
-    const newsByAuthor = await db.collection('news').find({author: {$regex: keyword}}).limit(50).toArray()
+    const newsByAuthor = await db.collection('news').find({author: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
     //Buscar preguntas frecuentes relacionadas
 
-    const faqsByTitle = await db.collection('faqs').find({title: {$regex: keyword}}).limit(50).toArray()
+    const faqsByTitle = await db.collection('faqs').find({title: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
     
     //Buscar preguntas frecuentes relacionadas por respuesta
 
-    const faqsByAnswer = await db.collection('faqs').find({answer: {$regex: keyword}}).limit(50).toArray()
+    const faqsByAnswer = await db.collection('faqs').find({answer: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
         
-    //Buscar páginas relacionadas
-
-
-
-    
-    
-    
 
     const data = {
 
@@ -101,12 +121,16 @@ export default async function handler (req, res) {
       usersByEmail: usersByEmail,
       postsByUser: postsByUser,
       postsByDescription: postsByDescription,
-      postAdoption: postAdoption,
-      postLost: postLost,
+      postsAdoption: postsAdoption === undefined ? [] : postsAdoption,
+      postsLost: postsLost === undefined ? [] : postsLost,
+      postsAbandoned: postsAbandoned === undefined ? [] : postsAbandoned,
+      postsWild: postsWild === undefined ? [] : postsWild,
       postsByLocation: postsByLocation,
-      attendancesByTypeAttendance: attendancesByTypeAttendance,
+      attendancesByDescription: attendancesByDescription,
       attendancesByBreed: attendancesByBreed,
       attendancesByAnimal: attendancesByAnimal,
+      typeAttendanceByTitle: typeAttendanceByTitle,
+      typeAttendanceByDescription: typeAttendanceByDescription,
       threadsByTitle: threadsByTitle,
       threadsByUser: threadsByUser,
       newsByTitle: newsByTitle,
@@ -120,7 +144,8 @@ export default async function handler (req, res) {
     }
 
 
-    res.status(200).json(JSON.parse(data))
+
+    res.status(200).json(data)
   }
 
 }

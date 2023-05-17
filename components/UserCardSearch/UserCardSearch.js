@@ -13,7 +13,7 @@ import {server} from '/server'
  * @param props - {
  * @returns A component that shows a user's profile.
  */
-export default function UserSidebar (props) {
+export default function UserCardSearch (props) {
 
   const {data: session} = useSession()
   
@@ -22,23 +22,6 @@ export default function UserSidebar (props) {
 
 
 
-/**
- * The function calculates and returns the creation date of a given object in a specific format.
- * @returns The function `calcCreated` returns a string in the format "day/month/year", where day,
- * month, and year are extracted from the `createdAt` prop passed to the function.
- */
-  const calcCreated = () => {
-
-    const date = new Date(props.createdAt)
-
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-
-    return `${day}/${month}/${year}`
-  }
-
-  
 
   /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
   the isCaretaker prop. */
@@ -53,7 +36,7 @@ export default function UserSidebar (props) {
   return (
     <>
 
-      <a key={props._id} href={`/profile/${props.username}`} className={global.user__sidebar}>
+      <a key={props._id} href={`/profile/${props.username}`} className={global.user__search}>
         <div className='user__image'>
           <FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} />
         </div>
@@ -62,7 +45,6 @@ export default function UserSidebar (props) {
             <strong>@{props.username}</strong>
             {isShelter && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}
             </div>
-            <p className={global.sidebar__date}>Se unió el {calcCreated(props.createdAt)}</p>
         </div>
       </a>
       <style jsx>{`

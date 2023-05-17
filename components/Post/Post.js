@@ -194,9 +194,9 @@ export default function Post (props) {
               </div>
             </div>
           </div>
-          <div className="post__image">
+          {props.image != "" && <div className="post__image">
             <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>
-          </div>
+          </div>}
           <div className='post__block'>
             <div className='post__comment'>
               <div className='comment__input'>

@@ -28,7 +28,7 @@ export default function UserCard (props) {
   useEffect(() => {
     if(props.role.name === "veterinaria")
       setIsVet(true)
-    else if(props.role.name === "refugio")
+    else if(props.role.name === "protectora")
       setIsShelter(true)
   }, [])
 

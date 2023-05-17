@@ -10,6 +10,7 @@ import Layout from 'components/Layout/Layout'
 import Sidebar from 'components/Sidebar/Sidebar'
 import Post from 'components/Post/Post'
 import User from 'components/UserCard/UserCard'
+import CreatePostCard from 'components/CreatePostCard/CreatePostCard'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 
@@ -82,6 +83,7 @@ export default function Home ({ posts }) {
                   </select>
                 </div>
         </div>
+        <CreatePostCard/>
         <div className='container'>
 
           <div className='container__column1'>

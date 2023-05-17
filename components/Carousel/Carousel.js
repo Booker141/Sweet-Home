@@ -139,6 +139,13 @@ export default function Carousel () {
 
                 }
 
+                .arrow__left, .arrow__right{
+
+                    /*Box model*/
+
+                    margin: 1rem;
+                }
+
                 .carousel__icon{
 
                     /*Box model*/

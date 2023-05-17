@@ -1,7 +1,7 @@
 import { useSession, signIn } from 'next-auth/react'
 import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf'
-import User from 'components/UserCard/UserCard'
+import UserCard from 'components/UserCard/UserCard'
 import Layout from 'components/Layout/Layout'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
@@ -33,7 +33,7 @@ export default function AllUsers ({ users }) {
           && user.role.name !== "gerente" ).map(({ _id, image, banner, username, role }) => {
             return (
               <>
-                <User key={_id} image={image} banner={banner} username={username} role={role} />
+                <UserCard key={_id} image={image} banner={banner} username={username} role={role} />
               </>
             )
           })}
