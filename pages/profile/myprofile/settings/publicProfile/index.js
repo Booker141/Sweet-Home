@@ -6,19 +6,20 @@ import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
 import { AiFillPhone } from 'react-icons/ai'
 import { MdOutlineError, MdLocationOn } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill, BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
+import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
+import SettingsLayout from '/components/SettingsLayout/SettingsLayout'
+import FallbackImage from 'components/FallbackImage/FallbackImage'
 import Layout from '/components/Layout/Layout'
 import Modal from '/components/Modal/Modal'
 import { server } from '/server'
 import {toast} from 'react-toastify'
 import Loader from '/components/Loader/Loader'
 
-export default function Settings () {
+export default function PublicProfile ({users}) {
 
   const { data: session, status } = useSession({ required: true })
-  
-  const [userImage, setUserImage] = useState('')
-  const [bannerImage, setBannerImage] = useState('')
+
+
   const [user, setUser] = useState({})
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
@@ -27,106 +28,149 @@ export default function Settings () {
   const [birthdate, setBirthdate] = useState('')
   const [gender, setGender] = useState('')
   const [location, setLocation] = useState('')
-  const [links, setLinks] = useState({Instagram: "", Twitter: "", Facebook: ""})
+  const [image, setImage] = useState('')
+  const [banner, setBanner] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
   const [maxDate, setMaxDate] = useState('')
-  const [complaints, setComplaints] = useState([])
-  const [pets, setPets] = useState([])
 
-  const uploadImage = async (e) => {
 
+  const changeBanner = async (e) => {
 
     if (e.target.files && e.target.files[0]) {
 
+      const imageUploaded = e.target.files[0]
 
-          const imageUploaded = e.target.files[0]
+      const reader = new FileReader()
 
-          const reader = new FileReader()
+      reader.readAsDataURL(imageUploaded)
 
-          reader.readAsDataURL(imageUploaded)
+      reader.onload = async () => {
 
-          reader.onload = () => {
+        const imageData = reader.result
 
-            const imageData = reader.result
+        await fetch(`${server}/api/users/${session.user.username}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'PUT',
+          body: JSON.stringify({
+            image: userImage,
+            banner: imageData,
+            firstname: profileUser.firstname,
+            lastname: profileUser.lastname,
+            phone: profileUser.phone,
+            gender: profileUser.gender,
+            birthdate: profileUser.birthdate,
+            biography: profileUser.biography,
+            location: profileUser.location,
+            links: profileUser.links
+          }) 
+        })
 
-            setUserImage(imageData)
-      
-          }
+        setUserBanner(imageData)
+  
+      }
+   
+  toast.success('Banner modificado correctamente',{ position: "bottom-right",
+  autoClose: 5000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,}
+  )
 
-    }
+  setTimeout(function() {
+    window.location.reload()
+
+  }, 2000)
+
+}
   }
 
-  const uploadBanner = async (e) => {
-
+  const changeProfilePic = async (e) => {
 
     if (e.target.files && e.target.files[0]) {
 
+      const imageUploaded = e.target.files[0]
 
-          const imageUploaded = e.target.files[0]
+      const reader = new FileReader()
 
-          const reader = new FileReader()
+      reader.readAsDataURL(imageUploaded)
 
-          reader.readAsDataURL(imageUploaded)
+      reader.onload = async () => {
 
-          reader.onload = () => {
+        const imageData = reader.result
 
-            const imageData = reader.result
+        await fetch(`${server}/api/users/${session.user.username}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'PUT',
+          body: JSON.stringify({
+            image: imageData,
+            banner: userBanner,
+            firstname: profileUser.firstname,
+            lastname: profileUser.lastname,
+            phone: profileUser.phone,
+            gender: profileUser.gender,
+            birthdate: profileUser.birthdate,
+            biography: profileUser.biography,
+            location: profileUser.location,
+            links: profileUser.links
+            
+          })
+        })
 
-            setBannerImage(imageData)
-      
-          }
+        setUserImage(imageData)
 
-    }
+        
+  
+      }
+    
+  toast.success('Imagen de perfil modificada correctamente',{ position: "bottom-right",
+  autoClose: 5000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,}
+  )
+
+  setTimeout(function() {
+    window.location.reload()
+
+  }, 2000)
+
+}
   }
 
   /* The above code is fetching the user's complaints, pets, and user information from the database. */
-  async function getData(){
+  const getUser = async () =>{
 
-      const complaints = await fetch(`${server}/api/complaints/${session.user.username}`, {
+      const user = await fetch(`${server}/api/users/${session?.user.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
-      const pets = await fetch(`${server}/api/pets/${session.user.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
 
-      const currentUser = await fetch(`${server}/api/users/${session.user.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      const currentUser = await user.json();
 
-      document.getElementById('birthdate').valueAsDate = new Date(currentUser.birthdate)
+      console.log(currentUser)
 
-      const complaintsList = JSON.parse(JSON.stringify(complaints.json()));
-      const petsList = JSON.parse(JSON.stringify(pets.json()));
-
-
-      setComplaints(complaintsList)
-      setPets(petsList)
       setUser(currentUser)
-      setName(currentUser.firstname)
-      setLastname(currentUser.lastname)
-      setPhone(currentUser.phone)
-      setBiography(currentUser.biography)
-      setBirthdate(currentUser.birthdate)
-      setGender(currentUser.gender)
+      setName(currentUser?.firstname)
+      setLastname(currentUser?.lastname)
+      setPhone(currentUser?.phone)
+      setBiography(currentUser?.biography)
+      setBirthdate(currentUser?.birthdate)
+      setGender(currentUser?.gender)
+      setImage(currentUser?.image)
+      setBanner(currentUser?.banner)
   
   }
-  useEffect(() => {
-    if(session){
-      getData()
-    }
-    
-  }, [])
+
 
   /**
    * It returns the current date minus 4 years
@@ -203,6 +247,7 @@ export default function Settings () {
    * @param e - the event object
    */
   const deleteAccount = async (e) => {
+
     e.preventDefault()
 
     await fetch(`${server}/api/users/${session.user.username}`, {
@@ -224,57 +269,7 @@ export default function Settings () {
     signOut()
   }
 
-  /**
-   * It's a function that changes the display of the different sections of the page depending on the
-   * button that was clicked
-   * @param e - The event that triggers the function.
-   */
-  const handleClick = (e) => {
-    const edit = document.querySelector('.form-page')
-    const saved = document.querySelector('.saved')
-    const complaints = document.querySelector('.complaints')
-    const pets = document.querySelector('.pets')
 
-    document.getElementById('edit').classList.remove('active')
-
-    if (e === 'Editar') {
-      const button = document.querySelector('#edit')
-      edit.style.display = 'block'
-      saved.style.display = 'none'
-      complaints.style.display = 'none'
-      pets.style.display = 'none'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
-    } else if (e === 'Guardados') {
-      const button = document.querySelector('#saved')
-      edit.style.display = 'none'
-      saved.style.display = 'block'
-      complaints.style.display = 'none'
-      pets.style.display = 'none'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
-    } else if (e === 'Denuncias') {
-      const button = document.querySelector('#complaints')
-      edit.style.display = 'none'
-      saved.style.display = 'none'
-      complaints.style.display = 'block'
-      pets.style.display = 'none'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
-    } else if (e === 'Mascotas') {
-      const button = document.querySelector('#pets')
-      edit.style.display = 'none'
-      saved.style.display = 'none'
-      complaints.style.display = 'none'
-      pets.style.display = 'block'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
-    }
-  }
 
   /**
    * It's a function that sends a request to the server to update the user's information
@@ -294,12 +289,9 @@ export default function Settings () {
         body: JSON.stringify({
           firstname: name !== user.firstname ? name : user.firstname,
           lastname: lastname !== user.lastname ? lastname : user.lastname,
-          phone: phone !== user.phone ? phone : user.phone,
           biography: biography !== user.biography ? biography : user.biography,
           location: location !== user.location ? location : user.location,
-          links: links !== user.links ? links : user.links,
           birthdate: birthdate !== user.birthdate ? birthdate : user.birthdate,
-          gender: gender !== user.gender ? gender : user.gender,
           image: userImage
         })
       }).catch(err => console.log(err))
@@ -325,6 +317,11 @@ export default function Settings () {
     }
   }
 
+    useEffect(() => {
+      getUser()
+
+    }, [])
+
   if (status === 'loading') {
     return (
       <>
@@ -335,136 +332,75 @@ export default function Settings () {
   }
   if (session) {
     return (
-      <Layout>
-        <Head><title>Configuración | Sweet Home</title></Head>
+      <SettingsLayout>
+        <Head><title>Editar perfil público | Sweet Home</title></Head>
         <div className='settings'>
           <div className='form-page'>
-            <h1 className={global.title}>Editar perfil </h1>
+            <h1 className={global.title}>Editar perfil público </h1>
+            <p className={global.text}>Los usuarios que visiten tu perfil público podrán ver la siguiente información:</p>
             <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
-            <div className='form-vertical__image'>
-                    <div className='label'>
-                          <p className={global.text}>Imagen de perfil:</p>
-                          <BsImageFill size={20} color={colors.secondary} />
-                        </div>
-                    <div className='image__input'>
-                          <input
-                            title='Introducir imagen'
-                            type='file'
-                            name='image'
-                            id='image__input'
-                            onChange={(e) => uploadImage(e)}
-                            accept='image/png, image/jpeg, image/jpg'
-                            placeholder='Ningún archivo seleccionado'
-                            className='input'
-                          >
-                          </input>
-                        </div>
+            
+              <div className="form-vertical__nameBlock">
+                <div className='form-vertical__name'>
+                  <div className='label'>
+                    <p className={global.text}>Nombre</p>
+                    <FaUserPlus size={18} color={colors.secondary} />
                   </div>
-                  <div className='form-vertical__banner'>
-                    <div className='label'>
-                          <p className={global.text}>Banner:</p>
-                          <BsImageFill size={20} color={colors.secondary} />
-                        </div>
-                    <div className='banner__input'>
-                          <input
-                            title='Introducir banner'
-                            type='file'
-                            name='banner'
-                            id='banner__input'
-                            onChange={(e) => uploadBanner(e)}
-                            accept='image/png, image/jpeg, image/jpg'
-                            placeholder='Ningún archivo seleccionado'
-                            className='input'
-                          >
-                          </input>
-                        </div>
-                  </div>
-              <div className='form-vertical__name'>
-                <div className='label'>
-                  <p className={global.text}>Nombre</p>
-                  <FaUserPlus size={20} color={colors.secondary} />
-                </div>
-                <div className='name__input'>
-                  <input
-                    title='Introducir nombre'
-                    type='text'
-                    name='name'
-                    id='name'
-                    value={user.firstname}
-                    required
-                    onChange={(e) => setName(e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    placeholder={`${name}`}
-                    className='input'
-                  >{user.firstname}</input>
-                  <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='name__error' className='form__input-nameError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
+                  <div className='name__input'>
+                    <input
+                      title='Introducir nombre'
+                      type='text'
+                      name='name'
+                      id='name'
+                      value={user?.firstname}
+                      required
+                      onChange={(e) => setName(e.target.value)}
+                      onKeyUp={(e) => validate(e)}
+                      onBlur={(e) => validate(e)}
+                      placeholder={`${name}`}
+                      className='input'
+                    >{user?.firstname}</input>
+                    <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                    <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                    <div id='name__error' className='form__input-nameError'>
+                      <div className='error__icon'>
+                        <MdOutlineError size={18} color={colors.secondary} />
+                      </div>
+                      <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                     </div>
-                    <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
+                  </div>
+                </div>
+                <div className='form-vertical__lastname'>
+                  <div className='label'>
+                    <p className={global.text}>Apellidos</p>
+                    <FaUserPlus size={20} color={colors.secondary} />
+                  </div>
+                  <div className='lastname__input'>
+                    <input
+                      title='Introducir apellidos'
+                      type='text'
+                      name='lastname'
+                      id='lastname'
+                      value={lastname}
+                      required
+                      onChange={(e) => setLastname(e.target.value)}
+                      onKeyUp={(e) => validate(e)}
+                      onBlur={(e) => validate(e)}
+                      placeholder={`${lastname}`}
+                      className='input'
+                    />
+                    <div id='error__lastname' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+                    <div id='success__lastname' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                    <div id='lastname__error' className='form__input-lastnameError'>
+                      <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                      <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className='form-vertical__lastname'>
-                <div className='label'>
-                  <p className={global.text}>Apellidos</p>
-                  <FaUserPlus size={20} color={colors.secondary} />
-                </div>
-                <div className='lastname__input'>
-                  <input
-                    title='Introducir apellidos'
-                    type='text'
-                    name='lastname'
-                    id='lastname'
-                    value={lastname}
-                    required
-                    onChange={(e) => setLastname(e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    placeholder={`${lastname}`}
-                    className='input'
-                  />
-                  <div id='error__lastname' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__lastname' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='lastname__error' className='form__input-lastnameError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
-                  </div>
-                </div>
-              </div>
-              <div className='form-vertical__phone'>
-                <div className='label'>
-                  <p className={global.text}>Teléfono</p>
-                  <AiFillPhone size={20} color={colors.secondary} />
-                </div>
-                <div className='phone__input'>
-                  <input
-                    title='Introducir teléfono'
-                    type='tel'
-                    name='phone'
-                    id='phone'
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    placeholder={`${phone}`}
-                    className='input'
-                  />
-                  <div id='error__phone' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__phone' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='phone__error' className='form__input-phoneError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>Debe seguir el formato 6XXXXXXXX.</p>
-                  </div>
-                </div>
-              </div>
+             
               <div className='form-vertical__location'>
                 <div className='label'>
                   <p className={global.text}>Ubicación</p>
@@ -476,12 +412,12 @@ export default function Settings () {
                     type='text'
                     name='location'
                     id='location'
-                    value={user.location}
+                    value={user?.location}
                     required
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder={`${location}`}
                     className='input'
-                  >{user.location}</input>
+                  >{user?.location}</input>
                   <div id='error__location' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__location' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                   <div id='location__error' className='form__input-locationError'>
@@ -508,17 +444,7 @@ export default function Settings () {
                   className='input'
                 />
               </div>
-              <div className='form-vertical__gender'>
-                <div className='label'>
-                  <p className={global.text}>Género</p>
-                  <BsGenderAmbiguous size={20} color={colors.secondary} />
-                </div>
-                <select name='gender' id='gender' className='selector' onChange={(e) => setGender(e)}>
-                  <option value='male'>Masculino</option>
-                  <option value='woman'>Femenino</option>
-                  <option value='other'>Otro</option>
-                </select>
-              </div>
+
               <div className='form-vertical__birthdate'>
                 <div className='label'>
                   <p className={global.text}>Fecha de nacimiento</p>
@@ -535,145 +461,19 @@ export default function Settings () {
                   className='input'
                 />
               </div>
-              <div className='form-vertical__linkInstagram'>
-                <div className='label'>
-                  <p className={global.text}>Instagram</p>
-                  <BsInstagram size={20} color={colors.secondary} />
-                </div>
-                <div className='linkInstagram__input'>
-                  <input
-                    title='Introducir link de Instagram'
-                    type='url'
-                    name='linkInstagram'
-                    id='linkInstagram'
-                    value={user.links?.Instagram}
-                    required
-                    onChange={(e) => setLinks(links.Instagram = e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    placeholder={`${links.Instagram}`}
-                    pattern="https://.*" 
-                    size="30"
-                    className='input'
-                  >{user.links.Instagram}</input>
-                  <div id='error__linkInstagram' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__linkInstagram' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='linkInstagram__error' className='form__input-linkInstagramError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>Debe seguir el formato de un enlace.</p>
-                  </div>
-                </div>
-              </div>
-              <div className='form-vertical__linkTwitter'>
-                <div className='label'>
-                  <p className={global.text}>Twitter</p>
-                  <BsTwitter size={20} color={colors.secondary} />
-                </div>
-                <div className='linkTwitter__input'>
-                  <input
-                    title='Introducir link de Twitter'
-                    type='url'
-                    name='linkTwitter'
-                    id='linkTwitter'
-                    value={user.links?.Twitter}
-                    required
-                    onChange={(e) => setLinks(links.Twitter = e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    placeholder={`${links.Twitter}`}
-                    pattern="https://.*" 
-                    size="30"
-                    className='input'
-                  >{user.links?.Twitter}</input>
-                  <div id='error__linkTwitter' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__linkTwitter' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='linkTwitter__error' className='form__input-linkTwitterError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>Debe seguir el formato de un enlace.</p>
-                  </div>
-                </div>
-              </div>
-              <div className='form-vertical__linkFacebook'>
-                <div className='label'>
-                  <p className={global.text}>Facebook</p>
-                  <BsFacebook size={20} color={colors.secondary} />
-                </div>
-                <div className='linkFacebook__input'>
-                  <input
-                    title='Introducir link de Facebook'
-                    type='url'
-                    name='linkFacebook'
-                    id='linkFacebook'
-                    value={user.links?.Facebook}
-                    required
-                    onChange={(e) => setLinks(links.Facebook = e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    placeholder={`${links.Facebook}`}
-                    pattern="https://.*" 
-                    size="30"
-                    className='input'
-                  >{user.links?.Facebook}</input>
-                  <div id='error__linkFacebook' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__linkFacebook' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='linkFacebook__error' className='form__input-linkFacebookError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>Debe seguir el formato de un enlace.</p>
-                  </div>
-                </div>
-              </div>
-              <div className='settings__buttons'>
-                <button className={global.buttonTertiary3}><a href='/changePassword' title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button>
-                <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
-              </div>
+
             </form>
-            <input type='submit' value='Guardar' className={global.buttonPrimary} onClick={(e) => edit(e)} />
-            {isModalVisible && <Modal>
+            <input type='submit' value='Guardar' className={global.buttonPrimary} onClick={(e) => edit(e)} />    
+            </div>
+          </div>
+          {isModalVisible && <Modal>
               <h2 className={global.title3}>Eliminar cuenta</h2>
               <p className={global.text2}>¿Estás seguro de que quieres eliminar tu cuenta?</p>
               <div className='buttons'>
                 <button className={global.buttonSecondary} onClick={(e) => deleteAccount(e)}>Sí</button>
                 <button className={global.buttonTertiary3} onClick={() => setIsModalVisible(false)}>No</button>
               </div>
-            </Modal>}
-          </div>
-
-
-          <div className='complaints'>
-            <h1 className={global.title}>Denuncias</h1>
-            <div className='complaints__content'>
-              {complaints.length === 0 && <div><p className={global.loading2}>No ha interpuesto ninguna denuncia</p></div>}
-             {complaints.filter(complaint => complaint.usernameTo = session.user.username).map(({ _id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo }) => {
-                return (
-                  <>
-                    <Complaint key={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
-                  </>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className='pets'>
-            <h1 className={global.title}>Mascotas</h1>
-            <div className='pets__content'>
-              {pets.length === 0 && <div><p className={global.loading2}>No tienes mascotas registradas</p></div>}
-              {pets.map(({ _id, animal, breed, name, weight, birthdate, image, ownerUsername }) => {
-                return (
-                  <>
-                    <Pet key={_id} animal={animal} breed={breed} name={name} weight={weight} bithdate={birthdate} image={image} ownerUsername={ownerUsername} />
-                  </>
-                )
-              })}
-              <button className={global.buttonPrimary}><a href='/profile/myprofile/pets' title='Ir a la página para añadir mascotas' aria-label='Ir a cambiar contraseña'>Añadir mascotas</a></button>
-            </div>
-          </div>
-        </div>
+          </Modal>}
 
         <style jsx>{`
 
@@ -690,10 +490,7 @@ export default function Settings () {
 
                     /*Visuals*/
 
-                    border: 2px solid ${colors.primary};
-                    border-radius: 10px;
-
-                   
+                    border-radius: 20px;
 
                 }
 
@@ -744,7 +541,7 @@ export default function Settings () {
                     /*Visuals*/
 
                     background-color: ${colors.primary};
-                    border-radius: 10px;
+                    border-radius: 20px;
                     transition: 0.3s ease all;
 
 
@@ -764,9 +561,8 @@ export default function Settings () {
                       /*Visuals*/
 
                       background-color: ${colors.primary};
-                      border-radius: 10px;
+                      border-radius: 20px;
                       transition: 0.3s ease all;
-
 
                 }
 
@@ -841,8 +637,7 @@ export default function Settings () {
               
               display: flex;
               flex-direction: column;
-              justify-content: center;
-              align-items: center;
+              
 
             }
 
@@ -856,14 +651,24 @@ export default function Settings () {
                   justify-content: center;
                   margin-top: 2rem;
                   margin-bottom: 2rem;
-                  height: 100vh;
+                  width: 50vw;
                   padding: 5rem;
 
                   /*Visuals*/
 
                   background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-                  border-radius: 10px;
+                  border-radius: 20px;
                   
+            }
+
+            .form-vertical__nameBlock{
+
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
             }
 
             .form-vertical__image {
@@ -982,7 +787,7 @@ export default function Settings () {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 0;
 
@@ -1047,7 +852,7 @@ export default function Settings () {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 0;
 
@@ -1084,7 +889,7 @@ export default function Settings () {
 
               /*Visuals*/
 
-              border-radius: 10px;
+              border-radius: 20px;
               background-color: ${statusColors.error};
               opacity: 1;
 
@@ -1112,7 +917,7 @@ export default function Settings () {
 
                 /*Visuals*/
 
-                border-radius: 10px;
+                border-radius: 20px;
                 background-color: ${statusColors.error};
                 opacity: 0;
 
@@ -1149,7 +954,7 @@ export default function Settings () {
 
                 /*Visuals*/
 
-                border-radius: 10px;
+                border-radius: 20px;
                 background-color: ${statusColors.error};
                 opacity: 1;
 
@@ -1189,7 +994,7 @@ export default function Settings () {
 
                 /*Visuals*/
 
-                border-radius: 10px;
+                border-radius: 20px;
                 background-color: ${statusColors.error};
 
                 }
@@ -1212,7 +1017,7 @@ export default function Settings () {
 
                 /*Visuals*/
 
-                border-radius: 10px;
+                border-radius: 20px;
                 background-color: ${statusColors.success};
 
                 }
@@ -1292,8 +1097,6 @@ export default function Settings () {
             }
 
 
-        
-
             .label{
 
               /*Box model*/
@@ -1341,31 +1144,6 @@ export default function Settings () {
               justify-content: space-between;
               gap: 1rem;
               height: 2rem;
-
-            }
-
-
-            .saved{
-
-              /*Box model*/
-
-              display: none;
-
-            }
-
-            .complaints{
-
-              /*Box model*/
-
-              display: none;
-
-            }
-
-            .pets{
-
-              /*Box model*/
-
-              display: none;
 
             }
 
@@ -1453,7 +1231,6 @@ export default function Settings () {
                         -webkit-background-clip: text;
                         -webkit-text-fill-color: transparent; 
                         background-size: 100%
-                        text-align: center;
                         
                   }
 
@@ -1488,6 +1265,16 @@ export default function Settings () {
 
               }
 
+              input[type="text"]:focus {
+
+              /*Visuals*/
+
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+              }
+
               input[type="tel"] {
 
               /*Box model*/
@@ -1511,6 +1298,16 @@ export default function Settings () {
 
               }
 
+              input[type="tel"]:focus {
+
+              /*Visuals*/
+
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+              }
+
               input[type="date"] {
 
                 /*Box model*/
@@ -1531,6 +1328,16 @@ export default function Settings () {
                 border-radius: 5px;
                 border: 1px solid ${colors.secondary};
                 background: transparent;
+
+              }
+
+              input[type="date"]:focus {
+
+              /*Visuals*/
+
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
               }
 
@@ -1574,6 +1381,17 @@ export default function Settings () {
                 background: transparent;
 
               }
+
+              textarea:focus {
+
+              /*Visuals*/
+
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+              }
+
               a{
 
                 /*Text*/
@@ -1583,22 +1401,15 @@ export default function Settings () {
               }
 
 
-              h1{
-
-                  /*Box model*/
-
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                }
 
 
                 
             
             `}
         </style>
-      </Layout>
+      </SettingsLayout>
     )
+    
   } else {
     return (
       <Layout>
@@ -1629,5 +1440,33 @@ export default function Settings () {
         </>
       </Layout>
     )
+  }
+}
+
+export async function getServerSideProps (context) {
+
+
+  const session = await getSession(context)
+
+  
+
+    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+
+
+
+
+  const user = await res.json()
+
+
+  return {
+    props: {
+      users: JSON.parse(JSON.stringify(user))
+    }
   }
 }

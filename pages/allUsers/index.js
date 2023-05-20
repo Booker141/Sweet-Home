@@ -1,10 +1,12 @@
 import { useSession, signIn } from 'next-auth/react'
 import global from 'styles/global.module.css'
-import { colors } from 'styles/frontend-conf'
+import { colors, fonts } from 'styles/frontend-conf'
 import UserCard from 'components/UserCard/UserCard'
 import Layout from 'components/Layout/Layout'
 import Loader from 'components/Loader/Loader'
+import {useState} from 'react'
 import { server } from '/server'
+import Head from 'next/head'
 
 /**
  * It's a function that returns a layout component with a title and a list of users
@@ -13,6 +15,26 @@ import { server } from '/server'
 export default function AllUsers ({ users }) {
 
   const { data: session, status } = useSession({ required: true })
+
+  const [isSortedByUsername, setIsSortedByUsername] = useState(false);
+  const [usersList, setUsersList] = useState(users)
+
+
+  const sortByFilters = (e) => {
+
+
+    if(e === "username"){
+
+      setIsSortedByUsername(!isSortedByUsername)
+      const sortedUsers = users.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
+      setUsersList(sortedUsers)
+
+
+    }
+
+   
+  }
+
 
   if (status == 'loading') {
     return (
@@ -27,13 +49,22 @@ export default function AllUsers ({ users }) {
       <Layout>
         <Head><title>Usuarios | Sweet Home</title></Head>
         <h1 className="title">Usuarios</h1>
+        <div className='column1__buttons'>
+          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear</button>
+          <div className='filter__list'>
+          <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
+                      <option default value="default">Selecciona un filtro</option>
+                      <option value="username">Ordenar por nombre de usuario</option>
+                  </select>
+                </div>
+        </div>
         <div className="users">
-          {users.length === 0 && <div><p className={global.loading2}>No hay ningún usuario.</p></div>}
-          {users.filter(user => user.username !== (session.user.username) && user.role.name !== "administrador" 
-          && user.role.name !== "gerente" ).map(({ _id, image, banner, username, role }) => {
+          {usersList.length === 0 && <div><p className={global.loading2}>No hay ningún usuario.</p></div>}
+          {usersList.filter(user => user.username !== (session.user.username) && user.role.name !== "administrador" 
+          && user.role.name !== "gerente" && user.status.name != "bloqueado" ).map(({ _id, image, banner, username, role }) => {
             return (
               <>
-                <UserCard key={_id} image={image} banner={banner} username={username} role={role} />
+                <UserCard key={_id} id={_id} image={image} banner={banner} username={username} role={role} />
               </>
             )
           })}
@@ -51,6 +82,78 @@ export default function AllUsers ({ users }) {
 
 
           }
+
+          .column1__buttons{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+align-items: center;
+margin-bottom: 2rem;
+
+
+}
+
+.column1__buttons button{
+
+/*Box model*/
+
+margin-right: 1rem;
+
+}
+
+.filter__list{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+align-items: center;
+align-self: flex-end;
+
+}
+
+select{
+
+    /*Box model*/
+
+    width: 10vw;
+    height: 2rem;
+    align-self: flex-end;
+
+    /*Text*/
+
+    font-family: ${fonts.default};
+    color: ${colors.secondary};
+    font-size: 0.8rem;
+
+    /*Visuals*/
+
+    border-radius: 20px;
+    border: none;
+    background-color: ${colors.primary};
+    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+    }
+
+    select:focus{
+
+    /*Visuals*/
+
+    border: 2px solid #4d97f7;
+    outline: none;
+    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+    }
+
+    select::part(listbox){
+
+    /*Visuals*/
+
+    border-radius: 20px;
+    }
+
 
           .title{
 

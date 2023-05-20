@@ -79,6 +79,7 @@ export default function Save(props){
         <>
             <div className='save'>
                 <button className='save--status' onClick={() => Save()}>{isSavedByMe && <MdBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}{!isSavedByMe && <MdBookmarkBorder size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}</button>
+                <p className={global.text2}>Guardar</p>
             </div>
             
             <style jsx>{`
@@ -91,6 +92,8 @@ export default function Save(props){
                     flex-direction: row;
                     align-items: center;
                     gap: 0.5rem;
+
+                    
 
                 }
                 .save--status{

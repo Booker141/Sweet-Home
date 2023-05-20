@@ -9,17 +9,12 @@ import Loader from '/components/Loader/Loader'
 import { server } from '/server'
 
 export default function FollowingUser ({ user }) {
+
   const { data: session, status } = useSession({ required: true })
-  const [following, setFollowing] = useState([])
+  const [following, setFollowing] = useState(user.following)
   const numFollowing = following.length
 
-  useEffect(() => {
-    if (session) {
-      if (user.following.length !== 0) { setFollowers(user.following) }
-    }
-  }, [])
 
-  console.log(user)
   if (status == 'loading') {
     return (
       <>
@@ -31,10 +26,10 @@ export default function FollowingUser ({ user }) {
   if (session) {
     return (
       <Layout>
-        <Head><title>Seguidores | Sweet Home</title></Head>
-        <h1 className="title">Seguidores</h1>
-        {numFollowing === 0 && <p className={global.text}>No sigues a ningún usuario</p>}
-        <p className={global.text}>Sigues a {numFollowing} usuarios</p>
+        <Head><title>Siguiendo | Sweet Home</title></Head>
+        <h1 className="title">Usuarios seguidos</h1>
+        {numFollowing === 0 && <p className={global.text}>No sigue a ningún usuario</p>}
+        <p className={global.text}>Sigue actualmente a {numFollowing} usuarios.</p>
         <div className='following'>
           {following.map((_id) => (
             <Following key={_id} id={_id} />
@@ -57,6 +52,13 @@ export default function FollowingUser ({ user }) {
                         background-size: 100%
                         text-align: center;
 
+          }
+
+          p{
+
+            /*Box model*/
+
+            margin-bottom: 4rem;
           }
         
         

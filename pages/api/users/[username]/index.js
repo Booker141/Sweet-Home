@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb'
 export const config = {
   api: {
       bodyParser: {
-          sizeLimit: '20mb' 
+          sizeLimit: '50mb' 
       }
   }
 }
@@ -18,6 +18,8 @@ export default async function handler (req, res) {
   const account = await db.collection('accounts').findOne({ username: req.query.username })
   const body = req.body
 
+  console.log(body)
+
 
   if (req.method === 'GET') {
 
@@ -27,7 +29,7 @@ export default async function handler (req, res) {
 
   if (req.method === 'PUT') {
     
-    await db.collection('users').replaceOne({ username: req.query.username }, {
+    await db.collection('users').updateOne({ username: req.query.username }, {$set:{
       _id: user._id,
       email: user.email,
       firstname: body.firstname,
@@ -43,17 +45,16 @@ export default async function handler (req, res) {
       banner: body.banner,
       status: user.status,
       role: user.role,
-      links: user.links,
       followers: user.followers,
       following: user.following,
       likes: user.likes,
       saves: user.saves,
       pets: user.pets,
-      isCaretaker: user.isCaretaker,
+      complaints: user.complaints,
       accountId: user.accountId,
       createdAt: user.createdAt   
-    })
-    await db.collection('accounts').replaceOne({ username: req.query.username }, {
+    }})
+    await db.collection('accounts').updateOne({ username: req.query.username }, { $set: {
       _id: account._id,
       provider: account.provider,
       type: account.type,
@@ -69,7 +70,7 @@ export default async function handler (req, res) {
       username: user.username,
       createdAt: account.createdAt,
       userId: user._id
-    })
+    }})
 
     res.status(201).json({ message: 'Se ha guardado la información correctamente' })
   }

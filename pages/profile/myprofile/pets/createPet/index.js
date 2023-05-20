@@ -2,8 +2,10 @@ import Head from 'next/head'
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { MdLocationOn } from 'react-icons/md'
 import { BsImageFill } from 'react-icons/bs'
+import { FaUserPlus, FaWeight, FaBirthdayCake } from 'react-icons/fa'
+import {MdPets} from 'react-icons/md'
+import { GiSittingDog } from 'react-icons/gi'
 import {colors, fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
 import Layout from '/components/Layout/Layout'
@@ -21,6 +23,9 @@ export default function CreatePet () {
   const [weight, setWeight] = useState('')
   const [birthdate, setBirthdate] = useState('')
   const [message, setMessage] = useState('')
+  const [isPosting, setIsPosting] = useState(false)
+
+
 
   const uploadImage = async (e) => {
 
@@ -46,7 +51,70 @@ export default function CreatePet () {
   }
 
   const createPet = async (e) => {
+
     e.preventDefault()
+
+    if(name.trim() === ''){
+      toast.error('El campo Nombre es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(animal.trim() === ''){
+      toast.error('El campo Animal es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(breed.trim() === ''){
+      toast.error('El campo Raza es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(birthdate.trim() === ''){
+      toast.error('El campo Fecha de nacimiento es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(weight.trim() === ''){
+      toast.error('El campo Peso es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    setIsPosting(true)
 
     const res = await fetch(`${server}/api/pets/${session.user.username}`, {
       method: 'POST',
@@ -102,13 +170,13 @@ export default function CreatePet () {
               <div className='form'>
               <div className="container__header">
                 <h1 className='title'>Crear mascota</h1>
-                <p className={global.text}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
+                <p className={global.text2}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
               </div>
                 <form action='/api/posts' id='form'>
                   <div className='form-vertical__name'>
                     <div className='label'>
                       <p className={global.text}>Nombre</p>
-                      <MdLocationOn size={25} color={colors.secondary} />
+                      <FaUserPlus size={18} color={colors.secondary} />
                     </div>
                     <div className='animal__input'>
                       <input
@@ -126,7 +194,7 @@ export default function CreatePet () {
                   <div className='form-vertical__animal'>
                     <div className='label'>
                       <p className={global.text}>Animal</p>
-                      <MdLocationOn size={25} color={colors.secondary} />
+                      <MdPets size={18} color={colors.secondary} />
                     </div>
                     <div className='animal__input'>
                       <input
@@ -143,7 +211,7 @@ export default function CreatePet () {
                   <div className='form-vertical__breed'>
                     <div className='label'>
                       <p className={global.text}>Raza</p>
-                      <MdLocationOn size={25} color={colors.secondary} />
+                      <GiSittingDog size={18} color={colors.secondary} />
                     </div>
                     <div className='breed__input'>
                       <input
@@ -160,7 +228,7 @@ export default function CreatePet () {
                   <div className='form-vertical__image'>
                     <div className='label'>
                           <p className={global.text}>Seleccionar imagen:</p>
-                          <BsImageFill size={25} color={colors.secondary} />
+                          <BsImageFill size={18} color={colors.secondary} />
                         </div>
                     <div className='image__input'>
                           <input
@@ -179,7 +247,7 @@ export default function CreatePet () {
                   <div className='form-vertical__weight'>
                     <div className='label'>
                       <p className={global.text}>Peso</p>
-                      <MdLocationOn size={25} color={colors.secondary} />
+                      <FaWeight size={18} color={colors.secondary} />
                     </div>
                     <div className='weight__input'>
                       <input
@@ -197,7 +265,7 @@ export default function CreatePet () {
                   <div className='form-vertical__birthdate'>
                     <div className='label'>
                       <p className={global.text}>Año de nacimiento</p>
-                      <MdLocationOn size={25} color={colors.secondary} />
+                      <FaBirthdayCake size={18} color={colors.secondary} />
                     </div>
                     <div className='birthdate__input'>
                       <input
@@ -211,7 +279,7 @@ export default function CreatePet () {
                     </div>
                   </div>
                 </form>
-                <input className={global.buttonPrimary} type='submit' onClick={(e) => createPet(e)} value='Crear' />
+                <input className={global.buttonPrimary} type='submit' onClick={(e) => createPet(e)} value={isPosting ? 'Creando..' : 'Crear'} />
               </div>
             </div>
           </div>
@@ -219,19 +287,18 @@ export default function CreatePet () {
 
                     .title{
 
-                       /*Text*/
+                        /*Box model*/
 
-                       font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
+                        margin-top: 2rem;
+                        margin-bottom: 3rem;
+
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 500;
+                        font-family: "Satisfy", sans-serif;
+                        color: white;
                         text-align: center;
-                        margin: 0;
                     }
 
                     .container__header{
@@ -266,11 +333,11 @@ export default function CreatePet () {
                         flex-direction: column;
                         align-items: center;
                     
-                        width: 30vw;
+                        width: 65vw;
 
                         /*Visuals*/
 
-                        background-image: linear-gradient(45deg, rgba(240,129,15, 0.8) 35%, rgba(249,166,3, 0.8) 100%);
+                        background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
                         background-size: 100% 110%;
                         border-radius: 20px;
                         
@@ -333,7 +400,7 @@ export default function CreatePet () {
 
                         /*Visuals*/
 
-                        border-radius: 5px;
+                        border-radius: 20px;
                         border: 1px solid ${colors.primary};
                     }
 
@@ -424,6 +491,16 @@ export default function CreatePet () {
 
                     }
 
+                    input[type="text"]:focus {
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+                    }
+
                     input[type="file"]{
 
                         /*Box model*/
@@ -433,7 +510,7 @@ export default function CreatePet () {
 
                         /*Visuals*/
 
-                        border-radius: 10px;
+                        border-radius: 20px;
                         background-color: transparent;
                         border: 1px solid ${colors.secondary};
                         color: ${colors.secondary};
@@ -453,7 +530,7 @@ export default function CreatePet () {
                         content: 'Subir imagen..';
                         background-color: ${colors.primary};
                         color: ${colors.secondary};
-                        border-radius: 5px;
+                        border-radius: 20px;
                     
 
 
@@ -466,25 +543,6 @@ export default function CreatePet () {
                     }
 
 
-                    input[type="email"]:focus {
-
-                        /*Visuals*/
-
-                        border: 2px solid #4d97f7;
-                        outline: none;
-                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-                    input[type="password"]:focus {
-
-                        /*Visuals*/
-
-                        border: 2px solid #4d97f7;
-                        outline: none;
-                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
 
                     input[type="date"] {
 
@@ -503,9 +561,19 @@ export default function CreatePet () {
 
                       /*Visuals*/
 
-                      border-radius: 5px;
+                      border-radius: 20px;
                       border: 1px solid ${colors.secondary};
                       background: transparent;
+
+                      }
+
+                      input[type="date"]:focus {
+
+                      /*Visuals*/
+
+                      border: 2px solid #4d97f7;
+                      outline: none;
+                      box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                       }
 
@@ -540,8 +608,18 @@ export default function CreatePet () {
 
                     /*Visuals*/
 
-                    border-radius: 5px;
+                    border-radius: 20px;
                     border: 1px solid ${colors.primary};
+
+                    }
+
+                    textarea:focus {
+
+                    /*Visuals*/
+
+                    border: 2px solid #4d97f7;
+                    outline: none;
+                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                     }
 

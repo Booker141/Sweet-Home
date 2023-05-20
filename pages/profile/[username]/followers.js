@@ -3,23 +3,18 @@ import { useState, useEffect } from 'react'
 import {colors} from '/styles/frontend-conf'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
-import Layout from 'components/Layout/Layout'
-import Follower from 'components/Follower/Follower'
-import Loader from 'components/Loader/Loader'
+import Layout from '/components/Layout/Layout'
+import Follower from '/components/Follower/Follower'
+import Loader from '/components/Loader/Loader'
 import { server } from '/server'
 
-export default function FollowersUser ({ user }) {
+export default function FollowerUser ({ user }) {
+
   const { data: session, status } = useSession({ required: true })
-  const [followers, setFollowers] = useState([])
+  const [followers, setFollowers] = useState(user.followers)
   const numFollowers = followers.length
 
-  useEffect(() => {
-    if (session) {
-      if (user.followers.length !== 0) { setFollowers(user.followers) }
-    }
-  }, [])
 
-  console.log(user)
   if (status == 'loading') {
     return (
       <>
@@ -33,20 +28,20 @@ export default function FollowersUser ({ user }) {
       <Layout>
         <Head><title>Seguidores | Sweet Home</title></Head>
         <h1 className="title">Seguidores</h1>
-        {numFollowers === 0 && <p className={global.text}>Te siguen {numFollowers} usuarios</p>}
-        <p className={global.text}>Te siguen {numFollowers} usuarios</p>
-        <div className='followers'>
+        {numFollowers === 0 && <p className={global.text}>No le sigue ningún usuario</p>}
+        <p className={global.text}>Le siguen actualmente {numFollowers} usuarios.</p>
+        <div className='follower'>
           {followers.map((_id) => (
             <Follower key={_id} id={_id} />
           ))}
         </div>
         <style jsx>{`
-                
-             .title{
+        
+          .title{
 
-               /*Text*/
+             /*Text*/
 
-               font-size: 3.5rem;
+             font-size: 3.5rem;
                         font-weight: 600;
                         background-color: ${colors.primary};
                         font-family: "Archivo Black", sans-serif;
@@ -56,14 +51,21 @@ export default function FollowersUser ({ user }) {
                         -webkit-text-fill-color: transparent; 
                         background-size: 100%
                         text-align: center;
-             }           
-                        
-                        
-                        
-                        
-                        
-      
-      `}</style>
+
+          }
+
+          p{
+
+            /*Box model*/
+
+            margin-bottom: 4rem;
+          }
+        
+        
+        
+        
+        
+        `}</style>
       </Layout>
     )
   } else {
@@ -99,6 +101,7 @@ export default function FollowersUser ({ user }) {
 }
 
 export async function getServerSideProps (context) {
+
   const res = await fetch(`${server}/api/users/${context.query.username}`,
     {
       method: 'GET',

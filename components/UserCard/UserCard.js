@@ -6,7 +6,7 @@ import { MdHealthAndSafety } from 'react-icons/md'
 import {useSession} from 'next-auth/react'
 import FallbackImage from 'components/FallbackImage/FallbackImage'
 import FollowButton from 'components/FollowButton/FollowButton'
-import {server} from '/server'
+
 
 /**
  * It's a component that renders a user's profile picture, username, and a button that allows you to
@@ -43,9 +43,12 @@ export default function UserCard (props) {
           </div>
         </div>
         <div className='user__username'>
-          <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong> {isShelter && <BsPatchCheckFill size={20} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.primary}/>}</a>
+          <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong> {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}</a>
         </div>
-        <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={props.id} usernameTo={props.username}/>
+        <div className="follow__button">
+          <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={props.id} usernameTo={props.username}/>
+        </div>
+        
       </div>
       <style jsx>{`
 
@@ -63,6 +66,15 @@ export default function UserCard (props) {
 
                     border-radius: 70px;
                     border-image: linear-gradient(45 deg, #f0810f, #f9A603) 30;
+                }
+
+                .follow__button{
+
+                  /*Box model*/
+
+                  margin-top: 1rem;
+                  display: flex;
+                  align-items: flex-end;
                 }
 
                 .profile__image{
@@ -94,7 +106,9 @@ export default function UserCard (props) {
                     align-items: center;
                     justify-content: center;
                     flex-wrap: wrap;
+                    text-align: center;
                     gap: 0.5rem;
+                    padding: 0rem;
 
                 }
 
@@ -131,6 +145,7 @@ export default function UserCard (props) {
                     /*Visuals*/
 
                     text-decoration: none;
+                    gap: 0.5rem;
                 }
 
                 button{

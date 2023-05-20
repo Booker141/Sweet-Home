@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import global from '/styles/global.module.css'
 import { AiOutlineCheck } from 'react-icons/ai'
 import {server} from '/server'
@@ -6,33 +6,84 @@ import {server} from '/server'
 
 export default function FollowButton(props){
 
-    const [isFollowing, setIsFollowing] = useState(false);
+    const [isFollowedByMe, setIsFollowedByMe] = useState(false);
+    const [user, setUser] = useState({});
+
+    console.log(props)
+
+
+    async function getUser(){
+    
+      const res = await fetch(`${server}/api/users/${props?.usernameFrom}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const data = await res.json()
+
+      setUser(data)
+
+      setIsFollowedByMe(data?.following.includes(props?.idTo))
+
+      console.log(isFollowedByMe)
+
+
+  }
+
+
 
     const followUser = async () => {
 
-        setIsFollowing(!isFollowing)
-    
-        if (isFollowing) {
 
-          await fetch(`${server}/api/follows`, {headers:
+        if (isFollowedByMe === false) {
+
+          await fetch(`${server}/api/follow`, {headers:
             {
               'Content-Type': 'application/json'
             },
             method: 'PUT',
             body: JSON.stringify({
-              idFrom: props.usernameTo,
+              idFrom: props.idFrom,
               usernameFrom: props.usernameFrom,
               usernameTo: props.usernameTo,
               idTo: props.idTo
             })
           })
+
+          setIsFollowedByMe(true)
     
+        }
+
+        if(isFollowedByMe === true){
+
+          await fetch(`${server}/api/unfollow`, {headers:
+            {
+              'Content-Type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify({
+              idFrom: props.idFrom,
+              usernameFrom: props.usernameFrom,
+              usernameTo: props.usernameTo,
+              idTo: props.idTo
+            })
+          })
+
+          setIsFollowedByMe(false)
         }
       }
 
+      useEffect(() => {
+          
+          getUser();
+  
+      },[])
+
       return(
         <>
-            {isFollowing ? <button className={global.buttonTertiary2} onClick={() => followUser()}>Seguir <AiOutlineCheck /></button> : <button className={global.buttonFollowed} onClick={() => followUser()}>Seguido</button>}
+            {isFollowedByMe ? <button className={global.buttonFollowed} onClick={() => followUser()}>Seguido</button> : <button className={global.buttonTertiary2} onClick={() => followUser()}>Seguir <AiOutlineCheck /></button>}
         </>
       )
 }

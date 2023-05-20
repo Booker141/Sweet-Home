@@ -39,10 +39,10 @@ export default function Complaints ({complaints}){
                   <div className='complaints'>
                       {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
-                      {complaints.filter(complaint => complaint.isChecked === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
+                      {complaints.filter(complaint => complaint.isChecked === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(
                               <>
-                                  <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
+                                  <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} typeComplaint={typeComplaint.name} />
                               </> 
                       )})}
 
@@ -51,10 +51,10 @@ export default function Complaints ({complaints}){
                     <div className="complaints">
                       {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
-                      {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
+                      {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(
                               <>
-                                  <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
+                                  <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} typeComplaint={typeComplaint.name} />
                               </> 
                       )})}
                     </div>
@@ -62,10 +62,10 @@ export default function Complaints ({complaints}){
                     <div className="complaints">
                         {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                         {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
-                        {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === true ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo}) => {
+                        {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === true ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                             return(
                                 <>
-                                    <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} />
+                                    <Complaint key={_id} id={_id} description={description} adminId={adminId} createdAt={createdAt} isApproved={isApproved} isChecked={isChecked} usernameFrom={usernameFrom} usernameTo={usernameTo} typeComplaint={typeComplaint.name} />
                                 </> 
                         )})}
                     </div>

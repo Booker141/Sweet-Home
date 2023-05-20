@@ -2,7 +2,7 @@
 import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
 import {MdPets, MdContactMail, MdHealthAndSafety, MdReport, MdClose} from 'react-icons/md'
 import {BsFillFilePostFill} from 'react-icons/bs'
-import { GiDogBowl, GiSittingDog} from 'react-icons/gi'
+import { GiDogBowl, GiSittingDog, GiDogHouse, GiHummingbird, GiCat} from 'react-icons/gi'
 import {colors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
@@ -39,6 +39,13 @@ export default function Sidebar(){
   
 
 
+    /**
+     * The function uploads an image and sets it as the report image.
+     * @param e - The parameter "e" is an event object that is passed to the function when it is
+     * called. It is typically used to access information about the event that triggered the function,
+     * such as the target element or any data associated with the event. In this case, the function is
+     * expecting an event object that
+     */
     const uploadImage = async (e) => {
 
 
@@ -141,6 +148,10 @@ export default function Sidebar(){
 
     }
 
+    /**
+     * This function fetches data from a server's API endpoint and sets the retrieved data to a
+     * variable called "shelters".
+     */
     const fetchShelters = async () => {
 
         const res = await fetch(`${server}/api/shelters`, {
@@ -189,22 +200,7 @@ export default function Sidebar(){
         })
     }
 
-/**
- * This function fetches data about the user's following list from a server and sets it to a state
- * variable.
- */
-    const fetchFollowing = async () => {
 
-        const res = await fetch(`${server}/api/following/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        const data = await res.json()
-        setFollowing(data)
-    }
 
     useEffect(() => {
  
@@ -223,16 +219,16 @@ export default function Sidebar(){
 
                 <div className="sidebar-layout__container1">
                     <a className="sidebar__link" href="/home" alt="Ir a apartado de reciente en home"><HiHome size={20} color={`${colors.secondary}`}/>Reciente</a>
-                    <a className="sidebar__link" href="/followingPosts" alt="Ir a publicaciones de usuarios seguidos"><HiUser size={20} color={`${colors.secondary}`}/>Seguidos</a>
                     <a className="sidebar__link" href="/allShelters" alt="Ir a apartado de protectoras"><MdPets size={20} color={`${colors.secondary}`}/>Protectoras</a>
                     <a className="sidebar__link" href="/allVets" alt="Ir a apartado de veterinarias"><MdHealthAndSafety size={20} color={`${colors.secondary}`}/>Veterinarias</a>
+                    <a className="sidebar__link" href="/allPets" alt="Ir a Mascotas"><GiDogBowl size={20} color={`${colors.secondary}`}/>Mascotas</a>
 
                 </div>
 
                 
                 <div className="sidebar-layout__container2">
-                    <a className="sidebar__link" href="/myPosts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.secondary}`}/>Mis publicaciones</a>
-                    <a className="sidebar__link" href="/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
+                    <a className="sidebar__link" href="/profile/myprofile/posts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.secondary}`}/>Mis publicaciones</a>
+                    <a className="sidebar__link" href="/profile/myprofile/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
 
                 </div>
@@ -242,30 +238,13 @@ export default function Sidebar(){
                     <a className="sidebar__link" href="/news" alt="Ir a apartado de noticias"><HiNewspaper size={20} color={`${colors.secondary}`}/>Noticias</a>
                     <a className="sidebar__link" href="/contact" alt="Ir a apartado de contacto"><MdContactMail size={20} color={`${colors.secondary}`}/>Contacto</a>
                     <a className="sidebar__link" href="/about" alt="Ir a apartado de sobre nosotros"><HiHand size={20} color={`${colors.secondary}`}/>Quiénes somos</a>
-                    <a className="sidebar__link" href="/adoption" alt="Ir a apartado de adopción de mascotas"><GiDogBowl size={20} color={`${colors.secondary}`}/>Adopción</a>
+                    <a className="sidebar__link" href="/adoption" alt="Ir a apartado de adopción de mascotas"><GiDogHouse size={20} color={`${colors.secondary}`}/>Adopción</a>
                     <a className="sidebar__link" href="/lost" alt="Ir a apartado de mascotas perdidas"><GiSittingDog size={20} color={`${colors.secondary}`}/>Mascotas perdidas</a>
+                    <a className="sidebar__link" href="/abandoned" alt="Ir a apartado de mascotas abandonadas"><GiCat size={20} color={`${colors.secondary}`}/>Mascotas abandonadas</a>
+                    <a className="sidebar__link" href="/wild" alt="Ir a apartado de fauna silvestre"><GiHummingbird size={20} color={`${colors.secondary}`}/>Fauna silvestre</a>
                     <a className="sidebar__link" href="/faq" alt="Ir a apartado de preguntas frecuentes"><HiQuestionMarkCircle size={20} color={`${colors.secondary}`}/>FAQ</a>
-                    <a className="sidebar__link" href="/userManual" alt="Ir a apartado de manual"><HiDocumentSearch size={20} color={`${colors.secondary}`}/>Ayuda</a>
                 </div>
 
-
-
-                <div className="sidebar-layout__container4">
-                    <h1 className="title__sidebar">Cuentas seguidas</h1>
-                    {following.length === 0 && <p className={global.text2}>No ha seguido a ningún usuario.</p>}
-                    {following.filter(following => following.username !== (session.user.username) && following.role.name !== "admin" && following.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
-                        return (
-                        <>
-                            <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
-                        </>
-                        )
-                    })}
-                    <div className='users__link'>
-
-                        {following.length !== 0 && <Link href={`/profile/${session.user.username}/following`}><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>}
-
-                    </div>
-                </div>
 
                 <div className="sidebar-layout__container5">
                     <h1 className="title__sidebar">Cuentas sugeridas</h1>

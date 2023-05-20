@@ -8,9 +8,9 @@ import { fonts } from 'styles/frontend-conf.js'
 import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
 import {  RiSettings4Fill, RiAdminFill, RiHealthBookFill } from 'react-icons/ri'
 import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill } from 'react-icons/bs'
-import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets} from 'react-icons/md'
-import {HiHome, HiNewspaper, HiOutlineArrowRight} from 'react-icons/hi'
-import {GiDogHouse} from 'react-icons/gi'
+import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets, MdReport} from 'react-icons/md'
+import {HiHome, HiNewspaper, HiOutlineArrowRight, HiBookmark} from 'react-icons/hi'
+import {GiDogBowl} from 'react-icons/gi'
 import {GoGraph} from 'react-icons/go'
 import { server } from '/server'
 import FallbackImage from '/components/FallbackImage/FallbackImage'
@@ -100,13 +100,12 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
+                <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><SearchBar/></li>
-                
-                  <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                  <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
-                </div>
+                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
+                <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+              </div>
                 <ThemeButton />
                 <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                 {isMenuOpen && <ul className='menu'>
@@ -121,7 +120,9 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
+
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -146,15 +147,14 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
+                <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><SearchBar/></li>
-                
-                  <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                  <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
+                <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
               </div>
               <ThemeButton />
-                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={25} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                 {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
@@ -167,7 +167,9 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
+
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -192,9 +194,9 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
+                <li><SearchBar/></li>
                 <li ><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li ><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><SearchBar/></li>
                 <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={30} color={`${colors.secondary}`}/>Panel</a></Link></li>
               </div>
@@ -212,7 +214,9 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -237,9 +241,9 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
+                <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><SearchBar/></li>
                 <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={30} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
               </div>
@@ -258,7 +262,9 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -282,14 +288,14 @@ export default function Header (props) {
             </div>
             <div className="header__align">
               <div className="align__menu">
-                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><SearchBar/></li>
-                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href="/appointments" as="/appointments"><a className="nav__link2" aria-label='Ir a Citas'><RiHealthBookFill size={30} color={`${colors.secondary}`}/>Citas</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
+                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
+                  <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
               </div>
               <ThemeButton />
-              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
               {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
@@ -302,7 +308,9 @@ export default function Header (props) {
                   <hr className='line' />
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogHouse size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
+                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
+                           
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
                   <li className='nav__link'><Link href="/settings"><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -329,6 +337,7 @@ export default function Header (props) {
         </Modal>}
 
         <style jsx>{`
+
 
             
 
@@ -427,11 +436,8 @@ export default function Header (props) {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 3rem;
+                    gap: 1rem;
 
-                    /*Text*/
-
-                    font-size: 1.5rem;
 
                 }
 
@@ -442,7 +448,8 @@ export default function Header (props) {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 5rem;
+                    gap: 1rem;
+                    margin-right: 4rem;
                 
                 }
  
@@ -500,8 +507,6 @@ export default function Header (props) {
                     z-index: 999999;
                     top: 0;
                     left: 0;
-
-           
 
                     /*Box model*/
 

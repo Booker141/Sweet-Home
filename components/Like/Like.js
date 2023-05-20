@@ -7,6 +7,7 @@ import {server} from '/server'
 
 
 
+
 export default function Like(props){
 
     const {data: session} = useSession();
@@ -96,8 +97,9 @@ export default function Like(props){
     return(
         <>
             <div className='like'>
-                <p className={global.text2}>{likes.length}</p>
+                <p className={global.text2}>{likes?.length}</p>
                 <button className='like--status' onClick={() => Like()}>{isLikedByMe && <HiHeart size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}{!isLikedByMe && <HiOutlineHeart size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>}</button>
+                <p className={global.text2}>Me gusta</p>
             </div>
             
             <style jsx>{`
@@ -109,7 +111,8 @@ export default function Like(props){
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 0.5rem;
+                    gap: 0.2rem;
+
 
                 }
                 .like--status{

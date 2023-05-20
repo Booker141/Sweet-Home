@@ -64,7 +64,6 @@ export default function Footer () {
               <div className='column3__links'>
                 <Link className={global.link} href="/attendances"><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
                 <Link className={global.link} href="/news"><a aria-label='Ir a Noticias'>Noticias</a></Link>
-                <Link className={global.link} href="/userManual"><a aria-label='Ir a Manual de usuario'>Documentación</a></Link>
               </div>
             </div>
 

@@ -19,7 +19,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 4rem;
+  margin-top: 1rem;
 
 
 }
@@ -638,7 +638,7 @@
   display: flex;
   flex-direction: column;
 
-  width: 50rem;
+  width: 40vw;
   margin-bottom: 1rem;
   padding: 2rem;
 
@@ -649,7 +649,7 @@
 
   /*Visuals*/
 
-  border-radius: 10px;
+  border-radius: 20px;
   background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
 
 }
@@ -731,12 +731,18 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: 66vw;
+  padding: 1rem;
   word-wrap: break-word;
   margin-left: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
   /*Text*/
 
+  background-color: #f0810f;
+  border-radius: 40px;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
   font-family: 'Poppins', sans-serif;
 
 }
@@ -1135,6 +1141,25 @@
 
 }
 
+.following{
+
+  /*Box model*/   
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 70vw;
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  /*Visuals*/ 
+
+  border: 2px solid #f0810f;
+  border-radius: 20px;
+
+}
+
 
 
 .colorized {
@@ -1315,7 +1340,7 @@
 
   background-color: transparent;
   border-radius: 40px;
-  border: 1px solid #f0810f;
+  border: 2px solid #f0810f;
 
   /*Misc*/
 
@@ -1350,7 +1375,7 @@
 
   background-color: #f0810f;
   border-radius: 40px;
-  border: 1px solid #ffff;
+  border: 2px solid #ffff;
 
   /*Misc*/
 
@@ -1384,7 +1409,7 @@
 
   background-color: transparent;
   border-radius: 40px;
-  border: 1px solid #f0810f;
+  border: 2px solid #f0810f;
 
   /*Misc*/
 
@@ -1419,7 +1444,7 @@
 
   background-color: #f9a603;
   border-radius: 40px;
-  border: 1px solid #ffff;
+  border: 2px solid #ffff;
 
   /*Misc*/
 
@@ -1507,7 +1532,7 @@
 
   /*Text*/
 
-  color: #f55b5b;
+  color: #e74c3c;
   font-family: "Poppins", sans-serif;
   font-style: 500;
 
@@ -1517,7 +1542,7 @@
 
   background: transparent;
   border-radius: 40px;
-  border: 1px solid #f55b5b;
+  border: 2px solid #e74c3c;
 
   /*Misc*/
 
@@ -1549,9 +1574,9 @@
 
   cursor: pointer;
 
-  background-color: #f55b5b;
+  background-color: #e74c3c;
   border-radius: 40px;
-  border: 1px solid white;
+  border: 2px solid white;
 
   /*Misc*/
 
@@ -1585,7 +1610,7 @@
 
   cursor: pointer;
 
-  background: #f55b5b;
+  background: #e74c3c;
   border-radius: 40px;
   border: none;
 
@@ -1620,9 +1645,9 @@
 
   cursor: pointer;
 
-  background-color: #f55b5b;
+  background-color: #e74c3c;
   border-radius: 40px;
-  border: 1px solid white;
+  border: 2px solid white;
 
   /*Misc*/
 
@@ -1655,7 +1680,7 @@
   cursor: pointer;
 
   background-image: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
-  ;
+
   border: none;
   border-radius: 40px;
 

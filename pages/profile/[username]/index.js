@@ -1,74 +1,45 @@
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
+import FallbackImage from '/components/FallbackImage/FallbackImage'
 import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import { AiOutlineCheck } from 'react-icons/ai'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { MdOutlineBlock } from 'react-icons/md'
+import { BsPatchCheckFill} from 'react-icons/bs'
+import {FaUserAlt} from 'react-icons/fa'
+import {MdCake, MdLocationPin, MdHealthAndSafety, MdOutlineBlock} from 'react-icons/md'
+import {HiOutlineArrowRight} from 'react-icons/hi'
+import FollowButton from 'components/FollowButton/FollowButton'
 import Layout from 'components/Layout/Layout'
 import Post from 'components/Post/Post'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
+import {toast} from 'react-toastify'
 
-export default function Username ({ posts, user, pets }) {
+export default function Username ({ posts, users}) {
   
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
-  const [isFollowing, setIsFollowing] = useState(false)
-  const [isCaretaker, setIsCaretaker] = useState(false)
-  const [profileUser, setProfileUser] = useState(user)
+  const [isShelter, setIsShelter] = useState(false)
+  const [isVet, setIsVet] = useState(false)
+  const [profileUser, setProfileUser] = useState(users)
+  const [userImage, setUserImage] = useState(users.image)
+  const [userBanner, setUserBanner] = useState(users.banner)
   const [isPosts, setIsPosts] = useState(false)
-  const [isSaved, setIsSaved] = useState(false)
-  const [isPets, setIsPets] = useState(false)
+  const [isLocation, setIsLocation] = useState(users.location === "" ? false : true)
   const router = useRouter()
 
-  const followUser = () => {
-    setIsFollowing(!isFollowing)
-
-    if (isFollowing) {
-
-    }
-  }
-
   const handleClick = (e) => {
+
     const posts = document.querySelector('.posts')
-    const saved = document.querySelector('.saved')
-    const pets = document.querySelector('.pets')
+
 
     if (e === 'Publicaciones') {
       setIsPosts(!isPosts)
-      setIsSaved(false)
-      setIsPets(false)
+
       const button = document.querySelector('#posts')
       posts.style.display = 'flex'
-      saved.style.display = 'none'
-      pets.style.display = 'none'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
-    } else if (e === 'Guardados') {
-      setIsSaved(!isSaved)
-      setIsPosts(false)
-      setIsPets(false)
-      const button = document.querySelector('#saved')
-      posts.style.display = 'none'
-      saved.style.display = 'flex'
-      pets.style.display = 'none'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
-    } else if (e === 'Mascotas') {
-      setIsPets(!isPets)
-      setIsSaved(false)
-      setIsPosts(false)
-      const button = document.querySelector('#pets')
-      posts.style.display = 'none'
-      saved.style.display = 'none'
-      pets.style.display = 'flex'
       button.addEventListener('click', () => {
         button.focus()
       })
@@ -76,11 +47,12 @@ export default function Username ({ posts, user, pets }) {
   }
 
   useEffect(() => {
-    if (session) {
+
       setFollowers(profileUser.followers)
       setFollowing(profileUser.following)
-      setIsCaretaker(profileUser.isCaretaker)
-    }
+      setIsShelter(profileUser.role.name === "protectora" ? true : false)
+      setIsVet(profileUser.role.name === "veterinaria" ? true : false)
+
   }, [])
 
   if (status == 'loading') {
@@ -98,69 +70,70 @@ export default function Username ({ posts, user, pets }) {
     return (
       <Layout>
 
-        <Head><title>Mi perfil | Sweet Home</title></Head>
+        <Head><title>Perfil de {router.query.username} | Sweet Home</title></Head>
 
         <div className='container__profile'>
 
+          <div className="profile__banner">  
+            <FallbackImage src={userBanner} style={{ borderRadius: '20px 20px 0 0', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>
+          </div>
           <div className='profile__text'>
 
-            <div className='text__username'>
-              <Image src={profileUser.image} style={{ borderRadius: '50px' }} width={100} height={100} alt='Imagen de perfil' priority />
-              <div className={global.title2}>@{profileUser.username}</div>
-              {isCaretaker && <BsPatchCheckFill size={30} color={colors.primary} />}
-              {isFollowing ? <button className={global.buttonTertiary2} onClick={() => followUser()}>Seguir <AiOutlineCheck /></button> : <button className={global.buttonFollowed} onClick={() => followUser()}>Seguido</button>}
+          <div className='text__username'>
+
+              <div className="profile__profilePic">
+                <FallbackImage src={userImage} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' priority />
+              </div>
+              <div className={global.title2}>@{router.query.username}</div>
+              {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
+              {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}              
+              <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={profileUser.id} usernameTo={profileUser.username}/>
               <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdOutlineBlock size={25} color={colors.primary} /></a>
             </div>
-            <p className={global.text}>{profileUser.biography}</p>
+            <div className="profile__biography">
+              <p className={global.text}>{profileUser.biography}</p>
+            </div>
+            <div className="profile__dates">
+                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
+            </div>
+            {isLocation && <div className="profile__location">
+              <div className={global.text}><strong className={global.strong}></strong>{profileUser.location}<MdLocationPin color={`${colors.primary}`}/></div>
+            </div>}
+            <div className="profile__pets">
+              <a className={global.link} href={`/profile/${router.query.username}/pets`} aria-label={`Ir a sus mascotas`}>Sus mascotas<HiOutlineArrowRight size={15} color={colors.primary} /></a>
+            </div>
             <div className='profile__followers'>
+              <div className="numPosts">
+                <div className={global.link}>Publicaciones</div>
+                <p className={global.text__bold}>{posts.length}</p>
+              </div>
               <div className='followers'>
-                <a href='/profile/${profileUser.username}/followers' aria-label={`Ir a los seguidores de ${profileUser.username}`} className={global.link}>Seguidores</a>
-                <div className={global.text__bold}>{numFollowers}</div>
+                <a href={`/profile/${profileUser.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser.username}`} className={global.link}>Seguidores</a>
+                <p className={global.text__bold}>{numFollowers}</p>
               </div>
               <div className='following'>
-                <a href='/profile/${profileUser.username}/following' aria-label={`Ir a los usuarios seguidos por ${profileUser.username}`} className={global.link}>Siguiendo</a>
-                <div className={global.text__bold}>{numFollowing}</div>
+                <a href={`/profile/${profileUser.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser.username}`} className={global.link}>Siguiendo</a>
+                <p className={global.text__bold}>{numFollowing}</p>
               </div>
             </div>
 
           </div>
           <div className='profile__functions'>
             <button id='posts' className='function__title' onClick={() => handleClick('Publicaciones')}>Publicaciones</button>
-            <button id='saved' className='function__title' onClick={() => handleClick('Guardados')}> Guardados </button>
-            <button id='pets' className='function__title' onClick={() => handleClick('Publicaciones')}> Mascotas </button>
           </div>
 
           <div className='posts'>
             {isPosts && posts.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
-            {isPosts && posts.map(({ _id, userImage, username, location, mediaUrl, description, comments }) => {
+            {isPosts && posts.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} />
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
                 </>
               )
             })}
           </div>
-          <div className='saved'>
-            {isSaved && saved.length === 0 && <p className={global.text}>No hay publicaciones guardadas en este momento</p>}
-            {isSaved && saved.map(({ _id, userImage, username, location, mediaUrl, description, comments }) => {
-              return (
-                <>
-                  <Post id={_id} userImage={userImage} username={username} location={location} mediaUrl={mediaUrl} description={description} comments={comments} />
-                </>
-              )
-            })}
-          </div>
-
-          <div className='pets'>
-            {isPets && pets.length === 0 && <p className={global.text}>No tiene mascotas en este momento</p>}
-            {isPets && pets.map(({ _id, animal, name, breed, weight, birthYear, image, ownerId, ownerUsername }) => {
-              return (
-                <>
-                  <Pet key={_id} animal={animal} name={name} breed={breed} weight={weight} birthYear={birthYear} image={image} ownerId={ownerId} ownerUsername={ownerUsername} />
-                </>
-              )
-            })}
-          </div>
+          
         </div>
 
         <style jsx>{`
@@ -172,12 +145,81 @@ export default function Username ({ posts, user, pets }) {
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
-                        
-                        /*Visuals*/
+                        margin-right: 3rem;
 
-                        border: 2px solid ${colors.primary};
-                        border-radius: 10px;
+                        border: 2px solid #f0810f;
+                        border-radius: 20px;
+                        
                     
+                    }
+
+                    .profile__pets a{
+
+                      /*Box model*/
+                      
+                      display: flex;
+                      flex-direction: row;
+                      gap: 0.5rem;
+                    }
+
+
+                    .profile__biography{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        margin-top: 1rem;
+                        margin-bottom: 1rem;
+
+                    }
+
+                    .profile__banner{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+          
+                    }
+
+
+                    .profile__banner button{
+
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 0.5rem;
+
+                    }
+
+                    
+
+                    .edit__banner{
+
+                      /*Position*/
+
+                      position: relative;
+                      bottom: 2rem;
+                      left: 35rem;
+
+
+                    }
+
+                    .edit__profilePic{
+
+                      /*Position*/
+
+                      position: relative;
+                      bottom: 3rem;
+                      right: 1.5rem;
+                      
                     }
                     
                     .profile__text{
@@ -186,9 +228,28 @@ export default function Username ({ posts, user, pets }) {
 
                         display: flex;
                         flex-direction: column;
-                        margin-top: 1rem;
                         align-items: center;
 
+                    }
+
+                    .profile__dates{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 2rem;
+                        align-items: center;
+                    }
+
+                    .profile__dates div{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 1rem;
                     }
 
                     .profile__text > div {
@@ -226,6 +287,7 @@ export default function Username ({ posts, user, pets }) {
                         flex-direction: row;
                         align-items: center;
                         justify-content: center;
+                        margin-top: 2rem;
                         
                     }
 
@@ -237,9 +299,21 @@ export default function Username ({ posts, user, pets }) {
 
                         display: flex;
                         flex-direction: row;
-                        gap: 2rem;
                         align-items: center;
+                        justify-content: center;
+                        gap: 2rem;
                         margin-bottom: 2rem;
+
+                    }
+
+                    .numPosts{
+
+                    /*Box model*/
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
 
                     }
 
@@ -254,6 +328,8 @@ export default function Username ({ posts, user, pets }) {
 
                     }
 
+
+
                     .following{
 
                         /*Box model*/
@@ -266,28 +342,6 @@ export default function Username ({ posts, user, pets }) {
                     }
 
                     .posts{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-
-                    }
-
-                    .saved{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-
-                    }
-
-                    .pets{
 
                         /*Box model*/
 
@@ -315,8 +369,8 @@ export default function Username ({ posts, user, pets }) {
 
                         /*Box model*/
                         
-
                         margin-bottom: 2rem;
+                        padding: 0.8rem;
 
                         /*Text*/
                         
@@ -366,12 +420,65 @@ export default function Username ({ posts, user, pets }) {
 
                     }
 
+                    input[type="file"]{
+
+                          /*Box model*/
+
+                          width: 15vw;
+                          height: 5vh;
+                          display: none;
+                          align-items: center;
+                          margin-top: 1rem;
+
+                          /*Visuals*/
+
+                          border-radius: 100px;
+                          cursor: pointer;
+                          background-color: ${colors.primary};
+                          color: ${colors.secondary};
+
+                          }
+
+                          input[type="file"]::before{
+
+                          /*Box model*/
+
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          padding: 1rem;
+                          margin-right: 1rem;
+
+                          /*Visuals*/
+
+                          cursor: pointer;
+                          background-color: ${colors.primary};
+                          color: ${colors.secondary};
+                          border-radius: 50px;
+
+                          }
+
+                          input[type="file"]::-webkit-file-upload-button {
+
+                          display: none;
+
+                          }
+
                     a{
 
                         /*Visuals*/
 
                         text-decoration: none;
                         
+                    }
+
+                    a:hover{
+
+                        /*Visuals*/
+
+                        cursor: pointer;
+                        color: ${colors.tertiary};
+                        transition: 0.5s ease all;
                     }
                 `}
         </style>
@@ -410,36 +517,35 @@ export default function Username ({ posts, user, pets }) {
 }
 
 export async function getServerSideProps (context) {
-  const { username } = context.query
 
-  const post = await fetch(`${server}/api/posts/${username}`, {
+
+  const post = await fetch(`${server}/api/posts/${context.query.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   })
 
-  const res = await fetch(`${server}/api/users/${username}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+  
 
-  const pet = await fetch(`${server}/api/pets/${username}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+    const res = await fetch(`${server}/api/users/${context.query.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+
+
 
   const posts = await post.json()
   const user = await res.json()
-  const pets = await pet.json()
+
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts)), user: JSON.parse(JSON.stringify(user)), pets: JSON.parse(JSON.stringify(pets))
+      posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(user))
     }
   }
 }
+

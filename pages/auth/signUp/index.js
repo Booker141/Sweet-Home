@@ -14,6 +14,7 @@ import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { server } from '/server'
 import {toast} from 'react-toastify'
 
+
 /*
     * @author Sergio García Navarro
     * @returns Sign up page
@@ -183,7 +184,7 @@ export default function SignUp () {
         theme: "colored", })
 
 
-          Router.push(`auth/signIn`)
+          Router.push(`${server}/auth/signIn`)
 
       }
 

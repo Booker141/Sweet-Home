@@ -21,7 +21,7 @@ import { server } from '/server'
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function myPosts () {
+export default function Posts () {
   
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState([])
@@ -29,12 +29,18 @@ export default function myPosts () {
   const Router = useRouter()
 
 
+/**
+ * This function sorts a list of posts by their number of likes in ascending order.
+ */
   const sortPostByLikes = () => {
     setIsSortedByLikes(!isSortedByLikes)
     const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
     setPostList(sortedPosts)
   }
 
+  /**
+   * This function fetches posts from a server API for a specific user.
+   */
   const fetchPosts = async () => {
 
     const res = await fetch(`${server}/api/posts/${session.user.username}`, {
@@ -44,8 +50,10 @@ export default function myPosts () {
       }
     })
   
-  
     const posts = await res.json()
+
+    console.log(posts)
+
     setPostList(posts)
   }
 
@@ -68,10 +76,7 @@ export default function myPosts () {
     return (
       <Layout>
         <Head><title>Mis publicaciones | Sweet Home</title></Head>
-        <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
-          <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
-        </div>
+       
         <div className='container'>
 
           <div className='container__column1'>
@@ -79,7 +84,11 @@ export default function myPosts () {
             <div className='column1__header'>
               <h1 className={global.title}>Mis publicaciones</h1>
             </div>
-            {((isSortedByLikes) && postList.length === 0) && <div><p className={global.text}>No hay tiene ninguna publicación</p></div>}
+            <div className='column1__buttons'>
+              <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
+              <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
+            </div>
+            {((isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
               return (
                 <>
@@ -87,7 +96,7 @@ export default function myPosts () {
                 </>
               )
             })}
-            {((!isSortedByLikes) && postList.length === 0) && <div><p className={global.loading}>No hay ninguna publicación</p></div>}
+            {((!isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
               return (
                 <>

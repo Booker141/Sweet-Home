@@ -6,7 +6,7 @@ import {toast} from 'react-toastify'
 import FallbackImage from '/components/FallbackImage/FallbackImage'
 import {colors} from '/styles/frontend-conf.js'
 import {server} from '/server'
-import { MdCheckCircle, MdCancel} from 'react-icons/md'
+import { MdCheckCircle, MdCancel, MdDeleteOutline} from 'react-icons/md'
 import { HiOutlineClock } from 'react-icons/hi'
 import Modal from '/components/Modal/Modal'
 
@@ -21,8 +21,11 @@ export default function Complaint (props) {
   const [user, setUser] = useState({});
   const [user2, setUser2] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
   const Router = useRouter();
   const {data: session} = useSession()
+
+  const [isAdmin, setIsAdmin] = useState(session.user.role === "administrador" ? true : false)
 
 
   /**
@@ -51,10 +54,40 @@ export default function Complaint (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    setTimeout(() => {
+
       Router.reload()
-    }, 5000)
+
   }
+
+    /**
+   * It deletes a complaint from the database
+   */
+    const deleteComplaint = async () => {
+
+      await fetch(`${server}/api/complaints/${session.user.username}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: props.id,
+        
+        })})
+  
+      toast.error(`Se ha eliminado la denuncia`, { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+  
+      setIsModalVisible2(false)
+
+      Router.reload()
+
+    }
 
   const checkComplaint = async () => {
 
@@ -78,9 +111,9 @@ export default function Complaint (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    setTimeout(() => {
+
       Router.reload()
-    }, 5000)
+
 
   }
 
@@ -138,13 +171,13 @@ export default function Complaint (props) {
             </div>
             
             <div className="complaint__type">
-                <div className="action__buttons">
+                {isAdmin && <div className="action__buttons">
                   <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircle size={25} color={colors.secondary} /></button>
                   <button className='deny__button' onClick={() => setIsModalVisible(true)}><MdCancel size={25} color={colors.secondary} /></button>   
-                </div> 
-                <div className="complaint__reason">
-                  <p className={global.text2}><strong>Motivo:</strong>{props?.typeComplaint}</p>
-                </div>
+                </div> }
+                {!isAdmin && <button className='delete__button' onClick={() => setIsModalVisible2(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+
+               
                 <div className="complaint__date">
                   <p className={global.text2__bold}>Fecha:</p>
                   <HiOutlineClock size={17}/>
@@ -155,12 +188,15 @@ export default function Complaint (props) {
                   {props.isChecked === true && <p className={global.text2}>{props.isApproved ? 'Aprobada' : 'Denegada'}</p>}
                   <p className={global.text2}>{props.isChecked ? 'Comprobada' : 'No comprobada'}</p>
                 </div>
+                <div className="complaint__reason">
+                  <p className={global.text2}><strong>Motivo:</strong> {props?.typeComplaint}</p>
+                </div>
             </div>
             </div>
           <hr className={global.white__line}></hr>
           <div className="complaint__body">
             <p className={global.text2__bold}>Motivo de la denuncia: </p>
-            <p className={global.text}>{props.description}</p>
+            <p className={global.text}> {props.description}</p>
           </div>
         
         </div>
@@ -170,6 +206,15 @@ export default function Complaint (props) {
           <p className={global.text2__bold}>¿Estás seguro de anular el trámite de esta denuncia?</p>
           <div className='buttons'>
             <button className={global.buttonSecondary} onClick={() => denyComplaint()}>Sí</button>
+            <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+          </div>
+        </Modal>}
+        {isModalVisible2 && <Modal>
+          <h2 className={global.title3}>Eliminar denuncia</h2>
+          <p className={global.text2}>Está a punto de eliminar la denuncia que ha interpuesto a @{props.usernameTo}</p>
+          <p className={global.text2__bold}>¿Estás seguro de eliminar esta denuncia?</p>
+          <div className='buttons'>
+            <button className={global.buttonSecondary} onClick={() => deleteComplaint()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
         </Modal>}
@@ -215,6 +260,22 @@ export default function Complaint (props) {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+
+          }
+
+          .delete__button{
+
+          /*Box model*/
+
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          
+          /*Visuals*/
+
+          border: none;
+          background: transparent;
+          cursor: pointer;
 
           }
 

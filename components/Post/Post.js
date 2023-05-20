@@ -6,15 +6,15 @@ import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf'
 import Comment from 'components/Comment/Comment'
 import Modal from 'components/Modal/Modal'
+import { MdDeleteOutline, MdClose, MdHealthAndSafety } from 'react-icons/md'
+import { BsPatchCheckFill } from 'react-icons/bs'
+import {HiOutlineClock } from 'react-icons/hi'
+import { server } from '/server'
+import { toast } from "react-toastify"
 import Like from "components/Like/Like"
 import Save from "components/Save/Save"
 import CommentsCounter from "components/CommentsCounter/CommentsCounter"
-import { MdDeleteOutline, MdClose, MdHealthAndSafety } from 'react-icons/md'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { HiOutlineRefresh, HiOutlineClock } from 'react-icons/hi'
-import { server } from '/server'
-import { toast, Slide } from "react-toastify"
-import InputEmoji from 'react-input-emoji'
+
 
 
 
@@ -22,16 +22,13 @@ export default function Post (props) {
 
   const { data: session, status } = useSession()
   const [user, setUser] = useState({})
-  const [comment, setComment] = useState('')
-  const [moreComments, setMoreComments] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
-  const [isAdoption, setIsAdoption] = useState(props.isAdoption)
-  const [isLost, setIsLost] = useState(props.isLost)
+  const [comments, setComments] = useState(props.comments)
   const [isVet, setIsVet] = useState(false)
   const [isShelter, setIsShelter] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   console.log(props)
+
   const Router = useRouter()
 
 
@@ -91,34 +88,6 @@ export default function Post (props) {
   }, [])
 
  
-  /**
-   * It sends a POST request to the server with the comment and the postId.
-   */
-  const Commentate = async () => {
-    const res = await fetch(`${server}/api/comments`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        postId: props.id,
-        description: comment,
-        username: session.user.username
-      })
-    })
-
-
-      toast.success('Se ha publicado tu comentario', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      transition: Slide,
-      theme: "colored", })
-    
-  }
 
   /**
    * It deletes a post from the database
@@ -197,70 +166,14 @@ export default function Post (props) {
           {props.image != "" && <div className="post__image">
             <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>
           </div>}
-          <div className='post__block'>
-            <div className='post__comment'>
-              <div className='comment__input'>
-                <InputEmoji
-                  title='Escribir comentario'
-                  type='text'
-                  name='text'
-                  id='comment'
-                  value={comment}
-                  onChange={setComment}
-                  cleanOnEnter
-                  onEnter={Commentate}
-                  placeholder='Escribir comentario...'
-                  fontFamily={`${fonts.default}`}
-                  borderColor={`${colors.primary}`}
-                />
-              </div>
-              <button onClick={() => Commentate()} className={global.buttonTertiary}>Enviar</button>
-            </div>
-            <div className='post__icons'>
-              <Like likes={props.likes} postId={props.id}/>
-              <CommentsCounter comments={props.comments}/>
+          <div className='post__icons'>
+              <Like likes={props.likes} postId={props.id}/>   
               <Save saves={props.saves} postId={props.id}/>
-              
             </div>
-          </div>
-          <div className='comment__container'>
-            <div className='comment__title'>
-              <p className={global.tertiary2__bold}>Comentarios</p>
-              <button className='refresh__button'><HiOutlineRefresh size={15} color={colors.quaternary} /></button>
+          <div className="comments">
+              <Comment postId={props.id} comments={comments}/>
             </div>
-            <hr className={global.line} />
-            {props.comments.length === 0 && <p className={global.tertiary2}>No hay ningún comentario</p>}
-            {props.comments.slice(0, 3).map((_id) => {
-              return (
-                <>
-                  <Comment key={_id} id={_id} />
-                  <hr className={global.divider} />
-                </>
-              )
-            })}
-            {props.comments.length > 3 && isVisible === false && <button
-              className='button__see' onClick={() => {
-                setMoreComments(!moreComments)
-                setIsVisible(!isVisible)
-              }}
-             >Ver más..</button>}
-
-            {moreComments && props.comments.slice(3, props.comments.length).map((_id) => {
-              return (
-                <>
-                  <Comment key={_id} id={_id} />
-                  <hr className={global.divider} />
-                </>
-              )
-            })}
-            {isVisible === true && <button
-              className='button__see' onClick={() => {
-                setMoreComments(!moreComments)
-                setIsVisible(!isVisible)
-              }}
-                                   >Ver menos..
-            </button>}
-          </div>
+            
         </div>
       </div>
       {isModalVisible && <Modal>
@@ -283,6 +196,25 @@ export default function Post (props) {
                     margin-bottom: 3rem;
 
                 }
+
+                
+            .post__icons{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-around;
+              margin-top: 1rem;
+
+
+              /*Visuals*/
+
+              border-radius: 20px;
+
+
+              }
 
                 .post__header{
 
@@ -317,88 +249,7 @@ export default function Post (props) {
                     align-items: center;
                 }
 
-                .post__block{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-around;
-                    align-items: center;
-                    margin-top: 1rem;
-                    margin-bottom: 1rem;
-
-                    /*Visuals*/
-
-                    border-radius: 5px;
-                }
-
-                .post__comment{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: flex-start;
-                    margin-bottom: 1rem;
-                    margin-top: 1rem;
-                    margin-right: 1rem;
-                    padding: 1.3rem;
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    background: #fafafa;
-                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-  
-                }
-
-                .comment__input{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: flex-start;
-                    margin-right: 1rem;
-                    width: 35vw;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    font-size: 1rem;
-                    font-weight: 400;
-                    color: ${colors.secondary};
-
-
-                }
-
-                .comment__input:after{
-
-                    /*Box model*/
-
-                    color: ${colors.secondary};
-                }
-
-                .post__icons{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 2rem;
-                    padding: 1rem;
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-
-                }
+                
 
                 .header__user{
 
@@ -461,10 +312,12 @@ export default function Post (props) {
                     align-items: center;
                     margin-top: 1rem;
                     margin-bottom: 1rem;
+                    padding: 1rem;
 
                     /*Visuals*/
 
-                    border-radius: 5px;
+                    border-radius: 40px;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
                 }
 
@@ -556,67 +409,7 @@ export default function Post (props) {
 
 
 
-                .comment__container{
-
-                    /*Visuals*/
-
-                    border-radius: 10px;
-                    background-color: #fff;
-
-                    /*Visuals*/
-
-                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-                }
-
-                .comment__container p{
-
-                    /*Box model*/
-
-                    margin-left: 1rem;
-
-                }
-
-                .comment__title{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 0.4rem;
-                }
-
-                .button__see{
-
-                    /*Box model*/
-
-                    margin-left: 1rem;
-                    margin-bottom: 1rem;
-                    margin-top: 1rem;
-
-                    /*Text*/
-
-                    font-size: 1rem;
-                    font: ${fonts.default};
-                    color: ${colors.primary};
-
-                    /*Visuals*/
-
-                    border: none;
-                    background: transparent;
-                    cursor: pointer;
-                    transition: 0.5s ease all;
-                }
-
-                .button__see:hover{
-
-                    /*Visuals*/
-
-                    color: ${colors.tertiary};
-
-                }
-
+               
                 .close__modal{
 
                     /*Box model*/
@@ -661,21 +454,6 @@ export default function Post (props) {
 
                 }
 
-                .refresh__button{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-
-                    /*Visuals*/
-
-                    border: none;
-                    background: transparent;
-                    cursor: pointer;
-
-                }
 
 
                 a{

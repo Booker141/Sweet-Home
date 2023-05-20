@@ -1,22 +1,42 @@
+
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
+import FallbackImage from '/components/FallbackImage/FallbackImage'
 import global from 'styles/global.module.css'
+import FollowButton from 'components/FollowButton/FollowButton'
+import { BsPatchCheckFill } from 'react-icons/bs'
+import { MdHealthAndSafety } from 'react-icons/md'
+import { colors } from 'styles/frontend-conf'
+import {useSession} from 'next-auth/react'
+import {server} from '/server'
+
 
 export default function Following (props) {
 
   const [user, setUser] = useState({})
+  const [isShelter, setIsShelter] = useState(false)
+  const [isVet, setIsVet] = useState(false)
+
+  const {data: session} = useSession({})
 
   async function getFollowing(){
 
-    const res = await fetch(`http://localhost:3000/api/users/${props.id}`,
+    const res = await fetch(`${server}/api/following/${props.id}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
+
     const following = await res.json()
+
     setUser(following)
+
+
+    if(following?.role.name === "veterinaria")
+      setIsVet(true)
+    else if(following?.role.name === "protectora")
+      setIsShelter(true)
 
   }
   /* A hook that is used to fetch data from the server. */
@@ -26,26 +46,20 @@ export default function Following (props) {
 
   return (
     <>
-      <div className='following'>
+      <div className={global.following}>
         <div className='following__image'>
-          <Image src={following.image} />
+          <FallbackImage src={user?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={100} height={100} />
         </div>
         <div className='following__info'>
-          <p className={global.text}>{following.username}</p>
+          <a className={global.link} href={`/profile/${user?.username}`} aria-label={`Ir a perfil de ${user?.username}`}><strong>@{user?.username}</strong> </a>
+          {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}
         </div>
-      </div>
-      <style jsx>{`
-                .following{
-                    /*Box model*/   
+          <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user?._id} usernameTo={user?.username}/>
+        </div>
 
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: flex-start;
-                    align-items: center;
-                    margin: 0.5rem 0;
-                    padding: 0.5rem 0;
-                    border-bottom: 1px solid #eaeaea;
-                }
+      <style jsx>{`
+
+
 
                 .following__image{
                     /*Box model*/
@@ -59,9 +73,12 @@ export default function Following (props) {
                     /*Box model*/
 
                     display: flex;
-                    flex-direction: column;
+                    flex-direction: row;
                     justify-content: center;
-                    align-items: flex-start;
+                    align-items: center;
+                    gap: 0.5rem;
+
+
                 }
             `}
       </style>

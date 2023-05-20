@@ -2,40 +2,33 @@ import Head from 'next/head'
 import { useSession, signIn} from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import { HiOutlineRefresh } from 'react-icons/hi'
+import SettingsLayout from 'components/SettingsLayout/SettingsLayout'
 import Layout from 'components/Layout/Layout'
-import Sidebar from 'components/Sidebar/Sidebar'
-import Post from 'components/Post/Post'
-import User from 'components/UserCard/UserCard'
+import SavedPost from 'components/SavedPost/SavedPost'
 import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 
 /*
     * @author Sergio García Navarro
-    * @returns Posts page
+    * @returns Saved posts page
     * @version 1.0
     * @date 13/12/2020
-    * @description Posts page
+    * @description Saved posts page
 */
-/**
- * It returns a React fragment that contains a Head component with a title of "Reciente" and a div
- * that contains a list of posts
- * @returns An array of objects.
- */
+
 export default function Saved () {
   
   const { data: session, status } = useSession({ required: true })
-  const [savedPostsList, setSavedPostsList] = useState([])
+  const [user, setUser] = useState({})
   const Router = useRouter()
 
 
 
   const fetchSavedPosts = async () => {
 
-    const res = await fetch(`${server}/api/savedPosts/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -43,9 +36,14 @@ export default function Saved () {
     })
   
   
-    const posts = await res.json()
-    setSavedPostList(posts)
+    const data = await res.json()
+
+    console.log(data)
+
+    setUser(data)
   }
+
+
 
   useEffect(() => {
 
@@ -64,7 +62,7 @@ export default function Saved () {
   }
   if (session) {
     return (
-      <Layout>
+      <SettingsLayout>
         <Head><title>Publicaciones guardadas | Sweet Home</title></Head>
         <div className='container'>
 
@@ -74,11 +72,11 @@ export default function Saved () {
               <h1 className={global.title}>Publicaciones guardadas</h1>
             </div>
 
-            {savedPostsList.length === 0 && <div><p className={global.text}>No hay ninguna publicación</p></div>}
-            {savedPostsList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves }) => {
+            {user.saves?.length === 0 && <div><p className={global.text}>No hay ninguna publicación</p></div>}
+            {user?.saves.sort().map(({ _id }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} />
+                  <SavedPost key={_id} id={_id} />
                 </>
               )
             })}
@@ -200,7 +198,7 @@ export default function Saved () {
 
             `}
         </style>
-      </Layout>
+      </SettingsLayout>
 
     )
   } else {

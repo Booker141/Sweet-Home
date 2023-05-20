@@ -1,11 +1,13 @@
 import global from '../../styles/global.module.css'
 import { server } from '../../server'
-import {MdDeleteOutline} from 'react-icons/md'
+import {MdDeleteOutline, MdClose} from 'react-icons/md'
 import {useSession} from 'next-auth/react'
 import {colors} from '../../styles/frontend-conf'
 import {toast} from 'react-toastify'
 import{useState} from 'react'
+import {useRouter} from 'next/router'
 import Modal from '/components/Modal/Modal'
+import FallbackImage from '/components/FallbackImage/FallbackImage'
 
 /**
  * It returns a div with a class of pet, which contains a div with a class of pet__header, which
@@ -25,21 +27,43 @@ export default function Pet (props) {
   const { data: session, status } = useSession({ required: true })
   const [isModalVisible, setIsModalVisible] = useState(false)
 
+  const Router = useRouter()
+
+
 
    /**
    * It deletes a pet from the database
    */
    const deletePet = async () => {
 
-    await fetch(`${server}/api/pets/${session.user.username}`, {
+    const res = await fetch(`${server}/api/pets/${session.user.username}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        id: props.id
+      })
     })
 
+    if (res.status === 200) {
 
-    toast.error(`Se ha eliminado la mascota`, { position: "bottom-right",
+      toast.error(`Se ha eliminado la mascota`, { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+
+      setIsModalVisible(false)
+
+      Router.reload()
+
+    }else{
+
+      toast.error(`No se ha podido eliminar la mascota`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
@@ -48,18 +72,15 @@ export default function Pet (props) {
       progress: undefined,
       theme: "colored", })
 
-    setIsModalVisible(false)
-    setTimeout(() => {
-      Router.reload()
-    }, 5000)
+    }
   }
 
   return (
     <>
-      <div className={global.pet}>
+      <div key={props.id} className={global.pet}>
         <div className='pet__row1'>
           <div className='pet__column1'>
-            <img src={props.image} style={{ borderRadius: '10px', maxWidth: '20vw'}} alt="Imagen de la mascota"/>    
+            <FallbackImage src={props.image} style={{ borderRadius: '10px', maxWidth: '20vw'}} width={800} height={500} alt="Imagen de la mascota"/>    
           </div>
           <div className='pet__column2'>
             <div className='pet__name'>
@@ -75,11 +96,15 @@ export default function Pet (props) {
               </div>
               <hr className={global.white__line}/>
               <div className='pet__age'>
-                <h1 className={global.text2}><strong>Fecha de nacimiento:</strong>{new Date(props.birthdate).toLocaleDateString().slice(0, 10)}</h1>
+                <h1 className={global.text2}><strong>Fecha de nacimiento:</strong> {new Date(props.birthdate).toLocaleDateString().slice(0, 10)}</h1>
               </div>
               <hr className={global.white__line}/>
               <div className='pet__weight'>
                 <h1 className={global.text2}><strong>Peso:</strong> {props.weight} Kg</h1>
+              </div>
+              <hr className={global.white__line}/>
+              <div className='pet__owner'>
+                <h1 className={global.text2}><strong>Dueño:</strong> @{props.ownerUsername}</h1>
               </div>
           </div>
           <div className="pet__column3">
@@ -89,7 +114,9 @@ export default function Pet (props) {
         
       </div>
       {isModalVisible && <Modal>
-        <h2 className={global.title3}>Eliminar mascota</h2>
+        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
+        <h2 className={global.title3}>Eliminar mascota</h2> 
+        <p className={global.text2}>Una vez lleves a cabo esta acción, todos los datos de esta mascota serán eliminados de forma permanente</p>
         <p className={global.text2}>¿Estás seguro de eliminar esta mascota?</p>
         <div className='buttons'>
           <button className={global.buttonSecondary} onClick={() => deletePet()}>Sí</button>
@@ -149,6 +176,23 @@ export default function Pet (props) {
 
         }
 
+        .close__modal{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-self: flex-end;
+          margin-right: 2rem;
+
+          /*Visuals*/
+
+          border: none;
+          background: transparent;
+          cursor: pointer;
+
+          }
+
 
 
         .buttons{
@@ -161,11 +205,17 @@ export default function Pet (props) {
 
         }
 
+        .delete__button{
+
+          /*Visuals*/
+
+          background: transparent;
+        }
+
         button{
 
           /*Visuals*/
 
-          background-color: transparent;
           border: none;
           cursor: pointer;
 
