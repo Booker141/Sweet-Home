@@ -121,7 +121,7 @@ export default function Header (props) {
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
+
 
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
@@ -168,7 +168,6 @@ export default function Header (props) {
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
 
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
@@ -215,7 +214,6 @@ export default function Header (props) {
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
                             
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
@@ -263,7 +261,6 @@ export default function Header (props) {
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
                             
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               
@@ -309,7 +306,6 @@ export default function Header (props) {
                   <li className='nav__title'>Mi cuenta</li>
                   <li className='nav__link'><Link href="/profile/myprofile"><a><div className='align__link'>Mi perfil<div className='nav__icon'><FaUserAlt size={15} color={colors.secondary} /></div></div></a></Link></li>
                   <li className='nav__link'><Link href="/profile/myprofile/pets"><a><div className='align__link'>Mis mascotas<div className='nav__icon'><GiDogBowl size={15} color={colors.secondary} /></div></div></a></Link></li>
-                  <li className='nav__link'><Link href="/profile/myprofile/complaints"><a><div className='align__link'>Mis denuncias<div className='nav__icon'><MdReport size={15} color={colors.secondary} /></div></div></a></Link></li>
                            
                   <hr className='line' />
                   <li className='nav__title'>Más opciones</li>               

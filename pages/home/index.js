@@ -74,7 +74,7 @@ export default function Home ({ posts }) {
               <h1 className={global.title}>Reciente</h1>
         </div>
         <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear</button>
+          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear publicación</button>
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>

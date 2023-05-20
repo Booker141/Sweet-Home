@@ -77,7 +77,7 @@ export default function AllPets ({ pets }) {
         <Head><title>Todas las mascotas | Sweet Home</title></Head>
         <h1 className="title">Mascotas de otros usuarios</h1>
         <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear</button>
+          <button className={global.buttonPrimary} onClick={() => Router.push('/profile/myprofile/pets/createPet')} aria-label='Crear nueva mascota'>Crear mascota</button>
           <div className='filter__list'>
           <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>

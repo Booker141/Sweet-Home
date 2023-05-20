@@ -51,7 +51,6 @@ export default function AllShelters ({ users }) {
         <Head><title>Protectoras | Sweet Home</title></Head>
         <h1 className="title">Protectoras</h1>
         <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear</button>
           <div className='filter__list'>
           <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>
