@@ -7,6 +7,7 @@ import {colors, fonts} from '/styles/frontend-conf'
 import Layout from '/components/Layout/Layout'
 import Loader from '/components/Loader/Loader'
 import Attendance from '/components/Attendance/Attendance'
+import CreateAttendanceCard from '/components/CreateAttendanceCard/CreateAttendanceCard'
 import { server } from '/server'
 
 export default function Thread ({ attendances }) {
@@ -59,6 +60,7 @@ export default function Thread ({ attendances }) {
                   </select>
           </div>
         </div>
+        <CreateAttendanceCard thread={router.query.thread}/>
         {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
         {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
@@ -85,6 +87,7 @@ export default function Thread ({ attendances }) {
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
+          margin-bottom: 2rem;
 
         }
 

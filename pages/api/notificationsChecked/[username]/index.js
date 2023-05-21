@@ -16,6 +16,8 @@ export default async function handler (req, res) {
 
     const notifications = JSON.parse(JSON.stringify(data))
 
+    console.log(notifications)
+
     res.status(200).json(notifications)
   }
 

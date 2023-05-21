@@ -128,7 +128,7 @@ export default function Header (props) {
               <div className="align__menu">
                 <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
                   <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
@@ -196,7 +196,7 @@ export default function Header (props) {
               <div className="align__menu">
                 <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
                   <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
@@ -223,7 +223,7 @@ export default function Header (props) {
               </div>
               </div>
               <ThemeButton />
-                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdPets size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                 {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
@@ -264,12 +264,12 @@ export default function Header (props) {
               <div className="align__menu">
                 <li><SearchBar/></li>
                 <li ><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li ><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={20} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={20} color={`${colors.secondary}`}/>Panel</a></Link></li>
+                <li ><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={25} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={25} color={`${colors.secondary}`}/>Panel</a></Link></li>
               </div>
               <ThemeButton />
-              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
               {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
@@ -310,12 +310,12 @@ export default function Header (props) {
               <div className="align__menu">
                 <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={20} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={20} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={25} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={25} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
               </div>
               <ThemeButton />
-                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>    
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>    
 
                 {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
@@ -356,7 +356,7 @@ export default function Header (props) {
               <div className="align__menu">
                 <li><SearchBar/></li>
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
                 <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
                   <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>

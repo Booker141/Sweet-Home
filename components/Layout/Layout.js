@@ -50,9 +50,15 @@ export default function Layout ({ children }) {
 
   }
 
-  const setToast = () => {
 
-    if(isNotification)
+
+  useEffect(() => {
+      getNotifications()
+      
+
+  }, [])
+
+  if(isNotification)
       toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
         position: "bottom-right",
         autoClose: 5000,
@@ -63,19 +69,6 @@ export default function Layout ({ children }) {
         progress: undefined,
         theme: "colored",
         });
-
-  }
-
-
-
-  useEffect(() => {
-      getNotifications()
-      setTimeout(() => {
-        setToast()
-      },1000)
-  }, [])
-
-  
 
 
 

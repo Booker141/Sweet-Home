@@ -249,7 +249,7 @@ export default function Comment (props) {
           </div>
             <div className='comment__title'>
               <div className='title__start'>
-                <p className={global.text__bold}>Comentarios</p>
+                <p className={global.text4__bold}>Comentarios</p>
                 <button className='refresh__button' onClick={() => getComments()}><HiOutlineRefresh size={15} color={colors.quaternary} /></button>
               </div>
               <CommentsCounter comments={comments}/>

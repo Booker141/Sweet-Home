@@ -90,7 +90,7 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
         </Head>
         <h1 className={global.title}>Hilos sobre {typeAttendance}</h1>
         <div className='sort__buttons'>
-          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/createThread`)} aria-label='Crear nuevo hilo'>Crear</button>
+          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/createThread`)} aria-label='Crear nuevo hilo'>Crear hilo</button>
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>

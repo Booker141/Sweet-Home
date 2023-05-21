@@ -127,7 +127,6 @@ export default function Attendance (props) {
           <div className="header__column1">
             <p className={global.text2}>Hilo <strong>{thread.title}</strong></p>
             <p className={global.text2}>Por <strong>{thread.username}</strong></p>
-            {(session.user.role === "gerente" || session.user.role === "administrador") && <BsPatchCheckFill size={20}/>}
           </div>
           <div className="header__column2">
             <div className="column2__delete">
@@ -141,6 +140,9 @@ export default function Attendance (props) {
           <div className="user__column1">
             <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
             <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}><strong>{props.username}</strong></a>
+            {(session.user.role === "gerente" || session.user.role === "administrador") && <BsPatchCheckFill color={`${colors.primary}`} size={18}/>}
+            {(session.user.role === "protectora") && <MdPets color={`${colors.primary}`} size={18}/>}
+            {(session.user.role === "veterinaria") && <MdHealthAndSafety color={`${colors.primary}`} size={18}/>}
             <p className={global.date}>- {date.toLocaleDateString()}</p>
             <div className="attendance__hour">
               <HiOutlineClock size={17}/>

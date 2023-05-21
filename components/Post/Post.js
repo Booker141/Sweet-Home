@@ -25,6 +25,8 @@ export default function Post (props) {
   const [comments, setComments] = useState(props.comments)
   const [isVet, setIsVet] = useState(false)
   const [isShelter, setIsShelter] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [isManager, setIsManager] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   console.log(props)
@@ -75,11 +77,17 @@ export default function Post (props) {
     const user = await res.json()
     setUser(user)
 
+    console.log(user)
 
-    if(user.role === "protectora")
+    if(user.role.name === "protectora")
       setIsShelter(true)
-    if(user.role === "veterinaria")
+    if(user.role.name === "veterinaria")
       setIsVet(true)
+    if(user.role.name === "administrador")
+      setIsAdmin(true)
+    if(user.role.name === "gerente")
+      setIsManager(true)
+
   }
   /* The above code is fetching the user from the database and setting the user state to the user that
   was fetched. */
@@ -128,7 +136,7 @@ export default function Post (props) {
               <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
               <div className="user__info">
                 <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
-                  {user.username}{isShelter && <BsPatchCheckFill size={15} color={colors.primary} />}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}
+                  {user.username}{isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
                 </a>
                 <div className="post__time">
                   <HiOutlineClock color={`${colors.secondary}`} size={17}/>
@@ -154,7 +162,7 @@ export default function Post (props) {
             <div className='description__content'>           
               <a href={`${server}/profile/${user.username}`}><FallbackImage className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px'}} width={40} height={40} priority /></a>
               <p className={global.link3__bold}>
-                @{user.username}{isShelter && <BsPatchCheckFill size={15} color={colors.primary} />}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}:
+                @{user.username}{isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}:
               </p>
               <div className='description__text'>
                 <p className={global.text2}>

@@ -1,7 +1,8 @@
 import global from '/styles/global.module.css'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { MdDeleteOutline, MdClose } from 'react-icons/md'
+import { MdDeleteOutline, MdClose, MdHealthAndSafety, MdPets } from 'react-icons/md'
+import { BsPatchCheckFill } from 'react-icons/bs'
 import Modal from 'components/Modal/Modal'
 import { colors } from '/styles/frontend-conf'
 import { server } from '/server'
@@ -19,6 +20,7 @@ export default function Thread (props) {
   const [date, setDate] = useState(new Date(props.createdAt))
   const [numPosts, setNumPosts] = useState(0);
   const [lastAttendance, setLastAttendance] = useState({})
+  const [isAttendance, setIsAttendance] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({});
   const Router = useRouter();
@@ -76,6 +78,12 @@ export default function Thread (props) {
 
     setLastAttendance(data)
 
+    if(data === null) {
+      setIsAttendance(false)
+    }else{
+      setIsAttendance(true)
+    }
+
   }
   
   useEffect(() => {
@@ -130,10 +138,10 @@ export default function Thread (props) {
             <div className="thread__delete">
               {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               <div className="thread__lastPostTime">
-                <strong>Última respuesta:</strong> {new Date(lastAttendance?.createdAt).toLocaleString() ? new Date(lastAttendance?.createdAt).toLocaleString() : 'No existe'}
+                <strong>Última respuesta:</strong> {isAttendance && new Date(lastAttendance.createdAt).toLocaleString()}{!isAttendance && 'No existe'}
               </div>
               <div className="thread__lastPostUser">
-                <strong>Por: </strong> {lastAttendance?.username}
+                <strong>Por: </strong> {isAttendance && lastAttendance?.username}{!isAttendance && 'Aún no hay un cuidado'} 
               </div>
             </div> 
           </div>
@@ -143,6 +151,9 @@ export default function Thread (props) {
           </div>
           <div className="thread__header__username">
             <p><strong>Creado por:</strong> {props.username}</p>
+            {(session.user.role === "gerente" || session.user.role === "administrador") && <BsPatchCheckFill size={18}/>}
+            {(session.user.role === "protectora") && <MdPets size={18}/>}
+            {(session.user.role === "veterinaria") && <MdHealthAndSafety size={18}/>}
           </div>
           <div className="thread__numPosts">
             <strong>Réplicas:</strong> {numPosts}
@@ -201,6 +212,16 @@ export default function Thread (props) {
           margin-bottom: 2rem;
           
 
+        }
+
+        .thread__header__username{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.5rem;
         }
 
         .close__modal{

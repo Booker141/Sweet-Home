@@ -1,8 +1,7 @@
 import global from 'styles/global.module.css'
 import {colors, statusColors} from 'styles/frontend-conf'
-import {FaUserPlus} from 'react-icons/fa'
+import {FaUserPlus, FaComment} from 'react-icons/fa'
 import {HiHeart, HiOutlineClock} from 'react-icons/hi'
-import {FiMessageCircle} from 'react-icons/fi'
 import {MdDeleteOutline, MdClose} from 'react-icons/md'
 import {server} from '/server'
 import {useState, useEffect} from 'react'
@@ -58,14 +57,16 @@ export default function Notification (props) {
 
     const data = await res.json()
 
+    console.log(data)
+
     if(data.length > 0) {
-      setIsNotification(true)
+      setIsNotificationNotChecked(true)
     }
 
 
   }
 
-  const fetchNotification = async() => {
+  const fetchNotification = async () => {
 
 
     const res = await fetch(`${server}/api/notificationsById/${notification.id}`, {
@@ -73,10 +74,11 @@ export default function Notification (props) {
       headers: {
         'Content-Type': 'application/json'
       }
-    })
-
+    }).catch(err => console.log(err))
 
     const data = res.json()
+
+    console.log(data)
 
     setNotification(data)
   }
@@ -154,7 +156,7 @@ export default function Notification (props) {
     if(isNotificationNotChecked){
       setTimeout(() => {
         updateNotification()
-      }, 8000)
+      }, 5000)
     }
     
   }, [])
@@ -258,7 +260,7 @@ export default function Notification (props) {
     return (
       <>
         <div className={global.notification}>
-          <FiMessageCircle color={`${colors.secondary}`} size={40}/>
+          <FaComment color={`${colors.secondary}`} size={35}/>
           <div className='notification__userFrom'>
             <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
           </div>

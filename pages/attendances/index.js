@@ -97,7 +97,7 @@ export default function Attendances ({ typeAttendance }) {
         <h1 className={global.title}>Foro de cuidados</h1>
         <h2 className={global.title2}>Categorías</h2>
         <div className="header__buttons">
-          {isAdmin && <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/dashboard/createTypeAttendance`)} aria-label='Crear categoría'>Crear</button>}
+          {isAdmin && <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/dashboard/createTypeAttendance`)} aria-label='Crear categoría'>Crear tipo de cuidado</button>}
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>

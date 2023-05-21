@@ -50,30 +50,26 @@ export default function BasicLayout ({ children }) {
 
   }
 
-  const setToast = () => {
 
-    if(isNotification)
-      toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
-
-  }
 
 
 
   useEffect(() => {
       getNotifications()
-      setTimeout(() => {
-        setToast()
-      },1000)
+
   }, [])
+
+  if(isNotification)
+  toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
 
   return (
 
