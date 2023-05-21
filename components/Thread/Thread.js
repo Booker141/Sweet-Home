@@ -130,10 +130,10 @@ export default function Thread (props) {
             <div className="thread__delete">
               {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               <div className="thread__lastPostTime">
-                <strong>Última respuesta:</strong> {new Date(lastAttendance.createdAt).toLocaleString()}
+                <strong>Última respuesta:</strong> {new Date(lastAttendance?.createdAt).toLocaleString() ? new Date(lastAttendance?.createdAt).toLocaleString() : 'No existe'}
               </div>
               <div className="thread__lastPostUser">
-                <strong>Por: </strong> {lastAttendance.username}
+                <strong>Por: </strong> {lastAttendance?.username}
               </div>
             </div> 
           </div>

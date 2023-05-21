@@ -255,7 +255,7 @@ export default function CreateThread () {
 
                         /*Visuals*/
 
-                        border-radius: 5px;
+                        border-radius: 20px;
                         border: 0;
                         transition: 0.2s ease all;
 

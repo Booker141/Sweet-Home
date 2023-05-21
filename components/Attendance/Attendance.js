@@ -1,7 +1,8 @@
 import global from '/styles/global.module.css'
 import { useState, useEffect } from 'react'
 import {colors} from '/styles/frontend-conf'
-import {MdDeleteOutline, MdClose} from 'react-icons/md'
+import {MdDeleteOutline, MdClose, MdPets, MdHealthAndSafety} from 'react-icons/md'
+import {BsPatchCheckFill} from 'react-icons/bs'
 import {HiOutlineClock} from 'react-icons/hi'
 import FallbackImage from '/components/FallbackImage/FallbackImage'
 import Image from 'next/image'
@@ -126,6 +127,7 @@ export default function Attendance (props) {
           <div className="header__column1">
             <p className={global.text2}>Hilo <strong>{thread.title}</strong></p>
             <p className={global.text2}>Por <strong>{thread.username}</strong></p>
+            {(session.user.role === "gerente" || session.user.role === "administrador") && <BsPatchCheckFill size={20}/>}
           </div>
           <div className="header__column2">
             <div className="column2__delete">
