@@ -101,10 +101,10 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
+                <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={20} />Notificaciones</a></Link></li>
               </div>
                 <ThemeButton />
                 <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
@@ -148,10 +148,10 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
+                <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={20} />Notificaciones</a></Link></li>
               </div>
               <ThemeButton />
                 <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
@@ -194,10 +194,10 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li ><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li ><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={30} color={`${colors.secondary}`}/>Panel</a></Link></li>
+                <li ><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li ><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={20} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/dashboard" as="/dashboard"><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={20} color={`${colors.secondary}`}/>Panel</a></Link></li>
               </div>
               <ThemeButton />
               <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
@@ -240,10 +240,10 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
-                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={30} color={`${colors.secondary}`}/>Noticias</a></Link></li>
-                <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={30} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
+                <li><Link href="/news" as="/news"><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={20} color={`${colors.secondary}`}/>Noticias</a></Link></li>
+                <li><Link href="/statistics" as="/statistics"><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={20} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
               </div>
               <ThemeButton />
                 <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>    
@@ -286,10 +286,10 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={30} color={`${colors.secondary}`}/>Inicio</a></Link></li>
-                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={30} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
-                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={25} />Chat</a></Link></li>
-                  <li><Link href="/notifications" as="/notifications"><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={25} />Notificaciones</a></Link></li>
+                <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
+                <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
+                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={20} />Notificaciones</a></Link></li>
               </div>
               <ThemeButton />
               <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           

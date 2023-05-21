@@ -46,7 +46,7 @@ export default function Home ({ posts }) {
     if(e === 'activity'){
       
     setIsSortedByLikes(!isSortedByLikes)
-    const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
+    const sortedPosts = posts.sort((a, b) => (a.likes.length > b.likes.length) ? 1 : ((b.likes.length > a.likes.length) ? -1 : 0))
     setPostList(sortedPosts)
 
     }else if(e === 'user'){

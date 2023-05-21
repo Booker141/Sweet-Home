@@ -142,7 +142,7 @@ export default function CreatePostCard () {
                   value={description}
                   onChange={setDescription}
                   cleanOnEnter
-                  placeholder={`¿Qué está pasando, ${user.username}?`}
+                  placeholder={`¿Qué está pasando, ${user.username}? 😄`}
                   fontFamily={`${fonts.default}`}
                   borderColor={`${colors.primary}`}
                 />

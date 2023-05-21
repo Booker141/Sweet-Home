@@ -1,9 +1,14 @@
 import clientPromise from '../lib/MongoDB'
 import { ObjectId } from 'mongodb'
 export default async function handler (req, res) {
+
   const client = await clientPromise
   const db = await client.db()
   const body = req.body
+  const id = new ObjectId()
+
+  const typeNotification = await db.collection('typeNotification').findOne({name: "comentar"})
+  const postOwner = await db.collection('posts').findOne({_id: ObjectId(body.postId)})
 
   const user = await db.collection('users').findOne({ username: body.username })
 
@@ -23,7 +28,11 @@ export default async function handler (req, res) {
 
     const comment = JSON.parse(JSON.stringify(data))
 
+
     await db.collection('posts').updateOne({ _id: ObjectId(body.postId) }, { $push: { comments: ObjectId(comment.insertedId) } })
+
+    await db.collection('notifications').insertOne({_id: id, sender: user._id, receiver: postOwner.userId, type: typeNotification, 
+      description: `@${body.username} te ha comentado una publicación`, isChecked: false, createdAt: new Date()})
 
     res.status(201).json({ message: 'Comentario creado con éxito' })
   }

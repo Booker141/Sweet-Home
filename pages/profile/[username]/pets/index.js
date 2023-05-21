@@ -229,8 +229,6 @@ export default function Pets({petsList}) {
 
 export async function getServerSideProps(context){
 
-    const session = await getSession(context)
-
     const res = await fetch(`${server}/api/pets/${context.query.username}`, {
         method: 'GET',
         headers: {

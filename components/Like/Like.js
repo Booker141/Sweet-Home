@@ -70,7 +70,7 @@ export default function Like(props){
             await fetch(`${server}/api/likes`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id})}
+            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id, username: user.username})}
             )
 
             setIsLikedByMe(true)

@@ -261,7 +261,7 @@ export default function Comment (props) {
                 <>
                   <div key={comment._id} className={global.comment}>
                     <div className='comment__username'>
-                      <p className={global.text2__bold}>@{comment.username}</p>
+                      <a className={global.text2__bold} href={`/profile/${comment.username}`}>@{comment.username}</a>
                       {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}{isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
                       <p className={global.text2}>:</p>
                     </div>
@@ -288,7 +288,7 @@ export default function Comment (props) {
                 <>
                   <div key={comment._id} className={global.comment}>
                     <div className='comment__username'>
-                      <p className={global.text2__bold}>@{comment.username}</p>
+                      <a className={global.text2__bold} href={`/profile/${comment.username}`}>@{comment.username}</a>
                       {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}{isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
                       <p className={global.text2}>:</p>
                     </div>
@@ -541,6 +541,13 @@ export default function Comment (props) {
                         align-items: center;
                         gap: 1rem;
 
+                    }
+
+                    a{
+
+                      /*Visuals*/
+
+                      text-decoration: none;
                     }
 
                     hr{
