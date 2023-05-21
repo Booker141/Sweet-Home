@@ -39,7 +39,7 @@ export default function Notifications ({notifications}) {
       </>
     )
   }
-  if (session.user.role === "veterinaria" || session.user.role === "protectora" || session.user.role === "usuario") {
+  if (session) {
     return (
       <Layout>
         <Head><title>Notificaciones | Sweet Home</title></Head>

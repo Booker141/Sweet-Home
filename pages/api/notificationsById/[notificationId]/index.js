@@ -13,9 +13,8 @@ export default async function handler (req, res) {
 
     const data = await db.collection('notifications').findOne({_id: id})
 
-    const notification = JSON.parse(JSON.stringify(data))
 
-    res.status(200).json(notification)
+    res.status(200).json(data)
   }
 
   if (req.method === 'PUT') {

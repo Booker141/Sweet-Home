@@ -3,6 +3,10 @@ import Header from '/components/Header/Header'
 import Footer from '/components/Footer/Footer'
 import { ImArrowUp2 } from 'react-icons/im'
 import Sidebar from '/components/Sidebar/Sidebar'
+import {toast} from 'react-toastify'
+import {useSession} from 'next-auth/react'
+import {server} from '/server'
+import {useState, useEffect} from 'react'
 
 /*
     * @author Sergio García Navarro
@@ -16,6 +20,65 @@ import Sidebar from '/components/Sidebar/Sidebar'
  * @returns The Header, Footer and the children of the Layout component.
  */
 export default function Layout ({ children }) {
+
+  const [isNotification, setIsNotification] = useState(false)
+  const [notifications, setNotifications] = useState({})
+
+  const {data: session, status} = useSession({})
+
+
+  const getNotifications = async () => {
+
+    const res = await fetch(`${server}/api/notificationsChecked/${session?.user.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+    const data = await res.json()
+
+    if(data.length > 0) {
+      setNotifications(data)
+      setIsNotification(true)
+
+    }
+
+
+
+
+  }
+
+  const setToast = () => {
+
+    if(isNotification)
+      toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+
+  }
+
+
+
+  useEffect(() => {
+      getNotifications()
+      setTimeout(() => {
+        setToast()
+      },1000)
+  }, [])
+
+  
+
+
+
   return (
 
     <>

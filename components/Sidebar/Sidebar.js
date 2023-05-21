@@ -1,7 +1,7 @@
 
 import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
 import {MdPets, MdContactMail, MdHealthAndSafety, MdReport, MdClose} from 'react-icons/md'
-import {BsFillFilePostFill} from 'react-icons/bs'
+import {BsFillFilePostFill, BsFillBellFill} from 'react-icons/bs'
 import { GiDogBowl, GiSittingDog, GiDogHouse, GiHummingbird, GiCat} from 'react-icons/gi'
 import {TbReport} from 'react-icons/tb'
 import {colors} from '/styles/frontend-conf'
@@ -229,7 +229,8 @@ export default function Sidebar(){
                 
                 <div className="sidebar-layout__container2">
                     <a className="sidebar__link" href="/profile/myprofile/posts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.secondary}`}/>Mis publicaciones</a>
-                    <a className="sidebar__link" href="/profile/myprofile/complaints" alt="Ir a mis denuncias"><TbReport size={20} color={colors.secondary} />Mis denuncias</a>   
+                    {(session.user.role === "veterinaria" || session.user.role === "protectora" || session.user.role === "usuario") && <a className="sidebar__link" href="/profile/myprofile/complaints" alt="Ir a mis denuncias"><TbReport size={20} color={colors.secondary} />Mis denuncias</a>} 
+                    {(session.user.role === "gerente" || session.user.role === "administrador") && <a className="sidebar__link" href={`/profile/${session.user.username}/notifications" alt="Ir a mis notificaciones`}><BsFillBellFill size={20} color={colors.secondary} />Mis notificaciones</a>} 
                     <a className="sidebar__link" href="/profile/myprofile/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
 

@@ -16,6 +16,7 @@ export default async function handler (req, res) {
   if (req.method === 'POST') {
 
     await db.collection('reports').insertOne({userId: new ObjectId(user._id), username: body.username, reason: body.report, image: body.image, createdAt: new Date()})
+   
     res.status(201).json({ message: 'Informe creado con éxito.' })
 
   }

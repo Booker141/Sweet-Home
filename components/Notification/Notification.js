@@ -11,6 +11,7 @@ import {VscCircleFilled} from 'react-icons/vsc'
 import FallbackImage from 'components/FallbackImage/FallbackImage'
 import Modal from '/components/Modal/Modal'
 import {toast} from 'react-toastify'
+import {useSession} from 'next-auth/react'
 
 
 /**
@@ -22,7 +23,11 @@ export default function Notification (props) {
 
   const [user, setUser] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isNotificationNotChecked, setIsNotificationNotChecked] = useState(false)
   const [notification, setNotification] = useState(props)
+  const {data: session, status} = useSession({})
+
+  const Router = useRouter()
 
   console.log(props)
 
@@ -41,6 +46,41 @@ export default function Notification (props) {
 
   }
 
+  const getCheckedNotifications = async () => {
+
+    const res = await fetch(`${server}/api/notificationsChecked/${session.user.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+    const data = await res.json()
+
+    if(data.length > 0) {
+      setIsNotification(true)
+    }
+
+
+  }
+
+  const fetchNotification = async() => {
+
+
+    const res = await fetch(`${server}/api/notificationsById/${notification.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+
+    const data = res.json()
+
+    setNotification(data)
+  }
+
   const updateNotification = async() => {
 
     await fetch(`${server}/api/notificationsById/${notification.id}`, {
@@ -50,16 +90,7 @@ export default function Notification (props) {
         }
       })
 
-      const res = await fetch(`${server}/api/notificationsById/${notification.id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      const data = res.json()
-
-      setNotification(data)
+      fetchNotification()
 
   }
 
@@ -84,7 +115,7 @@ export default function Notification (props) {
 
     setIsModalVisible(false)
 
-      Router.reload()
+    Router.reload()
 
   }
 
@@ -118,10 +149,16 @@ export default function Notification (props) {
 
   useEffect(() => {
     getUser()
-    setTimeout(() => {
-      updateNotification()
-    }, 8000)
+    getCheckedNotifications()
+
+    if(isNotificationNotChecked){
+      setTimeout(() => {
+        updateNotification()
+      }, 8000)
+    }
+    
   }, [])
+
 
   if(notification.type.name === "seguir"){
     return (

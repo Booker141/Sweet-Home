@@ -74,7 +74,7 @@ export default function Carousel () {
 
     <>
       <div className='carousel'>
-        {news.map(({ _id, id, title, date, author, introduction }) => (
+        {news.map(({ _id, title, date, author, introduction }) => (
           <div key={_id} className='carousel__item' style={{ transform: `translateX(-${current * 100}%)`, transition: '0.5s ease all' }}>
             <button className='arrow__left' onClick={before}>
               <div className='carousel__icon'>
@@ -86,7 +86,7 @@ export default function Carousel () {
               <h3 className='text__date'>{new Date(date).toLocaleDateString().slice(0,10)}</h3>
               <h3 className='text__date'>{author}</h3>
               <p className='text__paragraph'>{introduction}</p>
-              <button className={global.carouselButton} onClick={() => { router.push(`/news/${id}`) }}>Saber más</button>
+              <button className={global.carouselButton} onClick={() => { router.push(`${server}/news/${_id}`) }}>Saber más</button>
             </div>
             <div className='item__image'>
               <Image src={carousel} />

@@ -6,8 +6,11 @@ import Router from 'next/router'
 import Loader from '/components/Loader/Loader'
 
 
+
 function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
+
   const [loading, setLoading] = useState(false)
+
 
   Router.events.on('routeChangeStart', (url) => {
     setLoading(true)
@@ -16,6 +19,8 @@ function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
   Router.events.on('routeChangeComplete', (url) => {
     setLoading(false)
   })
+
+
 
   return (
     <>

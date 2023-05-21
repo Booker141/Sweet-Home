@@ -7,9 +7,10 @@ import { colors } from '/styles/frontend-conf.js'
 import { fonts } from 'styles/frontend-conf.js'
 import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
 import {  RiSettings4Fill, RiAdminFill, RiHealthBookFill } from 'react-icons/ri'
-import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill } from 'react-icons/bs'
+import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill, BsBellSlash } from 'react-icons/bs'
 import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets, MdReport} from 'react-icons/md'
 import {HiHome, HiNewspaper, HiOutlineArrowRight, HiBookmark} from 'react-icons/hi'
+import {VscCircleFilled} from 'react-icons/vsc'
 import {GiDogBowl} from 'react-icons/gi'
 import {GoGraph} from 'react-icons/go'
 import { server } from '/server'
@@ -18,6 +19,7 @@ import SearchBar from "components/SearchBar/SearchBar"
 import TrademarkWhite from 'components/TrademarkWhite/TrademarkWhite'
 import Modal from 'components/Modal/Modal'
 import ThemeButton from 'components/ThemeButton/ThemeButton'
+import SubmenuNotification from 'components/SubmenuNotification/SubmenuNotification'
 
 
 /*
@@ -48,6 +50,9 @@ export default function Header (props) {
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isNotification, setIsNotification] = useState(false)
+  const [isNotificationsVisible, setIsNotificationsVisible] = useState(false)
+  const [notifications, setNotifications] = useState([])
   const [user, setUser] = useState({})
 
   const router = useRouter()
@@ -69,9 +74,30 @@ export default function Header (props) {
 
   }
 
+  const getNotifications = async () => {
+
+    const res = await fetch(`${server}/api/notificationsChecked/${session.user.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+    const data = await res.json()
+
+    if(data.length > 0) {
+      setIsNotification(true)
+      setNotifications(data)
+    }
+
+
+  }
+
   useEffect(() => {
     if (session) {
       getUser()
+      getNotifications()
     }
   }, [])
 
@@ -104,7 +130,28 @@ export default function Header (props) {
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
-                <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={20} />Notificaciones</a></Link></li>
+                <div className="notifications__menu">
+                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
+                  {isNotificationsVisible && <div id="notifications__submenu" className="notifications__submenu">
+                    <div className="notifications__title">                    
+                      <h3 className={global.text4__bold}>Notificaciones</h3>
+                      <button className="close__submenu" onClick={() => setIsNotificationsVisible(false)}><MdClose size={25} color={`${colors.primary}`}/></button>
+                    </div>
+                    <hr className={global.line}></hr>
+                    <div className="notifications__results">
+                        {notifications.length === 0 &&  <div className="notification__default">
+                          <BsBellSlash size={60} color={`${colors.quaternary}`}/>
+                          <p className={global.text4}>No tiene ninguna notificación</p>
+                        </div>}
+                        {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
+                          <>
+                            <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
+                          </>
+                        ))}
+          
+                    </div>
+                </div>}
+              </div>
               </div>
                 <ThemeButton />
                 <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
@@ -151,7 +198,29 @@ export default function Header (props) {
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
-                <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={20} />Notificaciones</a></Link></li>
+                <div className="notifications__menu">
+                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
+                  {isNotificationsVisible && <div id="notifications__submenu" className="notifications__submenu">
+                    <div className="notifications__title">                    
+                      <h3 className={global.text4__bold}>Notificaciones</h3>
+                      <button className="close__submenu" onClick={() => setIsNotificationsVisible(false)}><MdClose size={25} color={`${colors.primary}`}/></button>
+                    </div>
+                    <hr className={global.line}></hr>
+                    <div className="notifications__results">
+                        {notifications.length === 0 &&  <div className="notification__default">
+                          <BsBellSlash size={60} color={`${colors.quaternary}`}/>
+                          <p className={global.text4}>No tiene ninguna notificación</p>
+
+                        </div>}
+                        {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
+                          <>
+                            <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
+                          </>
+                        ))}
+          
+                    </div>
+                </div>}
+              </div>
               </div>
               <ThemeButton />
                 <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
@@ -289,10 +358,31 @@ export default function Header (props) {
                 <li><Link href="/home" as="/home"><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" passHref><a className="nav__link2" aria-label='Ir a Cuidados'><MdPets size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
                 <li><Link href="/chat" as="/chat"><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
-                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" aria-label='Ir a Notificaciones'><BsFillBellFill size={20} />Notificaciones</a></Link></li>
+                <div className="notifications__menu">
+                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
+                  {isNotificationsVisible && <div id="notifications__submenu" className="notifications__submenu">
+                    <div className="notifications__title">                    
+                      <h3 className={global.text4__bold}>Notificaciones</h3>
+                      <button className="close__submenu" onClick={() => setIsNotificationsVisible(false)}><MdClose size={25} color={`${colors.primary}`}/></button>
+                    </div>
+                    <hr className={global.line}></hr>
+                    <div className="notifications__results">
+                        {notifications.length === 0 &&  <div className="notification__default">
+                          <BsBellSlash size={60} color={`${colors.quaternary}`}/>
+                          <p className={global.text4}>No tiene ninguna notificación</p>
+
+                        </div>}
+                        {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
+                          <>
+                            <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
+                          </>
+                        ))}
+          
+                    </div>
+                </div>}
               </div>
               <ThemeButton />
-              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
               {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
@@ -319,6 +409,7 @@ export default function Header (props) {
                 </ul>}
               </li>
           </div>
+          </div>
           </ul>}
 
         {isModalVisible && <Modal>
@@ -334,8 +425,6 @@ export default function Header (props) {
 
         <style jsx>{`
 
-
-            
 
                 #profile{
 
@@ -361,6 +450,92 @@ export default function Header (props) {
                     background: transparent;
                     
 
+                }
+
+                .notifications__menu{
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: column;
+                  gap: 3rem;
+                }
+
+                .notifications__submenu{
+
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  position: absolute;
+                  top: 7rem;
+                  width: 20vw;
+                  height: 40vh;
+                  padding: 1rem;
+
+                  /*Visuals*/
+
+                  background: white;
+                  border-radius: 20px;
+                  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                  overflow-y: auto;
+
+                }
+
+                .notification__default{
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  margin-top:  5rem;
+                  gap: 0.1rem;
+
+                  }
+
+
+                .notifications__title{
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: space-between;
+                  width: 100%;
+                }
+
+                
+          .close__submenu{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+
+          /*Visuals*/
+
+          cursor: pointer;
+          background: transparent;
+          border: none;
+
+          }
+
+
+
+                .notification__icon{
+                  
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  
                 }
 
                 .user__card{

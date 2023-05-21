@@ -1150,6 +1150,8 @@
     justify-content: center;
     gap: 2rem;
     width: 40vw;
+    min-width: 20vw;
+    max-width: 40vw;
     margin-bottom: 1rem;
     padding: 1rem;
   
@@ -1158,6 +1160,26 @@
     font-family: 'Poppins', sans-serif;
     border-radius: 40px;
     background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
+}
+
+.submenuNotification{
+
+      /*Box model*/
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      width: 18vw;
+      margin-bottom: 1rem;
+      padding: 1rem;
+    
+      /*Text*/
+    
+      font-family: 'Poppins', sans-serif;
+      border-radius: 40px;
+      background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
 }
 
 .following{
