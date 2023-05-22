@@ -103,7 +103,8 @@ export default function BasicHeader (props) {
      * in page
      */
   const handleClick = () => {
-    if (router.asPath !== `${server}/auth/signIn`) {
+
+    if (`${server}${router.asPath}` !== `${server}/auth/signIn`) {
       router.push(`${server}/auth/signIn`)
     } else {
       router.push(`${server}/auth/signUp`)

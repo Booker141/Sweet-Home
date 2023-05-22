@@ -7,8 +7,8 @@ import Sidebar from 'components/ChatSidebar/ChatSidebar'
 import Loader from 'components/Loader/Loader'
 import { useEffect, useState } from 'react'
 import { server } from '/server'
-import {colors} from '/styles/frontend-conf'
-
+import { toast } from 'react-toastify'
+import InputEmoji from 'react-input-emoji'
 
 /**
  * It renders a page with a chat, where the user can send messages
@@ -34,29 +34,42 @@ export default function Chat () {
     return (
       <Layout>
         <Head><title>Chat | Sweet Home</title></Head>
-        <h1 className={global.title4}>Mis chats</h1>
+        <h1 className={global.title}>Chat</h1>
         <div className={global.chat}>
-
+          <div className="message__input">
+                <InputEmoji
+                  title='Crear una publicación'
+                  type='text'
+                  name='text'
+                  id='comment'
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e)}
+                  cleanOnEnter
+                  placeholder={`Escribe un mensaje 😄`}
+                  fontFamily={`${fonts.default}`}
+                  borderColor={`${colors.primary}`}
+                />
+            </div>
+              <input type='submit' value='Enviar' className={global.buttonPrimary} onClick={(e) => sendMessage(e)} />
+            </div>
+            <style jsx>{`
             
-        </div>
-        <style jsx>{`
-            
-            h1{
-                    /*Text*/
+              h1{
+                                        /*Text*/
 
-                    font-size: 3.5rem;
-                      font-weight: 600;
-                      background-color: ${colors.primary};
-                      font-family: "Archivo Black", sans-serif;
-                      background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                      background-repeat: repeat;
-                      -webkit-background-clip: text;
-                      -webkit-text-fill-color: transparent; 
-                      background-size: 100%
-                      text-align: center;
-            }
-          
-          `}</style>
+                                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+              }
+            
+            `}</style>
       </Layout>
     )
   } else {
@@ -81,6 +94,8 @@ export default function Chat () {
                             
                             
                         }
+
+                        .me
                         
                     `}
         </style>

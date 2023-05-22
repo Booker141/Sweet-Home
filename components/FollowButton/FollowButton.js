@@ -24,8 +24,8 @@ export default function FollowButton(props){
       const data = await res.json()
 
       setUser(data)
-
-      setIsFollowedByMe(data?.following.includes(props?.idTo))
+      console.log(data.following.includes(props.idTo))
+      setIsFollowedByMe(data.following.includes(props?.idTo))
 
       console.log(isFollowedByMe)
 

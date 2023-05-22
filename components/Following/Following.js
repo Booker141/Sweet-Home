@@ -30,6 +30,8 @@ export default function Following (props) {
 
     const following = await res.json()
 
+    console.log(following)
+
     setUser(following)
 
 
@@ -54,7 +56,7 @@ export default function Following (props) {
           <a className={global.link} href={`/profile/${user?.username}`} aria-label={`Ir a perfil de ${user?.username}`}><strong>@{user?.username}</strong> </a>
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}
         </div>
-          <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user?._id} usernameTo={user?.username}/>
+          <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user._id} usernameTo={user.username}/>
         </div>
 
       <style jsx>{`
