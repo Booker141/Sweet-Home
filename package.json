@@ -34,6 +34,7 @@
     "react-icons": "^4.4.0",
     "react-input-emoji": "^4.3.0",
     "react-toastify": "^9.1.1",
+    "socket.io": "^4.6.1",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1"
   },

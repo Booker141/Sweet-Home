@@ -144,8 +144,8 @@ export default function Sidebar(){
         })
 
         const data = await res.json()
-        const userList = JSON.parse(JSON.stringify(data))
-        setUsers(userList)
+
+        setUsers(data)
 
     }
 
@@ -229,8 +229,8 @@ export default function Sidebar(){
                 
                 <div className="sidebar-layout__container2">
                     <a className="sidebar__link" href="/profile/myprofile/posts" alt="Ir a publicaciones propias"><BsFillFilePostFill size={20} color={`${colors.secondary}`}/>Mis publicaciones</a>
-                    {(session.user.role === "veterinaria" || session.user.role === "protectora" || session.user.role === "usuario") && <a className="sidebar__link" href="/profile/myprofile/complaints" alt="Ir a mis denuncias"><TbReport size={20} color={colors.secondary} />Mis denuncias</a>} 
-                    {(session.user.role === "gerente" || session.user.role === "administrador") && <a className="sidebar__link" href={`/profile/${session.user.username}/notifications`} alt="Ir a mis notificaciones"><BsFillBellFill size={20} color={colors.secondary} />Mis notificaciones</a>} 
+                    {(session?.user.role === "veterinaria" || session?.user.role === "protectora" || session?.user.role === "usuario") && <a className="sidebar__link" href="/profile/myprofile/complaints" alt="Ir a mis denuncias"><TbReport size={20} color={colors.secondary} />Mis denuncias</a>} 
+                    {(session?.user.role === "gerente" || session?.user.role === "administrador") && <a className="sidebar__link" href={`/profile/${session?.user.username}/notifications`} alt="Ir a mis notificaciones"><BsFillBellFill size={20} color={colors.secondary} />Mis notificaciones</a>} 
                     <a className="sidebar__link" href="/profile/myprofile/saved" alt="Ir a publicaciones propias"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <button className="sidebar__link" onClick={() => setIsModalVisible(true)} alt="Enviar informe"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Enviar informe</button>    
 
@@ -251,8 +251,8 @@ export default function Sidebar(){
 
                 <div className="sidebar-layout__container5">
                     <h1 className="title__sidebar">Cuentas sugeridas</h1>
-                    {users.length === 0 && <p className={global.text2}>No existe ningún usuario.</p>}
-                    {users.filter(user => user.username !== (session.user.username) && user.role.name !== "administrador" && user.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {users?.length === 0 && <p className={global.text2}>No existe ningún usuario.</p>}
+                    {users?.filter(user => user?.username !== (session?.user.username) && user?.role.name !== "administrador" && user?.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -266,8 +266,8 @@ export default function Sidebar(){
 
                 <div className="sidebar-layout__container6">
                     <h1 className="title__sidebar">Cuentas de protectoras</h1>
-                    {shelters.length === 0 && <p className={global.text2}>No hay ninguna protectora.</p>}
-                    {shelters.filter(shelter => shelter.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {shelters?.length === 0 && <p className={global.text2}>No hay ninguna protectora.</p>}
+                    {shelters?.filter(shelter => shelter?.username !== (session?.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -276,15 +276,15 @@ export default function Sidebar(){
                     })}
                     <div className='users__link'>
 
-                        {shelters.length !== 0 && <Link href="/allShelters"><a className={global.link} aria-label='Ir a ver más protectoras'>Ver todos →</a></Link>}
+                        {shelters?.length !== 0 && <Link href="/allShelters"><a className={global.link} aria-label='Ir a ver más protectoras'>Ver todos →</a></Link>}
 
                     </div>
                 </div>
 
                 <div className="sidebar-layout__container7">
                     <h1 className="title__sidebar">Cuentas de veterinarias</h1>
-                    {vets.length === 0 && <p className={global.text2}>No hay ninguna veterinaria.</p>}
-                    {vets.filter(vet => vet.username !== (session.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {vets?.length === 0 && <p className={global.text2}>No hay ninguna veterinaria.</p>}
+                    {vets?.filter(vet => vet.username !== (session?.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -293,14 +293,14 @@ export default function Sidebar(){
                     })}
                     <div className='users__link'>
 
-                        {vets.length !== 0 && <Link href="/allVets"><a className={global.link} aria-label='Ir a ver más veterinarias'>Ver todos →</a></Link>}
+                        {vets?.length !== 0 && <Link href="/allVets"><a className={global.link} aria-label='Ir a ver más veterinarias'>Ver todos →</a></Link>}
 
                     </div>
                 </div>
 
                 <div className="sidebar-layout__container8">
                     <h1 className="title__sidebar">Cuidados</h1>
-                    {typeAttendances.length === 0 && <p className={global.text2}>No existe ningún cuidado.</p>}
+                    {typeAttendances?.length === 0 && <p className={global.text2}>No existe ningún cuidado.</p>}
                     {typeAttendances.map(({ _id, name }) => {
                         return (
                         <>
