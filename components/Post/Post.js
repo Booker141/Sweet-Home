@@ -77,8 +77,6 @@ export default function Post (props) {
     const user = await res.json()
     setUser(user)
 
-    console.log(user)
-
     if(user.role.name === "protectora")
       setIsShelter(true)
     if(user.role.name === "veterinaria")
@@ -135,9 +133,13 @@ export default function Post (props) {
             <div className='header__user'>
               <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
               <div className="user__info">
-                <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
-                  {user.username}{isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
-                </a>
+                <div className="info__username">
+                  <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
+                    {user.username}
+                  </a>
+                  {isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
+                </div>
+                
                 <div className="post__time">
                   <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                   <p className={global.time}>Hace {calcTime()}</p>
@@ -161,9 +163,11 @@ export default function Post (props) {
           <div className='description'>
             <div className='description__content'>           
               <a href={`${server}/profile/${user.username}`}><FallbackImage className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px'}} width={40} height={40} priority /></a>
-              <p className={global.link3__bold}>
-                @{user.username}{isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}:
-              </p>
+              <div className="description__user">
+                <p className={global.link3__bold}>@{user.username}</p>
+                {isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
+                <p className={global.link3__bold}>:</p>
+              </div>
               <div className='description__text'>
                 <p className={global.text2}>
                   {props.description}
@@ -196,6 +200,28 @@ export default function Post (props) {
       </Modal>}
 
       <style jsx>{`
+
+                .info__username{
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  gap: 0.5rem;
+                }
+
+                .description__user{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                }
+
+
 
                 .post__content{
 

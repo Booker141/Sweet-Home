@@ -41,6 +41,7 @@ export default function Notification (props) {
 
     const data = res.json()
 
+
     setUser(data)
 
   }
@@ -69,12 +70,12 @@ export default function Notification (props) {
   const fetchNotification = async () => {
 
 
-    const res = await fetch(`${server}/api/notificationsById/${notification.id}`, {
+    const res = await fetch(`${server}/api/notifications/${session.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
-    }).catch(err => console.log(err))
+    })
 
     const data = res.json()
 
@@ -156,7 +157,7 @@ export default function Notification (props) {
     if(isNotificationNotChecked){
       setTimeout(() => {
         updateNotification()
-      }, 5000)
+      }, 3000)
     }
     
   }, [])

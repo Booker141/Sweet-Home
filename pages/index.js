@@ -2,14 +2,14 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession} from 'next-auth/react'
 import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
 import BasicHeader from 'components/BasicHeader/BasicHeader'
 import Carousel from 'components/Carousel/Carousel'
 import BasicFooter from 'components/BasicFooter/BasicFooter'
 import Loader from 'components/Loader/Loader'
-import { AiOutlineMobile, AiOutlineTablet } from 'react-icons/ai'
+import { AiOutlineMobile} from 'react-icons/ai'
 import { ImArrowUp2 } from 'react-icons/im'
 import { BsLaptop } from 'react-icons/bs'
 import { MdPets } from 'react-icons/md'
@@ -21,6 +21,7 @@ import inicio3 from '../public/inicio-3.svg'
 import component1 from '../public/component1-home.svg'
 import component2 from '../public/component2-home.svg'
 import component3 from '../public/component3-home.svg'
+import {server} from '/server'
 
 export default function Principal () {
 
@@ -72,6 +73,12 @@ export default function Principal () {
                                                                         </span>, brindando servicios de cuidado y hospedaje para <span className={global.colorized}> &nbsp; todo tipos de 
               mascotas</span>.
             </p>
+            
+            <div className="text__button">
+              <p className={global.text2}>¿Quieres saber más sobre nosotros?</p>
+              <a className={global.buttonPrimary} href={`${server}/about`} alt="Ir a Quiénes somos">Quiénes somos</a>
+            </div>
+            
           </div>
           <div className='container1__video' />
           <video
@@ -293,6 +300,25 @@ export default function Principal () {
 
             display: inline-block;
             text-align: center;
+          }
+
+          .container1__text a{
+
+
+
+            /*Visuals*/
+
+            text-decoration: none;
+          }
+
+          .text__button{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
           }
 
           .container1__video{

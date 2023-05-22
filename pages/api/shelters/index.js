@@ -1,5 +1,10 @@
 import clientPromise from '../lib/MongoDB'
 
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+}
 
 export default async function handler (req, res) {
 

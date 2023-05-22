@@ -1,6 +1,12 @@
 import clientPromise from '../../lib/MongoDB'
 import {ObjectId} from 'mongodb'
 
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+}
+
 export default async function handler (req, res) {
 
   const client = await clientPromise
@@ -14,11 +20,13 @@ export default async function handler (req, res) {
     
     const data = await db.collection('notifications').find({receiver: user._id, isChecked: false}).limit(50).toArray()
 
+    console.log(data)
+
     const notifications = JSON.parse(JSON.stringify(data))
 
     console.log(notifications)
 
-    res.status(200).json(notifications)
+    res.status(201).json(notifications)
   }
 
 

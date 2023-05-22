@@ -86,18 +86,18 @@ export default function New (props) {
         
         <article key={props.id}>
           <div className="new__header">
-            <h2 className={"new__title"}>{props.title}</h2>
+            <h2 className="new__title">{props.title}</h2>
             {isAdmin && <div className="buttons"><button className='edit__button' onClick={() => Router.push(`dashboard/editNew/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
           <hr className={global.white__line}></hr>
           <div className="new__time">
-            <HiOutlineClock size={17}/>
-            <h3 className={global.date}>Publicada el {new Date(props.date).toLocaleDateString().slice(0,10)}</h3>
+            <HiOutlineClock size={17} color={`${colors.secondary}`}/>
+            <h3 className={global.date2}>Publicada el {new Date(props.date).toLocaleDateString().slice(0,10)}</h3>
           </div> 
-          <h3 className={global.tertiary__bold}>{props.author}</h3>
-          <p className={global.text}>{props.introduction}</p>
-          <p className={global.text}>{props.body}</p>
-          <p className={global.text}>{props.conclusion}</p>
+          <h3 className={global.text3__bold}>{props.author}</h3>
+          <p className={global.text2}>{props.introduction}</p>
+          <p className={global.text2}>{props.body}</p>
+          <p className={global.text2}>{props.conclusion}</p>
         </article>
       </div>
       {isModalVisible && <Modal>
@@ -225,6 +225,7 @@ export default function New (props) {
                   font-size: 2rem;
                   font-weight: 600;
                   font-family: ${fonts.default};
+                  color: ${colors.secondary};
                 }
 
                 .new__header{

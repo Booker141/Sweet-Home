@@ -14,11 +14,27 @@ export default function NewsId ({ news }) {
 
     <Layout>
       <Head><title>{news.title} | Sweet Home</title></Head>
-      <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion} />
-
+      <div className="new">
+        <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion} />
+        <button className={global.buttonTertiary} onClick={() => router.back()}>Volver</button>
+      </div>
+     
       <style jsx>{`
 
+                    .new{
 
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: column;
+                        padding: 2rem;
+                        justify-content: center;
+
+                        /*Visuals*/
+
+                        border-radius: 20px;
+                        background-color: #f0810f;
+                    }
                     .dialog{
 
                         /*Box model*/

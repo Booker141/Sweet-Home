@@ -52,9 +52,6 @@ module.exports = (phase, { defaultConfig }) => {
         }
       ]
     },
-    api: {
-      responseLimit: false,
-    },
     async headers() {
       return [
           {
