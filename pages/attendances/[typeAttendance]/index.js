@@ -1,13 +1,22 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useRouter } from 'next/router'
 import { useSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
-import global from '/styles/global.module.css'
-import { colors, fonts } from '/styles/frontend-conf.js'
-import Layout from '/components/Layout/Layout'
-import Thread from '/components/Thread/Thread'
-import {toast} from 'react-toastify'
 import { server } from '/server'
+import { colors, fonts } from '/styles/frontend-conf.js'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Thread = dynamic(() => import('/components/Thread/Thread'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 
 export default function TypeAttendance ({ threads, typeAttendance }) {
 
@@ -80,7 +89,13 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
 
 
   if (status === 'loading') {
-    return <div className={global.loading}><p>Cargando..</p></div>
+    return(
+      <>
+        <div className={global.loading}><p>Cargando..</p></div>
+        <Loader/>
+      </>
+    )
+
   }
   if (session) {
     return (
@@ -104,28 +119,28 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
         {isSortedByName && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
+              <LazyLoad offset={100}><Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/></LazyLoad>
             </>
           )
         })}
         {isSortedByDate && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
+              <LazyLoad offset={100}><Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/></LazyLoad>
             </>
           )
         })}
         {isSortedByNumPosts && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
+              <LazyLoad offset={100}><Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/></LazyLoad>
             </>
           )
         })}
         {(!isSortedByName && !isSortedByNumPosts && !isSortedByDate) && threads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
-              <Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/>
+              <LazyLoad offset={100}><Thread key={_id} id={_id} title={title} typeAttendanceId={typeAttendanceId} createdAt={createdAt} userId={userId} username={username} attendances={attendances}/></LazyLoad>
             </>
           )
         })}

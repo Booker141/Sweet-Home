@@ -1,17 +1,21 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useSession, signIn} from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import global from 'styles/global.module.css'
-import { colors, fonts } from 'styles/frontend-conf'
-import { HiOutlineRefresh } from 'react-icons/hi'
-import Layout from 'components/Layout/Layout'
-import Sidebar from 'components/Sidebar/Sidebar'
-import Post from 'components/Post/Post'
-import User from 'components/UserCard/UserCard'
-import Loader from 'components/Loader/Loader'
+import { colors } from 'styles/frontend-conf'
 import { server } from '/server'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -20,11 +24,7 @@ import { server } from '/server'
     * @date 13/12/2020
     * @description Posts page
 */
-/**
- * It returns a React fragment that contains a Head component with a title of "Reciente" and a div
- * that contains a list of posts
- * @returns An array of objects.
- */
+
 export default function Lost ({posts}) {
   
   const { data: session, status } = useSession({ required: true })
@@ -76,7 +76,7 @@ export default function Lost ({posts}) {
             {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/>
+                  <LazyLoad offset={300}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/></LazyLoad>
                 </>
               )
             })}
@@ -84,7 +84,7 @@ export default function Lost ({posts}) {
             {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type}) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
+                  <LazyLoad offset={300}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} /></LazyLoad>
                 </>
               )
             })}

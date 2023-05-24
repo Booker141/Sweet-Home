@@ -1,18 +1,20 @@
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import { colors } from 'styles/frontend-conf'
 import { useState, useEffect } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { MdHealthAndSafety } from 'react-icons/md'
 import {useSession} from 'next-auth/react'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
-import {server} from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * It's a component that renders a user's profile picture, username, and a button that allows you to
- * follow them
- * @param props - {
- * @returns A component that shows a user's profile.
- */
+/*Dynamic imports*/
+
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
+
 export default function UserSidebar (props) {
 
   const {data: session} = useSession()
@@ -22,11 +24,6 @@ export default function UserSidebar (props) {
 
 
 
-/**
- * The function calculates and returns the creation date of a given object in a specific format.
- * @returns The function `calcCreated` returns a string in the format "day/month/year", where day,
- * month, and year are extracted from the `createdAt` prop passed to the function.
- */
   const calcCreated = () => {
 
     const date = new Date(props.createdAt)
@@ -40,8 +37,6 @@ export default function UserSidebar (props) {
 
   
 
-  /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
-  the isCaretaker prop. */
   useEffect(() => {
     if(props.role.name ===  "protectora")
       setIsShelter(true)

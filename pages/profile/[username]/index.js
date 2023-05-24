@@ -1,28 +1,36 @@
+/* Static imports */
+
 import { useSession, getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import Head from 'next/head'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
 import { BsPatchCheckFill} from 'react-icons/bs'
 import {FaUserAlt} from 'react-icons/fa'
 import {MdCake, MdLocationPin, MdHealthAndSafety, MdOutlineBlock} from 'react-icons/md'
 import {HiOutlineArrowRight} from 'react-icons/hi'
-import FollowButton from 'components/FollowButton/FollowButton'
-import Layout from 'components/Layout/Layout'
-import Post from 'components/Post/Post'
-import Loader from 'components/Loader/Loader'
 import { server } from '/server'
-import {toast} from 'react-toastify'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const FollowButton = dynamic(() => import('/components/FollowButton/FollowButton'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 
 export default function Username ({ posts, users}) {
   
   const { data: session, status } = useSession()
-  const [followers, setFollowers] = useState([])
-  const [following, setFollowing] = useState([])
-  const [isShelter, setIsShelter] = useState(false)
-  const [isVet, setIsVet] = useState(false)
+  const [followers, setFollowers] = useState(users.followers)
+  const [following, setFollowing] = useState(users.following)
+  const [isShelter, setIsShelter] = useState(users.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(users.role.name === "veterinaria" ? true : false)
   const [profileUser, setProfileUser] = useState(users)
   const [userImage, setUserImage] = useState(users.image)
   const [userBanner, setUserBanner] = useState(users.banner)
@@ -46,14 +54,6 @@ export default function Username ({ posts, users}) {
     }
   }
 
-  useEffect(() => {
-
-      setFollowers(profileUser.followers)
-      setFollowing(profileUser.following)
-      setIsShelter(profileUser.role.name === "protectora" ? true : false)
-      setIsVet(profileUser.role.name === "veterinaria" ? true : false)
-
-  }, [])
 
   if (status == 'loading') {
     return (

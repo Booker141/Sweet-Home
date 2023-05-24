@@ -1,13 +1,20 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import { colors } from 'styles/frontend-conf.js'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
 import accessibility1 from '../../public/accessibility-1.svg'
 import accessibility2 from '../../public/accessibility-2.svg'
 import accessibility3 from '../../public/accessibility-3.svg'
 import accessibility4 from '../../public/accessibility-4.svg'
 import accessibility5 from '../../public/accessibility-5.svg'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+
+/*Dynamic imports*/
+
+const BasicLayout = dynamic(() => import('/components/BasicLayout/BasicLayout'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
     * @author Sergio García Navarro
@@ -47,13 +54,13 @@ export default function Accessibility () {
           </p>
         </div>
         <div>
-          <Image src={accessibility1} alt='Diseñadores' />
+          <FallbackImage src={accessibility1} alt='Diseñadores' />
         </div>
       </div>
 
       <div className='content__container'>
         <div>
-          <Image src={accessibility2} alt='Constructor de sitios' />
+          <FallbackImage src={accessibility2} alt='Constructor de sitios' />
         </div>
         <div className='container__column'>
           <h2 className={global.title2}>Diseño minimalista</h2>
@@ -76,13 +83,13 @@ export default function Accessibility () {
           </p>
         </div>
         <div>
-          <Image src={accessibility3} alt='Página social' />
+          <FallbackImage src={accessibility3} alt='Página social' />
         </div>
       </div>
 
       <div className='content__container'>
         <div>
-          <Image src={accessibility4} alt='Diseño web' />
+          <FallbackImage src={accessibility4} alt='Diseño web' />
         </div>
         <div className='container__column'>
           <h2 className={global.title2}>Fuente clara</h2>
@@ -106,7 +113,7 @@ export default function Accessibility () {
           </p>
         </div>
         <div>
-          <Image src={accessibility5} alt='Estudiar en línea' />
+          <FallbackImage src={accessibility5} alt='Estudiar en línea' />
         </div>
       </div>
 

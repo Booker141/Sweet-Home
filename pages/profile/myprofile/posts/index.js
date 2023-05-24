@@ -1,13 +1,23 @@
-import Head from 'next/head'
-import { useSession, signIn} from 'next-auth/react'
-import { useState, useEffect } from 'react'
+
+/* Static imports */
+
+import { useSession, getSession, signIn} from 'next-auth/react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf'
-import Layout from 'components/Layout/Layout'
-import Post from 'components/Post/Post'
-import Loader from 'components/Loader/Loader'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -21,10 +31,10 @@ import { server } from '/server'
  * that contains a list of posts
  * @returns An array of objects.
  */
-export default function Posts () {
+export default function Posts ({myPosts}) {
   
   const { data: session, status } = useSession({ required: true })
-  const [postList, setPostList] = useState([])
+  const [postList, setPostList] = useState(myPosts)
   const [isSortedByLikes, setIsSortedByLikes] = useState(false)
   const Router = useRouter()
 
@@ -38,30 +48,7 @@ export default function Posts () {
     setPostList(sortedPosts)
   }
 
-  /**
-   * This function fetches posts from a server API for a specific user.
-   */
-  const fetchPosts = async () => {
 
-    const res = await fetch(`${server}/api/posts/${session.user.username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  
-    const posts = await res.json()
-
-    console.log(posts)
-
-    setPostList(posts)
-  }
-
-  useEffect(() => {
-
-    fetchPosts()
-
-  }, [])
 
 
   if (status == 'loading') {
@@ -255,5 +242,26 @@ export default function Posts () {
         </>
       </Layout>
     )
+  }
+}
+
+export async function getServerSideProps(context){
+
+  const session = await getSession(context)
+
+
+  const res = await fetch(`${server}/api/posts/${session.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  const posts = await res.json()
+
+  return{
+    props: {
+      myPosts: JSON.parse(JSON.stringify(posts))
+    }
   }
 }

@@ -1,9 +1,16 @@
-import global from "/styles/global.module.css"
+/* Static imports */
+
 import {useState, useEffect} from 'react'
 import {useSession} from 'next-auth/react'
 import {colors} from "styles/frontend-conf"
 import {MdBookmark, MdBookmarkBorder} from "react-icons/md"
 import {server} from '/server'
+import global from "/styles/global.module.css"
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 
@@ -46,7 +53,6 @@ export default function Save(props){
     const Save = async () => {
 
 
-        // Save
 
         if(isSavedByMe === false){
 

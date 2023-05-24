@@ -1,11 +1,19 @@
-import global from '../../styles/global.module.css'
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {colors, fonts} from '../../styles/frontend-conf'
-import Layout from '../../components/Layout/Layout'
-import Head from 'next/head'
-import Loader from '../../components/Loader/Loader'
 import {server} from '/server'
+import Head from 'next/head'
+import global from '../../styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /**
  * This function is the dashboard of the administrator, it is only accessible to the administrator, if

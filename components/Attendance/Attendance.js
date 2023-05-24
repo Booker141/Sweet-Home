@@ -1,21 +1,28 @@
-import global from '/styles/global.module.css'
+
+/*Static imports*/
+
 import { useState, useEffect } from 'react'
 import {colors} from '/styles/frontend-conf'
 import {MdDeleteOutline, MdClose, MdPets, MdHealthAndSafety} from 'react-icons/md'
 import {BsPatchCheckFill} from 'react-icons/bs'
 import {HiOutlineClock} from 'react-icons/hi'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
-import Image from 'next/image'
 import { toast } from 'react-toastify'
 import {useSession} from 'next-auth/react'
 import { server } from '/server'
-import Modal from '/components/Modal/Modal'
 import { useRouter } from 'next/router'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
 
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /**
  * It fetches the user's data from the database and displays it in the attendance component
+ * Attendance component - post users can publish into a thread
  * @param props - {
  * @returns An object with the following properties:
  */
@@ -26,20 +33,10 @@ export default function Attendance (props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isImage, setIsImage] = useState(props?.image ? true : false);
   const { data: session, status } = useSession()
-
   const Router = useRouter()
-
   const date = new Date(props.createdAt)
 
- /**
-  * The function adds a leading zero to a number if it is less than 10.
-  * @param num - num is a parameter of the function getFull, which represents a number that needs to be
-  * converted to a string with two digits. If the number is less than 10, a '0' is added to the
-  * beginning of the string. Otherwise, the number is returned as a string without any modification
-  * @returns The function `getFull` takes a number as an argument and returns a string. If the number
-  * is less than 10, the function returns a string with a leading zero and the number. If the number is
-  * 10 or greater, the function returns the number as a string without any modification.
-  */
+ 
   const getFull = (num) => {
 
     if (num < 10) {
@@ -49,10 +46,7 @@ export default function Attendance (props) {
     }
   }
 
- /**
-  * This function retrieves user data from a server using a GET request and sets it to a state
-  * variable.
-  */
+
   async function getUsers(){
 
     const res = await fetch(`${server}/api/users/${props.username}`, {
@@ -66,10 +60,7 @@ export default function Attendance (props) {
 
   }
 
- /**
-  * This function fetches a thread from a server using a specific thread ID and sets the retrieved data
-  * as the state of the component.
-  */
+
   async function getThread(){
 
     const res = await fetch(`${server}/api/thread/${props.threadId}`, {
@@ -84,9 +75,7 @@ export default function Attendance (props) {
   }
 
   
-  /**
-   * It deletes an attendance from the database
-   */
+
   const deleteAttendance = async () => {
     await fetch(`${server}/api/attendances/${thread.title}`, {
       method: 'DELETE',
@@ -114,7 +103,6 @@ export default function Attendance (props) {
   }
 
 
-  /* Fetching the user's data from the database and displaying it in the attendance component. */
   useEffect(() => {
     getUsers()
     getThread()
@@ -160,18 +148,21 @@ export default function Attendance (props) {
           <p className={global.text}>{props.description}</p>
         </div>
         <div className="attendance__image">
-          {isImage && <Image src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
+          {isImage && <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
         </div>
       </div>
-      {isModalVisible && <Modal>
-        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-        <h2 className={global.title3}>Eliminar cuidado</h2>
-        <p className={global.text2}>¿Estás seguro de eliminar este cuidado?</p>
-        <div className='buttons'>
-          <button className={global.buttonSecondary} onClick={() => deleteAttendance()}>Sí</button>
-          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-        </div>
-      </Modal>}
+      
+        {isModalVisible && <LazyLoad><Modal>
+          <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
+          <h2 className={global.title3}>Eliminar cuidado</h2>
+          <p className={global.text2}>¿Estás seguro de eliminar este cuidado?</p>
+          <div className='buttons'>
+            <button className={global.buttonSecondary} onClick={() => deleteAttendance()}>Sí</button>
+            <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+          </div>
+        </Modal></LazyLoad>}
+      
+
       <style jsx>{`
 
 

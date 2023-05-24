@@ -1,18 +1,18 @@
-import global from 'styles/global.module.css'
-import {colors} from 'styles/frontend-conf'
-import {HiOutlineClock} from 'react-icons/hi'
+
+/* Static imports */
+
 import {server} from '/server'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/*Dynamic imports*/
+
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-
-/**
- * It renders a notification
- * @param props - {
- * @returns A div with a class of notification.
- */
 export default function SubmenuNotification (props) {
 
   const [user, setUser] = useState({})
@@ -21,7 +21,6 @@ export default function SubmenuNotification (props) {
 
   const router = useRouter()
 
-  console.log(props)
 
   const getUser = async() =>{
 

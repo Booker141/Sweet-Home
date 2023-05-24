@@ -1,17 +1,26 @@
-import Layout from '/components/Layout/Layout'
-import Head from 'next/head'
-import global from '/styles/global.module.css'
+
+/* Static imports */
+
 import {useState, useEffect} from 'react'
 import {colors} from '/styles/frontend-conf'
 import { useSession, signIn } from 'next-auth/react'
-import BarChart from '/components/BarChart/BarChart';
-import RadarChart from '/components/RadarChart/RadarChart';
-import PolarAreaChart from '/components/PolarAreaChart/PolarAreaChart';
-import Loader from '/components/Loader/Loader'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * A function that returns a component.
- */
+
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const BarChart = dynamic(() => import('/components/BarChart/BarChart'))
+const RadarChart = dynamic(() => import('/components/RadarChart/RadarChart'))
+const PolarAreaChart = dynamic(() => import('/components/PolarAreaChart/PolarAreaChart'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function Statistics () {
 
   const { data: session, status } = useSession({ required: true })

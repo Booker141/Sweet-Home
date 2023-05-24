@@ -1,14 +1,22 @@
-import Head from 'next/head'
-import { useSession, signIn} from 'next-auth/react'
+/* Static imports */
+
+import { useSession, getSession, signIn} from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import global from 'styles/global.module.css'
-import { colors, fonts } from 'styles/frontend-conf'
-import SettingsLayout from 'components/SettingsLayout/SettingsLayout'
-import Layout from 'components/Layout/Layout'
-import SavedPost from 'components/SavedPost/SavedPost'
-import Loader from 'components/Loader/Loader'
+import { colors } from 'styles/frontend-conf'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const SavedPost = dynamic(() => import('/components/SavedPost/SavedPost'))
+const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -18,38 +26,11 @@ import { server } from '/server'
     * @description Saved posts page
 */
 
-export default function Saved () {
+export default function Saved ({users}) {
   
   const { data: session, status } = useSession({ required: true })
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(users)
   const Router = useRouter()
-
-
-
-  const fetchSavedPosts = async () => {
-
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  
-  
-    const data = await res.json()
-
-    console.log(data)
-
-    setUser(data)
-  }
-
-
-
-  useEffect(() => {
-
-    fetchSavedPosts()
-
-  }, [])
 
 
   if (status == 'loading') {
@@ -232,4 +213,25 @@ export default function Saved () {
       </Layout>
     )
   }
+}
+
+export async function getServerSideProps(context){
+
+  const session = await getSession(context)
+
+  const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+
+  const data = await res.json()
+
+  return{
+    props: {
+      users: JSON.parse(JSON.stringify(data))
+  }
+}
 }

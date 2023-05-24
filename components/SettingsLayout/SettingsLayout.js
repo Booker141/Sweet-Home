@@ -1,12 +1,19 @@
-import global from '/styles/global.module.css'
-import Header from '/components/Header/Header'
-import Footer from '/components/Footer/Footer'
+/* Static imports */
+
 import { ImArrowUp2 } from 'react-icons/im'
 import SettingsSidebar from '/components/SettingsSidebar/SettingsSidebar'
 import {toast} from 'react-toastify'
 import {useSession} from 'next-auth/react'
 import {server} from '/server'
 import {useState, useEffect} from 'react'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/*Dynamic imports*/
+
+const Header = dynamic(() => import('/components/Header/Header'))
+const Footer = dynamic(() => import('/components/Footer/Footer'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
     * @author Sergio García Navarro
@@ -15,10 +22,7 @@ import {useState, useEffect} from 'react'
     * @date 13/01/2020
     * @description Layout component
 */
-/**
- * It's a function that returns a component that renders a header, a main and a footer
- * @returns The Header, Footer and the children of the Layout component.
- */
+
 export default function SettingsLayout ({ children }) {
 
   const [isNotification, setIsNotification] = useState(false)
@@ -45,13 +49,7 @@ export default function SettingsLayout ({ children }) {
 
     }
 
-
-
-
   }
-
-
-
 
 
   useEffect(() => {
@@ -89,7 +87,7 @@ export default function SettingsLayout ({ children }) {
           </div>
         </div>
         <a title='Volver arriba' aria-label='Ir al inicio de página' href='#top' className={global.buttonTo}><ImArrowUp2 /></a>
-      <Footer />
+      <LazyLoad offset={100}><Footer /></LazyLoad>
       
     </>
 

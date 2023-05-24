@@ -1,4 +1,6 @@
-import global from 'styles/global.module.css'
+
+/* Static imports */
+
 import {colors, statusColors} from 'styles/frontend-conf'
 import {FaUserPlus, FaComment} from 'react-icons/fa'
 import {HiHeart, HiOutlineClock} from 'react-icons/hi'
@@ -7,17 +9,18 @@ import {server} from '/server'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {VscCircleFilled} from 'react-icons/vsc'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
-import Modal from '/components/Modal/Modal'
 import {toast} from 'react-toastify'
 import {useSession} from 'next-auth/react'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
 
-/**
- * It renders a notification
- * @param props - {
- * @returns A div with a class of notification.
- */
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 export default function Notification (props) {
 
   const [user, setUser] = useState({})
@@ -174,7 +177,6 @@ export default function Notification (props) {
           <div className={global.text2}>
             {notification.description}
           </div>
-
           <div className="notification__time">
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
@@ -182,7 +184,7 @@ export default function Notification (props) {
           {!notification.isChecked && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
-        {isModalVisible && <Modal>
+        {isModalVisible && <LazyLoad><Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar notificación</h2>
         <p className={global.text2}>Esta notificación será eliminada permanentemente</p>
@@ -191,7 +193,7 @@ export default function Notification (props) {
           <button className={global.buttonSecondary} onClick={() => deleteNotification()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+      </Modal></LazyLoad>}
          <style jsx>{`
 
           .notification__time{

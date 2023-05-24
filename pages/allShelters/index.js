@@ -1,12 +1,20 @@
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
-import global from 'styles/global.module.css'
 import {colors, fonts} from 'styles/frontend-conf'
-import User from 'components/UserCard/UserCard'
-import Layout from 'components/Layout/Layout'
-import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 import {useState} from 'react'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import global from 'styles/global.module.css'
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const User = dynamic(() => import('/components/UserCard/UserCard'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /**
  * It's a function that returns a layout component with a title and a list of users
@@ -63,7 +71,7 @@ export default function AllShelters ({ users }) {
           {usersList.filter(user => user.username !== (session.user.username) && user.status.name != "bloqueado").map(({ _id, image, banner, username, role }) => {
             return (
               <>
-                <User key={_id} image={image} banner={banner} username={username} role={role} />
+                <LazyLoad offset={100}><User key={_id} image={image} banner={banner} username={username} role={role} /></LazyLoad>
               </>
             )
           })}

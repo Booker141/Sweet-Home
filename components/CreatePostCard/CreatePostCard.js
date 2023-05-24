@@ -1,23 +1,25 @@
-import global from 'styles/global.module.css'
+
+/* Static imports */
+
 import { colors, fonts } from 'styles/frontend-conf'
 import {useRouter} from 'next/router'
 import { useState, useEffect } from 'react'
 import {useSession} from 'next-auth/react'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
 import {server} from '/server'
 import { toast } from 'react-toastify'
-import InputEmoji from 'react-input-emoji'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * It's a component that renders a user's profile picture, username, and a button that allows you to
- * follow them
- * @param props - {
- * @returns A component that shows a user's profile.
- */
+/* Dynamic imports */
+
+const InputEmoji = dynamic(() => import('react-input-emoji'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function CreatePostCard () {
 
   const {data: session} = useSession()
-  
 
   const [user, setUser] = useState({})
   const [description, setDescription] = useState('')
@@ -25,9 +27,7 @@ export default function CreatePostCard () {
     const Router = useRouter()
 
 
-  /**
-   * This function fetches user data from a server and sets it to a variable.
-   */
+
   const getUser = async () => {
 
     const res = await fetch(`${server}/api/users/${session.user.username}`, {
@@ -44,13 +44,7 @@ export default function CreatePostCard () {
   }
 
 
-  /**
-   * This function creates a new post by sending a POST request to the server with the user's inputted
-   * data, and displays success or error messages using the toast library.
-   * @returns The function `createPost` returns nothing (`undefined`). It either returns early if the
-   * `description` is empty or it executes an asynchronous operation to create a new post and updates
-   * the UI with a success or error message.
-   */
+
   const createPost = async () => {
 
 
@@ -116,8 +110,7 @@ export default function CreatePostCard () {
 
   
 
-  /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
-  the isCaretaker prop. */
+
   useEffect(() => {
     getUser()
     

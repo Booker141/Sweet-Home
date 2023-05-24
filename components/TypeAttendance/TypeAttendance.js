@@ -1,19 +1,21 @@
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import { fonts, colors } from 'styles/frontend-conf.js'
 import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
 import { useState, useEffect } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
 import {toast} from 'react-toastify'
-import Modal from 'components/Modal/Modal'
 import {useRouter} from 'next/router'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * It's a component that renders a type of attendance, and it has a button that redirects to the
- * attendances of that type
- * @param props - The props that are passed to the component.
- * @returns a JSX element.
- */
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function TypeAttendance (props) {
 
   const router = useRouter();
@@ -21,17 +23,14 @@ export default function TypeAttendance (props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  /* It's a hook that is used to detect changes in the session, and if the user is an admin, it sets
-  the isAdmin state to true. */
+
   useEffect(() => {
     if (session.user.role === "administrador" ) {
       setIsAdmin(true);
     }
 }, []);
 
-  /**
-   * It deletes a type of care from the database
-   */
+
   const deleteTypeAttendance = async () => {
 
     await fetch(`${server}/api/typeAttendance/${props.id}`, {
@@ -67,14 +66,14 @@ export default function TypeAttendance (props) {
         <p className={global.text}>{props.description}</p>
         <button id="access__button" className={global.buttonTertiary} onClick={() => router.push(`/attendances/${props.name}`)} aria-label={'Ir a ' + `${props.name}`}>Entrar</button>
       </div>
-      {isModalVisible && <Modal>
+      {isModalVisible && <LazyLoad><Modal>
         <h2 className={global.title3}>Eliminar tipo de cuidado</h2>
         <p className={global.text2}>¿Estás seguro de eliminar este tipo de cuidado?</p>
         <div className='buttons'>
           <button className={global.buttonSecondary} onClick={() => deleteTypeAttendance()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+      </Modal></LazyLoad>}
       <style jsx>{`
 
         #access__button{

@@ -1,28 +1,29 @@
+/* Static imports */
 
-import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
+import {HiHome, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
 import {MdPets, MdContactMail, MdHealthAndSafety, MdReport, MdClose} from 'react-icons/md'
 import {BsFillFilePostFill, BsFillBellFill} from 'react-icons/bs'
 import { GiDogBowl, GiSittingDog, GiDogHouse, GiHummingbird, GiCat} from 'react-icons/gi'
 import {TbReport} from 'react-icons/tb'
 import {colors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
-import global from '/styles/global.module.css'
-import Link from 'next/link'
-import UserSidebar from '/components/UserSidebar/UserSidebar'
 import {useSession} from 'next-auth/react'
 import {useEffect, useState} from 'react'
 import {server} from '/server'
 import {useRouter} from 'next/router'
 import {toast} from 'react-toastify'
-import TrademarkWhite from '/components/TrademarkWhite/TrademarkWhite'
-import Modal from '/components/Modal/Modal'
+import dynamic from 'next/dynamic'
+import global from '/styles/global.module.css'
+
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const TrademarkWhite = dynamic(() => import('/components/TrademarkWhite/TrademarkWhite'))
+const Link = dynamic(() => import('next/link'))
+const UserSidebar = dynamic(() => import('/components/UserSidebar/UserSidebar'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-/**
- * This is a React component that renders a sidebar with links to various sections of a website, as
- * well as lists of suggested users and types of care.
- * @returns The Sidebar component is being returned.
- */
 export default function Sidebar(){
 
 
@@ -39,14 +40,6 @@ export default function Sidebar(){
 
   
 
-
-    /**
-     * The function uploads an image and sets it as the report image.
-     * @param e - The parameter "e" is an event object that is passed to the function when it is
-     * called. It is typically used to access information about the event that triggered the function,
-     * such as the target element or any data associated with the event. In this case, the function is
-     * expecting an event object that
-     */
     const uploadImage = async (e) => {
 
 
@@ -70,14 +63,6 @@ export default function Sidebar(){
         }
       }
 
-    /**
-     * This function sends a report to a server and displays a success or error message using toast
-     * notifications.
-     * @param e - The event object, which is passed as an argument to the function when it is triggered
-     * by an event (such as a form submission or button click).
-     * @returns The function `sendReport` does not explicitly return anything, but it does update the
-     * state of `isModalVisible` to `false` at the end.
-     */
     const sendReport = async (e) => {
 
         e.preventDefault();
@@ -130,10 +115,7 @@ export default function Sidebar(){
 
     }
 
-    /**
-     * The function fetches a list of users from a server and sets the retrieved data to a state
-     * variable.
-     */
+
     const fetchUsers = async () => {
 
         const res = await fetch(`${server}/api/users`, {
@@ -149,10 +131,7 @@ export default function Sidebar(){
 
     }
 
-    /**
-     * This function fetches data from a server's API endpoint and sets the retrieved data to a
-     * variable called "shelters".
-     */
+
     const fetchShelters = async () => {
 
         const res = await fetch(`${server}/api/shelters`, {
@@ -166,10 +145,7 @@ export default function Sidebar(){
         setShelters(data)
 
     }
-/**
- * This is an asynchronous function that fetches data from a server's API endpoint and sets the
- * retrieved data to a variable called "vets".
- */
+
 
     const fetchVets = async () => {
 
@@ -185,9 +161,7 @@ export default function Sidebar(){
 
     }
 
-    /**
-     * This function fetches data of type attendances from a server and sets it to a state variable.
-     */
+
     const fetchTypeAttendances = () => {
         fetch(`${server}/api/typeAttendance`, {
             method: 'GET',
@@ -260,7 +234,7 @@ export default function Sidebar(){
                         )
                     })}
                     <div className='users__link'>
-                        <Link href="/allUsers"><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
+                        <Link href="/allUsers" prefetch={false}><a className={global.link} aria-label='Ir a ver más usuarios'>Ver todos →</a></Link>
                     </div>
                 </div>
 
@@ -312,11 +286,11 @@ export default function Sidebar(){
 
                 <div className='footer'>
                     <div className='footer__links'>
-                        <Link className={global.link3} href="/userManual" passHref><a aria-label='Ir a Información'>Información</a></Link>
-                        <Link className={global.link3} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
-                        <Link className={global.link3} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
-                        <Link className={global.link3} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                        <Link className={global.link3} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
+                        <Link className={global.link3} href="/userManual" prefetch={false} passHref><a aria-label='Ir a Información'>Información</a></Link>
+                        <Link className={global.link3} href="/privacy" prefetch={false} passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
+                        <Link className={global.link3} href="/conditions" prefetch={false} passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
+                        <Link className={global.link3} href="/accessibility" prefetch={false} passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
+                        <Link className={global.link3} href="/rules" prefetch={false} passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className='copyright'>
                             <TrademarkWhite/>
                             <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
@@ -325,7 +299,7 @@ export default function Sidebar(){
                 </div>
             </aside>
             
-            {isModalVisible && <Modal>
+            {isModalVisible && <LazyLoad><Modal>
             <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
             <h2 className={global.title5}>Enviar informe</h2>
             <p className={global.text2}>Escriba a continuación el informe que quiera enviar:</p>
@@ -359,7 +333,7 @@ export default function Sidebar(){
                   </div>
                 <button className="report__button" onClick={(e) => sendReport(e)}>Enviar</button>
             </div>
-            </Modal>}
+            </Modal></LazyLoad>}
             <style jsx>{`
 
                 
@@ -978,7 +952,7 @@ export default function Sidebar(){
 
                 /*Visuals*/
 
-                border-radius: 5px;
+                border-radius: 20px;
                 border: 1px solid ${colors.primary};
 
                 }

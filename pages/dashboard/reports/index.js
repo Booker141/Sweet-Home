@@ -1,11 +1,19 @@
-import global from '/styles/global.module.css'
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import {colors, fonts} from '/styles/frontend-conf'
-import Layout from '/components/Layout/Layout'
-import Head from 'next/head'
-import Loader from '/components/Loader/Loader'
-import Report from '/components/Report/Report'
 import {server} from '/server'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Report = dynamic(() => import('/components/Report/Report'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 
 export default function Reports ({reports}) {

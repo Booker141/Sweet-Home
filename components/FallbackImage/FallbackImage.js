@@ -1,6 +1,13 @@
-import Image from 'next/image'
-import fallbackImage from 'public/fallbackImage.png'
+/* Static imports */
+
 import { useState } from 'react'
+import fallbackImage from 'public/fallbackImage.png'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Image = dynamic(() => import('next/image'))
+
 
 export default function FallbackImage(props){
 
@@ -8,7 +15,7 @@ export default function FallbackImage(props){
 
     return(
 
-        <Image src={fallback} alt={props.alt} width={props.width} height={props.height} style={props.style} priority />
+        <Image src={fallback} alt={props.alt} width={props.width} height={props.height} style={props.style}/>
 
     )
 

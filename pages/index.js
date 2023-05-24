@@ -1,27 +1,40 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import Image from 'next/image'
+/* Static imports */
+
 import { useRouter } from 'next/router'
 import { useSession} from 'next-auth/react'
-import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import BasicHeader from 'components/BasicHeader/BasicHeader'
-import Carousel from 'components/Carousel/Carousel'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
-import Loader from 'components/Loader/Loader'
 import { AiOutlineMobile} from 'react-icons/ai'
 import { ImArrowUp2 } from 'react-icons/im'
 import { BsLaptop } from 'react-icons/bs'
 import { MdPets } from 'react-icons/md'
 import { GiPlantsAndAnimals } from 'react-icons/gi'
 import { CgCommunity } from 'react-icons/cg'
+import {server} from '/server'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+import Layout from '/components/Layout/Layout'
+import BasicHeader from '/components/BasicHeader/BasicHeader'
 import inicio1 from '../public/inicio-1.svg'
 import inicio2 from '../public/inicio-2.svg'
 import inicio3 from '../public/inicio-3.svg'
 import component1 from '../public/component1-home.svg'
 import component2 from '../public/component2-home.svg'
 import component3 from '../public/component3-home.svg'
-import {server} from '/server'
+
+
+
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Trademark = dynamic(() => import('/components/Trademark/Trademark'))
+const BasicFooter = dynamic(() => import('/components/BasicFooter/BasicFooter'))
+const Carousel = dynamic(() => import('/components/Carousel/Carousel'))
+const Link = dynamic(() => import('next/link'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function Principal () {
 
@@ -31,8 +44,8 @@ export default function Principal () {
   if (status == 'loading') {
     return (
       <>
+        <Loader/>
         <div className={global.loading}><p>Cargando..</p></div>
-        <Loader />
       </>
     )
   }
@@ -65,7 +78,7 @@ export default function Principal () {
               </span>
               Sweet Home
             </h1>*/}
-              <Image src="/LogoWeb.svg" alt="Imagen del logo" width={400} height={400}/>
+              <FallbackImage src="/LogoWeb.svg" alt="Imagen del logo" width={400} height={400} priority/>
           </div>
           <div className="container1__text">
             <p className={global.text2}>Somos una empresa dedicada a la <span className={global.colorized}> &nbsp; atención de
@@ -98,9 +111,9 @@ export default function Principal () {
           </div>
           <div className='container2__column2'>
             <div className='column2__component'>
-              <Image src={component1} alt='Opinion 1' priority />
-              <Image src={component2} alt='Opinion 2' priority />
-              <Image src={component3} alt='Opinion 3' priority />
+              <FallbackImage src={component1} alt='Opinion 1' />
+              <FallbackImage src={component2} alt='Opinion 2' />
+              <FallbackImage src={component3} alt='Opinion 3' />
             </div>
           </div>
         </div>
@@ -111,10 +124,10 @@ export default function Principal () {
             y trata de facilitar su adaptación a nuevos cuidados, a nuevos dueños
             y a una mejora diaria de su vida.
           </p>
-          <Link href='/about'><a className={global.link} aria-label='Ir a información sobre Sweet Home'>Saber más →</a></Link>
+          <Link href='/about' prefetch={false}><a className={global.link} aria-label='Ir a información sobre Sweet Home'>Saber más →</a></Link>
         </div>
         <div className='imagen-inicio1'>
-          <Image src={inicio1} alt='Imagen de un perro y un gato' priority />
+          <FallbackImage src={inicio1} alt='Imagen de un perro y un gato'/>
         </div>
         <div className='content__container4'>
           <div className='container4__column1'>
@@ -132,7 +145,7 @@ export default function Principal () {
               <p className={global.text4}>En nuestra red social podrás encontrar
                 cuidados que mejoren la calidad de vida de tu mascota.
               </p>
-              <Link href='/attendances'><a className={global.link} aria-label='Ir a Cuidados'>Acceder →</a></Link>
+              <Link href='/attendances' prefetch={false}><a className={global.link} aria-label='Ir a Cuidados'>Acceder →</a></Link>
             </div>
             <div className={global.card__short}>
               <div style={{ color: '#f0810f' }}>
@@ -142,17 +155,17 @@ export default function Principal () {
               <p className={global.text4}>Aquí encontrarás una comunidad de amantes
                 de los animales que pueden darte consejos sobre vuestras mascotas.
               </p>
-              <Link href='/home'><a className={global.link} aria-label='Ir a página inicial de Sweet Home'>Acceder →</a></Link>
+              <Link href='/home' prefetch={false}><a className={global.link} aria-label='Ir a página inicial de Sweet Home'>Acceder →</a></Link>
             </div>
             <div className={global.card__short}>
               <div style={{ color: '#f0810f' }}>
                 <CgCommunity size={37} />
               </div>
-              <h2 className={global.title6}>Cuidadoras</h2>
-              <p className={global.text4}>¡Existen perfiles exclusivos de cuidadoras
+              <h2 className={global.title6}>Protectoras</h2>
+              <p className={global.text4}>¡Existen perfiles exclusivos de protectoras
                 si quieres encontrar tu mascota ideal!
               </p>
-              <Link href='/allCaretakers'><a className={global.link} aria-label='Ir a cuidadoras'>Acceder →</a></Link>
+              <Link href='/allShelters' prefetch={false}><a className={global.link} aria-label='Ir a cuidadoras'>Acceder →</a></Link>
             </div>
           </div>
         </div>
@@ -196,13 +209,13 @@ export default function Principal () {
             </div>
           </div>
           <div className='imagen-inicio2'>
-            <Image src={inicio2} alt='Familia en la naturaleza' />
+            <FallbackImage src={inicio2} alt='Familia en la naturaleza' />
           </div>
         </div>
         
         <div className='container6__column2'>
           <div className='imagen-inicio3'>
-            <Image src={inicio3} alt='Personas trabajando' />
+            <FallbackImage src={inicio3} alt='Personas trabajando' />
           </div>
           <div className='column2__text'>
           <h2 className={global.title5}>¿Cómo la llevamos a cabo?</h2>
@@ -771,6 +784,548 @@ export default function Principal () {
           @keyframes imagen {
             0% { opacity: 0; }
             100% { opacity: 1; }
+          }
+
+          @media screen and (max-width: 600spx){
+
+            .carousel{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+align-items: center;
+padding: 2rem;
+margin-bottom: 3rem;
+
+/*Text*/
+
+color: ${colors.secondary};
+
+/*Visuals*/
+
+background-color: ${colors.primary};
+border-radius: 10px;
+
+}
+
+
+
+
+.content__container1{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+flex-basis: 100%;
+
+}
+
+.content__container1 p{
+
+/*Box model*/
+
+
+align-items: center;
+justify-content: center;
+margin-bottom: 2rem;
+
+}
+
+.container1__title{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+align-items: center;
+margin-bottom: 1rem;
+
+
+
+
+}
+
+.container1__text{
+
+/*Box model*/
+
+display: inline-block;
+text-align: center;
+}
+
+.container1__text a{
+
+
+
+/*Visuals*/
+
+text-decoration: none;
+}
+
+.text__button{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+
+.container1__video{
+
+position: absolute;
+top: 0;
+left: 0;
+z-index: -9;
+
+/*Box model*/
+
+display: block;
+width: 99vw;
+height: 58rem;
+margin-bottom: 2rem;
+
+/*Visuals*/
+
+border-radius: 0 0 30px 30px;
+backdrop-filter: blur(3px);
+background-color: rgba(0,0,0,0.2);
+
+}
+
+.content__container1 p, h1 span span{
+
+opacity: 0;
+position: relative;
+bottom: -1em;
+animation: texto 1.5s linear forwards;
+
+}
+
+.content__container2{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+
+/*Text*/
+
+font-family: ${fonts.default};
+
+}
+
+.container2__column1{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+line-height: 3.5rem;
+width: fit-content;
+margin-top: 3rem;
+padding: 3rem;
+
+/*Visuals*/
+
+border: 2px solid ${colors.primary};
+border-radius: 50px;
+
+}
+
+.container2__column1 h1{
+
+/*Box model*/
+
+margin-bottom: 1rem;
+
+/*Text*/
+
+font-size: 2.5rem;
+
+
+}
+
+.container2__column1 p:first-of-type{
+
+/*Box model*/
+
+margin-left: 0;
+margin-right: 0
+margin-bottom: 1.5rem;
+
+
+}
+
+.container2__column2{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin-top: 4rem;
+
+
+}
+
+.content__container3{
+
+/*Box model*/
+
+margin-bottom: 2rem;
+padding: 1rem;
+
+/*Visuals*/
+
+border: 2px solid ${colors.primary};
+border-radius: 20px;
+
+}
+
+.content__container3 h2, p, a{
+
+/*Box model*/
+
+display: flex;
+align-items: center;
+margin-left: 2rem;
+margin-right: 2rem;
+
+}
+.content__container3 p{
+
+/*Box model*/
+
+margin-bottom: 3rem;
+
+}
+
+.content__container3 a{
+
+/*Box model*/
+
+margin-bottom: 2rem;
+
+}
+
+.content__container4{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+margin-bottom: 3rem;
+width: 100%;
+height: 100%;
+
+/*Visuals*/
+
+background-image: url("/inicio-4.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+border-radius: 20px 20px 20px 20px;
+-webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 89%);
+clip-path: polygon(0 0, 100% 0, 100% 100%, 0 89%);
+
+
+
+}
+
+.container4__column1{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 2rem;
+
+}
+
+.content__container5{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 3rem;
+
+}
+
+.content__container5 p:first-of-type {
+
+/*Box model*/
+
+margin-bottom: 4rem;
+
+}
+
+.container5__column1{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+
+}
+
+.container5__column1 h2{
+
+/*Box model*/
+
+margin-bottom: 0.5rem;
+
+}
+
+.content__container6{
+
+/*Box model*/
+
+padding: 1rem;
+margin-bottom: 2rem;
+margin-right: 4rem;
+
+/*Visuals*/
+
+background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
+border-radius: 0 70px 70px 0;
+
+}
+
+.content__container6 h2{
+
+/*Box model*/
+
+display: flex;
+align-items: center;
+margin-left: 2rem;
+
+color: ${colors.secondary};
+
+}
+
+.content__container6 p{
+
+/*Box model*/
+
+display: flex;
+align-items: center;
+margin-left: 2rem;
+
+color: ${colors.secondary};
+
+}
+
+.container6__column1{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+align-items: center;
+margin-bottom: 7rem;
+margin-top: 4rem;
+
+}
+
+.container6__column2{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+align-items: center;
+margin-bottom: 2rem;
+
+}
+
+.column1__text{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+gap: 6rem;
+
+}
+
+.column2__text{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+gap: 6rem;
+
+}
+
+.title{
+
+  /*Text*/
+
+  font-size: 5rem;
+  font-weight: bold;
+  background-color: ${colors.primary};
+  font-family: "Archivo Black", sans-serif;
+  background-image: linear-gradient(180deg, #f0810f, #ffe45c 130%);
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  background-size: 100%
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+}
+
+.title2{
+
+/*Text*/
+
+            font-size: 3.5rem;
+            font-weight: 600;
+            background-color: ${colors.primary};
+            font-family: "Archivo Black", sans-serif;
+            background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+            background-repeat: repeat;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; 
+            background-size: 100%
+            text-align: center;
+}
+
+
+.column2__component{
+
+/*Box model*/
+
+margin-bottom: 1rem;
+width: 30rem;
+
+}
+
+.icons{
+
+/*Box model*/
+
+display: flex;
+flex-direction: row;
+align-items: center;
+
+
+}
+
+.icon__item{
+
+/*Box model*/
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin: 5rem;
+}
+
+.text{
+
+/*Box model*/
+
+margin-bottom: 2rem;
+
+}
+
+
+.subtext{
+
+/*Text*/
+
+font-size: 0.9rem;
+margin-left: 0rem;
+margin-top: 0;
+
+}
+
+/*IMAGES*/
+
+.imagen-inicio1{
+
+/*Box model*/
+
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 6rem;
+margin-top: 4rem;
+
+/*Visuals*/
+
+width: 100%;
+height: 100%;
+
+/*Misc*/
+
+animation: imagen 2s linear forwards;
+
+
+}
+
+.imagen-inicio2{
+
+
+/*Box model*/
+
+width: 150%;
+height: 150%;
+margin-right: 2rem;
+
+
+}
+
+.imagen-inicio3{
+
+
+/*Box model*/
+
+width: 150%;
+height: 150%;
+
+}
+
+.imagen__border{
+
+border-radius: 10px;
+}
+
+
+@keyframes texto {
+0% { bottom: -1em; opacity: 0.3; }
+30% { bottom: 0.5em; opacity: 0.5;}
+50% { bottom: 1em; opacity: 0.8;}
+70% { bottom: 0.5em; opacity: 0.9;}
+100% { bottom: 0em; opacity: 1; }
+}
+
+@keyframes imagen {
+0% { opacity: 0; }
+100% { opacity: 1; }
+
           }
           
       `}

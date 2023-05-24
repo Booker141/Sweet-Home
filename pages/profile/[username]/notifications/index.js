@@ -1,17 +1,22 @@
-import { useState, useEffect } from 'react'
+/* Static imports */
+
+import { useState } from 'react'
 import { useSession,  signIn } from 'next-auth/react'
-import global from '/styles/global.module.css'
-import Layout from 'components/Layout/Layout'
-import Notification from 'components/Notification/Notification'
-import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 import {colors, fonts} from '/styles/frontend-conf'
+import global from '/styles/global.module.css'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
-/**
- * It fetches the notifications of the user and displays them
- * @returns a component.
- */
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Notification = dynamic(() => import('/components/Notification/Notification'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function Notifications ({notifications}) {
 
   const {data: session, status} = useSession({required: true})

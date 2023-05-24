@@ -1,14 +1,23 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useRouter } from 'next/router'
 import { useSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
-import global from '/styles/global.module.css'
 import {colors, fonts} from '/styles/frontend-conf'
-import Layout from '/components/Layout/Layout'
-import Loader from '/components/Loader/Loader'
-import Attendance from '/components/Attendance/Attendance'
-import CreateAttendanceCard from '/components/CreateAttendanceCard/CreateAttendanceCard'
 import { server } from '/server'
+import dynamic from 'next/dynamic'
+import global from '/styles/global.module.css'
+import Head from 'next/head'
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Attendance = dynamic(() => import('/components/Attendance/Attendance'))
+const CreateAttendanceCard = dynamic(() => import('/components/CreateAttendanceCard/CreateAttendanceCard'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 
 export default function Thread ({ attendances }) {
 
@@ -65,14 +74,14 @@ export default function Thread ({ attendances }) {
         {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId} />
+              <LazyLoad offset={100}><Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId} /></LazyLoad>
             </>
           )
         })}
         {!isSortedByUsername && attendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/>
+              <LazyLoad offset={100}><Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/></LazyLoad>
             </>
           )
         })}

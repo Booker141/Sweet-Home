@@ -1,5 +1,12 @@
+/* Static imports */
+
 import { useState, useEffect } from 'react'
-import Post from '/components/Post/Post'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const LazyLoad = dynamic(() => import('react-lazyload'))
+const Post = dynamic(() => import('/components/Post/Post'))
 
 
 
@@ -24,16 +31,16 @@ export default function SavedPost (props) {
 
 
   }
-  /* A hook that is used to fetch data from the server. */
+
   useEffect(() => {
     getPost()
   }, [])
 
   return (
     <>
-
+      <LazyLoad offset={100}>
         <Post key={savedPost._id} id={savedPost._id} username={savedPost.username} location={savedPost.location} image={savedPost.image} description={savedPost.description} createdAt={savedPost.createdAt} comments={savedPost.comments} likes={savedPost.likes} saves={savedPost.saves} type={savedPost.type} />
-
+      </LazyLoad>
    </>
 
   )

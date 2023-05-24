@@ -1,9 +1,11 @@
-import global from "/styles/global.module.css"
+/* Static imports */
+
 import {useState, useEffect} from 'react'
 import {useSession} from 'next-auth/react'
 import {colors} from "styles/frontend-conf"
 import {HiHeart, HiOutlineHeart} from "react-icons/hi"
 import {server} from '/server'
+import global from "/styles/global.module.css"
 
 
 
@@ -62,8 +64,6 @@ export default function Like(props){
 
     const Like = async () => {
 
-
-        // Like
 
         if(isLikedByMe === false){
 

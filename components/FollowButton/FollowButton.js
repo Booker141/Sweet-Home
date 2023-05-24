@@ -1,8 +1,15 @@
+
+/*Static imports */
+
 import {useEffect, useState} from 'react'
-import global from '/styles/global.module.css'
 import { AiOutlineCheck } from 'react-icons/ai'
 import {server} from '/server'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
+/*Dynamic imports*/
+
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function FollowButton(props){
 

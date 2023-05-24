@@ -1,7 +1,16 @@
+/* Static imports */
+
+import { fonts, colors } from 'styles/frontend-conf.js'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
-import { fonts, colors } from 'styles/frontend-conf.js'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
+
+/*Dynamic imports*/
+
+
+const BasicLayout = dynamic(() => import('/components/BasicLayout/BasicLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro

@@ -1,11 +1,17 @@
-import router from 'next/router'
+/* Static imports */
+
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf.js'
-import carousel from '../../public/carousel.svg'
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import router from 'next/router'
+import carousel from '../../public/carousel.svg'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
 /*
     * @author Sergio García Navarro
@@ -15,37 +21,27 @@ import { server } from '/server'
     * @description Carousel component
 */
 
-/**
- * This function returns a fixed carousel with pre-established information.
- * @returns A fixed carousel.
- */
+
 export default function Carousel () {
+
   const [news, setNews] = useState([])
   const [newsLength, setNewsLength] = useState(0)
   const [current, setCurrent] = useState(0)
 
-  /**
-     * If the current slide is greater than 0, then set the current slide to the previous slide
-     */
   const before = () => {
     if (current > 0) {
       setCurrent(current - 1)
     }
   }
 
-  /**
-     * If the current index is less than the length of the news array, increment the current index by
-     * one
-     */
+
   const after = () => {
     if (current < newsLength - 1) {
       setCurrent(current + 1)
     }
   }
 
-  /**
-   * It fetches the news from the server and sets the state of the news and newsLength variables
-   */
+
   async function getNews(){
 
     await fetch(`${server}/api/news`, {
@@ -89,7 +85,7 @@ export default function Carousel () {
               <button className={global.carouselButton} onClick={() => { router.push(`${server}/news/${_id}`) }}>Saber más</button>
             </div>
             <div className='item__image'>
-              <Image src={carousel} />
+              <FallbackImage src={carousel} />
             </div>
             <button className='arrow__right' onClick={after}>
               <div className='carousel__icon'>

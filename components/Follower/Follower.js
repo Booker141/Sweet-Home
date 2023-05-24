@@ -1,11 +1,18 @@
+/* Static imports */
+
 import { useState, useEffect } from 'react'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
-import global from 'styles/global.module.css'
-import FollowButton from 'components/FollowButton/FollowButton'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { MdHealthAndSafety } from 'react-icons/md'
 import { colors } from 'styles/frontend-conf'
 import {useSession} from 'next-auth/react'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const FollowButton = dynamic(() => import('/components/FollowButton/FollowButton'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 export default function Followers (props) {
@@ -40,7 +47,8 @@ export default function Followers (props) {
       setIsShelter(true)
 
   }
-  /* A hook that is used to fetch data from the server. */
+ 
+
   useEffect(() => {
     getFollowers()
   }, [])
@@ -54,7 +62,7 @@ export default function Followers (props) {
         <div className='follower__info'>
           <a className={global.link} href={`/profile/${user.username}`} aria-label={`Ir a perfil de ${user.username}`}><strong>@{user.username}</strong> {isShelter && <BsPatchCheckFill size={20} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.primary}/>}</a>
         </div>
-          <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user._id} usernameTo={user.username}/>
+          <LazyLoad offset={100}><FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user._id} usernameTo={user.username}/></LazyLoad>
         </div>
 
       <style jsx>{`

@@ -1,12 +1,20 @@
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {colors} from '/styles/frontend-conf'
+import { server } from '/server'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
-import Layout from '/components/Layout/Layout'
-import Following from '/components/Following/Following'
-import Loader from '/components/Loader/Loader'
-import { server } from '/server'
+
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Following = dynamic(() => import('/components/Following/Following'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function FollowingUser ({ user }) {
 

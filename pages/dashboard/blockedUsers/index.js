@@ -1,13 +1,19 @@
-import global from '/styles/global.module.css'
-import {colors} from '/styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
-import Head from 'next/head'
-import { useSession, signIn } from 'next-auth/react'
-import BlockedUser from "/components/BlockedUser/BlockedUser"
-import UnblockedUser from "/components/UnblockedUser/UnblockedUser"
-import Loader from '/components/Loader/Loader'
-import {server} from "/server"
+/* Static imports */
 
+import {colors} from '/styles/frontend-conf.js'
+import { useSession, signIn } from 'next-auth/react'
+import {server} from "/server"
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const BlockedUser = dynamic(() => import('/components/BlockedUser/BlockedUser'))
+const UnblockedUser = dynamic(() => import('/components/UnblockedUser/UnblockedUser'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 export default function BlockedUsers ({blockedUsers, unblockedUsers}){

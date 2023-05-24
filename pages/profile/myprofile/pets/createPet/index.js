@@ -1,4 +1,5 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -7,10 +8,19 @@ import { FaUserPlus, FaWeight, FaBirthdayCake } from 'react-icons/fa'
 import {MdPets} from 'react-icons/md'
 import { GiSittingDog } from 'react-icons/gi'
 import {colors, fonts} from '/styles/frontend-conf'
-import global from '/styles/global.module.css'
-import Layout from '/components/Layout/Layout'
 import { server } from '/server'
 import {toast} from 'react-toastify'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function CreatePet () {
   
@@ -158,7 +168,12 @@ export default function CreatePet () {
   }
 
   if (status == 'loading') {
-    return <div className={global.loading}><p>Cargando..</p></div>
+    return(
+      <>
+        <div className={global.loading}><p>Cargando..</p></div>
+        <Loader/>
+      </>
+    ) 
   }
   if (session) {
     return (

@@ -1,14 +1,19 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useState } from 'react'
-import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
-import Layout from 'components/BasicLayout/BasicLayout'
-import Link from 'next/link'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
-import { BsFillLockFill, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
-import { AiFillEye, AiFillEyeInvisible, AiFillInfoCircle } from 'react-icons/ai'
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { server } from '/server'
-import {toast} from 'react-toastify'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+
+/*Dynamic imports*/
+
+const Link = dynamic(() => import('next/link'))
+const Layout = dynamic(() => import('/components/BasicLayout/BasicLayout'))
+const TypeAttendance = dynamic(() => import('/components/TypeAttendance/TypeAttendance'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
     * @author Sergio García Navarro

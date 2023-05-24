@@ -1,17 +1,22 @@
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import UserCard from 'components/UserCard/UserCard'
-import Layout from 'components/Layout/Layout'
-import Loader from 'components/Loader/Loader'
 import {useState} from 'react'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-/**
- * It's a function that returns a layout component with a title and a list of users
- * @returns the Layout component with the title "Usuarios" and the User component.
- */
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const UserCard = dynamic(() => import('/components/UserCard/UserCard'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function AllUsers ({ users }) {
 
   const { data: session, status } = useSession({ required: true })
@@ -54,8 +59,8 @@ export default function AllUsers ({ users }) {
           <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>
                       <option value="username">Ordenar por nombre de usuario</option>
-                  </select>
-                </div>
+          </select>
+        </div>
         </div>
         <div className="users">
           {usersList.length === 0 && <div><p className={global.loading2}>No hay ningún usuario.</p></div>}
@@ -63,7 +68,7 @@ export default function AllUsers ({ users }) {
           && user.role.name !== "gerente" && user.status.name != "bloqueado" ).map(({ _id, image, banner, username, role }) => {
             return (
               <>
-                <UserCard key={_id} id={_id} image={image} banner={banner} username={username} role={role} />
+                <LazyLoad offset={100}><UserCard key={_id} id={_id} image={image} banner={banner} username={username} role={role} /></LazyLoad>
               </>
             )
           })}

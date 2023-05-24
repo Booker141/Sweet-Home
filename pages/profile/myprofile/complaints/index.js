@@ -1,19 +1,21 @@
-import global from '/styles/global.module.css'
+/* Static imports */
+
 import {colors} from '/styles/frontend-conf.js'
-import Layout from 'components/Layout/Layout'
-import Head from 'next/head'
 import { useSession, getSession,  signIn } from 'next-auth/react'
-import Complaint from "/components/Complaint/Complaint"
-import Loader from '/components/Loader/Loader'
 import {useRouter} from 'next/router'
 import {server} from "/server"
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Complaint = dynamic(() => import('/components/Complaint/Complaint'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-/**
- * It renders the complaints page, which is only accessible by the admin
- * @returns It is being returned a layout with a content div that has two columns. The first column has
- * a title and a list of complaints. The second column has a title and a list of blocked users.
- */
 export default function Complaints ({complaints}){
 
     const {data: session, status} = useSession({required: true})

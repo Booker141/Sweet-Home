@@ -1,35 +1,42 @@
-import Head from 'next/head'
-import { useSession, signOut, signIn } from 'next-auth/react'
+/* Static imports */
+
+import { useSession, signOut, getSession, signIn } from 'next-auth/react'
 import { useState, useEffect } from 'react'
-import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
 import { AiFillPhone } from 'react-icons/ai'
 import { MdOutlineError, MdLocationOn } from 'react-icons/md'
 import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
-import SettingsLayout from '/components/SettingsLayout/SettingsLayout'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
-import Layout from '/components/Layout/Layout'
-import Modal from '/components/Modal/Modal'
 import { server } from '/server'
 import {toast} from 'react-toastify'
-import Loader from '/components/Loader/Loader'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function PublicProfile ({users}) {
 
   const { data: session, status } = useSession({ required: true })
 
 
-  const [user, setUser] = useState({})
-  const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [phone, setPhone] = useState('')
-  const [biography, setBiography] = useState('')
-  const [birthdate, setBirthdate] = useState('')
-  const [gender, setGender] = useState('')
-  const [location, setLocation] = useState('')
-  const [image, setImage] = useState('')
-  const [banner, setBanner] = useState('')
+  const [user, setUser] = useState(users)
+  const [name, setName] = useState(users.firstname)
+  const [lastname, setLastname] = useState(users.lastname)
+  const [phone, setPhone] = useState(users.phone)
+  const [biography, setBiography] = useState(users.biography)
+  const [birthdate, setBirthdate] = useState(users.birthdate)
+  const [gender, setGender] = useState(users.gender)
+  const [location, setLocation] = useState(users.location)
+  const [image, setImage] = useState(users.image)
+  const [banner, setBanner] = useState(users.banner)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
   const [maxDate, setMaxDate] = useState('')
@@ -144,32 +151,7 @@ export default function PublicProfile ({users}) {
 }
   }
 
-  /* The above code is fetching the user's complaints, pets, and user information from the database. */
-  const getUser = async () =>{
 
-      const user = await fetch(`${server}/api/users/${session?.user.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-
-      const currentUser = await user.json();
-
-      console.log(currentUser)
-
-      setUser(currentUser)
-      setName(currentUser?.firstname)
-      setLastname(currentUser?.lastname)
-      setPhone(currentUser?.phone)
-      setBiography(currentUser?.biography)
-      setBirthdate(currentUser?.birthdate)
-      setGender(currentUser?.gender)
-      setImage(currentUser?.image)
-      setBanner(currentUser?.banner)
-  
-  }
 
 
   /**
@@ -317,10 +299,6 @@ export default function PublicProfile ({users}) {
     }
   }
 
-    useEffect(() => {
-      getUser()
-
-    }, [])
 
   if (status === 'loading') {
     return (
@@ -1449,17 +1427,12 @@ export async function getServerSideProps (context) {
   const session = await getSession(context)
 
   
-
     const res = await fetch(`${server}/api/users/${session.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-
-
-
-
 
   const user = await res.json()
 

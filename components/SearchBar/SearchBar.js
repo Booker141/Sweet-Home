@@ -1,20 +1,23 @@
+/* Static imports */
+
 import {fonts, colors} from "styles/frontend-conf"
-import Router from "next/router"
-import global from "styles/global.module.css"
 import {HiSearch, HiOutlineInformationCircle} from "react-icons/hi"
 import {MdClose} from 'react-icons/md'
 import {useState} from "react"
 import {server} from "/server"
-import UserCardSearch from '/components/UserCardSearch/UserCardSearch'
-import Link from "next/link"
+import global from "styles/global.module.css"
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Router = dynamic(() => import('next/router'))
+const UserCardSearch = dynamic(() => import('/components/UserCardSearch/UserCardSearch'))
+const Link = dynamic(() => import('next/link'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-/**
- * It's a search bar that displays a search icon and when clicked, it displays a search input and a
- * search button
- * @param props - This is the props object that is passed to the component.
- * @returns A search bar component.
- */
+
+
 export default function SearchBar(){
 
     const [keyword, setKeyword] = useState('');
@@ -22,18 +25,6 @@ export default function SearchBar(){
     const [isOpen, setIsOpen] = useState(false);
 
 
-    /**
-     * It toggles the display of the search bar.
-     */
-   
-
-    /**
-     * This function sets a search keyword and encodes it before redirecting to a search page using
-     * Router.
-     * @param e - The "e" parameter is an event object that is passed to the function when it is
-     * triggered by an event, such as a user typing in an input field. It contains information about
-     * the event, such as the target element (in this case, the input field) and the value of the input
-     */
     const searchKeyword = () => {
 
       const searchInput = document.getElementById('search').value
@@ -47,15 +38,6 @@ export default function SearchBar(){
     }
 
 
-
-    /**
-     * This function sets a keyword, displays a submenu, and fetches search results from a server based
-     * on the keyword.
-     * @param e - The parameter `e` is an event object that is passed to the `submenuResults` function.
-     * It is likely triggered by a user action, such as typing in a search bar or pressing a key. The
-     * event object contains information about the event, such as the target element (the element that
-     * triggered
-     */
     const submenuResults = async (e) => {
       
       e.preventDefault()

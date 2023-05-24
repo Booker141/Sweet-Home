@@ -1,17 +1,26 @@
-import Head from 'next/head'
-import Link from 'next/link'
+/* Static imports */
+
+
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import global from 'styles/global.module.css'
 import { colors, fonts, statusColors } from 'styles/frontend-conf.js'
-import Header from 'components/BasicHeader/BasicHeader'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
 import { FaUser, FaUserPlus, FaUserTag } from 'react-icons/fa'
 import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { server } from '/server'
 import {toast} from 'react-toastify'
+import global from 'styles/global.module.css'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import BasicHeader from '/components/BasicHeader/BasicHeader'
+
+/*Dynamic imports*/
+
+const BasicFooter = dynamic(() => import('/components/BasicFooter/BasicFooter'))
+const Link = dynamic(() => import('next/link'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 
 /*
@@ -221,7 +230,7 @@ export default function SignUp () {
         <title>Registro | Sweet Home</title>
       </Head>
 
-      <Header
+      <BasicHeader
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
       />

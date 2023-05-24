@@ -1,7 +1,15 @@
-import Head from 'next/head'
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import {colors} from 'styles/frontend-conf'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
+import global from 'styles/global.module.css'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const BasicLayout = dynamic(() => import('/components/BasicLayout/BasicLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -10,14 +18,7 @@ import BasicLayout from 'components/BasicLayout/BasicLayout'
     * @date 13/01/2020
     * @description Rules page
 */
-/*
-    * This is the rules page.
-    * It contains the rules and policies of Sweet Home.
-    * The purpose of Sweet Home is to provide the services implemented, setting rules and policies that promote the security until the end of the activity.
-    * It is therefore that the behavior of the user will be restricted.
-    * These rules and policies have as objective to guarantee the security of all types of activity that occurs within Sweet Home, preventing the user to feel unconfident during his use:
-    * - The user will not be able to use the services of Sweet Home without the authorization of the owner of the account.
-*/
+
 export default function Rules () {
   return (
     <BasicLayout>

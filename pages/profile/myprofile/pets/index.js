@@ -1,12 +1,21 @@
+/* Static imports */
+
 import { useSession, getSession, signIn } from 'next-auth/react'
 import {useState } from 'react'
 import {colors, fonts} from '/styles/frontend-conf'
-import Head from 'next/head'
-import SettingsLayout from 'components/SettingsLayout/SettingsLayout'
-import Layout from '/components/Layout/Layout'
-import Pet from '/components/Pet/Pet'
-import global from '/styles/global.module.css'
 import { server } from '/server'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Pet = dynamic(() => import('/components/Pet/Pet'))
+const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function Pets({petsList}) {
 

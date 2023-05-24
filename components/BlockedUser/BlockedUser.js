@@ -1,14 +1,22 @@
-import global from '/styles/global.module.css'
+
+/* Static imports */
+
 import {useState} from 'react'
 import {useRouter} from 'next/router'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
 import {server} from '/server'
-import Modal from '/components/Modal/Modal'
 import {colors} from '/styles/frontend-conf.js'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { MdHealthAndSafety, MdClose } from 'react-icons/md'
 import {toast} from 'react-toastify'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
+/* Dynamic imports */
+
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 /**
@@ -27,10 +35,6 @@ export default function BlockedUser (props) {
   const Router = useRouter()
 
 
-  /**
-   * It sends a request to the server to update the user's status to "checked" and then reloads the
-   * page
-   */
   const checkBlock = async () => {
 
     await fetch(`${server}/api/blockedUsers`, {
@@ -74,7 +78,7 @@ export default function BlockedUser (props) {
           </div>
           <button className={global.buttonPrimary} onClick={() => setIsModalVisible(true)}>Bloquear</button>
         </div>
-        {isModalVisible && <Modal>
+        {isModalVisible && <LazyLoad><Modal>
           <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title3}>Bloquear al usuario</h2>
           <p className={global.text2__bold}>Esta acción no es irreversible, podrá activar de nuevo al usuario si es necesario</p>
@@ -83,7 +87,7 @@ export default function BlockedUser (props) {
             <button className={global.buttonSecondary} onClick={() => checkBlock()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal>}
+        </Modal></LazyLoad>}
         <style jsx>{`
           
           .blocked__user{

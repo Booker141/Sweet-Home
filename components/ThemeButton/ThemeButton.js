@@ -1,3 +1,5 @@
+/* Static imports */
+
 import { useState, useEffect } from 'react'
 import { theme, colors } from 'styles/frontend-conf.js'
 import { BsFillSunFill, BsFillMoonFill} from 'react-icons/bs'

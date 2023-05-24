@@ -1,12 +1,20 @@
-import global from '/styles/global.module.css'
+/* Static imports */
+
 import {useEffect, useState} from 'react'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
 import {MdDeleteOutline, MdClose} from 'react-icons/md'
 import {server} from '/server'
 import {colors} from '/styles/frontend-conf'
-import Modal from '/components/Modal/Modal'
 import { HiOutlineClock } from 'react-icons/hi'
 import { toast } from 'react-toastify'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 
 
@@ -25,9 +33,7 @@ export default function Report(props){
         setUser(userList)
     }
 
-  /**
-   * It deletes a report from the database
-   */
+ 
   const deleteReport = async () => {
 
     const res = await fetch(`${server}/api/reports/${props.id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json'}})
@@ -62,15 +68,7 @@ export default function Report(props){
       }, 5000)
   }
 
-     /**
-  * The function adds a leading zero to a number if it is less than 10.
-  * @param num - num is a parameter of the function getFull, which represents a number that needs to be
-  * converted to a string with two digits. If the number is less than 10, a '0' is added to the
-  * beginning of the string. Otherwise, the number is returned as a string without any modification
-  * @returns The function `getFull` takes a number as an argument and returns a string. If the number
-  * is less than 10, the function returns a string with a leading zero and the number. If the number is
-  * 10 or greater, the function returns the number as a string without any modification.
-  */
+
   const getFull = (num) => {
 
     if (num < 10) {
@@ -100,9 +98,6 @@ export default function Report(props){
                         <p className={global.date2}>{getFull(date.getHours())}:{getFull(date.getMinutes())}:{getFull(date.getSeconds())}</p>
                         <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
                     </div>
-                    
-                    
-
                 </div>
                 <hr className={global.white__line2}></hr>
                 <p className={global.text2}>{props.reason}</p>
@@ -110,7 +105,7 @@ export default function Report(props){
                     {props.image && <FallbackImage src={props.image} width={1300} height={700} style={{borderRadius: '20px'}}/>}
                 </figure>
             </div>
-            {isModalVisible && <Modal>
+            {isModalVisible && <LazyLoad><Modal>
                 <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
                 <h2 className={global.title3}>Eliminar informe</h2>
                 <p className={global.text2__bold}>¿Estás seguro de eliminar este informe?</p>
@@ -118,7 +113,8 @@ export default function Report(props){
                 <button className={global.buttonSecondary} onClick={() => deleteReport()}>Sí</button>
                 <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
                 </div>
-            </Modal>}
+            </Modal></LazyLoad>}
+            
             <style jsx>{`
             
             .delete__button{

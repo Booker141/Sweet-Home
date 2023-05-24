@@ -1,16 +1,22 @@
-import Head from 'next/head'
-import { useSession, signIn } from 'next-auth/react'
+/* Static imports */
+
+import { useSession, getSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf.js'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
-import New from 'components/New/New'
 import { server } from '../../server'
-import { MdDeleteOutline, MdOutlineEdit, MdClose } from 'react-icons/md'
-import Modal from 'components/Modal/Modal'
-import {toast} from 'react-toastify'
+import global from 'styles/global.module.css'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import BasicLayout from '/components/BasicLayout/BasicLayout'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const New = dynamic(() => import('/components/New/New'))
+const Link = dynamic(() => import('next/link'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -19,41 +25,15 @@ import {toast} from 'react-toastify'
     * @date 13/12/2022
     * @description This page is the conditions page of the application
 */
-/**
- * It returns a Layout component with a Head component inside it, which sets the title of the page to
- * "Condiciones", and a bunch of other components inside it, which display the terms and conditions of
- * the app
- * @returns the Layout component with the children props being the <> component.
- */
-export default function News ({ news }) {
 
-  const [isAdmin, setIsAdmin] = useState(false);
+export default function News ({ news, users }) {
+
+  const [isAdmin, setIsAdmin] = useState(users.role.name === "administrador" ? true : false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const {data: session} = useSession({required: false});
   const router = useRouter();
 
-  const getRole = async () => {
-
-
-      const res = await fetch(`${server}/api/users/${session.user.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      if(data.role.name === 'administrador') {
-        setIsAdmin(true)
-      }
-
-  }
-
-  useEffect(() => {
-    getRole()
-  }, [session])
-
- 
 
   return (
     <BasicLayout>
@@ -75,7 +55,7 @@ export default function News ({ news }) {
               <>
                 <div className='new'>     
                   <New key={_id} id={_id} title={title} date={date} author={author} introduction={introduction} />
-                  <Link href={`/news/${_id}`} as={`/news/${_id}`}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
+                  <Link href={`/news/${_id}`} as={`/news/${_id}`} prefetch={false}><a aria-label='Enlace a noticia' className={global.link3}>Leer más →</a></Link>
                 </div>
               </>
             )
@@ -244,7 +224,9 @@ export default function News ({ news }) {
   )
 }
 
-export async function getServerSideProps () {
+export async function getServerSideProps (context) {
+
+  const session = await getSession(context)
 
   const res = await fetch(`${server}/api/news`, {
     method: 'GET',
@@ -253,11 +235,20 @@ export async function getServerSideProps () {
     }
   })
 
+  const res2 = await fetch(`${server}/api/users/${session.user.username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+  const data = await res2.json()
+
   const news = await res.json()
 
   return {
     props: {
-      news
+      news, users: JSON.parse(JSON.stringify(data))
     }
   }
 }

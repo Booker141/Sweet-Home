@@ -1,14 +1,21 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import { colors } from 'styles/frontend-conf.js'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
 import { BsChatRightText } from 'react-icons/bs'
 import { FaSlideshare } from 'react-icons/fa'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { MdPets } from 'react-icons/md'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 import about1 from '../../public/about-1.svg'
+import BasicLayout from '/components/BasicLayout/BasicLayout'
+import Head from 'next/head'
+
+/*Dynamic imports*/
+
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
     * @author Sergio García Navarro
@@ -17,15 +24,7 @@ import about1 from '../../public/about-1.svg'
     * @date 13/12/2020
     * @description This page is the about page of the application
 */
-/**
- * It returns a Layout component with a Head component inside it, which has a title of "Sobre
- * nosotros", and a h1 component with a className of "title" and the text "Sobre nosotros", and a h2
- * component with a className of "secondary" and the text "Sweet Home", and a p component with a
- * className of "text" and the text "Es una red social que abarca el mundo animal y trata de facilitar
- * su adaptación a nuevos cuidados, a nuevos dueños y a una mejora diaria de su vida.", and a h2
- * component with a className of "secondary" and the text "Nuestra misión", and a p component with a
- * className of "text" and the text "¿Alguna vez has sentido rechazo o ignorancia
- */
+
 export default function About () {
   return (
 
@@ -35,7 +34,7 @@ export default function About () {
       </Head>
       <div className="header__block">
         <div className='title'>
-          <Image src="/LogoWeb.svg" alt="Imagen del logo" width={500} height={500}/>
+          <FallbackImage src="/LogoWeb.svg" alt="Imagen del logo" width={500} height={500}/>
           <h2 className={global.secondary__bold}>Más que una aplicación</h2>
         </div>
       
@@ -82,7 +81,7 @@ export default function About () {
         </div>
         <div className='container1__column2'>
           <div className='column2__img'>
-            <Image src={about1} alt='Persona jugando con su perro' priority />
+            <FallbackImage src={about1} alt='Persona jugando con su perro' priority />
           </div>
         </div>
       </div>
@@ -90,54 +89,55 @@ export default function About () {
       <div className='benefits-title'>
         <h3>Ventajas</h3>
       </div>
-
-      <div className={global.cards}>
-        <div className={global.card__large}>
-          <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
-            <MdPets size={37} />
+      <LazyLoad offset={100}>
+        <div className={global.cards}>
+          <div className={global.card__large}>
+            <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
+              <MdPets size={37} />
+            </div>
+            <h2 className={global.title2}>Promover el derecho de los animales</h2>
+            <p className={global.text}><span className={global.colorized}>La libertad y los derechos de los animales</span> son la base de Sweet Home. </p>
+            <p className={global.text}>En nuestro planeta habitan una gran variedad de animales pero solo un pequeño
+              porcentaje convive con nosotros, así que debemos darles el mejor cuidado
+              posible.
+            </p>
           </div>
-          <h2 className={global.title2}>Promover el derecho de los animales</h2>
-          <p className={global.text}><span className={global.colorized}>La libertad y los derechos de los animales</span> son la base de Sweet Home. </p>
-          <p className={global.text}>En nuestro planeta habitan una gran variedad de animales pero solo un pequeño
-            porcentaje convive con nosotros, así que debemos darles el mejor cuidado
-            posible.
-          </p>
-        </div>
-        <div className={global.card__large}>
-          <div style={{ color: '#f0810f', marginTop: '2rem' }}>
-            <FaSlideshare size={37} />
+          <div className={global.card__large}>
+            <div style={{ color: '#f0810f', marginTop: '2rem' }}>
+              <FaSlideshare size={37} />
+            </div>
+            <h2 className={global.title2}>Compartir de forma rápida y segura</h2>
+            <p className={global.text}>Con Sweet Home puedes <span className={global.colorized}> compartir
+              información
+                                                            </span> sin tener que preocuparte de la inmediatez o de la
+              seguridad.
+            </p>
+            <p className={global.text}>Comparte el alimento favorito de tu mascota o un tip
+              que te haya cambiado la forma de interactuar con ella.
+            </p>
           </div>
-          <h2 className={global.title2}>Compartir de forma rápida y segura</h2>
-          <p className={global.text}>Con Sweet Home puedes <span className={global.colorized}> compartir
-            información
-                                                           </span> sin tener que preocuparte de la inmediatez o de la
-            seguridad.
-          </p>
-          <p className={global.text}>Comparte el alimento favorito de tu mascota o un tip
-            que te haya cambiado la forma de interactuar con ella.
-          </p>
-        </div>
-        <div className={global.card__large}>
-          <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
-            <BsChatRightText size={37} />
+          <div className={global.card__large}>
+            <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
+              <BsChatRightText size={37} />
+            </div>
+            <h2 className={global.title2}>Chatea con gente de todo el mundo</h2>
+            <p className={global.text}>Dispones de una <span className={global.colorized}> función de chat</span> para
+              conectar con gente de tu mismo entorno o gente a kilómetros de
+              distancia para preguntarles dudas o consejos.
+            </p>
           </div>
-          <h2 className={global.title2}>Chatea con gente de todo el mundo</h2>
-          <p className={global.text}>Dispones de una <span className={global.colorized}> función de chat</span> para
-            conectar con gente de tu mismo entorno o gente a kilómetros de
-            distancia para preguntarles dudas o consejos.
-          </p>
-        </div>
-        <div className={global.card__large}>
-          <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
-            <AiOutlineEdit size={37} />
+          <div className={global.card__large}>
+            <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
+              <AiOutlineEdit size={37} />
+            </div>
+            <h2 className={global.title2}>Modifica el perfil a tu gusto</h2>
+            <p className={global.text}>¡Sweet Home permite modificar el
+              perfil para que puedas <span className={global.colorized}>añadir información sobre ti y tu mascota &nbsp; </span>
+              a tu gusto!
+            </p>
           </div>
-          <h2 className={global.title2}>Modifica el perfil a tu gusto</h2>
-          <p className={global.text}>¡Sweet Home permite modificar el
-            perfil para que puedas <span className={global.colorized}>añadir información sobre ti y tu mascota &nbsp; </span>
-            a tu gusto!
-          </p>
         </div>
-      </div>
+      </LazyLoad>
       <style jsx>{` 
 
                         .header__block{

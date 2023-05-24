@@ -1,5 +1,12 @@
-import Image from "next/image"
+/* Static imports */
+
 import {colors, fonts} from "/styles/frontend-conf"
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+
 
 
 export default function Avatar(props){
@@ -7,7 +14,7 @@ export default function Avatar(props){
     return(
         <>
             <div className="content__avatar">
-                <Image src={props.image} />
+                <FallbackImage src={props.image} />
                 <p className="avatar__name">
                     {props.name}
                 </p>

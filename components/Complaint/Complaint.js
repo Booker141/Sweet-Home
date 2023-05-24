@@ -1,21 +1,26 @@
-import global from '/styles/global.module.css'
+
+/* Static imports */
+
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import { useSession } from 'next-auth/react'
 import {toast} from 'react-toastify'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
 import {colors} from '/styles/frontend-conf.js'
 import {server} from '/server'
 import { MdCheckCircle, MdCancel, MdDeleteOutline} from 'react-icons/md'
 import { HiOutlineClock } from 'react-icons/hi'
-import Modal from '/components/Modal/Modal'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
 
 
-/**
- * It's a component that shows a complaint, and it has a button to delete it
- * @param props - The props that are passed to the component.
- * @returns A component that shows the complaints of the user.
- */
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
+
 export default function Complaint (props) {
 
   const [user, setUser] = useState({});
@@ -28,9 +33,6 @@ export default function Complaint (props) {
   const [isAdmin, setIsAdmin] = useState(session.user.role === "administrador" ? true : false)
 
 
-  /**
-   * It deletes a complaint from the database
-   */
   const denyComplaint = async () => {
 
     await fetch(`${server}/api/complaints/`, {
@@ -59,9 +61,7 @@ export default function Complaint (props) {
 
   }
 
-    /**
-   * It deletes a complaint from the database
-   */
+
     const deleteComplaint = async () => {
 
       await fetch(`${server}/api/complaints/${session.user.username}`, {
@@ -117,10 +117,7 @@ export default function Complaint (props) {
 
   }
 
-  /**
-   * This function is called when the component is mounted and it fetches the user data from the
-   * database and sets the state of the component
-   */
+
   async function getUsers () {
 
     const response = await fetch(`${server}/api/users/${props.usernameFrom}`, {
@@ -146,7 +143,7 @@ export default function Complaint (props) {
   }
 
 
-  /* It's a hook that is called when the component is mounted. */
+
   useEffect( () => {
 
     getUsers();
@@ -200,7 +197,7 @@ export default function Complaint (props) {
           </div>
         
         </div>
-        {isModalVisible && <Modal>
+        {isModalVisible && <LazyLoad><Modal>
           <h2 className={global.title3}>Denegar denuncia</h2>
           <p className={global.text2}>Está a punto de denegar la denuncia que ha interpuesto @{props.usernameFrom} a @{props.usernameTo}</p>
           <p className={global.text2__bold}>¿Estás seguro de anular el trámite de esta denuncia?</p>
@@ -208,8 +205,8 @@ export default function Complaint (props) {
             <button className={global.buttonSecondary} onClick={() => denyComplaint()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal>}
-        {isModalVisible2 && <Modal>
+        </Modal></LazyLoad>}
+        {isModalVisible2 && <LazyLoad><Modal>
           <h2 className={global.title3}>Eliminar denuncia</h2>
           <p className={global.text2}>Está a punto de eliminar la denuncia que ha interpuesto a @{props.usernameTo}</p>
           <p className={global.text2__bold}>¿Estás seguro de eliminar esta denuncia?</p>
@@ -217,7 +214,7 @@ export default function Complaint (props) {
             <button className={global.buttonSecondary} onClick={() => deleteComplaint()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal>}
+        </Modal></LazyLoad>}
         <style jsx>{`
         
           .complaint__header{

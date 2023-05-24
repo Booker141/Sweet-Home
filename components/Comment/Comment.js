@@ -1,22 +1,24 @@
+/* Static imports */
+
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
 import {toast} from 'react-toastify'
 import { MdDeleteOutline, MdHealthAndSafety } from 'react-icons/md'
 import { HiOutlineRefresh } from 'react-icons/hi'
-import InputEmoji from 'react-input-emoji'
-import Modal from 'components/Modal/Modal'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
-import CommentsCounter from 'components/CommentsCounter/CommentsCounter'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * It fetches the comment from the database and displays it
- * @param props - The props that are passed to the component.
- * @returns A component that shows a comment.
- */
+/* Dynamic imports */
+
+const InputEmoji = dynamic(() => import('react-input-emoji'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+const CommentsCounter = dynamic(() => import('/components/CommentsCounter/CommentsCounter'))
+
+
 export default function Comment (props) {
 
   const { data: session } = useSession()
@@ -91,10 +93,6 @@ export default function Comment (props) {
 
   }
 
-  /**
-   * This function is called when the component mounts and it fetches the user from the database and
-   * sets the user state to the user that was fetched
-   */
   async function getUser(){
     
     const res = await fetch(`${server}/api/users/${session.user.username}`, {
@@ -181,10 +179,6 @@ export default function Comment (props) {
   }
 
 
-
-  /**
-   * It deletes a comment from the database
-   */
   const deleteComment = async (_id) => {
 
 
@@ -214,7 +208,7 @@ export default function Comment (props) {
     
   }
 
-    /* Fetching the comment from the database and displaying it. */
+
     useEffect(() => {
       getPost()
       getComments()
@@ -252,7 +246,7 @@ export default function Comment (props) {
                 <p className={global.text4__bold}>Comentarios</p>
                 <button className='refresh__button' onClick={() => getComments()}><HiOutlineRefresh size={15} color={colors.quaternary} /></button>
               </div>
-              <CommentsCounter comments={comments}/>
+              <LazyLoad offset={100}><CommentsCounter comments={comments}/></LazyLoad>
             </div>
             <hr className={global.line} />
             {comments?.length === 0 && <p className={global.text}>No hay ningún comentario</p>}

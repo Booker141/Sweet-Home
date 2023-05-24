@@ -1,19 +1,22 @@
-import global from '/styles/global.module.css'
+/* Static imports */
+
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { MdDeleteOutline, MdClose, MdHealthAndSafety, MdPets } from 'react-icons/md'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import Modal from 'components/Modal/Modal'
 import { colors } from '/styles/frontend-conf'
 import { server } from '/server'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * It renders a thread with the information of the thread and the number of posts it has
- * @param props - The props that are passed to the component.
- * @returns A thread is being returned.
- */
+/* Dynamic imports */
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function Thread (props) {
 
   const { data: session, status } = useSession({ required: true })
@@ -25,7 +28,7 @@ export default function Thread (props) {
   const [user, setUser] = useState({});
   const Router = useRouter();
 
-/* Fetching the user that created the thread and the number of posts that the thread has. */
+
   async function getData(){
 
     const res = await fetch(`${server}/api/users/${props.username}`, {
@@ -91,9 +94,7 @@ export default function Thread (props) {
     getLastAttendance()
   }, [])
 
-  /**
-   * It deletes a thread from the database
-   */
+ 
   const deleteThread = async () => {
 
     const res = await fetch(`${server}/api/threads/${props.typeAttendanceId}`, {
@@ -162,7 +163,7 @@ export default function Thread (props) {
       </div>
       <button id="access__button" className={global.buttonTertiary} onClick={() => Router.push(`/attendances/${Router.query.typeAttendance}/${props.title}`)} aria-label={'Ir a ' + `${props.title}`}>Acceder</button>
       </div>
-      {isModalVisible && <Modal>
+      {isModalVisible && <LazyLoad><Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar hilo</h2>
         <p className={global.text2}>¿Estás seguro de eliminar este hilo?</p>
@@ -170,7 +171,7 @@ export default function Thread (props) {
           <button className={global.buttonSecondary} onClick={() => deleteThread()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+      </Modal></LazyLoad>}
 
       <style jsx>{`
 

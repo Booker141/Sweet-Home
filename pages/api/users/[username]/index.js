@@ -19,8 +19,6 @@ export default async function handler (req, res) {
   const account = await db.collection('accounts').findOne({ username: req.query.username })
   const body = req.body
 
-  console.log(body)
-
 
   if (req.method === 'GET') {
 

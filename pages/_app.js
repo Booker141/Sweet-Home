@@ -1,9 +1,17 @@
+/* Static imports */
+
 import { SessionProvider } from 'next-auth/react'
 import { useState } from 'react'
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Router from 'next/router'
-import Loader from '/components/Loader/Loader'
+import dynamic from 'next/dynamic'
+
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 

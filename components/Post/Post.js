@@ -1,19 +1,25 @@
+/* Static imports */
+
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
-import global from 'styles/global.module.css'
 import { fonts, colors } from 'styles/frontend-conf'
-import Comment from 'components/Comment/Comment'
-import Modal from 'components/Modal/Modal'
 import { MdDeleteOutline, MdClose, MdHealthAndSafety } from 'react-icons/md'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import {HiOutlineClock } from 'react-icons/hi'
 import { server } from '/server'
 import { toast } from "react-toastify"
-import Like from "components/Like/Like"
-import Save from "components/Save/Save"
-import CommentsCounter from "components/CommentsCounter/CommentsCounter"
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const Like = dynamic(() => import('/components/Like/Like'))
+const Save = dynamic(() => import('/components/Save/Save'))
+const Comment = dynamic(() => import('/components/Comment/Comment'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 
@@ -29,7 +35,6 @@ export default function Post (props) {
   const [isManager, setIsManager] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  console.log(props)
 
   const Router = useRouter()
 
@@ -62,13 +67,9 @@ export default function Post (props) {
 
   }
 
-  /**
-   * This function is called when the component mounts and it fetches the user from the database and
-   * sets the user state to the user that was fetched
-   */
   async function getUser(){
     
-    const res = await fetch(`${server}/api/users/${props.username}`, {
+    const res = await fetch(`${server}/api/users/${props?.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -77,27 +78,23 @@ export default function Post (props) {
     const user = await res.json()
     setUser(user)
 
-    if(user.role.name === "protectora")
+    if(user?.role.name === "protectora")
       setIsShelter(true)
-    if(user.role.name === "veterinaria")
+    if(user?.role.name === "veterinaria")
       setIsVet(true)
-    if(user.role.name === "administrador")
+    if(user?.role.name === "administrador")
       setIsAdmin(true)
-    if(user.role.name === "gerente")
+    if(user?.role.name === "gerente")
       setIsManager(true)
 
   }
-  /* The above code is fetching the user from the database and setting the user state to the user that
-  was fetched. */
+
   useEffect(() => {
     getUser()
   }, [])
 
  
 
-  /**
-   * It deletes a post from the database
-   */
   const deletePost = async () => {
     await fetch(`${server}/api/posts/${session.user.username}/${props.id}`, {
       method: 'DELETE',
@@ -131,15 +128,14 @@ export default function Post (props) {
         <div key={props._id} className={global.post}>
           <div className='post__header'>
             <div className='header__user'>
-              <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
+              <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
               <div className="user__info">
                 <div className="info__username">
-                  <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${user.username}`} className={global.link3__bold}>
-                    {user.username}
+                  <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`} className={global.link3__bold}>
+                    {user?.username}
                   </a>
                   {isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
-                </div>
-                
+                </div>             
                 <div className="post__time">
                   <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                   <p className={global.time}>Hace {calcTime()}</p>
@@ -151,12 +147,12 @@ export default function Post (props) {
                 <p className={global.text2__bold}>
                   {props.location}
                 </p>
-                {(user.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+                {(user?.username === session?.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               </div>
-              {props.type.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
-              {props.type.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
-              {props.type.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
-              {props.type.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
+              {props?.type.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
+              {props?.type.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
+              {props?.type.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
+              {props?.type.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
             </div>
           </div>
           <hr className={global.white__line2} />
@@ -175,20 +171,28 @@ export default function Post (props) {
               </div>
             </div>
           </div>
-          {props.image != "" && <div className="post__image">
-            <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>
-          </div>}
+          <LazyLoad offset={100}>
+            {props.image != "" && <div className="post__image">
+              <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>
+            </div>}
+          </LazyLoad>
           <div className='post__icons'>
-              <Like likes={props.likes} postId={props.id}/>   
+            <LazyLoad offset={100}>
+              <Like likes={props.likes} postId={props.id}/>  
+            </LazyLoad> 
+            <LazyLoad>
               <Save saves={props.saves} postId={props.id}/>
-            </div>
+            </LazyLoad>
+          </div>
           <div className="comments">
-              <Comment postId={props.id} comments={comments}/>
-            </div>
+              <LazyLoad>
+                <Comment postId={props.id} comments={comments}/>
+              </LazyLoad>
+          </div>
             
         </div>
       </div>
-      {isModalVisible && <Modal>
+      {isModalVisible && <LazyLoad><Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar publicación</h2>
         <p className={global.text2}>Eliminando esta publicación, será eliminada de todas las páginas de la aplicación así como todos las respuestas que provengan de otros usuarios</p>
@@ -197,7 +201,7 @@ export default function Post (props) {
           <button className={global.buttonSecondary} onClick={() => deletePost()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+      </Modal></LazyLoad>}
 
       <style jsx>{`
 

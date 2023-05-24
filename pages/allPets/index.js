@@ -1,17 +1,22 @@
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
-import global from 'styles/global.module.css'
 import {colors, fonts} from 'styles/frontend-conf'
-import Layout from 'components/Layout/Layout'
-import Loader from 'components/Loader/Loader'
-import Pet from 'components/Pet/Pet'
 import { server } from '/server'
 import {useState} from 'react'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-/**
- * It's a function that returns a layout component with a title and a list of users
- * @returns the Layout component with the title "Usuarios" and the User component.
- */
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Pet = dynamic(() => import('/components/Pet/Pet'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
+
 export default function AllPets ({ pets }) {
 
   const { data: session, status } = useSession({ required: true })
@@ -94,7 +99,7 @@ export default function AllPets ({ pets }) {
           {petsList.map(({ _id, animal, breed, name, weight, birthdate, image, ownerUsername }) => {
             return (
                 <>
-                    <Pet key={_id} id={_id} animal={animal} breed={breed} name={name} weight={weight} birthdate={birthdate} image={image} ownerUsername={ownerUsername} />
+                    <LazyLoad offset={100}><Pet key={_id} id={_id} animal={animal} breed={breed} name={name} weight={weight} birthdate={birthdate} image={image} ownerUsername={ownerUsername} /></LazyLoad>
                 </>
             )
         })}

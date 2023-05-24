@@ -1,14 +1,23 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { useSession, signIn } from 'next-auth/react'
+/* Static imports */
+
+import { useSession, getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import global from 'styles/global.module.css'
 import { colors } from 'styles/frontend-conf.js'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
-import Question from 'components/Question/Question'
-import faq1 from '../../public/faq-1.svg'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import faq1 from '../../public/faq-1.svg'
+import Head from 'next/head'
+import BasicLayout from '/components/BasicLayout/BasicLayout'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const Question = dynamic(() => import('/components/Question/Question'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -21,46 +30,13 @@ import { server } from '/server'
  * It returns a div with a title
  * @returns A React element.
  */
-export default function FAQ ({ questions }) {
+export default function FAQ ({ questions, users }) {
 
-  const {data: session} = useSession({});
-
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [user, setUser] = useState({});
+  const [isAdmin, setIsAdmin] = useState(users.role.name === "administrador" ? true : false);
+  const [user, setUser] = useState(users);
   const router = useRouter();
 
-  const getUser = async () => {
 
-    if(session){
-
-      const res = await fetch(`${server}/api/users/${session.user.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      const user = await res.json()
-
-      setUser(user)
-
-      if(user.role.name === 'administrador'){
-
-        setIsAdmin(true)
-
-      }
-
-    }
-
-  }
-
-  useEffect(() => {
-
-    if(session != undefined)
-
-      getUser()
-    
-  },[]);
 
   return (
     <BasicLayout>
@@ -68,7 +44,7 @@ export default function FAQ ({ questions }) {
       <div className='faq'>
         <h1 id='title' className={global.title}>Preguntas frecuentes</h1>
         <div className='top__image'>
-          <Image src={faq1} alt='Imagen de un perro mirando al frente' priority />
+          <FallbackImage src={faq1} alt='Imagen de un perro mirando al frente' priority />
         </div>
         {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push('/dashboard/createQuestion')}>Crear pregunta</button>}
 
@@ -157,7 +133,10 @@ export default function FAQ ({ questions }) {
   )
 }
 
-export async function getServerSideProps () {
+export async function getServerSideProps (context) {
+
+  const session = await getSession(context)
+
   const res = await fetch(`${server}/api/questions`, {
     method: 'GET',
     headers: {
@@ -165,11 +144,20 @@ export async function getServerSideProps () {
     }
   })
 
+  const res2 = await fetch(`${server}/api/users/${session.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  const user = await res2.json()
+
   const questions = await res.json()
 
   return {
     props: {
-      questions
+      questions, users: JSON.parse(JSON.stringify(user))
     }
   }
 }

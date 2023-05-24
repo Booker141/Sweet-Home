@@ -1,21 +1,25 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdLocationOn } from 'react-icons/md'
 import { BsImageFill, BsFillChatLeftTextFill } from 'react-icons/bs'
 import { colors, fonts } from '../../styles/frontend-conf'
-import global from '../../styles/global.module.css'
-import Layout from '/components/Layout/Layout'
 import { toast } from 'react-toastify'
 import { server } from '/server'
-import Loader from '/components/Loader/Loader'
+import Head from 'next/head'
+import global from '../../styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/**
- * It renders a form to create a post, and when the user clicks on the submit button, it sends a
- * request to the server to create the post
- * @returns a component.
- */
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
+
 export default function CreatePost () {
 
   const { data: session, status } = useSession({ required: true })

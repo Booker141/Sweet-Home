@@ -1,6 +1,13 @@
+/* Static imports */
+
 import { fonts } from 'styles/frontend-conf.js'
 import global from 'styles/global.module.css'
-import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Link = dynamic(() => import('next/link'))
+
 /*
     * @author Sergio García Navarro
     * @returns Basic Footer component
@@ -8,6 +15,7 @@ import Link from 'next/link'
     * @date 13/01/2020
     * @description Basic Footer component
 */
+
 /**
  * This function is a basic footer component that takes in three urls and three texts and displays them
  * in a footer
@@ -20,18 +28,18 @@ import Link from 'next/link'
  * @returns A footer with three links and a copyright.
  */
 export default function BasicFooter (props) {
+
   const { url1, url2, url3, url4, text1, text2, text3, text4 } = props
   return (
-
     <>
 
       <div className='footer'>
         {props.color === "#fafafa" && <hr className={global.white__line}/>}{props.color === "#f0810f" && <hr className={global.line} />}
         <div className='footer__links'>
-          <Link className={global.link} href={url1} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
-          <Link className={global.link} href={url2} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
-          <Link className={global.link} href={url3} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
-          <Link className={global.link} href={url4} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
+          <Link className={global.link} href={url1} prefetch={false} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
+          <Link className={global.link} href={url2} prefetch={false} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>
+          <Link className={global.link} href={url3} prefetch={false} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
+          <Link className={global.link} href={url4} prefetch={false} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
           <div className='copyright'>
             <p> Copyright &copy; 2022 Sweet Home Corporation</p>
           </div>

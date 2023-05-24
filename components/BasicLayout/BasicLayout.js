@@ -1,11 +1,19 @@
-import global from '/styles/global.module.css'
-import BasicHeader from '/components/BasicHeader/BasicHeader'
-import Footer from '/components/Footer/Footer'
+/* Static imports*/
+
 import { ImArrowUp2 } from 'react-icons/im'
 import {toast} from 'react-toastify'
 import {useSession} from 'next-auth/react'
 import {server} from '/server'
 import {useState, useEffect} from 'react'
+import dynamic from 'next/dynamic'
+import global from '/styles/global.module.css'
+
+
+/* Dynamic imports */
+
+const BasicHeader = dynamic(() => import('components/BasicHeader/BasicHeader'))
+const Footer = dynamic(() => import('components/Footer/Footer'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
 /*
@@ -46,11 +54,7 @@ export default function BasicLayout ({ children }) {
     }
 
 
-
-
   }
-
-
 
 
 
@@ -85,7 +89,7 @@ export default function BasicLayout ({ children }) {
           <a title='Volver arriba' aria-label='Ir al inicio de página' href='#top' className={global.buttonTo}><ImArrowUp2 /></a>
         </div>
       </div>
-      <Footer />
+      <LazyLoad offset={800}><Footer /></LazyLoad>
     </>
 
   )

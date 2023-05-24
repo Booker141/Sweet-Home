@@ -1,61 +1,43 @@
-import Head from 'next/head'
-import { useSession, signOut, signIn } from 'next-auth/react'
+/* Static imports */
+
+import { useSession, getSession, signOut, signIn } from 'next-auth/react'
 import { useState, useEffect } from 'react'
-import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { AiFillPhone } from 'react-icons/ai'
-import { MdOutlineError, MdLocationOn } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
-import SettingsLayout from '/components/SettingsLayout/SettingsLayout'
-import Layout from '/components/Layout/Layout'
-import Modal from '/components/Modal/Modal'
+import { MdOutlineError } from 'react-icons/md'
+import { BsGenderAmbiguous, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
 import { server } from '/server'
 import {toast} from 'react-toastify'
-import Loader from '/components/Loader/Loader'
+import global from 'styles/global.module.css'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
-export default function Settings () {
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+export default function Settings ({users}) {
 
   const { data: session, status } = useSession({ required: true })
 
 
-  const [user, setUser] = useState({})
-  const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [phone, setPhone] = useState('')
-  const [biography, setBiography] = useState('')
-  const [birthdate, setBirthdate] = useState('')
-  const [gender, setGender] = useState('')
-  const [location, setLocation] = useState('')
+  const [user, setUser] = useState(users)
+  const [name, setName] = useState(users.firstname)
+  const [lastname, setLastname] = useState(users.lastname)
+  const [phone, setPhone] = useState(users.phone)
+  const [biography, setBiography] = useState(users.biography)
+  const [birthdate, setBirthdate] = useState(users.birthdate)
+  const [gender, setGender] = useState(users.gender)
+  const [location, setLocation] = useState(users.location)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
 
 
 
-  /* The above code is fetching the user's complaints, pets, and user information from the database. */
-  const getUser = async () =>{
-
-      const user = await fetch(`${server}/api/users/${session?.user.username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-
-      const currentUser = await user.json();
-
-
-      
-
-      setUser(currentUser)
-      setName(currentUser?.firstname)
-      setLastname(currentUser?.lastname)
-      setPhone(currentUser?.phone)
-      setBiography(currentUser?.biography)
-      setBirthdate(currentUser?.birthdate)
-      setGender(currentUser?.gender)
-  
-  }
 
 
   /**
@@ -156,9 +138,6 @@ export default function Settings () {
     }
   }
 
-    useEffect(() => {
-      getUser()
-    }, [])
 
   if (status === 'loading') {
     return (
@@ -893,4 +872,27 @@ export default function Settings () {
       </Layout>
     )
   }
+}
+
+export async function getServerSideProps(context){
+
+  const session = await getSession(context)
+
+  const user = await fetch(`${server}/api/users/${session?.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+
+  const currentUser = await user.json();
+
+
+  return{
+
+    props: {
+      users: JSON.parse(JSON.stringify(currentUser))
+  }
+}
 }

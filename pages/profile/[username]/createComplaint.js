@@ -1,19 +1,24 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { BsFillExclamationDiamondFill } from 'react-icons/bs'
 import { colors, fonts} from '/styles/frontend-conf'
 import { toast } from 'react-toastify'
-import global from '/styles/global.module.css'
-import Layout from '/components/Layout/Layout'
-import Loader from '/components/Loader/Loader'
 import { server } from '/server'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/* The above code is a React component that creates a form for users to submit a complaint. It uses the
-Next.js framework and includes functionality for handling form submission, displaying success/error
-messages using the toast library, and redirecting the user to a different page after successful
-submission. It also includes conditional rendering based on whether the user is logged in or not. */
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function CreateComplaint () {
   
   const { data: session, status } = useSession({ required: true })
@@ -22,13 +27,6 @@ export default function CreateComplaint () {
   const [reasonList, setReasonList] = useState('Spam')
   const [isSending, setIsSending] = useState(false)
 
-  /**
-   * This function creates a complaint by sending a POST request to the server with the complaint
-   * details and displays a success or error message using the toast library.
-   * @param e - The "e" parameter is an event object that is passed to the function when it is called.
-   * It is commonly used in event listeners to access information about the event that triggered the
-   * listener. In this case, it is used to prevent the default behavior of a form submission.
-   */
   const createComplaint = async (e) => {
 
     e.preventDefault()

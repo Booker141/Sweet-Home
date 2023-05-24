@@ -1,4 +1,4 @@
-import global from 'styles/global.module.css'
+
 import { colors, fonts } from 'styles/frontend-conf.js'
 import { MdDeleteOutline, MdOutlineEdit, MdClose} from 'react-icons/md'
 import { HiOutlineClock } from 'react-icons/hi'
@@ -6,16 +6,17 @@ import { useState, useEffect } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-import Router from 'next/router'
-import Modal from 'components/Modal/Modal'
+import dynamic from 'next/dynamic'
+import global from 'styles/global.module.css'
+
+/* Dynamic imports */
+
+const Router = dynamic(() => import('next/router'))
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-/**
- * It's a function that returns a div with a title, a date, an author, an introduction, a body and a
- * conclusion
- * @param props - The props that are passed to the component.
- * @returns A component that shows a new.
- */
+
 export default function New (props) {
 
   const { data: session } = useSession();
@@ -24,9 +25,7 @@ export default function New (props) {
 
 
 
-  /**
-   * It deletes the news item from the database and then reloads the page
-   */
+
   const deleteNew = async () => {
 
     await fetch(`${server}/api/news/${props.id}`, {
@@ -82,8 +81,7 @@ export default function New (props) {
   return (
     <>
 
-      <div key={props._id} className={global.new}>
-        
+      <div key={props._id} className={global.new}>   
         <article key={props.id}>
           <div className="new__header">
             <h2 className="new__title">{props.title}</h2>
@@ -100,7 +98,7 @@ export default function New (props) {
           <p className={global.text2}>{props.conclusion}</p>
         </article>
       </div>
-      {isModalVisible && <Modal>
+      {isModalVisible && <LazyLoad><Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title5}>Eliminar noticia</h2>
         <p className={global.text2}>¿Estás seguro de eliminar esta noticia?</p>
@@ -108,7 +106,7 @@ export default function New (props) {
           <button className={global.buttonSecondary} onClick={() => deleteNew()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+      </Modal></LazyLoad>}
       
       <style jsx>{`
 

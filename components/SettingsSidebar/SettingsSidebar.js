@@ -1,20 +1,19 @@
+/* Static imports */
 
-import {HiHome, HiUser, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand, HiLockClosed, HiLockOpen} from 'react-icons/hi'
-import {MdPets, MdContactMail, MdHealthAndSafety, MdReport, MdClose} from 'react-icons/md'
-import {BsFillFilePostFill} from 'react-icons/bs'
-import { GiDogBowl, GiSittingDog, GiHummingbird, GiCat} from 'react-icons/gi'
+import { HiBookmark, HiLockClosed, HiLockOpen} from 'react-icons/hi'
+import { GiDogBowl } from 'react-icons/gi'
+import {MdReport} from 'react-icons/md'
 import {colors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
 import global from '/styles/global.module.css'
-import Link from 'next/link'
-import UserSidebar from '/components/UserSidebar/UserSidebar'
-import {useSession} from 'next-auth/react'
-import {useEffect, useState} from 'react'
-import {server} from '/server'
-import {useRouter} from 'next/router'
-import {toast} from 'react-toastify'
-import TrademarkWhite from '/components/TrademarkWhite/TrademarkWhite'
-import Modal from '/components/Modal/Modal'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Link = dynamic(() => import('next/link'))
+const TrademarkWhite = dynamic(() => import('/components/TrademarkWhite/TrademarkWhite'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 
 /**
@@ -37,17 +36,14 @@ export default function SettingsSidebar(){
                     <a className="sidebar__link" href="/profile/myprofile/saved" alt="Ir a Guardados"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <a className="sidebar__link" href="/profile/myprofile/pets" alt="Ir a Mascotas"><GiDogBowl size={20} color={`${colors.secondary}`}/>Mis mascotas</a>
                     <a className="sidebar__link" href="/profile/myprofile/myComplaints" alt="Ir a Denuncias"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Mis denuncias</a>
-
                 </div>
-
-               
                 <div className='footer'>
                     <div className='footer__links'>
-                        <Link className={global.link3} href="/userManual" passHref><a aria-label='Ir a Información'>Información</a></Link>
-                        <Link className={global.link3} href="/privacy" passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
-                        <Link className={global.link3} href="/conditions" passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
-                        <Link className={global.link3} href="/accessibility" passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
-                        <Link className={global.link3} href="/rules" passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
+                        <Link className={global.link3} href="/userManual" prefetch={false} passHref><a aria-label='Ir a Información'>Información</a></Link>
+                        <Link className={global.link3} href="/privacy" prefetch={false} passHref><a aria-label='Ir a Privacidad'>Privacidad</a></Link>
+                        <Link className={global.link3} href="/conditions" prefetch={false} passHref><a aria-label='Ir a Condiciones'>Condiciones</a></Link>
+                        <Link className={global.link3} href="/accessibility" prefetch={false} passHref><a aria-label='Ir a Accesibilidad'>Accesibilidad</a></Link>
+                        <Link className={global.link3} href="/rules" prefetch={false} passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className='copyright'>
                             <TrademarkWhite/>
                             <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>

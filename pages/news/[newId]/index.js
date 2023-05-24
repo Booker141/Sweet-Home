@@ -1,10 +1,20 @@
-import Layout from 'components/BasicLayout/BasicLayout'
-import Head from 'next/head'
+/* Static imports */
+
+
 import { useRouter } from 'next/router'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf.js'
-import New from 'components/New/New'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import Layout from '/components/BasicLayout/BasicLayout'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const New = dynamic(() => import('/components/New/New'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function NewsId ({ news }) {
 

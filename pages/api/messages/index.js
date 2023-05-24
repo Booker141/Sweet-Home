@@ -11,29 +11,17 @@ export default async function handler (req, res) {
   const client = await clientPromise
   const db = await client.db()
   const body = req.body
+  const messageId = new ObjectId()
 
 
 
   if (req.method == 'POST') {
 
-    await db.collection('messages').insertOne({_id: petId, animal: body.animal, breed: body.breed, name: body.name, weight: parseFloat(body.weight), image: body.image, ownerId: ObjectId(body.userId), ownerUsername: body.username, birthdate: new Date(body.birthdate)})
-    await db.collection('users').updateOne({username: req.query.username}, {$push : {pets: petId}})
+    await db.collection('messages').insertOne({_id: messageId, chatId: ObjectId(body.chatId), desription: body.description, senderId: body.senderId, createdAt: new Date()})
+    await db.collection('chat').updateOne({_id: ObjectId(body.chatId)}, {$push : {messages: messageId}})
 
-
-    res.status(200).json({message: "Mascota creada correctamente"})
+    res.status(200).json({message: "Mensaje creado correctamente"})
   }
 
-  if(req.method === 'DELETE'){
 
-      const id = ObjectId(body.id)
-
-      console.log(id.toString())
-
-      await db.collection('pets').deleteOne({ _id: id })
-      await db.collection('users').updateOne({username: req.query.username}, {$pull : {pets: id}})
-  
-      res.status(200).json({ message: 'Mascota eliminada correctamente' })
-  
-
-  }
 }

@@ -1,19 +1,20 @@
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import { colors } from 'styles/frontend-conf'
 import { useState, useEffect } from 'react'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { MdHealthAndSafety } from 'react-icons/md'
 import {useSession} from 'next-auth/react'
-import FallbackImage from 'components/FallbackImage/FallbackImage'
-import FollowButton from 'components/FollowButton/FollowButton'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/*Dynamic imports*/
+
+const FollowButton = dynamic(() => import('/components/FollowButton/FollowButton'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-/**
- * It's a component that renders a user's profile picture, username, and a button that allows you to
- * follow them
- * @param props - {
- * @returns A component that shows a user's profile.
- */
 export default function UserCard (props) {
 
   const {data: session} = useSession()
@@ -22,9 +23,6 @@ export default function UserCard (props) {
   const [isVet, setIsVet] = useState(false)
 
   
-
-  /* It's a hook that runs when the component is mounted. It sets the isCaretaker state to the value of
-  the isCaretaker prop. */
   useEffect(() => {
     if(props.role.name === "veterinaria")
       setIsVet(true)
@@ -46,7 +44,7 @@ export default function UserCard (props) {
           <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong> {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}</a>
         </div>
         <div className="follow__button">
-          <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={props.id} usernameTo={props.username}/>
+          <LazyLoad><FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={props.id} usernameTo={props.username}/></LazyLoad>
         </div>
         
       </div>

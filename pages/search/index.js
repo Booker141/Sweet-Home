@@ -1,20 +1,28 @@
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import {useRouter} from 'next/router'
 import { useState, useEffect } from 'react'
 import {colors} from '/styles/frontend-conf'
-import Head from 'next/head'
-import Layout from 'components/Layout/Layout'
-import global from '/styles/global.module.css'
-import Loader from 'components/Loader/Loader'
 import {server} from "/server"
-import UserCard from 'components/UserCard/UserCard'
-import Post from 'components/Post/Post'
-import Attendance from 'components/Attendance/Attendance'
-import TypeAttendance from 'components/TypeAttendance/TypeAttendance'
-import New from 'components/New/New'
-import Question from 'components/Question/Question'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+import dynamic from 'next/dynamic'
 
 
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const UserCard = dynamic(() => import('/components/UserCard/UserCard'))
+const Attendance = dynamic(() => import('/components/Attendance/Attendance'))
+const TypeAttendance = dynamic(() => import('/components/TypeAttendance/TypeAttendance'))
+const New = dynamic(() => import('/components/New/New'))
+const Question = dynamic(() => import('/components/Question/Question'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 

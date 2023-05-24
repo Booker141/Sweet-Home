@@ -1,3 +1,5 @@
+/* Static imports */
+
 import {useState} from 'react'
 import {FiMessageCircle} from 'react-icons/fi'
 import {colors} from 'styles/frontend-conf'
@@ -23,7 +25,6 @@ export default function CommentsCounter(props){
                 .commentsCounter{   
 
                     /*Box model*/
-
 
                     display: flex;
                     flex-direction: row;

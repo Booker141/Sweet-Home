@@ -1,5 +1,11 @@
-import Image from 'next/image'
+/* Static imports */
+
 import Logo from '../../public/LogoWeb.svg'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Image = dynamic(() => import('next/image'))
 
 /*
     * @author Sergio García Navarro

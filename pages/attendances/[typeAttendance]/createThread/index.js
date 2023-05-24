@@ -1,12 +1,22 @@
-import Head from 'next/head'
+/* Static imports */
+
+
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { MdOutlineSubtitles } from 'react-icons/md'
 import { colors, fonts} from '/styles/frontend-conf'
-import global from '/styles/global.module.css'
-import Layout from '/components/Layout/Layout'
 import { server } from '/server'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import global from '/styles/global.module.css'
+
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /**
  * The CreateThread function creates a new thread for a specific type of attendance and sends a POST
@@ -72,7 +82,13 @@ export default function CreateThread () {
   }
 
   if (status == 'loading') {
-    return <div className={global.loading}><p>Cargando..</p></div>
+
+    return (
+      <>
+        <div className={global.loading}><p>Cargando..</p></div>
+        <Loader/>
+      </>
+    )
   }
   if (session) {
     return (

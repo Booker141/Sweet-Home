@@ -1,10 +1,18 @@
+/* Static imports */
+
 import { useRouter } from 'next/router'
-import Head from 'next/head'
-import Image from 'next/image'
-import Layout from '/components/Layout/Layout'
-import global from 'styles/global.module.css'
 import { MdPets } from 'react-icons/md'
 import { colors, fonts } from '/styles/frontend-conf.js'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+
+/* Dynamic imports */
+
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro
@@ -41,7 +49,7 @@ function Error ({ statusCode }) {
               <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
               <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
             </div>
-            <Image src='/error-1.svg' alt='Imagen de perro' width={1000} height={1000} priority/>
+            <FallbackImage src='/error-1.svg' alt='Imagen de perro' width={1000} height={1000} priority/>
           </div>
         </div>
         <style jsx>{`

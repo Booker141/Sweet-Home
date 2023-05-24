@@ -1,18 +1,26 @@
-import Head from 'next/head'
-import Link from 'next/link'
+/* Static imports */
+
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getProviders, useSession, signIn, getCsrfToken } from 'next-auth/react'
-import global from 'styles/global.module.css'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
-import Header from 'components/BasicHeader/BasicHeader'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
-import Loader from 'components/Loader/Loader'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { toast } from 'react-toastify'
 import {server} from '/server'
+import dynamic from 'next/dynamic'
+import global from 'styles/global.module.css'
+import Header from 'components/BasicHeader/BasicHeader'
+import Head from 'next/head'
+
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const BasicFooter = dynamic(() => import('/components/BasicFooter/BasicFooter'))
+const Link = dynamic(() => import('next/link'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
     * @author Sergio García Navarro
@@ -22,11 +30,6 @@ import {server} from '/server'
     * @description Login page
 */
 
-/**
- * It returns a JSX element that contains a Head component, a Header component, a FormLogin component
- * and a BasicFooter component
- * @returns A React component.
- */
 export default function SignIn ({ providers, csrfToken }) {
 
   const { data: session, status } = useSession()

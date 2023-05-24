@@ -1,19 +1,24 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { signIn } from 'next-auth/react'
+/* Static imports */
+
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import global from 'styles/global.module.css'
 import { colors, fonts, statusColors } from 'styles/frontend-conf.js'
-import Header from 'components/BasicHeader/BasicHeader'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
 import { FaUser, FaUserPlus } from 'react-icons/fa'
 import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { server } from '/server'
 import {toast} from 'react-toastify'
+import dynamic from 'next/dynamic'
+import global from 'styles/global.module.css'
+import Header from '/components/BasicHeader/BasicHeader'
+import Head from 'next/head'
 
+/*Dynamic imports*/
+
+const BasicFooter = dynamic(() => import('/components/BasicFooter/BasicFooter'))
+const Link = dynamic(() => import('next/link'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
 
 /*
     * @author Sergio García Navarro

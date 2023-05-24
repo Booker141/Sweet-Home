@@ -1,18 +1,25 @@
-import Head from 'next/head'
+/* Static imports */
+
+
 import { useSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import { HiOutlineRefresh } from 'react-icons/hi'
-import Layout from 'components/Layout/Layout'
-import Sidebar from 'components/Sidebar/Sidebar'
-import Post from 'components/Post/Post'
-import User from 'components/UserCard/UserCard'
-import CreatePostCard from 'components/CreatePostCard/CreatePostCard'
-import Loader from 'components/Loader/Loader'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import Head from 'next/head'
+import Layout from '/components/Layout/Layout'
+import CreatePostCard from '/components/CreatePostCard/CreatePostCard'
+import dynamic from 'next/dynamic'
+
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 
 /*
     * @author Sergio García Navarro
@@ -93,7 +100,7 @@ export default function Home ({ posts }) {
             {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
+                  <LazyLoad offset={100}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} /></LazyLoad>
                 </>
               )
             })}
@@ -101,7 +108,7 @@ export default function Home ({ posts }) {
             {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/>
+                  <LazyLoad offset={100}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/></LazyLoad>
                 </>
               )
             })}
@@ -309,6 +316,7 @@ export default function Home ({ posts }) {
 }
 
 export async function getServerSideProps (context) {
+
   const res = await fetch(`${server}/api/posts`, {
     method: 'GET',
     headers: {

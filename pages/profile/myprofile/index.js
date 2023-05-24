@@ -1,27 +1,35 @@
+/* Static imports */
+
 import { useSession, getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import Head from 'next/head'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
 import { BsPatchCheckFill, BsInstagram, BsTwitter, BsFacebook } from 'react-icons/bs'
 import {HiCamera} from 'react-icons/hi'
 import {FaUserAlt} from 'react-icons/fa'
 import { MdOutlineEdit, MdCake, MdLocationPin, MdHealthAndSafety} from 'react-icons/md'
-import Layout from 'components/Layout/Layout'
-import Post from 'components/Post/Post'
-import Loader from 'components/Loader/Loader'
 import { server } from '/server'
 import {toast} from 'react-toastify'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import global from 'styles/global.module.css'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function MyProfile ({ posts, users, pets }) {
   
   const { data: session, status } = useSession()
-  const [followers, setFollowers] = useState([])
-  const [following, setFollowing] = useState([])
-  const [isShelter, setIsShelter] = useState(false)
-  const [isVet, setIsVet] = useState(false)
+  const [followers, setFollowers] = useState(users.followers)
+  const [following, setFollowing] = useState(users.following)
+  const [isShelter, setIsShelter] = useState(users.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(users.role.name === "veterinaria" ? true : false)
   const [profileUser, setProfileUser] = useState(users)
   const [userImage, setUserImage] = useState(users.image)
   const [userBanner, setUserBanner] = useState(users.banner)
@@ -154,14 +162,6 @@ export default function MyProfile ({ posts, users, pets }) {
     }
   }
 
-  useEffect(() => {
-
-      setFollowers(profileUser.followers)
-      setFollowing(profileUser.following)
-      setIsShelter(profileUser.role.name === "protectora" ? true : false)
-      setIsVet(profileUser.role.name === "veterinaria" ? true : false)
-
-  }, [])
 
   if (status == 'loading') {
     return (

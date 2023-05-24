@@ -1,17 +1,23 @@
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
-import global from 'styles/global.module.css'
 import { colors, fonts } from 'styles/frontend-conf'
-import User from 'components/UserCard/UserCard'
-import Layout from 'components/Layout/Layout'
-import Loader from 'components/Loader/Loader'
 import {useState} from 'react'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-/**
- * It's a function that returns a layout component with a title and a list of users
- * @returns the Layout component with the title "Usuarios" and the User component.
- */
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const User = dynamic(() => import('/components/UserCard/UserCard'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
+
 export default function AllVets ({ users }) {
 
   const { data: session, status } = useSession({ required: true })
@@ -62,7 +68,7 @@ export default function AllVets ({ users }) {
           {usersList.filter(user => user.username !== (session.user.username) && user.status.name != "bloqueado").map(({ _id, image, banner, username, role }) => {
             return (
               <>
-                <User key={_id} image={image} banner={banner} username={username} role={role} />
+                <LazyLoad offset={300}><User key={_id} image={image} banner={banner} username={username} role={role} /></LazyLoad>
               </>
             )
           })}

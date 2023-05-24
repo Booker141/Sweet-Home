@@ -1,4 +1,5 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -6,15 +7,18 @@ import {toast} from 'react-toastify'
 import { MdDateRange, MdOutlineError, MdTitle } from 'react-icons/md'
 import { BsFillChatLeftTextFill, BsFillCheckCircleFill, BsFillPersonFill } from 'react-icons/bs'
 import { colors, statusColors, fonts } from '/styles/frontend-conf'
-import global from '/styles/global.module.css'
-import Layout from '/components/Layout/Layout'
 import { server } from '/server'
-import Loader from '/components/Loader/Loader'
+import global from '/styles/global.module.css'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
-/**
- * This function is used to create a new news
- * @returns a component.
- */
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function CreateNew () {
 
   const { data: session, status } = useSession({ required: true })

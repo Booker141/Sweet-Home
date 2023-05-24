@@ -1,24 +1,22 @@
-import Link from 'next/link'
-import global from 'styles/global.module.css'
+
+/* Static imports */
+
 import { colors, fonts } from 'styles/frontend-conf.js'
-import BasicFooter from 'components/BasicFooter/BasicFooter'
 import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
 import {GiDogHouse} from 'react-icons/gi'
 import { HiDocumentSearch, HiSearch } from 'react-icons/hi'
 import {FaUserPlus} from 'react-icons/fa'
-import {server} from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
-/*
-    * @author Sergio García Navarro
-    * @returns Footer component
-    * @version 1.0
-    * @date 13/01/2020
-    * @description Footer component
-*/
-/**
- * It returns a div with a svg, four divs, a hr and a BasicFooter component
- * @returns A component with a footer.
- */
+/* Dynamic imports */
+
+const BasicFooter = dynamic(() => import('/components/BasicFooter/BasicFooter'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const Link = dynamic(() => import('next/link'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 export default function Footer () {
   return (
     <><div className='content'>
@@ -48,22 +46,22 @@ export default function Footer () {
             <div className='columns__column1'>
               <h3 className='column1__title'><GiDogHouse size={20} color={`${colors.secondary}`}/>Sweet Home </h3>
               <div className='column1__links'>
-                <Link className={global.link} href="/about"><a aria-label='Ir a información sobre Sweet Home'>Sobre nosotros</a></Link>
-                <Link className={global.link} href="/contact"><a aria-label='Ir a información de contacto'>Contáctanos</a></Link>
+                <Link className={global.link} href="/about" prefetch={false}><a aria-label='Ir a información sobre Sweet Home'>Sobre nosotros</a></Link>
+                <Link className={global.link} href="/contact" prefetch={false}><a aria-label='Ir a información de contacto'>Contáctanos</a></Link>
               </div>
             </div>
             <div className='columns__column2'>
               <h3 className='column2__title'><HiDocumentSearch size={20} color={`${colors.secondary}`}/>Ayuda </h3>
               <div className='column2__links'>
-                <Link className={global.link} href="/faq"><a aria-label='Ir a Preguntas frecuentes'>Preguntas frecuentes</a></Link>
-                <Link className={global.link} href="/rules"><a aria-label='Ir a Reglas y políticas de Sweet Home'>Reglas y políticas</a></Link>
+                <Link className={global.link} href="/faq" prefetch={false}><a aria-label='Ir a Preguntas frecuentes'>Preguntas frecuentes</a></Link>
+                <Link className={global.link} href="/rules" prefetch={false}><a aria-label='Ir a Reglas y políticas de Sweet Home'>Reglas y políticas</a></Link>
               </div>
             </div>
             <div className='columns__column3'>
               <h3 className='column3__title'><HiSearch size={20} color={`${colors.secondary}`}/>Encuentra en Sweet Home </h3>
               <div className='column3__links'>
-                <Link className={global.link} href="/attendances"><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
-                <Link className={global.link} href="/news"><a aria-label='Ir a Noticias'>Noticias</a></Link>
+                <Link className={global.link} href="/attendances" prefetch={false}><a aria-label='Ir a Cuidados'>Cuidados</a></Link>
+                <Link className={global.link} href="/news" prefetch={false}><a aria-label='Ir a Noticias'>Noticias</a></Link>
               </div>
             </div>
 
@@ -81,10 +79,12 @@ export default function Footer () {
         </div>
 
         <hr className='footer__line' />
-        <BasicFooter
-          color='#fafafa' hover='#e8cd43' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
-          url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
-        />
+        <LazyLoad offset={100}>
+          <BasicFooter
+            color='#fafafa' hover='#e8cd43' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
+            url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
+          />
+        </LazyLoad>
       </div>
     </div>
 

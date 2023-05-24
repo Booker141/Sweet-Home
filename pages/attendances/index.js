@@ -1,13 +1,23 @@
+/* Static imports */
+
+import {colors, fonts} from 'styles/frontend-conf.js'
+import { useState } from 'react'
+import { useSession, getSession, signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { server } from '/server'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
-import {colors, fonts} from 'styles/frontend-conf.js'
-import Layout from '/components/Layout/Layout'
-import { useState, useEffect } from 'react'
-import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import TypeAttendance from 'components/TypeAttendance/TypeAttendance'
-import Loader from 'components/Loader/Loader'
-import { server } from '/server'
+import dynamic from 'next/dynamic'
+
+
+/*Dynamic imports*/
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const TypeAttendance = dynamic(() => import('/components/TypeAttendance/TypeAttendance'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 
 /*
     * @author Sergio García Navarro
@@ -16,28 +26,19 @@ import { server } from '/server'
     * @date 13/12/2022
     * @description This page is the attendances page of the application
 */
-/**
- * It returns a Layout component, which contains a Head component, a Header component, and a Footer
- * component
- * @returns the Layout component, which is a wrapper for the Header, Footer and the content of the
- * page.
- */
-export default function Attendances ({ typeAttendance }) {
+
+export default function Attendances ({ typeAttendance, users }) {
 
   const { data: session, status } = useSession({ required: true })
 
   const [isSorted, setIsSorted] = useState(false)
   const [user, setUser] = useState({})
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(users.role.name === "administrador" ? true : false)
   const [sortedAttendance, setSortedAttendance] = useState(typeAttendance)
   const Router = useRouter()
 
 
-/**
- * The function sorts an array of attendance objects by name.
- * @param e - e is a parameter representing the filter by which the attendance data needs to be sorted.
- * In this code snippet, it is used to sort the attendance data by name.
- */
+
   const sortByFilters = (e) => {
 
     if(e === 'name'){
@@ -55,28 +56,6 @@ export default function Attendances ({ typeAttendance }) {
     }
 
   }
-
-  const getRole = async () => {
-
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  
-
-    const data = await res.json()
-
-    setIsAdmin(data.role.name === "administrador" ? true : false)
-
-  } 
-
-  useEffect(() => {
-
-    getRole()
-
-  }, [])
 
 
 
@@ -110,14 +89,14 @@ export default function Attendances ({ typeAttendance }) {
         {isSorted && sortedAttendance.map(({ _id, name, description, urlName }) => {
           return (
             <>
-              <TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} />
+              <LazyLoad offset={100}><TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} /></LazyLoad>
             </>
           )
         })}
         {!isSorted && typeAttendance.map(({ _id,  name, description, urlName }) => {
           return (
             <>
-              <TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} />
+              <LazyLoad offset={100}><TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} /></LazyLoad>
             </>
           )
         })}
@@ -237,9 +216,9 @@ export default function Attendances ({ typeAttendance }) {
   }
 }
 
-export async function getServerSideProps () {
+export async function getServerSideProps (context) {
 
-
+  const session = await getSession(context)
 
   const res = await fetch(`${server}/api/typeAttendance`, {
     method: 'GET',
@@ -248,13 +227,22 @@ export async function getServerSideProps () {
     }
   })
 
+  const res2 = await fetch(`${server}/api/users/${session.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+
+  const data = await res2.json()
 
 
   const typeAttendance = await res.json()
 
   return {
     props: {
-      typeAttendance: JSON.parse(JSON.stringify(typeAttendance))
+      typeAttendance: JSON.parse(JSON.stringify(typeAttendance)), users: JSON.parse(JSON.stringify(data))
     }
   }
 }

@@ -1,4 +1,5 @@
-import global from '../../styles/global.module.css'
+/* Static imports */
+
 import { server } from '../../server'
 import {MdDeleteOutline, MdClose} from 'react-icons/md'
 import {useSession} from 'next-auth/react'
@@ -6,21 +7,15 @@ import {colors} from '../../styles/frontend-conf'
 import {toast} from 'react-toastify'
 import{useState} from 'react'
 import {useRouter} from 'next/router'
-import Modal from '/components/Modal/Modal'
-import FallbackImage from '/components/FallbackImage/FallbackImage'
+import dynamic from 'next/dynamic'
+import global from '../../styles/global.module.css'
 
-/**
- * It returns a div with a class of pet, which contains a div with a class of pet__header, which
- * contains a div with a class of pet__image, which contains the image prop, and a div with a class of
- * pet__info, which contains a div with a class of pet__name, which contains an h1 with a class of
- * text2, which contains the text "Nombre: " and the name prop, and a div with a class of pet__animal,
- * which contains an h1 with a class of text2, which contains the text "Animal: " and the animal prop,
- * and a div with a class of pet__breed, which contains an h1 with a class of text2, which contains the
- * text "Raza: " and the breed prop, and a div with a class of pet__age, which contains an h1 with a
- * class of text2, which contains the text "Año de nacimiento
- * @param props - {
- * @returns A component that shows the information of a pet.
- */
+/*Dynamic imports*/
+
+const Modal = dynamic(() => import('/components/Modal/Modal'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 export default function Pet (props) {
 
 
@@ -30,10 +25,6 @@ export default function Pet (props) {
   const Router = useRouter()
 
 
-
-   /**
-   * It deletes a pet from the database
-   */
    const deletePet = async () => {
 
     const res = await fetch(`${server}/api/pets/${session.user.username}`, {
@@ -113,7 +104,7 @@ export default function Pet (props) {
         </div>
         
       </div>
-      {isModalVisible && <Modal>
+      {isModalVisible && <LazyLoad><Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar mascota</h2> 
         <p className={global.text2}>Una vez lleves a cabo esta acción, todos los datos de esta mascota serán eliminados de forma permanente</p>
@@ -122,7 +113,7 @@ export default function Pet (props) {
           <button className={global.buttonSecondary} onClick={() => deletePet()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+      </Modal></LazyLoad>}
       <style jsx>{`
       
         .pet__row1{

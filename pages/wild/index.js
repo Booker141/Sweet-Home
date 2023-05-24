@@ -1,17 +1,21 @@
-import Head from 'next/head'
+/* Static imports */
+
 import { useSession, signIn} from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import global from 'styles/global.module.css'
-import { colors, fonts } from 'styles/frontend-conf'
-import { HiOutlineRefresh } from 'react-icons/hi'
-import Layout from 'components/Layout/Layout'
-import Sidebar from 'components/Sidebar/Sidebar'
-import Post from 'components/Post/Post'
-import User from 'components/UserCard/UserCard'
-import Loader from 'components/Loader/Loader'
+import { colors } from 'styles/frontend-conf'
 import { server } from '/server'
+import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+
+/* Dynamic imports */
+
+const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Layout = dynamic(() => import('/components/Layout/Layout'))
+const Post = dynamic(() => import('/components/Post/Post'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 /*
     * @author Sergio García Navarro

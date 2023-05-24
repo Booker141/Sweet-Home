@@ -1,14 +1,25 @@
-import Head from 'next/head'
-import global from 'styles/global.module.css'
+/* Static imports */
+
 import { colors, fonts } from 'styles/frontend-conf.js'
-import BasicLayout from 'components/BasicLayout/BasicLayout'
 import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
 import {HiMail, HiPhone, HiQuestionMarkCircle} from 'react-icons/hi'
 import {AiFillMessage} from 'react-icons/ai'
 import {MdLocationOn} from 'react-icons/md'
-import contact1 from '/public/contact1.png'
-import Image from 'next/image'
 import {server} from '/server'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import global from 'styles/global.module.css'
+import BasicLayout from '/components/BasicLayout/BasicLayout'
+import contact1 from '/public/contact1.png'
+
+
+/*Dynamic imports*/
+
+
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const LazyLoad = dynamic(() => import('react-lazyload'))
+
+
 /*
     * @author Sergio García Navarro
     * @returns Contact page
@@ -16,11 +27,7 @@ import {server} from '/server'
     * @date 13/12/2020
     * @description Contact page
 */
-/**
- * It returns the layout of the contact page.
- * @returns the Layout component, which is a component that contains the header, footer and the content
- * of the page.
- */
+
 export default function Contact () {
   return (
     <BasicLayout>
@@ -30,7 +37,7 @@ export default function Contact () {
         </Head>
 
         <div className='contact__image'>
-          <Image src={contact1} style={{borderRadius: '20px'}} size={500} priority/>
+          <FallbackImage src={contact1} style={{borderRadius: '20px'}} size={500}/>
         </div>
         <div className="contact__card-location">     
           <div className="contact__card">
