@@ -6,6 +6,7 @@ import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { server } from '/server'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import global from 'styles/global.module.css'
 
 /*Dynamic imports*/
