@@ -6,6 +6,7 @@ import {colors} from '/styles/frontend-conf'
 import { server } from '/server'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
+import dynamic from 'next/dynamic'
 
 
 /* Dynamic imports */
