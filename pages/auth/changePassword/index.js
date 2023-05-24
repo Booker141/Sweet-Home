@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
-import { BsFillCheckCircleFill } from 'react-icons/bs'
+import { BsFillCheckCircleFill, BsFillLockFill } from 'react-icons/bs'
 import { server } from '/server'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
