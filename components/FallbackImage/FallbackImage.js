@@ -11,7 +11,9 @@ const Image = dynamic(() => import('next/image'))
 
 export default function FallbackImage(props){
 
-    const [fallback, setFallback] = useState(props.src ? props.src : fallbackImage)
+    console.log(props.src)
+
+    const [fallback, setFallback] = useState(props.src)
 
     return(
 

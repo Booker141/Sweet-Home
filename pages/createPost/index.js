@@ -17,7 +17,7 @@ import dynamic from 'next/dynamic'
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
-
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
 export default function CreatePost () {
 
@@ -26,7 +26,8 @@ export default function CreatePost () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [postImage, setPostImage] = useState("")
-  const [previewImage, setPreviewImage] = useState(false)
+  const [IsPreviewImage, setIsPreviewImage] = useState(false)
+  const [previewImage, setPreviewImage] = useState("")
   const [typePost, setTypePost] = useState('Normal')
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
@@ -55,10 +56,11 @@ export default function CreatePost () {
             const imageData = reader.result
 
             setPostImage(imageData)
+            setPreviewImage(imageData)
       
           }
-
-          setPreviewImage(true)
+          console.log(previewImage)
+          setIsPreviewImage(true)
     }
   }
 
@@ -192,7 +194,7 @@ export default function CreatePost () {
                           </input>
                         </div>
                   </div>
-                  {previewImage && <FallbackImage src={postImage} alt="Imagen del logo" style={{borderRadius: '20px'}} width={100} height={100}/>}
+                  {IsPreviewImage && <FallbackImage src={previewImage} alt="Imagen de previsualización" style={{borderRadius: '20px'}} width={1000} height={700} />}
                   <div className='form-vertical__typePost'>
                     <label className="label">
                       <p className={global.text}>Elige el tipo de publicación:</p>

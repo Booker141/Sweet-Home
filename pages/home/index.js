@@ -21,6 +21,7 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 
+
 /*
     * @author Sergio García Navarro
     * @returns Posts page
