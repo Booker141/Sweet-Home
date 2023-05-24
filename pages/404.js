@@ -1,8 +1,8 @@
 /* Static imports */
 
 import { useRouter } from 'next/router'
-import { MdPets } from 'react-icons/md'
 import { colors, fonts } from '/styles/frontend-conf.js'
+import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
 /* Dynamic imports */

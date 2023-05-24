@@ -19,7 +19,6 @@ const Layout = dynamic(() => import('/components/Layout/Layout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-
 export default function CreatePost () {
 
   const { data: session, status } = useSession({ required: true })
@@ -27,6 +26,7 @@ export default function CreatePost () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [postImage, setPostImage] = useState("")
+  const [previewImage, setPreviewImage] = useState(false)
   const [typePost, setTypePost] = useState('Normal')
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
@@ -58,6 +58,7 @@ export default function CreatePost () {
       
           }
 
+          setPreviewImage(true)
     }
   }
 
@@ -191,6 +192,7 @@ export default function CreatePost () {
                           </input>
                         </div>
                   </div>
+                  {previewImage && <FallbackImage src={postImage} alt="Imagen del logo" style={{borderRadius: '20px'}} width={100} height={100}/>}
                   <div className='form-vertical__typePost'>
                     <label className="label">
                       <p className={global.text}>Elige el tipo de publicación:</p>
