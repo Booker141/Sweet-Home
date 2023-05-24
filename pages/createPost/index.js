@@ -53,10 +53,11 @@ export default function CreatePost () {
 
           reader.onload = () => {
 
+            setPreviewImage(reader.result)
             const imageData = reader.result
 
             setPostImage(imageData)
-            setPreviewImage(imageData)
+            
       
           }
           console.log(previewImage)

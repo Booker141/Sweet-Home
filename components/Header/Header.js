@@ -150,9 +150,7 @@ export default function Header (props) {
                         </div>}
                         {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                           <>
-                            <LazyLoad>
                               <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-                            </LazyLoad>
                           </>
                         ))}
           
@@ -223,9 +221,7 @@ export default function Header (props) {
                         </div>}
                         {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                           <>
-                            <LazyLoad>
                               <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-                            </LazyLoad>
                           </>
                         ))}
           
@@ -390,9 +386,7 @@ export default function Header (props) {
                         </div>}
                         {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                           <>
-                            <LazyLoad>
                               <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-                            </LazyLoad>
                           </>
                         ))}
           

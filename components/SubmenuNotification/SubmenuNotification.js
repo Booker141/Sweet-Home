@@ -16,6 +16,7 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function SubmenuNotification (props) {
 
   const [user, setUser] = useState({})
+  const [isImage, setIsImage] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [notification, setNotification] = useState(props)
 
@@ -34,6 +35,11 @@ export default function SubmenuNotification (props) {
     const data = res.json()
 
     setUser(data)
+
+    console.log(user)
+
+    if(user)
+      setIsImage(true)
 
   }
 
@@ -70,13 +76,13 @@ export default function SubmenuNotification (props) {
     getUser()
   }, [])
 
-
+  console.log(user.image)
 
     return (
       <>
         <div className={global.submenuNotification}>
           <div className='notification__userFrom'>
-            <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
+            {isImage && <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>}
           </div>
           <div className={global.text2}>
             {notification.description}

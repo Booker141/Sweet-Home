@@ -59,9 +59,9 @@ export default function Layout ({ children }) {
       
 
   }, [])
-
+  /*
   if(isNotification)
-      toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
+      toast(`🔔 Tiene ${notifications.length} notificaciones nuevas`, {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -72,7 +72,7 @@ export default function Layout ({ children }) {
         theme: "colored",
         });
 
-
+*/
 
   return (
 

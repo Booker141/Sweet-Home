@@ -2,22 +2,16 @@
 
 import { useState } from 'react'
 import fallbackImage from 'public/fallbackImage.png'
-import dynamic from 'next/dynamic'
+import Image from 'next/image'
 
-/* Dynamic imports */
-
-const Image = dynamic(() => import('next/image'))
 
 
 export default function FallbackImage(props){
 
-    console.log(props.src)
-
-    const [fallback, setFallback] = useState(props.src)
 
     return(
 
-        <Image src={fallback} alt={props.alt} width={props.width} height={props.height} style={props.style}/>
+        <Image src={props.src === undefined ? fallbackImage : props.src} alt={props.alt} width={props.width} height={props.height} style={props.style}/>
 
     )
 
