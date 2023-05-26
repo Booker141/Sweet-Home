@@ -10,13 +10,12 @@ import { GiSittingDog } from 'react-icons/gi'
 import {colors, fonts} from '/styles/frontend-conf'
 import { server } from '/server'
 import {toast} from 'react-toastify'
-import { registerLocale } from  "react-datepicker";
 import Head from 'next/head'
 import global from '/styles/global.module.css'
 import dynamic from 'next/dynamic'
-import pt from 'date-fns/locale/pt-BR';
-registerLocale('pt-BR', pt)
-import "react-datepicker/dist/react-datepicker.css";
+import transition from "react-element-popper/animations/transition"
+import opacity from "react-element-popper/animations/opacity"
+import InputIcon from "react-multi-date-picker/components/input_icon"
 
 
 
@@ -25,8 +24,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
+const DatePicker = dynamic(() => import("react-multi-date-picker"))
 const LazyLoad = dynamic(() => import('react-lazyload'))
-const DatePicker = dynamic(() => import('react-datepicker'))
 const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
 
@@ -287,17 +286,23 @@ export default function EditPet ({pets}) {
                       <FaBirthdayCake size={18} color={colors.secondary} />
                     </div>
                     <div className='birthdate__input'>
-                      <DatePicker                      
-                            showTimeSelect
+                    <DatePicker
                             title='Introducir fecha de nacimiento'
-                            type='text'
                             name='birthdate'
+                            render={<InputIcon/>}
                             value={birthdate}
-                            onChange={(date) => setBirthdate(date)}
+                            onChange={setBirthdate}
                             selected={birthdate}
-                            locale='pt-BR'
-                            className='input'
-                            showIcon
+                            format="DD/MM/YYYY"
+                            animations={[
+                              opacity(),
+                              transition({
+                                from: 40,
+                                transition: "all 400ms cubic-bezier(0.335, 0.010, 0.030, 1.360)",
+                              }),
+                            ]}
+
+                            inputClass="date__input"
                           />
                     </div>
                   </div>
