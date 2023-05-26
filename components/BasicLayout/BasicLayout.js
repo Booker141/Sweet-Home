@@ -89,7 +89,7 @@ export default function BasicLayout ({ children }) {
           <a title='Volver arriba' aria-label='Ir al inicio de página' href='#top' className={global.buttonTo}><ImArrowUp2 /></a>
         </div>
       </div>
-      <LazyLoad offset={800}><Footer /></LazyLoad>
+      <LazyLoad offset={800} once><Footer /></LazyLoad>
     </>
 
   )

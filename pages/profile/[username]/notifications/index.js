@@ -183,6 +183,8 @@ export default function Notifications ({notifications}) {
 
 export async function getServerSideProps(context){
 
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
 
   const notification = await fetch(`${server}/api/notifications/${context.query.username}`, {
     method: 'GET',

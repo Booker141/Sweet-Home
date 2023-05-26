@@ -31,8 +31,6 @@ export default function Notification (props) {
 
   const Router = useRouter()
 
-  console.log(props)
-
   const getUser = async() =>{
 
     const res = await fetch(`${server}/api/usersById/${notification.sender}`, {

@@ -4,9 +4,15 @@ import { ObjectId } from 'mongodb'
 export const config = {
   api: {
     responseLimit: false,
+    bodyParser: {
+      sizeLimit: '10mb' 
+  }
   },
 }
+
 export default async function handler (req, res) {
+
+  res.setHeader('Cache-Control', 's-maxage=10'); 
 
   const client = await clientPromise
   const db = await client.db()

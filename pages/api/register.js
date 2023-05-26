@@ -4,6 +4,8 @@ import clientPromise from './lib/MongoDB'
 
 export default async function handler (req, res) {
 
+  res.setHeader('Cache-Control', 's-maxage=10'); 
+
   if (req.method === 'POST') {
   
 
@@ -29,8 +31,8 @@ export default async function handler (req, res) {
     const hashPassword = await bcrypt.hash(body.password, salt)
 
     await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, 
-      password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: "/userPhotos/default.png", banner: "/userPhotos/defaultBanner.svg", status: userStatus, 
-      role: userRole, followers: [], following: [],  likes: [], saves: [], pets: [], complaints: [], 
+      password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: "/userPhotos/default.png", banner: "/bannerPhotos/defaultBanner.svg", status: userStatus, 
+      role: userRole, followers: [], following: [],  likes: [], saves: [], pets: [], complaints: [], posts: [], 
       accountId: null, createdAt: new Date() })
 
     if (res.statusCode == 500) {

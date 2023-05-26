@@ -20,6 +20,7 @@ import dynamic from 'next/dynamic'
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
 
 export default function CreatePet () {
@@ -32,32 +33,27 @@ export default function CreatePet () {
   const [breed, setBreed] = useState('')
   const [weight, setWeight] = useState('')
   const [birthdate, setBirthdate] = useState('')
-  const [message, setMessage] = useState('')
+  const [previewImage, setPreviewImage] = useState('')
+  const [isPreviewImage, setIsPreviewImage] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
 
 
 
-  const uploadImage = async (e) => {
-
+  const uploadImage = (e) => {
 
     if (e.target.files && e.target.files[0]) {
 
+      const imageUploaded = e.target.files[0]
 
-          const imageUploaded = e.target.files[0]
+      setPetImage(imageUploaded)
 
-          const reader = new FileReader()
+      console.log(imageUploaded)
 
-          reader.readAsDataURL(imageUploaded)
+      setPreviewImage(URL.createObjectURL(imageUploaded))
+      setIsPreviewImage(true)
 
-          reader.onload = () => {
-
-            const imageData = reader.result
-
-            setPetImage(imageData)
       
-          }
-
-    }
+      }
   }
 
   const createPet = async (e) => {
@@ -124,6 +120,17 @@ export default function CreatePet () {
         return
     }
 
+    if(petImage != ""){
+
+      const body = new FormData();
+
+      body.append("image", petImage); 
+
+      await fetch(`${server}/api/images/petPhotos`, {
+        method: "POST",
+        body
+      });
+    }
     setIsPosting(true)
 
     const res = await fetch(`${server}/api/pets/${session.user.username}`, {
@@ -139,9 +146,18 @@ export default function CreatePet () {
         weight: weight,
         birthdate: birthdate,
         username: session.user.username,
-        image: petImage
+        image: petImage ? `/petPhotos/${petImage?.name}` : ""
       })
-    }).catch(err => console.log(err))
+    }).catch(err => toast.error(`${err}`, { position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored", }))
+
+    
 
     const data = await res.json()
 
@@ -154,6 +170,7 @@ export default function CreatePet () {
       draggable: true,
       progress: undefined,
       theme: "colored", })
+      setIsPosting(false)
     } else {
       toast.success(`La mascota ha sido creada correctamente`, { position: "bottom-right",
       autoClose: 5000,
@@ -164,6 +181,7 @@ export default function CreatePet () {
       progress: undefined,
       theme: "colored", })
       Router.push('/profile/myprofile/pets')
+
     }
   }
 
@@ -187,10 +205,10 @@ export default function CreatePet () {
                 <h1 className='title'>Crear mascota</h1>
                 <p className={global.text2}>Introduzca los datos de la mascota. Los campos obligatorios vienen indicados con un asterisco *:</p>
               </div>
-                <form action='/api/posts' id='form'>
+                <form action='/api/pets' id='form'>
                   <div className='form-vertical__name'>
                     <div className='label'>
-                      <p className={global.text}>Nombre</p>
+                      <p className={global.text}>Nombre (*)</p>
                       <FaUserPlus size={18} color={colors.secondary} />
                     </div>
                     <div className='animal__input'>
@@ -208,7 +226,7 @@ export default function CreatePet () {
 
                   <div className='form-vertical__animal'>
                     <div className='label'>
-                      <p className={global.text}>Animal</p>
+                      <p className={global.text}>Animal (*)</p>
                       <MdPets size={18} color={colors.secondary} />
                     </div>
                     <div className='animal__input'>
@@ -225,7 +243,7 @@ export default function CreatePet () {
                   </div>
                   <div className='form-vertical__breed'>
                     <div className='label'>
-                      <p className={global.text}>Raza</p>
+                      <p className={global.text}>Raza (*)</p>
                       <GiSittingDog size={18} color={colors.secondary} />
                     </div>
                     <div className='breed__input'>
@@ -259,9 +277,10 @@ export default function CreatePet () {
                           </input>
                         </div>
                   </div>
+                  {isPreviewImage && <FallbackImage src={previewImage} alt="Imagen de previsualización" style={{borderRadius: '20px'}} width={1000} height={700} />}
                   <div className='form-vertical__weight'>
                     <div className='label'>
-                      <p className={global.text}>Peso</p>
+                      <p className={global.text}>Peso (*)</p>
                       <FaWeight size={18} color={colors.secondary} />
                     </div>
                     <div className='weight__input'>
@@ -279,7 +298,7 @@ export default function CreatePet () {
                   </div>
                   <div className='form-vertical__birthdate'>
                     <div className='label'>
-                      <p className={global.text}>Año de nacimiento</p>
+                      <p className={global.text}>Año de nacimiento (*)</p>
                       <FaBirthdayCake size={18} color={colors.secondary} />
                     </div>
                     <div className='birthdate__input'>

@@ -26,6 +26,8 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Post (props) {
 
+  console.log(props)
+
   const { data: session, status } = useSession()
   const [user, setUser] = useState({})
   const [comments, setComments] = useState(props.comments)
@@ -75,16 +77,16 @@ export default function Post (props) {
         'Content-Type': 'application/json'
       }
     })
-    const user = await res.json()
-    setUser(user)
+    const data = await res.json()
+    setUser(data)
 
-    if(user?.role.name === "protectora")
+    if(data?.role.name === "protectora")
       setIsShelter(true)
-    if(user?.role.name === "veterinaria")
+    if(data?.role.name === "veterinaria")
       setIsVet(true)
-    if(user?.role.name === "administrador")
+    if(data?.role.name === "administrador")
       setIsAdmin(true)
-    if(user?.role.name === "gerente")
+    if(data?.role.name === "gerente")
       setIsManager(true)
 
   }
@@ -149,10 +151,10 @@ export default function Post (props) {
                 </p>
                 {(user?.username === session?.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               </div>
-              {props?.type.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
-              {props?.type.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
-              {props?.type.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
-              {props?.type.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
+              {props.type.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
+              {props.type.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
+              {props.type.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
+              {props.type.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
             </div>
           </div>
           <hr className={global.white__line2} />
@@ -171,23 +173,15 @@ export default function Post (props) {
               </div>
             </div>
           </div>
-          <LazyLoad offset={100}>
-            {props.image != "" && <div className="post__image">
-              <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>
-            </div>}
-          </LazyLoad>
+            <div className="post__image">
+              {props.image != "" && <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>}
+            </div>
           <div className='post__icons'>
-            <LazyLoad offset={100}>
               <Like likes={props.likes} postId={props.id}/>  
-            </LazyLoad> 
-            <LazyLoad>
               <Save saves={props.saves} postId={props.id}/>
-            </LazyLoad>
           </div>
           <div className="comments">
-              <LazyLoad>
                 <Comment postId={props.id} comments={comments}/>
-              </LazyLoad>
           </div>
             
         </div>
@@ -482,6 +476,7 @@ export default function Post (props) {
 
                     display: flex;
                     align-items: center;
+                    padding: 1rem;
 
 
                     /*Visuals*/
@@ -489,6 +484,8 @@ export default function Post (props) {
                     border: none;
                     background: transparent;
                     cursor: pointer;
+                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                    border-radius: 70px;
 
                 }
 

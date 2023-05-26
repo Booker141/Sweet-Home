@@ -242,16 +242,18 @@ export default function Lost ({posts}) {
   }
 }
 
-export async function getServerSideProps(){
+export async function getServerSideProps({res}){
 
-    const res = await fetch(`${server}/api/lostAnimals/`, {
+  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
+    const res2 = await fetch(`${server}/api/lostAnimals/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
     
-      const posts = await res.json()
+      const posts = await res2.json()
       
         return {    
 

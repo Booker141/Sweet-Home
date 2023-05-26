@@ -9,6 +9,8 @@ export const config = {
 
 export default async function handler (req, res) {
 
+  res.setHeader('Cache-Control', 's-maxage=10'); 
+
   const client = await clientPromise
   const db = await client.db()
   
@@ -19,6 +21,7 @@ export default async function handler (req, res) {
 
     const users = JSON.parse(JSON.stringify(data))
 
+    console.log(users)
     res.status(200).json(users)
   }
 

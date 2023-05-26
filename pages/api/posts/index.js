@@ -1,14 +1,22 @@
 import clientPromise from '../lib/MongoDB'
 import { ObjectId } from 'mongodb'
 
+
 export const config = {
   api: {
-      bodyParser: {
-          sizeLimit: '20mb' 
-      }
+    bodyParser:  {
+      sizeLimit: '10mb' 
   }
-}
+  },
+};
+
+
+
 export default async function handler (req, res) {
+
+
+  res.setHeader('Cache-Control', 's-maxage=10'); 
+
 
   const client = await clientPromise
   const db = await client.db()
@@ -29,6 +37,7 @@ export default async function handler (req, res) {
   }
 
   if (req.method === 'POST') {
+
 
     if(body.type === 'Normal' || body.type === '') {
 

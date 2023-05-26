@@ -257,6 +257,8 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
 
 export async function getServerSideProps (context) {
 
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
   const { typeAttendance } = context.params
 
   const res = await fetch(`${server}/api/threads/${typeAttendance}`, {

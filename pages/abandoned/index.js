@@ -235,16 +235,18 @@ export default function Abandoned ({posts}) {
   }
 }
 
-export async function getServerSideProps(){
+export async function getServerSideProps({res}){
 
-    const res = await fetch(`${server}/api/abandonedAnimals/`, {
+    res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
+    const res2 = await fetch(`${server}/api/abandonedAnimals/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
     
-      const posts = await res.json()
+      const posts = await res2.json()
       
         return {    
 

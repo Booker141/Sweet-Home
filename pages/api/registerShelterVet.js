@@ -3,6 +3,8 @@ import { MongoClient, ObjectId } from 'mongodb'
 
 export default async function handler (req, res) {
 
+  res.setHeader('Cache-Control', 's-maxage=10'); 
+
   if (req.method === 'POST') {
 
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -34,8 +36,8 @@ export default async function handler (req, res) {
     const hashPassword = await bcrypt.hash(body.password, salt)
 
     await db.collection('users').insertOne({ email: body.email, firstname: body.name, lastname: body.lastname, username: body.username, 
-      password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: '/userPhotos/default.png', banner: "/userPhotos/defaultBanner.svg", status: userStatus, 
-      role: userRole, followers: [], following: [], likes: [], saves: [], pets: [], complaints: [], accountId: ObjectId, createdAt: new Date()})
+      password: hashPassword, phone: '', gender: '', birthdate: new Date('<2012-12-12>'), biography: '', location: "", image: '/userPhotos/default.png', banner: "/bannerPhotos/defaultBanner.svg", status: userStatus, 
+      role: userRole, followers: [], following: [], likes: [], saves: [], pets: [], complaints: [], posts: [], accountId: ObjectId, createdAt: new Date()})
 
     if (res.statusCode == 500) {
       res.status(500).json({ message: 'Error al registrar el usuario.' })

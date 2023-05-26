@@ -61,7 +61,7 @@ export default function Thread ({ attendances }) {
         </Head>
         <h1 className={global.title}>{router.query.thread}</h1>
         <div className='sort__buttons'>
-          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear</button>
+          <button className={global.buttonPrimary} onClick={() => router.push(`/attendances/${router.query.typeAttendance}/${router.query.thread}/createAttendance`)} aria-label='Crear nuevo cuidado'>Crear cuidado</button>
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>
@@ -196,6 +196,8 @@ export default function Thread ({ attendances }) {
 }
 
 export async function getServerSideProps (context) {
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
   const { thread } = context.params;
 

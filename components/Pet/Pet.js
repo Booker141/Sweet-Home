@@ -1,7 +1,7 @@
 /* Static imports */
 
 import { server } from '../../server'
-import {MdDeleteOutline, MdClose} from 'react-icons/md'
+import {MdDeleteOutline,MdOutlineEdit, MdClose} from 'react-icons/md'
 import {useSession} from 'next-auth/react'
 import {colors} from '../../styles/frontend-conf'
 import {toast} from 'react-toastify'
@@ -17,6 +17,8 @@ const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackIm
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Pet (props) {
+
+  console.log(props)
 
 
   const { data: session, status } = useSession({ required: true })
@@ -71,7 +73,7 @@ export default function Pet (props) {
       <div key={props.id} className={global.pet}>
         <div className='pet__row1'>
           <div className='pet__column1'>
-            <FallbackImage src={props.image} style={{ borderRadius: '10px', maxWidth: '20vw'}} width={800} height={500} alt="Imagen de la mascota"/>    
+            <FallbackImage src={props.image} style={{ borderRadius: '10px', maxWidth: '20vw'}} width={800} height={600} alt="Imagen de la mascota"/>    
           </div>
           <div className='pet__column2'>
             <div className='pet__name'>
@@ -99,7 +101,7 @@ export default function Pet (props) {
               </div>
           </div>
           <div className="pet__column3">
-          {(props.ownerUsername === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+          {(props.ownerUsername === session.user.username) && <div className="buttons"><button className='edit__button' onClick={() => Router.push(`/profile/myprofile/pets/editPet/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
         </div>
         
@@ -167,6 +169,14 @@ export default function Pet (props) {
 
         }
 
+        .button{
+            /*Box model*/
+
+            display: flex;
+                    flex-direction: row;
+                    gap: 1rem;
+        }
+
         .close__modal{
 
           /*Box model*/
@@ -198,10 +208,31 @@ export default function Pet (props) {
 
         .delete__button{
 
+          /*Box model*/
+
+          padding: 1rem;
+
           /*Visuals*/
+
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          border-radius: 70px;
 
           background: transparent;
         }
+
+        .edit__button{
+
+          /*Box model*/
+
+          padding: 1rem;
+
+          /*Visuals*/
+
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          border-radius: 70px;
+
+          background: transparent;
+          }
 
         button{
 

@@ -1,10 +1,10 @@
 /* Static imports */
 
 import { useSession, getSession, signOut, signIn } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { AiFillPhone } from 'react-icons/ai'
-import { MdOutlineError } from 'react-icons/md'
+import { MdOutlineError, MdClose } from 'react-icons/md'
 import { BsGenderAmbiguous, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
 import { server } from '/server'
 import {toast} from 'react-toastify'
@@ -25,34 +25,21 @@ export default function Settings ({users}) {
   const { data: session, status } = useSession({ required: true })
 
 
-  const [user, setUser] = useState(users)
-  const [name, setName] = useState(users.firstname)
-  const [lastname, setLastname] = useState(users.lastname)
   const [phone, setPhone] = useState(users.phone)
-  const [biography, setBiography] = useState(users.biography)
-  const [birthdate, setBirthdate] = useState(users.birthdate)
   const [gender, setGender] = useState(users.gender)
-  const [location, setLocation] = useState(users.location)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
 
 
 
-
-
-  /**
-   * It checks if the input is valid and if it is, it adds a class to the input and the icon to show
-   * that it's valid. If it's not, it adds a class to the input and the icon to show that it's not
-   * valid
-   * @param e - event
-   */
   const validate = (e) => {
+
     // Regular expressions
 
     const regPhone = /^(?:6[0-9]|7[1-9])[0-9]{7}$/
 
-
-    if (e.target.name == 'phone' && e.target.value.trim()== '') {
+    if (e.target.name == 'phone') {
       if (phone.length < 9 || phone.length > 9 || !regPhone.test(phone)) {
         document.getElementById('phone__error').classList.add('form__input-phoneError--active')
         document.getElementById('error__phone').classList.add('form__error-icon--active')
@@ -73,7 +60,6 @@ export default function Settings ({users}) {
    */
   const deleteAccount = async (e) => {
 
-    e.preventDefault()
 
     await fetch(`${server}/api/users/${session.user.username}`, {
       method: 'DELETE',
@@ -91,7 +77,7 @@ export default function Settings ({users}) {
       progress: undefined,
       theme: "colored", })
     
-      signOut()
+      Router.push(`${server}/auth/signIn`)
   }
 
 
@@ -106,16 +92,20 @@ export default function Settings ({users}) {
 
     if (isValidate) {
 
-      await fetch(`${server}/api/users/${session.user.username}`, {
+      setIsEditing(true)
+
+      await fetch(`${server}/api/usersPrivateInformation/${session.user.username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          phone: phone !== user.phone ? phone : user.phone,
-          gender: gender !== user.gender ? gender : user.gender,
+          phone: phone,
+          gender: gender,
         })
       }).catch(err => console.log(err))
+
+      
 
       toast.success(`Se han guardado los datos correctamente`, { position: "bottom-right",
       autoClose: 5000,
@@ -125,9 +115,9 @@ export default function Settings ({users}) {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-
+      setIsEditing(false)
     } else {
-      toast.error(`Introduzca los datos correctamente`, { position: "bottom-right",
+      toast.error(`Introduzca los datos con el formato correcto`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
@@ -173,29 +163,29 @@ export default function Settings ({users}) {
                     onChange={(e) => setPhone(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder={`${phone}`}
+                    placeholder="Escriba su teléfono"
                     className='input'
                   />
                   <div id='error__phone' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__phone' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='phone__error' className='form__input-phoneError'>
+                  
+              </div>
+              <div id='phone__error' className='form__input-phoneError'>
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
                     <p className={global.text2}>Debe seguir el formato 6XXXXXXXX.</p>
                   </div>
                 </div>
-              </div>
-              
               <div className='form-vertical__gender'>
                 <div className='label'>
                   <p className={global.text}>Género</p>
                   <BsGenderAmbiguous size={18} color={colors.secondary} />
                 </div>
-                <select name='gender' id='gender' className='selector' onChange={(e) => setGender(e)}>
-                  <option value='male'>Masculino</option>
-                  <option value='woman'>Femenino</option>
-                  <option value='other'>Otro</option>
+                <select name='gender' id='gender' className='selector' onChange={(e) => setGender(e.target.value)}>
+                  <option value='masculino'>Masculino</option>
+                  <option value='femenino'>Femenino</option>
+                  <option value='otro'>Otro</option>
                 </select>
               </div>
               <div className='settings__buttons'>
@@ -203,17 +193,19 @@ export default function Settings ({users}) {
                 <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
               </div>
             </form>
-            <input type='submit' value='Guardar' className={global.buttonPrimary} onClick={(e) => edit(e)} />    
+            <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Editando..' : 'Editar'} />  
           </div>
           </div>
-          {isModalVisible && <Modal>
-              <h2 className={global.title3}>Eliminar cuenta</h2>
-              <p className={global.text2}>¿Estás seguro de que quieres eliminar tu cuenta?</p>
-              <div className='buttons'>
-                <button className={global.buttonSecondary} onClick={(e) => deleteAccount(e)}>Sí</button>
-                <button className={global.buttonTertiary3} onClick={() => setIsModalVisible(false)}>No</button>
-              </div>
-          </Modal>}
+          {isModalVisible && <LazyLoad><Modal>
+            <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
+            <h2 className={global.title3}>Eliminar cuenta</h2>
+            <p className={global.text2}>Eliminando la cuenta, será eliminados todos sus datos de la aplicación</p>
+            <p className={global.text2__bold}>¿Estás seguro de eliminar la cuenta?</p>
+            <div className='buttons'>
+              <button className={global.buttonSecondary} onClick={() => deleteAccount()}>Sí</button>
+              <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+            </div>
+      </Modal></LazyLoad>}
 
         <style jsx>{`
 
@@ -231,6 +223,24 @@ export default function Settings ({users}) {
                     /*Visuals*/
 
                     border-radius: 20px;
+
+                }
+
+                               
+                .close__modal{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-self: flex-end;
+                margin-right: 2rem;
+
+                /*Visuals*/
+
+                border: none;
+                background: transparent;
+                cursor: pointer;
 
                 }
 
@@ -478,15 +488,14 @@ export default function Settings ({users}) {
 
                 /*Position*/
 
-                position: absolute;
+                position: relative;
 
                 /*Box model*/
 
-                display: flex;
+                display: none;
                 flex-direction: row;
                 align-items: center;
                 margin-bottom: 2rem;
-                margin-left: 20rem;
 
                 /*Text*/
 
@@ -514,9 +523,7 @@ export default function Settings ({users}) {
 
                 /*Position*/
 
-                position: absolute;
-                margin-left: 20rem;
-                margin-bottom: 2rem;
+                position: relative;
 
                 /*Box model*/
 
@@ -704,7 +711,7 @@ export default function Settings ({users}) {
               
               /*Visuals*/
 
-              background: transparent;
+              background: ${colors.primary};
               border-radius: 20px;
               border: 2px solid ${colors.secondary};
 
@@ -875,6 +882,8 @@ export default function Settings ({users}) {
 }
 
 export async function getServerSideProps(context){
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
   const session = await getSession(context)
 

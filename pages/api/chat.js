@@ -3,6 +3,8 @@ import {Server} from 'socket.io'
 
 export default async function handler (req, res) {
 
+  res.setHeader('Cache-Control', 's-maxage=10'); 
+
   let usersOnline = [];
 
   const io = new Server(res.socket.server);

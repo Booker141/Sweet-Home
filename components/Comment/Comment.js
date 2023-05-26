@@ -246,7 +246,7 @@ export default function Comment (props) {
                 <p className={global.text4__bold}>Comentarios</p>
                 <button className='refresh__button' onClick={() => getComments()}><HiOutlineRefresh size={15} color={colors.quaternary} /></button>
               </div>
-              <LazyLoad offset={100}><CommentsCounter comments={comments}/></LazyLoad>
+              <CommentsCounter comments={comments}/>
             </div>
             <hr className={global.line} />
             {comments?.length === 0 && <p className={global.text}>No hay ningún comentario</p>}

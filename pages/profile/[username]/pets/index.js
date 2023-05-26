@@ -82,7 +82,6 @@ export default function Pets({petsList}) {
         <Head><title>Mascotas | Sweet Home</title></Head>
         <h1 className="title">Mascotas de {router.query.username}</h1>
         <div className="pet__buttons">
-          <button className={global.buttonPrimary}><a href='/profile/myprofile/pets/createPet' title='Ir a la página para añadir mascotas' aria-label='Ir a la página para añadir mascotas'>Añadir mascota</a></button>
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
                       <option default value="default">Selecciona un filtro</option>
@@ -238,6 +237,8 @@ export default function Pets({petsList}) {
 }
 
 export async function getServerSideProps(context){
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
     const res = await fetch(`${server}/api/pets/${context.query.username}`, {
         method: 'GET',

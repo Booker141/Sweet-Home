@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/router'
 import { colors, fonts } from '/styles/frontend-conf.js'
+import global from '/styles/global.module.css'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 

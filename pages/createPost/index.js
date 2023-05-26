@@ -16,6 +16,7 @@ import dynamic from 'next/dynamic'
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
+const InputEmoji = dynamic(() => import('react-input-emoji'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
@@ -26,50 +27,27 @@ export default function CreatePost () {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
   const [postImage, setPostImage] = useState("")
-  const [IsPreviewImage, setIsPreviewImage] = useState(false)
+  const [isPreviewImage, setIsPreviewImage] = useState(false)
   const [previewImage, setPreviewImage] = useState("")
   const [typePost, setTypePost] = useState('Normal')
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
 
- 
-  /**
-   * The function uploads an image and sets it as the post image.
-   * @param e - The parameter "e" is an event object that is passed to the function when it is called.
-   * It represents the event that triggered the function, in this case, the "change" event of an input
-   * element that allows the user to upload an image file.
-   */
-  const uploadImage = async (e) => {
-
+  const uploadImage = (e) => {
 
     if (e.target.files && e.target.files[0]) {
 
+      const imageUploaded = e.target.files[0]
 
-          const imageUploaded = e.target.files[0]
+      setPostImage(imageUploaded)
 
-          const reader = new FileReader()
+      setPreviewImage(URL.createObjectURL(imageUploaded))
+      setIsPreviewImage(true)
 
-          reader.readAsDataURL(imageUploaded)
-
-          reader.onload = () => {
-
-            setPreviewImage(reader.result)
-            const imageData = reader.result
-
-            setPostImage(imageData)
-            
       
-          }
-          console.log(previewImage)
-          setIsPreviewImage(true)
-    }
+      }
   }
 
-
-  /**
-   * It creates a post in the database
-   * @param e - the event object
-   */
   const createPost = async (e) => {
     
     e.preventDefault()
@@ -86,6 +64,23 @@ export default function CreatePost () {
         return
     }
 
+    setIsPosting(true)
+
+    if(postImage != ""){
+
+      const body = new FormData();
+
+      body.append("image", postImage); 
+  
+      await fetch(`${server}/api/images/postPhotos`, {
+        method: "POST",
+        body
+      });
+
+    }
+
+   
+
     const res = await fetch(`${server}/api/posts`, {
       method: 'POST',
       headers: {
@@ -96,16 +91,26 @@ export default function CreatePost () {
         location,
         description,
         username: session.user.username,
-        image: postImage,
+        image: postImage ? `/postPhotos/${postImage?.name}` : "",
         type: typePost
       })
     }).catch(err => console.log(err))
+    
 
     const data = await res.json()
 
     if (data.error) {
       console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
+      toast.success('Introduzca los campos obligatorios', { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+
+      setIsPosting(false)
     } else {
       toast.success('Se ha publicado correctamente', { position: "bottom-right",
         autoClose: 5000,
@@ -115,7 +120,9 @@ export default function CreatePost () {
         draggable: true,
         progress: undefined,
         theme: "colored", })
-      setMessage('Publicación creada correctamente')
+
+        setIsPosting(false)
+
 
         Router.push(`${server}/home`)
 
@@ -146,7 +153,7 @@ export default function CreatePost () {
                 <div className='form-vertical__location'>
                   <div className='label'>
                     <p className={global.text}>Ubicación</p>
-                    <MdLocationOn size={25} color={colors.secondary} />
+                    <MdLocationOn size={18} color={colors.secondary} />
                   </div>
                   <div className='location__input'>
                     <input
@@ -163,23 +170,26 @@ export default function CreatePost () {
                 <div className='form-vertical__description'>
                   <div className='label'>
                     <p className={global.text}>Descripción (*)</p>
-                    <BsFillChatLeftTextFill size={25} color={colors.secondary} />
+                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
                   <div className='description__input'>
-                    <textarea
-                          title='Introducir descripción'
-                          name='Description'
-                          value={description}
-                          required
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder='p. ej.: Esta es mi mascota...'
-                        />
+                      <InputEmoji
+                      title='Introducir descripción'
+                      type='text'
+                      name='Description'
+                      id='post'
+                      value={description}
+                      onChange={setDescription}
+                      placeholder='p. ej.: Esta es mi mascota...'
+                      fontFamily={`${fonts.default}`}
+                      borderColor={`${colors.primary}`}
+                    />
                   </div>
                   </div>
                   <div className='form-vertical__image'>
                     <div className='label'>
                           <p className={global.text}>Seleccionar imagen:</p>
-                          <BsImageFill size={25} color={colors.secondary} />
+                          <BsImageFill size={18} color={colors.secondary} />
                         </div>
                     <div className='image__input'>
                           <input
@@ -195,7 +205,7 @@ export default function CreatePost () {
                           </input>
                         </div>
                   </div>
-                  {IsPreviewImage && <FallbackImage src={previewImage} alt="Imagen de previsualización" style={{borderRadius: '20px'}} width={1000} height={700} />}
+                  {isPreviewImage && <FallbackImage src={previewImage} alt="Imagen de previsualización" style={{borderRadius: '20px'}} width={1000} height={700} />}
                   <div className='form-vertical__typePost'>
                     <label className="label">
                       <p className={global.text}>Elige el tipo de publicación:</p>
@@ -344,7 +354,6 @@ export default function CreatePost () {
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
-                        width: 115%;
                         
 
                     }

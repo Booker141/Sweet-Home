@@ -214,16 +214,18 @@ else {
 }
 }
 
-export async function getServerSideProps () {
+export async function getServerSideProps ({res}) {
 
-  const res = await fetch(`${server}/api/vets`, {
+  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
+  const res2 = await fetch(`${server}/api/vets`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   })
 
-  const users = await res.json()
+  const users = await res2.json()
 
   return {
     props: { users: JSON.parse(JSON.stringify(users)) }

@@ -218,6 +218,8 @@ export default function Attendances ({ typeAttendance, users }) {
 
 export async function getServerSideProps (context) {
 
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
   const session = await getSession(context)
 
   const res = await fetch(`${server}/api/typeAttendance`, {

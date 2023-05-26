@@ -10,7 +10,6 @@ export default function CommentsCounter(props){
 
     const [commentsCount, setCommentsCount] = useState(props.comments.length)
 
-    console.log(commentsCount)
 
     return(
         <>

@@ -99,7 +99,7 @@ export default function AllPets ({ pets }) {
           {petsList.map(({ _id, animal, breed, name, weight, birthdate, image, ownerUsername }) => {
             return (
                 <>
-                    <LazyLoad offset={100}><Pet key={_id} id={_id} animal={animal} breed={breed} name={name} weight={weight} birthdate={birthdate} image={image} ownerUsername={ownerUsername} /></LazyLoad>
+                    <LazyLoad offset={100} once><Pet key={_id} id={_id} animal={animal} breed={breed} name={name} weight={weight} birthdate={birthdate} image={image} ownerUsername={ownerUsername} /></LazyLoad>
                 </>
             )
         })}
@@ -243,16 +243,18 @@ export default function AllPets ({ pets }) {
 }
 }
 
-export async function getServerSideProps () {
+export async function getServerSideProps ({res}) {
 
-  const res = await fetch(`${server}/api/pets`, {
+  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
+  const res2 = await fetch(`${server}/api/pets`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   })
 
-  const pets = await res.json()
+  const pets = await res2.json()
 
   return {
     props: { pets: JSON.parse(JSON.stringify(pets)) }

@@ -35,7 +35,7 @@ export default function SettingsSidebar(){
                     <a className="sidebar__link" href="/profile/myprofile/settings/privateInformation" alt="Ir a editar información privada"><HiLockClosed size={20} color={`${colors.secondary}`}/>Gestión de información privada</a>
                     <a className="sidebar__link" href="/profile/myprofile/saved" alt="Ir a Guardados"><HiBookmark size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Guardados</a>
                     <a className="sidebar__link" href="/profile/myprofile/pets" alt="Ir a Mascotas"><GiDogBowl size={20} color={`${colors.secondary}`}/>Mis mascotas</a>
-                    <a className="sidebar__link" href="/profile/myprofile/myComplaints" alt="Ir a Denuncias"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Mis denuncias</a>
+                    <a className="sidebar__link" href="/profile/myprofile/complaints" alt="Ir a Denuncias"><MdReport size={20} color={colors.secondary} styles={{fontWeight: 'bold'}}/>Mis denuncias</a>
                 </div>
                 <div className='footer'>
                     <div className='footer__links'>

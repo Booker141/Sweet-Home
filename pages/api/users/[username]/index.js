@@ -12,6 +12,8 @@ export const config = {
 }
 
 export default async function handler (req, res) {
+
+  res.setHeader('Cache-Control', 's-maxage=10'); 
   
   const client = await clientPromise
   const db = await client.db()
@@ -39,7 +41,7 @@ export default async function handler (req, res) {
       gender: body.gender,
       birthdate: new Date(body.birthdate),
       biography: body.biography,
-      location: user.location,
+      location: body.location,
       image: body.image,
       banner: body.banner,
       status: user.status,
@@ -49,6 +51,7 @@ export default async function handler (req, res) {
       likes: user.likes,
       saves: user.saves,
       pets: user.pets,
+      posts: user.posts,
       complaints: user.complaints,
       accountId: user.accountId,
       createdAt: user.createdAt   

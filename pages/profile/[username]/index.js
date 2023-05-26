@@ -518,6 +518,8 @@ export default function Username ({ posts, users}) {
 
 export async function getServerSideProps (context) {
 
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
 
   const post = await fetch(`${server}/api/posts/${context.query.username}`, {
     method: 'GET',

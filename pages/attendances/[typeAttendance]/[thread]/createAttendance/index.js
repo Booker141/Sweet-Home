@@ -19,7 +19,9 @@ import global from '/styles/global.module.css'
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
+const InputEmoji = dynamic(() => import('react-input-emoji'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
+const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
 export default function CreateAttendance () {
 
@@ -31,35 +33,58 @@ export default function CreateAttendance () {
   const [attendanceImage, setAttendanceImage] = useState('')
   const [animal, setAnimal] = useState('')
   const [breed, setBreed] = useState('')
+  const [previewImage, setPreviewImage] = useState('')
+  const [isPosting, setIsPosting] = useState(false)
+  const [isPreviewImage, setIsPreviewImage] = useState(false)
   const [message, setMessage] = useState('')
 
 
-  const uploadImage = async (e) => {
-
+  const uploadImage = (e) => {
 
     if (e.target.files && e.target.files[0]) {
 
+      const imageUploaded = e.target.files[0]
 
-          const imageUploaded = e.target.files[0]
+      setAttendanceImage(imageUploaded)
 
-          const reader = new FileReader()
 
-          reader.readAsDataURL(imageUploaded)
+      setPreviewImage(URL.createObjectURL(imageUploaded))
+      setIsPreviewImage(true)
 
-          reader.onload = () => {
-
-            const imageData = reader.result
-
-            setAttendanceImage(imageData)
       
-          }
-
-    }
+      }
   }
 
   const createAttendance = async (e) => {
 
     e.preventDefault()
+
+    if(description.trim() === ''){
+      toast.error('El campo descripción es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(attendanceImage != ""){
+
+      const body = new FormData();
+
+      body.append("image", attendanceImage); 
+
+      await fetch(`${server}/api/images/attendancePhotos`, {
+        method: "POST",
+        body
+      });
+
+  }
+
+    setIsPosting(true)
 
     const res = await fetch(`${server}/api/attendances/${Router.query.thread}`, {
       method: 'POST',
@@ -73,7 +98,7 @@ export default function CreateAttendance () {
         animal,
         breed,
         username: session.user.username,
-        image: attendanceImage
+        image: attendanceImage ? `/attendancePhotos/${attendanceImage?.name}` : ""
       })
     }).catch(err => console.log(err))
 
@@ -81,7 +106,6 @@ export default function CreateAttendance () {
 
     if (data.error) {
       console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
       toast.error('Introduzca los campos obligatorios', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -90,6 +114,7 @@ export default function CreateAttendance () {
         draggable: true,
         progress: undefined,
         theme: "colored", })
+        setIsPosting(false)
     } else {
       toast.success('Se ha publicado el cuidado correctamente', { position: "bottom-right",
         autoClose: 5000,
@@ -99,7 +124,6 @@ export default function CreateAttendance () {
         draggable: true,
         progress: undefined,
         theme: "colored", })
-      setMessage('Publicación de cuidado creada correctamente')
       Router.push(`/attendances/${Router.query.typeAttendance}/${Router.query.thread}`)
     }
   }
@@ -156,22 +180,26 @@ export default function CreateAttendance () {
                             className='input'
                           >
                           </input>
-              
                   </div>
                 </div>
-                <div className='form-vertical__new'>
+                {isPreviewImage && <FallbackImage src={previewImage} alt="Imagen de previsualización" style={{borderRadius: '20px'}} width={1000} height={700} />}
+                <div className='form-vertical__description'>
                   <div className='label'>
                     <p className={global.text}>Descripción (*)</p>
                     <BsFillChatLeftTextFill size={18} color={colors.secondary} />
                   </div>
-                  <div className='password__input'>
-                    <textarea
-                          title='Introducir descripción'
-                          name='Description'
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder='p. ej.: Esta es mi mascota...'
-                        />
+                  <div className='description__input'>
+                  <InputEmoji
+                      title='Introducir descripción'
+                      type='text'
+                      name='Description'
+                      id='attendance'
+                      value={description}
+                      onChange={setDescription}
+                      placeholder='p. ej.: Esta es el cuidado..'
+                      fontFamily={`${fonts.default}`}
+                      borderColor={`${colors.primary}`}
+                    />
                   </div>
                 </div>
                 <div className='form-vertical__animal'>
@@ -209,7 +237,7 @@ export default function CreateAttendance () {
                   </div>
                 </div>
               </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createAttendance(e)} value='Crear' />
+              <input className={global.buttonPrimary} type='submit' onClick={(e) => createAttendance(e)} value={isPosting ? 'Creando..' : 'Crear'}  />
             </div>
           </div>
         </div>
@@ -307,14 +335,14 @@ export default function CreateAttendance () {
 
                     }
 
-                    .form-vertical__new {
+                    .form-vertical__description {
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
+                        
 
                     }
 
@@ -329,14 +357,13 @@ export default function CreateAttendance () {
 
                     }
 
-                    .password__input{
+                    .description__input{
 
                         /*Box model*/
 
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
-                        width: 115%;
                         
 
                     }

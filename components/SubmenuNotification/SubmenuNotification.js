@@ -4,6 +4,9 @@
 import {server} from '/server'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
+import {FaUserPlus, FaComment} from 'react-icons/fa'
+import {HiHeart, HiOutlineClock} from 'react-icons/hi'
+import {colors} from '/styles/frontend-conf'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
 
@@ -15,33 +18,12 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function SubmenuNotification (props) {
 
-  const [user, setUser] = useState({})
-  const [isImage, setIsImage] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [notification, setNotification] = useState(props)
 
+  console.log(notification)
+
   const router = useRouter()
-
-
-  const getUser = async() =>{
-
-    const res = await fetch(`${server}/api/usersById/${notification.sender}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const data = res.json()
-
-    setUser(data)
-
-    console.log(user)
-
-    if(user)
-      setIsImage(true)
-
-  }
 
 
   const calcTime = () => {
@@ -72,17 +54,15 @@ export default function SubmenuNotification (props) {
 
   }
 
-  useEffect(() => {
-    getUser()
-  }, [])
 
-  console.log(user.image)
 
     return (
       <>
         <div className={global.submenuNotification}>
           <div className='notification__userFrom'>
-            {isImage && <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>}
+            {notification.type.name === "seguir" && <FaUserPlus color={`${colors.secondary}`} size={40}/>}
+            {notification.type.name === "comentar" && <FaComment color={`${colors.secondary}`} size={35}/>}
+            {notification.type.name === "me gusta" && <HiHeart color={`${colors.secondary}`} size={40}/>}
           </div>
           <div className={global.text2}>
             {notification.description}

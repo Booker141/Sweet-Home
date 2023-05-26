@@ -63,21 +63,6 @@ export default function Principal () {
         <a name='top' />
         <div className='content__container1'>
           <div className='container1__title'>
-           {/* <h1 className='title'>
-              {/*<span>
-                <span>S</span>
-                <span>w</span>
-                <span>e</span>
-                <span>e</span>
-                <span>t</span>
-                <span>&nbsp;</span>
-                <span>H</span>
-                <span>o</span>
-                <span>m</span>
-                <span>e</span>
-              </span>
-              Sweet Home
-            </h1>*/}
               <FallbackImage src="/LogoWeb.svg" alt="Imagen del logo" width={400} height={400} priority/>
           </div>
           <div className="container1__text">

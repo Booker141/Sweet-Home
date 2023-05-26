@@ -1,26 +1,29 @@
 /* Static imports */
 
 import { useSession, signOut, getSession, signIn } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
-import { AiFillPhone } from 'react-icons/ai'
 import { MdOutlineError, MdLocationOn } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
+import { BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
 import { server } from '/server'
 import {toast} from 'react-toastify'
+import { registerLocale } from  "react-datepicker";
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
+import es from 'date-fns/locale/es';
+import "react-datepicker/dist/react-datepicker.css";
 
 /* Dynamic imports */
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Modal = dynamic(() => import('/components/Modal/Modal'))
+const DatePicker = dynamic(() => import('react-datepicker'))
 const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
+
 
 export default function PublicProfile ({users}) {
 
@@ -32,236 +35,135 @@ export default function PublicProfile ({users}) {
   const [lastname, setLastname] = useState(users.lastname)
   const [phone, setPhone] = useState(users.phone)
   const [biography, setBiography] = useState(users.biography)
-  const [birthdate, setBirthdate] = useState(users.birthdate)
+  const [birthdate, setBirthdate] = useState(new Date(users.birthdate))
   const [gender, setGender] = useState(users.gender)
   const [location, setLocation] = useState(users.location)
   const [image, setImage] = useState(users.image)
   const [banner, setBanner] = useState(users.banner)
+  const [imageURL, setImageURL] = useState(users.imageURL)
+  const [bannerURL, setBannerURL] = useState(users.bannerURL)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
+  const [isEditing, setIsEditing] = useState(false)
   const [maxDate, setMaxDate] = useState('')
+  const [previewImage, setPreviewImage] = useState(users.image)
+  const [previewBanner, setPreviewBanner] = useState(users.banner)
+  const [isPreviewImage, setIsPreviewImage] = useState(users.image != "" ? true : false)
+  const [isPreviewBanner, setIsPreviewBanner] = useState(users.banner != "" ? true : false)
 
+  registerLocale('es', es)
 
-  const changeBanner = async (e) => {
+ 
+ 
+  const uploadImage = async (e) => {
+
 
     if (e.target.files && e.target.files[0]) {
 
       const imageUploaded = e.target.files[0]
 
-      const reader = new FileReader()
+      setImage(imageUploaded)
 
-      reader.readAsDataURL(imageUploaded)
+      setImageURL(`/userPhotos/${imageUploaded?.name}`)
 
-      reader.onload = async () => {
+      console.log(imageUploaded)
 
-        const imageData = reader.result
+      setPreviewImage(URL.createObjectURL(imageUploaded))
 
-        await fetch(`${server}/api/users/${session.user.username}`, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'PUT',
-          body: JSON.stringify({
-            image: userImage,
-            banner: imageData,
-            firstname: profileUser.firstname,
-            lastname: profileUser.lastname,
-            phone: profileUser.phone,
-            gender: profileUser.gender,
-            birthdate: profileUser.birthdate,
-            biography: profileUser.biography,
-            location: profileUser.location,
-            links: profileUser.links
-          }) 
-        })
-
-        setUserBanner(imageData)
-  
-      }
-   
-  toast.success('Banner modificado correctamente',{ position: "bottom-right",
-  autoClose: 5000,
-  hideProgressBar: true,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,}
-  )
-
-  setTimeout(function() {
-    window.location.reload()
-
-  }, 2000)
-
-}
+    }
   }
 
-  const changeProfilePic = async (e) => {
+  const uploadBanner = async (e) => {
 
     if (e.target.files && e.target.files[0]) {
 
-      const imageUploaded = e.target.files[0]
+      const bannerUploaded = e.target.files[0]
 
-      const reader = new FileReader()
+      setBanner(bannerUploaded)
 
-      reader.readAsDataURL(imageUploaded)
+      setBannerURL(`/bannerPhotos/${bannerUploaded?.name}`)
 
-      reader.onload = async () => {
+      console.log(bannerUploaded)
 
-        const imageData = reader.result
+      setPreviewBanner(URL.createObjectURL(bannerUploaded))
 
-        await fetch(`${server}/api/users/${session.user.username}`, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'PUT',
-          body: JSON.stringify({
-            image: imageData,
-            banner: userBanner,
-            firstname: profileUser.firstname,
-            lastname: profileUser.lastname,
-            phone: profileUser.phone,
-            gender: profileUser.gender,
-            birthdate: profileUser.birthdate,
-            biography: profileUser.biography,
-            location: profileUser.location,
-            links: profileUser.links
-            
-          })
-        })
-
-        setUserImage(imageData)
-
-        
-  
-      }
-    
-  toast.success('Imagen de perfil modificada correctamente',{ position: "bottom-right",
-  autoClose: 5000,
-  hideProgressBar: true,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,}
-  )
-
-  setTimeout(function() {
-    window.location.reload()
-
-  }, 2000)
-
-}
+    }
   }
 
 
-
-
-  /**
-   * It returns the current date minus 4 years
-   * @returns The current date minus 4 years.
-   */
-  const calcDate = () => {
-    const date = new Date()
-    const year = date.getFullYear() - 4
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    const maxDate = year + '-' + month + '-' + day
-
-    return maxDate
-  }
-
-  /**
-   * It checks if the input is valid and if it is, it adds a class to the input and the icon to show
-   * that it's valid. If it's not, it adds a class to the input and the icon to show that it's not
-   * valid
-   * @param e - event
-   */
   const validate = (e) => {
     // Regular expressions
 
     const regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/
     const regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/
-    const regPhone = /^(?:6[0-9]|7[1-9])[0-9]{7}$/
+    const regLocation = /^[a-zA-Z]*$/
+    
 
-    if (e.target.name == 'name' && e.target.value != undefined && e.target.value!== '') {
+
       if (!name.match(regName)) {
         document.getElementById('name__error').classList.add('form__input-nameError--active')
-        document.getElementById('error__name').classList.add('form__error-icon--active')
         document.getElementById('success__name').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('name__error').classList.remove('form__input-nameError--active')
-        document.getElementById('error__name').classList.remove('form__error-icon--active')
         document.getElementById('success__name').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
-    }
+    
 
-    if (e.target.name == 'lastname' && e.target.value != undefined && e.target.value!== '') {
+
       if (!regLastname.test(lastname)) {
         document.getElementById('lastname__error').classList.add('form__input-lastnameError--active')
-        document.getElementById('error__lastname').classList.add('form__error-icon--active')
         document.getElementById('success__lastname').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('lastname__error').classList.remove('form__input-lastnameError--active')
-        document.getElementById('error__lastname').classList.remove('form__error-icon--active')
         document.getElementById('success__lastname').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
-    }
 
-    if (e.target.name == 'phone' && e.target.value != undefined && e.target.value!== '') {
-      if (phone.length < 9 || phone.length > 9 || !regPhone.test(phone)) {
-        document.getElementById('phone__error').classList.add('form__input-phoneError--active')
-        document.getElementById('error__phone').classList.add('form__error-icon--active')
-        document.getElementById('success__phone').classList.remove('form__success-icon--active')
+      if (!location.match(regLocation)) {
+        document.getElementById('location__error').classList.add('form__input-locationError--active')
+        document.getElementById('success__location').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
-        document.getElementById('phone__error').classList.remove('form__input-phoneError--active')
-        document.getElementById('error__phone').classList.remove('form__error-icon--active')
-        document.getElementById('success__phone').classList.add('form__success-icon--active')
+        document.getElementById('location__error').classList.remove('form__input-locationError--active')
+        document.getElementById('success__location').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
-    }
-  }
-
-  /**
-   * It deletes the user's account from the database and signs them out
-   * @param e - the event object
-   */
-  const deleteAccount = async (e) => {
-
-    e.preventDefault()
-
-    await fetch(`${server}/api/users/${session.user.username}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).catch(err => console.log(err))
-
-    toast.error(`Se ha eliminado la cuenta correctamente`, { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
     
-    signOut()
+
+
   }
 
 
 
-  /**
-   * It's a function that sends a request to the server to update the user's information
-   * @param e - the event object
-   */
   const edit = async (e) => {
 
     e.preventDefault()
 
     if (isValidate) {
+
+      setIsEditing(true)
+
+      const body = new FormData();
+
+      const formBanner = new FormData();
+  
+        formBanner.append("banner", banner);
+
+        body.append("image", image); 
+          
+        await fetch(`${server}/api/images/userPhotos`, {
+          method: "POST",
+          body
+        }); 
+
+  
+        await fetch(`${server}/api/images/bannerPhotos`, {
+          method: "POST",
+          body: formBanner
+        });
 
       await fetch(`${server}/api/users/${session.user.username}`, {
         method: 'PUT',
@@ -269,14 +171,17 @@ export default function PublicProfile ({users}) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          firstname: name !== user.firstname ? name : user.firstname,
-          lastname: lastname !== user.lastname ? lastname : user.lastname,
-          biography: biography !== user.biography ? biography : user.biography,
-          location: location !== user.location ? location : user.location,
-          birthdate: birthdate !== user.birthdate ? birthdate : user.birthdate,
-          image: userImage
+          firstname: name ,
+          lastname: lastname,
+          biography: biography ,
+          location: location ,
+          birthdate: birthdate ,
+          image: imageURL,
+          banner: bannerURL
         })
-      }).catch(err => console.log(err))
+      })
+
+      
 
       toast.success(`Se han guardado los datos`, { position: "bottom-right",
       autoClose: 5000,
@@ -286,8 +191,9 @@ export default function PublicProfile ({users}) {
       draggable: true,
       progress: undefined,
       theme: "colored", })
-
+      setIsEditing(false)
     } else {
+
       toast.error(`Introduzca los datos correctamente`, { position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
@@ -297,7 +203,11 @@ export default function PublicProfile ({users}) {
       progress: undefined,
       theme: "colored", })
     }
+
   }
+
+
+
 
 
   if (status === 'loading') {
@@ -308,204 +218,289 @@ export default function PublicProfile ({users}) {
       </>
     )
   }
-  if (session) {
+  if(session){
     return (
       <SettingsLayout>
-        <Head><title>Editar perfil público | Sweet Home</title></Head>
-        <div className='settings'>
-          <div className='form-page'>
-            <h1 className={global.title}>Editar perfil público </h1>
-            <p className={global.text}>Los usuarios que visiten tu perfil público podrán ver la siguiente información:</p>
-            <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
+      <Head><title>Editar perfil público | Sweet Home</title></Head>
+      <div className='settings'>
+        <div className='form-page'>
+          <h1 className={global.title}>Editar perfil público </h1>
+          <p className={global.text}>Los usuarios que visiten tu perfil público podrán ver la siguiente información:</p>
+          <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
+            <div className="profilePic">
+              {isPreviewImage && <FallbackImage src={previewImage} alt="Imagen de previsualización" style={{borderRadius: '100px'}} width={150} height={150} />}
             
-              <div className="form-vertical__nameBlock">
-                <div className='form-vertical__name'>
-                  <div className='label'>
-                    <p className={global.text}>Nombre</p>
-                    <FaUserPlus size={18} color={colors.secondary} />
+          <div className='form-vertical__image'>
+          
+                    <div className='label'>
+                          <p className={global.text}>Seleccionar imagen:</p>
+                          <BsImageFill size={18} color={colors.secondary} />
+                        </div>
+                    <div className='image__input'>
+                          <input
+                            title='Introducir imagen'
+                            type='file'
+                            name='image'
+                            id='image__input'
+                            onChange={(e) => uploadImage(e)}
+                            accept='image/png, image/jpeg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+                        </div>
                   </div>
-                  <div className='name__input'>
-                    <input
-                      title='Introducir nombre'
-                      type='text'
-                      name='name'
-                      id='name'
-                      value={user?.firstname}
-                      required
-                      onChange={(e) => setName(e.target.value)}
-                      onKeyUp={(e) => validate(e)}
-                      onBlur={(e) => validate(e)}
-                      placeholder={`${name}`}
-                      className='input'
-                    >{user?.firstname}</input>
-                    <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    <div id='name__error' className='form__input-nameError'>
+                  </div>
+                  <div className='form-vertical__banner'>
+                    <div className='label'>
+                          <p className={global.text}>Seleccionar banner:</p>
+                          <BsImageFill size={18} color={colors.secondary} />
+                        </div>
+                    <div className='banner__input'>
+                          <input
+                            title='Introducir imagen'
+                            type='file'
+                            name='image'
+                            id='image__input'
+                            onChange={(e) => uploadBanner(e)}
+                            accept='image/png, image/jpeg'
+                            placeholder='Ningún archivo seleccionado'
+                            className='input'
+                          >
+                          </input>
+                        </div>
+                  </div>
+                  {isPreviewImage && <FallbackImage src={previewBanner} alt="Imagen de previsualización" style={{borderRadius: '20px'}} width={2500} height={600} />}
+            <div className="form-vertical__nameBlock">
+              <div className='form-vertical__name'>
+                <div className='label'>
+                  <p className={global.text}>Nombre</p>
+                  <FaUserPlus size={18} color={colors.secondary} />
+                </div>
+                <div className='name__input'>
+                  <input
+                    title='Introducir nombre'
+                    type='text'
+                    name='name'
+                    id='name'
+                    value={name}
+                    required
+                    placeholder="Escriba su nombre"
+                    onChange={(e) => setName(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    className='input'
+                  />
+                  <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                </div>
+                
+              </div>
+              <div className='form-vertical__lastname'>
+                <div className='label'>
+                  <p className={global.text}>Apellidos</p>
+                  <FaUserPlus size={20} color={colors.secondary} />
+                </div>
+                <div className='lastname__input'>
+                  <input
+                    title='Introducir apellidos'
+                    type='text'
+                    name='lastname'
+                    id='lastname'
+                    value={lastname}
+                    placeholder="Escriba sus apellidos"
+                    required
+                    onChange={(e) => setLastname(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    className='input'
+                  />
+                  <div id='success__lastname' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+              </div>
+              
+            </div>
+            </div>
+            <div className="errors">
+              <div id='name__error' className='form__input-nameError'>
                       <div className='error__icon'>
                         <MdOutlineError size={18} color={colors.secondary} />
                       </div>
                       <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                     </div>
-                  </div>
-                </div>
-                <div className='form-vertical__lastname'>
-                  <div className='label'>
-                    <p className={global.text}>Apellidos</p>
-                    <FaUserPlus size={20} color={colors.secondary} />
-                  </div>
-                  <div className='lastname__input'>
-                    <input
-                      title='Introducir apellidos'
-                      type='text'
-                      name='lastname'
-                      id='lastname'
-                      value={lastname}
-                      required
-                      onChange={(e) => setLastname(e.target.value)}
-                      onKeyUp={(e) => validate(e)}
-                      onBlur={(e) => validate(e)}
-                      placeholder={`${lastname}`}
-                      className='input'
-                    />
-                    <div id='error__lastname' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                    <div id='success__lastname' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    <div id='lastname__error' className='form__input-lastnameError'>
+              <div id='lastname__error' className='form__input-lastnameError'>
                       <div className='error__icon'>
-                        <MdOutlineError size={30} color={colors.secondary} />
+                        <MdOutlineError size={18} color={colors.secondary} />
                       </div>
                       <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                     </div>
-                  </div>
                 </div>
-              </div>
-             
-              <div className='form-vertical__location'>
-                <div className='label'>
-                  <p className={global.text}>Ubicación</p>
-                  <MdLocationOn size={20} color={colors.secondary} />
-                </div>
-                <div className='location__input'>
-                  <input
-                    title='Introducir ubicación'
-                    type='text'
-                    name='location'
-                    id='location'
-                    value={user?.location}
-                    required
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder={`${location}`}
-                    className='input'
-                  >{user?.location}</input>
-                  <div id='error__location' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
-                  <div id='success__location' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  <div id='location__error' className='form__input-locationError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className='form-vertical__biography'>
-                <div className='label'>
-                  <p className={global.text}>Biografía</p>
-                  <BsFillFileTextFill size={20} color={colors.secondary} />
-                </div>
-                <textarea
-                  title='Introducir biografía'
-                  name='Biography'
-                  id='biography'
-                  value={biography}
-                  onChange={(e) => setBiography(e.target.value)}
-                  placeholder={`${biography}`}
-                  className='input'
-                />
-              </div>
 
-              <div className='form-vertical__birthdate'>
-                <div className='label'>
-                  <p className={global.text}>Fecha de nacimiento</p>
-                  <FaBirthdayCake size={20} color={colors.secondary} />
-                </div>
+            
+           
+            <div className='form-vertical__location'>
+              <div className='label'>
+                <p className={global.text}>Ubicación</p>
+                <MdLocationOn size={20} color={colors.secondary} />
+              </div>
+              <div className='location__input'>
                 <input
-                  title='Introducir fecha de nacimiento'
-                  type='date'
-                  id='birthdate'
-                  max={calcDate()}
-                  name='Birthdate'
-                  value={birthdate}
-                  onChange={(e) => setBirthdate(e.target.value)}
+                  title='Introducir ubicación'
+                  type='text'
+                  name='location'
+                  id='location'
+                  placeholder="Escriba su ubicación"
+                  value={location}
+                  required
+                  onChange={(e) => setLocation(e.target.value)}
                   className='input'
                 />
+                <div id='success__location' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
               </div>
-
-            </form>
-            <input type='submit' value='Guardar' className={global.buttonPrimary} onClick={(e) => edit(e)} />    
+              <div id='location__error' className='form__input-locationError'>
+                  <div className='error__icon'>
+                    <MdOutlineError size={30} color={colors.secondary} />
+                  </div>
+                  <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
+                </div>
             </div>
-          </div>
-          {isModalVisible && <Modal>
-              <h2 className={global.title3}>Eliminar cuenta</h2>
-              <p className={global.text2}>¿Estás seguro de que quieres eliminar tu cuenta?</p>
-              <div className='buttons'>
-                <button className={global.buttonSecondary} onClick={(e) => deleteAccount(e)}>Sí</button>
-                <button className={global.buttonTertiary3} onClick={() => setIsModalVisible(false)}>No</button>
+            
+            <div className='form-vertical__biography'>
+              <div className='label'>
+                <p className={global.text}>Biografía</p>
+                <BsFillFileTextFill size={20} color={colors.secondary} />
               </div>
-          </Modal>}
+              <textarea
+                title='Introducir biografía'
+                name='Biography'
+                id='biography'
+                value={biography}
+                placeholder="Escriba su biografía"
+                onChange={(e) => setBiography(e.target.value)}
+              />
+            </div>
 
-        <style jsx>{`
+            <div className='form-vertical__birthdate'>
+                    <div className='label'>
+                      <p className={global.text}>Fecha de nacimiento</p>
+                      <FaBirthdayCake size={18} color={colors.secondary} />
+                    </div>
+                    <div className='birthdate__input'>
+                      <DatePicker
+                            showIcon
+                            showTimeSelect
+                            title='Introducir fecha de nacimiento'
+                            type='text'
+                            name='birthdate'
+                            value={birthdate}
+                            onChange={(date) => setBirthdate(date)}
+                            selected={birthdate}
+                            locale="es"
+                            className='input'
+                          />
+                    </div>
+                  </div>
+          </form>
+          <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Editando..' : 'Editar'} />   
+          </div>
+        </div>
 
 
-                .settings{
+      <style jsx>{`
 
 
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 2rem;
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-
-                }
+              .settings{
 
 
+                  /*Box model*/
 
-                .buttons{
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 2rem;
 
-                    /*Box model*/
+                  /*Visuals*/
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 1rem;
+                  border-radius: 20px;
 
-                }
+              }
 
-                .config__style{
+              .banner__input{
 
-                    /*Box model*/
+                margin-bottom: 2rem;
+              }
 
-                    display: flex;
-                    flex-direction: column;
-                    margin-bottom: 1rem;
+              .profilePic{
 
-                    /*Text*/
+                  /*Box model*/
 
-                    font-size: 1.5rem;
-                    font-weight: 600;
-                    border: none;
-                    color: ${colors.primary};
-                    background-color: transparent;
-                    font-family: "Poppins", sans-serif;
-                    text-decoration: none;
+                  display: flex;
+                  flex-direction: row;
+                  gap: 2rem;
+                  align-items: center;
+              }
 
-                }
+              .errors{
 
-                .active, .config__style:hover{
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 5rem;
+              }
+
+
+              .buttons{
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  gap: 1rem;
+
+              }
+
+              .config__style{
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: column;
+                  margin-bottom: 1rem;
+
+                  /*Text*/
+
+                  font-size: 1.5rem;
+                  font-weight: 600;
+                  border: none;
+                  color: ${colors.primary};
+                  background-color: transparent;
+                  font-family: "Poppins", sans-serif;
+                  text-decoration: none;
+
+              }
+
+              .active, .config__style:hover{
+
+                  /*Box model*/
+
+                  padding: 0.5rem;
+
+                  /*Text*/
+
+                  color: ${colors.secondary};
+                  cursor: pointer;
+
+                  /*Visuals*/
+
+                  background-color: ${colors.primary};
+                  border-radius: 20px;
+                  transition: 0.3s ease all;
+
+
+              }
+
+              .config__style:focus{
 
                     /*Box model*/
 
@@ -522,66 +517,20 @@ export default function PublicProfile ({users}) {
                     border-radius: 20px;
                     transition: 0.3s ease all;
 
+              }
 
-                }
-
-                .config__style:focus{
-
-                      /*Box model*/
-
-                      padding: 0.5rem;
-
-                      /*Text*/
-
-                      color: ${colors.secondary};
-                      cursor: pointer;
-
-                      /*Visuals*/
-
-                      background-color: ${colors.primary};
-                      border-radius: 20px;
-                      transition: 0.3s ease all;
-
-                }
-
-                .settings__buttons{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 1rem;
-
-                }
-
-                .name__input{
-
+              .settings__buttons{
 
                   /*Box model*/
 
                   display: flex;
                   flex-direction: row;
                   align-items: center;
-                  width: 20rem;
                   gap: 1rem;
 
-                }
+              }
 
-                .lastname__input{
-
-
-                  /*Box model*/
-
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  width: 20rem;
-                  gap: 1rem;
-
-                }
-
-                .phone__input{
+              .name__input{
 
 
                 /*Box model*/
@@ -593,53 +542,21 @@ export default function PublicProfile ({users}) {
                 gap: 1rem;
 
               }
-                
 
-            .form__text{
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              margin-top: 2rem;
-              margin-bottom: 2rem;
-
-            }
+              .lastname__input{
 
 
-            .form-page{
+                /*Box model*/
 
-              /*Box model*/
-              
-              display: flex;
-              flex-direction: column;
-              
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 20rem;
+                gap: 1rem;
 
-            }
+              }
 
-            .form-vertical {
-
-
-                  /*Box model*/
-
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: center;
-                  margin-top: 2rem;
-                  margin-bottom: 2rem;
-                  width: 50vw;
-                  padding: 5rem;
-
-                  /*Visuals*/
-
-                  background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
-                  border-radius: 20px;
-                  
-            }
-
-            .form-vertical__nameBlock{
+              .phone__input{
 
 
               /*Box model*/
@@ -647,613 +564,669 @@ export default function PublicProfile ({users}) {
               display: flex;
               flex-direction: row;
               align-items: center;
-            }
-
-            .form-vertical__image {
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              width: 100%;
-              margin-bottom: 2rem;
+              width: 20rem;
+              gap: 1rem;
 
             }
+              
 
-            .form-vertical__name {
+          .form__text{
 
-                /*Box model*/
+            /*Box model*/
 
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
 
-            }
-
-            .form-vertical__lastname {
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-            }
-
-            .form-vertical__phone {
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              }
-
-              .form-vertical__biography {
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              }
-
-              .form-vertical__birthdate{
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              }
-
-              .form-vertical__gender {
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              }
-
-
-          .form__link{
-
-              /*Text*/
-
-              font-family: ${fonts.default};
-              color: ${colors.secondary};
-              text-decoration: none;
-              font-size: 1rem;
-              font-weight: 400;
           }
 
-          .form__link:hover{
 
-              /*Text*/
+          .form-page{
 
-              color: ${colors.tertiary};
-              transition: all 0.5s ease-in-out;
-            }
+            /*Box model*/
+            
+            display: flex;
+            flex-direction: column;
+            
 
-            /*ERRORES*/
+          }
 
-            .form__input-nameError{
+          .form-vertical {
 
-              /*Position*/
-
-              position: absolute;
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              margin-bottom: 2rem;
-              margin-left: 20rem;
-
-
-              /*Text*/
-
-              font-family: 'Poppins', sans-serif;
-              color: #fafafa;
-
-              /*Visuals*/
-
-              border-radius: 20px;
-              background-color: ${statusColors.error};
-              opacity: 0;
-
-              }
-
-
-              .form__input-nameError p{
-
-              /*Box model*/
-
-              margin-left: 2rem;
-
-              }
-
-              .form__input-nameError--active{
-
-              /*Position*/
-
-              position: absolute;
-              margin-left: 20rem;
-              margin-bottom: 2rem;
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-
-
-              /*Text*/
-
-              font-family: 'Poppins', sans-serif;
-              color: #fafafa;
-
-              /*Visuals*/
-
-              border-radius: 10px;
-              background-color: ${statusColors.error};
-              opacity: 1;
-
-              }
-
-
-              .form__input-lastnameError{
-
-              /*Position*/
-
-              position: absolute;
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              margin-bottom: 2rem;
-              margin-left: 20rem;
-
-              /*Text*/
-
-              font-family: 'Poppins', sans-serif;
-              color: #fafafa;
-
-              /*Visuals*/
-
-              border-radius: 20px;
-              background-color: ${statusColors.error};
-              opacity: 0;
-
-              }
-
-
-              .form__input-lastnameError p{
-
-              /*Box model*/
-
-              margin-left: 2rem;
-
-              }
-
-              .form__input-lastnameError--active{
-
-              /*Position*/
-
-              position: absolute;
-              margin-left: 20rem;
-              margin-bottom: 2rem;
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-
-
-              /*Text*/
-
-              font-family: 'Poppins', sans-serif;
-              color: #fafafa;
-
-              /*Visuals*/
-
-              border-radius: 20px;
-              background-color: ${statusColors.error};
-              opacity: 1;
-
-              }
-
-
-              .form__input-phoneError{
-
-                /*Position*/
-
-                position: absolute;
 
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
-                align-items: center;
-                margin-bottom: 2rem;
-                margin-left: 20rem;
-
-                /*Text*/
-
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
-
-                /*Visuals*/
-
-                border-radius: 20px;
-                background-color: ${statusColors.error};
-                opacity: 0;
-
-                }
-
-
-                .form__input-phoneError p{
-
-                /*Box model*/
-
-                margin-left: 2rem;
-
-                }
-
-                .form__input-phoneError--active{
-
-                /*Position*/
-
-                position: absolute;
-                margin-left: 20rem;
-                margin-bottom: 2rem;
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-
-
-                /*Text*/
-
-                font-family: 'Poppins', sans-serif;
-                color: #fafafa;
-
-                /*Visuals*/
-
-                border-radius: 20px;
-                background-color: ${statusColors.error};
-                opacity: 1;
-
-                }
-                .submit__error{
-
-                /*Box model*/
-
-                display: none;
-
-                /*Text*/
-
-                font-family: 'Poppins', sans-serif;
-                color: ${colors.secondary};
-
-                /*Visuals*/
-
-                background-color: ${statusColors.error};
-
-                }
-
-                .submit__error--active{
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
+                flex-direction: column;
                 justify-content: center;
-                padding: 0.5rem;
-                width: 65%;
-
-                /*Text*/
-
-                font-family: 'Poppins', sans-serif;
-                color: ${colors.secondary};
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+                width: 50vw;
+                padding: 5rem;
 
                 /*Visuals*/
 
+                background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
                 border-radius: 20px;
-                background-color: ${statusColors.error};
-
-                }
-
-                .submit__error--active2{
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                padding: 0.5rem;
-                width: 65%;
-
-                /*Text*/
-
-                font-family: 'Poppins', sans-serif;
-                color: ${colors.secondary};
-
-                /*Visuals*/
-
-                border-radius: 20px;
-                background-color: ${statusColors.success};
-
-                }
-
-
-              .error__icon{
-
-              /*Box model*/
-
-              margin-left: 1rem;
-
-              }
-
-              .form__error-icon{
-
-                /*Position*/
-
-                position: relative;
-                right: -1.1rem;
-                bottom: 0.9rem;
-                z-index: 999;
-
-                /*Visuals*/
-
-                opacity: 0;
-                color: ${statusColors.error};
-
-
-              }
-
-            .form__success-icon{
-
-            /*Position*/
-
-            position: relative;
-            right: 0.1rem;
-            bottom: 0.9rem;
-            z-index: 999;
-
-            /*Visuals*/
-
-            opacity: 0;
-            color: ${statusColors.success};
-
-            }
-
-            .form__error-icon--active{
-
-            /*Position*/
-
-            position: relative;
-            right: -1.1rem;
-            bottom: 0.9rem;
-            z-index: 999;
-
-            /*Visuals*/
-
-            opacity: 1;
-            color: ${statusColors.error};
-
-            }
-
-            .form__success-icon--active{
-
-            /*Position*/
-
-            position: relative;
-            right: 0.1rem;
-            bottom: 0.9rem;
-            z-index: 999;
-
-            /*Visuals*/
-
-            opacity: 1;
-            color: ${statusColors.success};
-
-            }
-
-
-            .label{
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              margin-bottom: 1rem;
-              
-              /*Text*/
-
-              font-family: ${fonts.default};
-              color: ${colors.secondary};
-              
-
-            }
-
-            .selector{
-
-              /*Box model*/
-
-              width: 100%;
-
-              /*Text*/
-
-              font-family: ${fonts.default};
-              font-size: 1rem;
-              color: ${colors.secondary};
-              
-              /*Visuals*/
-
-              background: transparent;
-              border-radius: 5px;
-              border: 1px solid ${colors.secondary};
-
-            }
-
-            .image__input{
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              justify-content: space-between;
-              gap: 1rem;
-              height: 2rem;
-
-            }
-
-
-            p {
-
-                /*Box model*/
-
-                margin-right: 1rem;
-
-                /*Text*/
-
-                font-size: 1rem;
-                font-family: ${fonts.default};
                 
+          }
+
+          .input{
+
+          /*Box model*/
+
+
+          height: 2rem;
+          padding: 0.4rem;
+          margin-bottom: 1rem;
+
+
+          /*Text*/
+
+          font-family: ${fonts.default};
+          font-size: 1rem;
+          color: ${colors.secondary};
+
+          /*Visuals*/
+
+          border-radius: 20px;
+          border: 2px solid ${colors.secondary};
+          }
+
+          .form-vertical__nameBlock{
+
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
+
+          .form-vertical__image {
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 2rem;
+
+          }
+
+
+          .form-vertical__name {
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+
+          }
+
+          .form-vertical__lastname {
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+
+          }
+
+          .form-vertical__phone {
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
             }
 
-            h6{
+            .form-vertical__biography {
 
-                /*Box model*/
+            /*Box model*/
 
-                margin-right: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
 
-                /*Text*/
+            /*Text*/
 
-                font-size: 0.8rem;
-                font-weight: 500;
-                font-family: ${fonts.default};
-                color: ${colors.primary};
+
+            color: ${colors.secondary};
+
             }
-            input[type="file"]{
 
-                /*Box model*/
+            .form-vertical__birthdate{
 
-                width: 5vw;
-                height: 10vh;
-                display: flex;
-                align-items: center;
-                margin-top: 1rem;
+            /*Box model*/
 
-                /*Visuals*/
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
-                border-radius: 100px;
-                cursor: pointer;
-                background-color: transparent;
-                border: 1px solid ${colors.secondary};
-                color: ${colors.secondary};
+            }
+
+
+
+        .form__link{
+
+            /*Text*/
+
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .form__link:hover{
+
+            /*Text*/
+
+            color: ${colors.tertiary};
+            transition: all 0.5s ease-in-out;
+          }
+
+          /*ERRORES*/
+
+          .form__input-nameError{
+
+            /*Position*/
+
+            position: relative;
+
+            /*Box model*/
+
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 2rem;
+
+
+
+            /*Text*/
+
+            font-family: 'Poppins', sans-serif;
+            color: #fafafa;
+
+            /*Visuals*/
+
+            border-radius: 20px;
+            background-color: ${statusColors.error};
+            opacity: 0;
+
+            }
+
+
+            .form__input-nameError p{
+
+            /*Box model*/
+
+            margin-left: 2rem;
+
+            }
+
+            .form__input-nameError--active{
+
+            /*Position*/
+
+            position: relative;
+
+            
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 15rem;
+            margin-bottom: 2rem;
+
+
+            /*Text*/
+
+            font-family: 'Poppins', sans-serif;
+            color: #fafafa;
+
+            /*Visuals*/
+
+            border-radius: 20px;
+            background-color: ${statusColors.error};
+            opacity: 1;
+
+            }
+
+
+            .form__input-lastnameError{
+
+            /*Position*/
+
+            position: relative;
+
+            /*Box model*/
+
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 2rem;
+
+
+            /*Text*/
+
+            font-family: 'Poppins', sans-serif;
+            color: #fafafa;
+
+            /*Visuals*/
+
+            border-radius: 20px;
+            background-color: ${statusColors.error};
+            opacity: 0;
+
+            }
+
+
+            .form__input-lastnameError p{
+
+            /*Box model*/
+
+            margin-left: 2rem;
+
+            }
+
+            .form__input-lastnameError--active{
+
+            /*Position*/
+
+            position: relative;
+
+            
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 2rem;
+
+
+            /*Text*/
+
+            font-family: 'Poppins', sans-serif;
+            color: #fafafa;
+
+            /*Visuals*/
+
+            border-radius: 20px;
+            background-color: ${statusColors.error};
+            opacity: 1;
+
+            }
+
+            .form__input-locationError{
+
+            /*Position*/
+
+            position: relative;
+
+            /*Box model*/
+
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 2rem;
+
+
+
+            /*Text*/
+
+            font-family: 'Poppins', sans-serif;
+            color: #fafafa;
+
+            /*Visuals*/
+
+            border-radius: 20px;
+            background-color: ${statusColors.error};
+            opacity: 0;
+
+            }
+
+
+              .form__input-locationError p{
+
+              /*Box model*/
+
+              margin-left: 2rem;
 
               }
 
-              input[type="file"]::before{
+              .form__input-locationError--active{
 
-                /*Box model*/
+              /*Position*/
 
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 1rem;
-                margin-right: 1rem;
+              position: relative;             
 
-                /*Visuals*/
+              /*Box model*/
 
-                cursor: pointer;
-                background-color: ${colors.primary};
-                color: ${colors.secondary};
-                border-radius: 50px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-bottom: 2rem;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: #fafafa;
+
+              /*Visuals*/
+
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 1;
 
               }
 
-              input[type="file"]::-webkit-file-upload-button {
+              .submit__error{
+
+              /*Box model*/
 
               display: none;
 
-              }
+              /*Text*/
 
-            h1{
-                        /*Text*/
-
-                        font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(45deg, #f0810f, #ffe45c);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
-                        
-                  }
-
-
-              ::placeholder {
-
-                /*Text*/
-
-                color: ${colors.secondary};
-              }
-
-              input[type="text"] {
-
-                /*Box model*/
-
-                height: 2rem;
-                width: 20rem;
-                padding: 0.4rem;
-                margin-bottom: 2rem;
-
-                /*Text*/
-
-                font-family: ${fonts.default};
-                font-size: 1rem;
-                color: ${colors.secondary};
-
-                /*Visuals*/
-
-                border-radius: 5px;
-                border: 1px solid ${colors.secondary};
-                background: transparent;
-
-              }
-
-              input[type="text"]:focus {
+              font-family: 'Poppins', sans-serif;
+              color: ${colors.secondary};
 
               /*Visuals*/
 
-              border: 2px solid #4d97f7;
-              outline: none;
-              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+              background-color: ${statusColors.error};
 
               }
 
-              input[type="tel"] {
+              .submit__error--active{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: ${colors.secondary};
+
+              /*Visuals*/
+
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+
+              }
+
+              .submit__error--active2{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
+
+              /*Text*/
+
+              font-family: 'Poppins', sans-serif;
+              color: ${colors.secondary};
+
+              /*Visuals*/
+
+              border-radius: 20px;
+              background-color: ${statusColors.success};
+
+              }
+
+
+            .error__icon{
+
+            /*Box model*/
+
+            margin-left: 0.5rem;
+
+            }
+
+            .form__error-icon{
+
+              /*Position*/
+
+              position: relative;
+              bottom: 0.9rem;
+              left: 0.1rem;
+              z-index: 999;
+
+              /*Visuals*/
+
+              opacity: 0;
+              color: ${statusColors.error};
+
+
+            }
+
+          .form__success-icon{
+
+          /*Position*/
+
+          position: relative;
+          right: 0.1rem;
+          bottom: 0.9rem;
+          z-index: 999;
+
+          /*Visuals*/
+
+          opacity: 0;
+          color: ${statusColors.success};
+
+          }
+
+          .form__error-icon--active{
+
+          /*Position*/
+
+          position: relative;
+          bottom: 0.9rem;
+          z-index: 999;
+
+          /*Visuals*/
+
+          opacity: 1;
+          color: ${statusColors.error};
+
+          }
+
+          .form__success-icon--active{
+
+          /*Position*/
+
+          position: relative;
+          right: 0.1rem;
+          bottom: 0.9rem;
+          z-index: 999;
+
+          /*Visuals*/
+
+          opacity: 1;
+          color: ${statusColors.success};
+
+          }
+
+
+          .label{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 1rem;
+            
+            /*Text*/
+
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
+            
+
+          }
+
+          .selector{
+
+            /*Box model*/
+
+            width: 100%;
+
+            /*Text*/
+
+            font-family: ${fonts.default};
+            font-size: 1rem;
+            color: ${colors.secondary};
+            
+            /*Visuals*/
+
+            background: transparent;
+            border-radius: 5px;
+            border: 1px solid ${colors.secondary};
+
+          }
+
+          .image__input{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            height: 2rem;
+
+          }
+
+          .banner__input{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          height: 2rem;
+
+          }
+
+
+          p {
+
+              /*Box model*/
+
+              margin-right: 1rem;
+
+              /*Text*/
+
+              font-size: 1rem;
+              font-family: ${fonts.default};
+              
+          }
+
+          h6{
+
+              /*Box model*/
+
+              margin-right: 1rem;
+
+              /*Text*/
+
+              font-size: 0.8rem;
+              font-weight: 500;
+              font-family: ${fonts.default};
+              color: ${colors.primary};
+          }
+
+          input[type="file"]{
+
+          /*Box model*/
+
+          width: 100%;
+          height: 100%;
+
+          /*Visuals*/
+
+          border-radius: 20px;
+          background-color: transparent;
+          border: 2px solid ${colors.secondary};
+          color: ${colors.secondary};
+
+          }
+
+          input[type="file"]::before{
+
+          /*Box model*/
+
+          padding: 0.5rem;
+          margin-right: 1rem;
+
+          /*Visuals*/
+
+          cursor: pointer;
+          content: 'Subir imagen..';
+          background-color: ${colors.primary};
+          color: ${colors.secondary};
+          border-radius: 20px;
+
+
+
+          }
+
+          input[type="file"]::-webkit-file-upload-button {
+
+          display: none;
+
+          }
+
+
+          h1{
+                      /*Text*/
+
+                      font-size: 3.5rem;
+                      font-weight: 600;
+                      background-color: ${colors.primary};
+                      font-family: "Archivo Black", sans-serif;
+                      background-image: linear-gradient(45deg, #f0810f, #ffe45c);
+                      background-repeat: repeat;
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent; 
+                      background-size: 100%
+                      
+                }
+
+
+            ::placeholder {
+
+              /*Text*/
+
+              color: ${colors.secondary};
+            }
+
+            input[type="text"] {
 
               /*Box model*/
 
@@ -1270,158 +1243,156 @@ export default function PublicProfile ({users}) {
 
               /*Visuals*/
 
-              border-radius: 5px;
+              border-radius: 20px;
+              border: 2px solid ${colors.secondary};
+              background: transparent;
+
+            }
+
+            input[type="text"]:focus {
+
+            /*Visuals*/
+
+            border: 2px solid #4d97f7;
+            outline: none;
+            box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+            }
+
+
+
+            input[type="date"] {
+
+              /*Box model*/
+
+              height: 2rem;
+              width: 20rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
+
+              /*Text*/
+
+              font-family: ${fonts.default};
+              font-size: 1rem;
+              color: ${colors.secondary};
+
+              /*Visuals*/
+
+              border-radius: 20px;
               border: 1px solid ${colors.secondary};
               background: transparent;
 
-              }
+            }
 
-              input[type="tel"]:focus {
+            input[type="date"]:focus {
 
-              /*Visuals*/
+            /*Visuals*/
 
-              border: 2px solid #4d97f7;
-              outline: none;
-              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+            border: 2px solid #4d97f7;
+            outline: none;
+            box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
-              }
+            }
 
-              input[type="date"] {
-
-                /*Box model*/
-
-                height: 2rem;
-                width: 20rem;
-                padding: 0.4rem;
-                margin-bottom: 2rem;
-
-                /*Text*/
-
-                font-family: ${fonts.default};
-                font-size: 1rem;
-                color: ${colors.secondary};
-
-                /*Visuals*/
-
-                border-radius: 5px;
-                border: 1px solid ${colors.secondary};
-                background: transparent;
-
-              }
-
-              input[type="date"]:focus {
+            input[type="date"]::-webkit-calendar-picker-indicator {
 
               /*Visuals*/
 
-              border: 2px solid #4d97f7;
-              outline: none;
-              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+              cursor: pointer;
 
-              }
+            }
 
-              input[type="date"]::-webkit-calendar-picker-indicator {
+            input[type="submit"]{
 
-                /*Visuals*/
+              /*Box model*/
 
-                cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 2rem;
 
-              }
+            }
 
-              input[type="submit"]{
+            textarea{
 
-                /*Box model*/
+              /*Box model*/
 
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 2rem;
+              height: 10rem;
+              width: 25rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
 
-              }
+              /*Text*/
 
-              textarea{
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                /*Box model*/
-
-                height: 3rem;
-                width: 20rem;
-                padding: 0.4rem;
-                margin-bottom: 2rem;
-
-                /*Text*/
-
-                font-family: ${fonts.default};
-                font-size: 1rem;
-
-                /*Visuals*/
-
-                border-radius: 5px;
-                border: 1px solid ${colors.secondary};
-                background: transparent;
-
-              }
-
-              textarea:focus {
 
               /*Visuals*/
 
-              border: 2px solid #4d97f7;
-              outline: none;
-              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+              border-radius: 20px;
+              border: 2px solid ${colors.secondary};
+              background: transparent;
 
-              }
+            }
 
-              a{
+            textarea:focus {
 
-                /*Text*/
+            /*Visuals*/
 
-                text-decoration: none;
-                color: ${colors.secondary};
-              }
+            border: 2px solid #4d97f7;
+            outline: none;
+            box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
+            }
 
+            a{
 
+              /*Text*/
 
-                
-            
-            `}
-        </style>
-      </SettingsLayout>
+              text-decoration: none;
+              color: ${colors.secondary};
+            }
+
+   
+          
+          `}
+      </style>
+    </SettingsLayout>
     )
-    
   } else {
     return (
       <Layout>
-        <>
-          <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-            </div>
+        <div className={global.content}>
+          <div className='message'>
+            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
-          <style jsx>{`
-  
-                    .message{
-  
-                        /*Box model*/
-  
-                        display: flex
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
+        </div>
+        <style jsx>{`
+
+                        .message{
+
+                            /*Box model*/
+
+                            display: flex
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            
+                            
+                        }
                         
-                        
-                    }
-  
-                    
-                `}
-          </style>
-        </>
+                    `}
+        </style>
       </Layout>
     )
   }
 }
 
 export async function getServerSideProps (context) {
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
 
   const session = await getSession(context)

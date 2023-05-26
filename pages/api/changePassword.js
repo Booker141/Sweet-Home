@@ -2,6 +2,9 @@ import bcrypt from 'bcrypt'
 import clientPromise from './/lib/MongoDB'
 
 export default async function handler (req, res) {
+
+  res.setHeader('Cache-Control', 's-maxage=10'); 
+  
   if (req.method == 'PUT') {
     const client = await clientPromise
     const db = await client.db()

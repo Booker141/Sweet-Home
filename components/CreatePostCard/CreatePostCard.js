@@ -130,11 +130,12 @@ export default function CreatePostCard () {
                 <InputEmoji
                   title='Crear una publicación'
                   type='text'
-                  name='text'
-                  id='comment'
+                  name='description'
+                  id='post'
                   value={description}
                   onChange={setDescription}
                   cleanOnEnter
+                  onEnter={createPost}
                   placeholder={`¿Qué está pasando, ${user.username}? 😄`}
                   fontFamily={`${fonts.default}`}
                   borderColor={`${colors.primary}`}

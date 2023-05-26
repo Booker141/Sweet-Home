@@ -124,11 +124,12 @@ export default function CreateAttendanceCard (props) {
                 <InputEmoji
                   title='Crear un cuidado'
                   type='text'
-                  name='text'
-                  id='comment'
+                  name='description'
+                  id='post'
                   value={description}
                   onChange={setDescription}
                   cleanOnEnter
+                  onEnter={createAttendance}
                   placeholder={`Publica un cuidado, ${user.username}? 🐾`}
                   fontFamily={`${fonts.default}`}
                   borderColor={`${colors.primary}`}

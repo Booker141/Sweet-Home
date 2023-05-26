@@ -148,7 +148,7 @@ export default function BasicHeader (props) {
                                 </div>}
                                 {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                                   <>
-                                    <LazyLoad offset={100}>
+                                    <LazyLoad offset={100} once>
                                       <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
                                     </LazyLoad>
                                   </>
@@ -158,9 +158,8 @@ export default function BasicHeader (props) {
                         </div>}
                       </div>
                         </div>
-                          <LazyLoad offset={100}>
                             <ThemeButton />
-                          </LazyLoad>
+
                           <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                           {isMenuOpen && <ul className='menu'>
                             <li className='nav__title'>Autenticado como:</li>
@@ -178,7 +177,7 @@ export default function BasicHeader (props) {
 
                             <hr className='line' />
                             <li className='nav__title'>Más opciones</li>               
-                            <li className='nav__link'><Link href="/settings" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            <li className='nav__link'><Link href="/profile/myprofile/settings/publicProfile" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/faq" prefetch={false}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/conditions" prefetch={false}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/privacy" prefetch={false}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -219,7 +218,7 @@ export default function BasicHeader (props) {
                                 </div>}
                                 {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                                   <>
-                                    <LazyLoad offset={100}>
+                                    <LazyLoad offset={100} once>
                                       <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
                                     </LazyLoad>
                                   </>
@@ -229,9 +228,9 @@ export default function BasicHeader (props) {
                         </div>}
                       </div>
                         </div>
-                          <LazyLoad offset={100}>
+
                             <ThemeButton />
-                          </LazyLoad>
+
                           <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdPets size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                           {isMenuOpen && <ul className='menu'>
                             <li className='nav__title'>Autenticado como:</li>
@@ -249,7 +248,7 @@ export default function BasicHeader (props) {
                             
                             <hr className='line' />
                             <li className='nav__title'>Más opciones</li>               
-                            <li className='nav__link'><Link href="/settings" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            <li className='nav__link'><Link href="/profile/myprofile/settings/publicProfile" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/faq" prefetch={false}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/conditions" prefetch={false}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/privacy" prefetch={false}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -277,9 +276,7 @@ export default function BasicHeader (props) {
                           <li><Link href="/news" as="/news" prefetch={false}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={25} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                           <li><Link href="/dashboard" as="/dashboard" prefetch={false}><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={25} color={`${colors.secondary}`}/>Panel</a></Link></li>
                         </div>
-                        <LazyLoad offset={100}>
                           <ThemeButton />
-                        </LazyLoad>
                         <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<BsPatchCheckFill size={18} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                         {isMenuOpen && <ul className='menu'>
                           <li className='nav__title'>Autenticado como:</li>
@@ -297,7 +294,7 @@ export default function BasicHeader (props) {
                            
                           <hr className='line' />
                           <li className='nav__title'>Más opciones</li>               
-                          <li className='nav__link'><Link href="/settings" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                          <li className='nav__link'><Link href="/profile/myprofile/settings/publicProfile" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <li className='nav__link'><Link href="/faq" prefetch={false}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <li className='nav__link'><Link href="/conditions" prefetch={false}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <li className='nav__link'><Link href="/privacy" prefetch={false}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -325,9 +322,7 @@ export default function BasicHeader (props) {
                           <li><Link href="/news" as="/news" prefetch={false}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={25} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                           <li><Link href="/statistics" as="/statistics" prefetch={false}><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={25} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
                         </div>
-                        <LazyLoad>
                           <ThemeButton />
-                        </LazyLoad>
                         <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                         {isMenuOpen && <ul className='menu'>
                           <li className='nav__title'>Autenticado como:</li>
@@ -345,7 +340,7 @@ export default function BasicHeader (props) {
                             
                           <hr className='line' />
                           <li className='nav__title'>Más opciones</li>               
-                          <li className='nav__link'><Link href="/settings" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                          <li className='nav__link'><Link v prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <li className='nav__link'><Link href="/faq" prefetch={false}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <li className='nav__link'><Link href="/conditions" prefetch={false}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                           <li className='nav__link'><Link href="/privacy" prefetch={false}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -385,7 +380,7 @@ export default function BasicHeader (props) {
                                   </div>}
                                   {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                                     <>
-                                      <LazyLoad offset={100}>
+                                      <LazyLoad offset={100} once>
                                         <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
                                       </LazyLoad>
                                     </>
@@ -395,9 +390,7 @@ export default function BasicHeader (props) {
                           </div>}
                         </div>
                         </div>
-                        <LazyLoad>
                           <ThemeButton />
-                        </LazyLoad>
                         <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                         {isMenuOpen && <ul className='menu'>
                             <li className='nav__title'>Autenticado como:</li>
@@ -415,7 +408,7 @@ export default function BasicHeader (props) {
                             
                             <hr className='line' />
                             <li className='nav__title'>Más opciones</li>               
-                            <li className='nav__link'><Link href="/settings" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
+                            <li className='nav__link'><Link href="/profile/myprofile/settings/publicProfile" prefetch={false}><a><div className='align__link'>Configuración<div className='nav__icon'><RiSettings4Fill size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/faq" prefetch={false}><a><div className='align__link'>Ayuda<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/conditions" prefetch={false}><a><div className='align__link'>Términos y condiciones<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
                             <li className='nav__link'><Link href="/privacy" prefetch={false}><a><div className='align__link'>Política de privacidad<div className='nav__icon'><HiOutlineArrowRight size={15} color={colors.secondary} /></div></div></a></Link></li>
@@ -427,7 +420,7 @@ export default function BasicHeader (props) {
                     </div>
                     </ul>}
         
-        {isModalVisible && <LazyLoad><Modal>
+        {isModalVisible && <Modal>
           <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title5}>Cerrar sesión</h2>
           <p className={global.text2}>Está a punto de cerrar sesión con esta cuenta</p>
@@ -436,7 +429,7 @@ export default function BasicHeader (props) {
             <button className={global.buttonSecondary} onClick={() => signOut()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal></LazyLoad>}
+        </Modal>}
 
         <style jsx>{`
 

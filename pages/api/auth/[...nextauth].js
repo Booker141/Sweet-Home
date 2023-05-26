@@ -195,7 +195,7 @@ export const authOptions = {
               biography: "",
               location: "",
               image: user.image,
-              banner: user.banner,
+              banner: user.banner === null ? "" : user.banner,
               status: userStatus,
               role: userRole,
               followers: [],
@@ -204,6 +204,7 @@ export const authOptions = {
               saves: [],
               pets: [],
               complaints: [],
+              posts: [],
               accountId: account._id,
               createdAt: new Date()
             })
@@ -255,7 +256,7 @@ export const authOptions = {
               biography: "",
               location: "",
               image: user.image,
-              banner: user.banner,
+              banner: user.banner === null ? "" : user.banner,
               status: userStatus,
               role: userRole,
               followers: [],
@@ -264,6 +265,7 @@ export const authOptions = {
               saves: [],
               pets: [],
               complaints: [],
+              posts: [],
               accountId: account._id,
               createdAt: new Date()
             })

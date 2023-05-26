@@ -131,10 +131,12 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
  * It fetches the data from the API and returns it as props to the page
  * @returns An object with a property called props.
  */
-export async function getServerSideProps(){
+export async function getServerSideProps({res}){
+
+  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
 
-      const res = await fetch(`${server}/api/unblockedUsers`, {
+      const res2 = await fetch(`${server}/api/unblockedUsers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -148,7 +150,7 @@ export async function getServerSideProps(){
         }
       })
 
-    const unblockedUsers = await res.json();
+    const unblockedUsers = await res2.json();
     const blockedUsers = await block.json();
 
     return {

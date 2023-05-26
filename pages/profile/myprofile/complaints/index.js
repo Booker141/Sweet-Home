@@ -121,6 +121,8 @@ export default function Complaints ({complaints}){
  */
 export async function getServerSideProps(context){
 
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
     const session = await getSession(context)
 
     const res = await fetch(`${server}/api/complaints/${session.user.username}`, {

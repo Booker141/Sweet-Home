@@ -2,9 +2,9 @@
 
 import { useSession, getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 import { colors, fonts } from 'styles/frontend-conf'
-import { BsPatchCheckFill, BsInstagram, BsTwitter, BsFacebook } from 'react-icons/bs'
+import { BsPatchCheckFill} from 'react-icons/bs'
 import {HiCamera} from 'react-icons/hi'
 import {FaUserAlt} from 'react-icons/fa'
 import { MdOutlineEdit, MdCake, MdLocationPin, MdHealthAndSafety} from 'react-icons/md'
@@ -23,7 +23,7 @@ const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackIm
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
-export default function MyProfile ({ posts, users, pets }) {
+export default function MyProfile ({ posts, users }) {
   
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState(users.followers)
@@ -32,6 +32,10 @@ export default function MyProfile ({ posts, users, pets }) {
   const [isVet, setIsVet] = useState(users.role.name === "veterinaria" ? true : false)
   const [profileUser, setProfileUser] = useState(users)
   const [userImage, setUserImage] = useState(users.image)
+  const [previewBanner, setPreviewBanner] = useState(users.banner)
+  const [previewImage, setPreviewImage] = useState(users.image)
+  const [isPreviewImage, setIsPreviewImage] = useState(true)
+  const [isPreviewBanner, setIsPreviewBanner] = useState(true)
   const [userBanner, setUserBanner] = useState(users.banner)
   const [isPosts, setIsPosts] = useState(false)
   const [isLocation, setIsLocation] = useState(users.location === "" ? false : true)
@@ -41,15 +45,30 @@ export default function MyProfile ({ posts, users, pets }) {
 
     if (e.target.files && e.target.files[0]) {
 
-      const imageUploaded = e.target.files[0]
+      const bannerUploaded = e.target.files[0]
 
-      const reader = new FileReader()
+      setUserBanner(`/bannerPhotos/${bannerUploaded?.name}`)
 
-      reader.readAsDataURL(imageUploaded)
+      console.log(bannerUploaded)
 
-      reader.onload = async () => {
+      setPreviewBanner(URL.createObjectURL(bannerUploaded))
 
-        const imageData = reader.result
+
+        const formBanner = new FormData();
+  
+        formBanner.append("banner", userBanner);
+
+        console.log(bannerUploaded)
+
+        console.log(formBanner)
+
+  
+        await fetch(`${server}/api/images/bannerPhotos`, {
+          method: "POST",
+          body: formBanner
+        });
+  
+
 
         await fetch(`${server}/api/users/${session.user.username}`, {
           headers: {
@@ -58,7 +77,7 @@ export default function MyProfile ({ posts, users, pets }) {
           method: 'PUT',
           body: JSON.stringify({
             image: userImage,
-            banner: imageData,
+            banner: bannerUploaded ? `/bannerPhotos/${bannerUploaded?.name}` : "/bannerPhotos/defaultBanner.svg",
             firstname: profileUser.firstname,
             lastname: profileUser.lastname,
             phone: profileUser.phone,
@@ -70,7 +89,7 @@ export default function MyProfile ({ posts, users, pets }) {
           }) 
         })
 
-        setUserBanner(imageData)
+        
   
       }
    
@@ -82,53 +101,62 @@ export default function MyProfile ({ posts, users, pets }) {
   draggable: true,}
   )
 
-  setTimeout(function() {
-    window.location.reload()
 
-  }, 2000)
 
 }
-  }
+
 
   const changeProfilePic = async (e) => {
 
+  
     if (e.target.files && e.target.files[0]) {
 
       const imageUploaded = e.target.files[0]
 
-      const reader = new FileReader()
+      setUserImage(`/userPhotos/${imageUploaded?.name}`)
 
-      reader.readAsDataURL(imageUploaded)
+      console.log(imageUploaded)
 
-      reader.onload = async () => {
+      setPreviewImage(URL.createObjectURL(imageUploaded))
 
-        const imageData = reader.result
 
-        await fetch(`${server}/api/users/${session.user.username}`, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'PUT',
-          body: JSON.stringify({
-            image: imageData,
-            banner: userBanner,
-            firstname: profileUser.firstname,
-            lastname: profileUser.lastname,
-            phone: profileUser.phone,
-            gender: profileUser.gender,
-            birthdate: profileUser.birthdate,
-            biography: profileUser.biography,
-            location: profileUser.location,
-            links: profileUser.links
-            
+          const body = new FormData();
+    
+          body.append("image", imageUploaded); 
+          
+          await fetch(`${server}/api/images/userPhotos`, {
+            method: "POST",
+            body
+          }); 
+    
+      
+
+          await fetch(`${server}/api/users/${session.user.username}`, {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify({
+              image: imageUploaded ? `/userPhotos/${imageUploaded?.name}` : "/userPhotos/default.png",
+              banner: userBanner,
+              firstname: profileUser.firstname,
+              lastname: profileUser.lastname,
+              phone: profileUser.phone,
+              gender: profileUser.gender,
+              birthdate: profileUser.birthdate,
+              biography: profileUser.biography,
+              location: profileUser.location,
+              links: profileUser.links
+              
+            })
           })
-        })
 
-        setUserImage(imageData)
+
+      }
+        
 
         
   
-      }
     
   toast.success('Imagen de perfil modificada correctamente',{ position: "bottom-right",
   autoClose: 5000,
@@ -138,13 +166,9 @@ export default function MyProfile ({ posts, users, pets }) {
   draggable: true,}
   )
 
-  setTimeout(function() {
-    window.location.reload()
-
-  }, 2000)
 
 }
-  }
+  
 
   const handleClick = (e) => {
 
@@ -183,7 +207,7 @@ export default function MyProfile ({ posts, users, pets }) {
         <div className='container__profile'>
 
           <div className="profile__banner">  
-            <FallbackImage src={userBanner} style={{ borderRadius: '20px 20px 0 0', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>
+            {isPreviewBanner && <FallbackImage src={previewBanner} style={{ borderRadius: '20px 20px 0 0', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>}
             <div className="edit__banner">
               <label className={global.buttonEdit}><MdOutlineEdit size={20} color={`${colors.secondary}`}/>Cambiar banner
               <input
@@ -203,7 +227,7 @@ export default function MyProfile ({ posts, users, pets }) {
             <div className='text__username'>
 
               <div className="profile__profilePic">
-                <FallbackImage src={userImage} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' priority />
+                {isPreviewImage && <FallbackImage src={previewImage} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' />}
                   <div className="edit__profilePic">
                     <label className={global.buttonEdit}><HiCamera size={20} color={`${colors.secondary}`}/>Cambiar foto
                     <input
@@ -214,8 +238,7 @@ export default function MyProfile ({ posts, users, pets }) {
                                   onChange={(e) => changeProfilePic(e)}
                                   accept='image/png, image/jpeg, image/jpg'
                                 ></input>
-                    </label>
-                    
+                    </label>                   
                   </div>
               </div>
               <div className={global.title2}>@{session.user.username}</div>
@@ -231,7 +254,8 @@ export default function MyProfile ({ posts, users, pets }) {
                 <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
             </div>
             {isLocation && <div className="profile__location">
-              <div className={global.text}><strong className={global.strong}></strong>{profileUser.location}<MdLocationPin color={`${colors.primary}`}/></div>
+              <MdLocationPin color={`${colors.primary}`}/>
+              <p className={global.text}>{profileUser.location}</p>
             </div>}
             <div className='profile__followers'>
               <div className="numPosts">
@@ -305,6 +329,16 @@ export default function MyProfile ({ posts, users, pets }) {
                         align-items: center;
                         justify-content: center;
           
+                    }
+
+                    .profile__location{
+
+                        /*Box model*/
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 0.5rem;
                     }
 
 
@@ -635,6 +669,8 @@ export default function MyProfile ({ posts, users, pets }) {
 }
 
 export async function getServerSideProps (context) {
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
 
   const session = await getSession(context)

@@ -143,9 +143,11 @@ export default function Complaints ({complaints}){
  * It fetches the data from the API and returns it as props to the page
  * @returns An object with a property called props.
  */
-export async function getServerSideProps(){
+export async function getServerSideProps({res}){
 
-    const res = await fetch(`${server}/api/complaints`, {
+  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+
+    const res2 = await fetch(`${server}/api/complaints`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -153,7 +155,7 @@ export async function getServerSideProps(){
       })
 
 
-    const complaints = await res.json();
+    const complaints = await res2.json();
 
     return {
         props: {

@@ -52,8 +52,9 @@ export default function Saved ({users}) {
             <div className='column1__header'>
               <h1 className={global.title}>Publicaciones guardadas</h1>
             </div>
+            
 
-            {user.saves?.length === 0 && <div><p className={global.text}>No hay ninguna publicación</p></div>}
+            {user.saves?.length === 0 && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {user?.saves.sort().map(({ _id }) => {
               return (
                 <>
@@ -216,6 +217,8 @@ export default function Saved ({users}) {
 }
 
 export async function getServerSideProps(context){
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
   const session = await getSession(context)
 

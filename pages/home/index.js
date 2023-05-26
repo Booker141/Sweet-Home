@@ -35,6 +35,8 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
  * @returns An array of objects.
  */
 export default function Home ({ posts }) {
+
+  console.log(posts)
   
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState(posts)
@@ -101,7 +103,7 @@ export default function Home ({ posts }) {
             {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <LazyLoad offset={100}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} /></LazyLoad>
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
                 </>
               )
             })}
@@ -109,7 +111,7 @@ export default function Home ({ posts }) {
             {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
-                  <LazyLoad offset={100}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/></LazyLoad>
+                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/>
                 </>
               )
             })}
@@ -317,6 +319,8 @@ export default function Home ({ posts }) {
 }
 
 export async function getServerSideProps (context) {
+
+  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
 
   const res = await fetch(`${server}/api/posts`, {
     method: 'GET',
