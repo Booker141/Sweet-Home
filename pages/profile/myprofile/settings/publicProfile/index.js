@@ -1,25 +1,25 @@
 /* Static imports */
 
-import { useSession, signOut, getSession, signIn } from 'next-auth/react'
+import { useSession, getSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
 import { MdOutlineError, MdLocationOn } from 'react-icons/md'
-import { BsFillFileTextFill, BsFillXCircleFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
+import { BsFillFileTextFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
 import { server } from '/server'
 import {toast} from 'react-toastify'
-import { registerLocale } from  "react-datepicker";
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
-import es from 'date-fns/locale/es';
-import "react-datepicker/dist/react-datepicker.css";
+import transition from "react-element-popper/animations/transition"
+import opacity from "react-element-popper/animations/opacity"
+import InputIcon from "react-multi-date-picker/components/input_icon"
 
 /* Dynamic imports */
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
-const DatePicker = dynamic(() => import('react-datepicker'))
+const DatePicker = dynamic(() => import("react-multi-date-picker"))
 const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
@@ -30,28 +30,22 @@ export default function PublicProfile ({users}) {
   const { data: session, status } = useSession({ required: true })
 
 
-  const [user, setUser] = useState(users)
   const [name, setName] = useState(users.firstname)
   const [lastname, setLastname] = useState(users.lastname)
-  const [phone, setPhone] = useState(users.phone)
   const [biography, setBiography] = useState(users.biography)
   const [birthdate, setBirthdate] = useState(new Date(users.birthdate))
-  const [gender, setGender] = useState(users.gender)
   const [location, setLocation] = useState(users.location)
   const [image, setImage] = useState(users.image)
   const [banner, setBanner] = useState(users.banner)
-  const [imageURL, setImageURL] = useState(users.imageURL)
-  const [bannerURL, setBannerURL] = useState(users.bannerURL)
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [imageURL, setImageURL] = useState(users.image)
+  const [bannerURL, setBannerURL] = useState(users.banner)
   const [isValidate, setIsValidate] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
-  const [maxDate, setMaxDate] = useState('')
   const [previewImage, setPreviewImage] = useState(users.image)
   const [previewBanner, setPreviewBanner] = useState(users.banner)
   const [isPreviewImage, setIsPreviewImage] = useState(users.image != "" ? true : false)
   const [isPreviewBanner, setIsPreviewBanner] = useState(users.banner != "" ? true : false)
 
-  registerLocale('es', es)
 
  
  
@@ -66,7 +60,6 @@ export default function PublicProfile ({users}) {
 
       setImageURL(`/userPhotos/${imageUploaded?.name}`)
 
-      console.log(imageUploaded)
 
       setPreviewImage(URL.createObjectURL(imageUploaded))
 
@@ -83,8 +76,6 @@ export default function PublicProfile ({users}) {
 
       setBannerURL(`/bannerPhotos/${bannerUploaded?.name}`)
 
-      console.log(bannerUploaded)
-
       setPreviewBanner(URL.createObjectURL(bannerUploaded))
 
     }
@@ -96,7 +87,6 @@ export default function PublicProfile ({users}) {
 
     const regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/
     const regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/
-    const regLocation = /^[a-zA-Z]*$/
     
 
 
@@ -122,16 +112,7 @@ export default function PublicProfile ({users}) {
         setIsValidate(true)
       }
 
-      if (!location.match(regLocation)) {
-        document.getElementById('location__error').classList.add('form__input-locationError--active')
-        document.getElementById('success__location').classList.remove('form__success-icon--active')
-        setIsValidate(false)
-      } else {
-        document.getElementById('location__error').classList.remove('form__input-locationError--active')
-        document.getElementById('success__location').classList.add('form__success-icon--active')
-        setIsValidate(true)
-      }
-    
+
 
 
   }
@@ -146,9 +127,11 @@ export default function PublicProfile ({users}) {
 
       setIsEditing(true)
 
-      const body = new FormData();
+      if (e.target.files && e.target.files[0]) {
 
-      const formBanner = new FormData();
+        const body = new FormData();
+
+        const formBanner = new FormData();
   
         formBanner.append("banner", banner);
 
@@ -164,6 +147,8 @@ export default function PublicProfile ({users}) {
           method: "POST",
           body: formBanner
         });
+
+      }
 
       await fetch(`${server}/api/users/${session.user.username}`, {
         method: 'PUT',
@@ -355,14 +340,14 @@ export default function PublicProfile ({users}) {
                 />
                 <div id='success__location' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
               </div>
-              <div id='location__error' className='form__input-locationError'>
+              
+            </div>
+            <div id='location__error' className='form__input-locationError'>
                   <div className='error__icon'>
                     <MdOutlineError size={30} color={colors.secondary} />
                   </div>
                   <p className={global.text2}>No puede contener dígitos o caracteres especiales.</p>
                 </div>
-            </div>
-            
             <div className='form-vertical__biography'>
               <div className='label'>
                 <p className={global.text}>Biografía</p>
@@ -385,16 +370,22 @@ export default function PublicProfile ({users}) {
                     </div>
                     <div className='birthdate__input'>
                       <DatePicker
-                            showIcon
-                            showTimeSelect
                             title='Introducir fecha de nacimiento'
-                            type='text'
                             name='birthdate'
+                            render={<InputIcon/>}
                             value={birthdate}
-                            onChange={(date) => setBirthdate(date)}
+                            onChange={setBirthdate}
                             selected={birthdate}
-                            locale="es"
-                            className='input'
+                            format="DD/MM/YYYY"
+                            animations={[
+                              opacity(),
+                              transition({
+                                from: 40,
+                                transition: "all 400ms cubic-bezier(0.335, 0.010, 0.030, 1.360)",
+                              }),
+                            ]}
+
+                            inputClass="date__input"
                           />
                     </div>
                   </div>
@@ -426,6 +417,15 @@ export default function PublicProfile ({users}) {
               .banner__input{
 
                 margin-bottom: 2rem;
+              }
+
+              .date__input{
+
+                /*Visuals*/
+
+                background-color: ${colors.primary};
+                border-radius: 20px;
+
               }
 
               .profilePic{
@@ -1116,7 +1116,8 @@ export default function PublicProfile ({users}) {
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            height: 2rem;
+            height: 1.5rem;
+            padding: 1rem;
 
           }
 
@@ -1129,7 +1130,7 @@ export default function PublicProfile ({users}) {
           align-items: center;
           justify-content: space-between;
           gap: 1rem;
-          height: 2rem;
+          height: 1.5rem;
 
           }
 
@@ -1326,6 +1327,7 @@ export default function PublicProfile ({users}) {
 
               font-family: ${fonts.default};
               font-size: 1rem;
+              color: ${colors.secondary};
 
 
               /*Visuals*/

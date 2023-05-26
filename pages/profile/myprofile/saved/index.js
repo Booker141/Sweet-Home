@@ -1,18 +1,18 @@
 /* Static imports */
 
 import { useSession, getSession, signIn} from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { colors } from 'styles/frontend-conf'
 import { server } from '/server'
 import global from 'styles/global.module.css'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
+import Layout from '/components/Layout/Layout'
 
 /* Dynamic imports */
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
 const SavedPost = dynamic(() => import('/components/SavedPost/SavedPost'))
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
@@ -29,7 +29,11 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function Saved ({users}) {
   
   const { data: session, status } = useSession({ required: true })
-  const [user, setUser] = useState(users)
+  const [saves, setSaves] = useState(users.saves)
+
+  console.log(users.saves)
+  
+
   const Router = useRouter()
 
 
@@ -54,11 +58,12 @@ export default function Saved ({users}) {
             </div>
             
 
-            {user.saves?.length === 0 && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {user?.saves.sort().map(({ _id }) => {
+            {saves.length === 0 && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {saves.map((save) => {
               return (
                 <>
-                  <SavedPost key={_id} id={_id} />
+                  {console.log(save)}
+                  <SavedPost key={save} id={save} />
                 </>
               )
             })}
@@ -78,6 +83,18 @@ export default function Saved ({users}) {
            
 
               }
+
+              .filter__list{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            align-self: flex-end;
+
+            }
+
 
 
               .container__column1{

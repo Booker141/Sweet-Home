@@ -22,6 +22,7 @@ export default async function handler (req, res) {
     const data = await db.collection('posts').findOne({ _id: id })
 
     const post = JSON.parse(JSON.stringify(data))
+
     res.status(200).json(post)
     
 

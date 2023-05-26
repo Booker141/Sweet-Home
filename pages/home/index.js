@@ -44,12 +44,6 @@ export default function Home ({ posts }) {
   const [isSortedByLikes, setIsSortedByLikes] = useState(false)
   const Router = useRouter()
 
-/**
- * The function sorts a list of posts either by activity (likes) or by user (username) based on the
- * input parameter.
- * @param e - The parameter `e` is a variable representing the event object that triggered the function
- * `sortByFilters`. It is likely an argument passed from an event listener.
- */
   const sortByFilters = (e) => {
 
 
