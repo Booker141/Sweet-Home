@@ -1219,8 +1219,6 @@
 .colorized {
 
   /*Box model*/
-
-  display: inline-block;
   text-align: center;
 
   /*Text*/

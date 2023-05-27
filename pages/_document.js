@@ -17,23 +17,29 @@ class MyDocument extends Document {
           <meta name='author' content='Sergio García Navarro' />
           <meta name='designer' content='Sergio García Navarro' />
           <link rel='icon' href='/Icono.ico' />
+          <link rel="preconnect" href="https://fonts.googleapis.com"/>
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Satisfy&display=swap" rel="stylesheet"/>
           <link
             rel='preload'
             href='/public/fonts/Poppins/Poppins-Regular.ttf'
             as='font'
             type='font/ttf'
+            crossorigin="anonymous"
           />
           <link
             rel='preload'
             href='/public/fonts/Poppins/Poppins-Black.ttf'
             as='font'
             type='font/ttf'
+            crossorigin="anonymous"
           />
           <link
             rel='preload'
             href='/public/fonts/Satisfy/Satisfy-Regular.ttf'
             as='font'
             type='font/ttf'
+            crossorigin="anonymous"
           />
         </Head>
 
