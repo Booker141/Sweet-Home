@@ -48,7 +48,7 @@ export default function Principal () {
       </>
     )
   }
-  return (
+  return(
 
     <>
       <Head><title>Inicio | Sweet Home</title></Head>
