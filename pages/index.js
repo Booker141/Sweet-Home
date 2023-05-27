@@ -21,13 +21,13 @@ import inicio3 from '../public/inicio-3.svg'
 import component1 from '../public/component1-home.svg'
 import component2 from '../public/component2-home.svg'
 import component3 from '../public/component3-home.svg'
+import Loader from '/components/Loader/Loader'
 
 
 
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Trademark = dynamic(() => import('/components/Trademark/Trademark'))
 const BasicFooter = dynamic(() => import('/components/BasicFooter/BasicFooter'))
 const Carousel = dynamic(() => import('/components/Carousel/Carousel'))
@@ -222,6 +222,7 @@ export default function Principal () {
         </div>
       </div>
 
+      <a title='Volver arriba' aria-label='Ir al inicio de página' href='#top' className={global.buttonTo}><ImArrowUp2 /></a>
 
       <BasicFooter
         color='#f0810f' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
