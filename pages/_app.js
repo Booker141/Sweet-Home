@@ -28,6 +28,10 @@ function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
     setLoading(false)
   })
 
+  Router.events.on("routeChangeError", (err, url, { shallow }) => {
+    console.log("Navigating to: " + "url: " + url, {cancelled: err.cancelled} )
+});
+
 
 
   return (

@@ -178,9 +178,6 @@ export default function Statistics () {
       <Layout>
         <Head><title>Estadísticas | Sweet Home</title></Head>
         <h1 className="title">Estadísticas</h1>
-        <BarChart data={barData} options={barOptions}/>
-        <RadarChart data={radarData} options={radarOptions}/>
-        <PolarAreaChart data={polarData} options={polarOptions}/>
         <style jsx>{`
           .title{
 
