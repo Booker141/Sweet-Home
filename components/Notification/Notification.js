@@ -23,6 +23,8 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Notification (props) {
 
+  console.log(props)
+
   const [user, setUser] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isNotificationNotChecked, setIsNotificationNotChecked] = useState(false)
@@ -33,7 +35,7 @@ export default function Notification (props) {
 
   const getUser = async() =>{
 
-    const res = await fetch(`${server}/api/usersById/${notification.sender}`, {
+    const res = await fetch(`${server}/api/usersById/${props.sender}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -42,8 +44,11 @@ export default function Notification (props) {
 
     const data = res.json()
 
+    console.log(data)
+
 
     setUser(data)
+
 
   }
 
@@ -59,7 +64,6 @@ export default function Notification (props) {
 
     const data = await res.json()
 
-    console.log(data)
 
     if(data.length > 0) {
       setIsNotificationNotChecked(true)
@@ -87,7 +91,7 @@ export default function Notification (props) {
 
   const updateNotification = async() => {
 
-    await fetch(`${server}/api/notificationsById/${notification.id}`, {
+    await fetch(`${server}/api/notificationsById/${props.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -100,7 +104,7 @@ export default function Notification (props) {
 
   const deleteNotification = async() => {
 
-    await fetch(`${server}/api/notificationsById/${notification.id}`, {
+    await fetch(`${server}/api/notificationsById/${props.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -164,7 +168,7 @@ export default function Notification (props) {
   }, [])
 
 
-  if(notification.type.name === "seguir"){
+  if(props.type.name === "seguir"){
     return (
       <>
         <div className={global.notification}>
@@ -257,7 +261,7 @@ export default function Notification (props) {
     )
   }
 
-  if(notification.type.name === "comentar"){
+  if(props.type.name === "comentar"){
     return (
       <>
         <div className={global.notification}>
@@ -333,6 +337,7 @@ export default function Notification (props) {
 
           display: flex;
           align-items: center;
+          padding: 1rem;
 
 
           /*Visuals*/
@@ -340,6 +345,8 @@ export default function Notification (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          border-radius: 70px;
 
           }
 
@@ -350,7 +357,7 @@ export default function Notification (props) {
     )
   }
 
-  if(notification.type.name === "me gusta"){
+  if(props.type.name === "me gusta"){
     return (
       <>
         <div className={global.notification}>
@@ -427,6 +434,8 @@ export default function Notification (props) {
 
           display: flex;
           align-items: center;
+          padding: 1rem;
+
 
 
           /*Visuals*/
@@ -434,6 +443,8 @@ export default function Notification (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+          border-radius: 70px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
           }
 

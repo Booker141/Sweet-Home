@@ -8,7 +8,7 @@ export const config = {
 }
 export default async function handler (req, res) {
 
-  res.setHeader('Cache-Control', 's-maxage=10'); s
+  res.setHeader('Cache-Control', 's-maxage=10'); 
 
   const client = await clientPromise
   const db = await client.db()
@@ -19,8 +19,7 @@ export default async function handler (req, res) {
 
     const data = await db.collection('notifications').findOne({_id: id})
 
-
-    res.status(200).json(data)
+    res.status(200).json(JSON.parse(JSON.stringify(data)))
   }
 
   if (req.method === 'PUT') {
