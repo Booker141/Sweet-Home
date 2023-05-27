@@ -6,6 +6,7 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Router from 'next/router'
 import dynamic from 'next/dynamic'
+import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
 
 
 /* Dynamic imports */
@@ -28,32 +29,31 @@ function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
     setLoading(false)
   })
 
-  Router.events.on("routeChangeError", (err, url, { shallow }) => {
-    console.log("Navigating to: " + "url: " + url, {cancelled: err.cancelled} )
-});
+
 
 
 
   return (
     <>
-
-      <SessionProvider session={session}>
-        {loading && <Loader />}
-        <Component {...pageProps} />
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          transition={Slide}
-          theme="colored"
-        />
-      </SessionProvider>
+      <ErrorBoundary>
+        <SessionProvider session={session}>
+          {loading && <Loader />}
+          <Component {...pageProps} />
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            transition={Slide}
+            theme="colored"
+          />
+        </SessionProvider>
+      </ErrorBoundary>
     </>
 
   )
