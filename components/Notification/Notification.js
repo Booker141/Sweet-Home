@@ -23,7 +23,6 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Notification (props) {
 
-  console.log(props)
 
   const [user, setUser] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -42,9 +41,7 @@ export default function Notification (props) {
       }
     })
 
-    const data = res.json()
-
-    console.log(data)
+    const data = await res.json()
 
 
     setUser(data)
@@ -64,6 +61,8 @@ export default function Notification (props) {
 
     const data = await res.json()
 
+    console.log(data)
+
 
     if(data.length > 0) {
       setIsNotificationNotChecked(true)
@@ -82,7 +81,7 @@ export default function Notification (props) {
       }
     })
 
-    const data = res.json()
+    const data = await res.json()
 
     console.log(data)
 
@@ -162,13 +161,15 @@ export default function Notification (props) {
     if(isNotificationNotChecked){
       setTimeout(() => {
         updateNotification()
-      }, 3000)
+      }, 1000)
     }
+
+    console.log(notification)
     
   }, [])
 
 
-  if(props.type.name === "seguir"){
+  if(notification.type.name === "seguir"){
     return (
       <>
         <div className={global.notification}>
@@ -183,7 +184,7 @@ export default function Notification (props) {
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
           </div>
-          {!notification.isChecked && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
+          {notification.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
         {isModalVisible && <LazyLoad><Modal>
@@ -261,7 +262,7 @@ export default function Notification (props) {
     )
   }
 
-  if(props.type.name === "comentar"){
+  if(notification.type.name === "comentar"){
     return (
       <>
         <div className={global.notification}>
@@ -276,7 +277,7 @@ export default function Notification (props) {
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
           </div>
-          {!notification.isChecked && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
+          {!notification.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
         {isModalVisible && <Modal>
@@ -357,7 +358,7 @@ export default function Notification (props) {
     )
   }
 
-  if(props.type.name === "me gusta"){
+  if(notification.type.name === "me gusta"){
     return (
       <>
         <div className={global.notification}>
@@ -373,7 +374,7 @@ export default function Notification (props) {
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
           </div>
-          {!notification.isChecked && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
+          {!notification.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
         {isModalVisible && <Modal>

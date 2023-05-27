@@ -13,7 +13,6 @@ import {toast} from 'react-toastify'
 import Head from 'next/head'
 import global from '/styles/global.module.css'
 import dynamic from 'next/dynamic'
-import transition from "react-element-popper/animations/transition"
 import opacity from "react-element-popper/animations/opacity"
 import InputIcon from "react-multi-date-picker/components/input_icon"
 
@@ -296,10 +295,6 @@ export default function EditPet ({pets}) {
                             format="DD/MM/YYYY"
                             animations={[
                               opacity(),
-                              transition({
-                                from: 40,
-                                transition: "all 400ms cubic-bezier(0.335, 0.010, 0.030, 1.360)",
-                              }),
                             ]}
 
                             inputClass="date__input"

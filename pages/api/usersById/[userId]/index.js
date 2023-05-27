@@ -20,10 +20,10 @@ export default async function handler (req, res) {
 
     const data = await db.collection('users').findOne({_id: id})
 
-    const users = JSON.parse(JSON.stringify(data.json()))
+    const users = JSON.parse(JSON.stringify(data))
 
     console.log(users)
-    res.status(200).json(users)
+    res.status(201).json(users)
   }
 
  
