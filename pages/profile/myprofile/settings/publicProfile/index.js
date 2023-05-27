@@ -11,7 +11,6 @@ import {toast} from 'react-toastify'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
-import opacity from "react-element-popper/animations/opacity"
 import InputIcon from "react-multi-date-picker/components/input_icon"
 
 /* Dynamic imports */
@@ -376,10 +375,6 @@ export default function PublicProfile ({users}) {
                             onChange={setBirthdate}
                             selected={birthdate}
                             format="DD/MM/YYYY"
-                            animations={[
-                              opacity(),
-                            ]}
-
                             inputClass="date__input"
                           />
                     </div>

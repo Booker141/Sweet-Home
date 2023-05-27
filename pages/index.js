@@ -222,7 +222,6 @@ export default function Principal () {
         </div>
       </div>
 
-      <a title='Volver arriba' aria-label='Ir al inicio de página' href='#top' className={global.buttonTo}><ImArrowUp2 /></a>
 
       <BasicFooter
         color='#f0810f' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'

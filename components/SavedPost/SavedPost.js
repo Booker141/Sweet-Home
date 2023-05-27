@@ -13,7 +13,7 @@ const Post = dynamic(() => import('/components/Post/Post'))
 
 export default function SavedPost (props) {
 
-  const [saved, setSaved] = useState([])
+  const [saved, setSaved] = useState({})
 
 
   console.log(props)
@@ -35,13 +35,13 @@ export default function SavedPost (props) {
 
     setSaved(data)
 
-    console.log(saved)
 
   }
 
 
   useEffect(() => {
     getPost()
+
 
   }, [])
 
