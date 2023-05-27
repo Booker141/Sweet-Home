@@ -19,25 +19,19 @@ class MyDocument extends Document {
           <link rel='icon' href='/Icono.ico' />
           <link
             rel='preload'
-            href='/fonts/Poppins/Poppins-Regular.ttf'
+            href='/public/fonts/Poppins/Poppins-Regular.ttf'
             as='font'
             type='font/ttf'
           />
           <link
             rel='preload'
-            href='/fonts/Poppins/Poppins-Black.ttf'
+            href='/public/fonts/Poppins/Poppins-Black.ttf'
             as='font'
             type='font/ttf'
           />
           <link
             rel='preload'
-            href='/fonts/Raleway/Raleway-VariableFont_wght.ttf'
-            as='font'
-            type='font/ttf'
-          />
-          <link
-            rel='preload'
-            href='/fonts/Satisfy/Satisfy-Regular.ttf'
+            href='/public/fonts/Satisfy/Satisfy-Regular.ttf'
             as='font'
             type='font/ttf'
           />
