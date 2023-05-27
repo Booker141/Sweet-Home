@@ -98,7 +98,8 @@ export default function Username ({ posts, users}) {
                 <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
             </div>
             {isLocation && <div className="profile__location">
-              <div className={global.text}><strong className={global.strong}></strong>{profileUser.location}<MdLocationPin color={`${colors.primary}`}/></div>
+              <MdLocationPin color={`${colors.primary}`}/>
+              <p className={global.text}>{profileUser.location}</p>
             </div>}
             <div className="profile__pets">
               <a className={global.link} href={`/profile/${router.query.username}/pets`} aria-label={`Ir a sus mascotas`}>Sus mascotas<HiOutlineArrowRight size={15} color={colors.primary} /></a>
@@ -193,7 +194,7 @@ export default function Username ({ posts, users}) {
                         /*Box model*/
 
                         display: flex;
-                        flex-direction: row;
+                        flex-direction: row;a
                         align-items: center;
                         gap: 0.5rem;
 

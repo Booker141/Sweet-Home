@@ -3,8 +3,10 @@
 import { useSession, signIn} from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { colors } from 'styles/frontend-conf'
+import { colors, fonts} from 'styles/frontend-conf'
 import { server } from '/server'
+import {HiFilter} from 'react-icons/hi'
+import {BsFilter} from 'react-icons/bs'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -34,17 +36,22 @@ export default function Wild ({posts}) {
   const Router = useRouter()
 
 
-  const sortPostByLikes = () => {
-    setIsSortedByLikes(!isSortedByLikes)
-    const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
-    setPostList(sortedPosts)
-  }
+  const sortByFilters = (e) => {
 
-  const sortPostByDate = () => {
-    setIsSortedByDates(!isSortedByDate)
-    const sortedPosts = posts.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0))
-    setPostList(sortedPosts)
+
+    if(e === 'activity'){
+      
+      setIsSortedByLikes(!isSortedByLikes)
+      const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
+      setPostList(sortedPosts)
+
+    }else if(e === 'date'){
+      setIsSortedByDate(!isSortedByDate)
+      const sortedPosts = posts.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0))
+      setPostList(sortedPosts)
+
   }
+}
 
 
 
@@ -69,8 +76,14 @@ export default function Wild ({posts}) {
               <h1 className={global.title}>Fauna silvestre</h1>
             </div>
             <div className='column1__buttons'>
-                <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
-                <button className={global.buttonPrimary} onClick={() => sortPostByDate()} aria-label='Ordenar publicaciones por fecha'>Ordenar por fecha</button>
+              <div className='filter__list'>
+                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
+                      <option default value="default">Selecciona un filtro <HiFilter size={15} color={colors.secondary}/></option>
+                      <option value="activity">Ordenar por popularidad <BsFilter size={15} color={colors.secondary}/></option>
+                      <option value="date">Ordenar por fecha <BsFilter size={15} color={colors.secondary}/></option>
+                  </select>
+                </div>
+
             </div>
             {((isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
@@ -104,6 +117,18 @@ export default function Wild ({posts}) {
            
 
               }
+
+              .filter__list{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              align-self: flex-end;
+
+              }
+
 
 
               .container__column1{
@@ -173,6 +198,48 @@ export default function Wild ({posts}) {
                 margin-right: 0.5rem;
 
               }
+
+              select{
+
+              /*Box model*/
+
+              width: 10vw;
+              height: 2rem;
+              align-self: flex-end;
+
+              /*Text*/
+
+              font-family: ${fonts.default};
+              color: ${colors.secondary};
+              font-size: 0.8rem;
+
+              /*Visuals*/
+
+              border-radius: 20px;
+              border: none;
+              background-color: ${colors.primary};
+              box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+
+              }
+
+              select:focus{
+
+              /*Visuals*/
+
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
+
+              }
+
+              select::part(listbox){
+
+                /*Visuals*/
+
+                border-radius: 20px;
+              }
+
+
 
 
 

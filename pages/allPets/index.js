@@ -4,6 +4,7 @@ import { useSession, signIn } from 'next-auth/react'
 import {colors, fonts} from 'styles/frontend-conf'
 import { server } from '/server'
 import {useState} from 'react'
+import {useRouter} from 'next/router'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -26,6 +27,8 @@ export default function AllPets ({ pets }) {
   const [isSortedByName, setIsSortedByName] = useState(false);
   const [isSortedByWeight, setIsSortedByWeight] = useState(false);
   const [petsList, setPetsList] = useState(pets)
+
+  const Router = useRouter()
 
 
 

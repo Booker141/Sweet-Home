@@ -32,7 +32,7 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
  */
 export default function FAQ ({ questions, users }) {
 
-  const [isAdmin, setIsAdmin] = useState(users.role.name === "administrador" ? true : false);
+  const [isAdmin, setIsAdmin] = useState(users?.role.name === "administrador" ? true : false);
   const [user, setUser] = useState(users);
   const router = useRouter();
 
@@ -146,7 +146,7 @@ export async function getServerSideProps (context) {
     }
   })
 
-  const res2 = await fetch(`${server}/api/users/${session.user.username}`, {
+  const res2 = await fetch(`${server}/api/users/${session?.user.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

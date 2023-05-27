@@ -35,6 +35,7 @@ export default function Post (props) {
   const [isShelter, setIsShelter] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [isManager, setIsManager] = useState(false)
+  const [isProfile, setIsProfile] = useState(props.username == session.user.username)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
 
@@ -130,12 +131,18 @@ export default function Post (props) {
         <div key={props._id} className={global.post}>
           <div className='post__header'>
             <div className='header__user'>
-              <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>
+              {!isProfile && <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>}
+              {isProfile && <a href={`${server}/profile/myprofile`} aria-label={`Ir a Mi perfil`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>}
               <div className="user__info">
                 <div className="info__username">
-                  <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`} className={global.link3__bold}>
+                
+                  {!isProfile && <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`} className={global.link3__bold}>
                     {user?.username}
-                  </a>
+                  </a>}
+                  {isProfile && <a href={`${server}/profile/myprofile`} aria-label={`Ir al perfil de ${user?.username}`} className={global.link3__bold}>
+                    {session?.user.username}
+                  </a>}
+
                   {isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
                 </div>             
                 <div className="post__time">
@@ -186,7 +193,7 @@ export default function Post (props) {
             
         </div>
       </div>
-      {isModalVisible && <LazyLoad><Modal>
+      {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar publicación</h2>
         <p className={global.text2}>Eliminando esta publicación, será eliminada de todas las páginas de la aplicación así como todos las respuestas que provengan de otros usuarios</p>
@@ -195,7 +202,7 @@ export default function Post (props) {
           <button className={global.buttonSecondary} onClick={() => deletePost()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
 
       <style jsx>{`
 

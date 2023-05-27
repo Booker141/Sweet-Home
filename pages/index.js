@@ -569,6 +569,7 @@ export default function Principal () {
 
             display: flex;
             align-items: center;
+            text-align: justify;
             margin-left: 2rem;
 
             color: ${colors.secondary};

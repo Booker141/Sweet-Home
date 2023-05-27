@@ -101,7 +101,7 @@ export default function Privacy () {
       <p className={global.text}>Por último, anonimizaremos su información
         para su uso interno y externo de forma que no haya manera de ser
         identificado, así como cumplir con las obligaciones legales descritas
-        en <a className={global.link} aria-label='Ir a condiciones' href='/conditions'>Condiciones</a>.
+        en <strong>Condiciones</strong>.
         Antes de realizar un uso distinto al aquí descrito, se lo comunicaremos
         en el momento de recopilarla.
       </p>
@@ -160,6 +160,7 @@ export default function Privacy () {
                         /*Box model*/
 
                         margin-top: 4rem;
+                        text-align: justify;
                     }
 
                     .first-line{

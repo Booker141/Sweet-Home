@@ -6,7 +6,6 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Router from 'next/router'
 import dynamic from 'next/dynamic'
-import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
 
 
 /* Dynamic imports */
@@ -35,7 +34,6 @@ function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
 
   return (
     <>
-      <ErrorBoundary>
         <SessionProvider session={session}>
           {loading && <Loader />}
           <Component {...pageProps} />
@@ -53,7 +51,6 @@ function MyApp ({ Component, pageProps: { session, ...pageProps } }) {
             theme="colored"
           />
         </SessionProvider>
-      </ErrorBoundary>
     </>
 
   )

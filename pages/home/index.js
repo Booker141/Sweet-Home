@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { colors, fonts } from 'styles/frontend-conf'
 import { server } from '/server'
+import {HiFilter} from 'react-icons/hi'
+import {BsFilter} from 'react-icons/bs'
 import global from 'styles/global.module.css'
 import Head from 'next/head'
 import Layout from '/components/Layout/Layout'
@@ -81,9 +83,9 @@ export default function Home ({ posts }) {
           <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear publicación</button>
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro</option>
-                      <option value="activity">Ordenar por popularidad</option>
-                      <option value="user">Ordenar por usuario</option>
+                      <option default value="default">Selecciona un filtro <HiFilter size={15} color={colors.secondary}/></option>
+                      <option value="activity">Ordenar por popularidad <BsFilter size={15} color={colors.secondary}/></option>
+                      <option value="user">Ordenar por usuario <BsFilter size={15} color={colors.secondary}/></option>
                   </select>
                 </div>
         </div>

@@ -124,6 +124,7 @@ export default function Carousel () {
                     align-items: center;
                     flex-direction: row;
                     justify-content: space-around;
+                    text-align: justify;
                     flex-shrink: 0;
                     width: 100%;
                     
