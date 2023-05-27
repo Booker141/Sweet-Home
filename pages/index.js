@@ -13,7 +13,6 @@ import {server} from '/server'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
-import Layout from '/components/Layout/Layout'
 import BasicHeader from '/components/BasicHeader/BasicHeader'
 import inicio1 from '../public/inicio-1.svg'
 import inicio2 from '../public/inicio-2.svg'
@@ -91,7 +90,7 @@ export default function Principal () {
           <div className='container2__column1'>
             <h1>¡Únete ahora a nuestra <span className={global.colorized}>comunidad</span>!</h1>
             <p className={global.text}>¡Disfruta de todos los beneficios que te ofrece  <span className={global.colorized}>&nbsp; Sweet Home &nbsp; </span> creándote una cuenta ahora mismo!</p>
-            <button className={global.buttonPrimary} onClick={() => await router.push('/auth/signUp')}>Regístrate ➤</button>
+            <button className={global.buttonPrimary} onClick={() => router.push('/auth/signUp')}>Regístrate ➤</button>
             <p className='subtext'>La mayor comunidad de amantes de los animales 🐾</p>
           </div>
           <div className='container2__column2'>
