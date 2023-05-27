@@ -83,9 +83,9 @@ export default function Home ({ posts }) {
           <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear publicación</button>
           <div className='filter__list'>
                   <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro <HiFilter size={15} color={colors.secondary}/></option>
-                      <option value="activity">Ordenar por popularidad <BsFilter size={15} color={colors.secondary}/></option>
-                      <option value="user">Ordenar por usuario <BsFilter size={15} color={colors.secondary}/></option>
+                      <option default value="default">Selecciona un filtro </option>                   
+                      <option value="activity">Ordenar por popularidad</option>
+                      <option value="user">Ordenar por usuario</option>
                   </select>
                 </div>
         </div>
