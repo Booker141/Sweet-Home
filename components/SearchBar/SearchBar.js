@@ -137,6 +137,7 @@ export default function SearchBar(){
                     </div>                  
                   </>
                 ))} 
+
               </div>
             
               {results?.usersByUsername?.length === 0 && results?.typeAttendanceByTitle?.length === 0 &&

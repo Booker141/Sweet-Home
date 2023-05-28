@@ -40,8 +40,8 @@ export default function FollowingUser ({ user }) {
         {numFollowing === 0 && <p className={global.text}>No sigue a ningún usuario</p>}
         <p className={global.text}>Sigue actualmente a {numFollowing} usuarios.</p>
         <div className='following'>
-          {following.map((_id) => (
-            <Following key={_id} id={_id} />
+          {following.map((id) => (
+            <Following key={id} id={id} />
           ))}
         </div>
         <style jsx>{`

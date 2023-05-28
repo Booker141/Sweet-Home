@@ -44,7 +44,7 @@ export default function UserCard (props) {
           <a className={global.link} href={`/profile/${props?.username}`} aria-label={`Ir a perfil de ${props?.username}`}><strong>@{props?.username}</strong> {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}</a>
         </div>
         <div className="follow__button">
-          <LazyLoad><FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={props?.id} usernameTo={props?.username}/></LazyLoad>
+          {props && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={props?.id} usernameTo={props?.username}/>}
         </div>
         
       </div>

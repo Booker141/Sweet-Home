@@ -24,9 +24,11 @@ export default function Following (props) {
 
   const {data: session} = useSession({})
 
+  console.log(props)
+
   async function getFollowing(){
 
-    const res = await fetch(`${server}/api/following/${props?.id}`,
+    const res = await fetch(`${server}/api/usersById/${props.id}`,
       {
         method: 'GET',
         headers: {
@@ -39,7 +41,6 @@ export default function Following (props) {
     console.log(following)
 
     setUser(following)
-
 
     if(following?.role.name === "veterinaria")
       setIsVet(true)
@@ -54,7 +55,8 @@ export default function Following (props) {
 
   return (
     <>
-      <div className={global.following}>
+
+      <div key={props.id} className={global.following}>
         <div className='following__image'>
           <FallbackImage src={user?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={100} height={100} />
         </div>
@@ -62,8 +64,9 @@ export default function Following (props) {
           <a className={global.link} href={`/profile/${user?.username}`} aria-label={`Ir a perfil de ${user?.username}`}><strong>@{user?.username}</strong> </a>
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}
         </div>
-          <LazyLoad offset={100}><FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={user?._id} usernameTo={user?.username}/></LazyLoad>
+        {user && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={user?._id} usernameTo={user?.username}/>}
         </div>
+
 
       <style jsx>{`
 
