@@ -32,9 +32,10 @@ export default function FollowButton(props){
 
       setUser(data)
       console.log(data?.following.includes(props?.idTo))
-      setIsFollowedByMe(data?.following.includes(props?.idTo))
 
-      console.log(isFollowedByMe)
+      if(user)
+        setIsFollowedByMe(data?.following.includes(props?.idTo))
+
 
 
   }

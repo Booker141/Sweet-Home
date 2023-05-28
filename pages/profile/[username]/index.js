@@ -26,12 +26,12 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Username ({ posts, users}) {
   
+  console.log(users)
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState(users?.followers)
   const [following, setFollowing] = useState(users?.following)
   const [isShelter, setIsShelter] = useState(users?.role.name === "protectora" ? true : false)
   const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
-  const [profileUser, setProfileUser] = useState(users)
   const [userImage, setUserImage] = useState(users?.image)
   const [userBanner, setUserBanner] = useState(users?.banner)
   const [isPosts, setIsPosts] = useState(false)
@@ -87,19 +87,19 @@ export default function Username ({ posts, users}) {
               <div className={global.title2}>@{router.query.username}</div>
               {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}              
-              <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={profileUser.id} usernameTo={profileUser?.username}/>
+              {users && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={users?._id} usernameTo={users?.username}/>}
               <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdOutlineBlock size={25} color={colors.primary} /></a>
             </div>
             <div className="profile__biography">
-              <p className={global.text}>{profileUser?.biography}</p>
+              <p className={global.text}>{users?.biography}</p>
             </div>
             <div className="profile__dates">
-                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser?.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
-                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser?.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(users?.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(users?.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
             </div>
             {isLocation && <div className="profile__location">
               <MdLocationPin color={`${colors.primary}`}/>
-              <p className={global.text}>{profileUser.location}</p>
+              <p className={global.text}>{users.location}</p>
             </div>}
             <div className="profile__pets">
               <a className={global.link} href={`/profile/${router.query.username}/pets`} aria-label={`Ir a sus mascotas`}>Sus mascotas<HiOutlineArrowRight size={15} color={colors.primary} /></a>
@@ -110,11 +110,11 @@ export default function Username ({ posts, users}) {
                 <p className={global.text__bold}>{posts?.length}</p>
               </div>
               <div className='followers'>
-                <a href={`/profile/${profileUser?.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser?.username}`} className={global.link}>Seguidores</a>
+                <a href={`/profile/${users?.username}/followers`} aria-label={`Ir a los seguidores de ${users?.username}`} className={global.link}>Seguidores</a>
                 <p className={global.text__bold}>{numFollowers}</p>
               </div>
               <div className='following'>
-                <a href={`/profile/${profileUser?.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser?.username}`} className={global.link}>Siguiendo</a>
+                <a href={`/profile/${users?.username}/following`} aria-label={`Ir a los usuarios seguidos por ${users?.username}`} className={global.link}>Siguiendo</a>
                 <p className={global.text__bold}>{numFollowing}</p>
               </div>
             </div>
