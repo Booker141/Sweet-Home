@@ -66,6 +66,11 @@ export default async function handler (req, res) {
 
     const postsByLocation = await db.collection('posts').find({location: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
+      //Buscar cuidados (Según usuario)
+
+      const attendancesByUser = await db.collection('attendances').find({username: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
+
+
     //Buscar cuidados (Según descripción)
 
     const attendancesByDescription = await db.collection('attendances').find({description: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
@@ -86,14 +91,7 @@ export default async function handler (req, res) {
 
     const typeAttendanceByDescription = await db.collection('typeAttendance').find({description: {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
-    //Buscar hilos relacionados por título
-
-    const threadsByTitle = await db.collection('threads').find({title: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
-
-    //Buscar hilos relacionados por usuarios
-
-    const threadsByUser = await db.collection('threads').find({username: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
-
+  
     //Buscar noticias relacionadas por título
 
     const newsByTitle = await db.collection('news').find({title: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
@@ -114,6 +112,7 @@ export default async function handler (req, res) {
 
     const newsByAuthor = await db.collection('news').find({author: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
+    console.log(usersByUsername)
 
 
     const data = {
@@ -127,13 +126,12 @@ export default async function handler (req, res) {
       postsAbandoned: postsAbandoned === undefined ? [] : postsAbandoned,
       postsWild: postsWild === undefined ? [] : postsWild,
       postsByLocation: postsByLocation,
+      attendancesByUser: attendancesByUser,
       attendancesByDescription: attendancesByDescription,
       attendancesByBreed: attendancesByBreed,
       attendancesByAnimal: attendancesByAnimal,
       typeAttendanceByTitle: typeAttendanceByTitle,
       typeAttendanceByDescription: typeAttendanceByDescription,
-      threadsByTitle: threadsByTitle,
-      threadsByUser: threadsByUser,
       newsByTitle: newsByTitle,
       newsByIntroduction: newsByIntroduction,
       newsByContent: newsByContent,
@@ -141,6 +139,8 @@ export default async function handler (req, res) {
       newsByAuthor: newsByAuthor,
 
     }
+
+    console.log(data)
 
 
 

@@ -46,7 +46,7 @@ export default function Search ({results}) {
       <Layout>
         <Head><title>{router?.query.keyword} | Búsqueda de Sweet Home</title></Head>
         <h1 className={global.title}>Búsquedas relacionadas</h1>
-        {results === null && <div className={global.loading2}>No se han encontrado resultados.</div>}
+        {results === null || results.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
         <div className={global.search__card}>
           <h2 className={global.title__search}>Usuarios</h2>
           <div className="results__container">
@@ -145,6 +145,15 @@ export default function Search ({results}) {
         <div className={global.search__card}>
           <p className={global.title__search}>Cuidados</p>
             <div className="results__container">
+            <p className={global.secondary__search}>Por usuario</p>
+              <div className="results__attendancesByDescription">
+                {results.attendancesByUser?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
+                {results.attendancesByUser?.length != 0 && results.attendancesByUser?.map((attendance) => (
+                  <>
+                    <Attendance key={attendance._id} location={attendance.location} description={attendance.description} animal={attendance.animal} breed={attendance.breed} image={attendance.image} comments={attendance.comments} createdAt={attendance.createdAt} username={attendance.username} userId={attendance.userId} threadId={attendance.threadId} />
+                  </>
+                ))}
+              </div>
               <p className={global.secondary__search}>Por descripción</p>
               <div className="results__attendancesByDescription">
                 {results.attendancesByDescription?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
@@ -344,7 +353,7 @@ export async function getServerSideProps(context){
       }
     })
 
-  const data = await res.json()
+  const data = await res?.json()
   
   return{
     props: {
