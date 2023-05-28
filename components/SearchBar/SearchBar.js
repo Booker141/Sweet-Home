@@ -36,7 +36,13 @@ export default function SearchBar(){
       setKeyword(searchInput)
 
       const encodedKeyword = encodeURIComponent(searchInput)
-      Router.push(`${server}/search?keyword=${encodedKeyword}`);
+
+      if(encodedKeyword.trim() != ''){
+        Router.push(`${server}/search?keyword=${encodedKeyword}`);
+      }else{
+        Router.push(`${server}/search`);
+      }
+     
 
 
     }

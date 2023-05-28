@@ -95,37 +95,9 @@ export default function Search ({results}) {
           <div className="results__container">
             <p className={global.secondary__search}>Por tipo de publicación</p>
           
-            <p className={global.tertiary__search}>Animales en adopción</p>
-            <div className="results__postsByTypeAdoption">
-              {results.postsAdoption?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsByAdoption?.length != 0 && results.postsAdoption?.map((post) => (
-                <>
-                  <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
-                </>
-              ))}
-            </div>
-            <p className={global.tertiary__search}>Animales perdidos</p>
-            <div className="results__postsByTypeLost">
-              {results.postsLost?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsLost?.length != 0 && results.postsLost?.map((post) => (
-                <>
-                  <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
-                </>
-              ))}
-            </div>
-            <p className={global.tertiary__search}>Animales abandonados</p>
-            <div className="results__postsByTypeAbandoned">
-              {results.postsAbandoned?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsAbandoned?.length != 0&& results.postsAbandoned?.map((post) => (
-                <>
-                <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
-                </>
-              ))}
-            </div>
-            <p className={global.tertiary__search}>Animales silvestres</p>
-            <div className="results__postsByTypeWild">
-              {results.postsWild?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
-              {results.postsWild?.length != 0 && results.postsWild?.map((post) => (
+            <div className="results__postsByType">
+              {results.typePost?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
+              {results.typePost?.length != 0 && results.typePost?.map((post) => (
                 <>
                   <Post key={post._id} id={post._id} username={post.username} location={post.location} image={post.image} description={post.description} createdAt={post.createdAt} comments={post.comments} likes={post.likes} saves={post.saves} type={post.type}/>
                 </>

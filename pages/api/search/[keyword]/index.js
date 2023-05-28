@@ -36,29 +36,8 @@ export default async function handler (req, res) {
 
     //Buscar publicaciones (según tipo de publicación)
 
-    if(keyword.includes('adopci')){
 
-      postsAdoption = await db.collection('posts').find({"type.name": 'Adopción'}).limit(50).toArray();
-
-    }
-
-    if(keyword.includes('perdido')){
-    
-      postsLost = await db.collection('posts').find({"type.name": 'Perdido'}).limit(50).toArray();
-
-    }
-
-    if(keyword.includes('abando')){
-      
-      postsAbandoned = await db.collection('posts').find({"type.name": 'Abandonado'}).limit(50).toArray();
-
-    }
-
-    if(keyword.includes('silve')){
-
-      postsWild = await db.collection('posts').find({"type.name": 'Silvestre'}).limit(50).toArray();
-
-    }
+      const typePost = await db.collection('posts').find({"type.name": {$regex: keyword, $options : 'i'}}).limit(50).toArray();
 
 
 
@@ -112,7 +91,7 @@ export default async function handler (req, res) {
 
     const newsByAuthor = await db.collection('news').find({author: {$regex: keyword, $options : 'i'}}).limit(50).toArray()
 
-    console.log(usersByUsername)
+
 
 
     const data = {
@@ -121,10 +100,7 @@ export default async function handler (req, res) {
       usersByEmail: usersByEmail,
       postsByUser: postsByUser,
       postsByDescription: postsByDescription,
-      postsAdoption: postsAdoption === undefined ? [] : postsAdoption,
-      postsLost: postsLost === undefined ? [] : postsLost,
-      postsAbandoned: postsAbandoned === undefined ? [] : postsAbandoned,
-      postsWild: postsWild === undefined ? [] : postsWild,
+      typePost: typePost,
       postsByLocation: postsByLocation,
       attendancesByUser: attendancesByUser,
       attendancesByDescription: attendancesByDescription,
@@ -140,7 +116,6 @@ export default async function handler (req, res) {
 
     }
 
-    console.log(data)
 
 
 
