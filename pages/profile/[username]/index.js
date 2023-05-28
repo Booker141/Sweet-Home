@@ -34,6 +34,7 @@ export default function Username ({ posts, users}) {
   const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
   const [userImage, setUserImage] = useState(users?.image)
   const [userBanner, setUserBanner] = useState(users?.banner)
+  const [isBlocked, setIsBlocked] = useState(users?.status.name === "bloqueado" ? true : false)
   const [isPosts, setIsPosts] = useState(false)
   const [isLocation, setIsLocation] = useState(users?.location === "" ? false : true)
   const router = useRouter()
@@ -75,47 +76,47 @@ export default function Username ({ posts, users}) {
         <div className='container__profile'>
 
           <div className="profile__banner">  
-            <FallbackImage src={userBanner} style={{ borderRadius: '20px 20px 0 0', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>
+            <FallbackImage src={isBlocked ? "" : userBanner} style={{ borderRadius: '20px 20px 0 0', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>
           </div>
           <div className='profile__text'>
 
           <div className='text__username'>
 
               <div className="profile__profilePic">
-                <FallbackImage src={userImage} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' priority />
+                <FallbackImage src={isBlocked ? "" : userImage} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' priority />
               </div>
-              <div className={global.title2}>@{router.query.username}</div>
+              <div className={global.title2}>@{isBlocked ? 'Usuario bloqueado' : router.query.username}</div>
               {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}              
-              {users && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={users?._id} usernameTo={users?.username}/>}
-              <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdOutlineBlock size={25} color={colors.primary} /></a>
+              {users && !isBlocked && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={users?._id} usernameTo={users?.username}/>}
+              {!isBlocked && <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdOutlineBlock size={25} color={colors.primary} /></a>}
             </div>
-            <div className="profile__biography">
+            {!isBlocked && <div className="profile__biography">
               <p className={global.text}>{users?.biography}</p>
-            </div>
-            <div className="profile__dates">
+            </div>}
+            {!isBlocked && <div className="profile__dates">
                 <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(users?.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
                 <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(users?.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
-            </div>
-            {isLocation && <div className="profile__location">
+            </div>}
+            {isLocation && !isBlocked && <div className="profile__location">
               <MdLocationPin color={`${colors.primary}`}/>
               <p className={global.text}>{users.location}</p>
             </div>}
-            <div className="profile__pets">
+            {!isBlocked && <div className="profile__pets">
               <a className={global.link} href={`/profile/${router.query.username}/pets`} aria-label={`Ir a sus mascotas`}>Sus mascotas<HiOutlineArrowRight size={15} color={colors.primary} /></a>
-            </div>
+            </div>}
             <div className='profile__followers'>
               <div className="numPosts">
                 <div className={global.link}>Publicaciones</div>
-                <p className={global.text__bold}>{posts?.length}</p>
+                <p className={global.text__bold}>{isBlocked ? 0 : posts?.length}</p>
               </div>
               <div className='followers'>
                 <a href={`/profile/${users?.username}/followers`} aria-label={`Ir a los seguidores de ${users?.username}`} className={global.link}>Seguidores</a>
-                <p className={global.text__bold}>{numFollowers}</p>
+                <p className={global.text__bold}>{isBlocked ? 0 : numFollowers}</p>
               </div>
               <div className='following'>
                 <a href={`/profile/${users?.username}/following`} aria-label={`Ir a los usuarios seguidos por ${users?.username}`} className={global.link}>Siguiendo</a>
-                <p className={global.text__bold}>{numFollowing}</p>
+                <p className={global.text__bold}>{isBlocked ? 0 : numFollowing}</p>
               </div>
             </div>
 
@@ -123,8 +124,10 @@ export default function Username ({ posts, users}) {
           <div className='profile__functions'>
             <button id='posts' className='function__title' onClick={() => handleClick('Publicaciones')}>Publicaciones</button>
           </div>
-
-          <div className='posts'>
+          {isBlocked && <div className="posts">
+            <p className={global.text}>No puede ver las publicaciones, este usuario ha sido bloqueado</p>
+          </div>}
+          {!isBlocked && <div className='posts'>
             {isPosts && posts?.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
             {isPosts && posts.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
@@ -133,7 +136,7 @@ export default function Username ({ posts, users}) {
                 </>
               )
             })}
-          </div>
+          </div>}
           
         </div>
 

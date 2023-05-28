@@ -78,11 +78,11 @@ export default function SignIn ({ providers, csrfToken }) {
     if (e.target.name == 'password') {
       if (password.length < 8 || !password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-
+        document.getElementById('success__password').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-
+        document.getElementById('success__password').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }

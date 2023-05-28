@@ -126,6 +126,7 @@ export default function Post (props) {
   
   return (
     <>
+    {user?.status?.name != "bloqueado" &&
       <div className='post__content'>
         <div key={props._id} className={global.post}>
           <div className='post__header'>
@@ -188,10 +189,9 @@ export default function Post (props) {
           </div>
           <div className="comments">
                 <Comment postId={props?.id} comments={comments}/>
-          </div>
-            
+          </div>      
         </div>
-      </div>
+      </div>}
       {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar publicación</h2>

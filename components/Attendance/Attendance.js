@@ -58,6 +58,7 @@ export default function Attendance (props) {
       const data = await res.json();
       setUser(data);
 
+
   }
 
 
@@ -108,8 +109,10 @@ export default function Attendance (props) {
     getThread()
   }, [])
 
+  console.log(user)
   return (
     <>
+      {user?.status?.name != 'bloqueado' &&
       <div className={global.attendance}>
         <div className="attendance__header">
           <div className="header__column1">
@@ -151,7 +154,7 @@ export default function Attendance (props) {
           {isImage && <FallbackImage src={props?.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
         </div>
       </div>
-      
+      }
         {isModalVisible && <Modal>
           <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title3}>Eliminar cuidado</h2>

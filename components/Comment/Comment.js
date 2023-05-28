@@ -217,7 +217,7 @@ export default function Comment (props) {
 
   return (
     <>
-    
+      
       <div className='comment__container'>
       <div className='post__block'>
             <div className='post__comment'>

@@ -121,7 +121,7 @@ export default function CreateComplaint () {
                 </div>
                 <div className='form-vertical__reason'>
                   <label className='label'>
-                    <p className={global.text}>Motivo</p>
+                    <p className={global.text}>Motivo (*)</p>
                     <BsFillExclamationDiamondFill size={18} color={colors.secondary} />
                   </label>
                   <div className='reason__input'>

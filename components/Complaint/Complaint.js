@@ -172,10 +172,10 @@ export default function Complaint (props) {
                   <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircle size={25} color={colors.secondary} /></button>
                   <button className='deny__button' onClick={() => setIsModalVisible(true)}><MdCancel size={25} color={colors.secondary} /></button>   
                 </div> }
-                {!isAdmin && <button className='delete__button' onClick={() => setIsModalVisible2(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
-
-               
-                <div className="complaint__date">
+                <div className="action__buttons">
+                  {!isAdmin && <button className='delete__button' onClick={() => setIsModalVisible2(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+                </div>
+            <div className="complaint__date">
                   <p className={global.text2__bold}>Fecha:</p>
                   <HiOutlineClock size={17}/>
                   <p className={global.text}>{new Date(props?.createdAt).toLocaleDateString().slice(0,10)}</p>
@@ -341,6 +341,7 @@ export default function Complaint (props) {
 
           display: flex;
           align-self: flex-end;
+          gap: 1rem;
 
         }
 

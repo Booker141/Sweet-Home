@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic'
 /* Dynamic imports */
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
+const Complaint = dynamic(() => import('/components/Complaint/Complaint'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
@@ -37,7 +38,7 @@ export default function Complaints ({complaints}){
                     <title>Panel de denuncias | Sweet Home</title>
                 </Head>
                   <h1 className="title">Denuncias</h1>
-                  <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/blockedUsers`)}>Usuarios bloqueados</button>
+                  <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/dashboard/blockedUsers`)}>Usuarios bloqueados</button>
                   <div className='complaints'>
                       {complaints?.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}

@@ -226,7 +226,7 @@ export default function Sidebar(){
                 <div className="sidebar-layout__container5">
                     <h1 className="title__sidebar">Cuentas sugeridas</h1>
                     {users?.length === 0 && <p className={global.text2}>No existe ningún usuario.</p>}
-                    {users?.filter(user => user?.username !== (session?.user.username) && user?.role.name !== "administrador" && user?.role.name !== "gerente").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {users?.filter(user => user?.username !== (session?.user.username) && user?.role.name !== "administrador" && user?.role.name !== "gerente" && user?.status.name != "bloqueado").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -241,7 +241,7 @@ export default function Sidebar(){
                 <div className="sidebar-layout__container6">
                     <h1 className="title__sidebar">Cuentas de protectoras</h1>
                     {shelters?.length === 0 && <p className={global.text2}>No hay ninguna protectora.</p>}
-                    {shelters?.filter(shelter => shelter?.username !== (session?.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {shelters?.filter(shelter => shelter?.username !== (session?.user.username) && (shelter?.status.name != "bloqueado")).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
@@ -258,7 +258,7 @@ export default function Sidebar(){
                 <div className="sidebar-layout__container7">
                     <h1 className="title__sidebar">Cuentas de veterinarias</h1>
                     {vets?.length === 0 && <p className={global.text2}>No hay ninguna veterinaria.</p>}
-                    {vets?.filter(vet => vet.username !== (session?.user.username)).slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
+                    {vets?.filter(vet => vet.username !== (session?.user.username) && vet?.status.name != "bloqueado").slice(0, 5).map(({ _id, image, username, role, createdAt }) => {
                         return (
                         <>
                             <UserSidebar key={_id} id={_id} image={image} username={username} role={role} createdAt={createdAt}/>
