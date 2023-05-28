@@ -8,14 +8,14 @@ import global from 'styles/global.module.css'
 
 export default function CommentsCounter(props){
 
-    const [commentsCount, setCommentsCount] = useState(props.comments.length)
+    const [commentsCount, setCommentsCount] = useState(props?.comments.length)
 
 
     return(
         <>
             <div className='commentsCounter'>
                 <p className={global.text__bold}>Número de comentarios:</p>
-                <p className={global.text}>{props.comments.length}</p>
+                <p className={global.text}>{props?.comments.length}</p>
                 <FiMessageCircle size={20} color={colors.quaternary}/>
             </div>
 

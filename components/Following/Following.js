@@ -26,7 +26,7 @@ export default function Following (props) {
 
   async function getFollowing(){
 
-    const res = await fetch(`${server}/api/following/${props.id}`,
+    const res = await fetch(`${server}/api/following/${props?.id}`,
       {
         method: 'GET',
         headers: {
@@ -62,7 +62,7 @@ export default function Following (props) {
           <a className={global.link} href={`/profile/${user?.username}`} aria-label={`Ir a perfil de ${user?.username}`}><strong>@{user?.username}</strong> </a>
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}
         </div>
-          <LazyLoad offset={100}><FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user._id} usernameTo={user.username}/></LazyLoad>
+          <LazyLoad offset={100}><FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={user?._id} usernameTo={user?.username}/></LazyLoad>
         </div>
 
       <style jsx>{`

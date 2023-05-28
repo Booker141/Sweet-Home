@@ -33,7 +33,7 @@ export default function TypeAttendance (props) {
 
   const deleteTypeAttendance = async () => {
 
-    await fetch(`${server}/api/typeAttendance/${props.id}`, {
+    await fetch(`${server}/api/typeAttendance/${props?.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -59,21 +59,21 @@ export default function TypeAttendance (props) {
     <>
       <div className={global.typeAttendance}>
         <div className="typeAttendance__header">
-          <h1 className="typeAttendance__title">{props.name}</h1>
-          {isAdmin && <div className="header__buttons"><button className='edit__button' onClick={() => router.push(`/dashboard/editTypeAttendance/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+          <h1 className="typeAttendance__title">{props?.name}</h1>
+          {isAdmin && <div className="header__buttons"><button className='edit__button' onClick={() => router.push(`/dashboard/editTypeAttendance/${props?.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
         </div>
         <hr className={global.white__line2} />
-        <p className={global.text}>{props.description}</p>
-        <button id="access__button" className={global.buttonTertiary} onClick={() => router.push(`/attendances/${props.name}`)} aria-label={'Ir a ' + `${props.name}`}>Entrar</button>
+        <p className={global.text}>{props?.description}</p>
+        <button id="access__button" className={global.buttonTertiary} onClick={() => router.push(`/attendances/${props?.name}`)} aria-label={'Ir a ' + `${props?.name}`}>Entrar</button>
       </div>
-      {isModalVisible && <LazyLoad><Modal>
+      {isModalVisible && <Modal>
         <h2 className={global.title3}>Eliminar tipo de cuidado</h2>
         <p className={global.text2}>¿Estás seguro de eliminar este tipo de cuidado?</p>
         <div className='buttons'>
           <button className={global.buttonSecondary} onClick={() => deleteTypeAttendance()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
       <style jsx>{`
 
         #access__button{

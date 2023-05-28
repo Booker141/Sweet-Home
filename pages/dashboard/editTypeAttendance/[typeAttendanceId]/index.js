@@ -25,8 +25,8 @@ export default function EditTypeAttendance ({typeAttendance}) {
   const { data: session, status } = useSession({ required: true })
 
   const Router = useRouter()
-  const [description, setDescription] = useState(typeAttendance.description)
-  const [name, setName] = useState(typeAttendance.name)
+  const [description, setDescription] = useState(typeAttendance?.description)
+  const [name, setName] = useState(typeAttendance?.name)
   const [isValidate, setIsValidate] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
   const [message, setMessage] = useState('')
@@ -591,7 +591,7 @@ export default function EditTypeAttendance ({typeAttendance}) {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión como administrador</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como administrador</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

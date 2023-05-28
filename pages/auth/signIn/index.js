@@ -91,12 +91,10 @@ export default function SignIn ({ providers, csrfToken }) {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('error__email').classList.add('form__error-icon--active')
         document.getElementById('success__email').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('error__email').classList.remove('form__error-icon--active')
         document.getElementById('success__email').classList.add('form__success-icon--active')
 
         setIsValidate(true)
@@ -219,7 +217,6 @@ export default function SignIn ({ providers, csrfToken }) {
                       placeholder='p.ej.: javier@email.com'
                       className='input'
                     />
-                    <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                     <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                     
                   </div>

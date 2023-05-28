@@ -29,7 +29,7 @@ export default function SubmenuNotification (props) {
   const calcTime = () => {
 
     const currentDate = new Date()
-    const milliseconds =  currentDate - new Date(notification.createdAt)
+    const milliseconds =  currentDate - new Date(notification?.createdAt)
 
     const seconds = Math.floor(milliseconds/1000);
     const minutes = Math.floor(seconds/60);
@@ -60,12 +60,12 @@ export default function SubmenuNotification (props) {
       <>
         <div className={global.submenuNotification}>
           <div className='notification__userFrom'>
-            {notification.type.name === "seguir" && <FaUserPlus color={`${colors.secondary}`} size={40}/>}
-            {notification.type.name === "comentar" && <FaComment color={`${colors.secondary}`} size={35}/>}
-            {notification.type.name === "me gusta" && <HiHeart color={`${colors.secondary}`} size={40}/>}
+            {notification?.type.name === "seguir" && <FaUserPlus color={`${colors.secondary}`} size={40}/>}
+            {notification?.type.name === "comentar" && <FaComment color={`${colors.secondary}`} size={35}/>}
+            {notification?.type.name === "me gusta" && <HiHeart color={`${colors.secondary}`} size={40}/>}
           </div>
           <div className={global.text2}>
-            {notification.description}
+            {notification?.description}
           </div>
          </div>
         

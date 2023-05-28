@@ -73,12 +73,10 @@ export default function SignUp () {
     if (e.target.name == 'password') {
       if (password.length < 8 || !password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('error__password').classList.add('form__error-icon--active')
         document.getElementById('success__password').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-        document.getElementById('error__password').classList.remove('form__error-icon--active')
         document.getElementById('success__password').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
@@ -89,12 +87,10 @@ export default function SignUp () {
     if (e.target.name == 'email') {
       if (!email.match(regEmail)) {
         document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('error__email').classList.add('form__error-icon--active')
         document.getElementById('success__email').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('error__email').classList.remove('form__error-icon--active')
         document.getElementById('success__email').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
@@ -103,12 +99,10 @@ export default function SignUp () {
     if (e.target.name == 'name') {
       if (!name.match(regName)) {
         document.getElementById('name__error').classList.add('form__input-nameError--active')
-        document.getElementById('error__name').classList.add('form__error-icon--active')
         document.getElementById('success__name').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('name__error').classList.remove('form__input-nameError--active')
-        document.getElementById('error__name').classList.remove('form__error-icon--active')
         document.getElementById('success__name').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
@@ -119,12 +113,10 @@ export default function SignUp () {
     if (e.target.name == 'username') {
       if (username.length < 4 || !username.match(regUsername)) {
         document.getElementById('username__error').classList.add('form__input-usernameError--active')
-        document.getElementById('error__username').classList.add('form__error-icon--active')
         document.getElementById('success__username').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('username__error').classList.remove('form__input-usernameError--active')
-        document.getElementById('error__username').classList.remove('form__error-icon--active')
         document.getElementById('success__username').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
@@ -286,7 +278,6 @@ export default function SignUp () {
                     placeholder='p. ej.: protectora@gmail.com'
                   />
                  
-                 <div id='error__email' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='email__error' className='form__input-emailError'>
@@ -316,8 +307,7 @@ export default function SignUp () {
                     onChange={(e) => setName(e.target.value)}
                     placeholder='p. ej.: Protectora S.L'
                   />
-                 
-                 <div id='error__name' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
+
                   <div id='success__name' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='name__error' className='form__input-nameError'>
@@ -349,7 +339,6 @@ export default function SignUp () {
                     className='input'
                   />
                  
-                 <div id='error__username' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__username' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='username__error' className='form__input-usernameError'>
@@ -381,7 +370,6 @@ export default function SignUp () {
                     className='input'
                   />
                   <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-                  <div id='error__password' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__password' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                 </div>
                 <div id='password__error' className='form__input-passwordError'>

@@ -94,6 +94,19 @@
 
 }
 
+.title7 {
+
+  /*Text*/
+
+  font-size: 3.5rem;
+  font-weight: 600;
+  font-family: "Archivo Black", sans-serif;
+  color: #f0810f;
+  background-repeat: repeat;
+  background-size: 100%;
+
+}
+
 .title__search{
 
   /*Text*/
@@ -580,7 +593,7 @@
   /*Box model*/
 
   margin-bottom: 2rem;
-  width: 70vw;
+  width: 73vw;
 
   /*Visuals*/
 
@@ -1669,7 +1682,7 @@
 
   /*Misc*/
 
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 
 }
 
@@ -1702,9 +1715,6 @@
   border-radius: 40px;
   border: 2px solid white;
 
-  /*Misc*/
-
-  transition: all 0.3s ease-in-out;
 
 }
 

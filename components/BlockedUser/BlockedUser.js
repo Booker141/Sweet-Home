@@ -28,8 +28,8 @@ export default function BlockedUser (props) {
 
   const [user, setUser] = useState({});
   const [user2, setUser2] = useState({});
-  const [isShelter, setIsShelter] = useState(props.role.name === "protectora" ? true : false)
-  const [isVet, setIsVet] = useState(props.role.name === "veterinaria" ? true : false)
+  const [isShelter, setIsShelter] = useState(props?.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(props?.role.name === "veterinaria" ? true : false)
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const Router = useRouter()
@@ -43,7 +43,7 @@ export default function BlockedUser (props) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        _id: props.id
+        _id: props?.id
       })})
 
 
@@ -69,16 +69,16 @@ export default function BlockedUser (props) {
       <>
         <div className={global.complaint}>
             <div className="blocked__user">
-              <FallbackImage src={props.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />
-              <a className={global.text__bold} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}>{props.username}{isShelter && <BsPatchCheckFill size={20} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}</a>
+              <FallbackImage src={props?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />
+              <a className={global.text__bold} href={`/profile/${props?.username}`} aria-label={`Ir a perfil de ${props?.username}`}>{props?.username}{isShelter && <BsPatchCheckFill size={20} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}</a>
             </div>
             <hr className={global.white__line}></hr>
           <div className="blocked__body">
-            <p className={global.text}>Este usuario ha sido denunciado <strong>{props.complaints.length}</strong> veces</p>
+            <p className={global.text}>Este usuario ha sido denunciado <strong>{props?.complaints.length}</strong> veces</p>
           </div>
           <button className={global.buttonPrimary} onClick={() => setIsModalVisible(true)}>Bloquear</button>
         </div>
-        {isModalVisible && <LazyLoad><Modal>
+        {isModalVisible && <Modal>
           <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title3}>Bloquear al usuario</h2>
           <p className={global.text2__bold}>Esta acción no es irreversible, podrá activar de nuevo al usuario si es necesario</p>
@@ -87,7 +87,7 @@ export default function BlockedUser (props) {
             <button className={global.buttonSecondary} onClick={() => checkBlock()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal></LazyLoad>}
+        </Modal>}
         <style jsx>{`
           
           .blocked__user{

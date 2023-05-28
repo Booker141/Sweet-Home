@@ -49,7 +49,7 @@ export default function Attendance (props) {
 
   async function getUsers(){
 
-    const res = await fetch(`${server}/api/users/${props.username}`, {
+    const res = await fetch(`${server}/api/users/${props?.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ export default function Attendance (props) {
 
   async function getThread(){
 
-    const res = await fetch(`${server}/api/thread/${props.threadId}`, {
+    const res = await fetch(`${server}/api/thread/${props?.threadId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export default function Attendance (props) {
   
 
   const deleteAttendance = async () => {
-    await fetch(`${server}/api/attendances/${thread.title}`, {
+    await fetch(`${server}/api/attendances/${thread?.title}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -113,24 +113,24 @@ export default function Attendance (props) {
       <div className={global.attendance}>
         <div className="attendance__header">
           <div className="header__column1">
-            <p className={global.text2}>Hilo <strong>{thread.title}</strong></p>
-            <p className={global.text2}>Por <strong>{thread.username}</strong></p>
+            <p className={global.text2}>Hilo <strong>{thread?.title}</strong></p>
+            <p className={global.text2}>Por <strong>{thread?.username}</strong></p>
           </div>
           <div className="header__column2">
             <div className="column2__delete">
-              <p className={global.text2__bold}>{props.location}</p>
-              {(thread.username === session.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              <p className={global.text2__bold}>{props?.location}</p>
+              {(thread?.username === session?.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
             </div>
  
           </div>
         </div>
         <div className="attendance__user">
           <div className="user__column1">
-            <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
-            <a href={`${server}/profile/${user.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}><strong>{props.username}</strong></a>
-            {(session.user.role === "gerente" || session.user.role === "administrador") && <BsPatchCheckFill color={`${colors.primary}`} size={18}/>}
-            {(session.user.role === "protectora") && <MdPets color={`${colors.primary}`} size={18}/>}
-            {(session.user.role === "veterinaria") && <MdHealthAndSafety color={`${colors.primary}`} size={18}/>}
+            <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
+            <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}><strong>{props.username}</strong></a>
+            {(session?.user.role === "gerente" || session?.user.role === "administrador") && <BsPatchCheckFill color={`${colors.primary}`} size={18}/>}
+            {(session?.user.role === "protectora") && <MdPets color={`${colors.primary}`} size={18}/>}
+            {(session?.user.role === "veterinaria") && <MdHealthAndSafety color={`${colors.primary}`} size={18}/>}
             <p className={global.date}>- {date.toLocaleDateString()}</p>
             <div className="attendance__hour">
               <HiOutlineClock size={17}/>
@@ -138,21 +138,21 @@ export default function Attendance (props) {
             </div>
           </div>
           <div className="user__column2">
-            <p><strong>{props.animal === "" ? "" : "Animal:"}</strong> {props.animal}</p>
-            <p><strong>{props.breed === "" ? "" : "Raza:"}</strong> {props.breed}</p>
+            <p><strong>{props?.animal === "" ? "" : "Animal:"}</strong> {props?.animal}</p>
+            <p><strong>{props?.breed === "" ? "" : "Raza:"}</strong> {props?.breed}</p>
         </div>
         </div>
         
         <hr className={global.attendance__line}></hr>
         <div className="attendance__description">
-          <p className={global.text}>{props.description}</p>
+          <p className={global.text}>{props?.description}</p>
         </div>
         <div className="attendance__image">
-          {isImage && <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
+          {isImage && <FallbackImage src={props?.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1400} height={800} />}
         </div>
       </div>
       
-        {isModalVisible && <LazyLoad><Modal>
+        {isModalVisible && <Modal>
           <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
           <h2 className={global.title3}>Eliminar cuidado</h2>
           <p className={global.text2}>¿Estás seguro de eliminar este cuidado?</p>
@@ -160,7 +160,7 @@ export default function Attendance (props) {
             <button className={global.buttonSecondary} onClick={() => deleteAttendance()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal></LazyLoad>}
+        </Modal>}
       
 
       <style jsx>{`

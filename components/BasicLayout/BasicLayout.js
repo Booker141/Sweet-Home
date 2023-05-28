@@ -7,11 +7,11 @@ import {server} from '/server'
 import {useState, useEffect} from 'react'
 import dynamic from 'next/dynamic'
 import global from '/styles/global.module.css'
+import BasicHeader from '/components/BasicHeader/BasicHeader'
 
 
 /* Dynamic imports */
 
-const BasicHeader = dynamic(() => import('components/BasicHeader/BasicHeader'))
 const Footer = dynamic(() => import('components/Footer/Footer'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
@@ -62,18 +62,19 @@ export default function BasicLayout ({ children }) {
       getNotifications()
 
   }, [])
-
+/*
   if(isNotification)
-  toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-    });
+    toast(`🔔 Tienes ${notifications?.length} notificaciones nuevas`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+*/
 
   return (
 

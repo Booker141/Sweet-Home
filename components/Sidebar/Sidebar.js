@@ -299,7 +299,7 @@ export default function Sidebar(){
                 </div>
             </aside>
             
-            {isModalVisible && <LazyLoad><Modal>
+            {isModalVisible && <Modal>
             <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
             <h2 className={global.title5}>Enviar informe</h2>
             <p className={global.text2}>Escriba a continuación el informe que quiera enviar:</p>
@@ -333,7 +333,7 @@ export default function Sidebar(){
                   </div>
                 <button className="report__button" onClick={(e) => sendReport(e)}>Enviar</button>
             </div>
-            </Modal></LazyLoad>}
+            </Modal>}
             <style jsx>{`
 
                 

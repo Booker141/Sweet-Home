@@ -24,9 +24,9 @@ export default function UserCard (props) {
 
   
   useEffect(() => {
-    if(props.role.name === "veterinaria")
+    if(props?.role.name === "veterinaria")
       setIsVet(true)
-    else if(props.role.name === "protectora")
+    else if(props?.role.name === "protectora")
       setIsShelter(true)
   }, [])
 
@@ -35,16 +35,16 @@ export default function UserCard (props) {
 
       <div key={props._id} className={global.user}>
         <div className='user__image'>
-          <FallbackImage src={props.banner} style={{ borderRadius: '20px' }} alt='Imagen banner' width={900} height={400} />
+          <FallbackImage src={props?.banner} style={{ borderRadius: '20px' }} alt='Imagen banner' width={900} height={400} />
           <div className="profile__image">
-            <FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={80} height={80} />
+            <FallbackImage src={props?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={80} height={80} />
           </div>
         </div>
         <div className='user__username'>
-          <a className={global.link} href={`/profile/${props.username}`} aria-label={`Ir a perfil de ${props.username}`}><strong>@{props.username}</strong> {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}</a>
+          <a className={global.link} href={`/profile/${props?.username}`} aria-label={`Ir a perfil de ${props?.username}`}><strong>@{props?.username}</strong> {isShelter && <BsPatchCheckFill size={18} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={18} color={colors.primary}/>}</a>
         </div>
         <div className="follow__button">
-          <LazyLoad><FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={props.id} usernameTo={props.username}/></LazyLoad>
+          <LazyLoad><FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={props?.id} usernameTo={props?.username}/></LazyLoad>
         </div>
         
       </div>

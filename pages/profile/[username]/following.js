@@ -20,8 +20,8 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function FollowingUser ({ user }) {
 
   const { data: session, status } = useSession({ required: true })
-  const [following, setFollowing] = useState(user.following)
-  const numFollowing = following.length
+  const [following, setFollowing] = useState(user?.following)
+  const numFollowing = following?.length
 
 
   if (status == 'loading') {
@@ -83,7 +83,7 @@ export default function FollowingUser ({ user }) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

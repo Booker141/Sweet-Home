@@ -25,7 +25,7 @@ export default function Save(props){
 
     async function getUser(){
     
-        const res = await fetch(`${server}/api/users/${session.user.username}`, {
+        const res = await fetch(`${server}/api/users/${session?.user.username}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ export default function Save(props){
         const user = await res.json()
 
         setUser(user)
-        setIsSavedByMe(props.saves.includes(user._id))
+        setIsSavedByMe(props.saves?.includes(user?._id))
 
     }
 
@@ -59,7 +59,7 @@ export default function Save(props){
             await fetch(`${server}/api/saves`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id})}
+            }, method: 'PUT', body: JSON.stringify({postId: props?.postId, userId: user?._id})}
             )
 
             setIsSavedByMe(true)
@@ -70,7 +70,7 @@ export default function Save(props){
             await fetch(`${server}/api/unsave`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id})}
+            }, method: 'PUT', body: JSON.stringify({postId: props?.postId, userId: user?._id})}
             )
 
             setIsSavedByMe(false)

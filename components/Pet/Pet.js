@@ -18,7 +18,6 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Pet (props) {
 
-  console.log(props)
 
 
   const { data: session, status } = useSession({ required: true })
@@ -29,7 +28,7 @@ export default function Pet (props) {
 
    const deletePet = async () => {
 
-    const res = await fetch(`${server}/api/pets/${session.user.username}`, {
+    const res = await fetch(`${server}/api/pets/${session?.user.username}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -70,43 +69,43 @@ export default function Pet (props) {
 
   return (
     <>
-      <div key={props.id} className={global.pet}>
+      <div key={props?.id} className={global.pet}>
         <div className='pet__row1'>
           <div className='pet__column1'>
-            <FallbackImage src={props.image} style={{ borderRadius: '10px', maxWidth: '20vw'}} width={800} height={600} alt="Imagen de la mascota"/>    
+            <FallbackImage src={props?.image} style={{ borderRadius: '10px', maxWidth: '20vw'}} width={800} height={600} alt="Imagen de la mascota"/>    
           </div>
           <div className='pet__column2'>
             <div className='pet__name'>
-                <h1 className={global.text2}><strong>Nombre:</strong> {props.name}</h1>
+                <h1 className={global.text2}><strong>Nombre:</strong> {props?.name}</h1>
             </div>
             <hr className={global.white__line}/>
               <div className='pet__animal'>
-                <h1 className={global.text2}><strong>Animal:</strong> {props.animal}</h1>
+                <h1 className={global.text2}><strong>Animal:</strong> {props?.animal}</h1>
               </div>
               <hr className={global.white__line}/>
               <div className='pet__breed'>
-                <h1 className={global.text2}><strong>Raza:</strong> {props.breed}</h1>
+                <h1 className={global.text2}><strong>Raza:</strong> {props?.breed}</h1>
               </div>
               <hr className={global.white__line}/>
               <div className='pet__age'>
-                <h1 className={global.text2}><strong>Fecha de nacimiento:</strong> {new Date(props.birthdate).toLocaleDateString().slice(0, 10)}</h1>
+                <h1 className={global.text2}><strong>Fecha de nacimiento:</strong> {new Date(props?.birthdate).toLocaleDateString().slice(0, 10)}</h1>
               </div>
               <hr className={global.white__line}/>
               <div className='pet__weight'>
-                <h1 className={global.text2}><strong>Peso:</strong> {props.weight} Kg</h1>
+                <h1 className={global.text2}><strong>Peso:</strong> {props?.weight} Kg</h1>
               </div>
               <hr className={global.white__line}/>
               <div className='pet__owner'>
-                <h1 className={global.text2}><strong>Dueño:</strong> @{props.ownerUsername}</h1>
+                <h1 className={global.text2}><strong>Dueño:</strong> @{props?.ownerUsername}</h1>
               </div>
           </div>
           <div className="pet__column3">
-          {(props.ownerUsername === session.user.username) && <div className="buttons"><button className='edit__button' onClick={() => Router.push(`/profile/myprofile/pets/editPet/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+          {(props?.ownerUsername === session?.user.username) && <div className="buttons"><button className='edit__button' onClick={() => Router.push(`/profile/myprofile/pets/editPet/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
         </div>
         
       </div>
-      {isModalVisible && <LazyLoad><Modal>
+      {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar mascota</h2> 
         <p className={global.text2}>Una vez lleves a cabo esta acción, todos los datos de esta mascota serán eliminados de forma permanente</p>
@@ -115,7 +114,7 @@ export default function Pet (props) {
           <button className={global.buttonSecondary} onClick={() => deletePet()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
       <style jsx>{`
       
         .pet__row1{

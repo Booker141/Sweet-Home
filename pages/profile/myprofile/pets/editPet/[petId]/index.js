@@ -13,7 +13,7 @@ import {toast} from 'react-toastify'
 import Head from 'next/head'
 import global from '/styles/global.module.css'
 import dynamic from 'next/dynamic'
-import InputIcon from "react-multi-date-picker/components/input_icon"
+
 
 
 
@@ -287,12 +287,21 @@ export default function EditPet ({pets}) {
                     <DatePicker
                             title='Introducir fecha de nacimiento'
                             name='birthdate'
-                            render={<InputIcon/>}
                             value={birthdate}
                             onChange={setBirthdate}
                             selected={birthdate}
                             format="DD/MM/YYYY"
-                            inputClass="date__input"
+                            maxDate={new Date()}
+                            style={{
+                              backgroundColor: `${colors.primary}`,
+                              height: "2rem",
+                              color: "#fafafa",
+                              border: "2px solid #fafafa",
+                              borderRadius: "20px",
+                              fontFamily: "Poppins",
+                              fontSize: "1rem",
+                              padding: "3px 10px"
+                            }}
                           />
                     </div>
                   </div>
@@ -671,7 +680,7 @@ export default function EditPet ({pets}) {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

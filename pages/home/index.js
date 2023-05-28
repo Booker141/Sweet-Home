@@ -52,13 +52,13 @@ export default function Home ({ posts }) {
     if(e === 'activity'){
       
     setIsSortedByLikes(!isSortedByLikes)
-    const sortedPosts = posts.sort((a, b) => (a.likes.length < b.likes.length) ? 1 : ((b.likes.length < a.likes.length) ? -1 : 0))
+    const sortedPosts = posts?.sort((a, b) => (a.likes.length < b.likes.length) ? 1 : ((b.likes.length < a.likes.length) ? -1 : 0))
     setPostList(sortedPosts)
 
     }else if(e === 'user'){
 
     setIsSortedByUsername(!isSortedByUsername)
-    const sortedPosts = posts.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
+    const sortedPosts = posts?.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
     setPostList(sortedPosts)
 
   }
@@ -95,7 +95,7 @@ export default function Home ({ posts }) {
           <div className='container__column1'>
 
             
-            {((isSortedByUsername || isSortedByLikes) && posts.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {((isSortedByUsername || isSortedByLikes) && posts?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(isSortedByUsername || isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
@@ -103,8 +103,8 @@ export default function Home ({ posts }) {
                 </>
               )
             })}
-            {((!isSortedByUsername && !isSortedByLikes) && posts.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(!isSortedByUsername && !isSortedByLikes) && posts.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
+            {((!isSortedByUsername && !isSortedByLikes) && posts?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {(!isSortedByUsername && !isSortedByLikes) && posts?.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
                   <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/>
@@ -287,7 +287,7 @@ export default function Home ({ posts }) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

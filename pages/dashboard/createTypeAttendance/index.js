@@ -579,7 +579,7 @@ export default function CreateTypeAttendance () {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión como administrador</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como administrador</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

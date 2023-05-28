@@ -47,10 +47,10 @@ export default function News ({ news, users }) {
           {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push(`${server}/dashboard/createNew`)}>Crear</button>}
         </div>
 
-        {news.length === 0 && <div><p className={global.loading2}>No hay ninguna noticia publicada.</p></div>}
+        {news?.length === 0 && <div><p className={global.loading2}>No hay ninguna noticia publicada.</p></div>}
 
         <div className="news__list">
-          {news.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, title, date, author, introduction }) => {
+          {news?.sort((new1, new2) => { return new Date(new2.date) - new Date(new1.date) }).map(({ _id, title, date, author, introduction }) => {
             return (
               <>
                 <div className='new'>     

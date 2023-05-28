@@ -38,7 +38,7 @@ export default function Complaints ({complaints}){
                 </Head>
                   <h1 className="title">Mis denuncias</h1>
                   <div className='complaints'>
-                      {complaints.length === 0 && <div><p className={global.loading2}>No ha realizado ninguna denuncia.</p></div>}
+                      {complaints?.length === 0 && <div><p className={global.loading2}>No ha realizado ninguna denuncia.</p></div>}
                       {complaints.map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(
                               <>
@@ -90,7 +90,7 @@ export default function Complaints ({complaints}){
                       <Layout>
                         <div className={global.content}>
                           <div className='message'>
-                            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+                            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
                             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
                           </div>
                         </div>
@@ -125,7 +125,7 @@ export async function getServerSideProps(context){
 
     const session = await getSession(context)
 
-    const res = await fetch(`${server}/api/complaints/${session.user.username}`, {
+    const res = await fetch(`${server}/api/complaints/${session?.user.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

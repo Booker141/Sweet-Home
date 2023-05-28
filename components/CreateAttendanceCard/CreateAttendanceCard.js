@@ -28,7 +28,7 @@ export default function CreateAttendanceCard (props) {
 
   const getUser = async () => {
 
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ export default function CreateAttendanceCard (props) {
 
     }
 
-    const res = await fetch(`${server}/api/attendances/${props.thread}`, {
+    const res = await fetch(`${server}/api/attendances/${props?.thread}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -115,7 +115,7 @@ export default function CreateAttendanceCard (props) {
       <div className="createAttendance__card">
         <div className='user__image'>
           <div className="profile__image">
-            <FallbackImage src={user.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={60} height={60} />
+            <FallbackImage src={user?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={60} height={60} />
           </div>
         </div>
       
@@ -130,7 +130,7 @@ export default function CreateAttendanceCard (props) {
                   onChange={setDescription}
                   cleanOnEnter
                   onEnter={createAttendance}
-                  placeholder={`Publica un cuidado, ${user.username}? 🐾`}
+                  placeholder={`Publica un cuidado, ${user?.username}? 🐾`}
                   fontFamily={`${fonts.default}`}
                   borderColor={`${colors.primary}`}
                 />

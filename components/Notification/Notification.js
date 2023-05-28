@@ -34,7 +34,7 @@ export default function Notification (props) {
 
   const getUser = async() =>{
 
-    const res = await fetch(`${server}/api/usersById/${props.sender}`, {
+    const res = await fetch(`${server}/api/usersById/${props?.sender}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export default function Notification (props) {
 
   const getCheckedNotifications = async () => {
 
-    const res = await fetch(`${server}/api/notificationsChecked/${session.user.username}`,
+    const res = await fetch(`${server}/api/notificationsChecked/${session?.user.username}`,
       {
         method: 'GET',
         headers: {
@@ -74,7 +74,7 @@ export default function Notification (props) {
   const fetchNotification = async () => {
 
 
-    const res = await fetch(`${server}/api/notifications/${session.user.username}`, {
+    const res = await fetch(`${server}/api/notifications/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ export default function Notification (props) {
 
   const updateNotification = async() => {
 
-    await fetch(`${server}/api/notificationsById/${props.id}`, {
+    await fetch(`${server}/api/notificationsById/${props?.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ export default function Notification (props) {
 
   const deleteNotification = async() => {
 
-    await fetch(`${server}/api/notificationsById/${props.id}`, {
+    await fetch(`${server}/api/notificationsById/${props?.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -169,25 +169,25 @@ export default function Notification (props) {
   }, [])
 
 
-  if(notification.type.name === "seguir"){
+  if(notification?.type.name === "seguir"){
     return (
       <>
         <div className={global.notification}>
           <FaUserPlus color={`${colors.secondary}`} size={40}/>
           <div className='notification__userFrom'>
-            <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
+            <FallbackImage src={user?.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
           </div>
           <div className={global.text2}>
-            {notification.description}
+            {notification?.description}
           </div>
           <div className="notification__time">
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
           </div>
-          {notification.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
+          {notification?.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
-        {isModalVisible && <LazyLoad><Modal>
+        {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar notificación</h2>
         <p className={global.text2}>Esta notificación será eliminada permanentemente</p>
@@ -196,7 +196,7 @@ export default function Notification (props) {
           <button className={global.buttonSecondary} onClick={() => deleteNotification()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
          <style jsx>{`
 
           .notification__time{
@@ -239,22 +239,24 @@ export default function Notification (props) {
             }
 
 
-          .delete__button{
+            .delete__button{
 
-          /*Box model*/
+            /*Box model*/
 
-          display: flex;
-          align-items: center;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
 
 
-          /*Visuals*/
+            /*Visuals*/
 
-          border: none;
-          background: transparent;
-          cursor: pointer;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+            border-radius: 70px;
 
-          }
-
+            }
 
 
         `}</style>
@@ -262,22 +264,22 @@ export default function Notification (props) {
     )
   }
 
-  if(notification.type.name === "comentar"){
+  if(notification?.type.name === "comentar"){
     return (
       <>
         <div className={global.notification}>
           <FaComment color={`${colors.secondary}`} size={35}/>
           <div className='notification__userFrom'>
-            <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
+            <FallbackImage src={user?.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
           </div>
           <div className={global.text2}>
-            {notification.description}
+            {notification?.description}
           </div>
           <div className="notification__time">
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
           </div>
-          {!notification.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
+          {!notification?.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
         {isModalVisible && <Modal>
@@ -358,16 +360,16 @@ export default function Notification (props) {
     )
   }
 
-  if(notification.type.name === "me gusta"){
+  if(notification?.type.name === "me gusta"){
     return (
       <>
         <div className={global.notification}>
           <HiHeart color={`${colors.secondary}`} size={40}/>
           <div className='notification__userFrom'>
-            <FallbackImage src={user.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
+            <FallbackImage src={user?.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
           </div>
           <div className={global.text2}>
-            {notification.description}
+            {notification?.description}
           </div>
           
           <div className="notification__time">

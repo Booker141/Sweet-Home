@@ -12,8 +12,10 @@ import global from '/styles/global.module.css'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
+
 /* Dynamic imports */
 
+const DatePicker = dynamic(() => import("react-multi-date-picker"))
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
@@ -236,19 +238,25 @@ export default function CreateNew () {
                         <p className={global.text}>Fecha (*)</p>
                         <MdDateRange size={18} color={colors.secondary} />
                     </label>
-                    <input
-                    title='Introducir fecha de noticia'
-                    type='date'
-                    id='date'
-                    max={calcDate()}
-                    name='date'
-                    required
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    onKeyUp={(e) => validate(e)}
-                    onBlur={(e) => validate(e)}
-                    className='input'
-                    />
+                    <DatePicker
+                            title='Introducir fecha de creación'
+                            name='date'
+                            value={date}
+                            onChange={setDate}
+                            selected={date}
+                            format="DD/MM/YYYY"
+                            maxDate={new Date()}
+                            style={{
+                              backgroundColor: `${colors.secondary}`,
+                              height: "2rem",
+                              color: "#1c1c1c",
+                              border: "2px solid #fafafa",
+                              borderRadius: "20px",
+                              fontFamily: "Poppins",
+                              fontSize: "1rem",
+                              padding: "3px 10px"
+                            }}
+                          />
                 </div>
                 <div className='form-vertical__introduction'>
                   <label className='label'>
@@ -321,6 +329,8 @@ export default function CreateNew () {
                         border-radius: 20px;
                         
                     }
+
+                    
 
                     .createNew__header{
 
@@ -460,22 +470,11 @@ export default function CreateNew () {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-                        width: 100%;
+                        margin-bottom: 2rem;
 
                       }
 
 
-                        .date__input{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        width: 115%;
-
-
-                        }
 
                         .form-vertical__introduction {
 
@@ -917,7 +916,7 @@ export default function CreateNew () {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

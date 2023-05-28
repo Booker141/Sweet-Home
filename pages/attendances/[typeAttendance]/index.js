@@ -115,7 +115,7 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
                   </select>
           </div>
         </div>
-        {threads.length === 0 && <div className={global.loading2}><p>No hay ningún hilo en este momento.</p></div>}
+        {threads?.length === 0 && <div className={global.loading2}><p>No hay ningún hilo en este momento.</p></div>}
         {isSortedByName && sortedThreads.map(({ _id, title, typeAttendanceId, createdAt, userId, username, attendances }) => {
           return (
             <>
@@ -228,7 +228,7 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

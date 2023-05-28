@@ -14,12 +14,12 @@ export default function Avatar(props){
     return(
         <>
             <div className="content__avatar">
-                <FallbackImage src={props.image} />
+                <FallbackImage src={props?.image} />
                 <p className="avatar__name">
-                    {props.name}
+                    {props?.name}
                 </p>
                 <p className="avatar__message">
-                    {props.message}
+                    {props?.message}
                 </p>
             </div>
             <style jsx>{`

@@ -38,7 +38,7 @@ export default function Pets({petsList}) {
     if(e === "breed"){
 
       setIsSortedByBreed(!isSortedByBreed)
-      const sortedPets = pets.sort((a, b) => (a.breed > b.breed) ? 1 : ((b.breed > a.breed) ? -1 : 0))
+      const sortedPets = pets?.sort((a, b) => (a.breed > b.breed) ? 1 : ((b.breed > a.breed) ? -1 : 0))
       setPets(sortedPets)
 
 
@@ -47,7 +47,7 @@ export default function Pets({petsList}) {
     if(e === "animal"){
 
       setIsSortedByAnimal(!isSortedByAnimal)
-      const sortedPets = pets.sort((a, b) => (a.animal > b.animal) ? 1 : ((b.animal > a.animal) ? -1 : 0))
+      const sortedPets = pets?.sort((a, b) => (a.animal > b.animal) ? 1 : ((b.animal > a.animal) ? -1 : 0))
       setPets(sortedPets)
 
     }
@@ -55,7 +55,7 @@ export default function Pets({petsList}) {
     if(e === "name"){
 
       setIsSortedByName(!isSortedByName)
-      const sortedPets = pets.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+      const sortedPets = pets?.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
       setPets(sortedPets)
 
 
@@ -63,7 +63,7 @@ export default function Pets({petsList}) {
     if(e === "weight"){
 
       setIsSortedByWeight(!isSortedByWeight)
-      const sortedPets = pets.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0))
+      const sortedPets = pets?.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0))
       setPets(sortedPets)
 
 
@@ -92,7 +92,7 @@ export default function Pets({petsList}) {
                   </select>
           </div>
         </div>
-        {pets.length === 0 && <div><p className={global.loading2}>No tiene mascotas registradas.</p></div>}
+        {pets?.length === 0 && <div><p className={global.loading2}>No tiene mascotas registradas.</p></div>}
         {pets.map(({ _id, animal, breed, name, weight, birthdate, image, ownerUsername }) => {
           return (
             <>
@@ -209,7 +209,7 @@ export default function Pets({petsList}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

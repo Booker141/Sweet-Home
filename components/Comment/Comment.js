@@ -64,7 +64,7 @@ export default function Comment (props) {
 
   const getPost = async () => {
 
-    const res = await fetch(`${server}/api/postsById/${props.postId}`, {
+    const res = await fetch(`${server}/api/postsById/${props?.postId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ export default function Comment (props) {
 
   const getComments = async () => { 
 
-    const res = await fetch(`${server}/api/commentsByPostId/${props.postId}`, {
+    const res = await fetch(`${server}/api/commentsByPostId/${props?.postId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ export default function Comment (props) {
 
   async function getUser(){
     
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -146,9 +146,9 @@ export default function Comment (props) {
 
     setIsComment(true)
 
-      if (data.error) {
+      if (data?.error) {
 
-        console.log(data.error)
+        console.log(data?.error)
         toast.error('Ha ocurrido un error', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -253,18 +253,18 @@ export default function Comment (props) {
             {comments?.length != 0 && comments?.slice(0, 3).map((comment) => {
               return (
                 <>
-                  <div key={comment._id} className={global.comment}>
+                  <div key={comment?._id} className={global.comment}>
                     <div className='comment__username'>
-                      <a className={global.text2__bold} href={`/profile/${comment.username}`}>@{comment.username}</a>
+                      <a className={global.text2__bold} href={`/profile/${comment?.username}`}>@{comment?.username}</a>
                       {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}{isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
                       <p className={global.text2}>:</p>
                     </div>
                     <div className='comment__description'>
-                      <p className={global.text2}>{comment.description}</p>
+                      <p className={global.text2}>{comment?.description}</p>
                     </div>
                     <div className='comment__date'>
-                      <p className={global.time}>Hace {calcTime(comment.createdAt)}</p>
-                      {session.user.username === comment.username && <button className='delete__button' onClick={() => deleteComment(comment._id)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+                      <p className={global.time}>Hace {calcTime(comment?.createdAt)}</p>
+                      {session?.user.username === comment?.username && <button className='delete__button' onClick={() => deleteComment(comment?._id)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
                     </div>
                   </div>
                 </>
@@ -277,21 +277,21 @@ export default function Comment (props) {
               }}
              >Ver más..</button>}
 
-            {moreComments && comments?.length != 0 && comments?.slice(3, comments.length).map((comment) => {
+            {moreComments && comments?.length != 0 && comments?.slice(3, comments?.length).map((comment) => {
               return (
                 <>
-                  <div key={comment._id} className={global.comment}>
+                  <div key={comment?._id} className={global.comment}>
                     <div className='comment__username'>
-                      <a className={global.text2__bold} href={`/profile/${comment.username}`}>@{comment.username}</a>
+                      <a className={global.text2__bold} href={`/profile/${comment?.username}`}>@{comment?.username}</a>
                       {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}{isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
                       <p className={global.text2}>:</p>
                     </div>
                     <div className='comment__description'>
-                      <p className={global.text2}>{comment.description}</p>
+                      <p className={global.text2}>{comment?.description}</p>
                     </div>
                     <div className='comment__date'>
-                      <p className={global.time}>Hace {calcTime(comment.createdAt)}</p>
-                      {session.user.username === comment.username && <button className='delete__button' onClick={(_id) => deleteComment(_id)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+                      <p className={global.time}>Hace {calcTime(comment?.createdAt)}</p>
+                      {session?.user.username === comment?.username && <button className='delete__button' onClick={(_id) => deleteComment(_id)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
                     </div>
                     
                   </div>

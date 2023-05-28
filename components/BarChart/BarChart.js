@@ -23,10 +23,10 @@ export default function BarChart(props) {
    
     useEffect(() => {
 
-        setBarData(props.data);
-        setBarOptions(props.options);
+        setBarData(props?.data);
+        setBarOptions(props?.options);
 
-    }, [props.data, props.options]);
+    }, [props?.data, props?.options]);
 
     return(
         <>

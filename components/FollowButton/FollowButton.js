@@ -31,8 +31,8 @@ export default function FollowButton(props){
       const data = await res.json()
 
       setUser(data)
-      console.log(data.following.includes(props.idTo))
-      setIsFollowedByMe(data.following.includes(props?.idTo))
+      console.log(data?.following.includes(props?.idTo))
+      setIsFollowedByMe(data?.following.includes(props?.idTo))
 
       console.log(isFollowedByMe)
 
@@ -52,10 +52,10 @@ export default function FollowButton(props){
             },
             method: 'PUT',
             body: JSON.stringify({
-              idFrom: props.idFrom,
-              usernameFrom: props.usernameFrom,
-              usernameTo: props.usernameTo,
-              idTo: props.idTo
+              idFrom: props?.idFrom,
+              usernameFrom: props?.usernameFrom,
+              usernameTo: props?.usernameTo,
+              idTo: props?.idTo
             })
           })
 
@@ -71,10 +71,10 @@ export default function FollowButton(props){
             },
             method: 'PUT',
             body: JSON.stringify({
-              idFrom: props.idFrom,
-              usernameFrom: props.usernameFrom,
-              usernameTo: props.usernameTo,
-              idTo: props.idTo
+              idFrom: props?.idFrom,
+              usernameFrom: props?.usernameFrom,
+              usernameTo: props?.usernameTo,
+              idTo: props?.idTo
             })
           })
 

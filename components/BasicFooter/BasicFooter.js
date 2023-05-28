@@ -34,7 +34,7 @@ export default function BasicFooter (props) {
     <>
 
       <div className='footer'>
-        {props.color === "#fafafa" && <hr className={global.white__line}/>}{props.color === "#f0810f" && <hr className={global.line} />}
+        {props?.color === "#fafafa" && <hr className={global.white__line}/>}{props.color === "#f0810f" && <hr className={global.line} />}
         <div className='footer__links'>
           <Link className={global.link} href={url1} prefetch={false} passHref><a aria-label='Ir a ${text1}'>{text1}</a></Link>
           <Link className={global.link} href={url2} prefetch={false} passHref><a aria-label='Ir a ${text2}'>{text2}</a></Link>

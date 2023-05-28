@@ -29,7 +29,7 @@ export default function Notifications ({notifications}) {
     if(e === 'type'){
       
     setIsSortedByType(!isSortedByType)
-    const sortedNotifications = notifications.sort((a, b) => (a.type.name > b.type.name) ? 1 : ((b.type.name > a.type.name) ? -1 : 0))
+    const sortedNotifications = notifications?.sort((a, b) => (a.type.name > b.type.name) ? 1 : ((b.type.name > a.type.name) ? -1 : 0))
     setNotificationsList(sortedNotifications)
 
     }
@@ -56,7 +56,7 @@ export default function Notifications ({notifications}) {
                       <option value="type">Ordenar por tipo</option>
                   </select>
           </div>
-          {notificationsList.length === 0 && <div><p className={global.loading2}>No tiene ninguna notificación.</p></div>}
+          {notificationsList?.length === 0 && <div><p className={global.loading2}>No tiene ninguna notificación.</p></div>}
           {notificationsList.sort((a,b) => {
           if (a.createdAt > b.createdAt) {
             return 1
@@ -154,7 +154,7 @@ export default function Notifications ({notifications}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión como usuario básico de la aplicación</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como usuario básico de la aplicación</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

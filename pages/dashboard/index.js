@@ -33,7 +33,7 @@ export default function Dashboard () {
       </>
     )
   }
-  if (session.user.role === 'administrador') {
+  if (session?.user.role === 'administrador') {
     return (
       <>
         <Layout>
@@ -42,7 +42,7 @@ export default function Dashboard () {
           </Head>
           <div className="dashboard__header">
             <h1 className={global.title}>Panel de administración</h1>
-            <h2 className={global.secondary}>¡Bienvenido a tu panel <span className={global.colorized}>{session.user.username}</span>!</h2>
+            <h2 className={global.secondary}>¡Bienvenido a tu panel <span className={global.colorized}>{session?.user.username}</span>!</h2>
           </div>
           <div className="panels">
             <div className="panels__row">
@@ -189,7 +189,7 @@ export default function Dashboard () {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe ser administrador</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe ser administrador</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

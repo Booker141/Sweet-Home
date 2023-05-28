@@ -33,7 +33,7 @@ export default function Attendances ({ typeAttendance, users }) {
 
   const [isSorted, setIsSorted] = useState(false)
   const [user, setUser] = useState({})
-  const [isAdmin, setIsAdmin] = useState(users.role.name === "administrador" ? true : false)
+  const [isAdmin, setIsAdmin] = useState(users?.role.name === "administrador" ? true : false)
   const [sortedAttendance, setSortedAttendance] = useState(typeAttendance)
   const Router = useRouter()
 
@@ -85,7 +85,7 @@ export default function Attendances ({ typeAttendance, users }) {
           </div>
         </div>
         
-        {typeAttendance.length === 0 && <div><p className={global.loading2}>No hay ninguna categoría en este momento.</p></div>}
+        {typeAttendance?.length === 0 && <div><p className={global.loading2}>No hay ninguna categoría en este momento.</p></div>}
         {isSorted && sortedAttendance.map(({ _id, name, description, urlName }) => {
           return (
             <>
@@ -187,7 +187,7 @@ export default function Attendances ({ typeAttendance, users }) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>
@@ -229,7 +229,7 @@ export async function getServerSideProps (context) {
     }
   })
 
-  const res2 = await fetch(`${server}/api/users/${session.user.username}`, {
+  const res2 = await fetch(`${server}/api/users/${session?.user.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

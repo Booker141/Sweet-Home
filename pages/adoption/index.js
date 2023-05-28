@@ -45,12 +45,12 @@ export default function Adoption ({posts}) {
     if(e === 'activity'){
       
       setIsSortedByLikes(!isSortedByLikes)
-      const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
+      const sortedPosts = posts?.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
       setPostList(sortedPosts)
 
     }else if(e === 'date'){
       setIsSortedByDate(!isSortedByDate)
-      const sortedPosts = posts.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0))
+      const sortedPosts = posts?.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0))
       setPostList(sortedPosts)
 
   }
@@ -86,7 +86,7 @@ export default function Adoption ({posts}) {
                   </select>
                 </div>
             </div>
-            {((isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {((isSortedByLikes) && postList?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type}) => {
               return (
                 <>
@@ -94,7 +94,7 @@ export default function Adoption ({posts}) {
                 </>
               )
             })}
-            {((!isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {((!isSortedByLikes) && postList?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
@@ -282,7 +282,7 @@ export default function Adoption ({posts}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

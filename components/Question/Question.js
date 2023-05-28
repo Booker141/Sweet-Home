@@ -21,12 +21,12 @@ export default function Question (props) {
 
   const { data: session } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(props.isAdmin);
+  const [isAdmin, setIsAdmin] = useState(props?.isAdmin);
 
 
   const deleteQuestion = async () => {
 
-    await fetch(`${server}/api/questions/${props.id}`, {
+    await fetch(`${server}/api/questions/${props?.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -52,15 +52,15 @@ export default function Question (props) {
 
     <>
 
-      <div key={props._id} className={global.question}>
+      <div key={props?._id} className={global.question}>
           <div className="question__header">
-            <h2 className={global.secondary2}>{props.title}</h2>
-            {props.isAdmin && <div className="header__buttons"><button className='edit__button' onClick={() => Router.push(`/dashboard/editQuestion/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+            <h2 className={global.secondary2}>{props?.title}</h2>
+            {props?.isAdmin && <div className="header__buttons"><button className='edit__button' onClick={() => Router.push(`/dashboard/editQuestion/${props?.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
           <hr className={global.white__line}></hr>
-        <p className={global.text2}>{props.answer}</p>
+        <p className={global.text2}>{props?.answer}</p>
       </div>
-      {isModalVisible && <LazyLoad><Modal>
+      {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar pregunta</h2>
         <p className={global.text2}>¿Estás seguro de eliminar esta pregunta?</p>
@@ -68,7 +68,7 @@ export default function Question (props) {
           <button className={global.buttonSecondary} onClick={() => deleteQuestion()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
 
       <style jsx>{`
 

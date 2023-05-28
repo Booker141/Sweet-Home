@@ -13,7 +13,7 @@ import global from "/styles/global.module.css"
 export default function Like(props){
 
     const {data: session} = useSession();
-    const [likes, setLikes] = useState(props.likes)
+    const [likes, setLikes] = useState(props?.likes)
     const [user, setUser] = useState({});
 
     const [isLikedByMe, setIsLikedByMe] = useState(false)
@@ -21,7 +21,7 @@ export default function Like(props){
 
     const fetchLikes = async () => {
 
-        const res = await fetch(`${server}/api/likes/${props.postId}`, {
+        const res = await fetch(`${server}/api/likes/${props?.postId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,14 +30,14 @@ export default function Like(props){
 
         const data = await res.json()
 
-        setLikes(data.likes)
+        setLikes(data?.likes)
 
     }
 
 
     async function getUser(){
     
-        const res = await fetch(`${server}/api/users/${session.user.username}`, {
+        const res = await fetch(`${server}/api/users/${session?.user.username}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ export default function Like(props){
         const user = await res.json()
 
         setUser(user)
-        setIsLikedByMe(props.likes.includes(user._id))
+        setIsLikedByMe(props?.likes?.includes(user?._id))
 
     }
 
@@ -70,7 +70,7 @@ export default function Like(props){
             await fetch(`${server}/api/likes`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id, username: user.username})}
+            }, method: 'PUT', body: JSON.stringify({postId: props?.postId, userId: user?._id, username: user?.username})}
             )
 
             setIsLikedByMe(true)
@@ -81,7 +81,7 @@ export default function Like(props){
             await fetch(`${server}/api/dislikes`, {headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, method: 'PUT', body: JSON.stringify({postId: props.postId, userId: user._id})}
+            }, method: 'PUT', body: JSON.stringify({postId: props?.postId, userId: user?._id})}
             )
 
             setIsLikedByMe(false)

@@ -26,42 +26,11 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
 
-export default function Search () {
+export default function Search ({results}) {
 
   const { data: session, status } = useSession({ required: true })
 
   const router = useRouter()
-
-  console.log(router)
-
-
-  const [search, setSearch] = useState(router.query.keyword)
-  const [results, setResults] = useState([])
-
-
-  const searchKeyword = async () => {
-
-    const res = await fetch(`${server}/api/search/${router.query.keyword}`, 
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-        }
-      })
-
-    const data = await res.json()
-    
-    setResults(data)
-
-    console.log(data)
-
-
-  }
-
-
-  useEffect(() => {
-    searchKeyword()
-  }, [search])
 
 
   if (status === 'loading') {
@@ -75,7 +44,7 @@ export default function Search () {
   if (session) {
     return (
       <Layout>
-        <Head><title>{router.query.keyword} | Búsqueda de Sweet Home</title></Head>
+        <Head><title>{router?.query.keyword} | Búsqueda de Sweet Home</title></Head>
         <h1 className={global.title}>Búsquedas relacionadas</h1>
         {results === null && <div className={global.loading2}>No se han encontrado resultados.</div>}
         <div className={global.search__card}>
@@ -236,7 +205,9 @@ export default function Search () {
               {results.newsByTitle?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
               {results.newsByTitle?.length != 0 && results.newsByTitle?.map((news) => (
                 <>
-                  <New key={news._id} id={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} />
+                  <div className="new__container">
+                    <New key={news._id} id={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} />
+                  </div>
                 </>
               ))}
             </div>
@@ -246,7 +217,9 @@ export default function Search () {
               {results.newsByAuthor?.length === 0 && <div className={global.loading2}>No se han encontrado resultados.</div>}
               {results.newsByAuthor?.length != 0 && results.newsByAuthor?.map((news) => (
                 <>
-                  <New key={news._id} id={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} />
+                  <div className="new__container">
+                    <New key={news._id} id={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} />
+                  </div>
                 </>
               ))}
             </div>
@@ -254,6 +227,14 @@ export default function Search () {
         </div>
         
         <style jsx>{`
+
+            .new__container{
+
+              /*Visuals*/
+
+              border-radius: 20px;
+              background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
+            }
 
             .results__usersByUsername, .results__usersByEmail
             {
@@ -292,7 +273,8 @@ export default function Search () {
               flex-direction: column;
               padding: 1rem;
               margin-bottom: 1rem;
-              margin-left: 1rem;
+              margin-left: 0.2rem;
+              margin-right: 0.2rem;
             }
 
 
@@ -324,7 +306,7 @@ export default function Search () {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>
@@ -351,3 +333,23 @@ export default function Search () {
   }
 }
 
+export async function getServerSideProps(context){
+
+
+  const res = await fetch(`${server}/api/search/${context?.query.keyword}`, 
+  {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+      }
+    })
+
+  const data = await res.json()
+  
+  return{
+    props: {
+      results: JSON.parse(JSON.stringify(data))
+    }
+  }
+
+}

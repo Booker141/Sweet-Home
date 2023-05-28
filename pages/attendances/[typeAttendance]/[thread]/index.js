@@ -30,7 +30,7 @@ export default function Thread ({ attendances }) {
 
   const sortByFilters = (e) =>{
     if(e === 'name'){
-      const sortedAttendances = attendances.sort((a, b) => {
+      const sortedAttendances = attendances?.sort((a, b) => {
         if (a.username > b.username) {
           return 1
         }
@@ -70,7 +70,7 @@ export default function Thread ({ attendances }) {
           </div>
         </div>
         <CreateAttendanceCard thread={router.query.thread}/>
-        {attendances.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
+        {attendances?.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
         {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
           return (
             <>
@@ -168,7 +168,7 @@ export default function Thread ({ attendances }) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

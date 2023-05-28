@@ -30,7 +30,7 @@ export default function Complaint (props) {
   const Router = useRouter();
   const {data: session} = useSession()
 
-  const [isAdmin, setIsAdmin] = useState(session.user.role === "administrador" ? true : false)
+  const [isAdmin, setIsAdmin] = useState(session?.user.role === "administrador" ? true : false)
 
 
   const denyComplaint = async () => {
@@ -42,7 +42,7 @@ export default function Complaint (props) {
       },
       body: JSON.stringify({
         id: props.id,
-        adminUsername: session.user.username
+        adminUsername: session?.user.username
       
       })})
 
@@ -64,7 +64,7 @@ export default function Complaint (props) {
 
     const deleteComplaint = async () => {
 
-      await fetch(`${server}/api/complaints/${session.user.username}`, {
+      await fetch(`${server}/api/complaints/${session?.user.username}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ export default function Complaint (props) {
       },
       body: JSON.stringify({
         id: props.id,
-        adminUsername: session.user.username
+        adminUsername: session?.user.username
       })})
 
     toast.success(`Se ha aprobado la denuncia`, { position: "bottom-right",
@@ -120,14 +120,14 @@ export default function Complaint (props) {
 
   async function getUsers () {
 
-    const response = await fetch(`${server}/api/users/${props.usernameFrom}`, {
+    const response = await fetch(`${server}/api/users/${props?.usernameFrom}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
 
-    const response2 = await fetch(`${server}/api/users/${props.usernameTo}`, {
+    const response2 = await fetch(`${server}/api/users/${props?.usernameTo}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -157,12 +157,12 @@ export default function Complaint (props) {
             <div className="complaint__users">
               <div className="userFrom">
                 <p className={global.text2__bold}>De:</p>
-                <FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />
+                <FallbackImage src={user?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />
                 <p className={global.text}>@{props.usernameFrom}</p>
               </div>       
               <div className="userTo">
                 <p className={global.text2__bold}>Para:</p>
-                <FallbackImage src={user2.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>
+                <FallbackImage src={user2?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>
                 <p className={global.text}>@{props.usernameTo}</p>
               </div>           
             </div>
@@ -178,12 +178,12 @@ export default function Complaint (props) {
                 <div className="complaint__date">
                   <p className={global.text2__bold}>Fecha:</p>
                   <HiOutlineClock size={17}/>
-                  <p className={global.text}>{new Date(props.createdAt).toLocaleDateString().slice(0,10)}</p>
+                  <p className={global.text}>{new Date(props?.createdAt).toLocaleDateString().slice(0,10)}</p>
                 </div>
                 <div className="complaint__status">
                   <p className={global.text2__bold}>Estado:</p>
-                  {props.isChecked === true && <p className={global.text2}>{props.isApproved ? 'Aprobada' : 'Denegada'}</p>}
-                  <p className={global.text2}>{props.isChecked ? 'Comprobada' : 'No comprobada'}</p>
+                  {props?.isChecked === true && <p className={global.text2}>{props?.isApproved ? 'Aprobada' : 'Denegada'}</p>}
+                  <p className={global.text2}>{props?.isChecked ? 'Comprobada' : 'No comprobada'}</p>
                 </div>
                 <div className="complaint__reason">
                   <p className={global.text2}><strong>Motivo:</strong> {props?.typeComplaint}</p>
@@ -193,28 +193,28 @@ export default function Complaint (props) {
           <hr className={global.white__line}></hr>
           <div className="complaint__body">
             <p className={global.text2__bold}>Motivo de la denuncia: </p>
-            <p className={global.text}> {props.description}</p>
+            <p className={global.text}> {props?.description}</p>
           </div>
         
         </div>
-        {isModalVisible && <LazyLoad><Modal>
+        {isModalVisible && <Modal>
           <h2 className={global.title3}>Denegar denuncia</h2>
-          <p className={global.text2}>Está a punto de denegar la denuncia que ha interpuesto @{props.usernameFrom} a @{props.usernameTo}</p>
+          <p className={global.text2}>Está a punto de denegar la denuncia que ha interpuesto @{props?.usernameFrom} a @{props?.usernameTo}</p>
           <p className={global.text2__bold}>¿Estás seguro de anular el trámite de esta denuncia?</p>
           <div className='buttons'>
             <button className={global.buttonSecondary} onClick={() => denyComplaint()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal></LazyLoad>}
-        {isModalVisible2 && <LazyLoad><Modal>
+        </Modal>}
+        {isModalVisible2 && <Modal>
           <h2 className={global.title3}>Eliminar denuncia</h2>
-          <p className={global.text2}>Está a punto de eliminar la denuncia que ha interpuesto a @{props.usernameTo}</p>
+          <p className={global.text2}>Está a punto de eliminar la denuncia que ha interpuesto a @{props?.usernameTo}</p>
           <p className={global.text2__bold}>¿Estás seguro de eliminar esta denuncia?</p>
           <div className='buttons'>
             <button className={global.buttonSecondary} onClick={() => deleteComplaint()}>Sí</button>
             <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
           </div>
-        </Modal></LazyLoad>}
+        </Modal>}
         <style jsx>{`
         
           .complaint__header{
@@ -267,12 +267,16 @@ export default function Complaint (props) {
           display: flex;
           align-items: center;
           justify-content: flex-end;
+          width: fit-content;
+          padding: 1rem;
           
           /*Visuals*/
 
           border: none;
           background: transparent;
           cursor: pointer;
+          border-radius: 70px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
           }
 
@@ -342,12 +346,18 @@ export default function Complaint (props) {
 
         .check__button, .deny__button{
 
+          /*Box model*/
+
+          padding: 1rem;
+
 
           /*Visuals*/
 
           border: none;
           background: transparent;
           cursor: pointer;
+          border-radius: 70px;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
 
         }
 

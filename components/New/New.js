@@ -6,12 +6,13 @@ import { useState, useEffect } from 'react'
 import { server } from 'server'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
+import {useRouter} from 'next/router'
 import dynamic from 'next/dynamic'
 import global from 'styles/global.module.css'
 
+
 /* Dynamic imports */
 
-const Router = dynamic(() => import('next/router'))
 const Modal = dynamic(() => import('/components/Modal/Modal'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
@@ -23,12 +24,12 @@ export default function New (props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-
+  const Router = useRouter()
 
 
   const deleteNew = async () => {
 
-    await fetch(`${server}/api/news/${props.id}`, {
+    await fetch(`${server}/api/news/${props?.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -63,7 +64,7 @@ export default function New (props) {
   const getRole = async () =>
   {
 
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -71,7 +72,7 @@ export default function New (props) {
     })
 
     const data = await res.json();
-    if(data.role.name === 'administrador')
+    if(data?.role.name === 'administrador')
     {
       setIsAdmin(true)
     }
@@ -81,24 +82,24 @@ export default function New (props) {
   return (
     <>
 
-      <div key={props._id} className={global.new}>   
-        <article key={props.id}>
+      <div key={props?._id} className={global.new}>   
+        <article key={props?.id}>
           <div className="new__header">
-            <h2 className="new__title">{props.title}</h2>
-            {isAdmin && <div className="buttons"><button className='edit__button' onClick={() => Router.push(`dashboard/editNew/${props.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
+            <h2 className="new__title">{props?.title}</h2>
+            {isAdmin && <div className="buttons"><button className='edit__button' onClick={() => Router.push(`dashboard/editNew/${props?.id}`)}><MdOutlineEdit size={20} color={colors.secondary} /></button><button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button></div>}
           </div>
           <hr className={global.white__line}></hr>
           <div className="new__time">
             <HiOutlineClock size={17} color={`${colors.secondary}`}/>
-            <h3 className={global.date2}>Publicada el {new Date(props.date).toLocaleDateString().slice(0,10)}</h3>
+            <h3 className={global.date2}>Publicada el {new Date(props?.date).toLocaleDateString().slice(0,10)}</h3>
           </div> 
-          <h3 className={global.text3__bold}>{props.author}</h3>
-          <p className={global.text2}>{props.introduction}</p>
-          <p className={global.text2}>{props.body}</p>
-          <p className={global.text2}>{props.conclusion}</p>
+          <h3 className={global.text3__bold}>{props?.author}</h3>
+          <p className={global.text2}>{props?.introduction}</p>
+          <p className={global.text2}>{props?.body}</p>
+          <p className={global.text2}>{props?.conclusion}</p>
         </article>
       </div>
-      {isModalVisible && <LazyLoad><Modal>
+      {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title5}>Eliminar noticia</h2>
         <p className={global.text2}>¿Estás seguro de eliminar esta noticia?</p>
@@ -106,7 +107,7 @@ export default function New (props) {
           <button className={global.buttonSecondary} onClick={() => deleteNew()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
       
       <style jsx>{`
 

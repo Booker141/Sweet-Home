@@ -26,19 +26,19 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function MyProfile ({ posts, users }) {
   
   const { data: session, status } = useSession()
-  const [followers, setFollowers] = useState(users.followers)
-  const [following, setFollowing] = useState(users.following)
-  const [isShelter, setIsShelter] = useState(users.role.name === "protectora" ? true : false)
-  const [isVet, setIsVet] = useState(users.role.name === "veterinaria" ? true : false)
+  const [followers, setFollowers] = useState(users?.followers)
+  const [following, setFollowing] = useState(users?.following)
+  const [isShelter, setIsShelter] = useState(users?.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
   const [profileUser, setProfileUser] = useState(users)
-  const [userImage, setUserImage] = useState(users.image)
-  const [previewBanner, setPreviewBanner] = useState(users.banner)
-  const [previewImage, setPreviewImage] = useState(users.image)
+  const [userImage, setUserImage] = useState(users?.image)
+  const [previewBanner, setPreviewBanner] = useState(users?.banner)
+  const [previewImage, setPreviewImage] = useState(users?.image)
   const [isPreviewImage, setIsPreviewImage] = useState(true)
   const [isPreviewBanner, setIsPreviewBanner] = useState(true)
-  const [userBanner, setUserBanner] = useState(users.banner)
+  const [userBanner, setUserBanner] = useState(users?.banner)
   const [isPosts, setIsPosts] = useState(false)
-  const [isLocation, setIsLocation] = useState(users.location === "" ? false : true)
+  const [isLocation, setIsLocation] = useState(users?.location === "" ? false : true)
   const router = useRouter()
 
   const changeBanner = async (e) => {
@@ -49,7 +49,6 @@ export default function MyProfile ({ posts, users }) {
 
       setUserBanner(`/bannerPhotos/${bannerUploaded?.name}`)
 
-      console.log(bannerUploaded)
 
       setPreviewBanner(URL.createObjectURL(bannerUploaded))
 
@@ -58,9 +57,6 @@ export default function MyProfile ({ posts, users }) {
   
         formBanner.append("banner", userBanner);
 
-        console.log(bannerUploaded)
-
-        console.log(formBanner)
 
   
         await fetch(`${server}/api/images/bannerPhotos`, {
@@ -70,7 +66,7 @@ export default function MyProfile ({ posts, users }) {
   
 
 
-        await fetch(`${server}/api/users/${session.user.username}`, {
+        await fetch(`${server}/api/users/${session?.user.username}`, {
           headers: {
             'Content-Type': 'application/json'
           },
@@ -78,14 +74,14 @@ export default function MyProfile ({ posts, users }) {
           body: JSON.stringify({
             image: userImage,
             banner: bannerUploaded ? `/bannerPhotos/${bannerUploaded?.name}` : "/bannerPhotos/defaultBanner.svg",
-            firstname: profileUser.firstname,
-            lastname: profileUser.lastname,
-            phone: profileUser.phone,
-            gender: profileUser.gender,
-            birthdate: profileUser.birthdate,
-            biography: profileUser.biography,
-            location: profileUser.location,
-            links: profileUser.links
+            firstname: profileUser?.firstname,
+            lastname: profileUser?.lastname,
+            phone: profileUser?.phone,
+            gender: profileUser?.gender,
+            birthdate: profileUser?.birthdate,
+            biography: profileUser?.biography,
+            location: profileUser?.location,
+            links: profileUser?.links
           }) 
         })
 
@@ -115,7 +111,6 @@ export default function MyProfile ({ posts, users }) {
 
       setUserImage(`/userPhotos/${imageUploaded?.name}`)
 
-      console.log(imageUploaded)
 
       setPreviewImage(URL.createObjectURL(imageUploaded))
 
@@ -131,7 +126,7 @@ export default function MyProfile ({ posts, users }) {
     
       
 
-          await fetch(`${server}/api/users/${session.user.username}`, {
+          await fetch(`${server}/api/users/${session?.user.username}`, {
             headers: {
               'Content-Type': 'application/json'
             },
@@ -139,14 +134,14 @@ export default function MyProfile ({ posts, users }) {
             body: JSON.stringify({
               image: imageUploaded ? `/userPhotos/${imageUploaded?.name}` : "/userPhotos/default.png",
               banner: userBanner,
-              firstname: profileUser.firstname,
-              lastname: profileUser.lastname,
-              phone: profileUser.phone,
-              gender: profileUser.gender,
-              birthdate: profileUser.birthdate,
-              biography: profileUser.biography,
-              location: profileUser.location,
-              links: profileUser.links
+              firstname: profileUser?.firstname,
+              lastname: profileUser?.lastname,
+              phone: profileUser?.phone,
+              gender: profileUser?.gender,
+              birthdate: profileUser?.birthdate,
+              biography: profileUser?.biography,
+              location: profileUser?.location,
+              links: profileUser?.links
               
             })
           })
@@ -196,8 +191,8 @@ export default function MyProfile ({ posts, users }) {
     )
   }
   if (session) {
-    const numFollowers = followers.length
-    const numFollowing = following.length
+    const numFollowers = followers?.length
+    const numFollowing = following?.length
 
     return (
       <Layout>
@@ -241,7 +236,7 @@ export default function MyProfile ({ posts, users }) {
                     </label>                   
                   </div>
               </div>
-              <div className={global.title2}>@{session.user.username}</div>
+              <div className={global.title2}>@{session?.user.username}</div>
               {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />} 
               <button className={global.buttonTertiary4} onClick={() => router.push("/profile/myprofile/settings/publicProfile")}>Editar perfil</button>
@@ -250,12 +245,12 @@ export default function MyProfile ({ posts, users }) {
               <p className={global.text}>{profileUser.biography}</p>
             </div>
             <div className="profile__dates">
-                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
-                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser?.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser?.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
             </div>
             {isLocation && <div className="profile__location">
               <MdLocationPin color={`${colors.primary}`}/>
-              <p className={global.text}>{profileUser.location}</p>
+              <p className={global.text}>{profileUser?.location}</p>
             </div>}
             <div className='profile__followers'>
               <div className="numPosts">
@@ -263,11 +258,11 @@ export default function MyProfile ({ posts, users }) {
                 <p className={global.text__bold}>{posts.length}</p>
               </div>
               <div className='followers'>
-                <a href={`/profile/${profileUser.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser.username}`} className={global.link}>Seguidores</a>
+                <a href={`/profile/${profileUser?.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser?.username}`} className={global.link}>Seguidores</a>
                 <p className={global.text__bold}>{numFollowers}</p>
               </div>
               <div className='following'>
-                <a href={`/profile/${profileUser.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser.username}`} className={global.link}>Siguiendo</a>
+                <a href={`/profile/${profileUser?.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser?.username}`} className={global.link}>Siguiendo</a>
                 <p className={global.text__bold}>{numFollowing}</p>
               </div>
             </div>
@@ -278,7 +273,7 @@ export default function MyProfile ({ posts, users }) {
           </div>
 
           <div className='posts'>
-            {isPosts && posts.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
+            {isPosts && posts?.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
             {isPosts && posts.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
@@ -639,10 +634,9 @@ export default function MyProfile ({ posts, users }) {
   } else {
     return (
       <Layout>
-        <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>
@@ -662,7 +656,6 @@ export default function MyProfile ({ posts, users }) {
                         
                     `}
           </style>
-        </>
       </Layout>
     )
   }
@@ -675,7 +668,7 @@ export async function getServerSideProps (context) {
 
   const session = await getSession(context)
 
-  const post = await fetch(`${server}/api/posts/${session.user.username}`, {
+  const post = await fetch(`${server}/api/posts/${session?.user.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -684,7 +677,7 @@ export async function getServerSideProps (context) {
 
   
 
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

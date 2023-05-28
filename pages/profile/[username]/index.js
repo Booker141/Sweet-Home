@@ -27,15 +27,15 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function Username ({ posts, users}) {
   
   const { data: session, status } = useSession()
-  const [followers, setFollowers] = useState(users.followers)
-  const [following, setFollowing] = useState(users.following)
-  const [isShelter, setIsShelter] = useState(users.role.name === "protectora" ? true : false)
-  const [isVet, setIsVet] = useState(users.role.name === "veterinaria" ? true : false)
+  const [followers, setFollowers] = useState(users?.followers)
+  const [following, setFollowing] = useState(users?.following)
+  const [isShelter, setIsShelter] = useState(users?.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
   const [profileUser, setProfileUser] = useState(users)
-  const [userImage, setUserImage] = useState(users.image)
-  const [userBanner, setUserBanner] = useState(users.banner)
+  const [userImage, setUserImage] = useState(users?.image)
+  const [userBanner, setUserBanner] = useState(users?.banner)
   const [isPosts, setIsPosts] = useState(false)
-  const [isLocation, setIsLocation] = useState(users.location === "" ? false : true)
+  const [isLocation, setIsLocation] = useState(users?.location === "" ? false : true)
   const router = useRouter()
 
   const handleClick = (e) => {
@@ -64,8 +64,8 @@ export default function Username ({ posts, users}) {
     )
   }
   if (session) {
-    const numFollowers = followers.length
-    const numFollowing = following.length
+    const numFollowers = followers?.length
+    const numFollowing = following?.length
 
     return (
       <Layout>
@@ -87,15 +87,15 @@ export default function Username ({ posts, users}) {
               <div className={global.title2}>@{router.query.username}</div>
               {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}              
-              <FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={profileUser.id} usernameTo={profileUser.username}/>
+              <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={profileUser.id} usernameTo={profileUser?.username}/>
               <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdOutlineBlock size={25} color={colors.primary} /></a>
             </div>
             <div className="profile__biography">
-              <p className={global.text}>{profileUser.biography}</p>
+              <p className={global.text}>{profileUser?.biography}</p>
             </div>
             <div className="profile__dates">
-                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
-                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(profileUser?.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
+                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(profileUser?.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
             </div>
             {isLocation && <div className="profile__location">
               <MdLocationPin color={`${colors.primary}`}/>
@@ -107,14 +107,14 @@ export default function Username ({ posts, users}) {
             <div className='profile__followers'>
               <div className="numPosts">
                 <div className={global.link}>Publicaciones</div>
-                <p className={global.text__bold}>{posts.length}</p>
+                <p className={global.text__bold}>{posts?.length}</p>
               </div>
               <div className='followers'>
-                <a href={`/profile/${profileUser.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser.username}`} className={global.link}>Seguidores</a>
+                <a href={`/profile/${profileUser?.username}/followers`} aria-label={`Ir a los seguidores de ${profileUser?.username}`} className={global.link}>Seguidores</a>
                 <p className={global.text__bold}>{numFollowers}</p>
               </div>
               <div className='following'>
-                <a href={`/profile/${profileUser.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser.username}`} className={global.link}>Siguiendo</a>
+                <a href={`/profile/${profileUser?.username}/following`} aria-label={`Ir a los usuarios seguidos por ${profileUser?.username}`} className={global.link}>Siguiendo</a>
                 <p className={global.text__bold}>{numFollowing}</p>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function Username ({ posts, users}) {
           </div>
 
           <div className='posts'>
-            {isPosts && posts.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
+            {isPosts && posts?.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
             {isPosts && posts.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
@@ -152,6 +152,16 @@ export default function Username ({ posts, users}) {
                         border-radius: 20px;
                         
                     
+                    }
+
+                    .profile__location{
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      gap: 0.5rem;
                     }
 
                     .profile__pets a{
@@ -491,7 +501,7 @@ export default function Username ({ posts, users}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

@@ -25,8 +25,8 @@ export default function Settings ({users}) {
   const { data: session, status } = useSession({ required: true })
 
 
-  const [phone, setPhone] = useState(users.phone)
-  const [gender, setGender] = useState(users.gender)
+  const [phone, setPhone] = useState(users?.phone)
+  const [gender, setGender] = useState(users?.gender)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
@@ -42,12 +42,10 @@ export default function Settings ({users}) {
     if (e.target.name == 'phone') {
       if (phone.length < 9 || phone.length > 9 || !regPhone.test(phone)) {
         document.getElementById('phone__error').classList.add('form__input-phoneError--active')
-        document.getElementById('error__phone').classList.add('form__error-icon--active')
         document.getElementById('success__phone').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('phone__error').classList.remove('form__input-phoneError--active')
-        document.getElementById('error__phone').classList.remove('form__error-icon--active')
         document.getElementById('success__phone').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
@@ -61,7 +59,7 @@ export default function Settings ({users}) {
   const deleteAccount = async (e) => {
 
 
-    await fetch(`${server}/api/users/${session.user.username}`, {
+    await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -94,7 +92,7 @@ export default function Settings ({users}) {
 
       setIsEditing(true)
 
-      await fetch(`${server}/api/usersPrivateInformation/${session.user.username}`, {
+      await fetch(`${server}/api/usersPrivateInformation/${session?.user.username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -166,7 +164,6 @@ export default function Settings ({users}) {
                     placeholder="Escriba su teléfono"
                     className='input'
                   />
-                  <div id='error__phone' className='form__error-icon'><BsFillXCircleFill size={20} color={statusColors.error} /></div>
                   <div id='success__phone' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                   
               </div>
@@ -193,10 +190,10 @@ export default function Settings ({users}) {
                 <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
               </div>
             </form>
-            <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Editando..' : 'Editar'} />  
+            <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Aplicando' : 'Aplicar cambios'} />  
           </div>
           </div>
-          {isModalVisible && <LazyLoad><Modal>
+          {isModalVisible && <Modal>
             <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
             <h2 className={global.title3}>Eliminar cuenta</h2>
             <p className={global.text2}>Eliminando la cuenta, será eliminados todos sus datos de la aplicación</p>
@@ -205,7 +202,7 @@ export default function Settings ({users}) {
               <button className={global.buttonSecondary} onClick={() => deleteAccount()}>Sí</button>
               <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
             </div>
-      </Modal></LazyLoad>}
+          </Modal>}
 
         <style jsx>{`
 
@@ -387,37 +384,6 @@ export default function Settings ({users}) {
                   
             }
 
-            .form-vertical__image {
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              width: 100%;
-              margin-bottom: 2rem;
-
-            }
-
-            .form-vertical__name {
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-            }
-
-            .form-vertical__lastname {
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-            }
 
             .form-vertical__phone {
 
@@ -429,25 +395,7 @@ export default function Settings ({users}) {
 
               }
 
-              .form-vertical__biography {
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              }
-
-              .form-vertical__birthdate{
-
-              /*Box model*/
-
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              }
+           
 
               .form-vertical__gender {
 
@@ -456,6 +404,7 @@ export default function Settings ({users}) {
               display: flex;
               flex-direction: column;
               justify-content: center;
+              margin-bottom: 2rem;
 
               }
 
@@ -854,7 +803,7 @@ export default function Settings ({users}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

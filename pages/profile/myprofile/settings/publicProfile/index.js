@@ -11,7 +11,6 @@ import {toast} from 'react-toastify'
 import Head from 'next/head'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
-import InputIcon from "react-multi-date-picker/components/input_icon"
 
 /* Dynamic imports */
 
@@ -28,21 +27,22 @@ export default function PublicProfile ({users}) {
   const { data: session, status } = useSession({ required: true })
 
 
-  const [name, setName] = useState(users.firstname)
-  const [lastname, setLastname] = useState(users.lastname)
-  const [biography, setBiography] = useState(users.biography)
-  const [birthdate, setBirthdate] = useState(new Date(users.birthdate))
-  const [location, setLocation] = useState(users.location)
-  const [image, setImage] = useState(users.image)
-  const [banner, setBanner] = useState(users.banner)
-  const [imageURL, setImageURL] = useState(users.image)
-  const [bannerURL, setBannerURL] = useState(users.banner)
+  const [name, setName] = useState(users?.firstname)
+  const [lastname, setLastname] = useState(users?.lastname)
+  const [biography, setBiography] = useState(users?.biography)
+  const [birthdate, setBirthdate] = useState(new Date(users?.birthdate))
+  const [location, setLocation] = useState(users?.location)
+  const [image, setImage] = useState(users?.image)
+  const [banner, setBanner] = useState(users?.banner)
+  const [imageURL, setImageURL] = useState(users?.image)
+  const [bannerURL, setBannerURL] = useState(users?.banner)
   const [isValidate, setIsValidate] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
-  const [previewImage, setPreviewImage] = useState(users.image)
-  const [previewBanner, setPreviewBanner] = useState(users.banner)
-  const [isPreviewImage, setIsPreviewImage] = useState(users.image != "" ? true : false)
-  const [isPreviewBanner, setIsPreviewBanner] = useState(users.banner != "" ? true : false)
+  const [previewImage, setPreviewImage] = useState(users?.image)
+  const [previewBanner, setPreviewBanner] = useState(users?.banner)
+  const [isPreviewImage, setIsPreviewImage] = useState(users?.image != "" ? true : false)
+  const [isPreviewBanner, setIsPreviewBanner] = useState(users?.banner != "" ? true : false)
+  let today = new Date()
 
 
  
@@ -148,7 +148,7 @@ export default function PublicProfile ({users}) {
 
       }
 
-      await fetch(`${server}/api/users/${session.user.username}`, {
+      await fetch(`${server}/api/users/${session?.user.username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -370,17 +370,26 @@ export default function PublicProfile ({users}) {
                       <DatePicker
                             title='Introducir fecha de nacimiento'
                             name='birthdate'
-                            render={<InputIcon/>}
                             value={birthdate}
                             onChange={setBirthdate}
                             selected={birthdate}
                             format="DD/MM/YYYY"
-                            inputClass="date__input"
+                            maxDate={new Date(today.getFullYear() - 4, today.getMonth(), today.getDate())}
+                            style={{
+                              backgroundColor: `${colors.primary}`,
+                              height: "2rem",
+                              color: "#fafafa",
+                              border: "2px solid #fafafa",
+                              borderRadius: "20px",
+                              fontFamily: "Poppins",
+                              fontSize: "1rem",
+                              padding: "3px 10px"
+                            }}
                           />
                     </div>
                   </div>
           </form>
-          <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Editando..' : 'Editar'} />   
+          <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Aplicando..' : 'Aplicar cambios'} />   
           </div>
         </div>
 
@@ -413,8 +422,7 @@ export default function PublicProfile ({users}) {
 
                 /*Visuals*/
 
-                background-color: ${colors.primary};
-                border-radius: 20px;
+                
 
               }
 
@@ -1357,7 +1365,7 @@ export default function PublicProfile ({users}) {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

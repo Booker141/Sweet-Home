@@ -558,7 +558,7 @@ export default function CreatePost () {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

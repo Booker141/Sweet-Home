@@ -44,7 +44,7 @@ export default function Posts ({myPosts}) {
  */
   const sortPostByLikes = () => {
     setIsSortedByLikes(!isSortedByLikes)
-    const sortedPosts = posts.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
+    const sortedPosts = posts?.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
     setPostList(sortedPosts)
   }
 
@@ -75,7 +75,7 @@ export default function Posts ({myPosts}) {
               <button className={global.buttonPrimary} onClick={() => Router.push('/createPost')} aria-label='Crear nuevo post'>Crear post</button>
               <button className={global.buttonPrimary} onClick={() => sortPostByLikes()} aria-label='Ordenar publicaciones por likes'>Ordenar por popularidad</button>
             </div>
-            {((isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {((isSortedByLikes) && postList?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
@@ -83,7 +83,7 @@ export default function Posts ({myPosts}) {
                 </>
               )
             })}
-            {((!isSortedByLikes) && postList.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {((!isSortedByLikes) && postList?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
               return (
                 <>
@@ -218,7 +218,7 @@ export default function Posts ({myPosts}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

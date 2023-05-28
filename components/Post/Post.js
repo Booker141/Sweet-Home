@@ -26,7 +26,6 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Post (props) {
 
-  console.log(props)
 
   const { data: session, status } = useSession()
   const [user, setUser] = useState({})
@@ -99,7 +98,7 @@ export default function Post (props) {
  
 
   const deletePost = async () => {
-    await fetch(`${server}/api/posts/${session.user.username}/${props.id}`, {
+    await fetch(`${server}/api/posts/${session?.user.username}/${props.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -131,8 +130,8 @@ export default function Post (props) {
         <div key={props._id} className={global.post}>
           <div className='post__header'>
             <div className='header__user'>
-              {!isProfile && <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>}
-              {isProfile && <a href={`${server}/profile/myprofile`} aria-label={`Ir a Mi perfil`}><FallbackImage src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>}
+              {!isProfile && <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${user?.username}`}><FallbackImage src={user?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>}
+              {isProfile && <a href={`${server}/profile/myprofile`} aria-label={`Ir a Mi perfil`}><FallbackImage src={user?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={50} height={50}  /></a>}
               <div className="user__info">
                 <div className="info__username">
                 
@@ -154,22 +153,22 @@ export default function Post (props) {
             <div className='header__location'>
               <div className='location__delete'>
                 <p className={global.text2__bold}>
-                  {props.location}
+                  {props?.location}
                 </p>
                 {(user?.username === session?.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               </div>
-              {props.type.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
-              {props.type.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
-              {props.type.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
-              {props.type.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
+              {props.type?.name === "Silvestre" && <a className={global.tag} href={`${server}/wild`} aria-label="Ir a página de fauna silvestre">#Silvestre</a>}
+              {props.type?.name === "Adopción" && <a className={global.tag} href={`${server}/adoption`} aria-label="Ir a página de animales para adoptar">#Adopción</a>}
+              {props.type?.name === "Perdido" && <a className={global.tag} href={`${server}/lost`} aria-label="Ir a página de animales perdidos">#Perdido</a>}
+              {props.type?.name === "Abandonado" && <a className={global.tag} href={`${server}/abandoned`} aria-label="Ir a página de animales abandonados">#Abandonado</a>}
             </div>
           </div>
           <hr className={global.white__line2} />
           <div className='description'>
             <div className='description__content'>           
-              <a href={`${server}/profile/${user.username}`}><FallbackImage className='user__image' src={user.image} alt='Imagen de usuario' style={{ borderRadius: '50px'}} width={40} height={40} priority /></a>
+              <a href={`${server}/profile/${user?.username}`}><FallbackImage className='user__image' src={user?.image} alt='Imagen de usuario' style={{ borderRadius: '50px'}} width={40} height={40} priority /></a>
               <div className="description__user">
-                <p className={global.link3__bold}>@{user.username}</p>
+                <p className={global.link3__bold}>@{user?.username}</p>
                 {isShelter && <MdPets size={15} color={colors.secondary} />}{(isAdmin || isManager) && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={15} color={colors.secondary}/>}
                 <p className={global.link3__bold}>:</p>
               </div>
@@ -184,11 +183,11 @@ export default function Post (props) {
               {props.image != "" && <FallbackImage src={props.image} style={{ borderRadius: '20px', maxWidth: '50vw'}} width={1300} height={1050} alt="Imagen del post"/>}
             </div>
           <div className='post__icons'>
-              <Like likes={props.likes} postId={props.id}/>  
-              <Save saves={props.saves} postId={props.id}/>
+              <Like likes={props?.likes} postId={props?.id}/>  
+              <Save saves={props?.saves} postId={props?.id}/>
           </div>
           <div className="comments">
-                <Comment postId={props.id} comments={comments}/>
+                <Comment postId={props?.id} comments={comments}/>
           </div>
             
         </div>

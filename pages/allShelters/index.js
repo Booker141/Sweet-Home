@@ -35,7 +35,7 @@ export default function AllShelters ({ users }) {
     if(e === "username"){
 
       setIsSortedByUsername(!isSortedByUsername)
-      const sortedUsers = users.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
+      const sortedUsers = users?.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
       setUsersList(sortedUsers)
 
 
@@ -67,8 +67,8 @@ export default function AllShelters ({ users }) {
                 </div>
         </div>
         <div className='users'>
-          {usersList.length === 0 && <div><p className={global.loading2}>No hay ninguna protectora de animales.</p></div>}
-          {usersList.filter(user => user.username !== (session.user.username) && user.status.name != "bloqueado").map(({ _id, image, banner, username, role }) => {
+          {usersList?.length === 0 && <div><p className={global.loading2}>No hay ninguna protectora de animales.</p></div>}
+          {usersList.filter(user => user?.username !== (session?.user.username) && user?.status.name != "bloqueado").map(({ _id, image, banner, username, role }) => {
             return (
               <>
                 <LazyLoad offset={100}><User key={_id} image={image} banner={banner} username={username} role={role} /></LazyLoad>
@@ -187,7 +187,7 @@ select{
       <>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

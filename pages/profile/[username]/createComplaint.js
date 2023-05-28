@@ -52,7 +52,7 @@ export default function CreateComplaint () {
       },
       body: JSON.stringify({
         description: reason,
-        usernameFrom: session.user.username,
+        usernameFrom: session?.user.username,
         usernameTo: router.query.username,
         reason: reasonList
       })
@@ -363,7 +363,7 @@ export default function CreateComplaint () {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

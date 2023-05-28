@@ -28,7 +28,7 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
           </>
         )
     }
-    if(session.user.role === "administrador"){
+    if(session?.user.role === "administrador"){
         return(
 
             <Layout>
@@ -37,7 +37,7 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
                 </Head>
                 <div className="unblockedUsers">
                   <h1 className="title">Usuarios a bloquear</h1>
-                    {unblockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios con más de cinco denuncias y que no haya sido bloqueado.</p></div>}
+                    {unblockedUsers?.length === 0 && <div><p className={global.loading2}>No hay usuarios con más de cinco denuncias y que no haya sido bloqueado.</p></div>}
                     {unblockedUsers.map(({_id, username, email, image, role, complaints}) => {
                         return(
                             <>
@@ -49,7 +49,7 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
                 </div>
                 <div className="blockedUsers">
                   <h1 className="title">Usuarios bloqueados</h1>
-                    {blockedUsers.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados.</p></div>}
+                    {blockedUsers?.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados.</p></div>}
                     {blockedUsers.map(({_id, username, email, role, image, complaints}) => {
                         return(
                             <>
@@ -102,7 +102,7 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
                       <Layout>
                         <div className={global.content}>
                           <div className='message'>
-                            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+                            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
                             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
                           </div>
                         </div>

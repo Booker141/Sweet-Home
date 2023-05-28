@@ -48,7 +48,7 @@ export default function FAQ ({ questions, users }) {
         </div>
         {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push('/dashboard/createQuestion')}>Crear pregunta</button>}
 
-        {questions.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+        {questions?.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
 
         {questions.map(({ _id, title, answer }) => {
           return (

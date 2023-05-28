@@ -20,6 +20,7 @@ import dynamic from 'next/dynamic'
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
+const DatePicker = dynamic(() => import("react-multi-date-picker"))
 const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 
 
@@ -86,18 +87,6 @@ export default function CreatePet () {
 
     if(breed.trim() === ''){
       toast.error('El campo Raza es obligatorio', { position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored", })
-        return
-    }
-
-    if(birthdate.trim() === ''){
-      toast.error('El campo Fecha de nacimiento es obligatorio', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -298,17 +287,29 @@ export default function CreatePet () {
                   </div>
                   <div className='form-vertical__birthdate'>
                     <div className='label'>
-                      <p className={global.text}>Año de nacimiento (*)</p>
+                      <p className={global.text}>Fecha de nacimiento (*)</p>
                       <FaBirthdayCake size={18} color={colors.secondary} />
                     </div>
                     <div className='birthdate__input'>
-                      <input
+                    <DatePicker
                             title='Introducir fecha de nacimiento'
-                            type='date'
                             name='birthdate'
                             value={birthdate}
-                            onChange={(e) => setBirthdate(e.target.value)}
-                            className='input'
+                            onChange={setBirthdate}
+                            selected={birthdate}
+                            format="DD/MM/YYYY"
+                            placeholder="dd/mm/aaaa"
+                            maxDate={new Date()}
+                            style={{
+                              backgroundColor: `${colors.primary}`,
+                              height: "2rem",
+                              color: "#fafafa",
+                              border: "2px solid #fafafa",
+                              borderRadius: "20px",
+                              fontFamily: "Poppins",
+                              fontSize: "1rem",
+                              padding: "3px 10px"
+                            }}
                           />
                     </div>
                   </div>
@@ -334,6 +335,7 @@ export default function CreatePet () {
                         color: white;
                         text-align: center;
                     }
+
 
                     .container__header{
 
@@ -674,7 +676,7 @@ export default function CreatePet () {
       <Layout>
         <div className={global.content}>
           <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
           </div>
         </div>

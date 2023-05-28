@@ -207,7 +207,7 @@ export default function Pets({petsList}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>
@@ -240,7 +240,7 @@ export async function getServerSideProps(context){
 
     const session = await getSession(context)
 
-    const res = await fetch(`${server}/api/pets/${session.user.username}`, {
+    const res = await fetch(`${server}/api/pets/${session?.user.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

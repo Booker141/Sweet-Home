@@ -30,7 +30,7 @@ export default function CreatePostCard () {
 
   const getUser = async () => {
 
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -68,10 +68,10 @@ export default function CreatePostCard () {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: session.user.id,
+        userId: session?.user.id,
         location: '',
         description: description,
-        username: session.user.username,
+        username: session?.user.username,
         image: '',
         type: ''
       })
@@ -121,7 +121,7 @@ export default function CreatePostCard () {
       <div className="createPost__card">
         <div className='user__image'>
           <div className="profile__image">
-            <FallbackImage src={user.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={60} height={60} />
+            <FallbackImage src={user?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={60} height={60} />
           </div>
         </div>
       
@@ -136,7 +136,7 @@ export default function CreatePostCard () {
                   onChange={setDescription}
                   cleanOnEnter
                   onEnter={createPost}
-                  placeholder={`¿Qué está pasando, ${user.username}? 😄`}
+                  placeholder={`¿Qué está pasando, ${user?.username}? 😄`}
                   fontFamily={`${fonts.default}`}
                   borderColor={`${colors.primary}`}
                 />

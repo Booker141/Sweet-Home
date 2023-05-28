@@ -28,7 +28,7 @@ export default function Reports ({reports}) {
       </>
     )
   }
-  if (session.user.role === 'administrador') {
+  if (session?.user.role === 'administrador') {
     return (
       <>
         <Layout>
@@ -39,7 +39,7 @@ export default function Reports ({reports}) {
             <h1 className={global.title}>Panel de informes</h1>
           </div>
           <div className='reports'>
-                      {reports.length === 0 && <div><p className={global.loading2}>No hay informes que consultar.</p></div>}
+                      {reports?.length === 0 && <div><p className={global.loading2}>No hay informes que consultar.</p></div>}
                       {reports.map(({_id, username, reason, image, createdAt}) => {
                           return(
                               <>
@@ -78,7 +78,7 @@ export default function Reports ({reports}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe ser administrador</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe ser administrador</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

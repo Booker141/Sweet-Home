@@ -29,9 +29,7 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function Saved ({users}) {
   
   const { data: session, status } = useSession({ required: true })
-  const [saves, setSaves] = useState(users.saves)
-
-  console.log(users.saves)
+  const [saves, setSaves] = useState(users?.saves)
   
 
   const Router = useRouter()
@@ -58,11 +56,10 @@ export default function Saved ({users}) {
             </div>
             
 
-            {saves.length === 0 && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {saves?.length === 0 && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
             {saves.map((save) => {
               return (
                 <>
-                  {console.log(save)}
                   <SavedPost key={save} id={save} />
                 </>
               )
@@ -206,7 +203,7 @@ export default function Saved ({users}) {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title}>Para acceder a esta página debe iniciar sesión</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>
@@ -239,7 +236,7 @@ export async function getServerSideProps(context){
 
   const session = await getSession(context)
 
-  const res = await fetch(`${server}/api/users/${session.user.username}`, {
+  const res = await fetch(`${server}/api/users/${session?.user.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

@@ -7,10 +7,10 @@ import {useState} from "react"
 import {server} from "/server"
 import global from "styles/global.module.css"
 import dynamic from 'next/dynamic'
+import {useRouter} from 'next/router'
 
 /* Dynamic imports */
 
-const Router = dynamic(() => import('next/router'))
 const UserCardSearch = dynamic(() => import('/components/UserCardSearch/UserCardSearch'))
 const Link = dynamic(() => import('next/link'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
@@ -24,16 +24,20 @@ export default function SearchBar(){
     const [results, setResults] = useState({});
     const [isOpen, setIsOpen] = useState(false);
 
+    const Router = useRouter()
 
-    const searchKeyword = () => {
+
+    const searchKeyword = (e) => {
+
+      e.preventDefault()
 
       const searchInput = document.getElementById('search').value
 
       setKeyword(searchInput)
 
       const encodedKeyword = encodeURIComponent(searchInput)
-
       Router.push(`${server}/search?keyword=${encodedKeyword}`);
+
 
     }
 
@@ -51,7 +55,7 @@ export default function SearchBar(){
 
         if (event.key === "Enter") {
 
-          searchKeyword()
+          searchKeyword(e)
 
         }
       });
@@ -87,7 +91,7 @@ export default function SearchBar(){
                     placeholder='Buscar en Sweet Home'
                     onChange={(e) => submenuResults(e)}
                     autoComplete='on'
-                  /><button id="search__button" className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={() => searchKeyword()}><HiSearch size={20}/></button>
+                  /><button id="search__button" className={global.searchButton} aria-label="Hacer búsqueda relacionada" onClick={(e) => searchKeyword(e)}><HiSearch size={20}/></button>
           </form>
           {isOpen && <div id="submenu" className="submenu">
             
@@ -98,8 +102,17 @@ export default function SearchBar(){
             </div>
             <hr className={global.line}></hr>
             <div className="submenu__results">
-
-                {results.usersByUsername && results.usersByUsername.map((user) => (
+            {results?.usersByUsername?.length >= 0 && results?.typeAttendanceByTitle?.length >= 0 && (results?.usersByUsername?.length + results?.typeAttendanceByTitle?.length) != 1 && (results?.usersByUsername?.length + results?.typeAttendanceByTitle?.length) !=0 &&
+              <div className="results__submenu">
+                <p className={global.text4}>Se han encontrado {results?.usersByUsername.length + results?.typeAttendanceByTitle.length} resultados</p>
+              </div>
+            }
+            {(results?.usersByUsername?.length + results?.typeAttendanceByTitle?.length) === 1 &&
+              <div className="results__submenu">
+                <p className={global.text4}>Se ha encontrado {results?.usersByUsername.length + results?.typeAttendanceByTitle.length} resultado</p>
+              </div>
+            }
+                {results?.usersByUsername && results?.usersByUsername.map((user) => (
                   <>
                     <div className="search__user">
                       <HiSearch size={18} color={`${colors.quaternary}`}/>
@@ -108,7 +121,7 @@ export default function SearchBar(){
                   </>
                 ))}
 
-                {results.typeAttendanceByTitle && results.typeAttendanceByTitle.map((type) => (
+                {results?.typeAttendanceByTitle && results?.typeAttendanceByTitle.map((type) => (
                   <>
                     <div className="search__typeAttendance">
                       <HiSearch size={18} color={`${colors.quaternary}`}/>
@@ -117,9 +130,10 @@ export default function SearchBar(){
                       </div>
                     </div>                  
                   </>
-                ))}         
+                ))} 
               </div>
-              {results.usersByUsername?.length === 0 && results.typeAttendanceByTitle?.length === 0 &&
+            
+              {results?.usersByUsername?.length === 0 && results?.typeAttendanceByTitle?.length === 0 &&
               <div className="submenu__default">
                 <HiOutlineInformationCircle size={60} color={`${colors.quaternary}`}/>
                 <p className={global.text4}>No se ha encontrado ningún resultado</p>
@@ -129,6 +143,17 @@ export default function SearchBar(){
 
 
         <style jsx>{`
+
+
+          .results__submenu{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+          }
 
 
 

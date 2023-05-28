@@ -18,7 +18,7 @@ export default async function handler (req, res) {
             console.log(files)
             if (err) return reject(err)
                 let oldPath = files.image.filepath;
-                let newPath = `/public/userPhotos/${files.image.originalFilename}`;
+                let newPath = `./public/userPhotos/${files.image.originalFilename}`;
                 console.log(newPath)
                 mv(oldPath, newPath, function(err) {
                 })

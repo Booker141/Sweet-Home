@@ -8,10 +8,10 @@ import {server} from '/server'
 import {useState, useEffect} from 'react'
 import global from '/styles/global.module.css'
 import dynamic from 'next/dynamic'
+import Header from '/components/Header/Header'
 
 /*Dynamic imports*/
 
-const Header = dynamic(() => import('/components/Header/Header'))
 const Footer = dynamic(() => import('/components/Footer/Footer'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
@@ -56,6 +56,7 @@ export default function SettingsLayout ({ children }) {
       getNotifications()
   }, [])
 
+  /*
   if(isNotification)
   toast(`🔔 Tienes ${notifications.length} notificaciones nuevas`, {
     position: "bottom-right",
@@ -67,7 +68,7 @@ export default function SettingsLayout ({ children }) {
     progress: undefined,
     theme: "colored",
     });
-  
+  */
 
 
   return (

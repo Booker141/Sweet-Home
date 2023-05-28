@@ -26,7 +26,7 @@ export default function Followers (props) {
 
   async function getFollowers(){
 
-    const res = await fetch(`http://localhost:3000/api/followers/${props.id}`,
+    const res = await fetch(`http://localhost:3000/api/followers/${props?.id}`,
       {
         method: 'GET',
         headers: {
@@ -41,9 +41,9 @@ export default function Followers (props) {
     console.log(user)
 
 
-    if(follower.role.name === "veterinaria")
+    if(follower?.role.name === "veterinaria")
       setIsVet(true)
-    else if(follower.role.name === "protectora")
+    else if(follower?.role.name === "protectora")
       setIsShelter(true)
 
   }
@@ -57,12 +57,12 @@ export default function Followers (props) {
     <>
       <div className={global.following}>
         <div className='follower__image'>
-          <FallbackImage src={user.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={100} height={100} />
+          <FallbackImage src={user?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={100} height={100} />
         </div>
         <div className='follower__info'>
-          <a className={global.link} href={`/profile/${user.username}`} aria-label={`Ir a perfil de ${user.username}`}><strong>@{user.username}</strong> {isShelter && <BsPatchCheckFill size={20} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.primary}/>}</a>
+          <a className={global.link} href={`/profile/${user?.username}`} aria-label={`Ir a perfil de ${user?.username}`}><strong>@{user?.username}</strong> {isShelter && <BsPatchCheckFill size={20} color={colors.primary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.primary}/>}</a>
         </div>
-          <LazyLoad offset={100}><FollowButton idFrom={session.user.id} usernameFrom={session.user.username} idTo={user._id} usernameTo={user.username}/></LazyLoad>
+          <LazyLoad offset={100}><FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={user?._id} usernameTo={user?.username}/></LazyLoad>
         </div>
 
       <style jsx>{`

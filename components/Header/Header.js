@@ -65,7 +65,7 @@ export default function Header (props) {
 
   const getUser = async () => {
 
-    const res = await fetch(`${server}/api/users/${session.user.username}`,
+    const res = await fetch(`${server}/api/users/${session?.user.username}`,
       {
         method: 'GET',
         headers: {
@@ -82,7 +82,7 @@ export default function Header (props) {
 
   const getNotifications = async () => {
 
-    const res = await fetch(`${server}/api/notificationsChecked/${session.user.username}`,
+    const res = await fetch(`${server}/api/notificationsChecked/${session?.user.username}`,
       {
         method: 'GET',
         headers: {
@@ -122,7 +122,7 @@ export default function Header (props) {
   if (session) {
     return (
       <>
-        {session.user.role === 'usuario' &&
+        {session?.user.role === 'usuario' &&
 
           <ul className='header'>
 
@@ -136,7 +136,7 @@ export default function Header (props) {
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat" prefetch={false}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
-                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`} prefetch={false}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
+                  <li><Link href={`/profile/${session?.user.username}/notifications`} as={`/profile/${session?.user.username}/notifications`} prefetch={false}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
                   {isNotificationsVisible && <div id="notifications__submenu" className="notifications__submenu">
                     <div className="notifications__title">                    
                       <h3 className={global.text4__bold}>Notificaciones</h3>
@@ -144,7 +144,7 @@ export default function Header (props) {
                     </div>
                     <hr className={global.line}></hr>
                     <div className="notifications__results">
-                        {notifications.length === 0 &&  <div className="notification__default">
+                        {notifications?.length === 0 &&  <div className="notification__default">
                           <BsBellSlash size={60} color={`${colors.quaternary}`}/>
                           <p className={global.text4}>No tiene ninguna notificación</p>
                         </div>}
@@ -159,14 +159,14 @@ export default function Header (props) {
               </div>
               </div>
                   <ThemeButton />
-                <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+                <li><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user?.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                 {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
-                      <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
+                      <FallbackImage src={user?.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
-                        <p className="info__text">{session.user.username}</p>
-                        <p className="info__text">{session.user.role.toUpperCase()}</p>
+                        <p className="info__text">{session?.user.username}</p>
+                        <p className="info__text">{session?.user.role.toUpperCase()}</p>
                       </div>
                   </a>
                   <hr className='line' />
@@ -190,7 +190,7 @@ export default function Header (props) {
 
           </ul>}
 
-          {session.user.role === 'protectora' &&
+          {session?.user.role === 'protectora' &&
 
           <ul className='header'>
 
@@ -204,7 +204,7 @@ export default function Header (props) {
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat" prefetch={false}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
-                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`} prefetch={false}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
+                  <li><Link href={`/profile/${session?.user.username}/notifications`} as={`/profile/${session?.user.username}/notifications`} prefetch={false}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
                   {isNotificationsVisible && <div id="notifications__submenu" className="notifications__submenu">
                     <div className="notifications__title">                    
                       <h3 className={global.text4__bold}>Notificaciones</h3>
@@ -212,7 +212,7 @@ export default function Header (props) {
                     </div>
                     <hr className={global.line}></hr>
                     <div className="notifications__results">
-                        {notifications.length === 0 &&  <div className="notification__default">
+                        {notifications?.length === 0 &&  <div className="notification__default">
                           <BsBellSlash size={60} color={`${colors.quaternary}`}/>
                           <p className={global.text4}>No tiene ninguna notificación</p>
 
@@ -228,14 +228,14 @@ export default function Header (props) {
               </div>
               </div>
                 <ThemeButton />
-                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdPets size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user?.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdPets size={30} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
                 {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
-                      <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
+                      <FallbackImage src={user?.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
-                        <p className="info__text">{session.user.username}</p>
-                        <p className="info__text">{session.user.role.toUpperCase()}</p>
+                        <p className="info__text">{session?.user.username}</p>
+                        <p className="info__text">{session?.user.role.toUpperCase()}</p>
                       </div>
                   </a>
                   <hr className='line' />
@@ -258,7 +258,7 @@ export default function Header (props) {
 
           </ul>}
 
-        {session.user.role === 'administrador' &&
+        {session?.user.role === 'administrador' &&
 
           <ul className='header'>
 
@@ -274,14 +274,14 @@ export default function Header (props) {
                 <li><Link href="/dashboard" as="/dashboard" prefetch={false}><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={25} color={`${colors.secondary}`}/>Panel</a></Link></li>
               </div>
                 <ThemeButton />
-              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user?.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session?.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
               {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
-                      <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
+                      <FallbackImage src={user?.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
-                        <p className="info__text">{session.user.username}</p>
-                        <p className="info__text">{session.user.role.toUpperCase()}</p>
+                        <p className="info__text">{session?.user.username}</p>
+                        <p className="info__text">{session?.user.role.toUpperCase()}</p>
                       </div>
                   </a>
                   <hr className='line' />
@@ -304,7 +304,7 @@ export default function Header (props) {
 
           </ul>}
 
-        {session.user.role === 'gerente' &&
+        {session?.user.role === 'gerente' &&
 
           <ul className='header'>
 
@@ -320,15 +320,15 @@ export default function Header (props) {
                 <li><Link href="/statistics" as="/statistics" prefetch={false}><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={25} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
               </div>
                 <ThemeButton />
-                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>    
+                <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user?.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session?.user.username} <BsPatchCheckFill size={18} color={colors.secondary}/><MdKeyboardArrowDown size={20} color={colors.secondary} /></button>    
 
                 {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
-                        <p className="info__text">{session.user.username}</p>
-                        <p className="info__text">{session.user.role.toUpperCase()}</p>
+                        <p className="info__text">{session?.user.username}</p>
+                        <p className="info__text">{session?.user.role.toUpperCase()}</p>
                       </div>
                   </a>
                   <hr className='line' />
@@ -350,7 +350,7 @@ export default function Header (props) {
           </div>
           </ul>}
 
-          {session.user.role === 'veterinaria' &&
+          {session?.user.role === 'veterinaria' &&
 
           <ul className='header'>
 
@@ -364,7 +364,7 @@ export default function Header (props) {
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
                 <li><Link href="/chat" as="/chat" prefetch={false}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
-                  <li><Link href={`/profile/${session.user.username}/notifications`} as={`/profile/${session.user.username}/notifications`} prefetch={false}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
+                  <li><Link href={`/profile/${session?.user.username}/notifications`} as={`/profile/${session?.user.username}/notifications`} prefetch={false}><a className="nav__link2" onMouseOver={() => setIsNotificationsVisible(true)} aria-label='Ir a Notificaciones'><div className="notification__icon"><BsFillBellFill size={20} />{isNotification && <VscCircleFilled size={10}  />}</div>Notificaciones</a></Link></li>
                   {isNotificationsVisible && <div id="notifications__submenu" className="notifications__submenu">
                     <div className="notifications__title">                    
                       <h3 className={global.text4__bold}>Notificaciones</h3>
@@ -372,7 +372,7 @@ export default function Header (props) {
                     </div>
                     <hr className={global.line}></hr>
                     <div className="notifications__results">
-                        {notifications.length === 0 &&  <div className="notification__default">
+                        {notifications?.length === 0 &&  <div className="notification__default">
                           <BsBellSlash size={60} color={`${colors.quaternary}`}/>
                           <p className={global.text4}>No tiene ninguna notificación</p>
                         </div>}
@@ -386,14 +386,14 @@ export default function Header (props) {
                 </div>}
               </div>
                 <ThemeButton />
-              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
+              <li className='menu-visible'><button id='profile' onClick={() => setIsMenuOpen(!isMenuOpen)}><FallbackImage src={user?.image} height={40} width={40} style={{borderRadius: '70px'}}/>@{session?.user.username}<MdHealthAndSafety size={20} color={colors.secondary}/> <MdKeyboardArrowDown size={20} color={colors.secondary} /></button>           
               {isMenuOpen && <ul className='menu'>
                   <li className='nav__title'>Autenticado como:</li>
                   <a className='user__card' href="/profile/myprofile">
                       <FallbackImage src={user.image} height={50} width={50} style={{borderRadius: '70px'}}/>
                       <div className='user__info'>
-                        <p className="info__text">{session.user.username}</p>
-                        <p className="info__text">{session.user.role.toUpperCase()}</p>
+                        <p className="info__text">{session?.user.username}</p>
+                        <p className="info__text">{session?.user.role.toUpperCase()}</p>
                       </div>
                   </a>
                   <hr className='line' />

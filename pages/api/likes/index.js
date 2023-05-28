@@ -23,6 +23,7 @@ export default async function handler (req, res) {
   if (req.method === 'PUT') {
 
      await db.collection('posts').updateOne({_id: ObjectId(body.postId)}, { $push: {likes: ObjectId(body.userId)}})
+     await db.collection('users').updateOne({_id: ObjectId(body.userId)}, { $push: {likes: ObjectId(body.postId)}})
 
      await db.collection('notifications').insertOne({_id: id, sender: ObjectId(body.userId), receiver: postOwner.userId, type: typeNotification, 
       description: `A @${body.username} le ha gustado una publicación`, isChecked: false, createdAt: new Date()})

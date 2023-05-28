@@ -23,9 +23,9 @@ export default function NewsId ({ news }) {
   return (
 
     <Layout>
-      <Head><title>{news.title} | Sweet Home</title></Head>
+      <Head><title>{news?.title} | Sweet Home</title></Head>
       <div className="new">
-        <New key={news._id} title={news.title} date={news.date} author={news.author} introduction={news.introduction} body={news.body} conclusion={news.conclusion} />
+        <New key={news?._id} title={news?.title} date={news?.date} author={news?.author} introduction={news?.introduction} body={news?.body} conclusion={news?.conclusion} />
         <button className={global.buttonTertiary} onClick={() => router.back()}>Volver</button>
       </div>
      

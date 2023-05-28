@@ -44,7 +44,7 @@ export default function Layout ({ children }) {
 
     const data = await res.json()
 
-    if(data.length > 0) {
+    if(data?.length > 0) {
       setNotifications(data)
       setIsNotification(true)
 
@@ -59,7 +59,7 @@ export default function Layout ({ children }) {
       
 
   }, [])
-  /*
+/*
   if(isNotification)
       toast(`🔔 Tiene ${notifications.length} notificaciones nuevas`, {
         position: "bottom-right",

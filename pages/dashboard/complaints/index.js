@@ -29,7 +29,7 @@ export default function Complaints ({complaints}){
           </>
         )
     }
-    if(session.user.role === "administrador"){
+    if(session?.user.role === "administrador"){
         return(
 
             <Layout>
@@ -39,7 +39,7 @@ export default function Complaints ({complaints}){
                   <h1 className="title">Denuncias</h1>
                   <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/blockedUsers`)}>Usuarios bloqueados</button>
                   <div className='complaints'>
-                      {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                      {complaints?.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {complaints.filter(complaint => complaint.isChecked === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(
@@ -51,7 +51,7 @@ export default function Complaints ({complaints}){
                     </div>
                     <h1 className="title">Denuncias comprobadas denegadas</h1>
                     <div className="complaints">
-                      {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                      {complaints?.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(
@@ -62,7 +62,7 @@ export default function Complaints ({complaints}){
                     </div>
                     <h1 className="title">Denuncias comprobadas validadas</h1>
                     <div className="complaints">
-                        {complaints.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                        {complaints?.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                         {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                         {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === true ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                             return(
@@ -114,7 +114,7 @@ export default function Complaints ({complaints}){
                       <Layout>
                         <div className={global.content}>
                           <div className='message'>
-                            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
+                            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
                             <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
                           </div>
                         </div>

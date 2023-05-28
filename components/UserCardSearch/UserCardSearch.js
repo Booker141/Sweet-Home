@@ -23,9 +23,9 @@ export default function UserCardSearch (props) {
 
 
   useEffect(() => {
-    if(props.role.name ===  "protectora")
+    if(props?.role.name ===  "protectora")
       setIsShelter(true)
-    else if(props.role.name === "veterinaria")
+    else if(props?.role.name === "veterinaria")
       setIsVet(true)
 
   }, [])
@@ -33,13 +33,13 @@ export default function UserCardSearch (props) {
   return (
     <>
 
-      <a key={props._id} href={`/profile/${props.username}`} className={global.user__search}>
+      <a key={props._id} href={`/profile/${props?.username}`} className={global.user__search}>
         <div className='user__image'>
-          <FallbackImage src={props.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} />
+          <FallbackImage src={props?.image} style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={40} height={40} />
         </div>
         <div className="user__text">
             <div className='user__username'>
-            <strong>@{props.username}</strong>
+            <strong>@{props?.username}</strong>
             {isShelter && <BsPatchCheckFill size={15} color={colors.secondary}/>}{isVet && <MdHealthAndSafety size={20} color={colors.secondary}/>}
             </div>
         </div>

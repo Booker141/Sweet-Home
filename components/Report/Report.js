@@ -22,11 +22,11 @@ export default function Report(props){
 
     const [user, setUser] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false)
-    const date = new Date(props.createdAt)
+    const date = new Date(props?.createdAt)
 
     const getUser = async () => {
 
-        const res = await fetch(`${server}/api/users/${props.username}`, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+        const res = await fetch(`${server}/api/users/${props?.username}`, {method: 'GET', headers: {'Content-Type': 'application/json'}})
 
         const data = await res.json()
         const userList = JSON.parse(JSON.stringify(data))
@@ -36,7 +36,7 @@ export default function Report(props){
  
   const deleteReport = async () => {
 
-    const res = await fetch(`${server}/api/reports/${props.id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json'}})
+    const res = await fetch(`${server}/api/reports/${props?.id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json'}})
 
     if(res?.error){
 
@@ -85,11 +85,11 @@ export default function Report(props){
     return(
 
         <>
-            <div key={props.id} className={global.report}>
+            <div key={props?.id} className={global.report}>
                 <div className="report__header">
                     <div className="report__username">
-                        <FallbackImage src={user.image} width={50} height={50} style={{borderRadius: '70px'}}/>
-                        <p className={global.text2}><strong>@{user.username}</strong></p>
+                        <FallbackImage src={user?.image} width={50} height={50} style={{borderRadius: '70px'}}/>
+                        <p className={global.text2}><strong>@{user?.username}</strong></p>
                     </div>
                    
                     <div className="report__createdAt">
@@ -100,12 +100,12 @@ export default function Report(props){
                     </div>
                 </div>
                 <hr className={global.white__line2}></hr>
-                <p className={global.text2}>{props.reason}</p>
+                <p className={global.text2}>{props?.reason}</p>
                 <figure className="report__image">
-                    {props.image && <FallbackImage src={props.image} width={1300} height={700} style={{borderRadius: '20px'}}/>}
+                    {props?.image && <FallbackImage src={props?.image} width={1300} height={700} style={{borderRadius: '20px'}}/>}
                 </figure>
             </div>
-            {isModalVisible && <LazyLoad><Modal>
+            {isModalVisible && <Modal>
                 <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
                 <h2 className={global.title3}>Eliminar informe</h2>
                 <p className={global.text2__bold}>¿Estás seguro de eliminar este informe?</p>
@@ -113,7 +113,7 @@ export default function Report(props){
                 <button className={global.buttonSecondary} onClick={() => deleteReport()}>Sí</button>
                 <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
                 </div>
-            </Modal></LazyLoad>}
+            </Modal>}
             
             <style jsx>{`
             

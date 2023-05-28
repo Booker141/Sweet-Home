@@ -25,6 +25,7 @@ export default async function handler (req, res) {
   if (req.method === 'GET') {
 
     const userData = JSON.parse(JSON.stringify(user))
+
     res.status(200).json(userData)
   }
 
@@ -80,11 +81,14 @@ export default async function handler (req, res) {
   if (req.method === 'DELETE') {
 
     await db.collection('users').deleteOne({ username: req.query.username })
-    await db.collection('accounts').deleteOne({ userId: ObjectId(user._id) })
-    await db.collection('pets').remove({ ownerId: ObjectId(user._id) })
-    await db.collection('posts').remove({ userId: ObjectId(user._id) })
-    await db.collection('comments').remove({ userId: ObjectId(user._id) })
-    await db.collection('notifications').remove({ $or: [{ userIdFrom: ObjectId(user._id) }, { userIdTo: ObjectId(user._id) }] })
+    await db.collection('accounts').deleteOne({ userId: user._id })
+    await db.collection('pets').remove({ ownerId: user._id })
+    await db.collection('posts').remove({ userId: user._id })
+    await db.collection('comments').remove({ userId: user._id })
+    await db.collection('notifications').remove({ receiver: user._id })
+    await db.collection('pets').remove({ownerId: user._id})
+    await db.collection('complaints').remove({ usernameFrom: req.query.username })
+    await db.collection('attendances').remove({userId: user._id})
 
     res.status(200).json({ message: 'Usuario eliminado correctamente' })
   }

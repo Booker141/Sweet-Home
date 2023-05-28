@@ -20,7 +20,7 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function Thread (props) {
 
   const { data: session, status } = useSession({ required: true })
-  const [date, setDate] = useState(new Date(props.createdAt))
+  const [date, setDate] = useState(new Date(props?.createdAt))
   const [numPosts, setNumPosts] = useState(0);
   const [lastAttendance, setLastAttendance] = useState({})
   const [isAttendance, setIsAttendance] = useState(false)
@@ -31,14 +31,14 @@ export default function Thread (props) {
 
   async function getData(){
 
-    const res = await fetch(`${server}/api/users/${props.username}`, {
+    const res = await fetch(`${server}/api/users/${props?.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
 
-    const attendance = await fetch(`${server}/api/attendances/${props.title}`, {
+    const attendance = await fetch(`${server}/api/attendances/${props?.title}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ export default function Thread (props) {
 
   const getLastAttendance = async () => {
 
-    const lastAttendance = props.attendances[props.attendances.length - 1]
+    const lastAttendance = props?.attendances[props?.attendances.length - 1]
 
     const res = await fetch(`${server}/api/attendances/`, {
       method: 'POST',
@@ -97,7 +97,7 @@ export default function Thread (props) {
  
   const deleteThread = async () => {
 
-    const res = await fetch(`${server}/api/threads/${props.typeAttendanceId}`, {
+    const res = await fetch(`${server}/api/threads/${props?.typeAttendanceId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -137,9 +137,9 @@ export default function Thread (props) {
           <div className="thread__header__title">
             <h2>{props.title}</h2>
             <div className="thread__delete">
-              {user.username === session.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              {user?.username === session?.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
               <div className="thread__lastPostTime">
-                <strong>Última respuesta:</strong> {isAttendance && new Date(lastAttendance.createdAt).toLocaleString()}{!isAttendance && 'No existe'}
+                <strong>Última respuesta:</strong> {isAttendance && new Date(lastAttendance?.createdAt).toLocaleString()}{!isAttendance && 'No existe'}
               </div>
               <div className="thread__lastPostUser">
                 <strong>Por: </strong> {isAttendance && lastAttendance?.username}{!isAttendance && 'Aún no hay un cuidado'} 
@@ -151,19 +151,19 @@ export default function Thread (props) {
             <p><strong>Fecha de creación:</strong> {date.toLocaleDateString()}</p>
           </div>
           <div className="thread__header__username">
-            <p><strong>Creado por:</strong> {props.username}</p>
-            {(session.user.role === "gerente" || session.user.role === "administrador") && <BsPatchCheckFill size={18}/>}
-            {(session.user.role === "protectora") && <MdPets size={18}/>}
-            {(session.user.role === "veterinaria") && <MdHealthAndSafety size={18}/>}
+            <p><strong>Creado por:</strong> {props?.username}</p>
+            {(session?.user.role === "gerente" || session?.user.role === "administrador") && <BsPatchCheckFill size={18}/>}
+            {(session?.user.role === "protectora") && <MdPets size={18}/>}
+            {(session?.user.role === "veterinaria") && <MdHealthAndSafety size={18}/>}
           </div>
           <div className="thread__numPosts">
             <strong>Réplicas:</strong> {numPosts}
           </div>
           
       </div>
-      <button id="access__button" className={global.buttonTertiary} onClick={() => Router.push(`/attendances/${Router.query.typeAttendance}/${props.title}`)} aria-label={'Ir a ' + `${props.title}`}>Acceder</button>
+      <button id="access__button" className={global.buttonTertiary} onClick={() => Router.push(`/attendances/${Router.query.typeAttendance}/${props?.title}`)} aria-label={'Ir a ' + `${props.title}`}>Acceder</button>
       </div>
-      {isModalVisible && <LazyLoad><Modal>
+      {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar hilo</h2>
         <p className={global.text2}>¿Estás seguro de eliminar este hilo?</p>
@@ -171,7 +171,7 @@ export default function Thread (props) {
           <button className={global.buttonSecondary} onClick={() => deleteThread()}>Sí</button>
           <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal></LazyLoad>}
+      </Modal>}
 
       <style jsx>{`
 
