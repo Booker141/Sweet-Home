@@ -63,14 +63,14 @@ export default function SignUp () {
   const validate = (e) => {
     // Regular expressions
 
-    const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
     const regUsername = /^\S*$/
-    const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_¿¡"().,]).{8,}$/
+    const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
     const regName = /^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$/
     const regLastname = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/
 
     if (e.target.name == 'password') {
-      if (password.length < 8 || !password.match(regPassword)) {
+      if (!password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
         document.getElementById('success__password').classList.remove('form__icon-success--active')
         setIsValidate(false)
@@ -401,6 +401,7 @@ export default function SignUp () {
                   <div className='tooltiptext'>
                     <p> - La contraseña debe tener al menos 8 caracteres.</p>
                     <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                    <p> - La contraseña debe tener al menos una letra minúscula.</p>
                     <p> - La contraseña debe tener al menos un carácter especial.</p>
                     <p> - La contraseña debe tener al menos un número.</p>
                   </div>

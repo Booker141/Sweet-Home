@@ -46,6 +46,8 @@ export default function Home ({ posts }) {
   const [isSortedByLikes, setIsSortedByLikes] = useState(false)
   const Router = useRouter()
 
+  console.log(session)
+
   const sortByFilters = (e) => {
 
 

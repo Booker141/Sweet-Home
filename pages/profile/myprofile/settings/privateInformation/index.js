@@ -1,11 +1,11 @@
 /* Static imports */
 
-import { useSession, getSession, signOut, signIn } from 'next-auth/react'
+import { useSession, getSession, signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { AiFillPhone } from 'react-icons/ai'
 import { MdOutlineError, MdClose } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillXCircleFill, BsFillCheckCircleFill } from 'react-icons/bs'
+import { BsGenderAmbiguous, BsFillCheckCircleFill } from 'react-icons/bs'
 import { server } from '/server'
 import {toast} from 'react-toastify'
 import global from 'styles/global.module.css'
@@ -16,7 +16,7 @@ import dynamic from 'next/dynamic'
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Modal = dynamic(() => import('/components/Modal/Modal'))
+
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
@@ -27,7 +27,7 @@ export default function Settings ({users}) {
 
   const [phone, setPhone] = useState(users?.phone)
   const [gender, setGender] = useState(users?.gender)
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  
   const [isEditing, setIsEditing] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
 
@@ -52,32 +52,7 @@ export default function Settings ({users}) {
     }
   }
 
-  /**
-   * It deletes the user's account from the database and signs them out
-   * @param e - the event object
-   */
-  const deleteAccount = async (e) => {
-
-
-    await fetch(`${server}/api/users/${session?.user.username}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).catch(err => console.log(err))
-
-    toast.error(`Se ha eliminado la cuenta correctamente`, { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-    
-      Router.push(`${server}/auth/signIn`)
-  }
-
+  
 
 
   /**
@@ -187,22 +162,13 @@ export default function Settings ({users}) {
               </div>
               <div className='settings__buttons'>
                 <button className={global.buttonTertiary3}><a href='/changePassword' title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button>
-                <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
+                
               </div>
             </form>
             <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Aplicando' : 'Aplicar cambios'} />  
           </div>
           </div>
-          {isModalVisible && <Modal>
-            <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-            <h2 className={global.title3}>Eliminar cuenta</h2>
-            <p className={global.text2}>Eliminando la cuenta, será eliminados todos sus datos de la aplicación</p>
-            <p className={global.text2__bold}>¿Estás seguro de eliminar la cuenta?</p>
-            <div className='buttons'>
-              <button className={global.buttonSecondary} onClick={() => deleteAccount()}>Sí</button>
-              <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-            </div>
-          </Modal>}
+          
 
         <style jsx>{`
 
@@ -224,22 +190,7 @@ export default function Settings ({users}) {
                 }
 
                                
-                .close__modal{
-
-                /*Box model*/
-
-                display: flex;
-                flex-direction: row;
-                align-self: flex-end;
-                margin-right: 2rem;
-
-                /*Visuals*/
-
-                border: none;
-                background: transparent;
-                cursor: pointer;
-
-                }
+               
 
 
 
@@ -836,7 +787,7 @@ export async function getServerSideProps(context){
 
   const session = await getSession(context)
 
-  const user = await fetch(`${server}/api/users/${session?.user.username}`, {
+  const response = await fetch(`${server}/api/users/${session?.user.username}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -844,7 +795,7 @@ export async function getServerSideProps(context){
   })
 
 
-  const currentUser = await user.json();
+  const currentUser = await response.json();
 
 
   return{

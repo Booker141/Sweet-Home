@@ -41,7 +41,7 @@ export default async function handler (req, res) {
     await db.collection('posts').updateOne({ _id: ObjectId(body.postId) }, { $push: { comments: ObjectId(comment.insertedId) } })
 
     await db.collection('notifications').insertOne({_id: id, sender: user._id, receiver: postOwner.userId, type: typeNotification, 
-      description: `@${body.username} te ha comentado una publicación`, isChecked: false, createdAt: new Date()})
+      description: `@${body.username} te ha comentado una publicación`, createdAt: new Date()})
 
     res.status(201).json({ message: 'Comentario creado con éxito' })
   }

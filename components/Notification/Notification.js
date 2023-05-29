@@ -26,7 +26,6 @@ export default function Notification (props) {
 
   const [user, setUser] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [isNotificationNotChecked, setIsNotificationNotChecked] = useState(false)
   const [notification, setNotification] = useState(props)
   const {data: session, status} = useSession({})
 
@@ -49,27 +48,7 @@ export default function Notification (props) {
 
   }
 
-  const getCheckedNotifications = async () => {
 
-    const res = await fetch(`${server}/api/notificationsChecked/${session?.user.username}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-    const data = await res.json()
-
-    console.log(data)
-
-
-    if(data.length > 0) {
-      setIsNotificationNotChecked(true)
-    }
-
-
-  }
 
   const fetchNotification = async () => {
 
@@ -184,7 +163,6 @@ export default function Notification (props) {
                 <HiOutlineClock color={`${colors.secondary}`} size={17}/>
                 <p className={global.time}>Hace {calcTime()}</p>
           </div>
-          {notification?.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
           <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
         </div>
         {isModalVisible && <Modal>

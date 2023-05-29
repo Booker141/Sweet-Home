@@ -18,7 +18,7 @@ const securityHeaders = [
   },
   {
     key: 'Permissions-Policy',
-    value: "camera=(); battery=(self); geolocation=(); microphone=(); bluetooth=()",
+    value: "camera=(), microphone=(), geolocation=()",
   },
   {
     key: 'X-Content-Type-Options',

@@ -53,7 +53,7 @@ export default function Complaints ({complaints}){
                     <h1 className="title">Denuncias comprobadas denegadas</h1>
                     <div className="complaints">
                       {complaints?.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
-                      {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                      {(complaints.filter(complaint => complaint.isChecked === true ).length === 0 ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                       {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === false ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(
                               <>
@@ -64,7 +64,7 @@ export default function Complaints ({complaints}){
                     <h1 className="title">Denuncias comprobadas validadas</h1>
                     <div className="complaints">
                         {complaints?.length === 0 && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
-                        {(complaints.filter(complaint => complaint.isChecked === true ).length === complaints.length ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
+                        {(complaints.filter(complaint => complaint.isChecked === true ).length === 0 ) && <div><p className={global.loading2}>No hay denuncias que revisar.</p></div>}
                         {complaints.filter(complaint => complaint.isChecked === true && complaint.isApproved === true ).map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                             return(
                                 <>
@@ -81,8 +81,7 @@ export default function Complaints ({complaints}){
 
                         display: flex;
                         flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
+
                         gap: 1rem;
                         margin-top: 2rem;
                         margin-bottom: 1rem;

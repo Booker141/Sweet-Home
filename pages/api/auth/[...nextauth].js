@@ -118,9 +118,11 @@ export const authOptions = {
       const accountExist = await db.collection('accounts').findOne({ providerAccountId: account.providerAccountId })
       const accountExist2 = await db.collection('accounts').findOne({ userId: user._id })
       const userExist = await db.collection('users').findOne({ _id: user._id })
-      const userExist2 = await db.collection('users').findOne({_id: user.id})
       const userStatus = await db.collection('userStatus').findOne({ name: 'activo' })
       const userRole = await db.collection('userRole').findOne({ name: 'usuario' })
+
+      console.log(user)
+      console.log(account)
 
       let providerId = '';
       for (let i = 0; i < 21; i++) {
@@ -128,6 +130,13 @@ export const authOptions = {
       }
 
       const randomId = new ObjectId()
+      console.log(randomId)
+      // Aquí está el error
+
+        let userExist2 = await db.collection('users').findOne({_id: randomId})
+
+      console.log(userExist2)
+
       const maxAge = 3600 * 24
       const expiryDate = new Date(Date.now() + (maxAge * 3000))
 
@@ -171,15 +180,15 @@ export const authOptions = {
             token_type: account.token_type,
             refresh_token: account.id_token,
             providerAccountId: account.providerAccountId,
-            email: user.email,
+            email: user?.email,
             firstname: '',
             lastname: '',
-            username: user.name,
+            username: user?.name,
             createdAt: new Date(),
             userId: randomId
           })
 
-          await db.collection('users').updateOne({ _id: user._id }, { $set: { accountId: accountInserted._id } })
+          await db.collection('users').updateOne({ _id: user?._id }, { $set: { accountId: accountInserted._id } })
 
           if (!userExist) {
             await db.collection('users').insertOne({
@@ -194,8 +203,8 @@ export const authOptions = {
               birthdate: new Date('<2012-12-12>'),
               biography: "",
               location: "",
-              image: user.image,
-              banner: user.banner === null ? "" : user.banner,
+              image: user?.image,
+              banner: user?.banner === null ? "" : user?.banner,
               status: userStatus,
               role: userRole,
               followers: [],
@@ -205,7 +214,7 @@ export const authOptions = {
               pets: [],
               complaints: [],
               posts: [],
-              accountId: account._id,
+              accountId: accountInserted.insertedId,
               createdAt: new Date()
             })
           } else {
@@ -220,9 +229,10 @@ export const authOptions = {
       }
 
       if (account.provider === 'twitter') {
+        console.log(account)
         if (!accountExist) {
+          console.log(account)
           const accountInserted = await db.collection('accounts').insertOne({
-
               provider: account.provider,
               type: account.type,
               access_token: account.access_token,
@@ -231,21 +241,23 @@ export const authOptions = {
               token_type: account.token_type,
               refresh_token: account.refresh_token,
               providerAccountId: account.providerAccountId,
-              email: user.email,
+              email: user.email === undefined ? '' : user.email,
               firstname: '',
               lastname: '',
               username: user.name,
               createdAt: new Date(),
-              userId: randomId
-            
+              userId: randomId         
           })
 
           
 
-          if (!userExist2) {
+          
+
+          if (userExist2 === null) {
+            console.log(userExist2)
             await db.collection('users').insertOne({
               _id: randomId,
-              email: user.email,
+              email: user.email === undefined ? '' : user.email,
               firstname: '',
               lastname: '',
               username: user.name,
@@ -266,18 +278,20 @@ export const authOptions = {
               pets: [],
               complaints: [],
               posts: [],
-              accountId: account._id,
+              accountId: accountInserted.insertedId,
               createdAt: new Date()
             })
           } else {
-
+            console.log(randomId)
             await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: accountInserted._id } })
-            
-            if (accountExist.userId === userExist2._id) {
-              await db.collection('users').updateOne({ _id: userExist2._id }, { $set: { accountId: accountExist._id } })
+
+            if (accountExist.userId === user._id) {
+
+              await db.collection('users').updateOne({ _id: user._id }, { $set: { accountId: accountExist._id } })
             }
           }
         } else {
+          console.log(randomId)
           await db.collection('accounts').updateOne({ _id: account._id }, {
             $set: {
               provider: account.provider,
@@ -291,7 +305,7 @@ export const authOptions = {
               email: user.email,
               firstname: user.firstname,
               lastname: user.lastname,
-              username: user.name,
+              username: user.username,
               status: user.status,
               role: user.role,
               createdAt: user.createdAt,
@@ -300,7 +314,14 @@ export const authOptions = {
           })
         }
 
-        await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: accountExist._id } })
+        const twitterAccountExist = await db.collection('accounts').findOne({ providerAccountId: account.providerAccountId })
+
+        console.log(accountExist)
+        console.log(randomId)
+
+        await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: twitterAccountExist._id } })
+
+        console.log(randomId)
       }
 
       return true
@@ -311,13 +332,13 @@ export const authOptions = {
       if (user) {
         token = {
           ...token,
-          id: user._id,
-          email: user.email,
-          username: user.username,
-          biography: user.biography,
-          followers: user.followers,
-          following: user.following,
-          role: user.role.name
+          id: user?._id,
+          email: user?.email,
+          username: user?.username ? user?.username : user?.name,
+          biography: user?.biography,
+          followers: user?.followers,
+          following: user?.following,
+          role: user?.role?.name
         }
       }
 

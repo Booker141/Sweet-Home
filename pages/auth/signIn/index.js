@@ -72,7 +72,7 @@ export default function SignIn ({ providers, csrfToken }) {
   const validate = (e) => {
     // Regular expressions
 
-    const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
     const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 
     if (e.target.name == 'password') {
@@ -177,17 +177,17 @@ export default function SignIn ({ providers, csrfToken }) {
               <div className='form__text'>
                 <h2>¡Bienvenido de nuevo!</h2>
               </div>
-              {providers && Object.values(providers).filter(provider => provider.name != 'Credentials' && provider.name == 'Twitter').map((provider) => (
-                <div key={provider.name}>
+              {providers && Object.values(providers).filter(provider => provider?.name != 'Credentials' && provider?.name == 'Twitter').map((provider) => (
+                <div key={provider?.name}>
                   <button className='form-vertical__button2' onClick={() => signIn(provider.id, { callbackUrl: '/home' })}>
-                    Inicia sesión con {provider.name} &nbsp; <BsTwitter size={18} color={colors.secondary} />
+                    Inicia sesión con {provider?.name} &nbsp; <BsTwitter size={18} color={colors.secondary} />
                   </button>
                 </div>
               ))}
-              {providers && Object.values(providers).filter(provider => provider.name != 'Credentials' && provider.name == 'Google').map((provider) => (
-                <div key={provider.name}>
+              {providers && Object.values(providers).filter(provider => provider?.name != 'Credentials' && provider?.name == 'Google').map((provider) => (
+                <div key={provider?.name}>
                   <button className='form-vertical__button2' onClick={() => signIn(provider.id, { callbackUrl: '/home' })}>
-                    Inicia sesión con {provider.name} &nbsp; <BsGoogle size={18} color={colors.secondary} />
+                    Inicia sesión con {provider?.name} &nbsp; <BsGoogle size={18} color={colors.secondary} />
                   </button>
                 </div>
               ))}

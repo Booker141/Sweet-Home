@@ -26,7 +26,7 @@ export default async function handler (req, res) {
      await db.collection('users').updateOne({_id: ObjectId(body.userId)}, { $push: {likes: ObjectId(body.postId)}})
 
      await db.collection('notifications').insertOne({_id: id, sender: ObjectId(body.userId), receiver: postOwner.userId, type: typeNotification, 
-      description: `A @${body.username} le ha gustado una publicación`, isChecked: false, createdAt: new Date()})
+      description: `A @${body.username} le ha gustado una publicación`, createdAt: new Date()})
 
     res.status(201).json({ message: 'Se ha añadido el like con éxito.' })
   }

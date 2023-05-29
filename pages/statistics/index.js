@@ -7,6 +7,24 @@ import { useSession, signIn } from 'next-auth/react'
 import Head from 'next/head'
 import global from '/styles/global.module.css'
 import dynamic from 'next/dynamic'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 
 
@@ -16,21 +34,16 @@ const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
 const BarChart = dynamic(() => import('/components/BarChart/BarChart'))
 const RadarChart = dynamic(() => import('/components/RadarChart/RadarChart'))
-const PolarAreaChart = dynamic(() => import('/components/PolarAreaChart/PolarAreaChart'))
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
-
 
 export default function Statistics () {
 
   const { data: session, status } = useSession({ required: true })
-  const [data, setData] = useState({})
+  const [dataset, setDataset] = useState({})
 
-  /**
-   * It fetches the data from the server and returns it as a JSON object
-   * @returns The data is being returned as a JSON object.
-   */
+
   async function getData () {
+
     const res = await fetch('/api/statistics', { 
       method: 'GET',
       headers: {
@@ -38,130 +51,53 @@ export default function Statistics () {
       }
     })
 
-    const data = await res.json()
-    return data
+    const statisticsData = await res.json()
+
+    setDataset(statisticsData)
   }
 
-  useEffect(() => {
-    getData()
-  }, [])
 
-  const barData = {
-    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+
+const barData = {
+    labels: ['Jun', 'Jul', 'Aug'],
     datasets: [
       {
-        label: 'Registros',
-        data: [12, 19, 3, 5, 2, 3, 10],
-        backgroundColor: [
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-        ],
-        borderColor: [
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-        ],
-        borderWidth: 1,
+        id: 1,
+        label: '',
+        data: [5, 6, 7],
       },
-    ],    
-  }
+      {
+        id: 2,
+        label: '',
+        data: [3, 2, 1],
+      },
+    ],
+}
 
-  const barOptions = {
-    indexAxis: 'y',
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
-    responsive: true,
+
+const barOptions = {
     plugins: {
       legend: {
-        position: 'right',
+        display: false,
       },
       title: {
         display: true,
-        text: 'Registros por día',
+        text: 'Statistics'
       },
-    },
-  }
-
-  const radarData = {
-    labels: ['Alimentación', 'Higiene', 'Ocio', 'Salud', 'Educación'],
-    datasets: [
-      {
-        label: 'Cantidad de hilos por tipo de cuidado',
-        data: [12, 19, 3, 5, 2],
-        backgroundColor: [
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-        ],
-        borderColor: [
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  }
-
-  const radarOptions = {
-
-    elements: {
-      line: {
-        borderWidth: 3
-      }
+      responsive: true,
+      maintainAspectRatio: false,
+      
     }
-  }
 
-  const polarData = {
-    labels: ['Alimentación', 'Higiene', 'Ocio', 'Salud', 'Educación'],
-    datasets: [
-      {
-        label: 'Cantidad de hilos por tipo de cuidado',
-        data: [12, 19, 3, 5, 2],
-        backgroundColor: [
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-        ],
-        borderColor: [
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-          '#f0810f',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  }
+}
 
-  const polarOptions = {
 
-    elements: {
-      line: {
-        borderWidth: 3
-      }
-    }
-  }
 
+
+  
+  useEffect(() => {
+    getData()
+  }, [])
 
 
 
@@ -173,15 +109,35 @@ export default function Statistics () {
       </>
     )
   }
-  if (session.user.role === 'gerente') {
+  if (session?.user.role === 'gerente') {
     return (
       <Layout>
         <Head><title>Estadísticas | Sweet Home</title></Head>
-        <h1 className="title">Estadísticas</h1>
+        <div className="statistics__header">
+          <h1 className="title">Estadísticas de la aplicación</h1>
+          <p className={global.text}>¡Bienvenido al panel de estadísticas! A continuación, podrá acceder a representacios visuales de los datos 
+          que se han almacenado en la aplicación.</p>
+        </div>
+        <div className="statistics__container">
+          <BarChart data={barData} options={barOptions} />
+        </div>
+        
         <style jsx>{`
-          .title{
 
-            /*Text*/
+          .statistics__header{
+
+            /*Box model*/
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+          }
+
+          .title{
+     
+                        /*Text*/
 
                         font-size: 3.5rem;
                         font-weight: 600;
@@ -207,7 +163,7 @@ export default function Statistics () {
         <>
           <div className={global.content}>
             <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe ser tener el rol de gerente</h1>
+              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como gerente</h1>
               <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
             </div>
           </div>

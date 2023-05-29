@@ -1,10 +1,11 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from 'next-auth/react'
+import { useSession, getSession, signIn, signOut } from 'next-auth/react'
 import { useState } from 'react'
+import {useRouter} from 'next/router'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { FaUserPlus, FaBirthdayCake } from 'react-icons/fa'
-import { MdOutlineError, MdLocationOn } from 'react-icons/md'
+import { MdOutlineError, MdLocationOn, MdClose } from 'react-icons/md'
 import { BsFillFileTextFill, BsFillCheckCircleFill, BsImageFill} from 'react-icons/bs'
 import { server } from '/server'
 import {toast} from 'react-toastify'
@@ -20,7 +21,7 @@ const DatePicker = dynamic(() => import("react-multi-date-picker"))
 const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
-
+const Modal = dynamic(() => import('/components/Modal/Modal'))
 
 export default function PublicProfile ({users}) {
 
@@ -31,6 +32,7 @@ export default function PublicProfile ({users}) {
   const [lastname, setLastname] = useState(users?.lastname)
   const [biography, setBiography] = useState(users?.biography)
   const [birthdate, setBirthdate] = useState(new Date(users?.birthdate))
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const [location, setLocation] = useState(users?.location)
   const [image, setImage] = useState(users?.image)
   const [banner, setBanner] = useState(users?.banner)
@@ -42,6 +44,7 @@ export default function PublicProfile ({users}) {
   const [previewBanner, setPreviewBanner] = useState(users?.banner)
   const [isPreviewImage, setIsPreviewImage] = useState(users?.image != "" ? true : false)
   const [isPreviewBanner, setIsPreviewBanner] = useState(users?.banner != "" ? true : false)
+
   let today = new Date()
 
 
@@ -114,6 +117,33 @@ export default function PublicProfile ({users}) {
 
 
   }
+
+  /**
+   * It deletes the user's account from the database and signs them out
+   * @param e - the event object
+   */
+  const deleteAccount = async (e) => {
+
+
+    await fetch(`${server}/api/users/${session?.user.username}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).catch(err => console.log(err))
+
+    toast.error(`Se ha eliminado la cuenta correctamente`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+    
+      signOut()
+  }
+
 
 
 
@@ -389,9 +419,22 @@ export default function PublicProfile ({users}) {
                     </div>
                   </div>
           </form>
-          <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Aplicando..' : 'Aplicar cambios'} />   
+          <div className="action__buttons">
+            <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Aplicando..' : 'Aplicar cambios'} />   
+            <button className={global.buttonDelete2} onClick={() => setIsModalVisible(true)}>Eliminar cuenta</button>
+            </div>
           </div>
         </div>
+        {isModalVisible && <Modal>
+            <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
+            <h2 className={global.title3}>Eliminar cuenta</h2>
+            <p className={global.text2}>Eliminando la cuenta, será eliminados todos sus datos de la aplicación</p>
+            <p className={global.text2__bold}>¿Estás seguro de eliminar la cuenta?</p>
+            <div className='buttons'>
+              <button className={global.buttonSecondary} onClick={() => deleteAccount()}>Sí</button>
+              <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+            </div>
+          </Modal>}
 
 
       <style jsx>{`
@@ -411,6 +454,32 @@ export default function PublicProfile ({users}) {
 
                   border-radius: 20px;
 
+              }
+
+               .close__modal{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-self: flex-end;
+                margin-right: 2rem;
+
+                /*Visuals*/
+
+                border: none;
+                background: transparent;
+                cursor: pointer;
+
+                }
+
+              .action__buttons{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
               }
 
               .banner__input{
@@ -1398,7 +1467,7 @@ export async function getServerSideProps (context) {
   const session = await getSession(context)
 
   
-    const res = await fetch(`${server}/api/users/${session.user.username}`, {
+    const res = await fetch(`${server}/api/users/${session?.user.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

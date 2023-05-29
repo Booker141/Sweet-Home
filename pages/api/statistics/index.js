@@ -12,7 +12,7 @@ export default async function handler (req, res) {
 
   const client = await clientPromise
   const db = await client.db()
-  const body = req.body
+
   const users = await db.collection('users').find({}).limit(50).toArray()
   const posts = await db.collection('posts').find({}).toArray()
   const comments = await db.collection('comments').find({}).toArray()

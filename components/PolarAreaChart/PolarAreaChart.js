@@ -1,8 +1,13 @@
-import {Polar} from 'react-chartjs-2'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useEffect, useState } from 'react';
+/* Static imports */
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+import "chart.js/auto";
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic'
+
+
+/* Dynamic imports */
+
+const PolarArea =  dynamic(() => import('react-chartjs-2'))
 
 
 export default function PolarAreaChart(props) {
