@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { colors, fonts, statusColors } from 'styles/frontend-conf.js'
 import { FaUser, FaUserPlus } from 'react-icons/fa'
-import { BsFillLockFill, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
+import { BsFillLockFill, BsFillCheckCircleFill } from 'react-icons/bs'
 import { MdEmail, MdOutlineError } from 'react-icons/md'
 import { AiFillInfoCircle, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { server } from '/server'
@@ -72,7 +72,7 @@ export default function SignUp () {
     if (e.target.name == 'password') {
       if (!password.match(regPassword)) {
         document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('success__password').classList.remove('form__icon-success--active')
+        document.getElementById('success__password').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('password__error').classList.remove('form__input-passwordError--active')
@@ -163,7 +163,6 @@ export default function SignUp () {
 
       const data = await res.json()
 
-
       setIsSignUp(true)
 
       if (data.message === 'Registrado con éxito.') {
@@ -178,8 +177,23 @@ export default function SignUp () {
         progress: undefined,
         theme: "colored", })
 
+        const res = await fetch(`${server}/api/sendEmail`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            name,
+            lastname,
+            username,
+          })
+        }).catch(err => console.log(err))
 
-          Router.push(`${server}/auth/signIn`)
+        if(res.error)
+          console.log(res.error)
+
+        Router.push(`${server}/auth/signIn`)
 
       }
 
@@ -235,10 +249,10 @@ export default function SignUp () {
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
       />
-      <div className='page__video'>
-          <video
+      <div className='page__video'/>
+      <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', objectFit: 'cover', zIndex: '-99999'}}
+            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '234vh', objectFit: 'cover', zIndex: '-99999'}}
           >
             <source src='/videos/video2.mp4' />
           </video>
@@ -429,7 +443,7 @@ export default function SignUp () {
         color='#fafafa' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
-      </div>
+
       <style jsx>{`
 
 
@@ -482,13 +496,14 @@ export default function SignUp () {
 
           display: block;
           object-fit: cover;
-          width: 100%;
+          width: 99.1vw;
           min-height: 100%;
+          height: 234vh;
 
           /*Visuals*/
 
-          backdrop-filter: blur(5px);
-          background-color: rgba(0,0,0,0.4);
+          backdrop-filter: blur(7px);
+          background-color: rgba(0,0,0,0.2);
 
 
           }

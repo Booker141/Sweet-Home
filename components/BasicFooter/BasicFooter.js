@@ -41,7 +41,7 @@ export default function BasicFooter (props) {
           <Link className={global.link} href={url3} prefetch={false} passHref><a aria-label='Ir a ${text3}'>{text3}</a></Link>
           <Link className={global.link} href={url4} prefetch={false} passHref><a aria-label='Ir a ${text4}'>{text4}</a></Link>
           <div className='copyright'>
-            <p> Copyright &copy; 2022 Sweet Home Corporation</p>
+            <p> Copyright &copy; 2023 Sweet Home Corporation</p>
           </div>
         </div>
       </div>

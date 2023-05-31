@@ -119,7 +119,7 @@ export default function SignIn ({ providers, csrfToken }) {
        <div className='page__video' />
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '168.5vh', objectFit: 'cover', zIndex: '-99999'}}
+            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '171vh', objectFit: 'cover', zIndex: '-99999'}}
           >
             <source src='/videos/video2.mp4' />
           </video>
@@ -257,12 +257,12 @@ export default function SignIn ({ providers, csrfToken }) {
             display: block;
             object-fit: cover;
             width: 99.1vw;
-            height: 168.5vh;
+            height: 171vh;
 
             /*Visuals*/
 
-            backdrop-filter: blur(5px);
-            background-color: rgba(0,0,0,0.4);
+            backdrop-filter: blur(7px);
+            background-color: rgba(0,0,0,0.1);
 
 
             }

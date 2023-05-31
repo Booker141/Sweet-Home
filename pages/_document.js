@@ -18,7 +18,7 @@ class MyDocument extends Document {
           <meta name='designer' content='Sergio García Navarro' />
           <link rel='icon' href='/Icono.ico' />
           <link rel="preconnect" href="https://fonts.googleapis.com"/>
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
           <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Satisfy&display=swap" rel="stylesheet"/>
           <link
             rel='preload'

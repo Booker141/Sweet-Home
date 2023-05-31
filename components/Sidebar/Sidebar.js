@@ -287,7 +287,7 @@ export default function Sidebar(){
                         <Link className={global.link3} href="/rules" prefetch={false} passHref><a aria-label='Ir a Reglas y Políticas'>Reglas y Políticas</a></Link>
                         <div className='copyright'>
                             <TrademarkWhite/>
-                            <p>&copy; 2022 Sweet Home Corporation. Todos los derechos reservados.</p>
+                            <p>&copy; 2023 Sweet Home Corporation. Todos los derechos reservados.</p>
                         </div>
                     </div>
                 </div>

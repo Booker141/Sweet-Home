@@ -166,8 +166,23 @@ export default function SignUp () {
         progress: undefined,
         theme: "colored", })
 
+        const res = await fetch(`${server}/api/sendEmail`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            name,
+            username
+          })
+        }).catch(err => console.log(err))
 
-          Router.push(`/auth/signIn`)
+        if(res.error)
+          console.log(res.error)
+
+        Router.push(`${server}/auth/signIn`)
+
 
       }
 
@@ -226,10 +241,10 @@ export default function SignUp () {
         url1='/news' url2='/about' url3='/contact' url4='/auth/signIn'
         text1='Noticias' text2='Quiénes somos' text3='Contacto' text4='Iniciar sesión'
       />
-      <div className='page__video'>
+      <div className='page__video'/>
           <video
             autoPlay loop muted
-            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', objectFit: 'cover', zIndex: '-99999'}}
+            style={{ position: 'absolute', top: '0', left: '0', width: '99.1vw', height: '231vh', objectFit: 'cover', zIndex: '-99999'}}
           >
             <source src='/videos/video2.mp4' />
           </video>
@@ -252,7 +267,7 @@ export default function SignUp () {
                   <FaUserTag size={18} color={colors.secondary} />
                 </label>
                 <div className='role__input'>
-                  <input type="radio" id="vet" name="radio" value="veterinaria" onChange={(e) => setRole(e.target.value)} checked/>
+                  <input type="radio" id="vet" name="radio" value="veterinaria" onChange={(e) => setRole(e.target.value)} />
                   <label for="vet">Veterinaria</label>
 
                   <input type="radio" id="shelter" name="radio" value="protectora" onChange={(e) => setRole(e.target.value)}/>
@@ -412,7 +427,6 @@ export default function SignUp () {
         color='#fafafa' hover='#f9A603' url1='/faq' text1='Información' url2='/privacy' text2='Privacidad'
         url3='/conditions' text3='Condiciones' url4='/accessibility' text4='Accesibilidad'
       />
-      </div>
       <style jsx>{`
 
         .page {
@@ -451,7 +465,6 @@ export default function SignUp () {
 
           .page__video{
 
-
           /*Position*/
 
           position: absolute;
@@ -465,14 +478,14 @@ export default function SignUp () {
 
           display: block;
           object-fit: cover;
-          width: 100%;
+          width: 99.1vw;
           min-height: 100%;
+          height: 231vh;
 
           /*Visuals*/
 
-          backdrop-filter: blur(5px);
-          background-color: rgba(0,0,0,0.4);
-
+          backdrop-filter: blur(7px);
+          background-color: rgba(0,0,0,0.2);
 
 
           }
