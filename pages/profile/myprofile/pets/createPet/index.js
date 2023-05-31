@@ -38,6 +38,8 @@ export default function CreatePet () {
   const [isPreviewImage, setIsPreviewImage] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
 
+  let today = new Date()
+
 
 
   const uploadImage = (e) => {
@@ -60,6 +62,8 @@ export default function CreatePet () {
   const createPet = async (e) => {
 
     e.preventDefault()
+
+    const regWeight = /^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/
 
     if(name.trim() === ''){
       toast.error('El campo Nombre es obligatorio', { position: "bottom-right",
@@ -99,6 +103,18 @@ export default function CreatePet () {
 
     if(weight.trim() === ''){
       toast.error('El campo Peso es obligatorio', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
+    if(!weight.match(regWeight)){
+      toast.error('El peso debe ser un número positivo', { position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -259,7 +275,7 @@ export default function CreatePet () {
                             name='image'
                             id='image__input'
                             onChange={(e) => uploadImage(e)}
-                            accept='image/png, image/jpeg'
+                            accept='image/*'
                             placeholder='Ningún archivo seleccionado'
                             className='input'
                           >
@@ -299,6 +315,7 @@ export default function CreatePet () {
                             selected={birthdate}
                             format="DD/MM/YYYY"
                             placeholder="dd/mm/aaaa"
+                            minDate={new Date(today.getFullYear() - 50, today.getMonth(), today.getDate())}
                             maxDate={new Date()}
                             style={{
                               backgroundColor: `${colors.primary}`,

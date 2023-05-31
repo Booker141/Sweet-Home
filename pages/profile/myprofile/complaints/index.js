@@ -37,7 +37,9 @@ export default function Complaints ({complaints}){
                     <title>Mis denuncias | Sweet Home</title>
                 </Head>
                   <h1 className="title">Mis denuncias</h1>
+                  <button className={global.buttonPrimary} onClick={() => Router.push('/createComplaintUsers')} aria-label='Crear nueva denuncia'>Crear denuncia</button>
                   <div className='complaints'>
+                      
                       {complaints?.length === 0 && <div><p className={global.loading2}>No ha realizado ninguna denuncia.</p></div>}
                       {complaints.map(({_id, description, adminId, createdAt, isApproved, isChecked, usernameFrom, usernameTo, typeComplaint}) => {
                           return(

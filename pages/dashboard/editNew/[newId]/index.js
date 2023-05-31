@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import {toast} from 'react-toastify'
 import { MdDateRange, MdOutlineError, MdTitle } from 'react-icons/md'
-import { BsFillChatLeftTextFill, BsFillPersonFill } from 'react-icons/bs'
+import { BsFillChatLeftTextFill, BsFillPersonFill, BsFillCheckCircleFill, } from 'react-icons/bs'
 import { colors, statusColors, fonts } from '/styles/frontend-conf'
 import { server } from '/server'
 import global from '/styles/global.module.css'
@@ -64,9 +64,11 @@ export default function EditNew ({news}) {
     if (e.target.name == 'author') {
       if (!author.match(regAuthor)) {
         document.getElementById('author__error').classList.add('form__input-authorError--active')
+        document.getElementById('success__author').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('author__error').classList.remove('form__input-authorError--active')
+        document.getElementById('success__author').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -237,7 +239,7 @@ export default function EditNew ({news}) {
                           placeholder='p. ej.: Marta Sánchez'
                           className='input'
                          />
-                        
+                         <div id='success__author' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                   </div>
                         <div id='author__error' className='form__input-authorError'>
                         <div className='error__icon'>
@@ -453,6 +455,7 @@ export default function EditNew ({news}) {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
+                        gap: 1rem;
 
                     }
 
@@ -687,29 +690,14 @@ export default function EditNew ({news}) {
 
 
 
-                .form__error-icon{
-
-                  /*Position*/
-
-                  position: relative;
-                  right: -0.5rem;
-                  z-index: 999;
-
-                  /*Visuals*/
-
-                  opacity: 0;
-                  color: ${statusColors.error};
-
-
-                }
 
                 .form__success-icon{
 
                   /*Position*/
 
                   position: relative;
-                  right: -0.5rem;
-                  bottom: 0.5rem;
+
+                  bottom: 0.8rem;
                   z-index: 999;
 
                   /*Visuals*/
@@ -719,29 +707,14 @@ export default function EditNew ({news}) {
 
                 }
 
-                .form__error-icon--active{
 
-                  /*Position*/
-
-                  position: relative;
-                  right: -1.1rem;
-                  bottom: 0.5rem;
-                  z-index: 999;
-
-                  /*Visuals*/
-
-                  opacity: 1;
-                  color: ${statusColors.error};
-
-                }
 
                 .form__success-icon--active{
 
                   /*Position*/
 
                   position: relative;
-                  right: -1.1rem;
-                  bottom: 0.5rem;
+                  bottom: 0.rem;
                   z-index: 999;
 
                   /*Visuals*/

@@ -124,7 +124,6 @@ export default function Carousel () {
                     align-items: center;
                     flex-direction: row;
                     justify-content: space-around;
-                    text-align: justify;
                     flex-shrink: 0;
                     width: 100%;
                     
@@ -278,6 +277,7 @@ export default function Carousel () {
                     font-size: 1.2rem;
                     font-family: ${fonts.default};
                     color: ${colors.secondary};
+                    text-align: justify;
                 }
 
                 button{

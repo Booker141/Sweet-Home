@@ -38,7 +38,6 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
  */
 export default function Home ({ posts }) {
 
-  console.log(posts)
   
   const { data: session, status } = useSession({ required: true })
   const [postList, setPostList] = useState(posts)
@@ -46,7 +45,6 @@ export default function Home ({ posts }) {
   const [isSortedByLikes, setIsSortedByLikes] = useState(false)
   const Router = useRouter()
 
-  console.log(session)
 
   const sortByFilters = (e) => {
 

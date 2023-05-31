@@ -391,7 +391,7 @@ export default function SignUp () {
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
-                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula, una minúscula y un caracter especial.</p>
                   </div>
                 <div className='tooltip'>
                   <div className='tooltip__icon'>
@@ -488,7 +488,7 @@ export default function SignUp () {
           /*Visuals*/
 
           backdrop-filter: blur(5px);
-          background-color: rgba(0,0,0,0.2);
+          background-color: rgba(0,0,0,0.4);
 
 
           }
@@ -612,21 +612,7 @@ export default function SignUp () {
 
         }
 
-        .form__error-icon--active{
-
-        /*Position*/
-
-        position: relative;
-        right: -1.1rem;
-        bottom: 0.9rem;
-        z-index: 999;
-
-        /*Visuals*/
-
-        opacity: 1;
-        color: ${statusColors.error};
-
-        }
+       
 
         .form__success-icon--active{
 
@@ -691,7 +677,7 @@ export default function SignUp () {
           display: flex;
           flex-direction: row;
           align-items: center;
-
+          width: 17vw;
 
           /*Text*/
 
@@ -1035,7 +1021,12 @@ export default function SignUp () {
 
         }
 
+        .form-vertical__password{
 
+          /*Box model*/
+
+          margin-left: 3rem;
+        }
 
         .form-vertical__email{
 
@@ -1205,7 +1196,8 @@ export default function SignUp () {
           display: flex;
           flex-direction: row;
           align-items: center;
-          width: 17rem;
+          width: 20rem;
+          gap: 1.5rem;
 
 
         }
@@ -1214,7 +1206,7 @@ export default function SignUp () {
 
           /*Box model*/
 
-          margin-left: -2rem;
+          margin-left: -3rem;
           margin-bottom: 1.5rem;
 
           /*Misc*/

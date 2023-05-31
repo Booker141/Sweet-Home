@@ -49,11 +49,11 @@ export default function CreateQuestion () {
     if (e.target.name === 'title') {
       if (!title.match(regTitle)) {
         document.getElementById('title__error').classList.add('form__input-titleError--active')
-
+        document.getElementById('success__title').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
         document.getElementById('title__error').classList.remove('form__input-titleError--active')
-
+        document.getElementById('success__title').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
@@ -162,7 +162,7 @@ export default function CreateQuestion () {
                           placeholder='p. ej.: ¿Es necesario...?'
                           className='input'
                          />
-                  
+                   <div id='success__title' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
                   
                     
                     </div>
@@ -331,6 +331,7 @@ export default function CreateQuestion () {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
+                        gap: 1rem;
 
                     }
 
@@ -388,6 +389,38 @@ export default function CreateQuestion () {
                       opacity: 1;
 
                       }
+
+                      .form__success-icon{
+
+                        /*Position*/
+
+                        position: relative;
+                        bottom: 0.5rem;
+                        z-index: 999;
+
+                        /*Visuals*/
+
+                        opacity: 0;
+                        color: ${statusColors.success};
+
+                        }
+
+
+
+                        .form__success-icon--active{
+
+                        /*Position*/
+
+                        position: relative;
+                        bottom: 0.5rem;
+                        z-index: 999;
+
+                        /*Visuals*/
+
+                        opacity: 1;
+                        color: ${statusColors.success};
+
+                        }
 
 
 

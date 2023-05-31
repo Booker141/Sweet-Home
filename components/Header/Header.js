@@ -8,7 +8,7 @@ import { fonts } from 'styles/frontend-conf.js'
 import { FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
 import {  RiSettings4Fill, RiAdminFill, RiHealthBookFill } from 'react-icons/ri'
 import { BsPatchCheckFill, BsFillChatFill, BsFillBellFill, BsBellSlash } from 'react-icons/bs'
-import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets, MdReport, MdContactMail} from 'react-icons/md'
+import {MdKeyboardArrowDown, MdClose, MdHealthAndSafety, MdPets, MdReport, MdContactMail, MdMessage} from 'react-icons/md'
 import {HiHome, HiNewspaper, HiOutlineArrowRight, HiBookmark} from 'react-icons/hi'
 import {VscCircleFilled} from 'react-icons/vsc'
 import {GiDogBowl} from 'react-icons/gi'
@@ -132,7 +132,8 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/" as="/" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><MdMessage size={25} color={`${colors.secondary}`}/>Publicaciones</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat" prefetch={false}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
@@ -200,7 +201,8 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/" as="/" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><MdMessage size={25} color={`${colors.secondary}`}/>Publicaciones</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/chat" as="/chat" prefetch={false}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">
@@ -268,7 +270,8 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li ><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li ><Link href="/" as="/" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><MdMessage size={25} color={`${colors.secondary}`}/>Publicaciones</a></Link></li>
                 <li ><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/news" as="/news" prefetch={false}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={25} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/dashboard" as="/dashboard" prefetch={false}><a className="nav__link2" aria-label='Ir al Panel de administración'><RiAdminFill size={25} color={`${colors.secondary}`}/>Panel</a></Link></li>
@@ -314,7 +317,8 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/" as="/" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><MdMessage size={25} color={`${colors.secondary}`}/>Publicaciones</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>
                 <li><Link href="/news" as="/news" prefetch={false}><a className="nav__link2" aria-label='Ir a Noticias'><HiNewspaper size={25} color={`${colors.secondary}`}/>Noticias</a></Link></li>
                 <li><Link href="/statistics" as="/statistics" prefetch={false}><a className="nav__link2" aria-label='Ir a Estadísticas'><GoGraph size={25} color={`${colors.secondary}`}/>Estadísticas</a></Link></li>
@@ -360,7 +364,8 @@ export default function Header (props) {
             <div className="header__align">
               <div className="align__menu">
                 <li><SearchBar/></li>
-                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/" as="/" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><HiHome size={25} color={`${colors.secondary}`}/>Inicio</a></Link></li>
+                <li><Link href="/home" as="/home" prefetch={false}><a className="nav__link2" aria-label='Ir a Reciente'><MdMessage size={25} color={`${colors.secondary}`}/>Publicaciones</a></Link></li>
                 <li><Link href="/attendances" as="/attendances" prefetch={false} passHref><a className="nav__link2" aria-label='Ir a Cuidados'><RiHealthBookFill size={25} color={`${colors.secondary}`}/>Cuidados</a></Link></li>        
                 <li><Link href="/chat" as="/chat" prefetch={false}><a className="nav__link2" aria-label='Ir a Chat'><BsFillChatFill size={20} />Chat</a></Link></li>
                 <div className="notifications__menu">

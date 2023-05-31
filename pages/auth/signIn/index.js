@@ -5,7 +5,8 @@ import { useRouter } from 'next/router'
 import { getProviders, useSession, signIn, getCsrfToken } from 'next-auth/react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
-import { MdEmail, MdOutlineError } from 'react-icons/md'
+import { MdOutlineError } from 'react-icons/md'
+import {HiUser} from 'react-icons/hi'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { toast } from 'react-toastify'
 import {server} from '/server'
@@ -33,18 +34,11 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 export default function SignIn ({ providers, csrfToken }) {
 
   const { data: session, status } = useSession()
-  const [email, setEmail] = useState('')
+  const [emailUsername, setEmailUsername] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
-  const [isValidate, setIsValidate] = useState(false)
   const [isSignIn, setIsSignIn] = useState(false)
   const Router = useRouter()
-
-  useEffect(() => {
-    if (session) {
-      return Router.replace('/home')
-    }
-  }, [])
 
   /**
   * If the password input type is password, then hide the first icon and show the second icon, and
@@ -65,42 +59,6 @@ export default function SignIn ({ providers, csrfToken }) {
     }
   }
 
-  /**
-   * It validates the email and password inputs by checking if they match the regular expressions
-   * @param e - event
-   */
-  const validate = (e) => {
-    // Regular expressions
-
-    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
-    const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-
-    if (e.target.name == 'password') {
-      if (password.length < 8 || !password.match(regPassword)) {
-        document.getElementById('password__error').classList.add('form__input-passwordError--active')
-        document.getElementById('success__password').classList.remove('form__success-icon--active')
-        setIsValidate(false)
-      } else {
-        document.getElementById('password__error').classList.remove('form__input-passwordError--active')
-        document.getElementById('success__password').classList.add('form__success-icon--active')
-        setIsValidate(true)
-      }
-    }
-
-    // Validación del formato del email
-    if (e.target.name == 'email') {
-      if (!email.match(regEmail)) {
-        document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('success__email').classList.remove('form__success-icon--active')
-        setIsValidate(false)
-      } else {
-        document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('success__email').classList.add('form__success-icon--active')
-
-        setIsValidate(true)
-      }
-    }
-  }
 
   /**
   * A function that is called when the user clicks the login button. It takes the email and password
@@ -115,10 +73,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
     document.getElementById('submit__error').classList.remove('submit__error--active')
 
-    if (isValidate) {
-
-      
-      const res = await signIn('credentials', { redirect: false, email, password, callbackUrl: '/home' })
+      const res = await signIn('credentials', { redirect: false, email: emailUsername, password, callbackUrl: '/home' })
 
       if (res?.error) {
 
@@ -139,7 +94,7 @@ export default function SignIn ({ providers, csrfToken }) {
 
         Router.push(`${server}/home`)
 
-    }
+    
   }
 
   if (status == 'loading') {
@@ -169,10 +124,7 @@ export default function SignIn ({ providers, csrfToken }) {
             <source src='/videos/video2.mp4' />
           </video>
       <div className={global.content}>
-
           <div className='page'>
-           
-
             <div className='page__form'>
               <div className='form__text'>
                 <h2>¡Bienvenido de nuevo!</h2>
@@ -201,31 +153,21 @@ export default function SignIn ({ providers, csrfToken }) {
                 <input name='csrfToken' type='hidden' defaultValue={csrfToken} />
                 <div className='form-vertical__email'>
                   <label className='label'>
-                    <p className={global.text}>Email</p>
-                    <MdEmail size={18} color={colors.secondary} />
+                    <p className={global.text}>Email o usuario</p>
+                    <HiUser size={18} color={colors.secondary} />
                   </label>
                   <div className='email__input'>
                     <input
-                      title='Introducir email'
-                      type='email'
+                      title='Introducir email o usuario'
+                      type='text'
                       name='email'
-                      value={email}
+                      value={emailUsername}
                       required
-                      onKeyUp={(e) => validate(e)}
-                      onBlur={(e) => validate(e)}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder='p.ej.: javier@email.com'
+                      onChange={(e) => setEmailUsername(e.target.value)}
+                      placeholder='p.ej.: javier@email.com o javier34'
                       className='input'
-                    />
-                    <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                    
-                  </div>
-                  <div id='email__error' className='form__input-emailError'>
-                      <div className='error__icon'>
-                          <MdOutlineError size={30} color={colors.secondary} />
-                        </div>
-                      <p className={global.text2}>Debe seguir el formato correcto</p>
-                    </div>
+                    />  
+                  </div>               
                 </div>
                 <div className='form-vertical__password'>
                   <label className='label'>
@@ -239,20 +181,17 @@ export default function SignIn ({ providers, csrfToken }) {
                       name='Contraseña'
                       value={password}
                       required
-                      pattern='(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}'
+                      pattern='/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/'
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder='Contraseña'
                       className='input'
                       id='password'
                     />
                     <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
-
                   </div>
                   <Link href={`${server}/auth/changePassword`}><a aria-label='Ir al formulario de cambio de contraseña'>¿Has olvidado la contraseña?</a></Link>
-
                 </div>
               </form>
-
               <div id='submit__error' className='submit__error'>
                 {message}
               </div>
@@ -323,7 +262,7 @@ export default function SignIn ({ providers, csrfToken }) {
             /*Visuals*/
 
             backdrop-filter: blur(5px);
-            background-color: rgba(0,0,0,0.2);
+            background-color: rgba(0,0,0,0.4);
 
 
             }
@@ -395,8 +334,8 @@ export default function SignIn ({ providers, csrfToken }) {
             /*Position*/
 
             position: relative;
-            bottom: 0.9rem;
             z-index: 999;
+
 
             /*Visuals*/
 
@@ -405,27 +344,14 @@ export default function SignIn ({ providers, csrfToken }) {
 
             }
 
-            .form__error-icon--active{
-
-            /*Position*/
-
-            position: relative;
-            right: -1.1rem;
-            z-index: 999;
-
-            /*Visuals*/
-
-            opacity: 1;
-            color: ${statusColors.error};
-
-            }
-
+           
             .form__success-icon--active{
 
             /*Position*/
 
             position: relative;
             z-index: 999;
+            bottom: 0.5rem;
 
             /*Visuals*/
 
@@ -730,6 +656,7 @@ export default function SignIn ({ providers, csrfToken }) {
               display: flex;
               flex-direction: row;
               align-items: center;
+              gap: 1rem;
 
             }
 

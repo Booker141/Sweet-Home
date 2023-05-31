@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { fonts, colors } from 'styles/frontend-conf'
-import { MdDeleteOutline, MdClose, MdHealthAndSafety } from 'react-icons/md'
+import { MdDeleteOutline, MdClose, MdHealthAndSafety} from 'react-icons/md'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import {HiOutlineClock } from 'react-icons/hi'
 import { server } from '/server'
@@ -126,7 +126,6 @@ export default function Post (props) {
   
   return (
     <>
-    {user?.status?.name != "bloqueado" &&
       <div className='post__content'>
         <div key={props._id} className={global.post}>
           <div className='post__header'>
@@ -191,7 +190,7 @@ export default function Post (props) {
                 <Comment postId={props?.id} comments={comments}/>
           </div>      
         </div>
-      </div>}
+      </div>
       {isModalVisible && <Modal>
         <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
         <h2 className={global.title3}>Eliminar publicación</h2>

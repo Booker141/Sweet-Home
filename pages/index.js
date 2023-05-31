@@ -583,7 +583,7 @@ export default function Principal () {
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-bottom: 7rem;
+            margin-bottom: 2rem;
             margin-top: 4rem;
 
           }
@@ -596,6 +596,7 @@ export default function Principal () {
             flex-direction: row;
             align-items: center;
             margin-bottom: 2rem;
+            margin-right: 4rem;
 
           }
 
@@ -605,7 +606,7 @@ export default function Principal () {
 
             display: flex;
             flex-direction: column;
-            gap: 6rem;
+            gap: 2rem;
 
           }
 
@@ -615,7 +616,7 @@ export default function Principal () {
 
             display: flex;
             flex-direction: column;
-            gap: 6rem;
+            gap: 2rem;
           
           }
 

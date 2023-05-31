@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { colors, fonts } from 'styles/frontend-conf'
 import { BsPatchCheckFill} from 'react-icons/bs'
 import {FaUserAlt} from 'react-icons/fa'
-import {MdCake, MdLocationPin, MdHealthAndSafety, MdOutlineBlock} from 'react-icons/md'
+import {MdCake, MdLocationPin, MdHealthAndSafety, MdOutlineBlock, MdReport} from 'react-icons/md'
 import {HiOutlineArrowRight} from 'react-icons/hi'
 import { server } from '/server'
 import Head from 'next/head'
@@ -26,7 +26,6 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Username ({ posts, users}) {
   
-  console.log(users)
   const { data: session, status } = useSession()
   const [followers, setFollowers] = useState(users?.followers)
   const [following, setFollowing] = useState(users?.following)
@@ -89,7 +88,7 @@ export default function Username ({ posts, users}) {
               {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}              
               {users && !isBlocked && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={users?._id} usernameTo={users?.username}/>}
-              {!isBlocked && <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdOutlineBlock size={25} color={colors.primary} /></a>}
+              {!isBlocked && <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdReport size={35} color={colors.primary} /></a>}
             </div>
             {!isBlocked && <div className="profile__biography">
               <p className={global.text}>{users?.biography}</p>

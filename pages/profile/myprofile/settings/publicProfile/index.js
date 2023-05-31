@@ -404,6 +404,7 @@ export default function PublicProfile ({users}) {
                             onChange={setBirthdate}
                             selected={birthdate}
                             format="DD/MM/YYYY"
+                            minDate={new Date(today.getFullYear() - 100, today.getMonth(), today.getDate())}
                             maxDate={new Date(today.getFullYear() - 4, today.getMonth(), today.getDate())}
                             style={{
                               backgroundColor: `${colors.primary}`,

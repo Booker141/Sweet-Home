@@ -376,7 +376,7 @@ export default function SignUp () {
                     <div className='error__icon'>
                       <MdOutlineError size={30} color={colors.secondary} />
                     </div>
-                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula, una minúscula y un caracter especial.</p>
                   </div>
                 <div className='tooltip'>
                   <div className='tooltip__icon'>
@@ -386,6 +386,7 @@ export default function SignUp () {
                   <div className='tooltiptext'>
                     <p> - La contraseña debe tener al menos 8 caracteres.</p>
                     <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                    <p> - La contraseña debe tener al menos una letra minúscula.</p>
                     <p> - La contraseña debe tener al menos un carácter especial.</p>
                     <p> - La contraseña debe tener al menos un número.</p>
                   </div>
@@ -470,7 +471,7 @@ export default function SignUp () {
           /*Visuals*/
 
           backdrop-filter: blur(5px);
-          background-color: rgba(0,0,0,0.2);
+          background-color: rgba(0,0,0,0.4);
 
 
 
@@ -1225,16 +1226,24 @@ color: ${statusColors.success};
           display: flex;
           flex-direction: row;
           align-items: center;
-          width: 17rem;
+          width: 20rem;
+          gap: 1.5rem;
 
 
+        }
+
+        .form-vertical__password{
+
+          /*Box model*/
+
+          margin-left: 3rem;
         }
 
         .password--visibility{
 
           /*Box model*/
 
-          margin-left: -2rem;
+          margin-left: -3.5rem;
           margin-bottom: 1.5rem;
 
           /*Misc*/

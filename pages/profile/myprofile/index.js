@@ -211,7 +211,7 @@ export default function MyProfile ({ posts, users }) {
                               name='image'
                               id='image__input'
                               onChange={(e) => changeBanner(e)}
-                              accept='image/png, image/jpeg, image/jpg'
+                              accept='image/png, image/jpeg, image/jpg, image/webp'
                             ></input>
               </label>
               
@@ -231,7 +231,7 @@ export default function MyProfile ({ posts, users }) {
                                   name='image'
                                   id='image__input'
                                   onChange={(e) => changeProfilePic(e)}
-                                  accept='image/png, image/jpeg, image/jpg'
+                                  accept='image/png, image/jpeg, image/jpg, image/webp'
                                 ></input>
                     </label>                   
                   </div>

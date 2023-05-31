@@ -77,6 +77,8 @@ export default function EditPet ({pets}) {
 
     e.preventDefault()
 
+    const regWeight = /^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/
+
     if(name.trim() === ''){
         toast.error('El campo Nombre es obligatorio', { position: "bottom-right",
           autoClose: 5000,
@@ -112,6 +114,32 @@ export default function EditPet ({pets}) {
           theme: "colored", })
           return
       }
+
+      if(weight.trim() === ''){
+        toast.error('El campo Peso es obligatorio', { position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored", })
+          return
+      }
+
+      
+    if(!weight.match(regWeight)){
+      toast.error('El peso debe ser un número positivo', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        return
+    }
+
 
   
 
@@ -271,7 +299,7 @@ export default function EditPet ({pets}) {
                             type='text'
                             name='weight'
                             value={weight}
-                            onChange={(e) => setWeight(e.target.value)}
+                            onChange={(e) => setWeight(Math.abs(e.target.value))}
                             placeholder='p. ej.: 16'
                             className='input'
                           />

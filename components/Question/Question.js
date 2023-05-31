@@ -1,18 +1,19 @@
 /* Static imports */
 
-import { fonts, colors } from 'styles/frontend-conf.js'
+import { colors } from 'styles/frontend-conf.js'
 import { MdDeleteOutline, MdOutlineEdit, MdClose } from 'react-icons/md'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { server } from 'server'
+import {useRouter} from 'next/router'
 import { useSession } from 'next-auth/react'
 import {toast} from 'react-toastify'
 import global from 'styles/global.module.css'
 import dynamic from 'next/dynamic'
 
+
 /*Dynamic imports*/
 
 const Modal = dynamic(() => import('/components/Modal/Modal'))
-const Router = dynamic(() => import('next/router'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
 
@@ -22,6 +23,8 @@ export default function Question (props) {
   const { data: session } = useSession();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAdmin, setIsAdmin] = useState(props?.isAdmin);
+
+  const Router = useRouter()
 
 
   const deleteQuestion = async () => {

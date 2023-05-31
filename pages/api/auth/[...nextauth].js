@@ -47,10 +47,10 @@ export const authOptions = {
           throw new Error('Por favor, introduzca la contraseña.')
         }
 
-        const user = await db.collection('users').findOne({ email })
+        const user = await db.collection('users').findOne({ $or: [{email: email}, {username: email}] })
 
         if(user === null){
-          throw new Error('No existe ningún usuario con el email indicado.')
+          throw new Error('No existe ningún usuario con el email/nombre de usuario indicado.')
         }
 
         if (user.status.name == 'bloqueado') {
@@ -121,8 +121,6 @@ export const authOptions = {
       const userStatus = await db.collection('userStatus').findOne({ name: 'activo' })
       const userRole = await db.collection('userRole').findOne({ name: 'usuario' })
 
-      console.log(user)
-      console.log(account)
 
       let providerId = '';
       for (let i = 0; i < 21; i++) {
@@ -130,12 +128,11 @@ export const authOptions = {
       }
 
       const randomId = new ObjectId()
-      console.log(randomId)
-      // Aquí está el error
 
-        let userExist2 = await db.collection('users').findOne({_id: randomId})
 
-      console.log(userExist2)
+      let userExist2 = await db.collection('users').findOne({_id: randomId})
+
+
 
       const maxAge = 3600 * 24
       const expiryDate = new Date(Date.now() + (maxAge * 3000))
@@ -229,9 +226,9 @@ export const authOptions = {
       }
 
       if (account.provider === 'twitter') {
-        console.log(account)
+
         if (!accountExist) {
-          console.log(account)
+
           const accountInserted = await db.collection('accounts').insertOne({
               provider: account.provider,
               type: account.type,
@@ -254,7 +251,6 @@ export const authOptions = {
           
 
           if (userExist2 === null) {
-            console.log(userExist2)
             await db.collection('users').insertOne({
               _id: randomId,
               email: user.email === undefined ? '' : user.email,
@@ -282,7 +278,7 @@ export const authOptions = {
               createdAt: new Date()
             })
           } else {
-            console.log(randomId)
+
             await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: accountInserted._id } })
 
             if (accountExist.userId === user._id) {
@@ -291,7 +287,7 @@ export const authOptions = {
             }
           }
         } else {
-          console.log(randomId)
+
           await db.collection('accounts').updateOne({ _id: account._id }, {
             $set: {
               provider: account.provider,
@@ -316,12 +312,9 @@ export const authOptions = {
 
         const twitterAccountExist = await db.collection('accounts').findOne({ providerAccountId: account.providerAccountId })
 
-        console.log(accountExist)
-        console.log(randomId)
-
         await db.collection('users').updateOne({ _id: randomId }, { $set: { accountId: twitterAccountExist._id } })
 
-        console.log(randomId)
+
       }
 
       return true
