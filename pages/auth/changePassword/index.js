@@ -85,8 +85,8 @@ export default function ChangePassword () {
   const validate = (e) => {
     // Regular expressions
 
-    const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
-    const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
+    const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
     if (e.target.name == 'oldPassword') {
       if (oldPassword.length < 8 || !oldPassword.match(regPassword)) {
@@ -341,9 +341,8 @@ export default function ChangePassword () {
                     <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
-                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula y un caracter especial.</p>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres, tener un dígito, una mayúscula, una minúscula y un caracter especial.</p>
                   </div>
-                  <Link href={`${server}/auth/resetPassword`}><a aria-label='Ir al formulario de restablecer contraseña'>Restablecer contraseña</a></Link>
             </form>
             
             <div className='tooltip'>

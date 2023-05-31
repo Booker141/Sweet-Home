@@ -114,7 +114,6 @@ const sendEmail = async (to, username, subject) => {
         <div class="email__card">
             <div class="email__header">
               <h1>¡BIENVENIDO A SWEET HOME!</h1>
-              <img src="/public/LogoWebBlanco.svg"/>
             </div>
             <div class="email__message">
               <h1>¡Bienvenido a Sweet Home ${username}!</h1>

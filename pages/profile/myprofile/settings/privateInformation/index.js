@@ -16,7 +16,6 @@ import dynamic from 'next/dynamic'
 
 const Loader = dynamic(() => import('/components/Loader/Loader'))
 const Layout = dynamic(() => import('/components/Layout/Layout'))
-
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
@@ -161,7 +160,7 @@ export default function Settings ({users}) {
                 </select>
               </div>
               <div className='settings__buttons'>
-                <button className={global.buttonTertiary3}><a href='/changePassword' title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button>
+                <button className={global.buttonTertiary3}><a href={`${server}/auth/changePassword`} title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button>
                 
               </div>
             </form>

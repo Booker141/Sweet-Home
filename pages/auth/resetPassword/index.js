@@ -40,8 +40,8 @@ export default function ResetPassword () {
 
     // Regular expressions
 
-    const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
-    const regPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
+
 
     // Validación del formato del email
 
@@ -123,7 +123,6 @@ export default function ResetPassword () {
                     <p className={global.text2}>Debe seguir el formato correcto</p>
                   </div>
                 </div>
-                <Link href={`${server}/auth/changePassword`}><a aria-label='Ir al formulario de cambiar contraseña'>Cambiar contraseña</a></Link>
                 </form>
                 
             <input className={global.buttonPrimary} type='submit' onSubmit={(e) => resetPassword(e)} value={isReset ? 'Enviando..' : 'Enviar'} />
