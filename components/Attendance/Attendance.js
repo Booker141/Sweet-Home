@@ -109,7 +109,7 @@ export default function Attendance (props) {
     getThread()
   }, [])
 
-  console.log(user)
+ 
   return (
     <>
       {user?.status?.name != 'bloqueado' &&
@@ -129,7 +129,7 @@ export default function Attendance (props) {
         </div>
         <div className="attendance__user">
           <div className="user__column1">
-            <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
+            <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${props.username}`}><FallbackImage src={user?.image} style={{borderRadius: '70px'}} width={40} height={40} /></a>
             <a href={`${server}/profile/${user?.username}`} aria-label={`Ir al perfil de ${props.username}`} className={global.link}><strong>{props.username}</strong></a>
             {(session?.user.role === "gerente" || session?.user.role === "administrador") && <BsPatchCheckFill color={`${colors.primary}`} size={18}/>}
             {(session?.user.role === "protectora") && <MdPets color={`${colors.primary}`} size={18}/>}

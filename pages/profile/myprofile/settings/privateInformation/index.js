@@ -26,7 +26,6 @@ export default function Settings ({users}) {
 
   const [phone, setPhone] = useState(users?.phone)
   const [gender, setGender] = useState(users?.gender)
-  
   const [isEditing, setIsEditing] = useState(false)
   const [isValidate, setIsValidate] = useState(true)
 

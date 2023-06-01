@@ -32,33 +32,7 @@ export default function Layout ({ children }) {
   const {data: session, status} = useSession({})
 
 
-  const getNotifications = async () => {
 
-    const res = await fetch(`${server}/api/notificationsChecked/${session?.user.username}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-    const data = await res.json()
-
-    if(data?.length > 0) {
-      setNotifications(data)
-      setIsNotification(true)
-
-    }
-
-  }
-
-
-
-  useEffect(() => {
-      getNotifications()
-      
-
-  }, [])
 /*
   if(isNotification)
       toast(`🔔 Tiene ${notifications.length} notificaciones nuevas`, {

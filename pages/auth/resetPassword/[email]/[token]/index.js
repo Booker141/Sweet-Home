@@ -2,20 +2,22 @@
 
 import { useState } from 'react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
-import { MdEmail, MdOutlineError } from 'react-icons/md'
-import { BsFillCheckCircleFill } from 'react-icons/bs'
+import { MdOutlineError } from 'react-icons/md'
+import { BsFillCheckCircleFill, BsFillLockFill } from 'react-icons/bs'
+import {AiFillEye, AiFillEyeInvisible, AiFillInfoCircle} from 'react-icons/ai'
 import { server } from '/server'
+import {useRouter} from 'next/router'
 import {toast} from 'react-toastify'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import global from 'styles/global.module.css'
+
 
 /*Dynamic imports*/
 
 const Link = dynamic(() => import('next/link'))
 const Layout = dynamic(() => import('/components/BasicLayout/BasicLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
-
 
 /*
     * @author Sergio García Navarro
@@ -24,37 +26,79 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
     * @date 13/12/2020
     * @description Change password page
 */
-/**
- * It returns a div with a form inside of it
- * @returns A form with two inputs and a submit button.
- */
+
 export default function ResetPassword () {
   
-
+  const [newPassword, setNewPassword] = useState('')
+  const [newPassword2, setNewPassword2] = useState('')
   const [isValidate, setIsValidate] = useState(false)
-  const [isReset, setIsReset] = useState(false)
-  const [email, setEmail] = useState('')
+  const [isReseting, setIsReseting] = useState(false)
 
+  const router = useRouter()
+
+
+  const showNewPassword = () => {
+
+    const passwordInput = document.getElementById('newPassword')
+
+    if (passwordInput.type === 'password') {
+      document.getElementById('show__icon3').style.display = 'none'
+      document.getElementById('show__icon4').style.display = 'inline'
+      passwordInput.type = 'text'
+    } else {
+      document.getElementById('show__icon3').style.display = 'inline'
+      document.getElementById('show__icon4').style.display = 'none'
+      passwordInput.type = 'password'
+    }
+  }
+
+  const showNewPassword2 = () => {
+
+    const passwordInput = document.getElementById('newPassword2')
+
+    if (passwordInput.type === 'password') {
+      document.getElementById('show__icon5').style.display = 'none'
+      document.getElementById('show__icon6').style.display = 'inline'
+      passwordInput.type = 'text'
+    } else {
+      document.getElementById('show__icon5').style.display = 'inline'
+      document.getElementById('show__icon6').style.display = 'none'
+      passwordInput.type = 'password'
+    }
+  }
 
   const validate = (e) => {
 
     // Regular expressions
 
-    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
+    const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
-    // Validación del formato del email
 
-    if (e.target.name == 'email') {
-      if (!email.match(regEmail)) {
-        document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('success__email').classList.remove('form__success-icon--active')
+    if (e.target.name == 'newPassword') {
+      if (newPassword.length < 8 || !newPassword.match(regPassword)) {
+        document.getElementById('newPassword__error').classList.add('form__input-newPasswordError--active')
+        document.getElementById('success__newPassword').classList.remove('form__success-icon--active')
         setIsValidate(false)
       } else {
-        document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('success__email').classList.add('form__success-icon--active')
+        document.getElementById('newPassword__error').classList.remove('form__input-newPasswordError--active')
+        document.getElementById('success__newPassword').classList.add('form__success-icon--active')
         setIsValidate(true)
       }
     }
+
+    if (e.target.name == 'newPassword2') {
+      if (newPassword2.length < 8 || !newPassword2.match(regPassword)) {
+        document.getElementById('newPassword2__error').classList.add('form__input-newPassword2Error--active')
+        document.getElementById('success__newPassword2').classList.remove('form__success-icon--active')
+        setIsValidate(false)
+      } else {
+        document.getElementById('newPassword2__error').classList.remove('form__input-newPassword2Error--active')
+        document.getElementById('success__newPassword2').classList.add('form__success-icon--active')
+        setIsValidate(true)
+      }
+    }
+
+
   }
 
   const resetPassword = async (e) => {
@@ -63,27 +107,24 @@ export default function ResetPassword () {
 
     if(isValidate){
 
-        const res = await fetch(`${server}/api/resetPassword`, {
-          method: 'POST',
+        const res = await fetch(`${server}/api/resetPassword/${router.query.email}/${router.query.token}`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            email: email
+            password: newPassword,
+            confirmPassword: newPassword2,
           })
         })
 
-        console.log(res)
-
-        setIsReset(true)
+        setIsReseting(true)
 
         const data = await res.json()
 
-        console.log(data)
-
-        if(data.message === 'Esta cuenta está bloqueada.'){
-
-          toast.error('Está cuenta está bloqueada', { position: "bottom-right",
+        if (data.message === 'Se ha restablecido la contraseña.') {
+          
+          toast.success(`Se ha restablecido la contraseña`, { position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
@@ -91,15 +132,30 @@ export default function ResetPassword () {
           draggable: true,
           progress: undefined,
           theme: "colored", })
-          setIsReset(false)
+
+          router.push(`${server}/auth/signIn`)
+
+
+        }
+
+        if(data.message === 'La nueva contraseña no puede ser igual a la antigua.'){
+
+          toast.error(`La nueva contraseña no puede ser igual a la antigua.`, { position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored", })
+          setIsReseting(false)
           return
-          
 
         }
 
         if(data.message === 'No existe el usuario.'){
 
-          toast.error('No existe ninguna cuenta con la dirección de correo especificada', { position: "bottom-right",
+          toast.error(`No existe la dirección de correo electrónico.`, { position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
@@ -107,27 +163,41 @@ export default function ResetPassword () {
           draggable: true,
           progress: undefined,
           theme: "colored", })
-          setIsReset(false)
+          setIsReseting(false)
           return
-        }
-
-        if(data.message === 'Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña.'){
-
-          toast.success('Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña', { position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored", })
-          setIsReset(false)
 
         }
 
+        if(data.message === 'Ambas contraseñas no coinciden.'){
+        
+        toast.error(`Ambas contraseñas no coinciden`, { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        setIsReseting(false)
+        return
+
+        }
+
+
+    }else{
+      
+      toast.error(`Por favor, introduzca los datos correctamente`, { position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored", })
+      setIsReseting(false)
+      return
+    }
   }
-}
-
   return (
 
     <Layout>
@@ -137,37 +207,86 @@ export default function ResetPassword () {
           <div className='form'>
             <h1 className='form__title'>Restablecer contraseña</h1>
             <form className="form-vertical">
-              <div className='form-vertical__email'>
+              
+              <div className='form-vertical__new'>
                 <div className='label'>
-                  <p className={global.text}>Email</p>
-                  <MdEmail size={20} color={colors.secondary} />
+                  <p className={global.text}>Contraseña nueva</p>
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
-                <div className='email__input'>
+                <div className='password__input'>
                   <input
-                    title='Introducir email'
-                    type='email'
-                    name='email'
-                    value={email}
+                    title='Introducir contraseña nueva'
+                    type='password'
+                    id='newPassword'
+                    name='newPassword'
+                    value={newPassword}
                     required
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setNewPassword(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder='p. ej.: javier@gmail.com'
+                    placeholder='Contraseña nueva'
                     className='input'
                   >
                   </input>
-                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                  <a className='password--visibility' onClick={() => showNewPassword()}><AiFillEye id='show__icon3' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon4'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  <div id='success__newPassword' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                </div>
+                
               </div>
               
-                  <div id='email__error' className='form__input-emailError'>
+                  <div id='newPassword__error' className='form__input-newPasswordError'>
                     <div className='error__icon'>
                         <MdOutlineError size={30} color={colors.secondary} />
                       </div>
-                    <p className={global.text2}>Debe seguir el formato correcto</p>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres y tener un dígito, una mayúscula, una minúscula y un caracter especial.</p>
                   </div>
+              <div className='form-vertical__new2'>
+                <div className='label'>
+                  <p className={global.text}>Repetir contraseña nueva</p>
+                  <BsFillLockFill size={18} color={colors.secondary} />
                 </div>
-                </form>            
-            <input className={global.buttonPrimary} type='submit' onClick={(e) => resetPassword(e)} value={isReset ? 'Enviando..' : 'Enviar'} />
+                <div className='password__input'>
+                  <input
+                    title='Repetir contraseña nueva'
+                    type='password'
+                    id='newPassword2'
+                    name='newPassword2'
+                    value={newPassword2}
+                    required
+                    onChange={(e) => setNewPassword2(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    placeholder='Confirmar contraseña'
+                    className='input'
+                  >
+                  </input>
+                  <a className='password--visibility' onClick={() => showNewPassword2()}><AiFillEye id='show__icon5' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon6'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
+                  <div id='success__newPassword2' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
+                </div>
+                
+              </div>  
+                  <div id='newPassword2__error' className='form__input-newPassword2Error'>
+                    <div className='error__icon'>
+                        <MdOutlineError size={30} color={colors.secondary} />
+                      </div>
+                    <p className={global.text2}>Debe estar compuesta como mínimo por 8 caracteres, tener un dígito, una mayúscula, una minúscula y un caracter especial.</p>
+                  </div>
+            </form>
+            
+            <div className='tooltip'>
+              <div className='tooltip__icon'>
+                <AiFillInfoCircle size={20} color={colors.secondary} />
+                <p className={global.text2}> Información contraseña</p>
+              </div>
+              <div className='tooltiptext'>
+                <p> - La contraseña debe tener al menos 8 caracteres.</p>
+                <p> - La contraseña debe tener al menos una letra mayúscula.</p>
+                <p> - La contraseña debe tener al menos una letra minúscula.</p>
+                <p> - La contraseña debe tener al menos un carácter especial.</p>
+                <p> - La contraseña debe tener al menos un número.</p>
+              </div>
+            </div>
+            <input className={global.buttonPrimary} type='submit' onClick={(e) => resetPassword(e)} value={isReseting ? 'Restableciendo..' : 'Restablecer'} />
           </div>
         </div>
         <style jsx>{`
@@ -336,16 +455,7 @@ export default function ResetPassword () {
 
                 }
 
-                .form-vertical__old {
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    width: 20vw;
-
-                }
+           
 
                 .form-vertical__new {
 
@@ -374,21 +484,14 @@ export default function ResetPassword () {
 
                     display: flex;
                     flex-direction: row;
+                    align-items: center;
                     justify-content: center;
                     width: 20vw;
                     
 
                 }
 
-                .email__input{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    width: 20vw;
-                }
+               
 
                 .password--visibility{
 
@@ -417,7 +520,6 @@ export default function ResetPassword () {
                   /*Position*/
 
                   position: relative;
-                  right: -1.1rem;
                   
                   z-index: 999;
 
@@ -435,10 +537,8 @@ export default function ResetPassword () {
                   /*Position*/
 
                   position: relative;
-                  right: -1.1rem;
-                  bottom: 0.5rem;
-
                   z-index: 999;
+                  bottom: 0.5rem;
 
                   /*Visuals*/
 
@@ -449,13 +549,9 @@ export default function ResetPassword () {
 
 
 
+                  .form__input-passwordError{
 
-                  .form__input-emailError{
 
-                    /*Position*/
-
-                    position: relative;
-                    
                     /*Box model*/
 
                     display: none;
@@ -478,7 +574,7 @@ export default function ResetPassword () {
                   }
 
 
-                  .form__input-emailError p{
+                  .form__input-passwordError p{
 
                     /*Box model*/
 
@@ -486,20 +582,15 @@ export default function ResetPassword () {
 
                   }
 
-                  .form__input-emailError--active{
+                  .form__input-passwordError--active{
 
-                    /*Position*/
-
-                    position: relative;
-                    
 
                     /*Box model*/
 
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    width: 20vw;
-                    
+
 
                     /*Text*/
 
@@ -515,6 +606,126 @@ export default function ResetPassword () {
 
                   }
 
+                  .form__input-newPasswordError{
+
+
+                  /*Box model*/
+
+                  display: none;
+                  flex-direction: row;
+                  align-items: center;
+                  width: 20vw;
+
+
+                  /*Text*/
+
+                  font-family: 'Poppins', sans-serif;
+                  color: #fafafa;
+
+                  /*Visuals*/
+
+                  border-radius: 20px;
+                  background-color: ${statusColors.error};
+                  opacity: 0;
+
+                  }
+
+
+                  .form__input-newPasswordError p{
+
+                  /*Box model*/
+
+                  margin-left: 1rem;
+
+                  }
+
+                  .form__input-newPasswordError--active{
+
+
+                  /*Box model*/
+
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+
+
+                  /*Text*/
+
+                  font-family: 'Poppins', sans-serif;
+                  color: #fafafa;
+
+                  /*Visuals*/
+
+                  border-radius: 20px;
+                  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                  background-color: ${statusColors.error};
+                  opacity: 1;
+
+                  }
+
+                  .form__input-newPassword2Error{
+
+
+                      /*Box model*/
+
+                      display: none;
+                      flex-direction: row;
+                      align-items: center;
+                      width: 20vw;
+
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: #fafafa;
+
+                      /*Visuals*/
+
+                      border-radius: 20px;
+                      background-color: ${statusColors.error};
+                      opacity: 0;
+
+                      }
+
+
+                      .form__input-newPassword2Error p{
+
+                      /*Box model*/
+
+                      margin-left: 1rem;
+
+                      }
+
+                      .form__input-newPassword2Error--active{
+
+
+                      /*Box model*/
+
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+
+
+                      /*Text*/
+
+                      font-family: 'Poppins', sans-serif;
+                      color: #fafafa;
+
+                      /*Visuals*/
+
+                      border-radius: 20px;
+                      box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                      background-color: ${statusColors.error};
+                      opacity: 1;
+
+                      }
+
+
+
+
+
+
+                  
 
                   .error__icon{
 
@@ -647,7 +858,7 @@ export default function ResetPassword () {
 
 
 
-                input[type="email"]:focus {
+                input[type="password"]:focus {
 
                     /*Visuals*/
 
@@ -656,7 +867,6 @@ export default function ResetPassword () {
                     box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
 
                 }
-
 
                 ::placeholder{
 
@@ -676,13 +886,12 @@ export default function ResetPassword () {
 
                 a{
 
-                    /*Box model*/
+                  /*Box model*/
 
-                    display: flex;
+                  display: flex;
                     flex-direction: row;
                     align-self: flex-start;
 
-                    margin-top: 1rem;
 
                     /*Text*/
 
@@ -690,7 +899,7 @@ export default function ResetPassword () {
                     font-size: 0.8rem;
                     color: ${colors.secondary};
                     font-weight: bold;
-
+                    
                     /*Misc*/
 
                     cursor: pointer;
