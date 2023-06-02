@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { getProviders, useSession, signIn, getCsrfToken } from 'next-auth/react'
+import { getProviders, useSession, getSession, signIn, getCsrfToken } from 'next-auth/react'
 import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
 import { BsFillLockFill, BsTwitter, BsGoogle, BsFillCheckCircleFill, BsFillXCircleFill } from 'react-icons/bs'
 import { MdOutlineError } from 'react-icons/md'
@@ -31,7 +31,8 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
     * @description Login page
 */
 
-export default function SignIn ({ providers, csrfToken }) {
+export default function SignIn ({ providers, csrfToken, account }) {
+
 
   const { data: session, status } = useSession()
   const [emailUsername, setEmailUsername] = useState('')
@@ -189,7 +190,7 @@ export default function SignIn ({ providers, csrfToken }) {
                     />
                     <a className='password--visibility' onClick={() => showPassword()}><AiFillEye id='show__icon1' size={20} color={colors.primary} /><div style={{ display: 'none' }} id='show__icon2'><AiFillEyeInvisible size={20} color={colors.primary} /></div></a>
                   </div>
-                  <Link href={`${server}/auth/resetPassword`}><a aria-label='Ir al formulario de cambio de contraseña'>¿Has olvidado la contraseña?</a></Link>
+                  {(account?.provider != 'google' && account?.provider != 'twitter') && <Link href={`${server}/auth/resetPassword`}><a aria-label='Ir al formulario de cambio de contraseña'>¿Has olvidado la contraseña?</a></Link>}
                 </div>
               </form>
               <div id='submit__error' className='submit__error'>
@@ -911,7 +912,19 @@ export default function SignIn ({ providers, csrfToken }) {
 }
 
 export async function getServerSideProps (context) {
+
+  const session = await getSession(context)
+
+  const response = await fetch(`${server}/api/accounts/${session?.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  const currentAccount = await response.json()
+
   return {
-    props: { providers: await getProviders(), csrfToken: await getCsrfToken(context) }
+    props: { providers: await getProviders(), csrfToken: await getCsrfToken(context), account: JSON.parse(JSON.stringify(currentAccount)) }
   }
 }

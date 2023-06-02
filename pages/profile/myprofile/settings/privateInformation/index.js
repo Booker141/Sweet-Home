@@ -19,7 +19,7 @@ const Layout = dynamic(() => import('/components/Layout/Layout'))
 const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
 const LazyLoad = dynamic(() => import('react-lazyload'))
 
-export default function Settings ({users}) {
+export default function Settings ({users, account}) {
 
   const { data: session, status } = useSession({ required: true })
 
@@ -159,7 +159,7 @@ export default function Settings ({users}) {
                 </select>
               </div>
               <div className='settings__buttons'>
-                <button className={global.buttonTertiary3}><a href={`${server}/auth/changePassword`} title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button>
+                {(account?.provider != 'twitter' && account?.provider != 'google') &&<button className={global.buttonTertiary3}><a href={`${server}/auth/changePassword`} title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button> }
                 
               </div>
             </form>
@@ -792,14 +792,23 @@ export async function getServerSideProps(context){
     }
   })
 
+  const response2 = await fetch(`${server}/api/accounts/${session?.user.username}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
 
   const currentUser = await response.json();
+
+  const currentAccount = await response2.json()
 
 
   return{
 
     props: {
-      users: JSON.parse(JSON.stringify(currentUser))
+      users: JSON.parse(JSON.stringify(currentUser)), account: JSON.parse(JSON.stringify(currentAccount))
   }
 }
 }

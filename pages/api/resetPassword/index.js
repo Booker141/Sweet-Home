@@ -24,7 +24,7 @@ export default async function handler (req, res) {
 
             if(userExist.status.name === 'bloqueado'){
 
-                res.status(400).json({ message: 'Esta cuenta está bloqueada.' })
+                return res.status(400).json({ message: 'Esta cuenta está bloqueada.' })
 
             }
 
@@ -45,11 +45,11 @@ export default async function handler (req, res) {
 
             await sendResetEmail(body.email, token, 'Enlace para restablecer contraseña');
             
-            res.status(201).json({ message: 'Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña.' })
+            return res.status(201).json({ message: 'Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña.' })
 
           } else {
       
-            res.status(400).json({ message: 'No existe el usuario.' })
+            return res.status(400).json({ message: 'No existe el usuario.' })
       
           }
 

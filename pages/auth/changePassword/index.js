@@ -89,7 +89,7 @@ export default function ChangePassword () {
   const validate = (e) => {
     // Regular expressions
 
-    const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])[A-Za-z\d!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?]{8,}$/
 
     if (e.target.name == 'oldPassword') {
       if (oldPassword.length < 8 || !oldPassword.match(regPassword)) {
