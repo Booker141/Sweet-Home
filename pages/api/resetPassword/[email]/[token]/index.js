@@ -40,13 +40,23 @@ export default async function handler (req, res) {
 
         const secret = process.env.JWT_SECRET + user.password    
             
-        const userExist = jwt.verify(req.query.token, secret)
+        jwt.verify(req.query.token, secret, function(err) {
+          if (err) {
+            if(err.name === "TokenExpiredError")
+              return res.status(400).json({ message: 'Ha expirado el enlace.' })
+            else
+              return res.status(400).json({ message: 'Ha ocurrido un error al verificar el enlace.' })
+          }
+          else {
+              console.log("El token se ha verificado correctamente");
+          }})
 
-        if (userExist) {
+
+        if (user) {
 
                 const salt = await bcrypt.genSalt(10)
                 const hashPassword = await bcrypt.hash(body.password, salt)
-                await db.collection('users').updateOne({ email: userExist.email }, {$set: { password: hashPassword}})
+                await db.collection('users').updateOne({ email: user.email }, {$set: { password: hashPassword}})
                 res.status(201).json({ message: 'Se ha restablecido la contraseña.' })
 
         } else {

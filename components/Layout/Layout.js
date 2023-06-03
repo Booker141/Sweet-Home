@@ -2,10 +2,6 @@
 /* Static imports */
 
 import { ImArrowUp2 } from 'react-icons/im'
-import {toast} from 'react-toastify'
-import {useSession} from 'next-auth/react'
-import {server} from '/server'
-import {useState, useEffect} from 'react'
 import global from '/styles/global.module.css'
 import dynamic from 'next/dynamic'
 import Header from '/components/Header/Header'
@@ -26,27 +22,6 @@ const LazyLoad = dynamic(() => import('react-lazyload'))
 
 export default function Layout ({ children }) {
 
-  const [isNotification, setIsNotification] = useState(false)
-  const [notifications, setNotifications] = useState({})
-
-  const {data: session, status} = useSession({})
-
-
-
-/*
-  if(isNotification)
-      toast(`🔔 Tiene ${notifications.length} notificaciones nuevas`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
-
-*/
 
   return (
 

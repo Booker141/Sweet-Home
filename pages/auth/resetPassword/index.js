@@ -78,6 +78,7 @@ export default function ResetPassword () {
 
         const data = await res.json()
 
+       
 
         if(data.message === 'Esta cuenta está bloqueada.'){
 

@@ -38,7 +38,7 @@ export default async function handler (req, res) {
                 email: userExist.email,
                 username: userExist.username,
                 role: userExist.role
-            }, secret, { expiresIn: '2h' })
+            }, secret, { expiresIn: '30m' })
 
 
             // Send email

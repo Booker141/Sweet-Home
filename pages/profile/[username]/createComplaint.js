@@ -324,7 +324,6 @@ export default function CreateComplaint () {
 
                       width: 40rem;
                       height: 2rem;
-                      padding: 0.4rem;
                       margin-bottom: 2rem;
 
                       /*Text*/

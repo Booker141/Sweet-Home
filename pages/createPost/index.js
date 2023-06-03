@@ -198,7 +198,7 @@ export default function CreatePost () {
                             name='image'
                             id='image__input'
                             onChange={(e) => uploadImage(e)}
-                            accept='image/png, image/jpeg'
+                            accept='image/*'
                             placeholder='Ningún archivo seleccionado'
                             className='input'
                           >

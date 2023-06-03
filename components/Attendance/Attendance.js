@@ -36,6 +36,7 @@ export default function Attendance (props) {
   const Router = useRouter()
   const date = new Date(props.createdAt)
 
+  console.log(props)
  
   const getFull = (num) => {
 
@@ -78,12 +79,13 @@ export default function Attendance (props) {
   
 
   const deleteAttendance = async () => {
+
     await fetch(`${server}/api/attendances/${thread?.title}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: props.id })
+      body: JSON.stringify({ id: props?.id })
   })
 
 
@@ -97,9 +99,7 @@ export default function Attendance (props) {
       theme: "colored", })
 
     setIsModalVisible(false)
-    setTimeout(() => {
-      Router.reload()
-    }, 5000)
+    Router.reload()
 
   }
 
@@ -122,7 +122,7 @@ export default function Attendance (props) {
           <div className="header__column2">
             <div className="column2__delete">
               <p className={global.text2__bold}>{props?.location}</p>
-              {(thread?.username === session?.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              {(props?.username === session?.user.username) && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
             </div>
  
           </div>

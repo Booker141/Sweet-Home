@@ -26,16 +26,10 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
   const [isSortedByDate, setIsSortedByDate] = useState(false)
   const [isSortedByNumPosts, setIsSortedByNumPosts] = useState(false)
   const [sortedThreads, setSortedThreads] = useState(threads)
-  const [numPosts, setNumPosts] = useState(0)
 
   const router = useRouter()
 
-  /**
-   * The function sorts an array of threads based on different filters such as name, date, and
-   * activity.
-   * @param e - The parameter `e` is a string that represents the type of filter to be applied to the
-   * `threads` array. It can be one of three values: "name", "date", or "activity".
-   */
+
   const sortByFilters = (e) =>{
 
     if(e === 'name'){
@@ -70,10 +64,10 @@ export default function TypeAttendance ({ threads, typeAttendance }) {
 
     }else if(e === 'activity'){
       const sortedThreads = threads.sort((a, b) => {
-        if (a.numPosts > b.numPosts) {
+        if (a.attendances.length > b.attendances.length) {
           return 1
         }
-        if (a.numPosts < b.numPosts) {
+        if (a.attendances.length < b.attendances.length) {
           return -1
         }
         return 0

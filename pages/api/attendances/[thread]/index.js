@@ -17,7 +17,8 @@ export default async function handler (req, res) {
   const body = req.body;
   const user = await db.collection('users').findOne({username: body.username})
   const threadFound = await db.collection('threads').findOne({title: thread})
-  const id = new ObjectId()
+  const idAttendance = new ObjectId()
+
 
   if (req.method === 'GET') {
 
@@ -33,8 +34,8 @@ export default async function handler (req, res) {
 
     const {location, description, image, animal, breed, username} = req.body;
 
-    const data = await db.collection('attendances').insertOne({_id: id, location, description, animal, breed, image, username, userId: ObjectId(user._id) , threadId: ObjectId(threadFound._id), createdAt: new Date()})
-    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$push: {attendances: id}})
+    const data = await db.collection('attendances').insertOne({_id: idAttendance, location, description, animal, breed, image, username, userId: ObjectId(user._id) , threadId: ObjectId(threadFound._id), createdAt: new Date()})
+    await db.collection('threads').updateOne({_id: threadFound._id},{$push: {attendances: idAttendance}})
     res.status(200).json(data)
 
   }
@@ -43,9 +44,11 @@ export default async function handler (req, res) {
   if (req.method === 'DELETE') {
 
     const { id } = req.body
+
+
     await db.collection('attendances').deleteOne({ _id: ObjectId(id) })
-    await db.collection('threads').updateOne({_id: ObjectId(threadFound._id)},{$pull: {attendances: id}})
+    await db.collection('threads').updateOne({_id: threadFound._id}, {$pull: {attendances: ObjectId(id)}})
 
-
+    res.status(200).json({message: 'Cuidado eliminado correctamente.'})
   }
 }

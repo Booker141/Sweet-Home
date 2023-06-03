@@ -116,7 +116,7 @@ const sendResetEmail = async (to, token, subject) => {
             </div>
             <div class="email__message">
               <h1>La cuenta con correo ${to} ha pedido restablecer la contraseña</h1>
-              <p>Este enlace tiene una duración de 30 minutos desde su envío. Puede restablecer su contraseña a través del siguiente enlace único:</p>
+              <p>Este enlace tiene una duración de 30 minutos desde su envío. Puede restablecer su contraseña a través del siguiente enlace:</p>
               <a href='${server}/auth/resetPassword/${to}/${token}'>Restablecer contraseña</a>
             </div>
             <div class='email__footer'>

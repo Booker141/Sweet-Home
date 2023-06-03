@@ -78,7 +78,6 @@ export default function Thread (props) {
 
     const data = await res.json()
 
-
     setLastAttendance(data)
 
     if(data === null) {
@@ -94,7 +93,7 @@ export default function Thread (props) {
     getLastAttendance()
   }, [])
 
- 
+
   const deleteThread = async () => {
 
     const res = await fetch(`${server}/api/threads/${props?.typeAttendanceId}`, {

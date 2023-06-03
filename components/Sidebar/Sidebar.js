@@ -1,11 +1,11 @@
 /* Static imports */
 
 import {HiHome, HiBookmark, HiNewspaper, HiQuestionMarkCircle, HiDocumentSearch, HiHand} from 'react-icons/hi'
-import {MdPets, MdContactMail, MdHealthAndSafety, MdClose, MdOutlineBlock, MdReport} from 'react-icons/md'
+import {MdPets, MdContactMail, MdHealthAndSafety, MdClose, MdOutlineBlock, MdReport, MdOutlineError} from 'react-icons/md'
 import {BsFillFilePostFill, BsFillBellFill} from 'react-icons/bs'
 import { GiDogBowl, GiSittingDog, GiDogHouse, GiHummingbird, GiCat} from 'react-icons/gi'
 import {TbReport} from 'react-icons/tb'
-import {colors} from '/styles/frontend-conf'
+import {colors, statusColors} from '/styles/frontend-conf'
 import {fonts} from '/styles/frontend-conf'
 import {useSession} from 'next-auth/react'
 import {useEffect, useState} from 'react'
@@ -31,6 +31,7 @@ export default function Sidebar(){
     const [shelters, setShelters] = useState([])
     const [vets, setVets] = useState([])
     const [following, setFollowing] = useState([])
+    const [isReporting, setIsReporting] = useState(false)
     const [typeAttendances, setTypeAttendances] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [report, setReport] = useState("")
@@ -40,27 +41,16 @@ export default function Sidebar(){
 
   
 
-    const uploadImage = async (e) => {
-
+    const uploadImage = (e) => {
 
         if (e.target.files && e.target.files[0]) {
     
+          const imageUploaded = e.target.files[0]
     
-              const imageUploaded = e.target.files[0]
+          setReportImage(imageUploaded)
     
-              const reader = new FileReader()
-    
-              reader.readAsDataURL(imageUploaded)
-    
-              reader.onload = () => {
-    
-                const imageData = reader.result
-    
-                setReportImage(imageData)
           
-              }
-    
-        }
+          }
       }
 
     const sendReport = async (e) => {
@@ -68,16 +58,25 @@ export default function Sidebar(){
         e.preventDefault();
 
         if(report.trim() === '') {
-                toast.error('Es necesario que escriba el informe', { position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored", })
+               
+            document.getElementById('report__error').classList.add('form__input-reportError--active')
             return
         }
+
+        if(reportImage != ""){
+
+            const body = new FormData();
+      
+            body.append("image", reportImage); 
+        
+            await fetch(`${server}/api/images/reportPhotos`, {
+              method: "POST",
+              body
+            });
+      
+          }
+
+
         const res = await fetch(`${server}/api/reports`, {
             method: 'POST',
             headers: {
@@ -85,10 +84,10 @@ export default function Sidebar(){
             },
             body: JSON.stringify({
                 report: report,
-                image: reportImage,
+                image: reportImage ? `/reportPhotos/${reportImage?.name}` : "",
                 username: session.user.username
             })
-        })
+        }).catch(err => console.log(err))
 
         const data = await res.json()
 
@@ -112,6 +111,7 @@ export default function Sidebar(){
               theme: "colored", })
           }
           setIsModalVisible(false)
+          setReport("")
 
     }
 
@@ -163,6 +163,7 @@ export default function Sidebar(){
 
 
     const fetchTypeAttendances = () => {
+
         fetch(`${server}/api/typeAttendance`, {
             method: 'GET',
             headers: {
@@ -309,6 +310,12 @@ export default function Sidebar(){
                         />
                   </div>
             </div>
+            <div id='report__error' className='form__input-reportError'>
+                    <div className='error__icon'>
+                      <MdOutlineError size={30} color={colors.secondary} />
+                    </div>
+                    <p className={global.text2}>Debe escribir su informe.</p>
+            </div>
             <div className='buttons'>
                 <div className='image'>
                     <div className='image__input'>
@@ -318,14 +325,14 @@ export default function Sidebar(){
                             name='image'
                             id='image__input'
                             onChange={(e) => uploadImage(e)}
-                            accept='image/png, image/jpeg'
+                            accept='image/*'
                             placeholder='Ningún archivo seleccionado'
                             className='input'
                           >
                           </input>
                         </div>
                   </div>
-                <button className="report__button" onClick={(e) => sendReport(e)}>Enviar</button>
+                <button className="report__button" onClick={(e) => sendReport(e)}>{isReporting ? 'Enviando' : 'Enviar'}</button>
             </div>
             </Modal>}
             <style jsx>{`
@@ -356,6 +363,90 @@ export default function Sidebar(){
                     border-radius: 0 0 20px 0;
 
                 }
+
+                .error__icon{
+
+                /*Box model*/
+
+                margin-left: 1rem;
+
+                }
+
+                .form__error-icon{
+
+                /*Position*/
+
+                position: relative;
+                right: -1.1rem;
+                bottom: 0.9rem;
+                z-index: 999;
+
+                /*Visuals*/
+
+                opacity: 0;
+                color: ${statusColors.error};
+
+
+                }
+
+                .form__input-reportError{
+
+
+                /*Box model*/
+
+                display: none;
+                flex-direction: row;
+                align-items: center;
+                width: 17vw;
+
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: #fafafa;
+
+                /*Visuals*/
+
+                border-radius: 20px;
+                background-color: ${statusColors.error};
+                opacity: 0;
+
+                }
+
+
+                .form__input-reportError p{
+
+                /*Box model*/
+
+                margin-left: 2rem;
+
+                }
+
+                .form__input-reportError--active{
+
+
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 17vw;
+
+                /*Text*/
+
+                font-family: 'Poppins', sans-serif;
+                color: #fafafa;
+
+                /*Visuals*/
+
+                border-radius: 20px;
+                box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                background-color: ${statusColors.error};
+                opacity: 1;
+
+                }
+
 
                 .attendance__tag{
 

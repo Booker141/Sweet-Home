@@ -39,7 +39,7 @@ export default function Privacy () {
           Es usuario aquella persona que hace uso habitual de la
           aplicación, entendiéndose por uso, la modificación e
           inserción de datos así como la interacción con las funciones
-          que ofrece la aplicación.La presente política de privacidad
+          que ofrece la aplicación. La presente política de privacidad
           tiene una aplicación a nivel mundial.
         </p>
       </div>

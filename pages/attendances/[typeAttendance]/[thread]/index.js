@@ -71,17 +71,17 @@ export default function Thread ({ attendances }) {
         </div>
         <CreateAttendanceCard thread={router.query.thread}/>
         {attendances?.length === 0 && <div><p className={global.loading2}>No hay ningún cuidado en este momento.</p></div>}
-        {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
+        {isSortedByUsername && sortedAttendances.map(({ _id, location, description, animal, breed, image, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <LazyLoad offset={100}><Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId} /></LazyLoad>
+              <LazyLoad offset={100}><Attendance key={_id} id={_id} location={location} description={description} animal={animal} breed={breed} image={image} createdAt={createdAt} username={username} userId={userId} threadId={threadId} /></LazyLoad>
             </>
           )
         })}
-        {!isSortedByUsername && attendances.map(({ _id, location, description, animal, breed, image, comments, createdAt, username, userId, threadId}) => {
+        {!isSortedByUsername && attendances.map(({ _id, location, description, animal, breed, image, createdAt, username, userId, threadId}) => {
           return (
             <>
-              <LazyLoad offset={100}><Attendance key={_id} location={location} description={description} animal={animal} breed={breed} image={image} comments={comments} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/></LazyLoad>
+              <LazyLoad offset={100}><Attendance key={_id} id={_id} location={location} description={description} animal={animal} breed={breed} image={image} createdAt={createdAt} username={username} userId={userId} threadId={threadId}/></LazyLoad>
             </>
           )
         })}

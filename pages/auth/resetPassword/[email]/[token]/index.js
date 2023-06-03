@@ -122,6 +122,35 @@ export default function ResetPassword () {
 
         const data = await res.json()
 
+        if(data.message === 'Ha expirado el enlace.'){
+
+          toast.error('El enlace ha expirado', { position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored", })
+          setIsReseting(false)
+          return
+        }
+
+        if(data.message === 'Ha ocurrido un error al verificar el enlace.'){
+        
+          toast.error(`Ha ocurrido un error al verificar el enlace`, { position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored", })
+          setIsReseting(false)
+          return
+  
+          }
+
         if (data.message === 'Se ha restablecido la contraseña.') {
           
           toast.success(`Se ha restablecido la contraseña`, { position: "bottom-right",
