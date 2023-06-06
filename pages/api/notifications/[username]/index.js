@@ -16,7 +16,6 @@ export default async function handler (req, res) {
 
   const user = await db.collection('users').findOne({username: req.query.username})
 
-  console.log(user)
 
   if (req.method === 'GET') {
     

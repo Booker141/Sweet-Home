@@ -28,7 +28,7 @@ export default async function handler (req, res) {
    await db.collection('users').updateOne({_id: ObjectId(body.idTo)}, { $push: {followers: ObjectId(body.idFrom)}})
 
    await db.collection('notifications').insertOne({_id: id, sender: ObjectId(body.idFrom), receiver: user._id, type: typeNotification, 
-    description: `@${body.usernameFrom} te ha seguido`, createdAt: new Date()})
+    description: `@${body.usernameFrom} te ha seguido`, isChecked: false, createdAt: new Date()})
 
     res.status(201).json({ message: 'Seguimiento con éxito.' })
   }

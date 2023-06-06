@@ -149,9 +149,7 @@ export default function BasicHeader (props) {
                                 </div>}
                                 {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                                   <>
-                                    <LazyLoad offset={100} once>
-                                      <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-                                    </LazyLoad>
+                                    <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
                                   </>
                                 ))}
                   
@@ -220,9 +218,7 @@ export default function BasicHeader (props) {
                                 </div>}
                                 {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                                   <>
-                                    <LazyLoad offset={100} once>
                                       <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-                                    </LazyLoad>
                                   </>
                                 ))}
                   
@@ -385,9 +381,7 @@ export default function BasicHeader (props) {
                                   </div>}
                                   {notifications.map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => (
                                     <>
-                                      <LazyLoad offset={100} once>
                                         <SubmenuNotification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-                                      </LazyLoad>
                                     </>
                                   ))}
                     
@@ -519,6 +513,7 @@ export default function BasicHeader (props) {
                   align-items: center;
                   justify-content: space-between;
                   width: 100%;
+                  
                   }
 
 
@@ -624,6 +619,9 @@ export default function BasicHeader (props) {
                   border: none;
                   background: transparent;
                   cursor: pointer;
+                  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+                  border-radius: 70px;
+                  padding: 1rem;
 
                 }
 

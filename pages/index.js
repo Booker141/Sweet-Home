@@ -333,7 +333,7 @@ export default function Principal () {
 
             /*Visuals*/
 
-            border-radius: 0 0 30px 30px;
+            border-radius: 0 0 20px 20px;
             backdrop-filter: blur(3px);
             background-color: rgba(0,0,0,0.2);
             

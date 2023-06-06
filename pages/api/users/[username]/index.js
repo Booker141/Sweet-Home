@@ -86,7 +86,6 @@ export default async function handler (req, res) {
     await db.collection('posts').remove({ userId: user._id })
     await db.collection('comments').remove({ userId: user._id })
     await db.collection('notifications').remove({ receiver: user._id })
-    await db.collection('pets').remove({ownerId: user._id})
     await db.collection('complaints').remove({ usernameFrom: req.query.username })
     await db.collection('attendances').remove({userId: user._id})
 

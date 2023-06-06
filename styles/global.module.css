@@ -107,6 +107,16 @@
 
 }
 
+.title8{
+
+  /*Box model*/
+
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fafafa;
+}
+
 .title__search{
 
   /*Text*/

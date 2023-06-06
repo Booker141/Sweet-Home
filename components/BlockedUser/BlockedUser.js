@@ -115,6 +115,9 @@ export default function BlockedUser (props) {
           border: none;
           background: transparent;
           cursor: pointer;
+          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          border-radius: 70px;
+          padding: 1rem;
 
           }
 

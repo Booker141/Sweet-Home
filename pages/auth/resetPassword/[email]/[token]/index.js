@@ -34,7 +34,9 @@ export default function ResetPassword () {
   const [isValidate, setIsValidate] = useState(false)
   const [isReseting, setIsReseting] = useState(false)
 
+
   const router = useRouter()
+
 
 
   const showNewPassword = () => {

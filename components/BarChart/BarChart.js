@@ -12,7 +12,7 @@ export default function BarChart(props) {
 
     return(
         <>
-            <div className="bar__chart">
+            <div style={{ position: "relative", height: "auto", width: "auto" }}>
                 <Bar data={props?.data} options={props?.options}/>
             </div>
         </>

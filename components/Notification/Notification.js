@@ -42,30 +42,10 @@ export default function Notification (props) {
 
     const data = await res.json()
 
-
     setUser(data)
 
-
   }
 
-
-
-  const fetchNotification = async () => {
-
-
-    const res = await fetch(`${server}/api/notifications/${session?.user.username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const data = await res.json()
-
-    console.log(data)
-
-    setNotification(data)
-  }
 
   const updateNotification = async() => {
 
@@ -76,7 +56,6 @@ export default function Notification (props) {
         }
       })
 
-      fetchNotification()
 
   }
 
@@ -134,25 +113,23 @@ export default function Notification (props) {
   }
 
   useEffect(() => {
+
     getUser()
-    getCheckedNotifications()
-
-    if(isNotificationNotChecked){
-      setTimeout(() => {
-        updateNotification()
-      }, 1000)
-    }
-
+    setTimeout(() => {
+      updateNotification()
+    }, 4000)
+    
     console.log(notification)
     
   }, [])
 
 
-  if(notification?.type.name === "seguir"){
     return (
       <>
         <div className={global.notification}>
-          <FaUserPlus color={`${colors.secondary}`} size={40}/>
+          {props?.type.name === "seguir" && <FaUserPlus color={`${colors.secondary}`} size={40}/>}
+          {props?.type.name === "comentar" && <FaComment color={`${colors.secondary}`} size={35}/>}
+          {props?.type.name === "me gusta" && <HiHeart color={`${colors.secondary}`} size={40}/>}
           <div className='notification__userFrom'>
             <FallbackImage src={user?.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
           </div>
@@ -201,7 +178,10 @@ export default function Notification (props) {
 
             border: none;
             background: transparent;
-            cursor: pointer;
+            cursor: pointer;        
+            box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+            border-radius: 70px;
+            padding: 1rem;
 
             }
 
@@ -242,198 +222,3 @@ export default function Notification (props) {
     )
   }
 
-  if(notification?.type.name === "comentar"){
-    return (
-      <>
-        <div className={global.notification}>
-          <FaComment color={`${colors.secondary}`} size={35}/>
-          <div className='notification__userFrom'>
-            <FallbackImage src={user?.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
-          </div>
-          <div className={global.text2}>
-            {notification?.description}
-          </div>
-          <div className="notification__time">
-                <HiOutlineClock color={`${colors.secondary}`} size={17}/>
-                <p className={global.time}>Hace {calcTime()}</p>
-          </div>
-          {!notification?.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
-          <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
-        </div>
-        {isModalVisible && <Modal>
-        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-        <h2 className={global.title3}>Eliminar notificación</h2>
-        <p className={global.text2}>Esta notificación será eliminada permanentemente</p>
-        <p className={global.text2__bold}>¿Estás seguro de eliminar esta notificación?</p>
-        <div className='buttons'>
-          <button className={global.buttonSecondary} onClick={() => deleteNotification()}>Sí</button>
-          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-        </div>
-      </Modal>}
-         <style jsx>{`
-
-          .notification__time{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1rem;
-        
-          }
-
-          .close__modal{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-self: flex-end;
-            margin-right: 2rem;
-
-            /*Visuals*/
-
-            border: none;
-            background: transparent;
-            cursor: pointer;
-
-            }
-
-            .buttons{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            align-items: center;
-            gap: 1rem;
-            }
-
-
-          .delete__button{
-
-          /*Box model*/
-
-          display: flex;
-          align-items: center;
-          padding: 1rem;
-
-
-          /*Visuals*/
-
-          border: none;
-          background: transparent;
-          cursor: pointer;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-          border-radius: 70px;
-
-          }
-
-
-
-        `}</style>
-      </>
-    )
-  }
-
-  if(notification?.type.name === "me gusta"){
-    return (
-      <>
-        <div className={global.notification}>
-          <HiHeart color={`${colors.secondary}`} size={40}/>
-          <div className='notification__userFrom'>
-            <FallbackImage src={user?.image}  style={{ borderRadius: '50px' }} alt='Imagen de usuario' width={70} height={70}/>
-          </div>
-          <div className={global.text2}>
-            {notification?.description}
-          </div>
-          
-          <div className="notification__time">
-                <HiOutlineClock color={`${colors.secondary}`} size={17}/>
-                <p className={global.time}>Hace {calcTime()}</p>
-          </div>
-          {!notification.isChecked === false && <VscCircleFilled color={`${statusColors.info}`} size={30}/>}
-          <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>
-        </div>
-        {isModalVisible && <Modal>
-        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-        <h2 className={global.title3}>Eliminar notificación</h2>
-        <p className={global.text2}>Esta notificación será eliminada permanentemente</p>
-        <p className={global.text2__bold}>¿Estás seguro de eliminar esta notificación?</p>
-        <div className='buttons'>
-          <button className={global.buttonSecondary} onClick={() => deleteNotification()}>Sí</button>
-          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
-        </div>
-      </Modal>}
-        <style jsx>{`
-
-          .notification__time{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1rem;
-        
-          }
-
-          .close__modal{
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-          align-self: flex-end;
-          margin-right: 2rem;
-
-          /*Visuals*/
-
-          border: none;
-          background: transparent;
-          cursor: pointer;
-
-          }
-
-          .buttons{
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-          align-items: center;
-          gap: 1rem;
-          }
-
-
-          .delete__button{
-
-          /*Box model*/
-
-          display: flex;
-          align-items: center;
-          padding: 1rem;
-
-
-
-          /*Visuals*/
-
-          border: none;
-          background: transparent;
-          cursor: pointer;
-          border-radius: 70px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-          }
-
-
-
-        `}</style>
-      </>
-    )
-  }
-  
-}

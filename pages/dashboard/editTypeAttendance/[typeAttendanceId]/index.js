@@ -33,30 +33,6 @@ export default function EditTypeAttendance ({typeAttendance}) {
   
 
 
-  /**
-   * The function validates the input field by checking if the input matches the regular expression. If
-   * it does, it adds a class to the error message and error icon to show them. If it doesn't, it
-   * removes the class to hide them
-   * @param e - event
-   */
-  const validate = (e) => {
-    // Regular expressions
-
-    const regName = /^¿?.+\?/g;
-
-    if (e.target.name === 'name') {
-      if (!name.match(regName)) {
-        document.getElementById('name__error').classList.add('form__input-nameError--active')
-
-        setIsValidate(false)
-      } else {
-        document.getElementById('name__error').classList.remove('form__input-nameError--active')
-
-        setIsValidate(true)
-      }
-    }
-
-  }
 
   /**
    * It sends a POST request to the server with the title and answer of the question, and if there's no
@@ -110,17 +86,35 @@ export default function EditTypeAttendance ({typeAttendance}) {
       console.log(data.error)
       setMessage('Introduzca los campos obligatorios')
     } else {
-      toast.success('Se ha editado el tipo de cuidado', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-      setTimeout(() => {
+
+      if(data.message === 'Ya existe este tipo de cuidado'){
+
+        toast.error('Ya existe este tipo de cuidado', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+        setIsPosting(false)
+        return
+
+      }else{
+
+        toast.success('Se ha editado el tipo de cuidado', { position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored", })
+  
         Router.push(`${server}/attendances`)
-      }, 5000)
+      }
+      
+
     }
   }
 
@@ -157,20 +151,13 @@ export default function EditTypeAttendance ({typeAttendance}) {
                           value={name}
                           required
                           onChange={(e) => setName(e.target.value)}
-                          onKeyUp={(e) => validate(e)}
-                          onBlur={(e) => validate(e)}
                           placeholder='p. ej.: Alimentación'
                           className='input'
                          />
 
                     
                   </div>
-                  <div id='name__error' className='form__input-nameError'>
-                      <div className='error__icon'>
-                        <MdOutlineError size={25} color={colors.secondary} />
-                      </div>
-                      <p className={global.text2}>Debe seguir el formato correcto</p>
-                    </div>
+                  
                 </div>
                 <div className='form-vertical__description'>
                   <label className='label'>

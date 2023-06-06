@@ -104,7 +104,7 @@ export default function SearchBar(){
             <div className="submenu__title">
               <HiSearch size={18} color={`${colors.quaternary}`}/>
               <h3 className={global.text4__bold}>Buscar {keyword}..</h3>
-              <button className="close__submenu" onClick={() => setIsOpen(false)}><MdClose size={30} color={`${colors.primary}`}/></button>
+              <button className="close__submenu" onClick={() => setIsOpen(false)}><MdClose size={25} color={`${colors.primary}`}/></button>
             </div>
             <hr className={global.line}></hr>
             <div className="submenu__results">
@@ -160,6 +160,7 @@ export default function SearchBar(){
             flex-direction: row;
             align-items: center;
             justify-content: center;
+
           }
 
 
@@ -171,6 +172,7 @@ export default function SearchBar(){
             display: flex;
             flex-direction: row;
             align-items: center;
+            justify-content: flex-end;
             
 
             /*Visuals*/
@@ -246,6 +248,7 @@ export default function SearchBar(){
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
           
           }
 
@@ -257,6 +260,7 @@ export default function SearchBar(){
             flex-direction: column;
             gap: 1rem;
             margin-top: 1rem;
+            
           }
 
         .search-bar{

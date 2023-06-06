@@ -21,7 +21,6 @@ export default function SubmenuNotification (props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [notification, setNotification] = useState(props)
 
-  console.log(notification)
 
   const router = useRouter()
 

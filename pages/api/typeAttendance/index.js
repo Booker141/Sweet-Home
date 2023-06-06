@@ -27,13 +27,13 @@ export default async function handler (req, res) {
 
     typeAttendances.map((typeAttendance) => {
       if(typeAttendance.name.localeCompare(name)){
-        res.status(200).json({message: 'Ya existe este tipo de cuidado'})
+        return res.status(400).json({message: 'Ya existe este tipo de cuidado'})
       }
     })
 
     const data = await db.collection('typeAttendance').insertOne({name: name, description: description})
 
-    res.status(200).json(data)
+    return res.status(200).json(data)
 
   }
 }

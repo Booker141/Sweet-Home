@@ -14,6 +14,7 @@ export default async function handler (req, res) {
   const db = await client.db();
   const {typeAttendanceId} = req.query;
   const id = ObjectId(typeAttendanceId)
+  const typeAttendances = await db.collection('typeAttendance').find({}).toArray()
 
   if (req.method === 'GET') {
 
@@ -21,15 +22,21 @@ export default async function handler (req, res) {
 
     const typeAttendanceData = JSON.parse(JSON.stringify(data))
 
-    res.status(200).json(typeAttendanceData);
+    return res.status(200).json(typeAttendanceData);
   }
 
   if (req.method === 'PUT') {
 
     const {name, description} = req.body;
 
+    typeAttendances.map((typeAttendance) => {
+      if(typeAttendance.name.localeCompare(name)){
+        return res.status(400).json({message: 'Ya existe este tipo de cuidado'})
+      }
+    })
+
     await db.collection('typeAttendance').updateOne({_id: id}, {$set: {name: name, description: description}});
-    res.status(200).json({message: 'Tipo de cuidado actualizada correctamente'});
+    return res.status(200).json({message: 'Tipo de cuidado actualizada correctamente'});
 
   }
 
@@ -37,7 +44,7 @@ export default async function handler (req, res) {
 
     await db.collection('typeAttendance').deleteOne({_id: id});
 
-    res.status(200).json({message: 'Categoría eliminada correctamente'});
+    return res.status(200).json({message: 'Categoría eliminada correctamente'});
 
   }
 }
