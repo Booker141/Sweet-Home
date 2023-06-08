@@ -1,35 +1,42 @@
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { MdTitle, MdOutlineError } from 'react-icons/md'
-import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill} from 'react-icons/bs'
-import { statusColors, colors, fonts } from '/styles/frontend-conf'
-import {toast} from 'react-toastify'
-import { server } from '/server'
-import global from '/styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { MdTitle, MdOutlineError } from "react-icons/md";
+import {
+  BsFillChatLeftTextFill,
+  BsFillXCircleFill,
+  BsFillCheckCircleFill,
+} from "react-icons/bs";
+import { statusColors, colors, fonts } from "/styles/frontend-conf";
+import { toast } from "react-toastify";
+import { server } from "/server";
+import global from "/styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Edit question page
+ * @version 1.0
+ * @description Edit question page
+ */
+export default function EditQuestion({ question }) {
+  const { data: session, status } = useSession({ required: true });
 
-export default function EditQuestion ({question}) {
-
-  const { data: session, status } = useSession({ required: true })
-
-  const Router = useRouter()
-  const [answer, setAnswer] = useState(question.answer)
-  const [title, setTitle] = useState(question.title)
-  const [isValidate, setIsValidate] = useState(false)
-  const [isPosting, setIsPosting] = useState(false)
-  const [message, setMessage] = useState('')
-  
+  const Router = useRouter();
+  const [answer, setAnswer] = useState(question.answer);
+  const [title, setTitle] = useState(question.title);
+  const [isValidate, setIsValidate] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
+  const [message, setMessage] = useState("");
 
   /**
    * It validates the title input field by checking if the input matches the regular expression. If it
@@ -42,21 +49,28 @@ export default function EditQuestion ({question}) {
 
     const regTitle = /^¿?.+\?/g;
 
-    if (e.target.name === 'title') {
+    if (e.target.name === "title") {
       if (!title.match(regTitle)) {
-        document.getElementById('title__error').classList.add('form__input-titleError--active')
-        document.getElementById('success__title').classList.remove('form__success-icon--active')
+        document
+          .getElementById("title__error")
+          .classList.add("form__input-titleError--active");
+        document
+          .getElementById("success__title")
+          .classList.remove("form__success-icon--active");
 
-        setIsValidate(false)
+        setIsValidate(false);
       } else {
-        document.getElementById('title__error').classList.remove('form__input-titleError--active')
-        document.getElementById('success__title').classList.add('form__success-icon--active')
+        document
+          .getElementById("title__error")
+          .classList.remove("form__input-titleError--active");
+        document
+          .getElementById("success__title")
+          .classList.add("form__success-icon--active");
 
-        setIsValidate(true)
+        setIsValidate(true);
       }
     }
-
-  }
+  };
 
   /**
    * It sends a POST request to the server with the title and answer of the question, and if there's no
@@ -64,562 +78,523 @@ export default function EditQuestion ({question}) {
    * @param e - The event object
    */
   const editQuestion = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault()
-
-    if(title.trim() === ''){
-      toast.error('El campo Título es obligatorio', { position: "bottom-right",
+    if (title.trim() === "") {
+      toast.error("El campo Título es obligatorio", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
-        return
+        theme: "colored",
+      });
+      return;
     }
 
-    if(answer.trim() === ''){
-      toast.error('El campo Respuesta es obligatorio', { position: "bottom-right",
+    if (answer.trim() === "") {
+      toast.error("El campo Respuesta es obligatorio", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
-        return
+        theme: "colored",
+      });
+      return;
     }
 
-    const res = await fetch(`${server}/api/questions/${Router.query.questionId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: title,
-        answer: answer,
-      })
-    })
+    const res = await fetch(
+      `${server}/api/questions/${Router.query.questionId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          answer: answer,
+        }),
+      }
+    );
 
-    setIsPosting(true)
+    setIsPosting(true);
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.error) {
-      console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
+      console.log(data.error);
+      setMessage("Introduzca los campos obligatorios");
     } else {
-      toast.success('Se ha editado la pregunta', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
+      toast.success("Se ha editado la pregunta", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       setTimeout(() => {
-        Router.push(`${server}/faq`)
-      }, 5000)
+        Router.push(`${server}/faq`);
+      }, 5000);
     }
-  }
+  };
 
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Editar pregunta | Sweet Home</title></Head>
-        
-          <div className="form__position">
-            <div className='form'>
+        <Head>
+          <title>Editar pregunta | Sweet Home</title>
+        </Head>
+
+        <div className="form__position">
+          <div className="form">
             <div className="editQuestion__header">
-              <h1 className='form__title'>Editar pregunta</h1>
-              <p className={global.text2}>Introduzca los datos de la pregunta. Los campos obligatorios vienen indicados con un asterisco *:</p>
+              <h1 className="form__title">Editar pregunta</h1>
+              <p className={global.text2}>
+                Introduzca los datos de la pregunta. Los campos obligatorios
+                vienen indicados con un asterisco *:
+              </p>
             </div>
-              <form action='/api/questions' id='form'>
-                <div className='form-vertical__title'>
-                  <label className='label'>
-                    <p className={global.text}>Título (*)</p>
-                    <MdTitle size={18} color={colors.secondary} />
-                  </label>
-                  <div className='title__input'>
-                    <input
-                          title='Introducir título'
-                          type='text'
-                          name='title'
-                          value={title}
-                          required
-                          onChange={(e) => setTitle(e.target.value)}
-                          onKeyUp={(e) => validate(e)}
-                          onBlur={(e) => validate(e)}
-                          placeholder='p. ej.: ¿Es necesario...?'
-                          className='input'
-                         />
-                  <div id='success__title' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  
-                    
-                    </div>
-                    <div id='title__error' className='form__input-titleError'>
-                      <div className='error__icon'>
-                        <MdOutlineError size={25} color={colors.secondary} />
-                      </div>
-                      <p className={global.text2}>Debe ser una pregunta</p>
+            <form action="/api/questions" id="form">
+              <div className="form-vertical__title">
+                <label className="label">
+                  <p className={global.text}>Título (*)</p>
+                  <MdTitle size={18} color={colors.secondary} />
+                </label>
+                <div className="title__input">
+                  <input
+                    title="Introducir título"
+                    type="text"
+                    name="title"
+                    value={title}
+                    required
+                    onChange={(e) => setTitle(e.target.value)}
+                    onKeyUp={(e) => validate(e)}
+                    onBlur={(e) => validate(e)}
+                    placeholder="p. ej.: ¿Es necesario...?"
+                    className="input"
+                  />
+                  <div id="success__title" className="form__success-icon">
+                    <BsFillCheckCircleFill
+                      size={20}
+                      color={statusColors.success}
+                    />
                   </div>
                 </div>
-                <div className='form-vertical__answer'>
-                  <label className='label'>
-                    <p className={global.text}>Respuesta (*)</p>
-                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </label>
-                  <div className='answer__input'>
-                    <textarea
-                          title='Introducir respuesta'
-                          name='answer'
-                          value={answer}
-                          required
-                          onChange={(e) => setAnswer(e.target.value)}
-                          placeholder='p. ej.: Si, es necesario..'
-                        />
+                <div id="title__error" className="form__input-titleError">
+                  <div className="error__icon">
+                    <MdOutlineError size={25} color={colors.secondary} />
                   </div>
-
+                  <p className={global.text2}>Debe ser una pregunta</p>
                 </div>
-
-              </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => editQuestion(e)} value={isPosting ? 'Editando..' : 'Editar'} />
+              </div>
+              <div className="form-vertical__answer">
+                <label className="label">
+                  <p className={global.text}>Respuesta (*)</p>
+                  <BsFillChatLeftTextFill size={18} color={colors.secondary} />
+                </label>
+                <div className="answer__input">
+                  <textarea
+                    title="Introducir respuesta"
+                    name="answer"
+                    value={answer}
+                    required
+                    onChange={(e) => setAnswer(e.target.value)}
+                    placeholder="p. ej.: Si, es necesario.."
+                  />
+                </div>
+              </div>
+            </form>
+            <input
+              className={global.buttonPrimary}
+              type="submit"
+              onClick={(e) => editQuestion(e)}
+              value={isPosting ? "Editando.." : "Editar"}
+            />
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
+            .form {
+              /*Box model*/
 
-                    .form{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
 
-                        /*Box model*/
+              width: 70vw;
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    
-                        width: 70vw;
+              /*Visuals*/
 
-                        /*Visuals*/
+              background-image: linear-gradient(
+                180deg,
+                rgba(240, 129, 15, 1) 35%,
+                rgba(249, 166, 3, 1) 200%
+              );
+              background-size: 100% 110%;
+              border-radius: 20px;
+            }
 
-                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
-                        background-size: 100% 110%;
-                        border-radius: 20px;
-                        
-                    }
+            .form__position {
+              /*Box model*/
 
-                    .form__position{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            }
 
-                        /*Box model*/ 
+            .form__title {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        
-                    }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-bottom: 1rem;
+            }
 
-                    .form__title{
+            .editQuestion__header {
+              /*Box model*/
 
-                        /*Box model*/
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              margin-bottom: 1rem;
+            }
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        margin-bottom: 1rem;
+            .label {
+              /*Box model*/
 
-                    }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                    .editQuestion__header{
+            .label p {
+              /*Box model*/
 
-                        /*Box model*/
+              margin-right: 1rem;
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        margin-bottom: 1rem;
-                    }
+              /*Visuals*/
 
-                    .label{
+              color: ${colors.secondary};
+            }
 
-                        /*Box model*/
+            .input {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
+              width: 100%;
+              height: 2rem;
+              padding: 0.4rem;
+              margin-bottom: 1rem;
 
-                    }
+              /*Text*/
 
-                    .label p{
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                        /*Box model*/
+              /*Visuals*/
 
-                        margin-right: 1rem;
+              border-radius: 5px;
+              border: 1px solid ${colors.primary};
+            }
 
-                        /*Visuals*/
+            .form-vertical__answer {
+              /*Box model*/
 
-                        color: ${colors.secondary};
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 100%;
+            }
 
-                    }
-                    
-                    .input{
+            .form-vertical__title {
+              /*Box model*/
 
-                        /*Box model*/
+              margin-top: 2rem;
+            }
 
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.4rem;
-                        margin-bottom: 1rem;
-                        
+            .answer__input {
+              /*Box model*/
 
-                        /*Text*/
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              width: 115%;
+            }
 
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
+            .error__icon {
+              /*Box model*/
 
-                        /*Visuals*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-left: 1rem;
+            }
 
-                        border-radius: 5px;
-                        border: 1px solid ${colors.primary};
-                    }
+            .title__input {
+              /*Box model*/
 
-                
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              gap: 1rem;
+            }
 
-                    .form-vertical__answer {
+            /*ERRORES*/
 
-                        /*Box model*/
+            .form__input-titleError {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        width: 100%;
+              display: none;
 
-                    }
+              /*Text*/
 
-                    .form-vertical__title {
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-                        /*Box model*/
+              /*Visuals*/
 
-                        margin-top: 2rem;
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 0;
+            }
 
-                    }
+            .form__input-titleError p {
+              /*Box model*/
 
+              margin-left: 2rem;
+            }
 
-                    .answer__input{
+            .form__input-titleError--active {
+              /*Box model*/
 
-                        /*Box model*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 15vw;
 
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        width: 115%;
-                        
+              /*Text*/
 
-                    }
-                    
-                    .error__icon{
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-                    /*Box model*/
+              /*Visuals*/
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    margin-left: 1rem;
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 1;
+            }
 
-                    }
+            .form__success-icon {
+              /*Position*/
 
-                    .title__input{
+              position: relative;
+              bottom: 0.5rem;
+              z-index: 999;
 
-                        /*Box model*/
+              /*Visuals*/
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 1rem;
+              opacity: 0;
+              color: ${statusColors.success};
+            }
 
-                    }
+            .form__success-icon--active {
+              /*Position*/
 
-                    /*ERRORES*/
+              position: relative;
+              bottom: 0.5rem;
+              z-index: 999;
 
-                    .form__input-titleError{
+              /*Visuals*/
 
+              opacity: 1;
+              color: ${statusColors.success};
+            }
 
-                      /*Box model*/
+            .submit__error {
+              /*Box model*/
 
-                      display: none;
+              display: none;
 
+              /*Text*/
 
-                      /*Text*/
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                      font-family: 'Poppins', sans-serif;
-                      color: #fafafa;
+              /*Visuals*/
 
-                      /*Visuals*/
+              background-color: ${statusColors.error};
+            }
 
-                      border-radius: 20px;
-                      background-color: ${statusColors.error};
-                      opacity: 0;
+            .submit__error--active {
+              /*Box model*/
 
-                      }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
+              /*Text*/
 
-                      .form__input-titleError p{
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                      /*Box model*/
+              /*Visuals*/
 
-                      margin-left: 2rem;
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+            }
 
-                      }
+            .submit__error--active2 {
+              /*Box model*/
 
-                      .form__input-titleError--active{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
+              /*Text*/
 
-                      /*Box model*/
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      width: 15vw;
+              /*Visuals*/
 
-                      /*Text*/
+              border-radius: 20px;
+              background-color: ${statusColors.success};
+            }
 
-                      font-family: 'Poppins', sans-serif;
-                      color: #fafafa;
+            h1 {
+              /*Box model*/
 
-                      /*Visuals*/
+              margin-top: 2rem;
+              margin-bottom: 3rem;
 
-                      border-radius: 20px;
-                      background-color: ${statusColors.error};
-                      opacity: 1;
+              /*Text*/
 
-                      }
+              font-size: 3.5rem;
+              font-weight: 500;
+              font-family: "Satisfy", sans-serif;
+              color: white;
+              text-align: center;
+            }
 
+            input[type="text"] {
+              /*Box model*/
 
+              width: 20vw;
+              height: 2rem;
+              padding: 0.4rem;
 
-                 
-                      .form__success-icon{
+              /*Text*/
 
-                      /*Position*/
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                      position: relative;
-                      bottom: 0.5rem;
-                      z-index: 999;
+              /*Visuals*/
 
-                      /*Visuals*/
+              border-radius: 20px;
+              border: 2px solid ${colors.primary};
+            }
 
-                      opacity: 0;
-                      color: ${statusColors.success};
+            input[type="text"]:focus {
+              /*Visuals*/
 
-                      }
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
+            }
 
+            input[type="submit"] {
+              /*Box model*/
 
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              margin-top: 2rem;
+              margin-bottom: 2rem;
+            }
 
-                      .form__success-icon--active{
+            ::placeholder {
+              /*Text*/
 
-                      /*Position*/
+              color: ${colors.primary};
+            }
 
-                      position: relative;
-                      bottom: 0.5rem;
-                      z-index: 999;
+            textarea {
+              /*Box model*/
 
-                      /*Visuals*/
+              width: 100%;
+              height: 3rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
 
-                      opacity: 1;
-                      color: ${statusColors.success};
+              /*Text*/
 
-                      }
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                      .submit__error{
+              /*Visuals*/
 
-                      /*Box model*/
+              border-radius: 20px;
+              border: 2px solid ${colors.primary};
+            }
 
-                      display: none;
+            textarea:focus {
+              /*Visuals*/
 
-                      /*Text*/
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
+            }
 
-                      font-family: 'Poppins', sans-serif;
-                      color: ${colors.secondary};
+            a {
+              /*Misc*/
 
-                      /*Visuals*/
-
-                      background-color: ${statusColors.error};
-
-                      }
-
-                      .submit__error--active{
-
-                      /*Box model*/
-
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      justify-content: center;
-                      padding: 0.5rem;
-                      width: 65%;
-
-                      /*Text*/
-
-                      font-family: 'Poppins', sans-serif;
-                      color: ${colors.secondary};
-
-                      /*Visuals*/
-
-                      border-radius: 20px;
-                      background-color: ${statusColors.error};
-
-                      }
-
-                      .submit__error--active2{
-
-                      /*Box model*/
-
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      justify-content: center;
-                      padding: 0.5rem;
-                      width: 65%;
-
-                      /*Text*/
-
-                      font-family: 'Poppins', sans-serif;
-                      color: ${colors.secondary};
-
-                      /*Visuals*/
-
-                      border-radius: 20px;
-                      background-color: ${statusColors.success};
-
-                      }
-
-                      h1{
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
-
-                        /*Text*/
-
-                        font-size: 3.5rem;
-                        font-weight: 500;
-                        font-family: "Satisfy", sans-serif;
-                        color: white;
-                        text-align: center;
-                        
-                  }
-
-
-
-                    input[type="text"]{
-
-
-                        /*Box model*/
-
-                        width: 20vw;
-                        height: 2rem;
-                        padding: 0.4rem;
-
-                        /*Text*/
-
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
-
-                        /*Visuals*/
-
-                        border-radius: 20px;
-                        border: 2px solid ${colors.primary};
-
-                    }
-
-                    input[type="text"]:focus{
-
-                    /*Visuals*/
-
-                    border: 2px solid #4d97f7;
-                    outline: none;
-                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-                    input[type="submit"]{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 2rem;
-
-                    }
-
-                   
-                    ::placeholder{
-
-                        /*Text*/
-
-                        color: ${colors.primary};
-                    }
-
-                    textarea{
-
-                    /*Box model*/
-
-                    width: 100%;
-                    height: 3rem;
-                    padding: 0.4rem;
-                    margin-bottom: 2rem;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    font-size: 1rem;
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    border: 2px solid ${colors.primary};
-
-                    }
-
-                    textarea:focus{
-                    /*Visuals*/
-
-                    border: 2px solid #4d97f7;
-                    outline: none;
-                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-                    a{
-
-                        /*Misc*/
-
-                        cursor: pointer;
-                    }
-
-                `}
+              cursor: pointer;
+            }
+          `}
         </style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          <div className="message">
+            <h1 className={global.title7}>
+              Para acceder a esta página debe iniciar sesión
+            </h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>
+              Iniciar sesión
+            </button>
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
                         .message{
 
@@ -636,26 +611,28 @@ export default function EditQuestion ({question}) {
                     `}
         </style>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps(context){
-
-    const res = await fetch(`${server}/api/questions/${context.query.questionId}`, {
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json'
-        }
-    })
-    
-    const data = await res.json();
-    
-    const question = JSON.parse(JSON.stringify(data))
-    
-    return {
-        props: {
-          question
-        }
+export async function getServerSideProps(context) {
+  const res = await fetch(
+    `${server}/api/questions/${context.query.questionId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
+  );
+
+  const data = await res.json();
+
+  const question = JSON.parse(JSON.stringify(data));
+
+  return {
+    props: {
+      question,
+    },
+  };
 }

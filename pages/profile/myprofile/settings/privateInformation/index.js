@@ -1,174 +1,221 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from 'next-auth/react'
-import { useState } from 'react'
-import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
-import { AiFillPhone } from 'react-icons/ai'
-import { MdOutlineError, MdClose } from 'react-icons/md'
-import { BsGenderAmbiguous, BsFillCheckCircleFill } from 'react-icons/bs'
-import { server } from '/server'
-import {toast} from 'react-toastify'
-import global from 'styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import { useSession, getSession, signIn } from "next-auth/react";
+import { useState } from "react";
+import { colors, statusColors, fonts } from "styles/frontend-conf.js";
+import { AiFillPhone } from "react-icons/ai";
+import { MdOutlineError, MdClose } from "react-icons/md";
+import { BsGenderAmbiguous, BsFillCheckCircleFill } from "react-icons/bs";
+import { server } from "/server";
+import { toast } from "react-toastify";
+import global from "styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const SettingsLayout = dynamic(() =>
+  import("/components/SettingsLayout/SettingsLayout")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-export default function Settings ({users, account}) {
+/**
+ * @author Sergio García Navarro
+ * @returns Private information page
+ * @version 1.0
+ * @description Private information page
+ */
+export default function Settings({ users, account }) {
+  const { data: session, status } = useSession({ required: true });
 
-  const { data: session, status } = useSession({ required: true })
-
-
-  const [phone, setPhone] = useState(users?.phone)
-  const [gender, setGender] = useState(users?.gender)
-  const [isEditing, setIsEditing] = useState(false)
-  const [isValidate, setIsValidate] = useState(true)
-
-
+  const [phone, setPhone] = useState(users?.phone);
+  const [gender, setGender] = useState(users?.gender);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isValidate, setIsValidate] = useState(true);
 
   const validate = (e) => {
-
     // Regular expressions
 
-    const regPhone = /^(?:6[0-9]|7[1-9])[0-9]{7}$/
+    const regPhone = /^(?:6[0-9]|7[1-9])[0-9]{7}$/;
 
-    if (e.target.name == 'phone') {
+    if (e.target.name == "phone") {
       if (phone.length < 9 || phone.length > 9 || !regPhone.test(phone)) {
-        document.getElementById('phone__error').classList.add('form__input-phoneError--active')
-        document.getElementById('success__phone').classList.remove('form__success-icon--active')
-        setIsValidate(false)
+        document
+          .getElementById("phone__error")
+          .classList.add("form__input-phoneError--active");
+        document
+          .getElementById("success__phone")
+          .classList.remove("form__success-icon--active");
+        setIsValidate(false);
       } else {
-        document.getElementById('phone__error').classList.remove('form__input-phoneError--active')
-        document.getElementById('success__phone').classList.add('form__success-icon--active')
-        setIsValidate(true)
+        document
+          .getElementById("phone__error")
+          .classList.remove("form__input-phoneError--active");
+        document
+          .getElementById("success__phone")
+          .classList.add("form__success-icon--active");
+        setIsValidate(true);
       }
     }
-  }
-
-  
-
+  };
 
   /**
    * It's a function that sends a request to the server to update the user's information
    * @param e - the event object
    */
   const edit = async (e) => {
-
-    e.preventDefault()
+    e.preventDefault();
 
     if (isValidate) {
+      setIsEditing(true);
 
-      setIsEditing(true)
+      await fetch(
+        `${server}/api/usersPrivateInformation/${session?.user.username}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: phone,
+            gender: gender,
+          }),
+        }
+      ).catch((err) => console.log(err));
 
-      await fetch(`${server}/api/usersPrivateInformation/${session?.user.username}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          phone: phone,
-          gender: gender,
-        })
-      }).catch(err => console.log(err))
-
-      
-
-      toast.success(`Se han guardado los datos correctamente`, { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-      setIsEditing(false)
+      toast.success(`Se han guardado los datos correctamente`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setIsEditing(false);
     } else {
-      toast.error(`Introduzca los datos con el formato correcto`, { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
+      toast.error(`Introduzca los datos con el formato correcto`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
-  }
+  };
 
-
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <SettingsLayout>
-        <Head><title>Información privada | Sweet Home</title></Head>
-        <div className='settings'>
-          <div className='form-page'>
+        <Head>
+          <title>Información privada | Sweet Home</title>
+        </Head>
+        <div className="settings">
+          <div className="form-page">
             <h1 className={global.title}>Editar información privada </h1>
-            <p className={global.text}>En este apartado puedes modificar el teléfono, género y contraseña. Está información será privada y no será mostrada en el perfil público:</p>
-            
-            <form className='form-vertical' action='/api/users' enctype='multipart/form-data'>
-               
-              <div className='form-vertical__phone'>
-                <div className='label'>
+            <p className={global.text}>
+              En este apartado puedes modificar el teléfono, género y
+              contraseña. Está información será privada y no será mostrada en el
+              perfil público:
+            </p>
+
+            <form
+              className="form-vertical"
+              action="/api/users"
+              enctype="multipart/form-data"
+            >
+              <div className="form-vertical__phone">
+                <div className="label">
                   <p className={global.text}>Teléfono</p>
                   <AiFillPhone size={18} color={colors.secondary} />
                 </div>
-                <div className='phone__input'>
+                <div className="phone__input">
                   <input
-                    title='Introducir teléfono'
-                    type='tel'
-                    name='phone'
-                    id='phone'
+                    title="Introducir teléfono"
+                    type="tel"
+                    name="phone"
+                    id="phone"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
                     placeholder="Escriba su teléfono"
-                    className='input'
+                    className="input"
                   />
-                  <div id='success__phone' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-                  
-              </div>
-              <div id='phone__error' className='form__input-phoneError'>
-                    <div className='error__icon'>
-                      <MdOutlineError size={30} color={colors.secondary} />
-                    </div>
-                    <p className={global.text2}>Debe seguir el formato 6XXXXXXXX.</p>
+                  <div id="success__phone" className="form__success-icon">
+                    <BsFillCheckCircleFill
+                      size={20}
+                      color={statusColors.success}
+                    />
                   </div>
                 </div>
-              <div className='form-vertical__gender'>
-                <div className='label'>
+                <div id="phone__error" className="form__input-phoneError">
+                  <div className="error__icon">
+                    <MdOutlineError size={30} color={colors.secondary} />
+                  </div>
+                  <p className={global.text2}>
+                    Debe seguir el formato 6XXXXXXXX.
+                  </p>
+                </div>
+              </div>
+              <div className="form-vertical__gender">
+                <div className="label">
                   <p className={global.text}>Género</p>
                   <BsGenderAmbiguous size={18} color={colors.secondary} />
                 </div>
-                <select name='gender' id='gender' className='selector' onChange={(e) => setGender(e.target.value)}>
-                  <option value='masculino'>Masculino</option>
-                  <option value='femenino'>Femenino</option>
-                  <option value='otro'>Otro</option>
+                <select
+                  name="gender"
+                  id="gender"
+                  className="selector"
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="masculino">Masculino</option>
+                  <option value="femenino">Femenino</option>
+                  <option value="otro">Otro</option>
                 </select>
               </div>
-              <div className='settings__buttons'>
-                {(account?.provider != 'twitter' && account?.provider != 'google') &&<button className={global.buttonTertiary3}><a href={`${server}/auth/changePassword`} title='Ir a la página para cambiar la contraseña' aria-label='Ir a cambiar contraseña'>Cambiar contraseña</a></button> }
-                
+              <div className="settings__buttons">
+                {account?.provider != "twitter" &&
+                  account?.provider != "google" && (
+                    <button className={global.buttonTertiary3}>
+                      <a
+                        href={`${server}/auth/changePassword`}
+                        title="Ir a la página para cambiar la contraseña"
+                        aria-label="Ir a cambiar contraseña"
+                      >
+                        Cambiar contraseña
+                      </a>
+                    </button>
+                  )}
               </div>
             </form>
-            <input className={global.buttonPrimary} type='submit' onClick={(e) => edit(e)} value={isEditing ? 'Aplicando' : 'Aplicar cambios'} />  
+            <input
+              className={global.buttonPrimary}
+              type="submit"
+              onClick={(e) => edit(e)}
+              value={isEditing ? "Aplicando" : "Aplicar cambios"}
+            />
           </div>
-          </div>
-          
+        </div>
 
-        <style jsx>{`
+        <style jsx>
+          {`
 
 
                 .settings{
@@ -744,19 +791,23 @@ export default function Settings ({users, account}) {
             `}
         </style>
       </SettingsLayout>
-    )
-    
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
   
                     .message{
   
@@ -775,40 +826,46 @@ export default function Settings ({users, account}) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps(context){
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+  const session = await getSession(context);
 
-  const session = await getSession(context)
-
-  const response = await fetch(`${server}/api/users/${session?.user.username}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
+  const response = await fetch(
+    `${server}/api/users/${session?.user.username}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
-  })
+  );
 
-  const response2 = await fetch(`${server}/api/accounts/${session?.user.username}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
+  const response2 = await fetch(
+    `${server}/api/accounts/${session?.user.username}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
-  })
-
+  );
 
   const currentUser = await response.json();
 
-  const currentAccount = await response2.json()
+  const currentAccount = await response2.json();
 
-
-  return{
-
+  return {
     props: {
-      users: JSON.parse(JSON.stringify(currentUser)), account: JSON.parse(JSON.stringify(currentAccount))
-  }
-}
+      users: JSON.parse(JSON.stringify(currentUser)),
+      account: JSON.parse(JSON.stringify(currentAccount)),
+    },
+  };
 }

@@ -1,114 +1,153 @@
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import {colors, fonts} from 'styles/frontend-conf'
-import { server } from '/server'
-import {useState} from 'react'
-import {useRouter} from 'next/router'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
+import { useSession, signIn } from "next-auth/react";
+import { colors, fonts } from "styles/frontend-conf";
+import { server } from "/server";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
+import Head from "next/head";
 
 /*Dynamic imports*/
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Pet = dynamic(() => import('/components/Pet/Pet'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const Pet = dynamic(() => import("/components/Pet/Pet"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-
-export default function AllPets ({ pets }) {
-
-  const { data: session, status } = useSession({ required: true })
+/**
+ * @author Sergio García Navarro
+ * @returns Pets page
+ * @version 1.0
+ * @description Pets page
+ */
+export default function AllPets({ pets }) {
+  const { data: session, status } = useSession({ required: true });
 
   const [isSortedByBreed, setIsSortedByBreed] = useState(false);
   const [isSortedByAnimal, setIsSortedByAnimal] = useState(false);
   const [isSortedByName, setIsSortedByName] = useState(false);
   const [isSortedByWeight, setIsSortedByWeight] = useState(false);
-  const [petsList, setPetsList] = useState(pets)
+  const [petsList, setPetsList] = useState(pets);
 
-  const Router = useRouter()
-
-
+  const Router = useRouter();
 
   const sortByFilters = (e) => {
-
-
-    if(e === "breed"){
-
-      setIsSortedByBreed(!isSortedByBreed)
-      const sortedPets = pets?.sort((a, b) => (a.breed > b.breed) ? 1 : ((b.breed > a.breed) ? -1 : 0))
-      setPetsList(sortedPets)
-
-
+    if (e === "breed") {
+      setIsSortedByBreed(!isSortedByBreed);
+      const sortedPets = pets?.sort((a, b) =>
+        a.breed > b.breed ? 1 : b.breed > a.breed ? -1 : 0
+      );
+      setPetsList(sortedPets);
     }
 
-    if(e === "animal"){
-
-      setIsSortedByAnimal(!isSortedByAnimal)
-      const sortedPets = pets?.sort((a, b) => (a.animal > b.animal) ? 1 : ((b.animal > a.animal) ? -1 : 0))
-      setPetsList(sortedPets)
-
+    if (e === "animal") {
+      setIsSortedByAnimal(!isSortedByAnimal);
+      const sortedPets = pets?.sort((a, b) =>
+        a.animal > b.animal ? 1 : b.animal > a.animal ? -1 : 0
+      );
+      setPetsList(sortedPets);
     }
 
-    if(e === "name"){
-
-      setIsSortedByName(!isSortedByName)
-      const sortedPets = pets?.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-      setPetsList(sortedPets)
-
-
+    if (e === "name") {
+      setIsSortedByName(!isSortedByName);
+      const sortedPets = pets?.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      );
+      setPetsList(sortedPets);
     }
-    if(e === "weight"){
-
-      setIsSortedByWeight(!isSortedByWeight)
-      const sortedPets = pets?.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0))
-      setPetsList(sortedPets)
-
-
+    if (e === "weight") {
+      setIsSortedByWeight(!isSortedByWeight);
+      const sortedPets = pets?.sort((a, b) =>
+        a.weight > b.weight ? 1 : b.weight > a.weight ? -1 : 0
+      );
+      setPetsList(sortedPets);
     }
-  }
+  };
 
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Todas las mascotas | Sweet Home</title></Head>
+        <Head>
+          <title>Todas las mascotas | Sweet Home</title>
+        </Head>
         <h1 className="title">Mascotas de otros usuarios</h1>
-        <div className='column1__buttons'>
-          <button className={global.buttonPrimary} onClick={() => Router.push('/profile/myprofile/pets/createPet')} aria-label='Crear nueva mascota'>Añadir mascota</button>
-          <div className='filter__list'>
-          <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro</option>
-                      <option value="name">Ordenar por nombre</option>
-                      <option value="breed">Ordenar por raza</option>
-                      <option value="animal">Ordenar por animal</option>
-                      <option value="weight">Ordenar por peso</option>
-                  </select>
-                </div>
+        <div className="column1__buttons">
+          <button
+            className={global.buttonPrimary}
+            onClick={() => Router.push("/profile/myprofile/pets/createPet")}
+            aria-label="Crear nueva mascota"
+          >
+            Añadir mascota
+          </button>
+          <div className="filter__list">
+            <select
+              name="filters"
+              onChange={(e) => sortByFilters(e.target.value)}
+            >
+              <option default value="default">
+                Selecciona un filtro
+              </option>
+              <option value="name">Ordenar por nombre</option>
+              <option value="breed">Ordenar por raza</option>
+              <option value="animal">Ordenar por animal</option>
+              <option value="weight">Ordenar por peso</option>
+            </select>
+          </div>
         </div>
-        <div className='pets'>
-          {petsList?.length === 0 && <div><p className={global.loading2}>No hay ninguna mascota registrada en la aplicación.</p></div>}
-          
-          {petsList.map(({ _id, animal, breed, name, weight, birthdate, image, ownerUsername }) => {
-            return (
+        <div className="pets">
+          {petsList?.length === 0 && (
+            <div>
+              <p className={global.loading2}>
+                No hay ninguna mascota registrada en la aplicación.
+              </p>
+            </div>
+          )}
+
+          {petsList.map(
+            ({
+              _id,
+              animal,
+              breed,
+              name,
+              weight,
+              birthdate,
+              image,
+              ownerUsername,
+            }) => {
+              return (
                 <>
-                    <LazyLoad offset={100} once><Pet key={_id} id={_id} animal={animal} breed={breed} name={name} weight={weight} birthdate={birthdate} image={image} ownerUsername={ownerUsername} /></LazyLoad>
+                  <LazyLoad offset={100} once>
+                    <Pet
+                      key={_id}
+                      id={_id}
+                      animal={animal}
+                      breed={breed}
+                      name={name}
+                      weight={weight}
+                      birthdate={birthdate}
+                      image={image}
+                      ownerUsername={ownerUsername}
+                    />
+                  </LazyLoad>
                 </>
-            )
-        })}
+              );
+            }
+          )}
         </div>
-        
-      <style jsx>{`
+
+        <style jsx>{`
 
           .pets{
 
@@ -211,19 +250,23 @@ export default function AllPets ({ pets }) {
 
           `}</style>
       </Layout>
-    )
-  }
-  else {
-  return (
-    <Layout>
-      <>
-        <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+    );
+  } else {
+    return (
+      <Layout>
+        <>
+          <div className={global.content}>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
+            </div>
           </div>
-        </div>
-        <style jsx>{`
+          <style jsx>
+            {`
 
                 .message{
 
@@ -239,27 +282,29 @@ export default function AllPets ({ pets }) {
 
                 
             `}
-        </style>
-      </>
-    </Layout>
-  )
-}
+          </style>
+        </>
+      </Layout>
+    );
+  }
 }
 
-export async function getServerSideProps ({res}) {
-
-  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+export async function getServerSideProps({ res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   const res2 = await fetch(`${server}/api/pets`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
-  const pets = await res2.json()
+  const pets = await res2.json();
 
   return {
-    props: { pets: JSON.parse(JSON.stringify(pets)) }
-  }
+    props: { pets: JSON.parse(JSON.stringify(pets)) },
+  };
 }

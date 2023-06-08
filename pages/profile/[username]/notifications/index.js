@@ -1,77 +1,113 @@
 /* Static imports */
 
-import { useState } from 'react'
-import { useSession,  signIn } from 'next-auth/react'
-import { server } from '/server'
-import {colors, fonts} from '/styles/frontend-conf'
-import global from '/styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
-
+import { useState } from "react";
+import { useSession, signIn } from "next-auth/react";
+import { server } from "/server";
+import { colors, fonts } from "/styles/frontend-conf";
+import global from "/styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Notification = dynamic(() => import('/components/Notification/Notification'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const Notification = dynamic(() =>
+  import("/components/Notification/Notification")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-export default function Notifications ({notifications}) {
-
-  const {data: session, status} = useSession({required: true})
-  const [isSortedByType, setIsSortedByType] = useState(false)
-  const [notificationsList, setNotificationsList] = useState(notifications)
+/**
+ * @author Sergio García Navarro
+ * @returns Notifications page
+ * @version 1.0
+ * @description Notifications page
+ */
+export default function Notifications({ notifications }) {
+  const { data: session, status } = useSession({ required: true });
+  const [isSortedByType, setIsSortedByType] = useState(false);
+  const [notificationsList, setNotificationsList] = useState(notifications);
 
   const sortByFilters = (e) => {
-
-
-    if(e === 'type'){
-      
-    setIsSortedByType(!isSortedByType)
-    const sortedNotifications = notifications?.sort((a, b) => (a.type.name > b.type.name) ? 1 : ((b.type.name > a.type.name) ? -1 : 0))
-    setNotificationsList(sortedNotifications)
-
+    if (e === "type") {
+      setIsSortedByType(!isSortedByType);
+      const sortedNotifications = notifications?.sort((a, b) =>
+        a.type.name > b.type.name ? 1 : b.type.name > a.type.name ? -1 : 0
+      );
+      setNotificationsList(sortedNotifications);
     }
-}
+  };
 
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Notificaciones | Sweet Home</title></Head>
-        <div className='container'>
+        <Head>
+          <title>Notificaciones | Sweet Home</title>
+        </Head>
+        <div className="container">
           <h1 className={global.title}>Notificaciones</h1>
-          <div className='filter__list'>
-                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro</option>
-                      <option value="type">Ordenar por tipo</option>
-                  </select>
+          <div className="filter__list">
+            <select
+              name="filters"
+              onChange={(e) => sortByFilters(e.target.value)}
+            >
+              <option default value="default">
+                Selecciona un filtro
+              </option>
+              <option value="type">Ordenar por tipo</option>
+            </select>
           </div>
-          {notificationsList?.length === 0 && <div><p className={global.loading2}>No tiene ninguna notificación.</p></div>}
-          {notificationsList.sort((a,b) => {
-          if (a.createdAt > b.createdAt) {
-            return 1
-          }
-          if (a.createdAt < b.createdAt) {
-            return -1
-          }
-          return 0
-        }).map(({ _id, sender, receiver, type, description, isChecked, createdAt }) => {
-            return (
-              <>
-                <Notification key={_id} id={_id} sender={sender} receiver={receiver} type={type} description={description} isChecked={isChecked} createdAt={createdAt} />
-              </>
-            )
-          })}
+          {notificationsList?.length === 0 && (
+            <div>
+              <p className={global.loading2}>No tiene ninguna notificación.</p>
+            </div>
+          )}
+          {notificationsList
+            .sort((a, b) => {
+              if (a.createdAt > b.createdAt) {
+                return 1;
+              }
+              if (a.createdAt < b.createdAt) {
+                return -1;
+              }
+              return 0;
+            })
+            .map(
+              ({
+                _id,
+                sender,
+                receiver,
+                type,
+                description,
+                isChecked,
+                createdAt,
+              }) => {
+                return (
+                  <>
+                    <Notification
+                      key={_id}
+                      id={_id}
+                      sender={sender}
+                      receiver={receiver}
+                      type={type}
+                      description={description}
+                      isChecked={isChecked}
+                      createdAt={createdAt}
+                    />
+                  </>
+                );
+              }
+            )}
         </div>
         <style jsx>{`
 
@@ -147,18 +183,24 @@ export default function Notifications ({notifications}) {
         
         `}</style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como usuario básico de la aplicación</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión como usuario
+                básico de la aplicación
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
   
                     .message{
   
@@ -177,26 +219,29 @@ export default function Notifications ({notifications}) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps(context){
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
-
-
-  const notification = await fetch(`${server}/api/notifications/${context.query.username}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
+  const notification = await fetch(
+    `${server}/api/notifications/${context.query.username}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
-  })
+  );
 
-  const notifications = await notification.json()
+  const notifications = await notification.json();
 
-  return{
-    props:{notifications: JSON.parse(JSON.stringify(notifications))}
-  }
-
+  return {
+    props: { notifications: JSON.parse(JSON.stringify(notifications)) },
+  };
 }

@@ -1,66 +1,105 @@
 /* Static imports */
 
-import {colors} from '/styles/frontend-conf.js'
-import { useSession, signIn } from 'next-auth/react'
-import {server} from "/server"
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import global from '/styles/global.module.css'
+import { colors } from "/styles/frontend-conf.js";
+import { useSession, signIn } from "next-auth/react";
+import { server } from "/server";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import global from "/styles/global.module.css";
 
 /*Dynamic imports*/
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const BlockedUser = dynamic(() => import('/components/BlockedUser/BlockedUser'))
-const UnblockedUser = dynamic(() => import('/components/UnblockedUser/UnblockedUser'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const BlockedUser = dynamic(() =>
+  import("/components/BlockedUser/BlockedUser")
+);
+const UnblockedUser = dynamic(() =>
+  import("/components/UnblockedUser/UnblockedUser")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Blocked users page
+ * @version 1.0
+ * @description Blocked users page
+ */
+export default function BlockedUsers({ blockedUsers, unblockedUsers }) {
+  const { data: session, status } = useSession({ required: true });
 
-export default function BlockedUsers ({blockedUsers, unblockedUsers}){
+  if (status == "loading") {
+    return (
+      <>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
+        <Loader />
+      </>
+    );
+  }
+  if (session?.user.role === "administrador") {
+    return (
+      <Layout>
+        <Head>
+          <title>Usuarios bloqueados | Sweet Home</title>
+        </Head>
+        <div className="unblockedUsers">
+          <h1 className="title">Usuarios a bloquear</h1>
+          {unblockedUsers?.length === 0 && (
+            <div>
+              <p className={global.loading2}>
+                No hay usuarios con más de cinco denuncias y que no haya sido
+                bloqueado.
+              </p>
+            </div>
+          )}
+          {unblockedUsers.map(
+            ({ _id, username, email, image, role, complaints }) => {
+              return (
+                <>
+                  <BlockedUser
+                    key={_id}
+                    id={_id}
+                    username={username}
+                    email={email}
+                    image={image}
+                    role={role}
+                    complaints={complaints}
+                  />
+                </>
+              );
+            }
+          )}
+        </div>
+        <div className="blockedUsers">
+          <h1 className="title">Usuarios bloqueados</h1>
+          {blockedUsers?.length === 0 && (
+            <div>
+              <p className={global.loading2}>No hay usuarios bloqueados.</p>
+            </div>
+          )}
+          {blockedUsers.map(
+            ({ _id, username, email, role, image, complaints }) => {
+              return (
+                <>
+                  <UnblockedUser
+                    key={_id}
+                    id={_id}
+                    username={username}
+                    email={email}
+                    image={image}
+                    role={role}
+                    complaints={complaints}
+                  />
+                </>
+              );
+            }
+          )}
+        </div>
 
-    const {data: session, status} = useSession({required: true})
-
-    if (status == 'loading') {
-        return (
-          <>
-            <div className={global.loading}><p>Cargando..</p></div>
-            <Loader />
-          </>
-        )
-    }
-    if(session?.user.role === "administrador"){
-        return(
-
-            <Layout>
-                <Head>
-                    <title>Usuarios bloqueados | Sweet Home</title>
-                </Head>
-                <div className="unblockedUsers">
-                  <h1 className="title">Usuarios a bloquear</h1>
-                    {unblockedUsers?.length === 0 && <div><p className={global.loading2}>No hay usuarios con más de cinco denuncias y que no haya sido bloqueado.</p></div>}
-                    {unblockedUsers.map(({_id, username, email, image, role, complaints}) => {
-                        return(
-                            <>
-                                <BlockedUser key={_id} id={_id} username={username} email={email} image={image} role={role} complaints={complaints} />
-                            </>
-                        )
-                    })}
-
-                </div>
-                <div className="blockedUsers">
-                  <h1 className="title">Usuarios bloqueados</h1>
-                    {blockedUsers?.length === 0 && <div><p className={global.loading2}>No hay usuarios bloqueados.</p></div>}
-                    {blockedUsers.map(({_id, username, email, role, image, complaints}) => {
-                        return(
-                            <>
-                                <UnblockedUser key={_id} id={_id} username={username} email={email} image={image} role={role} complaints={complaints} />
-                            </>
-                        )
-                    })}
-
-                </div>
-
-                <style jsx>{`
+        <style jsx>
+          {`
 
 
                     .blockedUsers{
@@ -94,19 +133,24 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
                     }
 
                 `}
-                </style>
-            </Layout>
-        )
-        } else {
-                    return (
-                      <Layout>
-                        <div className={global.content}>
-                          <div className='message'>
-                            <h1 className={global.title7}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
-                            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
-                          </div>
-                        </div>
-                        <style jsx>{`
+        </style>
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout>
+        <div className={global.content}>
+          <div className="message">
+            <h1 className={global.title7}>
+              Para acceder a esta página debe ser administrador de Sweet Home
+            </h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>
+              Iniciar sesión
+            </button>
+          </div>
+        </div>
+        <style jsx>
+          {`
                 
                                         .message{
                 
@@ -121,41 +165,43 @@ export default function BlockedUsers ({blockedUsers, unblockedUsers}){
                                         }
                                         
                                     `}
-                        </style>
-                      </Layout>
-                    )
-                  }
+        </style>
+      </Layout>
+    );
+  }
 }
 
 /**
  * It fetches the data from the API and returns it as props to the page
  * @returns An object with a property called props.
  */
-export async function getServerSideProps({res}){
+export async function getServerSideProps({ res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+  const res2 = await fetch(`${server}/api/unblockedUsers`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
+  const block = await fetch(`${server}/api/blockedUsers`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-      const res2 = await fetch(`${server}/api/unblockedUsers`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+  const unblockedUsers = await res2.json();
+  const blockedUsers = await block.json();
 
-      const block = await fetch(`${server}/api/blockedUsers`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-    const unblockedUsers = await res2.json();
-    const blockedUsers = await block.json();
-
-    return {
-        props: {
-            unblockedUsers: JSON.parse(JSON.stringify(unblockedUsers)), blockedUsers: JSON.parse(JSON.stringify(blockedUsers))
-        }
-    }
+  return {
+    props: {
+      unblockedUsers: JSON.parse(JSON.stringify(unblockedUsers)),
+      blockedUsers: JSON.parse(JSON.stringify(blockedUsers)),
+    },
+  };
 }

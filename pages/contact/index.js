@@ -1,34 +1,32 @@
 /* Static imports */
 
-import { colors, fonts } from 'styles/frontend-conf.js'
-import { BsInstagram, BsFacebook, BsTwitter } from 'react-icons/bs'
-import {HiMail, HiPhone, HiQuestionMarkCircle} from 'react-icons/hi'
-import {AiFillMessage} from 'react-icons/ai'
-import {MdLocationOn} from 'react-icons/md'
-import {server} from '/server'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
-import BasicLayout from '/components/BasicLayout/BasicLayout'
-import contact1 from '/public/contact1.png'
-
+import { colors, fonts } from "styles/frontend-conf.js";
+import { BsInstagram, BsFacebook, BsTwitter } from "react-icons/bs";
+import { HiMail, HiPhone, HiQuestionMarkCircle } from "react-icons/hi";
+import { AiFillMessage } from "react-icons/ai";
+import { MdLocationOn } from "react-icons/md";
+import { server } from "/server";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import global from "styles/global.module.css";
+import BasicLayout from "/components/BasicLayout/BasicLayout";
+import contact1 from "/public/contact1.png";
 
 /*Dynamic imports*/
 
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+/**
+ * @author Sergio García Navarro
+ * @returns Contact page
+ * @version 1.0
+ * @description Contact page
+ */
 
-
-/*
-    * @author Sergio García Navarro
-    * @returns Contact page
-    * @version 1.0
-    * @date 13/12/2020
-    * @description Contact page
-*/
-
-export default function Contact () {
+export default function Contact() {
   return (
     <BasicLayout>
       <>
@@ -36,93 +34,148 @@ export default function Contact () {
           <title>Contacto | Sweet Home</title>
         </Head>
 
-        <div className='contact__image'>
-          <FallbackImage src={contact1} style={{borderRadius: '20px'}} size={500}/>
+        <div className="contact__image">
+          <FallbackImage
+            src={contact1}
+            style={{ borderRadius: "20px" }}
+            size={500}
+          />
         </div>
-        <div className="contact__card-location">     
+        <div className="contact__card-location">
           <div className="contact__card">
-            <div className='card__container1'>
+            <div className="card__container1">
               <h2 className={global.title2}>24/7</h2>
               <p className={global.text3}>Servicio al cliente</p>
             </div>
-            <div className='card__container2'>
+            <div className="card__container2">
               <h2 className={global.title2}>100%</h2>
               <p className={global.text3}>Satisfacción garantizada</p>
             </div>
-            <div className='card__container3'>
+            <div className="card__container3">
               <h2 className={global.title2}>+1000</h2>
               <p className={global.text3}>Personas a tu disposición</p>
             </div>
           </div>
         </div>
-        <div className='contact__container'>
-          <div className='container__info'>
+        <div className="contact__container">
+          <div className="container__info">
             <h2 className={global.title2}>¿Quieres contactar con nosotros?</h2>
-            <p className={global.text3}>Para contactar con Sweet Home y
-              así recoger feedback para mejorar nuestro servicio, puede hacerlo
-              a través de nuestras redes sociales.
+            <p className={global.text3}>
+              Para contactar con Sweet Home y así recoger feedback para mejorar
+              nuestro servicio, puede hacerlo a través de nuestras redes
+              sociales.
             </p>
           </div>
 
-          
-          <div className='container__social'>
+          <div className="container__social">
             <h2 className={global.title2}>Redes sociales</h2>
-            <div className='social__link'>
-              <a aria-label='Enlace de Facebook' href='https://www.facebook.com/sweethome.es/'>
+            <div className="social__link">
+              <a
+                aria-label="Enlace de Facebook"
+                href="https://www.facebook.com/sweethome.es/"
+              >
                 Facebook
               </a>
               <BsFacebook />
             </div>
-            <div className='social__link'>
-              <a aria-label='Enlace de Instagram' href='https://www.instagram.com/sweethome.es/'>
+            <div className="social__link">
+              <a
+                aria-label="Enlace de Instagram"
+                href="https://www.instagram.com/sweethome.es/"
+              >
                 Instagram
               </a>
               <BsInstagram />
             </div>
-            <div className='social__link'>
-              <a aria-label='Enlace de Twitter' href='https://www.twitter.es/sweethome'>
+            <div className="social__link">
+              <a
+                aria-label="Enlace de Twitter"
+                href="https://www.twitter.es/sweethome"
+              >
                 Twitter
               </a>
               <BsTwitter />
             </div>
-
           </div>
-
         </div>
         <div className="contact__location">
-          <div className='location__container'>
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.476486491192!2d-6.147650961113595!3d36.69966794360945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0dc6af434684e7%3A0xa0544d1a96755bd8!2sCtra.%20Trebujena%2C%2011404%20Jerez%20de%20la%20Frontera%2C%20C%C3%A1diz!5e0!3m2!1ses!2ses!4v1682413325803!5m2!1ses!2ses" width="1000" height="450" style={{borderRadius: '20px', border: '2px solid #f0810f'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>             
+          <div className="location__container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.476486491192!2d-6.147650961113595!3d36.69966794360945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0dc6af434684e7%3A0xa0544d1a96755bd8!2sCtra.%20Trebujena%2C%2011404%20Jerez%20de%20la%20Frontera%2C%20C%C3%A1diz!5e0!3m2!1ses!2ses!4v1682413325803!5m2!1ses!2ses"
+              width="1000"
+              height="450"
+              style={{ borderRadius: "20px", border: "2px solid #f0810f" }}
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
-          <div className='personal__container'>
-          <div className="location__text">
-                <p className={global.text__bold}>Puedes encontrarnos en la siguiente dirección:</p>
-                <div className='street'>
-                  <MdLocationOn color={`${colors.primary}`} size={25}/>
-                  <p className={global.text}>Ctra. Trebujena, 11404 Jerez de la Frontera, Cádiz.</p>
-                </div>
+          <div className="personal__container">
+            <div className="location__text">
+              <p className={global.text__bold}>
+                Puedes encontrarnos en la siguiente dirección:
+              </p>
+              <div className="street">
+                <MdLocationOn color={`${colors.primary}`} size={25} />
+                <p className={global.text}>
+                  Ctra. Trebujena, 11404 Jerez de la Frontera, Cádiz.
+                </p>
               </div>
-              <p className={global.text__bold}>Puedes contactar con nosotros:</p>
-              <div className='email'>
-                <HiMail size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>A través del siguiente correo electrónico: <a title='Enviar correo' aria-label='Enlace a correo de atención al cliente' href='mailto:atenciónSH@gmail.com'>atenciónSH@gmail.com</a>.</p>
-              </div>
-              <div className='phone'>
-                <HiPhone size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>A través del teléfono de contacto: +34 XXX XX XX XX. </p>
-              </div>
-              <div className='account'>
-                <AiFillMessage size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>O envía un mensaje a la cuenta de: <a title='Cuenta de atención al cliente' aria-label='Enviar mensaje a cuenta de atención al cliente'>atencion.sh</a>.</p>
-              </div>
-              <div className='faq'>
-                <HiQuestionMarkCircle size={20} color={`${colors.primary}`}/>
-                <p className={global.text}>Puedes consultar las preguntas frecuentes en el siguiente enlace: <a title='Preguntas frecuentes' aria-label='Ir a preguntas frecuentes' href={`${server}/faq`}>FAQ</a>.</p>
             </div>
+            <p className={global.text__bold}>Puedes contactar con nosotros:</p>
+            <div className="email">
+              <HiMail size={20} color={`${colors.primary}`} />
+              <p className={global.text}>
+                A través del siguiente correo electrónico:{" "}
+                <a
+                  title="Enviar correo"
+                  aria-label="Enlace a correo de atención al cliente"
+                  href="mailto:atenciónSH@gmail.com"
+                >
+                  atenciónSH@gmail.com
+                </a>
+                .
+              </p>
             </div>
-          
+            <div className="phone">
+              <HiPhone size={20} color={`${colors.primary}`} />
+              <p className={global.text}>
+                A través del teléfono de contacto: +34 XXX XX XX XX.{" "}
+              </p>
+            </div>
+            <div className="account">
+              <AiFillMessage size={20} color={`${colors.primary}`} />
+              <p className={global.text}>
+                O envía un mensaje a la cuenta de:{" "}
+                <a
+                  title="Cuenta de atención al cliente"
+                  aria-label="Enviar mensaje a cuenta de atención al cliente"
+                >
+                  atencion.sh
+                </a>
+                .
+              </p>
+            </div>
+            <div className="faq">
+              <HiQuestionMarkCircle size={20} color={`${colors.primary}`} />
+              <p className={global.text}>
+                Puedes consultar las preguntas frecuentes en el siguiente
+                enlace:{" "}
+                <a
+                  title="Preguntas frecuentes"
+                  aria-label="Ir a preguntas frecuentes"
+                  href={`${server}/faq`}
+                >
+                  FAQ
+                </a>
+                .
+              </p>
+            </div>
           </div>
-        
-        <style jsx>{`
+        </div>
+
+        <style jsx>
+          {`
 
 
                     .contact__image{
@@ -529,6 +582,5 @@ export default function Contact () {
         </style>
       </>
     </BasicLayout>
-
-  )
+  );
 }

@@ -1,589 +1,532 @@
-
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { MdTitle, MdOutlineError } from 'react-icons/md'
-import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill} from 'react-icons/bs'
-import { statusColors, colors, fonts } from '/styles/frontend-conf'
-import {toast} from 'react-toastify'
-import { server } from '/server'
-import global from '/styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { MdTitle, MdOutlineError } from "react-icons/md";
+import {
+  BsFillChatLeftTextFill,
+  BsFillXCircleFill,
+  BsFillCheckCircleFill,
+} from "react-icons/bs";
+import { statusColors, colors, fonts } from "/styles/frontend-conf";
+import { toast } from "react-toastify";
+import { server } from "/server";
+import global from "/styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Create type attendance page
+ * @version 1.0
+ * @description Create type attendance page
+ */
+export default function CreateTypeAttendance() {
+  const { data: session, status } = useSession({ required: true });
 
+  const Router = useRouter();
+  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [isValidate, setIsValidate] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
+  const [message, setMessage] = useState("");
 
-
-export default function CreateTypeAttendance () {
-
-  const { data: session, status } = useSession({ required: true })
-
-  const Router = useRouter()
-  const [description, setDescription] = useState('')
-  const [name, setName] = useState('')
-  const [isValidate, setIsValidate] = useState(false)
-  const [isPosting, setIsPosting] = useState(false)
-  const [message, setMessage] = useState('')
-  
-
-  /**
-   * The function validates the input field by checking if the input matches the regular expression. If
-   * it does, it adds a class to the error message and error icon to show them. If it doesn't, it
-   * removes the class to hide them
-   * @param e - event
-   */
-  
-
-
-  /**
-   * It creates a new type of attendance in the database
-   * @param e - event
-   */
+ 
   const createTypeAttendance = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault()
-
-    if(name.trim() === ''){
-      toast.error('El campo Tipo de cuidado es obligatorio', { position: "bottom-right",
+    if (name.trim() === "") {
+      toast.error("El campo Tipo de cuidado es obligatorio", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
-        return
+        theme: "colored",
+      });
+      return;
     }
 
-    if(description.trim() === ''){
-      toast.error('El campo Descripción es obligatorio', { position: "bottom-right",
+    if (description.trim() === "") {
+      toast.error("El campo Descripción es obligatorio", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
-        return
+        theme: "colored",
+      });
+      return;
     }
 
     const res = await fetch(`${server}/api/typeAttendance`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: name,
         description: description,
-      })
-    })
+      }),
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.message === "Ya existe este tipo de cuidado") {
-
-      toast.error('Ya existe este tipo de cuidado', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-
+      toast.error("Ya existe este tipo de cuidado", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } else {
-      toast.success('Se ha publicado el tipo de cuidado', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
+      toast.success("Se ha publicado el tipo de cuidado", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
 
-        Router.push(`${server}/attendances`)
-
+      Router.push(`${server}/attendances`);
     }
-  }
+  };
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Crear tipo de cuidado | Sweet Home</title></Head>
-        
-          <div className="form__position">
-            <div className='form'>
-              <div className="createTypeAttendance__header">
-                <h1 className='form__title'>Crear tipo de cuidado</h1>
-                <p className={global.text2}>Introduzca los datos del tipo de cuidado. Los campos obligatorios vienen indicados con un asterisco *:</p>
+        <Head>
+          <title>Crear tipo de cuidado | Sweet Home</title>
+        </Head>
+
+        <div className="form__position">
+          <div className="form">
+            <div className="createTypeAttendance__header">
+              <h1 className="form__title">Crear tipo de cuidado</h1>
+              <p className={global.text2}>
+                Introduzca los datos del tipo de cuidado. Los campos
+                obligatorios vienen indicados con un asterisco *:
+              </p>
+            </div>
+            <form action="/api/typeAttendance" id="form">
+              <div className="form-vertical__name">
+                <label className="label">
+                  <p className={global.text2}>Tipo de cuidado (*)</p>
+                  <MdTitle size={18} color={colors.secondary} />
+                </label>
+                <div className="name__input">
+                  <input
+                    title="Introducir tipo de cuidado"
+                    type="text"
+                    name="name"
+                    value={name}
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="p. ej.: Alimentación"
+                    className="input"
+                  />
+                </div>
+                <div id="name__error" className="form__input-nameError">
+                  <div className="error__icon">
+                    <MdOutlineError size={25} color={colors.secondary} />
+                  </div>
+                  <p className={global.text2}>
+                    Debe seguir el formato correcto
+                  </p>
+                </div>
               </div>
-              <form action='/api/typeAttendance' id='form'>
-                <div className='form-vertical__name'>
-                  <label className='label'>
-                    <p className={global.text2}>Tipo de cuidado (*)</p>
-                    <MdTitle size={18} color={colors.secondary} />
-                  </label>
-                  <div className='name__input'>
-                    <input
-                          title='Introducir tipo de cuidado'
-                          type='text'
-                          name='name'
-                          value={name}
-                          required
-                          onChange={(e) => setName(e.target.value)}
-
-                          placeholder='p. ej.: Alimentación'
-                          className='input'
-                         />
-
-                    
-                  </div>
-                  <div id='name__error' className='form__input-nameError'>
-                      <div className='error__icon'>
-                        <MdOutlineError size={25} color={colors.secondary} />
-                      </div>
-                      <p className={global.text2}>Debe seguir el formato correcto</p>
-                    </div>
+              <div className="form-vertical__description">
+                <label className="label">
+                  <p className={global.text}>Descripción (*)</p>
+                  <BsFillChatLeftTextFill size={18} color={colors.secondary} />
+                </label>
+                <div className="description__input">
+                  <textarea
+                    title="Introducir descripción"
+                    name="description"
+                    value={description}
+                    required
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="p. ej.: Es importante..."
+                  />
                 </div>
-                <div className='form-vertical__description'>
-                  <label className='label'>
-                    <p className={global.text}>Descripción (*)</p>
-                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </label>
-                  <div className='description__input'>
-                    <textarea
-                          title='Introducir descripción'
-                          name='description'
-                          value={description}
-                          required
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder='p. ej.: Es importante...'
-                        />
-                  </div>
-
-                </div>
-
-              </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createTypeAttendance(e)} value={isPosting ? 'Creando..' : 'Crear'}/>
+              </div>
+            </form>
+            <input
+              className={global.buttonPrimary}
+              type="submit"
+              onClick={(e) => createTypeAttendance(e)}
+              value={isPosting ? "Creando.." : "Crear"}
+            />
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
+            .form {
+              /*Box model*/
 
-                    .form{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
 
-                        /*Box model*/
+              width: 70vw;
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    
-                        width: 70vw;
+              /*Visuals*/
 
-                        /*Visuals*/
+              background-image: linear-gradient(
+                180deg,
+                rgba(240, 129, 15, 1) 35%,
+                rgba(249, 166, 3, 1) 200%
+              );
+              background-size: 100% 110%;
+              border-radius: 20px;
+            }
 
-                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
-                        background-size: 100% 110%;
-                        border-radius: 20px;
-                        
-                    }
+            .form__position {
+              /*Box model*/
 
-                    .form__position{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            }
 
-                        /*Box model*/ 
+            .form__name {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        
-                    }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-bottom: 1rem;
+            }
 
-                    .form__name{
+            .createTypeAttendance__header {
+              /*Box model*/
 
-                        /*Box model*/
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              margin-bottom: 2rem;
+            }
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        margin-bottom: 1rem;
+            .label {
+              /*Box model*/
 
-                    }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                    .createTypeAttendance__header{
+            .label p {
+              /*Box model*/
 
-                        /*Box model*/
+              margin-right: 1rem;
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        margin-bottom: 2rem;
-                    }
+              /*Visuals*/
 
-                    .label{
+              color: ${colors.secondary};
+            }
 
-                        /*Box model*/
+            .input {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
+              width: 100%;
+              height: 2rem;
+              padding: 0.4rem;
+              margin-bottom: 1rem;
 
-                    }
+              /*Text*/
 
-                    .label p{
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                        /*Box model*/
+              /*Visuals*/
 
-                        margin-right: 1rem;
+              border-radius: 20px;
+              border: 1px solid ${colors.primary};
+            }
 
-                        /*Visuals*/
+            .form-vertical__description {
+              /*Box model*/
 
-                        color: ${colors.secondary};
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 40vw;
+            }
 
-                    }
-                    
-                    .input{
+            .form-vertical__name {
+              /*Box model*/
 
-                        /*Box model*/
+              margin-top: 2rem;
+            }
 
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.4rem;
-                        margin-bottom: 1rem;
-                        
+            .description__input {
+              /*Box model*/
 
-                        /*Text*/
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              width: 40vw;
+            }
 
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
+            .name__input {
+              /*Box model*/
 
-                        /*Visuals*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                        border-radius: 20px;
-                        border: 1px solid ${colors.primary};
-                    }
+            /*ERRORES*/
 
-                
+            .form__input-nameError {
+              display: none;
+              flex-direction: row;
+              align-items: center;
+              margin-left: 20rem;
 
-                    .form-vertical__description {
+              /*Text*/
 
-                        /*Box model*/
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        width: 40vw;
+              /*Visuals*/
 
-                    }
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 0;
+            }
 
-                    .form-vertical__name {
+            .form__input-nameError p {
+              /*Box model*/
 
-                        /*Box model*/
+              margin-left: 2rem;
+            }
 
-                        margin-top: 2rem;
+            .form__input-nameError--active {
+              /*Box model*/
 
-                    }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 30vw;
 
+              /*Text*/
 
-                    .description__input{
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-                        /*Box model*/
+              /*Visuals*/
 
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        width: 40vw;
-                        
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 1;
+            }
 
-                    }
+            .error__icon {
+              /*Box model*/
 
-                    .name__input{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-left: 1rem;
+            }
 
-                        /*Box model*/
+            .submit__error {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
+              display: none;
 
-                    }
+              /*Text*/
 
-                    /*ERRORES*/
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                    .form__input-nameError{
+              /*Visuals*/
 
+              background-color: ${statusColors.error};
+            }
 
-                      display: none;
-                      flex-direction: row;
-                      align-items: center;
-                      margin-left: 20rem;
+            .submit__error--active {
+              /*Box model*/
 
-                      /*Text*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
-                      font-family: 'Poppins', sans-serif;
-                      color: #fafafa;
+              /*Text*/
 
-                      /*Visuals*/
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                      border-radius: 20px;
-                      background-color: ${statusColors.error};
-                      opacity: 0;
+              /*Visuals*/
 
-                      }
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+            }
 
+            .submit__error--active2 {
+              /*Box model*/
 
-                      .form__input-nameError p{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
-                      /*Box model*/
+              /*Text*/
 
-                      margin-left: 2rem;
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                      }
+              /*Visuals*/
 
-                      .form__input-nameError--active{
+              border-radius: 20px;
+              background-color: ${statusColors.success};
+            }
 
+            h1 {
+              /*Box model*/
 
-                      /*Box model*/
+              margin-top: 2rem;
+              margin-bottom: 3rem;
 
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      width: 30vw;
+              /*Text*/
 
-                      /*Text*/
+              font-size: 3.5rem;
+              font-weight: 500;
+              font-family: "Satisfy", sans-serif;
+              color: white;
+              text-align: center;
+            }
 
-                      font-family: 'Poppins', sans-serif;
-                      color: #fafafa;
+            input[type="text"] {
+              /*Box model*/
 
-                      /*Visuals*/
+              width: 20vw;
+              height: 2rem;
+              padding: 0.4rem;
 
-                      border-radius: 20px;
-                      background-color: ${statusColors.error};
-                      opacity: 1;
+              /*Text*/
 
-                      }
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
+              /*Visuals*/
 
+              border-radius: 20px;
+              border: 1px solid ${colors.primary};
+            }
 
-                      .error__icon{
+            input[type="text"]:focus {
+              /*Visuals*/
 
-                      /*Box model*/
-                      
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      margin-left: 1rem;
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
+            }
 
-                      }
+            input[type="submit"] {
+              /*Box model*/
 
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              margin-top: 2rem;
+              margin-bottom: 2rem;
+            }
 
+            ::placeholder {
+              /*Text*/
 
+              color: ${colors.primary};
+            }
 
+            textarea {
+              /*Box model*/
 
+              width: 100%;
+              height: 3rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
 
+              /*Text*/
 
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                      .submit__error{
+              /*Visuals*/
 
-                      /*Box model*/
+              border-radius: 20px;
+              border: 2px solid ${colors.primary};
+            }
 
-                      display: none;
+            textarea:focus {
+              /*Visuals*/
 
-                      /*Text*/
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
+            }
 
-                      font-family: 'Poppins', sans-serif;
-                      color: ${colors.secondary};
+            a {
+              /*Misc*/
 
-                      /*Visuals*/
-
-                      background-color: ${statusColors.error};
-
-                      }
-
-                      .submit__error--active{
-
-                      /*Box model*/
-
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      justify-content: center;
-                      padding: 0.5rem;
-                      width: 65%;
-
-                      /*Text*/
-
-                      font-family: 'Poppins', sans-serif;
-                      color: ${colors.secondary};
-
-                      /*Visuals*/
-
-                      border-radius: 20px;
-                      background-color: ${statusColors.error};
-
-                      }
-
-                      .submit__error--active2{
-
-                      /*Box model*/
-
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      justify-content: center;
-                      padding: 0.5rem;
-                      width: 65%;
-
-                      /*Text*/
-
-                      font-family: 'Poppins', sans-serif;
-                      color: ${colors.secondary};
-
-                      /*Visuals*/
-
-                      border-radius: 20px;
-                      background-color: ${statusColors.success};
-
-                      }
-
-                      h1{
-                        /*Box model*/
-
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
-
-                        /*Text*/
-
-                        font-size: 3.5rem;
-                        font-weight: 500;
-                        font-family: "Satisfy", sans-serif;
-                        color: white;
-                        text-align: center;
-                        
-                    }
-
-
-
-                    input[type="text"]{
-
-
-                        /*Box model*/
-
-                        width: 20vw;
-                        height: 2rem;
-                        padding: 0.4rem;
-
-                        /*Text*/
-
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
-
-                        /*Visuals*/
-
-                        border-radius: 20px;
-                        border: 1px solid ${colors.primary};
-
-                    }
-
-                    input[type="text"]:focus{
-
-                    /*Visuals*/
-
-                    border: 2px solid #4d97f7;
-                    outline: none;
-                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-
-                    input[type="submit"]{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 2rem;
-
-                    }
-
-                   
-                    ::placeholder{
-
-                        /*Text*/
-
-                        color: ${colors.primary};
-                    }
-
-                    textarea{
-
-                    /*Box model*/
-
-                    width: 100%;
-                    height: 3rem;
-                    padding: 0.4rem;
-                    margin-bottom: 2rem;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    font-size: 1rem;
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    border: 2px solid ${colors.primary};
-
-                    }
-
-                    textarea:focus{
-
-                    /*Visuals*/
-
-                    border: 2px solid #4d97f7;
-                    outline: none;
-                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-
-                    a{
-
-                        /*Misc*/
-
-                        cursor: pointer;
-                    }
-
-                `}
+              cursor: pointer;
+            }
+          `}
         </style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como administrador</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          <div className="message">
+            <h1 className={global.title7}>
+              Para acceder a esta página debe iniciar sesión como administrador
+            </h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>
+              Iniciar sesión
+            </button>
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
                         .message{
 
@@ -600,6 +543,6 @@ export default function CreateTypeAttendance () {
                     `}
         </style>
       </Layout>
-    )
+    );
   }
 }

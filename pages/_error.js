@@ -1,58 +1,72 @@
 /* Static imports */
 
-import { useRouter } from 'next/router'
-import { MdPets } from 'react-icons/md'
-import { colors, fonts } from '/styles/frontend-conf.js'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
+import { useRouter } from "next/router";
+import { MdPets } from "react-icons/md";
+import { colors, fonts } from "/styles/frontend-conf.js";
+import Head from "next/head";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-/*
-    * @author Sergio García Navarro
-    * @returns Error page
-    * @version 1.0
-    * @date 13/01/2020
-    * @description Error page
-*/
 /**
- * A function that returns an error message if the page is not found.
+ * @author Sergio García Navarro
+ * @returns Error page
+ * @version 1.0
+ * @description Error page
  */
-function Error ({ statusCode }) {
-  const router = useRouter()
+function Error({ statusCode }) {
+  const router = useRouter();
 
   return (
     <Layout>
       <>
         <Head>
-          <title>¡Ups! Algo ha salido mal.. Error {router.error}{statusCode} | Sweet Home</title>
+          <title>
+            ¡Ups! Algo ha salido mal.. Error {router.error}
+            {statusCode} | Sweet Home
+          </title>
         </Head>
         <div className={global.content}>
-
-          <div className='error'>
-            <div className='first-line'>
-              <MdPets size={35} color={colors.primary} className='icon' />
+          <div className="error">
+            <div className="first-line">
+              <MdPets size={35} color={colors.primary} className="icon" />
               <h1 className="title">Error {statusCode}</h1>
-              <MdPets size={35} color={colors.primary} className='icon' />
+              <MdPets size={35} color={colors.primary} className="icon" />
             </div>
 
-            <div className='second-line'>
+            <div className="second-line">
               <h1 className="title">
                 Vaya... este perro se ha comido la página
               </h1>
-              <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
-              <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
+              <h2 className={global.secondary}>
+                Parece ser que este travieso perro se ha comido la página que
+                buscabas. Solucionaremos este error lo antes posible.
+              </h2>
+              <button
+                className={global.buttonPrimary}
+                onClick={() => router.back()}
+              >
+                Volver
+              </button>
             </div>
-            <FallbackImage src='/error-1.svg' alt='Imagen de perro' width={1000} height={1000} priority/>
+            <FallbackImage
+              src="/error-1.svg"
+              alt="Imagen de perro"
+              width={1000}
+              height={1000}
+              priority
+            />
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
           .title{
 
@@ -170,12 +184,12 @@ function Error ({ statusCode }) {
         </style>
       </>
     </Layout>
-  )
+  );
 }
 
 Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-  return { statusCode }
-}
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+  return { statusCode };
+};
 
-export default Error
+export default Error;

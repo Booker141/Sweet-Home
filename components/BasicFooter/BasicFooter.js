@@ -8,24 +8,18 @@ import dynamic from 'next/dynamic'
 
 const Link = dynamic(() => import('next/link'))
 
-/*
-    * @author Sergio García Navarro
-    * @returns Basic Footer component
-    * @version 1.0
-    * @date 13/01/2020
-    * @description Basic Footer component
+/** 
+  * @author Sergio García Navarro
+  * @returns Basic footer component
+  * @version 1.0
+  * @description Basic footer component
 */
 
 /**
- * This function is a basic footer component that takes in three urls and three texts and displays them
- * in a footer
- * @param {props} url1 - url of the first link
- * @param {props} url2 - url of the second link
- * @param {props} url3 - url of the third link
- * @param {props} text1 - text of the first link
- * @param {props} text2 - text of the second link
- * @param {props} text3 - text of the third link
- * @returns A footer with three links and a copyright.
+ * This function is a basic footer component that receive props from page and displays them
+ * in a simple footer
+ * @param props - props received from page.
+ * @returns An basic version of footer.
  */
 export default function BasicFooter (props) {
 

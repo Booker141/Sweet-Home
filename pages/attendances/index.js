@@ -1,71 +1,65 @@
 /* Static imports */
 
-import {colors, fonts} from 'styles/frontend-conf.js'
-import { useState } from 'react'
-import { useSession, getSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { server } from '/server'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
-
+import { colors, fonts } from "styles/frontend-conf.js";
+import { useState } from "react";
+import { useSession, getSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { server } from "/server";
+import Head from "next/head";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /*Dynamic imports*/
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const TypeAttendance = dynamic(() => import('/components/TypeAttendance/TypeAttendance'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const TypeAttendance = dynamic(() =>
+  import("/components/TypeAttendance/TypeAttendance")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Type attendances page
+ * @version 1.0
+ * @description Type attendances page
+ */
+export default function Attendances({ typeAttendance, users }) {
+  const { data: session, status } = useSession({ required: true });
 
-
-/*
-    * @author Sergio García Navarro
-    * @returns Attendances page
-    * @version 1.0
-    * @date 13/12/2022
-    * @description This page is the attendances page of the application
-*/
-
-export default function Attendances ({ typeAttendance, users }) {
-
-  const { data: session, status } = useSession({ required: true })
-
-  const [isSorted, setIsSorted] = useState(false)
-  const [user, setUser] = useState({})
-  const [isAdmin, setIsAdmin] = useState(users?.role.name === "administrador" ? true : false)
-  const [sortedAttendance, setSortedAttendance] = useState(typeAttendance)
-  const Router = useRouter()
-
-
+  const [isSorted, setIsSorted] = useState(false);
+  const [user, setUser] = useState({});
+  const [isAdmin, setIsAdmin] = useState(
+    users?.role.name === "administrador" ? true : false
+  );
+  const [sortedAttendance, setSortedAttendance] = useState(typeAttendance);
+  const Router = useRouter();
 
   const sortByFilters = (e) => {
-
-    if(e === 'name'){
+    if (e === "name") {
       const sortedAttendance = typeAttendance.sort((a, b) => {
         if (a.name > b.name) {
-          return 1
+          return 1;
         }
         if (a.name < b.name) {
-          return -1
+          return -1;
         }
-        return 0
-      })
-      setIsSorted(!isSorted)
-      setSortedAttendance(sortedAttendance)
+        return 0;
+      });
+      setIsSorted(!isSorted);
+      setSortedAttendance(sortedAttendance);
     }
+  };
 
-  }
-
-
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
@@ -76,31 +70,71 @@ export default function Attendances ({ typeAttendance, users }) {
         <h1 className={global.title}>Foro de cuidados</h1>
         <h2 className={global.title2}>Categorías</h2>
         <div className="header__buttons">
-          {isAdmin && <button className={global.buttonPrimary} onClick={() => Router.push(`${server}/dashboard/createTypeAttendance`)} aria-label='Crear categoría'>Crear tipo de cuidado</button>}
-          <div className='filter__list'>
-                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro</option>
-                      <option value="name">Ordenar por nombre</option>
-                  </select>
+          {isAdmin && (
+            <button
+              className={global.buttonPrimary}
+              onClick={() =>
+                Router.push(`${server}/dashboard/createTypeAttendance`)
+              }
+              aria-label="Crear categoría"
+            >
+              Crear tipo de cuidado
+            </button>
+          )}
+          <div className="filter__list">
+            <select
+              name="filters"
+              onChange={(e) => sortByFilters(e.target.value)}
+            >
+              <option default value="default">
+                Selecciona un filtro
+              </option>
+              <option value="name">Ordenar por nombre</option>
+            </select>
           </div>
         </div>
-        
-        {typeAttendance?.length === 0 && <div><p className={global.loading2}>No hay ninguna categoría en este momento.</p></div>}
-        {isSorted && sortedAttendance.map(({ _id, name, description, urlName }) => {
-          return (
-            <>
-              <LazyLoad offset={100}><TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} /></LazyLoad>
-            </>
-          )
-        })}
-        {!isSorted && typeAttendance.map(({ _id,  name, description, urlName }) => {
-          return (
-            <>
-              <LazyLoad offset={100}><TypeAttendance key={_id} id={_id} name={name} description={description} urlName={urlName} /></LazyLoad>
-            </>
-          )
-        })}
-        <style jsx>{`
+
+        {typeAttendance?.length === 0 && (
+          <div>
+            <p className={global.loading2}>
+              No hay ninguna categoría en este momento.
+            </p>
+          </div>
+        )}
+        {isSorted &&
+          sortedAttendance.map(({ _id, name, description, urlName }) => {
+            return (
+              <>
+                <LazyLoad offset={100}>
+                  <TypeAttendance
+                    key={_id}
+                    id={_id}
+                    name={name}
+                    description={description}
+                    urlName={urlName}
+                  />
+                </LazyLoad>
+              </>
+            );
+          })}
+        {!isSorted &&
+          typeAttendance.map(({ _id, name, description, urlName }) => {
+            return (
+              <>
+                <LazyLoad offset={100}>
+                  <TypeAttendance
+                    key={_id}
+                    id={_id}
+                    name={name}
+                    description={description}
+                    urlName={urlName}
+                  />
+                </LazyLoad>
+              </>
+            );
+          })}
+        <style jsx>
+          {`
 
                       .header__buttons{
 
@@ -180,18 +214,23 @@ export default function Attendances ({ typeAttendance, users }) {
                     `}
         </style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
         
                           .message{
         
@@ -212,39 +251,40 @@ export default function Attendances ({ typeAttendance, users }) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps (context) {
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
-
-  const session = await getSession(context)
+  const session = await getSession(context);
 
   const res = await fetch(`${server}/api/typeAttendance`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
   const res2 = await fetch(`${server}/api/users/${session?.user.username}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
+  const data = await res2.json();
 
-  const data = await res2.json()
-
-
-  const typeAttendance = await res.json()
+  const typeAttendance = await res.json();
 
   return {
     props: {
-      typeAttendance: JSON.parse(JSON.stringify(typeAttendance)), users: JSON.parse(JSON.stringify(data))
-    }
-  }
+      typeAttendance: JSON.parse(JSON.stringify(typeAttendance)),
+      users: JSON.parse(JSON.stringify(data)),
+    },
+  };
 }

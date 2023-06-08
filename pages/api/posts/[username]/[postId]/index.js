@@ -1,27 +1,26 @@
-import clientPromise from '../../../lib/MongoDB'
-import { ObjectId } from 'mongodb'
+import clientPromise from "../../../lib/MongoDB";
+import { ObjectId } from "mongodb";
 
 export const config = {
   api: {
     responseLimit: false,
   },
-}
+};
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
+  res.setHeader("Cache-Control", "s-maxage=10");
 
-  res.setHeader('Cache-Control', 's-maxage=10'); 
+  const client = await clientPromise;
+  const db = await client.db();
+  const id = new ObjectId(req.query.postId);
+  const post = await db.collection("posts").findOne({ _id: id });
 
-  const client = await clientPromise
-  const db = await client.db()
-  const id = new ObjectId(req.query.postId)
-  const post = await db.collection('posts').findOne({ _id: id })
+  if (req.method === "DELETE") {
+    await db
+      .collection("users")
+      .updateOne({ username: post.username }, { $pull: { posts: id } });
+    await db.collection("posts").deleteOne({ _id: id });
 
-
-  if (req.method === 'DELETE') {
-
-    await db.collection('users').updateOne({username: post.username},{$pull: {posts: id}})
-    await db.collection('posts').deleteOne({ _id: id })
-    
-    res.status(200).json({ message: 'Publicación eliminada correctamente' })
+    res.status(200).json({ message: "Publicación eliminada correctamente" });
   }
 }

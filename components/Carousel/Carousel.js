@@ -1,94 +1,111 @@
 /* Static imports */
 
-import { useEffect, useState } from 'react'
-import { colors, fonts } from 'styles/frontend-conf.js'
-import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { server } from '/server'
-import global from 'styles/global.module.css'
-import router from 'next/router'
-import carousel from '../../public/carousel.svg'
-import dynamic from 'next/dynamic'
+import { useEffect, useState } from "react";
+import { colors, fonts } from "styles/frontend-conf.js";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
+import { server } from "/server";
+import global from "styles/global.module.css";
+import router from "next/router";
+import carousel from "../../public/carousel.svg";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
 
-/*
-    * @author Sergio García Navarro
-    * @returns Carousel component
-    * @version 1.0
-    * @date 13/01/2020
-    * @description Carousel component
+/** 
+  * @author Sergio García Navarro
+  * @returns Carousel component
+  * @version 1.0
+  * @description Carousel component
 */
 
-
-export default function Carousel () {
-
-  const [news, setNews] = useState([])
-  const [newsLength, setNewsLength] = useState(0)
-  const [current, setCurrent] = useState(0)
+/**
+ * This function is a carousel component 
+ * @returns A carousel.
+ */
+export default function Carousel() {
+  const [news, setNews] = useState([]);
+  const [newsLength, setNewsLength] = useState(0);
+  const [current, setCurrent] = useState(0);
 
   const before = () => {
     if (current > 0) {
-      setCurrent(current - 1)
+      setCurrent(current - 1);
     }
-  }
-
+  };
 
   const after = () => {
     if (current < newsLength - 1) {
-      setCurrent(current + 1)
+      setCurrent(current + 1);
     }
-  }
+  };
 
-
-  async function getNews(){
-
+  async function getNews() {
     await fetch(`${server}/api/news`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => response.json())
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
       .then((data) => {
-        setNews(data)
-        setNewsLength(data.length)
+        setNews(data);
+        setNewsLength(data.length);
       })
       .catch((error) => {
-        console.log('Error en la petición:' + error.message)
-      })
-
+        console.log("Error en la petición:" + error.message);
+      });
   }
 
-  /* A hook that is called when the component is mounted. It is used to fetch the news from the
-  database. */
+ 
   useEffect(() => {
-    getNews()
-  }, [])
+    getNews();
+  }, []);
 
   return (
-
     <>
-      <div className='carousel'>
+      <div className="carousel">
         {news.map(({ _id, title, date, author, introduction }) => (
-          <div key={_id} className='carousel__item' style={{ transform: `translateX(-${current * 100}%)`, transition: '0.5s ease all' }}>
-            <button className='arrow__left' onClick={before}>
-              <div className='carousel__icon'>
+          <div
+            key={_id}
+            className="carousel__item"
+            style={{
+              transform: `translateX(-${current * 100}%)`,
+              transition: "0.5s ease all",
+            }}
+          >
+            <button className="arrow__left" onClick={before}>
+              <div className="carousel__icon">
                 <BsFillArrowLeftCircleFill size={37} />
               </div>
             </button>
-            <div className='item__text'>
+            <div className="item__text">
               <h2 className={global.title3}>{title}</h2>
-              <h3 className='text__date'>{new Date(date).toLocaleDateString().slice(0,10)}</h3>
-              <h3 className='text__date'>{author}</h3>
-              <p className='text__paragraph'>{introduction}</p>
-              <button className={global.carouselButton} onClick={() => { router.push(`${server}/news/${_id}`) }}>Saber más</button>
+              <h3 className="text__date">
+                {new Date(date).toLocaleDateString().slice(0, 10)}
+              </h3>
+              <h3 className="text__date">{author}</h3>
+              <p className="text__paragraph">{introduction}</p>
+              <button
+                className={global.carouselButton}
+                onClick={() => {
+                  router.push(`${server}/news/${_id}`);
+                }}
+              >
+                Saber más
+              </button>
             </div>
-            <div className='item__image'>
+            <div className="item__image">
               <FallbackImage src={carousel} />
             </div>
-            <button className='arrow__right' onClick={after}>
-              <div className='carousel__icon'>
+            <button className="arrow__right" onClick={after}>
+              <div className="carousel__icon">
                 <BsFillArrowRightCircleFill size={37} />
               </div>
             </button>
@@ -96,218 +113,187 @@ export default function Carousel () {
         ))}
       </div>
 
-      <style jsx>{`
+      <style jsx>
+        {`
+          .carousel {
+            /*Box model*/
 
-              
-                .carousel{
+            display: flex;
+            overflow-x: hidden;
+            margin-bottom: 3rem;
 
-                    /*Box model*/
+            /*Visuals*/
 
-                    display: flex;
-                    overflow-x: hidden;
-                    margin-bottom: 3rem;
+            border-radius: 20px;
+          }
 
-                    /*Visuals*/
+          .carousel__item {
+            /*Box model*/
 
-                    border-radius: 20px;
-                    
-                   
-                }
-                
-              
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-shrink: 0;
+            width: 100%;
 
-                .carousel__item{
+            /*Visuals*/
 
-                    /*Box model*/
+            border-radius: 10px;
+            background: linear-gradient(
+              45deg,
+              rgba(240, 129, 15, 1) 35%,
+              rgba(249, 166, 3, 1) 100%
+            );
+          }
 
-                    display: flex;
-                    align-items: center;
-                    flex-direction: row;
-                    justify-content: space-around;
-                    flex-shrink: 0;
-                    width: 100%;
-                    
+          .arrow__left,
+          .arrow__right {
+            /*Box model*/
 
-                    /*Visuals*/
+            margin: 1rem;
+          }
 
-                    border-radius: 10px;
-                    background: linear-gradient(45deg, rgba(240,129,15,1) 35%, rgba(249,166,3,1) 100%);
+          .carousel__icon {
+            /*Box model*/
 
-                }
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-                .arrow__left, .arrow__right{
+            width: 4rem;
+            height: 4rem;
 
-                    /*Box model*/
+            /*Visuals*/
 
-                    margin: 1rem;
-                }
+            color: ${colors.secondary};
+            cursor: pointer;
+          }
 
-                .carousel__icon{
+          .carousel__icon:hover {
+            /*Visuals*/
 
-                    /*Box model*/
+            color: ${colors.tertiary};
+            transition: 0.5s ease-in-out all;
+          }
 
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+          .item__image {
+            /*Box model*/
 
-                    width: 4rem;
-                    height: 4rem;
+            display: flex;
+            align-items: center;
 
-                    /*Visuals*/
+            width: 50%;
+            height: 50%;
 
-                    color: ${colors.secondary};
-                    cursor: pointer;
+            /*Visuals*/
 
-                }
+            border-radius: 15px;
+          }
 
+          .item__text {
+            /*Box model*/
 
-                .carousel__icon:hover{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
-                    /*Visuals*/
+            width: 50%;
+            height: 50%;
 
-                    color: ${colors.tertiary};
-                    transition: 0.5s ease-in-out all;
+            margin-left: 3.5rem;
 
+            /*Text*/
 
-                }
+            color: ${colors.secondary};
+          }
 
-                .item__image{
+          .item__text button {
+            /*Box model*/
 
-                    /*Box model*/
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            height: 50px;
+            width: fit-content;
+            min-width: 120px;
+            max-width: 200px;
+            padding: 0.5rem;
 
-                    display: flex;
-                    align-items: center;
+            /*Text*/
 
-                    width: 50%;
-                    height: 50%;
+            color: #f0810f;
+            font-family: "Poppins", sans-serif;
+            font-style: 500;
 
-                    /*Visuals*/
+            /*Visuals*/
 
-                    border-radius: 15px;
+            cursor: pointer;
 
-                }
+            background-color: ${colors.secondary};
+            border-radius: 40px;
 
+            /*Misc*/
 
-                .item__text{
+            transition: all 0.3s ease-in-out;
+          }
 
-                    /*Box model*/
+          .item__text button:hover {
+            /*Box model*/
 
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
+            color: ${colors.secondary};
+            background-color: ${colors.tertiary};
+          }
 
-                    width: 50%;
-                    height: 50%;
+          .text__title {
+            /*Text*/
 
-                    margin-left: 3.5rem;
+            font-size: 1rem;
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
+          }
 
-                    /*Text*/
+          .text__date {
+            /*Text*/
 
-                    color: ${colors.secondary};
+            font-size: 0.8rem;
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
+          }
 
-                }
+          .text__paragraph {
+            /*Text*/
 
-                .item__text button{
+            font-size: 1.2rem;
+            font-family: ${fonts.default};
+            color: ${colors.secondary};
+            text-align: justify;
+          }
 
-                  /*Box model*/
+          button {
+            /*Box model*/
 
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  justify-content: center;
-                  gap: 0.5rem;
-                  height: 50px;
-                  width: fit-content;
-                  min-width: 120px;
-                  max-width: 200px;
-                  padding: 0.5rem;
+            margin-bottom: 4rem;
+            padding: 0.2rem;
 
-                  /*Text*/
+            /*Visuals*/
 
-                  color: #f0810f;
-                  font-family: "Poppins", sans-serif;
-                  font-style: 500;
+            cursor: pointer;
+            border: none;
+            background: none;
+            border-radius: 70px;
+            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+          }
 
-                  /*Visuals*/
+          p {
+            /*Box model*/
 
-                  cursor: pointer;
-
-                  background-color: ${colors.secondary};
-                  border-radius: 40px;
-
-                  /*Misc*/
-
-                  transition: all 0.3s ease-in-out;
-                }
-
-                .item__text button:hover{
-
-                  /*Box model*/
-
-                  color: ${colors.secondary};
-                  background-color: ${colors.tertiary};
-
-                  }
-
-                
-
-                .text__title{
-
-                    /*Text*/
-
-                    font-size: 1rem;
-                    font-family: ${fonts.default};
-                    color: ${colors.secondary};
-
-                }
-
-                .text__date{
-
-                    /*Text*/
-
-                    font-size: 0.8rem;
-                    font-family: ${fonts.default};
-                    color: ${colors.secondary};
-                }
-
-                .text__paragraph{
-
-                    /*Text*/
-
-                    font-size: 1.2rem;
-                    font-family: ${fonts.default};
-                    color: ${colors.secondary};
-                    text-align: justify;
-                }
-
-                button{
-
-                    /*Box model*/
-
-                    margin-bottom: 4rem;
-                    padding: 0.2rem;
-                    
-                    /*Visuals*/
-
-                    cursor: pointer;
-                    border: none;
-                    background: none;
-                    border-radius: 70px;
-                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
-                }
-
-                p{
-
-                    /*Box model*/
-
-                    margin-bottom: 3rem;
-                }
-
-            `}
+            margin-bottom: 3rem;
+          }
+        `}
       </style>
-
     </>
-
-  )
+  );
 }

@@ -1,34 +1,40 @@
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import {colors, fonts} from '/styles/frontend-conf'
-import {server} from '/server'
-import Head from 'next/head'
-import global from '/styles/global.module.css'
-import dynamic from 'next/dynamic'
+import { useSession, signIn } from "next-auth/react";
+import { colors, fonts } from "/styles/frontend-conf";
+import { server } from "/server";
+import Head from "next/head";
+import global from "/styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Report = dynamic(() => import('/components/Report/Report'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const Report = dynamic(() => import("/components/Report/Report"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Reports page
+ * @version 1.0
+ * @description Reports page
+ */
 
+export default function Reports({ reports }) {
+  const { data: session, status } = useSession({ required: true });
 
-export default function Reports ({reports}) {
-
-  const { data: session, status } = useSession({ required: true })
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
-  if (session?.user.role === 'administrador') {
+  if (session?.user.role === "administrador") {
     return (
       <>
         <Layout>
@@ -38,17 +44,30 @@ export default function Reports ({reports}) {
           <div className="report__header">
             <h1 className={global.title}>Panel de informes</h1>
           </div>
-          <div className='reports'>
-                      {reports?.length === 0 && <div><p className={global.loading2}>No hay informes que consultar.</p></div>}
-                      {reports.map(({_id, username, reason, image, createdAt}) => {
-                          return(
-                              <>
-                                  <Report key={_id} id={_id} username={username} reason={reason} image={image} createdAt={createdAt}/>
-                              </> 
-                      )})}
+          <div className="reports">
+            {reports?.length === 0 && (
+              <div>
+                <p className={global.loading2}>
+                  No hay informes que consultar.
+                </p>
+              </div>
+            )}
+            {reports.map(({ _id, username, reason, image, createdAt }) => {
+              return (
+                <>
+                  <Report
+                    key={_id}
+                    id={_id}
+                    username={username}
+                    reason={reason}
+                    image={image}
+                    createdAt={createdAt}
+                  />
+                </>
+              );
+            })}
+          </div>
 
-                    </div>
-          
           <style jsx>{`
 
             
@@ -71,18 +90,23 @@ export default function Reports ({reports}) {
           `}</style>
         </Layout>
       </>
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe ser administrador</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe ser administrador
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
       
                         .message{
       
@@ -101,22 +125,27 @@ export default function Reports ({reports}) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps(context){
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+  const res = await fetch(`${server}/api/reports`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
 
-  const res = await fetch(`${server}/api/reports`, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+  const data = await res.json();
+  const reports = JSON.parse(JSON.stringify(data));
 
-  const data = await res.json()
-  const reports = JSON.parse(JSON.stringify(data))
-
-  return{
+  return {
     props: {
-      reports: reports
-    }
-  }
+      reports: reports,
+    },
+  };
 }

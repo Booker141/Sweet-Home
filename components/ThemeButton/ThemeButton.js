@@ -1,41 +1,55 @@
 /* Static imports */
 
-import { useState, useEffect } from 'react'
-import { theme, colors } from 'styles/frontend-conf.js'
-import { BsFillSunFill, BsFillMoonFill} from 'react-icons/bs'
+import { useState, useEffect } from "react";
+import { theme, colors } from "styles/frontend-conf.js";
+import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
+
+/** 
+  * @author Sergio García Navarro
+  * @returns Theme button component
+  * @version 1.0
+  * @description Theme button component
+*/
 
 /**
- * It's a button that changes the theme of the page
- * @returns A button that changes the theme of the page.
+ * This function is a theme button component for change into light/dark mode
+ * @returns A theme button.
  */
-export default function ThemeButton () {
-  const [actualTheme, setActualTheme] = useState('light')
+export default function ThemeButton() {
+  const [actualTheme, setActualTheme] = useState("light");
 
-  /**
-    * If the actual theme is light, then set the actual theme to dark, otherwise set the actual theme
-    * to light
-    */
   const changeTheme = () => {
-    if (actualTheme === 'light') {
-      setActualTheme('dark')
+    if (actualTheme === "light") {
+      setActualTheme("dark");
     } else {
-      setActualTheme('light')
+      setActualTheme("light");
     }
-  }
+  };
 
-  /* Changing the color of the text and the background color of the body when the actual theme
-   changes. */
   useEffect(() => {
-    document.body.style.color = theme[actualTheme].textColor
-    document.body.style.backgroundColor = theme[actualTheme].backgroundColor
-  }, [actualTheme])
+    document.body.style.color = theme[actualTheme].textColor;
+    document.body.style.backgroundColor = theme[actualTheme].backgroundColor;
+  }, [actualTheme]);
 
   return (
     <>
-      {actualTheme === 'dark' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><BsFillSunFill color={colors.secondary} size={18} /></button></div>}
-      {actualTheme === 'light' && <div className='centered'><button onClick={changeTheme} className='toggleButton'><BsFillMoonFill color={colors.secondary} size={18} /></button></div>}
+      {actualTheme === "dark" && (
+        <div className="centered">
+          <button onClick={changeTheme} className="toggleButton">
+            <BsFillSunFill color={colors.secondary} size={18} />
+          </button>
+        </div>
+      )}
+      {actualTheme === "light" && (
+        <div className="centered">
+          <button onClick={changeTheme} className="toggleButton">
+            <BsFillMoonFill color={colors.secondary} size={18} />
+          </button>
+        </div>
+      )}
 
-      <style jsx>{`
+      <style jsx>
+        {`
 
                 .centered{
 
@@ -81,5 +95,5 @@ export default function ThemeButton () {
             `}
       </style>
     </>
-  )
+  );
 }

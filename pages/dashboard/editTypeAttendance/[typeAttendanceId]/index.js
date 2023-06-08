@@ -1,38 +1,42 @@
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { MdTitle, MdOutlineError } from 'react-icons/md'
-import { BsFillChatLeftTextFill, BsFillXCircleFill, BsFillCheckCircleFill} from 'react-icons/bs'
-import { statusColors, colors, fonts } from '/styles/frontend-conf'
-import {toast} from 'react-toastify'
-import { server } from '/server'
-import global from '/styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { MdTitle, MdOutlineError } from "react-icons/md";
+import {
+  BsFillChatLeftTextFill,
+  BsFillXCircleFill,
+  BsFillCheckCircleFill,
+} from "react-icons/bs";
+import { statusColors, colors, fonts } from "/styles/frontend-conf";
+import { toast } from "react-toastify";
+import { server } from "/server";
+import global from "/styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Edit type attendance page
+ * @version 1.0
+ * @description Edit type attendance page
+ */
+export default function EditTypeAttendance({ typeAttendance }) {
+  const { data: session, status } = useSession({ required: true });
 
-
-export default function EditTypeAttendance ({typeAttendance}) {
-
-  const { data: session, status } = useSession({ required: true })
-
-  const Router = useRouter()
-  const [description, setDescription] = useState(typeAttendance?.description)
-  const [name, setName] = useState(typeAttendance?.name)
-  const [isValidate, setIsValidate] = useState(false)
-  const [isPosting, setIsPosting] = useState(false)
-  const [message, setMessage] = useState('')
-  
-
-
+  const Router = useRouter();
+  const [description, setDescription] = useState(typeAttendance?.description);
+  const [name, setName] = useState(typeAttendance?.name);
+  const [isValidate, setIsValidate] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
+  const [message, setMessage] = useState("");
 
   /**
    * It sends a POST request to the server with the title and answer of the question, and if there's no
@@ -40,549 +44,497 @@ export default function EditTypeAttendance ({typeAttendance}) {
    * @param e - The event object
    */
   const editTypeAttendance = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault()
+    if (name.trim() === "") {
+      toast.error("El campo Tipo de cuidado es obligatorio", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
 
-    if(name.trim() === ''){
-        toast.error('El campo Tipo de cuidado es obligatorio', { position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored", })
-          return
+    if (description.trim() === "") {
+      toast.error("El campo Descripción es obligatorio", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+    const res = await fetch(
+      `${server}/api/typeAttendance/${Router.query.typeAttendanceId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          description: description,
+        }),
       }
-  
-      if(description.trim() === ''){
-        toast.error('El campo Descripción es obligatorio', { position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored", })
-          return
-      }
+    );
 
-    const res = await fetch(`${server}/api/typeAttendance/${Router.query.typeAttendanceId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: name,
-        description: description,
-      })
-    })
+    setIsPosting(true);
 
-    setIsPosting(true)
-
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.error) {
-      console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
+      console.log(data.error);
+      setMessage("Introduzca los campos obligatorios");
     } else {
+      if (data.message === "Ya existe este tipo de cuidado") {
+        toast.error("Ya existe este tipo de cuidado", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setIsPosting(false);
+        return;
+      } else {
+        toast.success("Se ha editado el tipo de cuidado", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
 
-      if(data.message === 'Ya existe este tipo de cuidado'){
-
-        toast.error('Ya existe este tipo de cuidado', { position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored", })
-        setIsPosting(false)
-        return
-
-      }else{
-
-        toast.success('Se ha editado el tipo de cuidado', { position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored", })
-  
-        Router.push(`${server}/attendances`)
+        Router.push(`${server}/attendances`);
       }
-      
-
     }
-  }
+  };
 
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session.user.role === "administrador") {
     return (
       <Layout>
-        <Head><title>Editar tipo de cuidado | Sweet Home</title></Head>
-        
-            <div className="form__position">
-            <div className='form'>
-              <div className="editTypeAttendance__header">
-                <h1 className='form__title'>Editar tipo de cuidado</h1>
-                <p className={global.text2}>Introduzca los datos del tipo de cuidado. Los campos obligatorios vienen indicados con un asterisco (*):</p>
+        <Head>
+          <title>Editar tipo de cuidado | Sweet Home</title>
+        </Head>
+
+        <div className="form__position">
+          <div className="form">
+            <div className="editTypeAttendance__header">
+              <h1 className="form__title">Editar tipo de cuidado</h1>
+              <p className={global.text2}>
+                Introduzca los datos del tipo de cuidado. Los campos
+                obligatorios vienen indicados con un asterisco (*):
+              </p>
+            </div>
+            <form action="/api/typeAttendance" id="form">
+              <div className="form-vertical__name">
+                <label className="label">
+                  <p className={global.text2}>Tipo de cuidado (*)</p>
+                  <MdTitle size={18} color={colors.secondary} />
+                </label>
+                <div className="name__input">
+                  <input
+                    title="Introducir tipo de cuidado"
+                    type="text"
+                    name="name"
+                    value={name}
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="p. ej.: Alimentación"
+                    className="input"
+                  />
+                </div>
               </div>
-              <form action='/api/typeAttendance' id='form'>
-                <div className='form-vertical__name'>
-                  <label className='label'>
-                    <p className={global.text2}>Tipo de cuidado (*)</p>
-                    <MdTitle size={18} color={colors.secondary} />
-                  </label>
-                  <div className='name__input'>
-                    <input
-                          title='Introducir tipo de cuidado'
-                          type='text'
-                          name='name'
-                          value={name}
-                          required
-                          onChange={(e) => setName(e.target.value)}
-                          placeholder='p. ej.: Alimentación'
-                          className='input'
-                         />
-
-                    
-                  </div>
-                  
+              <div className="form-vertical__description">
+                <label className="label">
+                  <p className={global.text}>Descripción (*)</p>
+                  <BsFillChatLeftTextFill size={18} color={colors.secondary} />
+                </label>
+                <div className="description__input">
+                  <textarea
+                    title="Introducir descripción"
+                    name="description"
+                    value={description}
+                    required
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="p. ej.: Es importante..."
+                  />
                 </div>
-                <div className='form-vertical__description'>
-                  <label className='label'>
-                    <p className={global.text}>Descripción (*)</p>
-                    <BsFillChatLeftTextFill size={18} color={colors.secondary} />
-                  </label>
-                  <div className='description__input'>
-                    <textarea
-                          title='Introducir descripción'
-                          name='description'
-                          value={description}
-                          required
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder='p. ej.: Es importante...'
-                        />
-                  </div>
-
-                </div>
-
-              </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => editTypeAttendance(e)} value={isPosting ? 'Editando..' : 'Editar'} />
+              </div>
+            </form>
+            <input
+              className={global.buttonPrimary}
+              type="submit"
+              onClick={(e) => editTypeAttendance(e)}
+              value={isPosting ? "Editando.." : "Editar"}
+            />
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
+            .form {
+              /*Box model*/
 
-            .form{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
 
-            /*Box model*/
+              width: 70vw;
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+              /*Visuals*/
 
-            width: 70vw;
-
-            /*Visuals*/
-
-            background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
-            background-size: 100% 110%;
-            border-radius: 20px;
-
+              background-image: linear-gradient(
+                180deg,
+                rgba(240, 129, 15, 1) 35%,
+                rgba(249, 166, 3, 1) 200%
+              );
+              background-size: 100% 110%;
+              border-radius: 20px;
             }
 
-            .form__position{
+            .form__position {
+              /*Box model*/
 
-            /*Box model*/ 
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
             }
 
-            .form__name{
+            .form__name {
+              /*Box model*/
 
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-bottom: 1rem;
-
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-bottom: 1rem;
             }
 
-            .createTypeAttendance__header{
+            .createTypeAttendance__header {
+              /*Box model*/
 
-            /*Box model*/
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              margin-bottom: 2rem;
             }
 
-            .label{
+            .label {
+              /*Box model*/
 
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-
+              display: flex;
+              flex-direction: row;
+              align-items: center;
             }
 
-            .label p{
+            .label p {
+              /*Box model*/
 
-            /*Box model*/
+              margin-right: 1rem;
 
-            margin-right: 1rem;
+              /*Visuals*/
 
-            /*Visuals*/
-
-            color: ${colors.secondary};
-
+              color: ${colors.secondary};
             }
 
-            .input{
+            .input {
+              /*Box model*/
 
-            /*Box model*/
+              width: 100%;
+              height: 2rem;
+              padding: 0.4rem;
+              margin-bottom: 1rem;
 
-            width: 100%;
-            height: 2rem;
-            padding: 0.4rem;
-            margin-bottom: 1rem;
+              /*Text*/
 
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-            /*Text*/
+              /*Visuals*/
 
-            font-family: ${fonts.default};
-            font-size: 1rem;
-
-            /*Visuals*/
-
-            border-radius: 20px;
-            border: 1px solid ${colors.primary};
+              border-radius: 20px;
+              border: 1px solid ${colors.primary};
             }
-
-
 
             .form-vertical__description {
+              /*Box model*/
 
-            /*Box model*/
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 40vw;
-
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 40vw;
             }
 
             .form-vertical__name {
+              /*Box model*/
 
-            /*Box model*/
-
-            margin-top: 2rem;
-
+              margin-top: 2rem;
             }
 
+            .description__input {
+              /*Box model*/
 
-            .description__input{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            width: 40vw;
-
-
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              width: 40vw;
             }
 
-            .name__input{
+            .name__input {
+              /*Box model*/
 
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-
+              display: flex;
+              flex-direction: row;
+              align-items: center;
             }
 
             /*ERRORES*/
 
-            .form__input-nameError{
+            .form__input-nameError {
+              display: none;
+              flex-direction: row;
+              align-items: center;
+              margin-left: 20rem;
 
+              /*Text*/
 
-            display: none;
-            flex-direction: row;
-            align-items: center;
-            margin-left: 20rem;
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-            /*Text*/
+              /*Visuals*/
 
-            font-family: 'Poppins', sans-serif;
-            color: #fafafa;
-
-            /*Visuals*/
-
-            border-radius: 20px;
-            background-color: ${statusColors.error};
-            opacity: 0;
-
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 0;
             }
 
+            .form__input-nameError p {
+              /*Box model*/
 
-            .form__input-nameError p{
-
-            /*Box model*/
-
-            margin-left: 2rem;
-
+              margin-left: 2rem;
             }
 
-            .form__input-nameError--active{
+            .form__input-nameError--active {
+              /*Box model*/
 
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 30vw;
 
-            /*Box model*/
+              /*Text*/
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            width: 30vw;
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-            /*Text*/
+              /*Visuals*/
 
-            font-family: 'Poppins', sans-serif;
-            color: #fafafa;
-
-            /*Visuals*/
-
-            border-radius: 20px;
-            background-color: ${statusColors.error};
-            opacity: 1;
-
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 1;
             }
 
+            .error__icon {
+              /*Box model*/
 
-
-            .error__icon{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-left: 1rem;
-
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-left: 1rem;
             }
 
+            .submit__error {
+              /*Box model*/
 
+              display: none;
 
+              /*Text*/
 
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
+              /*Visuals*/
 
-
-
-            .submit__error{
-
-            /*Box model*/
-
-            display: none;
-
-            /*Text*/
-
-            font-family: 'Poppins', sans-serif;
-            color: ${colors.secondary};
-
-            /*Visuals*/
-
-            background-color: ${statusColors.error};
-
+              background-color: ${statusColors.error};
             }
 
-            .submit__error--active{
+            .submit__error--active {
+              /*Box model*/
 
-            /*Box model*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            width: 65%;
+              /*Text*/
 
-            /*Text*/
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-            font-family: 'Poppins', sans-serif;
-            color: ${colors.secondary};
+              /*Visuals*/
 
-            /*Visuals*/
-
-            border-radius: 20px;
-            background-color: ${statusColors.error};
-
+              border-radius: 20px;
+              background-color: ${statusColors.error};
             }
 
-            .submit__error--active2{
+            .submit__error--active2 {
+              /*Box model*/
 
-            /*Box model*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            width: 65%;
+              /*Text*/
 
-            /*Text*/
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-            font-family: 'Poppins', sans-serif;
-            color: ${colors.secondary};
+              /*Visuals*/
 
-            /*Visuals*/
-
-            border-radius: 20px;
-            background-color: ${statusColors.success};
-
+              border-radius: 20px;
+              background-color: ${statusColors.success};
             }
 
-            h1{
-            /*Box model*/
+            h1 {
+              /*Box model*/
 
-            margin-top: 2rem;
-            margin-bottom: 3rem;
+              margin-top: 2rem;
+              margin-bottom: 3rem;
 
-            /*Text*/
+              /*Text*/
 
-            font-size: 3.5rem;
-            font-weight: 500;
-            font-family: "Satisfy", sans-serif;
-            color: white;
-            text-align: center;
-
+              font-size: 3.5rem;
+              font-weight: 500;
+              font-family: "Satisfy", sans-serif;
+              color: white;
+              text-align: center;
             }
 
+            input[type="text"] {
+              /*Box model*/
 
+              width: 20vw;
+              height: 2rem;
+              padding: 0.4rem;
 
-            input[type="text"]{
+              /*Text*/
 
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-            /*Box model*/
+              /*Visuals*/
 
-            width: 20vw;
-            height: 2rem;
-            padding: 0.4rem;
-
-            /*Text*/
-
-            font-family: ${fonts.default};
-            font-size: 1rem;
-
-            /*Visuals*/
-
-            border-radius: 20px;
-            border: 1px solid ${colors.primary};
-
+              border-radius: 20px;
+              border: 1px solid ${colors.primary};
             }
 
-            input[type="text"]:focus{
+            input[type="text"]:focus {
+              /*Visuals*/
 
-            /*Visuals*/
-
-            border: 2px solid #4d97f7;
-            outline: none;
-            box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
             }
 
+            input[type="submit"] {
+              /*Box model*/
 
-            input[type="submit"]{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              margin-top: 2rem;
+              margin-bottom: 2rem;
             }
 
+            ::placeholder {
+              /*Text*/
 
-            ::placeholder{
-
-            /*Text*/
-
-            color: ${colors.primary};
+              color: ${colors.primary};
             }
 
-            textarea{
+            textarea {
+              /*Box model*/
 
-            /*Box model*/
+              width: 100%;
+              height: 3rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
 
-            width: 100%;
-            height: 3rem;
-            padding: 0.4rem;
-            margin-bottom: 2rem;
+              /*Text*/
 
-            /*Text*/
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-            font-family: ${fonts.default};
-            font-size: 1rem;
+              /*Visuals*/
 
-            /*Visuals*/
-
-            border-radius: 20px;
-            border: 2px solid ${colors.primary};
-
+              border-radius: 20px;
+              border: 2px solid ${colors.primary};
             }
 
-            textarea:focus{
+            textarea:focus {
+              /*Visuals*/
 
-            /*Visuals*/
-
-            border: 2px solid #4d97f7;
-            outline: none;
-            box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
             }
 
+            a {
+              /*Misc*/
 
-            a{
-
-            /*Misc*/
-
-            cursor: pointer;
+              cursor: pointer;
             }
-
-
-                `}
+          `}
         </style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión como administrador</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          <div className="message">
+            <h1 className={global.title7}>
+              Para acceder a esta página debe iniciar sesión como administrador
+            </h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>
+              Iniciar sesión
+            </button>
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
                         .message{
 
@@ -599,26 +551,28 @@ export default function EditTypeAttendance ({typeAttendance}) {
                     `}
         </style>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps(context){
-
-    const res = await fetch(`${server}/api/typeAttendance/${context.query.typeAttendanceId}`, {
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json'
-        }
-    })
-    
-    const data = await res.json();
-    
-    const typeAttendance = JSON.parse(JSON.stringify(data))
-    
-    return {
-        props: {
-          typeAttendance
-        }
+export async function getServerSideProps(context) {
+  const res = await fetch(
+    `${server}/api/typeAttendance/${context.query.typeAttendanceId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
+  );
+
+  const data = await res.json();
+
+  const typeAttendance = JSON.parse(JSON.stringify(data));
+
+  return {
+    props: {
+      typeAttendance,
+    },
+  };
 }

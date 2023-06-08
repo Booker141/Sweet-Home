@@ -1,20 +1,16 @@
-import nodemailer from 'nodemailer';
-import {server} from '/server'
-
+import nodemailer from "nodemailer";
+import { server } from "/server";
 
 const sendEmail = async (to, username, subject) => {
-
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: '465',
-    secure: true, 
+    host: "smtp.gmail.com",
+    port: "465",
+    secure: true,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
-  
-
 
   // Define the email options
   const mailOptions = {
@@ -133,15 +129,15 @@ const sendEmail = async (to, username, subject) => {
         </div>
       </body>
     </html>
-  `
+  `,
   };
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('El email se ha enviado correctamente:', info.response);
+    console.log("El email se ha enviado correctamente:", info.response);
     return true;
   } catch (error) {
-    console.error('Error enviando email:', error);
+    console.error("Error enviando email:", error);
     return false;
   }
 };

@@ -1,181 +1,237 @@
 /* Static imports */
 
-import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { MdDeleteOutline, MdClose, MdHealthAndSafety, MdPets } from 'react-icons/md'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { colors } from '/styles/frontend-conf'
-import { server } from '/server'
-import { toast } from 'react-toastify'
-import { useRouter } from 'next/router'
-import global from '/styles/global.module.css'
-import dynamic from 'next/dynamic'
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import {
+  MdDeleteOutline,
+  MdClose,
+  MdHealthAndSafety,
+  MdPets,
+} from "react-icons/md";
+import { BsPatchCheckFill } from "react-icons/bs";
+import { colors } from "/styles/frontend-conf";
+import { server } from "/server";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import global from "/styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Modal = dynamic(() => import('/components/Modal/Modal'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Modal = dynamic(() => import("/components/Modal/Modal"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/** 
+  * @author Sergio García Navarro
+  * @returns Thread component
+  * @version 1.0
+  * @description Thread component
+*/
 
-export default function Thread (props) {
-
-  const { data: session, status } = useSession({ required: true })
-  const [date, setDate] = useState(new Date(props?.createdAt))
-  const [numPosts, setNumPosts] = useState(0);
-  const [lastAttendance, setLastAttendance] = useState({})
-  const [isAttendance, setIsAttendance] = useState(false)
-  const [isModalVisible, setIsModalVisible] = useState(false)
+/**
+ * This function is a thread component that receive props from page and displays them
+ * in a thread card created by user
+ * @param props - props received from page.
+ * @returns A thread created by user.
+ */
+export default function Thread(props) {
+  const { data: session, status } = useSession({ required: true });
+  const [date, setDate] = useState(new Date(props?.createdAt));
+  const [numPosts, setNumPosts] = useState(0);
+  const [lastAttendance, setLastAttendance] = useState({});
+  const [isAttendance, setIsAttendance] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [user, setUser] = useState({});
   const Router = useRouter();
 
-
-  async function getData(){
-
+  async function getData() {
     const res = await fetch(`${server}/api/users/${props?.username}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
 
-    const attendance = await fetch(`${server}/api/attendances/${props?.title}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+    const attendance = await fetch(
+      `${server}/api/attendances/${props?.title}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    })
+    );
 
     const data = await res.json();
-    
+
     setUser(data);
 
-    if(attendance === null ){
-
+    if (attendance === null) {
       setNumPosts(0);
-
-    }else{
-
+    } else {
       const attendances = await attendance.json();
-    
-      setNumPosts(attendances.length);
-      
-  
-    }
 
+      setNumPosts(attendances.length);
+    }
   }
 
   const getLastAttendance = async () => {
-
-    const lastAttendance = props?.attendances[props?.attendances.length - 1]
+    const lastAttendance = props?.attendances[props?.attendances.length - 1];
 
     const res = await fetch(`${server}/api/attendances/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ lastAttendance })
-  })
+      body: JSON.stringify({ lastAttendance }),
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
-    setLastAttendance(data)
+    setLastAttendance(data);
 
-    if(data === null) {
-      setIsAttendance(false)
-    }else{
-      setIsAttendance(true)
+    if (data === null) {
+      setIsAttendance(false);
+    } else {
+      setIsAttendance(true);
     }
+  };
 
-  }
-  
   useEffect(() => {
-    getData()
-    getLastAttendance()
-  }, [])
-
+    getData();
+    getLastAttendance();
+  }, []);
 
   const deleteThread = async () => {
+    const res = await fetch(
+      `${server}/api/threads/${props?.typeAttendanceId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: props.id,
+        }),
+      }
+    );
 
-    const res = await fetch(`${server}/api/threads/${props?.typeAttendanceId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: props.id,
-      })
-    })
-
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.error) {
-      console.log(data.error)
+      console.log(data.error);
     }
 
-    toast.error(`Se ha eliminado el hilo`, { position: "bottom-right",
+    toast.error(`Se ha eliminado el hilo`, {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored", })
+      theme: "colored",
+    });
 
-    setIsModalVisible(false)
+    setIsModalVisible(false);
     setTimeout(() => {
-      Router.reload()
-    }, 5000)
-
-  }
+      Router.reload();
+    }, 5000);
+  };
 
   return (
-
     <>
       <div className={global.thread}>
         <div className="thread__header">
           <div className="thread__header__title">
             <h2>{props.title}</h2>
             <div className="thread__delete">
-              {user?.username === session?.user.username && <button className='delete__button' onClick={() => setIsModalVisible(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
+              {user?.username === session?.user.username && (
+                <button
+                  className="delete__button"
+                  onClick={() => setIsModalVisible(true)}
+                >
+                  <MdDeleteOutline size={20} color={colors.secondary} />
+                </button>
+              )}
               <div className="thread__lastPostTime">
-                <strong>Última respuesta:</strong> {isAttendance && new Date(lastAttendance?.createdAt).toLocaleString()}{!isAttendance && 'No existe'}
+                <strong>Última respuesta:</strong>{" "}
+                {isAttendance &&
+                  new Date(lastAttendance?.createdAt).toLocaleString()}
+                {!isAttendance && "No existe"}
               </div>
               <div className="thread__lastPostUser">
-                <strong>Por: </strong> {isAttendance && lastAttendance?.username}{!isAttendance && 'Aún no hay un cuidado'} 
+                <strong>Por: </strong>{" "}
+                {isAttendance && lastAttendance?.username}
+                {!isAttendance && "Aún no hay un cuidado"}
               </div>
-            </div> 
+            </div>
           </div>
           <hr className={global.white__line}></hr>
           <div className="thread__header__date">
-            <p><strong>Fecha de creación:</strong> {date.toLocaleDateString()}</p>
+            <p>
+              <strong>Fecha de creación:</strong> {date.toLocaleDateString()}
+            </p>
           </div>
           <div className="thread__header__username">
-            <p><strong>Creado por:</strong> {props?.username}</p>
-            {(session?.user.role === "gerente" || session?.user.role === "administrador") && <BsPatchCheckFill size={18}/>}
-            {(session?.user.role === "protectora") && <MdPets size={18}/>}
-            {(session?.user.role === "veterinaria") && <MdHealthAndSafety size={18}/>}
+            <p>
+              <strong>Creado por:</strong> {props?.username}
+            </p>
+            {(session?.user.role === "gerente" ||
+              session?.user.role === "administrador") && (
+              <BsPatchCheckFill size={18} />
+            )}
+            {session?.user.role === "protectora" && <MdPets size={18} />}
+            {session?.user.role === "veterinaria" && (
+              <MdHealthAndSafety size={18} />
+            )}
           </div>
           <div className="thread__numPosts">
             <strong>Réplicas:</strong> {numPosts}
           </div>
-          
-      </div>
-      <button id="access__button" className={global.buttonTertiary} onClick={() => Router.push(`/attendances/${Router.query.typeAttendance}/${props?.title}`)} aria-label={'Ir a ' + `${props.title}`}>Acceder</button>
-      </div>
-      {isModalVisible && <Modal>
-        <button className="close__modal" onClick={() => setIsModalVisible(false)}><MdClose size={30} color={`${colors.secondary}`}/></button>
-        <h2 className={global.title3}>Eliminar hilo</h2>
-        <p className={global.text2}>¿Estás seguro de eliminar este hilo?</p>
-        <div className='buttons'>
-          <button className={global.buttonSecondary} onClick={() => deleteThread()}>Sí</button>
-          <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
         </div>
-      </Modal>}
+        <button
+          id="access__button"
+          className={global.buttonTertiary}
+          onClick={() =>
+            Router.push(
+              `/attendances/${Router.query.typeAttendance}/${props?.title}`
+            )
+          }
+          aria-label={"Ir a " + `${props.title}`}
+        >
+          Acceder
+        </button>
+      </div>
+      {isModalVisible && (
+        <Modal>
+          <button
+            className="close__modal"
+            onClick={() => setIsModalVisible(false)}
+          >
+            <MdClose size={30} color={`${colors.secondary}`} />
+          </button>
+          <h2 className={global.title3}>Eliminar hilo</h2>
+          <p className={global.text2}>¿Estás seguro de eliminar este hilo?</p>
+          <div className="buttons">
+            <button
+              className={global.buttonSecondary}
+              onClick={() => deleteThread()}
+            >
+              Sí
+            </button>
+            <button
+              className={global.buttonTertiary}
+              onClick={() => setIsModalVisible(false)}
+            >
+              No
+            </button>
+          </div>
+        </Modal>
+      )}
 
       <style jsx>{`
-
-        #access__button{
-
+        #access__button {
           /*Box model*/
 
           margin-top: 2rem;
@@ -183,16 +239,13 @@ export default function Thread (props) {
           margin-left: 1rem;
         }
 
-        .thread__header{
-
+        .thread__header {
           /*Box model*/
 
           margin-left: 1rem;
-
         }
 
-        .thread__delete{
-
+        .thread__delete {
           /*Box model*/
 
           display: flex;
@@ -201,8 +254,7 @@ export default function Thread (props) {
           gap: 1rem;
         }
 
-        .thread__header__title{
-
+        .thread__header__title {
           /*Box model*/
 
           display: flex;
@@ -210,12 +262,9 @@ export default function Thread (props) {
           align-items: center;
           justify-content: space-between;
           margin-bottom: 2rem;
-          
-
         }
 
-        .thread__header__username{
-
+        .thread__header__username {
           /*Box model*/
 
           display: flex;
@@ -224,45 +273,39 @@ export default function Thread (props) {
           gap: 0.5rem;
         }
 
-        .close__modal{
+        .close__modal {
+          /*Box model*/
 
-        /*Box model*/
+          display: flex;
+          flex-direction: row;
+          align-self: flex-end;
+          margin-right: 2rem;
 
-        display: flex;
-        flex-direction: row;
-        align-self: flex-end;
-        margin-right: 2rem;
+          /*Visuals*/
 
-        /*Visuals*/
-
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-        border-radius: 70px;
-        padding: 1rem;
-
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+          border-radius: 70px;
+          padding: 1rem;
         }
 
-        .buttons{
-
+        .buttons {
           /*Box model*/
 
           display: flex;
           flex-direction: row;
           align-items: center;
           gap: 1rem;
-
         }
 
-        .delete__button{
-
+        .delete__button {
           /*Box model*/
 
           display: flex;
           align-items: center;
           padding: 1rem;
-
 
           /*Visuals*/
 
@@ -270,22 +313,16 @@ export default function Thread (props) {
           background: transparent;
           cursor: pointer;
           border-radius: 70px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+        }
 
-          }
-
-          hr{
-
+        hr {
           /*Box model*/
 
           width: 100%;
           margin-bottom: 3rem;
-
-          }
-
+        }
       `}</style>
-
     </>
-
-  )
+  );
 }

@@ -1,28 +1,27 @@
 /* Static imports */
 
-import { useRouter } from 'next/router'
-import { colors, fonts } from '/styles/frontend-conf.js'
-import global from '/styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import { useRouter } from "next/router";
+import { colors, fonts } from "/styles/frontend-conf.js";
+import global from "/styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-/*
-    * @author Sergio García Navarro
-    * @returns Error page
-    * @version 1.0
-    * @date 13/01/2020
-    * @description Error page
-*/
-
-export default function FourOhFour () {
-  const router = useRouter()
+/**
+ * @author Sergio García Navarro
+ * @returns Error 404 page
+ * @version 1.0
+ * @description Error 404 page
+ */
+export default function FourOhFour() {
+  const router = useRouter();
 
   return (
     <Layout>
@@ -31,23 +30,37 @@ export default function FourOhFour () {
           <title>¡Ups! Algo ha salido mal.. Error 404 | Sweet Home</title>
         </Head>
         <div className={global.content}>
-
-          <div className='error'>
-            <div className='first-line'>
+          <div className="error">
+            <div className="first-line">
               <h1 className="title">Error 404</h1>
             </div>
 
-            <div className='second-line'>
+            <div className="second-line">
               <h1 className="title">
                 Vaya... este perro se ha comido la página
               </h1>
-              <h2 className={global.secondary}>Parece ser que este travieso perro se ha comido la página que buscabas. Solucionaremos este error lo antes posible.</h2>
-              <button className={global.buttonPrimary} onClick={() => router.back()}>Volver</button>
+              <h2 className={global.secondary}>
+                Parece ser que este travieso perro se ha comido la página que
+                buscabas. Solucionaremos este error lo antes posible.
+              </h2>
+              <button
+                className={global.buttonPrimary}
+                onClick={() => router.back()}
+              >
+                Volver
+              </button>
             </div>
-            <FallbackImage src='/error-1.svg' alt='Imagen de perro curándose' width={1000} height={1000} priority />
+            <FallbackImage
+              src="/error-1.svg"
+              alt="Imagen de perro curándose"
+              width={1000}
+              height={1000}
+              priority
+            />
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
           .title{
 
@@ -165,5 +178,5 @@ export default function FourOhFour () {
         </style>
       </>
     </Layout>
-  )
+  );
 }

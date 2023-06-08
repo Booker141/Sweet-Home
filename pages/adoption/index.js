@@ -1,113 +1,183 @@
 /* Static imports */
 
-
-import { useSession, signIn} from 'next-auth/react'
-import { useState} from 'react'
-import { useRouter } from 'next/router'
-import { colors, fonts} from 'styles/frontend-conf'
-import { server } from '/server'
-import {HiFilter} from 'react-icons/hi'
-import {BsFilter} from 'react-icons/bs'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
+import { useSession, signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { colors, fonts } from "styles/frontend-conf";
+import { server } from "/server";
+import { HiFilter } from "react-icons/hi";
+import { BsFilter } from "react-icons/bs";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
+import Head from "next/head";
 
 /*Dynamic imports*/
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Post = dynamic(() => import('/components/Post/Post'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const Post = dynamic(() => import("/components/Post/Post"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-/*
-    * @author Sergio García Navarro
-    * @returns Posts page
-    * @version 1.0
-    * @date 13/12/2020
-    * @description Posts page
-*/
 /**
- * It returns a React fragment that contains a Head component with a title of "Reciente" and a div
- * that contains a list of posts
- * @returns An array of objects.
+ * @author Sergio García Navarro
+ * @returns Adoption page
+ * @version 1.0
+ * @description Adoption page
  */
-export default function Adoption ({posts}) {
-  
-  const { data: session, status } = useSession({ required: true })
-  const [postList, setPostList] = useState(posts)
-  const [isSortedByLikes, setIsSortedByLikes] = useState(false)
-  const [isSortedByDate, setIsSortedByDate] = useState(false)
-  const Router = useRouter()
+export default function Adoption({ posts }) {
+  const { data: session, status } = useSession({ required: true });
+  const [postList, setPostList] = useState(posts);
+  const [isSortedByLikes, setIsSortedByLikes] = useState(false);
+  const [isSortedByDate, setIsSortedByDate] = useState(false);
+  const Router = useRouter();
 
   const sortByFilters = (e) => {
+    if (e === "activity") {
+      setIsSortedByLikes(!isSortedByLikes);
+      const sortedPosts = posts?.sort((a, b) =>
+        a.likes > b.likes ? 1 : b.likes > a.likes ? -1 : 0
+      );
+      setPostList(sortedPosts);
+    } else if (e === "date") {
+      setIsSortedByDate(!isSortedByDate);
+      const sortedPosts = posts?.sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+      );
+      setPostList(sortedPosts);
+    }
+  };
 
-
-    if(e === 'activity'){
-      
-      setIsSortedByLikes(!isSortedByLikes)
-      const sortedPosts = posts?.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
-      setPostList(sortedPosts)
-
-    }else if(e === 'date'){
-      setIsSortedByDate(!isSortedByDate)
-      const sortedPosts = posts?.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0))
-      setPostList(sortedPosts)
-
-  }
-}
-
-
-
-
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Animales en adopción | Sweet Home</title></Head>       
-        <div className='container'>
-          <div className='container__column1'>
-            <div className='column1__header'>
+        <Head>
+          <title>Animales en adopción | Sweet Home</title>
+        </Head>
+        <div className="container">
+          <div className="container__column1">
+            <div className="column1__header">
               <h1 className={global.title}>Animales en adopción</h1>
             </div>
-            <div className='column1__buttons'>
-            <div className='filter__list'>
-                  <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro <HiFilter size={15} color={colors.secondary}/></option>
-                      <option value="activity">Ordenar por popularidad <BsFilter size={15} color={colors.secondary}/></option>
-                      <option value="date">Ordenar por fecha <BsFilter size={15} color={colors.secondary}/></option>
-                  </select>
-                </div>
+            <div className="column1__buttons">
+              <div className="filter__list">
+                <select
+                  name="filters"
+                  onChange={(e) => sortByFilters(e.target.value)}
+                >
+                  <option default value="default">
+                    Selecciona un filtro{" "}
+                    <HiFilter size={15} color={colors.secondary} />
+                  </option>
+                  <option value="activity">
+                    Ordenar por popularidad{" "}
+                    <BsFilter size={15} color={colors.secondary} />
+                  </option>
+                  <option value="date">
+                    Ordenar por fecha{" "}
+                    <BsFilter size={15} color={colors.secondary} />
+                  </option>
+                </select>
+              </div>
             </div>
-            {((isSortedByLikes) && postList?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(isSortedByLikes) && postList.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type}) => {
-              return (
-                <>
-                  <LazyLoad offset={100}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type}/></LazyLoad>
-                </>
-              )
-            })}
-            {((!isSortedByLikes) && postList?.length === 0) && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
-            {(!isSortedByLikes) && postList.sort((post1, post2) => { return new Date(post2.createdAt) - new Date(post1.createdAt) }).map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
-              return (
-                <>
-                  <LazyLoad offset={100}><Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} /></LazyLoad>
-                </>
-              )
-            })}
+            {isSortedByLikes && postList?.length === 0 && (
+              <div>
+                <p className={global.loading2}>No hay ninguna publicación.</p>
+              </div>
+            )}
+            {isSortedByLikes &&
+              postList.map(
+                ({
+                  _id,
+                  username,
+                  location,
+                  image,
+                  description,
+                  createdAt,
+                  comments,
+                  likes,
+                  saves,
+                  type,
+                }) => {
+                  return (
+                    <>
+                      <LazyLoad offset={100}>
+                        <Post
+                          key={_id}
+                          id={_id}
+                          username={username}
+                          location={location}
+                          image={image}
+                          description={description}
+                          createdAt={createdAt}
+                          comments={comments}
+                          likes={likes}
+                          saves={saves}
+                          type={type}
+                        />
+                      </LazyLoad>
+                    </>
+                  );
+                }
+              )}
+            {!isSortedByLikes && postList?.length === 0 && (
+              <div>
+                <p className={global.loading2}>No hay ninguna publicación.</p>
+              </div>
+            )}
+            {!isSortedByLikes &&
+              postList
+                .sort((post1, post2) => {
+                  return new Date(post2.createdAt) - new Date(post1.createdAt);
+                })
+                .map(
+                  ({
+                    _id,
+                    username,
+                    location,
+                    image,
+                    description,
+                    createdAt,
+                    comments,
+                    likes,
+                    saves,
+                    type,
+                  }) => {
+                    return (
+                      <>
+                        <LazyLoad offset={100}>
+                          <Post
+                            key={_id}
+                            id={_id}
+                            username={username}
+                            location={location}
+                            image={image}
+                            description={description}
+                            createdAt={createdAt}
+                            comments={comments}
+                            likes={likes}
+                            saves={saves}
+                            type={type}
+                          />
+                        </LazyLoad>
+                      </>
+                    );
+                  }
+                )}
           </div>
-
-
         </div>
 
-        <style jsx>{`
+        <style jsx>
+          {`
 
               .container{
 
@@ -274,19 +344,23 @@ export default function Adoption ({posts}) {
             `}
         </style>
       </Layout>
-
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
 
                   .message{
 
@@ -305,32 +379,28 @@ export default function Adoption ({posts}) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps({res}){
+export async function getServerSideProps({ res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+  const res2 = await fetch(`${server}/api/adoption/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    const res2 = await fetch(`${server}/api/adoption/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-    
-      const posts = await res2.json()
-      
-        return {    
+  const posts = await res2.json();
 
-            props: {
-
-                posts: JSON.parse(JSON.stringify(posts))
-
-            }
-
-        }
-
-                
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  };
 }

@@ -1,144 +1,199 @@
 /* Static imports */
 
-import { colors } from 'styles/frontend-conf.js'
-import { BsChatRightText } from 'react-icons/bs'
-import { FaSlideshare } from 'react-icons/fa'
-import { AiOutlineEdit } from 'react-icons/ai'
-import { MdPets } from 'react-icons/md'
-import { server } from '/server'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
-import about1 from '../../public/about-1.svg'
-import BasicLayout from '/components/BasicLayout/BasicLayout'
-import Head from 'next/head'
+import { colors } from "styles/frontend-conf.js";
+import { BsChatRightText } from "react-icons/bs";
+import { FaSlideshare } from "react-icons/fa";
+import { AiOutlineEdit } from "react-icons/ai";
+import { MdPets } from "react-icons/md";
+import { server } from "/server";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
+import about1 from "../../public/about-1.svg";
+import BasicLayout from "/components/BasicLayout/BasicLayout";
+import Head from "next/head";
 
 /*Dynamic imports*/
 
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-/*
-    * @author Sergio García Navarro
-    * @returns About page
-    * @version 1.0
-    * @date 13/12/2020
-    * @description This page is the about page of the application
-*/
-
-export default function About () {
+/**
+ * @author Sergio García Navarro
+ * @returns About page
+ * @version 1.0
+ * @description About page
+ */
+export default function About() {
   return (
-
     <BasicLayout>
       <Head>
         <title>Sobre nosotros | Sweet Home</title>
       </Head>
       <div className="header__block">
-        <div className='title'>
-          <FallbackImage src="/LogoWeb.svg" alt="Imagen del logo" width={500} height={500}/>
+        <div className="title">
+          <FallbackImage
+            src="/LogoWeb.svg"
+            alt="Imagen del logo"
+            width={500}
+            height={500}
+          />
           <h2 className={global.secondary__bold}>Más que una aplicación</h2>
         </div>
-      
-        <div className='banner'>
-          <p className={global.text}>Sweet Home es una red
-            social que abarca el mundo animal y trata de facilitar
-            su <span className={global.colorized}>adaptación a nuevos cuidados</span>, <span className={global.colorized}>a nuevos dueños </span> y a
-            <span className={global.colorized}> &nbsp; una mejora diaria de su vida.</span>
+
+        <div className="banner">
+          <p className={global.text}>
+            Sweet Home es una red social que abarca el mundo animal y trata de
+            facilitar su{" "}
+            <span className={global.colorized}>
+              adaptación a nuevos cuidados
+            </span>
+            , <span className={global.colorized}>a nuevos dueños </span> y a
+            <span className={global.colorized}>
+              {" "}
+              &nbsp; una mejora diaria de su vida.
+            </span>
           </p>
         </div>
       </div>
       <a className="about__video" href={`${server}/auth/signUp`}>
-      <video
-            autoPlay loop muted
-            style={{ position: 'relative', top: '0', left: '0', width: '100%', height: '58rem', objectFit: 'cover', translate: 'transform(-50%,-50%)', borderRadius: '20px 20px 20px 20px', marginBottom: '3rem' }}
-          >
-            <source src='/videos/video3.mp4' />
+        <video
+          autoPlay
+          loop
+          muted
+          style={{
+            position: "relative",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "58rem",
+            objectFit: "cover",
+            translate: "transform(-50%,-50%)",
+            borderRadius: "20px 20px 20px 20px",
+            marginBottom: "3rem",
+          }}
+        >
+          <source src="/videos/video3.mp4" />
         </video>
       </a>
-      <div className='container1'>
-        <div className='container1__column1'>
+      <div className="container1">
+        <div className="container1__column1">
           <h3 className={global.title5}>Nuestra misión</h3>
-          <p className={global.text3}>¿Alguna vez has sentido rechazo o ignorancia
-            en ciertas publicaciones en Twitter, Instagram o Facebook sobre animales
-            perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que se
-            ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta a estas
-            preguntas.
+          <p className={global.text3}>
+            ¿Alguna vez has sentido rechazo o ignorancia en ciertas
+            publicaciones en Twitter, Instagram o Facebook sobre animales
+            perdidos? ¿No puedes cuidar de tu mascota o has encontrado a una que
+            se ha perdido y no sabes que hacer? Con Sweet Home daremos respuesta
+            a estas preguntas.
           </p>
-          <p className={global.text3}>El objetivo principal de Sweet Home es
-            <strong> &nbsp; mejorar la calidad de vida de los animales</strong> facilitándole
-            a los dueños funcionalidades que usar en su día a día.
+          <p className={global.text3}>
+            El objetivo principal de Sweet Home es
+            <strong>
+              {" "}
+              &nbsp; mejorar la calidad de vida de los animales
+            </strong>{" "}
+            facilitándole a los dueños funcionalidades que usar en su día a día.
           </p>
 
           <p className={global.text3}>Entre ellas están: </p>
           <ul className={global.list2}>
-            <li className={global.list__item2}> Publicar fotos e información de los animales.</li>
-            <li className={global.list__item2}> Permitir el contacto inmediato con el usuario
-              que ha realizado una publicación.
+            <li className={global.list__item2}>
+              {" "}
+              Publicar fotos e información de los animales.
             </li>
-            <li className={global.list__item2}> Seguir a los centros
-              de acogida de animales que sean de interés.
+            <li className={global.list__item2}>
+              {" "}
+              Permitir el contacto inmediato con el usuario que ha realizado una
+              publicación.
+            </li>
+            <li className={global.list__item2}>
+              {" "}
+              Seguir a los centros de acogida de animales que sean de interés.
             </li>
           </ul>
         </div>
-        <div className='container1__column2'>
-          <div className='column2__img'>
-            <FallbackImage src={about1} alt='Persona jugando con su perro' priority />
+        <div className="container1__column2">
+          <div className="column2__img">
+            <FallbackImage
+              src={about1}
+              alt="Persona jugando con su perro"
+              priority
+            />
           </div>
         </div>
       </div>
 
-      <div className='benefits-title'>
+      <div className="benefits-title">
         <h3>Ventajas</h3>
       </div>
       <LazyLoad offset={100}>
         <div className={global.cards}>
           <div className={global.card__large}>
-            <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
+            <div style={{ color: "#f0810f", marginTop: "2rem" }}>
               <MdPets size={37} />
             </div>
-            <h2 className={global.title2}>Promover el derecho de los animales</h2>
-            <p className={global.text}><span className={global.colorized}>La libertad y los derechos de los animales</span> son la base de Sweet Home. </p>
-            <p className={global.text}>En nuestro planeta habitan una gran variedad de animales pero solo un pequeño
-              porcentaje convive con nosotros, así que debemos darles el mejor cuidado
-              posible.
+            <h2 className={global.title2}>
+              Promover el derecho de los animales
+            </h2>
+            <p className={global.text}>
+              <span className={global.colorized}>
+                La libertad y los derechos de los animales
+              </span>{" "}
+              son la base de Sweet Home.{" "}
+            </p>
+            <p className={global.text}>
+              En nuestro planeta habitan una gran variedad de animales pero solo
+              un pequeño porcentaje convive con nosotros, así que debemos darles
+              el mejor cuidado posible.
             </p>
           </div>
           <div className={global.card__large}>
-            <div style={{ color: '#f0810f', marginTop: '2rem' }}>
+            <div style={{ color: "#f0810f", marginTop: "2rem" }}>
               <FaSlideshare size={37} />
             </div>
-            <h2 className={global.title2}>Compartir de forma rápida y segura</h2>
-            <p className={global.text}>Con Sweet Home puedes <span className={global.colorized}> compartir
-              información
-                                                            </span> sin tener que preocuparte de la inmediatez o de la
-              seguridad.
+            <h2 className={global.title2}>
+              Compartir de forma rápida y segura
+            </h2>
+            <p className={global.text}>
+              Con Sweet Home puedes{" "}
+              <span className={global.colorized}> compartir información</span>{" "}
+              sin tener que preocuparte de la inmediatez o de la seguridad.
             </p>
-            <p className={global.text}>Comparte el alimento favorito de tu mascota o un tip
-              que te haya cambiado la forma de interactuar con ella.
+            <p className={global.text}>
+              Comparte el alimento favorito de tu mascota o un tip que te haya
+              cambiado la forma de interactuar con ella.
             </p>
           </div>
           <div className={global.card__large}>
-            <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
+            <div style={{ color: "#f0810f", marginTop: "2rem" }}>
               <BsChatRightText size={37} />
             </div>
             <h2 className={global.title2}>Chatea con gente de todo el mundo</h2>
-            <p className={global.text}>Dispones de una <span className={global.colorized}> función de chat</span> para
+            <p className={global.text}>
+              Dispones de una{" "}
+              <span className={global.colorized}> función de chat</span> para
               conectar con gente de tu mismo entorno o gente a kilómetros de
               distancia para preguntarles dudas o consejos.
             </p>
           </div>
           <div className={global.card__large}>
-            <div style={{ color: '#f0810f' , marginTop: '2rem' }}>
+            <div style={{ color: "#f0810f", marginTop: "2rem" }}>
               <AiOutlineEdit size={37} />
             </div>
             <h2 className={global.title2}>Modifica el perfil a tu gusto</h2>
-            <p className={global.text}>¡Sweet Home permite modificar el
-              perfil para que puedas <span className={global.colorized}>añadir información sobre ti y tu mascota &nbsp; </span>
+            <p className={global.text}>
+              ¡Sweet Home permite modificar el perfil para que puedas{" "}
+              <span className={global.colorized}>
+                añadir información sobre ti y tu mascota &nbsp;{" "}
+              </span>
               a tu gusto!
             </p>
           </div>
         </div>
       </LazyLoad>
-      <style jsx>{` 
+      <style jsx>
+        {` 
 
                         .header__block{
 
@@ -307,6 +362,5 @@ export default function About () {
                     `}
       </style>
     </BasicLayout>
-
-  )
+  );
 }

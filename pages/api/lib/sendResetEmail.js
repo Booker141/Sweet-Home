@@ -1,20 +1,16 @@
-import nodemailer from 'nodemailer';
-import {server} from '/server'
-
+import nodemailer from "nodemailer";
+import { server } from "/server";
 
 const sendResetEmail = async (to, token, subject) => {
-
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: '465',
-    secure: true, 
+    host: "smtp.gmail.com",
+    port: "465",
+    secure: true,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
-  
-
 
   const mailOptions = {
     from: process.env.EMAIL,
@@ -132,15 +128,18 @@ const sendResetEmail = async (to, token, subject) => {
         </div>
       </body>
     </html>
-  `
+  `,
   };
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('El email de restablecer contraseña se ha enviado correctamente:', info.response);
+    console.log(
+      "El email de restablecer contraseña se ha enviado correctamente:",
+      info.response
+    );
     return true;
   } catch (error) {
-    console.error('Error enviando email de restablecer contraseña:', error);
+    console.error("Error enviando email de restablecer contraseña:", error);
     return false;
   }
 };

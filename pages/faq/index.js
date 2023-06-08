@@ -1,66 +1,86 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-import { colors } from 'styles/frontend-conf.js'
-import { server } from '/server'
-import global from 'styles/global.module.css'
-import faq1 from '../../public/faq-1.svg'
-import Head from 'next/head'
-import BasicLayout from '/components/BasicLayout/BasicLayout'
-import dynamic from 'next/dynamic'
+import { useSession, getSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { colors } from "styles/frontend-conf.js";
+import { server } from "/server";
+import global from "styles/global.module.css";
+import faq1 from "../../public/faq-1.svg";
+import Head from "next/head";
+import BasicLayout from "/components/BasicLayout/BasicLayout";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const Question = dynamic(() => import('/components/Question/Question'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const Question = dynamic(() => import("/components/Question/Question"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-/*
-    * @author Sergio García Navarro
-    * @returns Use page
-    * @version 1.0
-    * @date 13/12/2020
-    * @description Use page
-*/
 /**
- * It returns a div with a title
- * @returns A React element.
+ * @author Sergio García Navarro
+ * @returns FAQ page
+ * @version 1.0
+ * @description FAQ page
  */
-export default function FAQ ({ questions, users }) {
-
-  const [isAdmin, setIsAdmin] = useState(users?.role.name === "administrador" ? true : false);
+export default function FAQ({ questions, users }) {
+  const [isAdmin, setIsAdmin] = useState(
+    users?.role.name === "administrador" ? true : false
+  );
   const [user, setUser] = useState(users);
   const router = useRouter();
 
-
-
   return (
     <BasicLayout>
-      <Head><title>Preguntas frecuentes | Sweet Home</title></Head>
-      <div className='faq'>
-        <h1 id='title' className={global.title}>Preguntas frecuentes</h1>
-        <div className='top__image'>
-          <FallbackImage src={faq1} alt='Imagen de un perro mirando al frente' priority />
+      <Head>
+        <title>Preguntas frecuentes | Sweet Home</title>
+      </Head>
+      <div className="faq">
+        <h1 id="title" className={global.title}>
+          Preguntas frecuentes
+        </h1>
+        <div className="top__image">
+          <FallbackImage
+            src={faq1}
+            alt="Imagen de un perro mirando al frente"
+            priority
+          />
         </div>
-        {isAdmin && <button className={global.buttonPrimary} onClick={() => router.push('/dashboard/createQuestion')}>Crear pregunta</button>}
+        {isAdmin && (
+          <button
+            className={global.buttonPrimary}
+            onClick={() => router.push("/dashboard/createQuestion")}
+          >
+            Crear pregunta
+          </button>
+        )}
 
-        {questions?.length === 0 && <div><p className={global.loading}>Cargando..</p></div>}
+        {questions?.length === 0 && (
+          <div>
+            <p className={global.loading}>Cargando..</p>
+          </div>
+        )}
 
         {questions.map(({ _id, title, answer }) => {
           return (
             <>
-              <Question key={_id} id={_id} title={title} answer={answer} isAdmin={isAdmin} />
+              <Question
+                key={_id}
+                id={_id}
+                title={title}
+                answer={answer}
+                isAdmin={isAdmin}
+              />
             </>
-          )
+          );
         })}
-
       </div>
 
-      <style jsx>{`
+      <style jsx>
+        {`
 
                     #title{
 
@@ -129,37 +149,39 @@ export default function FAQ ({ questions, users }) {
                 `}
       </style>
     </BasicLayout>
-
-  )
+  );
 }
 
-export async function getServerSideProps (context) {
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
-
-  const session = await getSession(context)
+  const session = await getSession(context);
 
   const res = await fetch(`${server}/api/questions`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
   const res2 = await fetch(`${server}/api/users/${session?.user.username}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
-  const user = await res2.json()
+  const user = await res2.json();
 
-  const questions = await res.json()
+  const questions = await res.json();
 
   return {
     props: {
-      questions, users: JSON.parse(JSON.stringify(user))
-    }
-  }
+      questions,
+      users: JSON.parse(JSON.stringify(user)),
+    },
+  };
 }

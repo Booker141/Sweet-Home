@@ -1,706 +1,635 @@
 /* Static imports */
 
-import { useState } from 'react'
-import { colors, statusColors, fonts } from 'styles/frontend-conf.js'
-import { MdEmail, MdOutlineError } from 'react-icons/md'
-import { BsFillCheckCircleFill } from 'react-icons/bs'
-import { server } from '/server'
-import {toast} from 'react-toastify'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
+import { useState } from "react";
+import { colors, statusColors, fonts } from "styles/frontend-conf.js";
+import { MdEmail, MdOutlineError } from "react-icons/md";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+import { server } from "/server";
+import { toast } from "react-toastify";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import global from "styles/global.module.css";
 
 /*Dynamic imports*/
 
-const Link = dynamic(() => import('next/link'))
-const Layout = dynamic(() => import('/components/BasicLayout/BasicLayout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Link = dynamic(() => import("next/link"));
+const Layout = dynamic(() => import("/components/BasicLayout/BasicLayout"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-/*
-    * @author Sergio García Navarro
-    * @returns Change password page
-    * @version 1.0
-    * @date 13/12/2020
-    * @description Change password page
-*/
 /**
- * It returns a div with a form inside of it
- * @returns A form with two inputs and a submit button.
+ * @author Sergio García Navarro
+ * @returns Reset password page
+ * @version 1.0
+ * @description Reset password page
  */
-export default function ResetPassword () {
-  
-
-  const [isValidate, setIsValidate] = useState(false)
-  const [isReset, setIsReset] = useState(false)
-  const [email, setEmail] = useState('')
-
+export default function ResetPassword() {
+  const [isValidate, setIsValidate] = useState(false);
+  const [isReset, setIsReset] = useState(false);
+  const [email, setEmail] = useState("");
 
   const validate = (e) => {
-
     // Regular expressions
 
-    const regEmail = /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/
+    const regEmail =
+      /^[a-zA-Z0-9][-a-zA-Z0-9.!#$%&'*+-=?^_`{|}~\/]+@([-a-z0-9]+\.)+[a-z]{2,5}$/;
 
     // Validación del formato del email
 
-    if (e.target.name == 'email') {
+    if (e.target.name == "email") {
       if (!email.match(regEmail)) {
-        document.getElementById('email__error').classList.add('form__input-emailError--active')
-        document.getElementById('success__email').classList.remove('form__success-icon--active')
-        setIsValidate(false)
+        document
+          .getElementById("email__error")
+          .classList.add("form__input-emailError--active");
+        document
+          .getElementById("success__email")
+          .classList.remove("form__success-icon--active");
+        setIsValidate(false);
       } else {
-        document.getElementById('email__error').classList.remove('form__input-emailError--active')
-        document.getElementById('success__email').classList.add('form__success-icon--active')
-        setIsValidate(true)
+        document
+          .getElementById("email__error")
+          .classList.remove("form__input-emailError--active");
+        document
+          .getElementById("success__email")
+          .classList.add("form__success-icon--active");
+        setIsValidate(true);
       }
     }
-  }
+  };
 
   const resetPassword = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault()
+    if (isValidate) {
+      const res = await fetch(`${server}/api/resetPassword`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
 
-    if(isValidate){
+      setIsReset(true);
 
-        const res = await fetch(`${server}/api/resetPassword`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email: email
-          })
-        })
+      const data = await res.json();
 
-
-        setIsReset(true)
-
-        const data = await res.json()
-
-       
-
-        if(data.message === 'Esta cuenta está bloqueada.'){
-
-          toast.error('Está cuenta está bloqueada', { position: "bottom-right",
+      if (data.message === "Esta cuenta está bloqueada.") {
+        toast.error("Está cuenta está bloqueada", {
+          position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored", })
-          setIsReset(false)
-          return
-          
+          theme: "colored",
+        });
+        setIsReset(false);
+        return;
+      }
 
-        }
+      if (data.message === "No existe el usuario.") {
+        toast.error(
+          "No existe ninguna cuenta con la dirección de correo especificada",
+          {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+        setIsReset(false);
+        return;
+      }
 
-        if(data.message === 'No existe el usuario.'){
-
-          toast.error('No existe ninguna cuenta con la dirección de correo especificada', { position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored", })
-          setIsReset(false)
-          return
-        }
-
-        if(data.message === 'Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña.'){
-
-          toast.success('Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña', { position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored", })
-          setIsReset(false)
-
-        }
-
-  }
-}
+      if (
+        data.message ===
+        "Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña."
+      ) {
+        toast.success(
+          "Se ha enviado un correo electrónico a su dirección con el enlace para restablecer su contraseña",
+          {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+        setIsReset(false);
+      }
+    }
+  };
 
   return (
-
     <Layout>
       <>
-        <Head><title>Restablecer contraseña | Sweet Home</title></Head>
+        <Head>
+          <title>Restablecer contraseña | Sweet Home</title>
+        </Head>
         <div className={global.content}>
-          <div className='form'>
-            <h1 className='form__title'>Restablecer contraseña</h1>
+          <div className="form">
+            <h1 className="form__title">Restablecer contraseña</h1>
             <form className="form-vertical">
-              <div className='form-vertical__email'>
-                <div className='label'>
+              <div className="form-vertical__email">
+                <div className="label">
                   <p className={global.text}>Email</p>
                   <MdEmail size={20} color={colors.secondary} />
                 </div>
-                <div className='email__input'>
+                <div className="email__input">
                   <input
-                    title='Introducir email'
-                    type='email'
-                    name='email'
+                    title="Introducir email"
+                    type="email"
+                    name="email"
                     value={email}
                     required
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyUp={(e) => validate(e)}
                     onBlur={(e) => validate(e)}
-                    placeholder='p. ej.: javier@gmail.com'
-                    className='input'
-                  >
-                  </input>
-                  <div id='success__email' className='form__success-icon'><BsFillCheckCircleFill size={20} color={statusColors.success} /></div>
-              </div>
-              
-                  <div id='email__error' className='form__input-emailError'>
-                    <div className='error__icon'>
-                        <MdOutlineError size={30} color={colors.secondary} />
-                      </div>
-                    <p className={global.text2}>Debe seguir el formato correcto</p>
+                    placeholder="p. ej.: javier@gmail.com"
+                    className="input"
+                  ></input>
+                  <div id="success__email" className="form__success-icon">
+                    <BsFillCheckCircleFill
+                      size={20}
+                      color={statusColors.success}
+                    />
                   </div>
                 </div>
-                </form>            
-            <input className={global.buttonPrimary} type='submit' onClick={(e) => resetPassword(e)} value={isReset ? 'Enviando..' : 'Enviar'} />
+
+                <div id="email__error" className="form__input-emailError">
+                  <div className="error__icon">
+                    <MdOutlineError size={30} color={colors.secondary} />
+                  </div>
+                  <p className={global.text2}>
+                    Debe seguir el formato correcto
+                  </p>
+                </div>
+              </div>
+            </form>
+            <input
+              className={global.buttonPrimary}
+              type="submit"
+              onClick={(e) => resetPassword(e)}
+              value={isReset ? "Enviando.." : "Enviar"}
+            />
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
+            .form {
+              /*Box model*/
 
-                .form{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
 
-                    /*Box model*/
+              width: 100%;
 
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                 
-                    width: 100%;
+              /*Visuals*/
 
-                    /*Visuals*/
+              background-image: linear-gradient(
+                45deg,
+                rgba(240, 129, 15, 1) 35%,
+                rgba(249, 166, 3, 1) 100%
+              );
+              background-size: 100% 110%;
+              border-radius: 20px;
+            }
 
-                    background-image: linear-gradient(45deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 100%);
-                    background-size: 100% 110%;
-                    border-radius: 20px;
-                    
-                }
+            .form-vertical {
+              /*Box model*/
 
-                .form-vertical{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
 
-                    /*Box model*/
+            .form__title {
+              /*Box model*/
 
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-top: 2rem;
+              margin-bottom: 1rem;
 
-                .form__title{
+              /*Text*/
 
-                    /*Box model*/
+              font-family: "Satisfy";
+              font-size: 4rem;
+              font-weight: 500;
+              color: ${colors.secondary};
+            }
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    margin-top: 2rem;
-                    margin-bottom: 1rem;
+            .label {
+              /*Box model*/
 
-                    /*Text*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                    font-family: 'Satisfy';
-                    font-size: 4rem;
-                    font-weight: 500;
-                    color: ${colors.secondary};
-                }
+            .label p {
+              /*Box model*/
 
-                .label{
+              margin-right: 1rem;
 
-                    /*Box model*/
+              /*Visuals*/
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
+              color: ${colors.secondary};
+            }
 
-                }
+            .input {
+              /*Box model*/
 
-                .label p{
+              width: 100%;
+              height: 2rem;
+              padding: 0.4rem;
+              margin-bottom: 1rem;
 
-                    /*Box model*/
+              /*Text*/
 
-                    margin-right: 1rem;
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                    /*Visuals*/
+              /*Visuals*/
 
-                    color: ${colors.secondary};
+              border-radius: 20px;
+              border: none;
+            }
 
-                }
-                
-                .input{
+            .tooltip {
+              /*Position*/
 
-                    /*Box model*/
+              position: relative;
 
-                    width: 100%;
-                    height: 2rem;
-                    padding: 0.4rem;
-                    margin-bottom: 1rem;
-                    
+              /*Box model*/
 
-                    /*Text*/
+              display: inline-block;
+              margin-bottom: 0.5rem;
+            }
 
-                    font-family: ${fonts.default};
-                    font-size: 1rem;
+            .tooltip__icon {
+              /*Box model*/
 
-                    /*Visuals*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-between;
+              width: 100%;
+            }
 
-                    border-radius: 20px;
-                    border: none;
-                }
+            .tooltip__icon p {
+              /*Box model*/
 
-                .tooltip{
+              margin-left: 1.6rem;
+            }
 
-                    /*Position*/
+            .tooltip .tooltiptext {
+              /*Position*/
 
-                    position: relative;
+              position: absolute;
+              z-index: 100;
 
-                    /*Box model*/
+              /*Box model*/
 
-                    display: inline-block;
-                    margin-bottom: 0.5rem;
+              width: 20rem;
+              padding: 1rem;
 
-                }
+              /*Text*/
 
-                .tooltip__icon{
+              text-align: center;
 
-                    /*Box model*/
+              /*Visuals*/
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: space-between;
-                    width: 100%;
+              border-radius: 10px;
+              visibility: hidden;
+              background-color: ${colors.quaternary};
+              color: ${colors.secondary};
+            }
 
-                }
+            .tooltip:hover .tooltiptext {
+              /*Visuals*/
 
-                .tooltip__icon p{
+              visibility: visible;
+            }
 
-                    /*Box model*/
+            .tooltiptext p {
+              /*Text*/
 
-                    margin-left: 1.6rem;
+              font-size: 1rem;
+              font-family: ${fonts.default};
+            }
 
-                }
+            .form-vertical__old {
+              /*Box model*/
 
-                .tooltip .tooltiptext{
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 20vw;
+            }
 
-                    /*Position*/
+            .form-vertical__new {
+              /*Box model*/
 
-                    position: absolute;
-                    z-index: 100;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 20vw;
+            }
 
+            .form-vertical__new2 {
+              /*Box model*/
 
-                    /*Box model*/
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            }
 
-                    width: 20rem;
-                    padding: 1rem;
+            .password__input {
+              /*Box model*/
 
-                    /*Text*/
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              width: 20vw;
+            }
 
-                    text-align: center;
+            .email__input {
+              /*Box model*/
 
-                    /*Visuals*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 20vw;
+            }
 
-                    border-radius: 10px;
-                    visibility: hidden;
-                    background-color: ${colors.quaternary};
-                    color: ${colors.secondary};
+            .password--visibility {
+              /*Position*/
 
-                }
+              position: relative;
+              top: 0.9rem;
+              right: 2rem;
+            }
 
-                .tooltip:hover .tooltiptext {
+            /*ERRORES*/
 
-                    /*Visuals*/
+            .error__icon {
+              /*Box model*/
 
-                    visibility: visible;
+              margin-left: 1rem;
+            }
 
-                }
+            .form__success-icon {
+              /*Position*/
 
-                .tooltiptext p{
+              position: relative;
+              right: -1.1rem;
 
-                    /*Text*/
+              z-index: 999;
 
-                    font-size: 1rem;
-                    font-family: ${fonts.default};
+              /*Visuals*/
 
-                }
+              opacity: 0;
+              color: ${statusColors.success};
+            }
 
-                .form-vertical__old {
+            .form__success-icon--active {
+              /*Position*/
 
-                    /*Box model*/
+              position: relative;
+              right: -1.1rem;
+              bottom: 0.5rem;
 
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    width: 20vw;
+              z-index: 999;
 
-                }
+              /*Visuals*/
 
-                .form-vertical__new {
+              opacity: 1;
+              color: ${statusColors.success};
+            }
 
-                    /*Box model*/
+            .form__input-emailError {
+              /*Position*/
 
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    width: 20vw;
+              position: relative;
 
-                }
+              /*Box model*/
 
-                .form-vertical__new2 {
+              display: none;
+              flex-direction: row;
+              align-items: center;
+              width: 20vw;
 
-                    /*Box model*/
+              /*Text*/
 
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-                }
+              /*Visuals*/
 
-                .password__input{
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+              opacity: 0;
+            }
 
-                    /*Box model*/
+            .form__input-emailError p {
+              /*Box model*/
 
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    width: 20vw;
-                    
+              margin-left: 1rem;
+            }
 
-                }
+            .form__input-emailError--active {
+              /*Position*/
 
-                .email__input{
+              position: relative;
 
-                    /*Box model*/
+              /*Box model*/
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    width: 20vw;
-                }
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              width: 20vw;
 
-                .password--visibility{
+              /*Text*/
 
-                    /*Position*/
+              font-family: "Poppins", sans-serif;
+              color: #fafafa;
 
-                    position: relative;
-                    top: 0.9rem;
-                    right: 2rem;
+              /*Visuals*/
 
-                }
+              border-radius: 20px;
+              box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+              background-color: ${statusColors.error};
+              opacity: 1;
+            }
 
-                /*ERRORES*/
+            .error__icon {
+              /*Box model*/
 
-        
-                  .error__icon{
+              margin-left: 1rem;
+            }
 
-                  /*Box model*/
+            .submit__error {
+              /*Box model*/
 
-                  margin-left: 1rem;
+              display: none;
 
-                  }
+              /*Text*/
 
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                  .form__success-icon{
+              /*Visuals*/
 
-                  /*Position*/
+              background-color: ${statusColors.error};
+            }
 
-                  position: relative;
-                  right: -1.1rem;
-                  
-                  z-index: 999;
+            .submit__error--active {
+              /*Box model*/
 
-                  /*Visuals*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
-                  opacity: 0;
-                  color: ${statusColors.success};
+              /*Text*/
 
-                  }
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
+              /*Visuals*/
 
+              border-radius: 20px;
+              background-color: ${statusColors.error};
+            }
 
-                  .form__success-icon--active{
+            .submit__error--active2 {
+              /*Box model*/
 
-                  /*Position*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding: 0.5rem;
+              width: 65%;
 
-                  position: relative;
-                  right: -1.1rem;
-                  bottom: 0.5rem;
+              /*Text*/
 
-                  z-index: 999;
+              font-family: "Poppins", sans-serif;
+              color: ${colors.secondary};
 
-                  /*Visuals*/
+              /*Visuals*/
 
-                  opacity: 1;
-                  color: ${statusColors.success};
+              border-radius: 20px;
+              background-color: ${statusColors.success};
+            }
 
-                  }
+            .form-vertical {
+              /*Position*/
 
+              position: relative;
 
+              /*Box model*/
 
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              margin-top: 4rem;
+              margin-bottom: 3rem;
+              width: 20vw;
+              height: fit-content;
+              padding: 1vh 2vh;
+            }
 
-                  .form__input-emailError{
+            input[type="submit"] {
+              /*Box model*/
 
-                    /*Position*/
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              margin-top: 2rem;
+              margin-bottom: 2rem;
+            }
 
-                    position: relative;
-                    
-                    /*Box model*/
+            input[type="text"] {
+              /*Box model*/
 
-                    display: none;
-                    flex-direction: row;
-                    align-items: center;
-                    width: 20vw;
+              height: 2rem;
+              padding: 0.4rem;
 
+              /*Text*/
 
-                    /*Text*/
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                    font-family: 'Poppins', sans-serif;
-                    color: #fafafa;
+              /*Visuals*/
 
-                    /*Visuals*/
+              border-radius: 20px;
+              border: 0;
+              transition: 0.2s ease all;
+            }
 
-                    border-radius: 20px;
-                    background-color: ${statusColors.error};
-                    opacity: 0;
+            input[type="email"]:focus {
+              /*Visuals*/
 
-                  }
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
+            }
 
+            ::placeholder {
+              /*Text*/
 
-                  .form__input-emailError p{
+              color: ${colors.primary};
+            }
 
-                    /*Box model*/
+            h1 {
+              /*Box model*/
 
-                    margin-left: 1rem;
+              margin-top: 2rem;
+              margin-bottom: 3rem;
+            }
 
-                  }
+            a {
+              /*Box model*/
 
-                  .form__input-emailError--active{
+              display: flex;
+              flex-direction: row;
+              align-self: flex-start;
 
-                    /*Position*/
+              margin-top: 1rem;
 
-                    position: relative;
-                    
+              /*Text*/
 
-                    /*Box model*/
+              font-family: ${fonts.default};
+              font-size: 0.8rem;
+              color: ${colors.secondary};
+              font-weight: bold;
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    width: 20vw;
-                    
+              /*Misc*/
 
-                    /*Text*/
-
-                    font-family: 'Poppins', sans-serif;
-                    color: #fafafa;
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-                    background-color: ${statusColors.error};
-                    opacity: 1;
-
-                  }
-
-
-                  .error__icon{
-
-                    /*Box model*/
-
-                    margin-left: 1rem;
-
-                    }
-
-
-                  .submit__error{
-
-                    /*Box model*/
-
-                    display: none;
-
-                    /*Text*/
-
-                    font-family: 'Poppins', sans-serif;
-                    color: ${colors.secondary};
-
-                    /*Visuals*/
-
-                    background-color: ${statusColors.error};
-
-                  }
-
-                  .submit__error--active{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0.5rem;
-                    width: 65%;
-
-                    /*Text*/
-
-                    font-family: 'Poppins', sans-serif;
-                    color: ${colors.secondary};
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    background-color: ${statusColors.error};
-
-                  }
-
-                  .submit__error--active2{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0.5rem;
-                    width: 65%;
-
-                    /*Text*/
-
-                    font-family: 'Poppins', sans-serif;
-                    color: ${colors.secondary};
-
-                    /*Visuals*/
-
-                    border-radius: 20px;
-                    background-color: ${statusColors.success};
-
-                  }
-
-                  .form-vertical {
-
-                        /*Position*/
-
-                        position: relative;
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        margin-top: 4rem;
-                        margin-bottom: 3rem;
-                        width: 20vw;
-                        height: fit-content;
-                        padding: 1vh 2vh;
-
-                  }
-
-
-
-                input[type="submit"]{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: center;
-                    margin-top: 2rem;
-                    margin-bottom: 2rem;
-
-                }
-
-                input[type="text"] {
-
-                  /*Box model*/
-
-                  height: 2rem;
-                  padding: 0.4rem;
-
-
-                  /*Text*/
-
-                  font-family: ${fonts.default};
-                  font-size: 1rem;
-
-                  /*Visuals*/
-
-                  border-radius: 20px;
-                  border: 0;
-                  transition: 0.2s ease all;
-
-                  }
-
-
-
-
-                input[type="email"]:focus {
-
-                    /*Visuals*/
-
-                    border: 2px solid #4d97f7;
-                    outline: none;
-                    box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                }
-
-
-                ::placeholder{
-
-                    /*Text*/
-
-                    color: ${colors.primary};
-                }
-
-
-                h1{
-
-                    /*Box model*/
-
-                    margin-top: 2rem;
-                    margin-bottom: 3rem;
-                }
-
-                a{
-
-                    /*Box model*/
-
-                    display: flex;
-                    flex-direction: row;
-                    align-self: flex-start;
-
-                    margin-top: 1rem;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    font-size: 0.8rem;
-                    color: ${colors.secondary};
-                    font-weight: bold;
-
-                    /*Misc*/
-
-                    cursor: pointer;
-                    text-decoration: none;
-                    border: none;
-
-                }
-
-            `}
+              cursor: pointer;
+              text-decoration: none;
+              border: none;
+            }
+          `}
         </style>
       </>
     </Layout>
-  )
+  );
 }

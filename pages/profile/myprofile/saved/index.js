@@ -1,75 +1,75 @@
 /* Static imports */
 
-import { useSession, getSession, signIn} from 'next-auth/react'
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import { colors } from 'styles/frontend-conf'
-import { server } from '/server'
-import global from 'styles/global.module.css'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
-import Layout from '/components/Layout/Layout'
+import { useSession, getSession, signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { colors } from "styles/frontend-conf";
+import { server } from "/server";
+import global from "styles/global.module.css";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import Layout from "/components/Layout/Layout";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const SavedPost = dynamic(() => import('/components/SavedPost/SavedPost'))
-const SettingsLayout = dynamic(() => import('/components/SettingsLayout/SettingsLayout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const SavedPost = dynamic(() => import("/components/SavedPost/SavedPost"));
+const SettingsLayout = dynamic(() =>
+  import("/components/SettingsLayout/SettingsLayout")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Saved posts page
+ * @version 1.0
+ * @description ASaved posts page
+ */
+export default function Saved({ users }) {
+  const { data: session, status } = useSession({ required: true });
+  const [saves, setSaves] = useState(users?.saves);
 
-/*
-    * @author Sergio García Navarro
-    * @returns Saved posts page
-    * @version 1.0
-    * @date 13/12/2020
-    * @description Saved posts page
-*/
+  const Router = useRouter();
 
-export default function Saved ({users}) {
-  
-  const { data: session, status } = useSession({ required: true })
-  const [saves, setSaves] = useState(users?.saves)
-  
-
-  const Router = useRouter()
-
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <SettingsLayout>
-        <Head><title>Publicaciones guardadas | Sweet Home</title></Head>
-        <div className='container'>
-
-          <div className='container__column1'>
-
-            <div className='column1__header'>
+        <Head>
+          <title>Publicaciones guardadas | Sweet Home</title>
+        </Head>
+        <div className="container">
+          <div className="container__column1">
+            <div className="column1__header">
               <h1 className={global.title}>Publicaciones guardadas</h1>
             </div>
-            
 
-            {saves?.length === 0 && <div><p className={global.loading2}>No hay ninguna publicación.</p></div>}
+            {saves?.length === 0 && (
+              <div>
+                <p className={global.loading2}>No hay ninguna publicación.</p>
+              </div>
+            )}
             {saves.map((save) => {
               return (
                 <>
                   <SavedPost key={save} id={save} />
                 </>
-              )
+              );
             })}
           </div>
-
-
         </div>
 
-        <style jsx>{`
+        <style jsx>
+          {`
 
               .container{
 
@@ -195,19 +195,23 @@ export default function Saved ({users}) {
             `}
         </style>
       </SettingsLayout>
-
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
 
                   .message{
 
@@ -226,29 +230,30 @@ export default function Saved ({users}) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps(context){
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
-
-  const session = await getSession(context)
+  const session = await getSession(context);
 
   const res = await fetch(`${server}/api/users/${session?.user.username}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
+  const data = await res.json();
 
-  const data = await res.json()
-
-  return{
+  return {
     props: {
-      users: JSON.parse(JSON.stringify(data))
-  }
-}
+      users: JSON.parse(JSON.stringify(data)),
+    },
+  };
 }

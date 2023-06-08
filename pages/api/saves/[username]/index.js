@@ -1,29 +1,33 @@
-import clientPromise from '../../lib/MongoDB'
-import {ObjectId} from 'mongodb'
+import clientPromise from "../../lib/MongoDB";
+import { ObjectId } from "mongodb";
 
 export const config = {
   api: {
     responseLimit: false,
   },
-}
+};
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
+  res.setHeader("Cache-Control", "s-maxage=10");
 
-  res.setHeader('Cache-Control', 's-maxage=10'); 
+  const client = await clientPromise;
+  const db = await client.db();
+  const body = req.body;
 
-  const client = await clientPromise
-  const db = await client.db()
-  const body = req.body
+  if (req.method === "GET") {
+    await db
+      .collection("posts")
+      .updateOne(
+        { _id: ObjectId(body.postId) },
+        { $push: { saves: ObjectId(body.userId) } }
+      );
+    await db
+      .collection("users")
+      .updateOne(
+        { _id: ObjectId(body.userId) },
+        { $push: { saves: ObjectId(body.postId) } }
+      );
 
-
-  if (req.method === 'GET') {
-
-   await db.collection('posts').updateOne({_id: ObjectId(body.postId)}, { $push: {saves: ObjectId(body.userId)}})
-   await db.collection('users').updateOne({_id: ObjectId(body.userId)}, { $push: {saves: ObjectId(body.postId)}})
-
-    res.status(201).json({ message: 'Creado con éxito.' })
+    res.status(201).json({ message: "Creado con éxito." });
   }
-
-
-
 }

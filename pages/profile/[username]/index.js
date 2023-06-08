@@ -1,145 +1,277 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-import { colors, fonts } from 'styles/frontend-conf'
-import { BsPatchCheckFill} from 'react-icons/bs'
-import {FaUserAlt} from 'react-icons/fa'
-import {MdCake, MdLocationPin, MdHealthAndSafety, MdOutlineBlock, MdReport} from 'react-icons/md'
-import {HiOutlineArrowRight} from 'react-icons/hi'
-import { server } from '/server'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
+import { useSession, getSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { colors, fonts } from "styles/frontend-conf";
+import { BsPatchCheckFill } from "react-icons/bs";
+import { FaUserAlt } from "react-icons/fa";
+import {
+  MdCake,
+  MdLocationPin,
+  MdHealthAndSafety,
+  MdOutlineBlock,
+  MdReport,
+} from "react-icons/md";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import { server } from "/server";
+import Head from "next/head";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Post = dynamic(() => import('/components/Post/Post'))
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const FollowButton = dynamic(() => import('/components/FollowButton/FollowButton'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const Post = dynamic(() => import("/components/Post/Post"));
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const FollowButton = dynamic(() =>
+  import("/components/FollowButton/FollowButton")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-
-export default function Username ({ posts, users}) {
-  
-  const { data: session, status } = useSession()
-  const [followers, setFollowers] = useState(users?.followers)
-  const [following, setFollowing] = useState(users?.following)
-  const [isShelter, setIsShelter] = useState(users?.role.name === "protectora" ? true : false)
-  const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
-  const [userImage, setUserImage] = useState(users?.image)
-  const [userBanner, setUserBanner] = useState(users?.banner)
-  const [isBlocked, setIsBlocked] = useState(users?.status.name === "bloqueado" ? true : false)
-  const [isPosts, setIsPosts] = useState(false)
-  const [isLocation, setIsLocation] = useState(users?.location === "" ? false : true)
-  const router = useRouter()
+/**
+ * @author Sergio García Navarro
+ * @returns Other user profile page
+ * @version 1.0
+ * @description Other user profile page
+ */
+export default function Username({ posts, users }) {
+  const { data: session, status } = useSession();
+  const [followers, setFollowers] = useState(users?.followers);
+  const [following, setFollowing] = useState(users?.following);
+  const [isShelter, setIsShelter] = useState(
+    users?.role.name === "protectora" ? true : false
+  );
+  const [isVet, setIsVet] = useState(
+    users?.role.name === "veterinaria" ? true : false
+  );
+  const [userImage, setUserImage] = useState(users?.image);
+  const [userBanner, setUserBanner] = useState(users?.banner);
+  const [isBlocked, setIsBlocked] = useState(
+    users?.status.name === "bloqueado" ? true : false
+  );
+  const [isPosts, setIsPosts] = useState(false);
+  const [isLocation, setIsLocation] = useState(
+    users?.location === "" ? false : true
+  );
+  const router = useRouter();
 
   const handleClick = (e) => {
+    const posts = document.querySelector(".posts");
 
-    const posts = document.querySelector('.posts')
+    if (e === "Publicaciones") {
+      setIsPosts(!isPosts);
 
-
-    if (e === 'Publicaciones') {
-      setIsPosts(!isPosts)
-
-      const button = document.querySelector('#posts')
-      posts.style.display = 'flex'
-      button.addEventListener('click', () => {
-        button.focus()
-      })
+      const button = document.querySelector("#posts");
+      posts.style.display = "flex";
+      button.addEventListener("click", () => {
+        button.focus();
+      });
     }
-  }
+  };
 
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
-    const numFollowers = followers?.length
-    const numFollowing = following?.length
+    const numFollowers = followers?.length;
+    const numFollowing = following?.length;
 
     return (
       <Layout>
+        <Head>
+          <title>Perfil de {router.query.username} | Sweet Home</title>
+        </Head>
 
-        <Head><title>Perfil de {router.query.username} | Sweet Home</title></Head>
-
-        <div className='container__profile'>
-
-          <div className="profile__banner">  
-            <FallbackImage src={isBlocked ? "" : userBanner} style={{ borderRadius: '20px 20px 0 0', marginBottom: '1rem'}} width={2500} height={600} alt="Imagen del banner"/>
+        <div className="container__profile">
+          <div className="profile__banner">
+            <FallbackImage
+              src={isBlocked ? "" : userBanner}
+              style={{ borderRadius: "20px 20px 0 0", marginBottom: "1rem" }}
+              width={2500}
+              height={600}
+              alt="Imagen del banner"
+            />
           </div>
-          <div className='profile__text'>
-
-          <div className='text__username'>
-
+          <div className="profile__text">
+            <div className="text__username">
               <div className="profile__profilePic">
-                <FallbackImage src={isBlocked ? "" : userImage} style={{ borderRadius: '100px' }} width={150} height={150} alt='Imagen de perfil' priority />
+                <FallbackImage
+                  src={isBlocked ? "" : userImage}
+                  style={{ borderRadius: "100px" }}
+                  width={150}
+                  height={150}
+                  alt="Imagen de perfil"
+                  priority
+                />
               </div>
-              <div className={global.title2}>@{isBlocked ? 'Usuario bloqueado' : router.query.username}</div>
-              {isShelter && <BsPatchCheckFill size={30} color={colors.primary} />}
-              {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}              
-              {users && !isBlocked && <FollowButton idFrom={session?.user.id} usernameFrom={session?.user.username} idTo={users?._id} usernameTo={users?.username}/>}
-              {!isBlocked && <a className='profile__block' href={`/profile/${router.query.username}/createComplaint`} aria-label={`Ir a poner una denuncia a ${router.query.username}`}><MdReport size={35} color={colors.primary} /></a>}
+              <div className={global.title2}>
+                @{isBlocked ? "Usuario bloqueado" : router.query.username}
+              </div>
+              {isShelter && (
+                <BsPatchCheckFill size={30} color={colors.primary} />
+              )}
+              {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}
+              {users && !isBlocked && (
+                <FollowButton
+                  idFrom={session?.user.id}
+                  usernameFrom={session?.user.username}
+                  idTo={users?._id}
+                  usernameTo={users?.username}
+                />
+              )}
+              {!isBlocked && (
+                <a
+                  className="profile__block"
+                  href={`/profile/${router.query.username}/createComplaint`}
+                  aria-label={`Ir a poner una denuncia a ${router.query.username}`}
+                >
+                  <MdReport size={35} color={colors.primary} />
+                </a>
+              )}
             </div>
-            {!isBlocked && <div className="profile__biography">
-              <p className={global.text}>{users?.biography}</p>
-            </div>}
-            {!isBlocked && <div className="profile__dates">
-                <div className={global.text}><strong className={global.strong}>Miembro desde:</strong> {new Date(users?.createdAt).toLocaleDateString().slice(0, 10)}<FaUserAlt color={`${colors.primary}`}/></div>
-                <div className={global.text}><strong className={global.strong}>Cumpleaños:</strong> {new Date(users?.birthdate).toLocaleDateString().slice(0, 10)}<MdCake color={`${colors.primary}`}/></div>
-            </div>}
-            {isLocation && !isBlocked && <div className="profile__location">
-              <MdLocationPin color={`${colors.primary}`}/>
-              <p className={global.text}>{users.location}</p>
-            </div>}
-            {!isBlocked && <div className="profile__pets">
-              <a className={global.link} href={`/profile/${router.query.username}/pets`} aria-label={`Ir a sus mascotas`}>Sus mascotas<HiOutlineArrowRight size={15} color={colors.primary} /></a>
-            </div>}
-            <div className='profile__followers'>
+            {!isBlocked && (
+              <div className="profile__biography">
+                <p className={global.text}>{users?.biography}</p>
+              </div>
+            )}
+            {!isBlocked && (
+              <div className="profile__dates">
+                <div className={global.text}>
+                  <strong className={global.strong}>Miembro desde:</strong>{" "}
+                  {new Date(users?.createdAt).toLocaleDateString().slice(0, 10)}
+                  <FaUserAlt color={`${colors.primary}`} />
+                </div>
+                <div className={global.text}>
+                  <strong className={global.strong}>Cumpleaños:</strong>{" "}
+                  {new Date(users?.birthdate).toLocaleDateString().slice(0, 10)}
+                  <MdCake color={`${colors.primary}`} />
+                </div>
+              </div>
+            )}
+            {isLocation && !isBlocked && (
+              <div className="profile__location">
+                <MdLocationPin color={`${colors.primary}`} />
+                <p className={global.text}>{users.location}</p>
+              </div>
+            )}
+            {!isBlocked && (
+              <div className="profile__pets">
+                <a
+                  className={global.link}
+                  href={`/profile/${router.query.username}/pets`}
+                  aria-label={`Ir a sus mascotas`}
+                >
+                  Sus mascotas
+                  <HiOutlineArrowRight size={15} color={colors.primary} />
+                </a>
+              </div>
+            )}
+            <div className="profile__followers">
               <div className="numPosts">
                 <div className={global.link}>Publicaciones</div>
-                <p className={global.text__bold}>{isBlocked ? 0 : posts?.length}</p>
+                <p className={global.text__bold}>
+                  {isBlocked ? 0 : posts?.length}
+                </p>
               </div>
-              <div className='followers'>
-                <a href={`/profile/${users?.username}/followers`} aria-label={`Ir a los seguidores de ${users?.username}`} className={global.link}>Seguidores</a>
-                <p className={global.text__bold}>{isBlocked ? 0 : numFollowers}</p>
+              <div className="followers">
+                <a
+                  href={`/profile/${users?.username}/followers`}
+                  aria-label={`Ir a los seguidores de ${users?.username}`}
+                  className={global.link}
+                >
+                  Seguidores
+                </a>
+                <p className={global.text__bold}>
+                  {isBlocked ? 0 : numFollowers}
+                </p>
               </div>
-              <div className='following'>
-                <a href={`/profile/${users?.username}/following`} aria-label={`Ir a los usuarios seguidos por ${users?.username}`} className={global.link}>Siguiendo</a>
-                <p className={global.text__bold}>{isBlocked ? 0 : numFollowing}</p>
+              <div className="following">
+                <a
+                  href={`/profile/${users?.username}/following`}
+                  aria-label={`Ir a los usuarios seguidos por ${users?.username}`}
+                  className={global.link}
+                >
+                  Siguiendo
+                </a>
+                <p className={global.text__bold}>
+                  {isBlocked ? 0 : numFollowing}
+                </p>
               </div>
             </div>
-
           </div>
-          <div className='profile__functions'>
-            <button id='posts' className='function__title' onClick={() => handleClick('Publicaciones')}>Publicaciones</button>
+          <div className="profile__functions">
+            <button
+              id="posts"
+              className="function__title"
+              onClick={() => handleClick("Publicaciones")}
+            >
+              Publicaciones
+            </button>
           </div>
-          {isBlocked && <div className="posts">
-            <p className={global.text}>No puede ver las publicaciones, este usuario ha sido bloqueado</p>
-          </div>}
-          {!isBlocked && <div className='posts'>
-            {isPosts && posts?.length === 0 && <p className={global.text}>No hay publicaciones en este momento</p>}
-            {isPosts && posts.map(({ _id, username, location, image, description, createdAt, comments, likes, saves, type }) => {
-              return (
-                <>
-                  <Post key={_id} id={_id} username={username} location={location} image={image} description={description} createdAt={createdAt} comments={comments} likes={likes} saves={saves} type={type} />
-                </>
-              )
-            })}
-          </div>}
-          
+          {isBlocked && (
+            <div className="posts">
+              <p className={global.text}>
+                No puede ver las publicaciones, este usuario ha sido bloqueado
+              </p>
+            </div>
+          )}
+          {!isBlocked && (
+            <div className="posts">
+              {isPosts && posts?.length === 0 && (
+                <p className={global.text}>
+                  No hay publicaciones en este momento
+                </p>
+              )}
+              {isPosts &&
+                posts.map(
+                  ({
+                    _id,
+                    username,
+                    location,
+                    image,
+                    description,
+                    createdAt,
+                    comments,
+                    likes,
+                    saves,
+                    type,
+                  }) => {
+                    return (
+                      <>
+                        <Post
+                          key={_id}
+                          id={_id}
+                          username={username}
+                          location={location}
+                          image={image}
+                          description={description}
+                          createdAt={createdAt}
+                          comments={comments}
+                          likes={likes}
+                          saves={saves}
+                          type={type}
+                        />
+                      </>
+                    );
+                  }
+                )}
+            </div>
+          )}
         </div>
 
-        <style jsx>{`
+        <style jsx>
+          {`
 
                     .container__profile{
 
@@ -496,18 +628,23 @@ export default function Username ({ posts, users}) {
                 `}
         </style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
 
                         .message{
 
@@ -525,42 +662,37 @@ export default function Username ({ posts, users}) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps (context) {
-
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
-
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   const post = await fetch(`${server}/api/posts/${context.query.username}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
-  
+  const res = await fetch(`${server}/api/users/${context.query.username}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    const res = await fetch(`${server}/api/users/${context.query.username}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-
-
-
-  const posts = await post.json()
-  const user = await res.json()
-
+  const posts = await post.json();
+  const user = await res.json();
 
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts)), users: JSON.parse(JSON.stringify(user))
-    }
-  }
+      posts: JSON.parse(JSON.stringify(posts)),
+      users: JSON.parse(JSON.stringify(user)),
+    },
+  };
 }
-

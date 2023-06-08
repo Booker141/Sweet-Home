@@ -1,168 +1,166 @@
-import { useSession, signIn } from 'next-auth/react'
-import Head from 'next/head'
-import Layout from 'components/Layout/Layout'
-import global from '/styles/global.module.css'
-import InputEmoji from 'react-input-emoji'
-import Loader from 'components/Loader/Loader'
-import Message from 'components/Message/Message'
-import { useEffect, useState } from 'react'
-import { server } from '/server'
-import {colors, fonts} from '/styles/frontend-conf'
-import io from "socket.io-client"
-import {toast} from 'react-toastify'
-
-
-
+import { useSession, signIn } from "next-auth/react";
+import Head from "next/head";
+import Layout from "components/Layout/Layout";
+import global from "/styles/global.module.css";
+import InputEmoji from "react-input-emoji";
+import Loader from "components/Loader/Loader";
+import Message from "components/Message/Message";
+import { useEffect, useState } from "react";
+import { server } from "/server";
+import { colors, fonts } from "/styles/frontend-conf";
+import io from "socket.io-client";
+import { toast } from "react-toastify";
 
 /**
- * It renders a page with a chat, where the user can send messages
- * @returns The chat page is being returned.
+ * @author Sergio García Navarro
+ * @returns Abandoned page
+ * @version 1.0
+ * @description Abandoned page
  */
-export default function Chat () {
-
-  const { data: session, status } = useSession({ required: true })
+export default function Chat() {
+  const { data: session, status } = useSession({ required: true });
   const [messagesList, setMessagesList] = useState([]);
-  const [chatMessage, setChatMessage] = useState('')
-  const [user, setUser] = useState({})
+  const [chatMessage, setChatMessage] = useState("");
+  const [user, setUser] = useState({});
 
   let socket;
 
   const chatServer = async () => {
-    
-    await fetch('/api/socket/')
+    await fetch("/api/socket/");
 
-    socket = io()
+    socket = io();
 
     // send a message to the server
     socket.on("receiveMessage", (message) => {
-      setMessagesList((pre) => [...pre, message])
+      setMessagesList((pre) => [...pre, message]);
     });
-
-  }
+  };
 
   const getMessages = async () => {
-
     const res = await fetch(`${server}/messages/${chatId}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
 
-    const messages = res.json()
-    setMessagesList(messages)
-  }
-
+    const messages = res.json();
+    setMessagesList(messages);
+  };
 
   const createMessage = async () => {
-
-    if (chatMessage.trim() === '') {
-
-      toast.error('Debe escribir un mensaje', { position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored", })
-      return
+    if (chatMessage.trim() === "") {
+      toast.error("Debe escribir un mensaje", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
     }
 
-    
     const res = await fetch(`${server}/api/messages`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chatId: '',
+        chatId: "",
         description: chatMessage,
         senderId: session.user.id,
-      })
-    })
+      }),
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
-
-      if (data.error) {
-
-        console.log(data.error)
-        toast.error('Ha ocurrido un error', { position: "bottom-right",
+    if (data.error) {
+      console.log(data.error);
+      toast.error("Ha ocurrido un error", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
-  
-      } else {
-        
-        socket.emit("sendMessage", {chatMessage})
+        theme: "colored",
+      });
+    } else {
+      socket.emit("sendMessage", { chatMessage });
 
-        toast.success('Se ha enviado el mensaje', { position: "bottom-right",
+      toast.success("Se ha enviado el mensaje", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
+        theme: "colored",
+      });
 
+      getMessages();
+    }
+  };
 
-        getMessages()
+  useEffect(() => {
+    chatServer();
+  }, []);
 
-  
-      }
-
-  }
-
-  useEffect(() =>{
-    chatServer()
-  },[])
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Chat | Sweet Home</title></Head>
+        <Head>
+          <title>Chat | Sweet Home</title>
+        </Head>
         <h1 className={global.title4}>Mis chats</h1>
-        
-         
-        <div className="chat__container">
-        <div className="default__message">{messagesList.length === 0 && <div className={global.loading2}>No hay ningún mensaje.</div>} </div>
-        {messagesList.map((message) => {
-          return(
-            <>
-              <Message description={message.chatMessage}/>
-            </>
-          )
-        })}
 
-        <div className='message__input'>
-                <InputEmoji
-                  title='Enviar un mensaje'
-                  type='text'
-                  name='text'
-                  id='message'
-                  value={chatMessage}
-                  onChange={setChatMessage}
-                  cleanOnEnter
-                  placeholder={`Escribe un mensaje 😄`}
-                  fontFamily={`${fonts.default}`}
-                  borderColor={`${colors.primary}`}
-                />
-              
-              <button onClick={createMessage} className={global.buttonPrimary}>Enviar</button>
-              </div>
+        <div className="chat__container">
+          <div className="default__message">
+            {messagesList.length === 0 && (
+              <div className={global.loading2}>No hay ningún mensaje.</div>
+            )}{" "}
+          </div>
+          {messagesList.map((message) => {
+            return (
+              <>
+                <Message description={message.chatMessage} />
+              </>
+            );
+          })}
+
+          <div className="message__input">
+            <InputEmoji
+              title="Enviar un mensaje"
+              type="text"
+              name="text"
+              id="message"
+              value={chatMessage}
+              onChange={setChatMessage}
+              cleanOnEnter
+              placeholder={`Escribe un mensaje 😄`}
+              fontFamily={`${fonts.default}`}
+              borderColor={`${colors.primary}`}
+            />
+
+            <button onClick={createMessage} className={global.buttonPrimary}>
+              Enviar
+            </button>
+          </div>
         </div>
 
         <style jsx>{`
@@ -224,17 +222,22 @@ export default function Chat () {
           
           `}</style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title}>Para acceder a esta página debe ser administrador de Sweet Home</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          <div className="message">
+            <h1 className={global.title}>
+              Para acceder a esta página debe ser administrador de Sweet Home
+            </h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>
+              Iniciar sesión
+            </button>
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
                         .message{
 
@@ -251,7 +254,6 @@ export default function Chat () {
                     `}
         </style>
       </Layout>
-    )
+    );
   }
 }
-

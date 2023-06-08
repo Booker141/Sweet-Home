@@ -1,35 +1,50 @@
 /* Static imports */
 
-
-import { useRouter } from 'next/router'
-import { colors, fonts } from 'styles/frontend-conf.js'
-import { server } from '/server'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import Layout from '/components/BasicLayout/BasicLayout'
+import { useRouter } from "next/router";
+import { colors, fonts } from "styles/frontend-conf.js";
+import { server } from "/server";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Layout from "/components/BasicLayout/BasicLayout";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const New = dynamic(() => import('/components/New/New'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const New = dynamic(() => import("/components/New/New"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-
-export default function NewsId ({ news }) {
-
-  const router = useRouter()
+/**
+ * @author Sergio García Navarro
+ * @returns Individual new page
+ * @version 1.0
+ * @description Individual new page
+ */
+export default function NewsId({ news }) {
+  const router = useRouter();
 
   return (
-
     <Layout>
-      <Head><title>{news?.title} | Sweet Home</title></Head>
+      <Head>
+        <title>{news?.title} | Sweet Home</title>
+      </Head>
       <div className="new">
-        <New key={news?._id} title={news?.title} date={news?.date} author={news?.author} introduction={news?.introduction} body={news?.body} conclusion={news?.conclusion} />
-        <button className={global.buttonTertiary} onClick={() => router.back()}>Volver</button>
+        <New
+          key={news?._id}
+          title={news?.title}
+          date={news?.date}
+          author={news?.author}
+          introduction={news?.introduction}
+          body={news?.body}
+          conclusion={news?.conclusion}
+        />
+        <button className={global.buttonTertiary} onClick={() => router.back()}>
+          Volver
+        </button>
       </div>
-     
-      <style jsx>{`
+
+      <style jsx>
+        {`
 
                     .new{
 
@@ -153,30 +168,30 @@ export default function NewsId ({ news }) {
                     
                 `}
       </style>
-
     </Layout>
-  )
+  );
 }
 
-export async function getServerSideProps (context) {
-
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   const { newId } = context.query;
 
   const res = await fetch(`${server}/api/news/${newId}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
   const news = await res.json();
 
   return {
     props: {
-      news: JSON.parse(JSON.stringify(news))
-    }
-
-  }
+      news: JSON.parse(JSON.stringify(news)),
+    },
+  };
 }

@@ -1,267 +1,334 @@
-
 /* Static imports */
 
-import {useEffect, useState} from 'react'
-import {useRouter} from 'next/router'
-import { useSession } from 'next-auth/react'
-import {toast} from 'react-toastify'
-import {colors} from '/styles/frontend-conf.js'
-import {server} from '/server'
-import { MdCheckCircle, MdCancel, MdDeleteOutline} from 'react-icons/md'
-import { HiOutlineClock } from 'react-icons/hi'
-import global from '/styles/global.module.css'
-import dynamic from 'next/dynamic'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
+import { colors } from "/styles/frontend-conf.js";
+import { server } from "/server";
+import { MdCheckCircle, MdCancel, MdDeleteOutline } from "react-icons/md";
+import { HiOutlineClock } from "react-icons/hi";
+import global from "/styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
+const Modal = dynamic(() => import("/components/Modal/Modal"));
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
+);
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
-const Modal = dynamic(() => import('/components/Modal/Modal'))
-const FallbackImage = dynamic(() => import('/components/FallbackImage/FallbackImage'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+/** 
+  * @author Sergio García Navarro
+  * @returns Complaint component
+  * @version 1.0
+  * @description Complaint component
+*/
 
-
-
-export default function Complaint (props) {
-
+/**
+ * This function is a complaint component that receive props from page and displays them
+ * in a complaint created by user
+ * @param props - props received from page.
+ * @returns A complaint created by user.
+ */
+export default function Complaint(props) {
   const [user, setUser] = useState({});
   const [user2, setUser2] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const Router = useRouter();
-  const {data: session} = useSession()
+  const { data: session } = useSession();
 
-  const [isAdmin, setIsAdmin] = useState(session?.user.role === "administrador" ? true : false)
-
+  const [isAdmin, setIsAdmin] = useState(
+    session?.user.role === "administrador" ? true : false
+  );
 
   const denyComplaint = async () => {
-
     await fetch(`${server}/api/complaints/`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         id: props.id,
-        adminUsername: session?.user.username
-      
-      })})
+        adminUsername: session?.user.username,
+      }),
+    });
 
-    toast.error(`Se ha denegado la denuncia`, { position: "bottom-right",
+    toast.error(`Se ha denegado la denuncia`, {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored", })
+      theme: "colored",
+    });
 
-    setIsModalVisible(false)
+    setIsModalVisible(false);
 
-      Router.reload()
+    Router.reload();
+  };
 
-  }
+  const deleteComplaint = async () => {
+    await fetch(`${server}/api/complaints/${session?.user.username}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: props.id,
+      }),
+    });
 
+    toast.error(`Se ha eliminado la denuncia`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
-    const deleteComplaint = async () => {
+    setIsModalVisible2(false);
 
-      await fetch(`${server}/api/complaints/${session?.user.username}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id: props.id,
-        
-        })})
-  
-      toast.error(`Se ha eliminado la denuncia`, { position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored", })
-  
-      setIsModalVisible2(false)
-
-      Router.reload()
-
-    }
+    Router.reload();
+  };
 
   const checkComplaint = async () => {
-
-  await fetch(`${server}/api/complaints/`, {
-      method: 'PUT',
+    await fetch(`${server}/api/complaints/`, {
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         id: props.id,
-        adminUsername: session?.user.username
-      })})
+        adminUsername: session?.user.username,
+      }),
+    });
 
-    toast.success(`Se ha aprobado la denuncia`, { position: "bottom-right",
+    toast.success(`Se ha aprobado la denuncia`, {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored", })
+      theme: "colored",
+    });
 
-    setIsModalVisible(false)
+    setIsModalVisible(false);
 
-      Router.reload()
+    Router.reload();
+  };
 
-
-  }
-
-
-  async function getUsers () {
-
+  async function getUsers() {
     const response = await fetch(`${server}/api/users/${props?.usernameFrom}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
 
     const response2 = await fetch(`${server}/api/users/${props?.usernameTo}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
 
-    const data = await response.json()
-    const data2 = await response2.json()
+    const data = await response.json();
+    const data2 = await response2.json();
 
     setUser(data);
     setUser2(data2);
-
   }
 
-
-
-  useEffect( () => {
-
+  useEffect(() => {
     getUsers();
-
   }, []);
 
   return (
-      <>
-        <div className={global.complaint}>
-          <div className="complaint__header">
-            <div className="complaint__users">
-              <div className="userFrom">
-                <p className={global.text2__bold}>De:</p>
-                <FallbackImage src={user?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40} />
-                <p className={global.text}>@{props.usernameFrom}</p>
-              </div>       
-              <div className="userTo">
-                <p className={global.text2__bold}>Para:</p>
-                <FallbackImage src={user2?.image} alt='Imagen de usuario' style={{ borderRadius: '50px' }} width={40} height={40}/>
-                <p className={global.text}>@{props.usernameTo}</p>
-              </div>           
+    <>
+      <div className={global.complaint}>
+        <div className="complaint__header">
+          <div className="complaint__users">
+            <div className="userFrom">
+              <p className={global.text2__bold}>De:</p>
+              <FallbackImage
+                src={user?.image}
+                alt="Imagen de usuario"
+                style={{ borderRadius: "50px" }}
+                width={40}
+                height={40}
+              />
+              <p className={global.text}>@{props.usernameFrom}</p>
             </div>
-            
-            <div className="complaint__type">
-                {isAdmin && <div className="action__buttons">
-                  <button className='check__button' onClick={() => checkComplaint()}><MdCheckCircle size={25} color={colors.secondary} /></button>
-                  <button className='deny__button' onClick={() => setIsModalVisible(true)}><MdCancel size={25} color={colors.secondary} /></button>   
-                </div> }
-                <div className="action__buttons">
-                  {!isAdmin && <button className='delete__button' onClick={() => setIsModalVisible2(true)}><MdDeleteOutline size={20} color={colors.secondary} /></button>}
-                </div>
+            <div className="userTo">
+              <p className={global.text2__bold}>Para:</p>
+              <FallbackImage
+                src={user2?.image}
+                alt="Imagen de usuario"
+                style={{ borderRadius: "50px" }}
+                width={40}
+                height={40}
+              />
+              <p className={global.text}>@{props.usernameTo}</p>
+            </div>
+          </div>
+
+          <div className="complaint__type">
+            {isAdmin && (
+              <div className="action__buttons">
+                <button
+                  className="check__button"
+                  onClick={() => checkComplaint()}
+                >
+                  <MdCheckCircle size={25} color={colors.secondary} />
+                </button>
+                <button
+                  className="deny__button"
+                  onClick={() => setIsModalVisible(true)}
+                >
+                  <MdCancel size={25} color={colors.secondary} />
+                </button>
+              </div>
+            )}
+            <div className="action__buttons">
+              {!isAdmin && (
+                <button
+                  className="delete__button"
+                  onClick={() => setIsModalVisible2(true)}
+                >
+                  <MdDeleteOutline size={20} color={colors.secondary} />
+                </button>
+              )}
+            </div>
             <div className="complaint__date">
-                  <p className={global.text2__bold}>Fecha:</p>
-                  <HiOutlineClock size={17}/>
-                  <p className={global.text}>{new Date(props?.createdAt).toLocaleDateString().slice(0,10)}</p>
-                </div>
-                <div className="complaint__status">
-                  <p className={global.text2__bold}>Estado:</p>
-                  {props?.isChecked === true && <p className={global.text2}>{props?.isApproved ? 'Aprobada' : 'Denegada'}</p>}
-                  <p className={global.text2}>{props?.isChecked ? 'Comprobada' : 'No comprobada'}</p>
-                </div>
-                <div className="complaint__reason">
-                  <p className={global.text2}><strong>Motivo:</strong> {props?.typeComplaint}</p>
-                </div>
+              <p className={global.text2__bold}>Fecha:</p>
+              <HiOutlineClock size={17} />
+              <p className={global.text}>
+                {new Date(props?.createdAt).toLocaleDateString().slice(0, 10)}
+              </p>
             </div>
+            <div className="complaint__status">
+              <p className={global.text2__bold}>Estado:</p>
+              {props?.isChecked === true && (
+                <p className={global.text2}>
+                  {props?.isApproved ? "Aprobada" : "Denegada"}
+                </p>
+              )}
+              <p className={global.text2}>
+                {props?.isChecked ? "Comprobada" : "No comprobada"}
+              </p>
             </div>
-          <hr className={global.white__line}></hr>
-          <div className="complaint__body">
-            <p className={global.text2__bold}>Motivo de la denuncia: </p>
-            <p className={global.text}> {props?.description}</p>
+            <div className="complaint__reason">
+              <p className={global.text2}>
+                <strong>Motivo:</strong> {props?.typeComplaint}
+              </p>
+            </div>
           </div>
-        
         </div>
-        {isModalVisible && <Modal>
+        <hr className={global.white__line}></hr>
+        <div className="complaint__body">
+          <p className={global.text2__bold}>Motivo de la denuncia: </p>
+          <p className={global.text}> {props?.description}</p>
+        </div>
+      </div>
+      {isModalVisible && (
+        <Modal>
           <h2 className={global.title3}>Denegar denuncia</h2>
-          <p className={global.text2}>Está a punto de denegar la denuncia que ha interpuesto @{props?.usernameFrom} a @{props?.usernameTo}</p>
-          <p className={global.text2__bold}>¿Estás seguro de anular el trámite de esta denuncia?</p>
-          <div className='buttons'>
-            <button className={global.buttonSecondary} onClick={() => denyComplaint()}>Sí</button>
-            <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+          <p className={global.text2}>
+            Está a punto de denegar la denuncia que ha interpuesto @
+            {props?.usernameFrom} a @{props?.usernameTo}
+          </p>
+          <p className={global.text2__bold}>
+            ¿Estás seguro de anular el trámite de esta denuncia?
+          </p>
+          <div className="buttons">
+            <button
+              className={global.buttonSecondary}
+              onClick={() => denyComplaint()}
+            >
+              Sí
+            </button>
+            <button
+              className={global.buttonTertiary}
+              onClick={() => setIsModalVisible(false)}
+            >
+              No
+            </button>
           </div>
-        </Modal>}
-        {isModalVisible2 && <Modal>
+        </Modal>
+      )}
+      {isModalVisible2 && (
+        <Modal>
           <h2 className={global.title3}>Eliminar denuncia</h2>
-          <p className={global.text2}>Está a punto de eliminar la denuncia que ha interpuesto a @{props?.usernameTo}</p>
-          <p className={global.text2__bold}>¿Estás seguro de eliminar esta denuncia?</p>
-          <div className='buttons'>
-            <button className={global.buttonSecondary} onClick={() => deleteComplaint()}>Sí</button>
-            <button className={global.buttonTertiary} onClick={() => setIsModalVisible(false)}>No</button>
+          <p className={global.text2}>
+            Está a punto de eliminar la denuncia que ha interpuesto a @
+            {props?.usernameTo}
+          </p>
+          <p className={global.text2__bold}>
+            ¿Estás seguro de eliminar esta denuncia?
+          </p>
+          <div className="buttons">
+            <button
+              className={global.buttonSecondary}
+              onClick={() => deleteComplaint()}
+            >
+              Sí
+            </button>
+            <button
+              className={global.buttonTertiary}
+              onClick={() => setIsModalVisible(false)}
+            >
+              No
+            </button>
           </div>
-        </Modal>}
-        <style jsx>{`
-        
-          .complaint__header{
+        </Modal>
+      )}
+      <style jsx>{`
+        .complaint__header {
+          /*Box model*/
 
-            /*Box model*/
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
+        .complaint__date {
+          /*Box model*/
 
-          }
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+        }
 
-          .complaint__date{
+        .complaint__status {
+          /*Box model*/
 
-            /*Box model*/
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+        }
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1rem;
+        .complaint__users {
+          /*Box model*/
 
-          }
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
 
-          .complaint__status{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1rem;
-
-          }
-
-          .complaint__users{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-
-          }
-
-          .delete__button{
-
+        .delete__button {
           /*Box model*/
 
           display: flex;
@@ -269,62 +336,50 @@ export default function Complaint (props) {
           justify-content: flex-end;
           width: fit-content;
           padding: 1rem;
-          
+
           /*Visuals*/
 
           border: none;
           background: transparent;
           cursor: pointer;
           border-radius: 70px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
+          box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+        }
 
-          }
+        .complaint__type {
+          /*Box model*/
 
-          .complaint__type{
+          display: flex;
+          flex-direction: column;
+          align-self: flex-end;
+        }
 
-            /*Box model*/
+        .userFrom {
+          /*Box model*/
 
-            display: flex;
-            flex-direction: column;
-            align-self: flex-end;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.5rem;
+        }
 
-          }
+        .userTo {
+          /*Box model*/
 
-          .userFrom{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.5rem;
+        }
 
-            /*Box model*/
+        .complaint__body {
+          /*Box model*/
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5rem;
+          display: flex;
+          flex-direction: column;
+        }
 
-          }
-
-          .userTo{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5rem;
-
-          }
-
-
-          .complaint__body{
-
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: column;
-
-          }
-
-          .buttons{
-
+        .buttons {
           /*Box model*/
 
           display: flex;
@@ -332,25 +387,21 @@ export default function Complaint (props) {
           justify-content: space-around;
           align-items: center;
           gap: 1rem;
+        }
 
-          }
-
-        .action__buttons{
-
+        .action__buttons {
           /*Box model*/
 
           display: flex;
           align-self: flex-end;
           gap: 1rem;
-
         }
 
-        .check__button, .deny__button{
-
+        .check__button,
+        .deny__button {
           /*Box model*/
 
           padding: 1rem;
-
 
           /*Visuals*/
 
@@ -358,24 +409,15 @@ export default function Complaint (props) {
           background: transparent;
           cursor: pointer;
           border-radius: 70px;
-          box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
-
+          box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
         }
 
-        hr{
-
+        hr {
           /*Box model*/
-          
+
           width: 100%;
-
         }
-        
-
-        `}</style>
-
-      </>
-
-  )
+      `}</style>
+    </>
+  );
 }
-
-

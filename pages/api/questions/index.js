@@ -1,34 +1,30 @@
-import clientPromise from '../lib/MongoDB'
+import clientPromise from "../lib/MongoDB";
 
 export const config = {
   api: {
     responseLimit: false,
   },
-}
-export default async function handler (req, res) {
+};
+export default async function handler(req, res) {
+  res.setHeader("Cache-Control", "s-maxage=10");
 
-  res.setHeader('Cache-Control', 's-maxage=10'); 
+  const client = await clientPromise;
+  const db = await client.db();
+  const body = req.body;
 
-  const client = await clientPromise
-  const db = await client.db()
-  const body = req.body
+  if (req.method === "GET") {
+    const data = await db.collection("questions").find({}).limit(50).toArray();
 
-  if (req.method === 'GET') {
+    const questions = JSON.parse(JSON.stringify(data));
 
-    const data = await db.collection('questions').find({}).limit(50).toArray()
-
-    const questions = JSON.parse(JSON.stringify(data))
-
-    res.status(200).json(questions)
-
+    res.status(200).json(questions);
   }
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
+    await db
+      .collection("questions")
+      .insertOne({ title: body.title, description: body.description });
 
-   await db.collection('questions').insertOne({title: body.title, description: body.description})
-
-
-    res.status(201).json({ message: 'Creada con éxito.' })
+    res.status(201).json({ message: "Creada con éxito." });
   }
-
 }

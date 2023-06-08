@@ -1,15 +1,26 @@
-import global from '/styles/global.module.css'
+import global from "/styles/global.module.css";
 
+/** 
+  * @author Sergio García Navarro
+  * @returns Message component
+  * @version 1.0
+  * @description Message component
+*/
 
-export default function Message(props){
-
-    return(
-        <>
-            <div className={global.message}>
-                <p className="message__user"></p>                    
-                <p className="message__text">{props?.description}</p>
-                <p className="message__timestamp">{props?.createdAt}</p>
-            </div>
-        </>
-    )
+/**
+ * This function is a message component that receive props from page and displays them
+ * in an message format created by user
+ * @param props - props received from page.
+ * @returns A message created by user.
+ */
+export default function Message(props) {
+  return (
+    <>
+      <div className={global.message}>
+        <p className="message__user"></p>
+        <p className="message__text">{props?.description}</p>
+        <p className="message__timestamp">{props?.createdAt}</p>
+      </div>
+    </>
+  );
 }

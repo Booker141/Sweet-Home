@@ -1,45 +1,55 @@
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import { useState } from 'react'
-import {colors} from '/styles/frontend-conf'
-import { server } from '/server'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
-import dynamic from 'next/dynamic'
-
+import { useSession, signIn } from "next-auth/react";
+import { useState } from "react";
+import { colors } from "/styles/frontend-conf";
+import { server } from "/server";
+import Head from "next/head";
+import global from "styles/global.module.css";
+import dynamic from "next/dynamic";
 
 /* Dynamic imports */
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const Following = dynamic(() => import('/components/Following/Following'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const Following = dynamic(() => import("/components/Following/Following"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
+/**
+ * @author Sergio García Navarro
+ * @returns Following page
+ * @version 1.0
+ * @description Following page
+ */
+export default function FollowingUser({ user }) {
+  const { data: session, status } = useSession({ required: true });
+  const [following, setFollowing] = useState(user?.following);
+  const numFollowing = following?.length;
 
-export default function FollowingUser ({ user }) {
-
-  const { data: session, status } = useSession({ required: true })
-  const [following, setFollowing] = useState(user?.following)
-  const numFollowing = following?.length
-
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Siguiendo | Sweet Home</title></Head>
+        <Head>
+          <title>Siguiendo | Sweet Home</title>
+        </Head>
         <h1 className="title">Usuarios seguidos</h1>
-        {numFollowing === 0 && <p className={global.text}>No sigue a ningún usuario</p>}
-        <p className={global.text}>Sigue actualmente a {numFollowing} usuarios.</p>
-        <div className='following'>
+        {numFollowing === 0 && (
+          <p className={global.text}>No sigue a ningún usuario</p>
+        )}
+        <p className={global.text}>
+          Sigue actualmente a {numFollowing} usuarios.
+        </p>
+        <div className="following">
           {following.map((id) => (
             <Following key={id} id={id} />
           ))}
@@ -76,18 +86,23 @@ export default function FollowingUser ({ user }) {
         
         `}</style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <>
           <div className={global.content}>
-            <div className='message'>
-              <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-              <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
             </div>
           </div>
-          <style jsx>{`
+          <style jsx>
+            {`
 
                         .message{
 
@@ -105,27 +120,28 @@ export default function FollowingUser ({ user }) {
           </style>
         </>
       </Layout>
-    )
+    );
   }
 }
 
-export async function getServerSideProps (context) {
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
-  context.res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
-  
-  const res = await fetch(`${server}/api/users/${context.query.username}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+  const res = await fetch(`${server}/api/users/${context.query.username}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  const user = await res.json()
+  const user = await res.json();
 
   return {
     props: {
-      user
-    }
-  }
+      user,
+    },
+  };
 }

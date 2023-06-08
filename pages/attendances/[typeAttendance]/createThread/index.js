@@ -1,358 +1,331 @@
 /* Static imports */
 
-
-import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { MdOutlineSubtitles } from 'react-icons/md'
-import { colors, fonts} from '/styles/frontend-conf'
-import { server } from '/server'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import global from '/styles/global.module.css'
-
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { MdOutlineSubtitles } from "react-icons/md";
+import { colors, fonts } from "/styles/frontend-conf";
+import { server } from "/server";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import global from "/styles/global.module.css";
 
 /*Dynamic imports*/
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
 /**
- * The CreateThread function creates a new thread for a specific type of attendance and sends a POST
- * request to the server with the necessary data.
- * @returns a React component that renders a form for creating a new thread. The component uses the
- * Next.js framework and includes hooks such as useState and useRouter. It also includes conditional
- * rendering based on the user's authentication status, and sends a POST request to the server to
- * create a new thread.
+ * @author Sergio García Navarro
+ * @returns Create thread page
+ * @version 1.0
+ * @description Create thread page
  */
-export default function CreateThread () {
+export default function CreateThread() {
+  const { data: session, status } = useSession({ required: true });
+  const Router = useRouter();
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [isPosting, setIsPosting] = useState(false);
 
-  const { data: session, status } = useSession({ required: true })
-  const Router = useRouter()
-  const [title, setTitle] = useState('')
-  const [message, setMessage] = useState('')
-  const [isPosting, setIsPosting] = useState(false)
-
-  /**
-   * This function creates a new thread for a specific type of attendance and sends a POST request to
-   * the server with the necessary data.
-   * @param e - The "e" parameter is an event object that is passed to the function when it is
-   * triggered by an event, such as a form submission or a button click. It is commonly used to prevent
-   * the default behavior of the event, in this case, preventing the form from submitting and reloading
-   * the page.
-   */
   const createThread = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault()
-
-    if(title.trim() === ''){
-      toast.error('El campo Título es obligatorio', { position: "bottom-right",
+    if (title.trim() === "") {
+      toast.error("El campo Título es obligatorio", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored", })
-        return
+        theme: "colored",
+      });
+      return;
     }
 
-    const res = await fetch(`${server}/api/threads/${Router.query.typeAttendance}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        typeAttendanceId: session.user.id,
-        title,
-        username: session?.user.username
-      })
-    }).catch(err => console.log(err))
+    const res = await fetch(
+      `${server}/api/threads/${Router.query.typeAttendance}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          typeAttendanceId: session.user.id,
+          title,
+          username: session?.user.username,
+        }),
+      }
+    ).catch((err) => console.log(err));
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.error) {
-      console.log(data.error)
-      setMessage('Introduzca los campos obligatorios')
+      console.log(data.error);
+      setMessage("Introduzca los campos obligatorios");
     } else {
-      setMessage('Hilo creado correctamente')
-      Router.push(`/attendances/${Router.query.typeAttendance}`)
+      setMessage("Hilo creado correctamente");
+      Router.push(`/attendances/${Router.query.typeAttendance}`);
     }
-  }
+  };
 
-  if (status == 'loading') {
-
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
-        <Loader/>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
+        <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Crear hilo</title></Head>
-        
+        <Head>
+          <title>Crear hilo</title>
+        </Head>
+
         <div className="form__position">
-            <div className='form'>
+          <div className="form">
             <div className="createThread__header">
               <h1 className="form__title">Crear hilo</h1>
               <p className={global.text2}>Introduzca el título del hilo:</p>
             </div>
-              
-              <form action='/api/posts' id='form'>
-                <div className='form-vertical__title'>
-                  <label className='label'>
-                    <p className={global.text}>Título (*)</p>
-                    <MdOutlineSubtitles size={25} color={colors.secondary} />
-                  </label>
-                  <div className='title__input'>
-                    <input
-                          title='Introducir título'
-                          type='text'
-                          name='title'
-                          value={title}
-                          onChange={(e) => setTitle(e.target.value)}
-                          placeholder='p. ej.: 10 consejos para el cuidado de mi mascota'
-                          className='input'
-                         />
-                  </div>
+
+            <form action="/api/posts" id="form">
+              <div className="form-vertical__title">
+                <label className="label">
+                  <p className={global.text}>Título (*)</p>
+                  <MdOutlineSubtitles size={25} color={colors.secondary} />
+                </label>
+                <div className="title__input">
+                  <input
+                    title="Introducir título"
+                    type="text"
+                    name="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="p. ej.: 10 consejos para el cuidado de mi mascota"
+                    className="input"
+                  />
                 </div>
-              </form>
-              <input className={global.buttonPrimary} type='submit' onClick={(e) => createThread(e)} value={isPosting ? 'Creando..' : 'Crear'} />
-            </div>
+              </div>
+            </form>
+            <input
+              className={global.buttonPrimary}
+              type="submit"
+              onClick={(e) => createThread(e)}
+              value={isPosting ? "Creando.." : "Crear"}
+            />
           </div>
-        <style jsx>{`
+        </div>
+        <style jsx>
+          {`
+            .form {
+              /*Box model*/
 
-                    .form{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
 
-                        /*Box model*/
+              width: 70vw;
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    
-                        width: 70vw;
+              /*Visuals*/
 
-                        /*Visuals*/
+              background-image: linear-gradient(
+                180deg,
+                rgba(240, 129, 15, 1) 35%,
+                rgba(249, 166, 3, 1) 200%
+              );
+              background-size: 100% 110%;
+              border-radius: 20px;
+            }
 
-                        background-image: linear-gradient(180deg, rgba(240,129,15, 1) 35%, rgba(249,166,3, 1) 200%);
-                        background-size: 100% 110%;
-                        border-radius: 20px;
-                        
-                    }
+            .createThread__header {
+              /*Box model*/
 
-                    .createThread__header{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 2rem;
+            }
 
-                        /*Box model*/
+            .form__position {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        margin-bottom: 2rem;
-                    }
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+            }
 
-                    .form__position{
+            .form__title {
+              /*Box model*/
 
-                        /*Box model*/
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
+            .label {
+              /*Box model*/
 
-                    }
-                    
-                    .form__title{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                        /*Box model*/
+            .label p {
+              /*Box model*/
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                      
-                    }
+              margin-right: 1rem;
 
-                    .label{
+              /*Visuals*/
 
-                        /*Box model*/
+              color: ${colors.secondary};
+            }
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
+            .input {
+              /*Box model*/
 
-                    }
+              width: 100%;
+              height: 2rem;
+              padding: 0.4rem;
+              margin-bottom: 1rem;
 
-                    .label p{
+              /*Text*/
 
-                        /*Box model*/
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                        margin-right: 1rem;
+              /*Visuals*/
 
-                        /*Visuals*/
+              border-radius: 5px;
+              border: 1px solid ${colors.primary};
+            }
 
-                        color: ${colors.secondary};
+            .form-vertical__title {
+              /*Box model*/
 
-                    }
-                    
-                    .input{
+              margin-top: 2rem;
+            }
 
-                        /*Box model*/
+            .title__input {
+              /*Box model*/
 
-                        width: 100%;
-                        height: 2rem;
-                        padding: 0.4rem;
-                        margin-bottom: 1rem;
-                        
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            }
 
-                        /*Text*/
+            h1 {
+              /*Box model*/
 
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
+              margin-top: 2rem;
+              margin-bottom: 3rem;
 
-                        /*Visuals*/
+              /*Text*/
 
-                        border-radius: 5px;
-                        border: 1px solid ${colors.primary};
-                    }
+              font-size: 3.5rem;
+              font-weight: 500;
+              font-family: "Satisfy", sans-serif;
+              color: white;
+              text-align: center;
+            }
 
-                    .form-vertical__title{
+            input[type="text"] {
+              /*Box model*/
 
-                        /*Box model*/
+              width: 30rem;
+              height: 2rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
 
-                        margin-top: 2rem;
+              /*Text*/
 
-                    }
-        
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                    .title__input{
+              /*Visuals*/
 
-                        /*Box model*/
+              border-radius: 20px;
+              border: 0;
+              transition: 0.2s ease all;
+            }
 
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                    }
+            input[type="text"]:focus {
+              /*Visuals*/
 
-                    h1{
+              border: 2px solid #4d97f7;
+              outline: none;
+              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
+            }
 
-                        /*Box model*/
+            input[type="submit"] {
+              /*Box model*/
 
-                        margin-top: 2rem;
-                        margin-bottom: 3rem;
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              margin-top: 2rem;
+              margin-bottom: 2rem;
+            }
 
-                        /*Text*/
+            ::placeholder {
+              /*Text*/
 
-                        font-size: 3.5rem;
-                        font-weight: 500;
-                        font-family: "Satisfy", sans-serif;
-                        color: white;
-                        text-align: center;
-                        
-                  }
+              color: ${colors.primary};
+            }
 
+            textarea {
+              /*Box model*/
 
-                    input[type="text"] {
+              width: 100%;
+              height: 3rem;
+              padding: 0.4rem;
+              margin-bottom: 2rem;
 
-                        /*Box model*/
+              /*Text*/
 
-                        width: 30rem;
-                        height: 2rem;
-                        padding: 0.4rem;
-                        margin-bottom: 2rem;
+              font-family: ${fonts.default};
+              font-size: 1rem;
 
-                        /*Text*/
+              /*Visuals*/
 
-                        font-family: ${fonts.default};
-                        font-size: 1rem;
+              border-radius: 5px;
+              border: 1px solid ${colors.primary};
+            }
 
-                        /*Visuals*/
+            a {
+              /*Misc*/
 
-                        border-radius: 20px;
-                        border: 0;
-                        transition: 0.2s ease all;
-
-                    }
-
-                    input[type="text"]:focus {
-
-                        /*Visuals*/
-
-                        border: 2px solid #4d97f7;
-                        outline: none;
-                        box-shadow: 10px 10px 20px 0px rgba(176,176,176,0.66);
-
-                    }
-
-                    
-                    input[type="submit"]{
-
-                        /*Box model*/
-
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 2rem;
-                        margin-bottom: 2rem;
-
-                    }
-
-
-
-                    ::placeholder{
-
-                        /*Text*/
-
-                        color: ${colors.primary};
-                    }
-
-                    textarea{
-
-                    /*Box model*/
-
-                    width: 100%;
-                    height: 3rem;
-                    padding: 0.4rem;
-                    margin-bottom: 2rem;
-
-                    /*Text*/
-
-                    font-family: ${fonts.default};
-                    font-size: 1rem;
-
-                    /*Visuals*/
-
-                    border-radius: 5px;
-                    border: 1px solid ${colors.primary};
-
-                    }
-
-
-                    a{
-
-                        /*Misc*/
-
-                        cursor: pointer;
-                    }
-
-                `}
+              cursor: pointer;
+            }
+          `}
         </style>
       </Layout>
-    )
+    );
   } else {
     return (
       <Layout>
         <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+          <div className="message">
+            <h1 className={global.title7}>
+              Para acceder a esta página debe iniciar sesión
+            </h1>
+            <button className={global.buttonPrimary} onClick={() => signIn()}>
+              Iniciar sesión
+            </button>
           </div>
         </div>
-        <style jsx>{`
+        <style jsx>
+          {`
 
                         .message{
 
@@ -369,6 +342,6 @@ export default function CreateThread () {
                     `}
         </style>
       </Layout>
-    )
+    );
   }
 }

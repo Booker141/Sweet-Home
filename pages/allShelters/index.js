@@ -1,83 +1,104 @@
 /* Static imports */
 
-import { useSession, signIn } from 'next-auth/react'
-import {colors, fonts} from 'styles/frontend-conf'
-import { server } from '/server'
-import {useState} from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import global from 'styles/global.module.css'
+import { useSession, signIn } from "next-auth/react";
+import { colors, fonts } from "styles/frontend-conf";
+import { server } from "/server";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import global from "styles/global.module.css";
 
 /*Dynamic imports*/
 
-const Loader = dynamic(() => import('/components/Loader/Loader'))
-const Layout = dynamic(() => import('/components/Layout/Layout'))
-const User = dynamic(() => import('/components/UserCard/UserCard'))
-const LazyLoad = dynamic(() => import('react-lazyload'))
-
+const Loader = dynamic(() => import("/components/Loader/Loader"));
+const Layout = dynamic(() => import("/components/Layout/Layout"));
+const User = dynamic(() => import("/components/UserCard/UserCard"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
 /**
- * It's a function that returns a layout component with a title and a list of users
- * @returns the Layout component with the title "Usuarios" and the User component.
+ * @author Sergio García Navarro
+ * @returns All shelters page
+ * @version 1.0
+ * @description All shelters page
  */
-export default function AllShelters ({ users }) {
-
-  const { data: session, status } = useSession({ required: true })
+export default function AllShelters({ users }) {
+  const { data: session, status } = useSession({ required: true });
 
   const [isSortedByUsername, setIsSortedByUsername] = useState(false);
-  const [usersList, setUsersList] = useState(users)
-
-
+  const [usersList, setUsersList] = useState(users);
 
   const sortByFilters = (e) => {
-
-
-    if(e === "username"){
-
-      setIsSortedByUsername(!isSortedByUsername)
-      const sortedUsers = users?.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0))
-      setUsersList(sortedUsers)
-
-
+    if (e === "username") {
+      setIsSortedByUsername(!isSortedByUsername);
+      const sortedUsers = users?.sort((a, b) =>
+        a.username > b.username ? 1 : b.username > a.username ? -1 : 0
+      );
+      setUsersList(sortedUsers);
     }
+  };
 
-   
-  }
-
-
-  if (status == 'loading') {
+  if (status == "loading") {
     return (
       <>
-        <div className={global.loading}><p>Cargando..</p></div>
+        <div className={global.loading}>
+          <p>Cargando..</p>
+        </div>
         <Loader />
       </>
-    )
+    );
   }
   if (session) {
     return (
       <Layout>
-        <Head><title>Protectoras | Sweet Home</title></Head>
+        <Head>
+          <title>Protectoras | Sweet Home</title>
+        </Head>
         <h1 className="title">Protectoras</h1>
-        <div className='column1__buttons'>
-          <div className='filter__list'>
-          <select name="filters" onChange={(e) => sortByFilters(e.target.value)}>
-                      <option default value="default">Selecciona un filtro</option>
-                      <option value="username">Ordenar por nombre de usuario</option>
-                  </select>
-                </div>
+        <div className="column1__buttons">
+          <div className="filter__list">
+            <select
+              name="filters"
+              onChange={(e) => sortByFilters(e.target.value)}
+            >
+              <option default value="default">
+                Selecciona un filtro
+              </option>
+              <option value="username">Ordenar por nombre de usuario</option>
+            </select>
+          </div>
         </div>
-        <div className='users'>
-          {usersList?.length === 0 && <div><p className={global.loading2}>No hay ninguna protectora de animales.</p></div>}
-          {usersList.filter(user => user?.username !== (session?.user.username) && user?.status.name != "bloqueado").map(({ _id, image, banner, username, role }) => {
-            return (
-              <>
-                <LazyLoad offset={100}><User key={_id} image={image} banner={banner} username={username} role={role} /></LazyLoad>
-              </>
+        <div className="users">
+          {usersList?.length === 0 && (
+            <div>
+              <p className={global.loading2}>
+                No hay ninguna protectora de animales.
+              </p>
+            </div>
+          )}
+          {usersList
+            .filter(
+              (user) =>
+                user?.username !== session?.user.username &&
+                user?.status.name != "bloqueado"
             )
-          })}
+            .map(({ _id, image, banner, username, role }) => {
+              return (
+                <>
+                  <LazyLoad offset={100}>
+                    <User
+                      key={_id}
+                      image={image}
+                      banner={banner}
+                      username={username}
+                      role={role}
+                    />
+                  </LazyLoad>
+                </>
+              );
+            })}
         </div>
-        
-      <style jsx>{`
+
+        <style jsx>{`
 
           .users{
 
@@ -179,19 +200,23 @@ select{
 
           `}</style>
       </Layout>
-    )
-  }
-  else {
-  return (
-    <Layout>
-      <>
-        <div className={global.content}>
-          <div className='message'>
-            <h1 className={global.title7}>Para acceder a esta página debe iniciar sesión</h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>Iniciar sesión</button>
+    );
+  } else {
+    return (
+      <Layout>
+        <>
+          <div className={global.content}>
+            <div className="message">
+              <h1 className={global.title7}>
+                Para acceder a esta página debe iniciar sesión
+              </h1>
+              <button className={global.buttonPrimary} onClick={() => signIn()}>
+                Iniciar sesión
+              </button>
+            </div>
           </div>
-        </div>
-        <style jsx>{`
+          <style jsx>
+            {`
 
                 .message{
 
@@ -207,27 +232,29 @@ select{
 
                 
             `}
-        </style>
-      </>
-    </Layout>
-  )
-}
+          </style>
+        </>
+      </Layout>
+    );
+  }
 }
 
-export async function getServerSideProps ({res}) {
-
-  res.setHeader('Cache-Control','public, s-maxage=10, stale-while-revalidate=59')
+export async function getServerSideProps({ res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   const res2 = await fetch(`${server}/api/shelters`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
-  const users = await res2.json()
+  const users = await res2.json();
 
   return {
-    props: { users: JSON.parse(JSON.stringify(users)) }
-  }
+    props: { users: JSON.parse(JSON.stringify(users)) },
+  };
 }
