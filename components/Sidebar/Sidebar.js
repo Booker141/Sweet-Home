@@ -263,18 +263,6 @@ export default function Sidebar() {
               Mis notificaciones
             </a>
           )}
-          <a
-            className="sidebar__link"
-            href="/profile/myprofile/saved"
-            alt="Ir a publicaciones propias"
-          >
-            <HiBookmark
-              size={20}
-              color={colors.secondary}
-              styles={{ fontWeight: "bold" }}
-            />
-            Guardados
-          </a>
           <button
             className="sidebar__link"
             onClick={() => setIsModalVisible(true)}

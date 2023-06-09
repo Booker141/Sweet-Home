@@ -18,7 +18,7 @@ export default function Chat() {
   const { data: session, status } = useSession({ required: true });
   const [messagesList, setMessagesList] = useState({});
   const [chatMessage, setChatMessage] = useState("");
-
+  
   if (status == "loading") {
     return (
       <>

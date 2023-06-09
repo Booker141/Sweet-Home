@@ -54,9 +54,9 @@ export default function Question(props) {
       progress: undefined,
       theme: "colored",
     });
-    setTimeout(() => {
-      Router.push(`${server}/faq`);
-    }, 5000);
+
+    Router.push(`${server}/faq`);
+
   };
 
   return (

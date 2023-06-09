@@ -39,7 +39,7 @@ export default function CreateQuestion() {
   const [message, setMessage] = useState("");
 
   const validate = (e) => {
-    const regTitle = /^¿?.+\?/g;
+    const regTitle = /^\s*¿.*\?\s*$/;
 
     if (e.target.name === "title") {
       if (!title.match(regTitle)) {
@@ -108,12 +108,14 @@ export default function CreateQuestion() {
         answer: answer,
       }),
     });
+    setIsPosting(true)
 
     const data = await res.json();
 
     if (data.error) {
       console.log(data.error);
       setMessage("Introduzca los campos obligatorios");
+      setIsPosting(false)
     } else {
       toast.success("Se ha publicado la pregunta", {
         position: "bottom-right",
@@ -125,9 +127,10 @@ export default function CreateQuestion() {
         progress: undefined,
         theme: "colored",
       });
-      setTimeout(() => {
-        Router.push(`${server}/faq`);
-      }, 5000);
+      
+
+      Router.push(`${server}/faq`);
+      setIsPosting(false)
     }
   };
 

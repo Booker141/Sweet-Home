@@ -26,8 +26,10 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { name, description } = req.body;
 
+    console.log(typeAttendances)
+
     typeAttendances.map((typeAttendance) => {
-      if (typeAttendance.name.localeCompare(name)) {
+      if (typeAttendance.name === name) {
         return res
           .status(400)
           .json({ message: "Ya existe este tipo de cuidado" });
