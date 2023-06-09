@@ -55,7 +55,11 @@ export default function Question(props) {
       theme: "colored",
     });
 
-    Router.push(`${server}/faq`);
+    setTimeout(() => {
+      Router.push(`${server}/faq`);
+    }, 3000)
+
+    
 
   };
 

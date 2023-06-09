@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     await db
       .collection("questions")
-      .insertOne({ title: body.title, description: body.description });
+      .insertOne({ title: body.title, answer: body.answer, adminId: body.adminId });
 
     res.status(201).json({ message: "Creada con éxito." });
   }

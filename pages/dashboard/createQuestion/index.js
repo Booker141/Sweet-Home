@@ -106,6 +106,7 @@ export default function CreateQuestion() {
       body: JSON.stringify({
         title: title,
         answer: answer,
+        adminId: session.user.id
       }),
     });
     setIsPosting(true)
@@ -128,8 +129,10 @@ export default function CreateQuestion() {
         theme: "colored",
       });
       
-
-      Router.push(`${server}/faq`);
+      setTimeout(() => {
+        Router.push(`${server}/faq`);
+      }, 3000)
+      
       setIsPosting(false)
     }
   };
