@@ -262,7 +262,7 @@ export default function BasicHeader(props) {
                     width={40}
                     style={{ borderRadius: "70px" }}
                   />
-                  @{session?.user.username}{" "}
+                  @{session?.user.username}
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
                 {isMenuOpen && (
@@ -546,7 +546,7 @@ export default function BasicHeader(props) {
                     width={40}
                     style={{ borderRadius: "70px" }}
                   />
-                  @{session?.user.username}{" "}
+                  @{session?.user.username}
                   <MdPets size={18} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
@@ -766,7 +766,7 @@ export default function BasicHeader(props) {
                     style={{ borderRadius: "70px" }}
                   />
                   @{session.user.username}
-                  <BsPatchCheckFill size={18} color={colors.secondary} />{" "}
+                  <BsPatchCheckFill size={18} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
                 {isMenuOpen && (
@@ -981,7 +981,7 @@ export default function BasicHeader(props) {
                     width={40}
                     style={{ borderRadius: "70px" }}
                   />
-                  @{session?.user.username}{" "}
+                  @{session?.user.username}
                   <BsPatchCheckFill size={18} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
@@ -1262,7 +1262,7 @@ export default function BasicHeader(props) {
                     style={{ borderRadius: "70px" }}
                   />
                   @{session?.user.username}
-                  <MdHealthAndSafety size={20} color={colors.secondary} />{" "}
+                  <MdHealthAndSafety size={20} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
                 {isMenuOpen && (

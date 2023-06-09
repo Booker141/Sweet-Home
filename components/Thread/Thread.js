@@ -155,13 +155,13 @@ export default function Thread(props) {
                 </button>
               )}
               <div className="thread__lastPostTime">
-                <strong>Última respuesta:</strong>{" "}
+                <strong>Última respuesta:</strong>
                 {isAttendance &&
                   new Date(lastAttendance?.createdAt).toLocaleString()}
                 {!isAttendance && "No existe"}
               </div>
               <div className="thread__lastPostUser">
-                <strong>Por: </strong>{" "}
+                <strong>Por: </strong>
                 {isAttendance && lastAttendance?.username}
                 {!isAttendance && "Aún no hay un cuidado"}
               </div>

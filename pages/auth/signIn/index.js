@@ -51,11 +51,6 @@ export default function SignIn({ providers, csrfToken, account }) {
   const [isSignIn, setIsSignIn] = useState(false);
   const Router = useRouter();
 
-  /**
-   * If the password input type is password, then hide the first icon and show the second icon, and
-   * change the input type to text. Otherwise, show the first icon and hide the second icon, and change
-   * the input type to password
-   */
   const showPassword = () => {
     const passwordInput = document.getElementById("password");
 
@@ -70,13 +65,7 @@ export default function SignIn({ providers, csrfToken, account }) {
     }
   };
 
-  /**
-   * A function that is called when the user clicks the login button. It takes the email and password
-   * from the form and sends it to the backend. If the login is successful, the user is redirected to
-   * the home page.
-   * @param e - the event object
-   * @returns The user is being returned to the home page.
-   */
+ 
   const Login = async (e) => {
     e.preventDefault();
 
@@ -173,7 +162,7 @@ export default function SignIn({ providers, csrfToken, account }) {
                         signIn(provider.id, { callbackUrl: "/home" })
                       }
                     >
-                      Inicia sesión con {provider?.name} &nbsp;{" "}
+                      Inicia sesión con {provider?.name} &nbsp;
                       <BsTwitter size={18} color={colors.secondary} />
                     </button>
                   </div>
@@ -193,7 +182,7 @@ export default function SignIn({ providers, csrfToken, account }) {
                         signIn(provider.id, { callbackUrl: "/home" })
                       }
                     >
-                      Inicia sesión con {provider?.name} &nbsp;{" "}
+                      Inicia sesión con {provider?.name} &nbsp;
                       <BsGoogle size={18} color={colors.secondary} />
                     </button>
                   </div>

@@ -369,7 +369,7 @@ export default function ResetPassword() {
                 <p> - La contraseña debe tener al menos una letra mayúscula.</p>
                 <p> - La contraseña debe tener al menos una letra minúscula.</p>
                 <p>
-                  {" "}
+                
                   - La contraseña debe tener al menos un carácter especial.
                 </p>
                 <p> - La contraseña debe tener al menos un número.</p>

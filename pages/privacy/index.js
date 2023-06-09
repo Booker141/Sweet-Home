@@ -51,14 +51,14 @@ export default function Privacy() {
         <li className={global.list__item}> Información personal.</li>
         <li className={global.list__item}> Uso de la información.</li>
         <li className={global.list__item}>
-          {" "}
+         
           Información sobre la privacidad de los niños.
         </li>
         <li className={global.list__item}> Enlace a redes sociales.</li>
         <li className={global.list__item}> Seguridad de la información.</li>
         <li className={global.list__item}> Conservación.</li>
         <li className={global.list__item}>
-          {" "}
+          
           Cambios en la política de privacidad.
         </li>
       </ul>
@@ -78,16 +78,16 @@ export default function Privacy() {
       </h6>
       <ul className={global.list}>
         <li className={global.list__item}>
-          {" "}
+          
           Nombre, correo electrónico, teléfono, fecha de cumpleaños, género y
           otros datos que proporciona en el formulario de registro.
         </li>
         <li className={global.list__item}>
-          {" "}
+          
           Información demográfica como edad o género.
         </li>
         <li className={global.list__item}>
-          {" "}
+          
           Información relativa a su cuenta como nombre de usuario y contraseña.
         </li>
         <li className={global.list__item}> Información sobre su perfil.</li>

@@ -177,11 +177,11 @@ export default function Attendance(props) {
             </div>
             <div className="user__column2">
               <p>
-                <strong>{props?.animal === "" ? "" : "Animal:"}</strong>{" "}
+                <strong>{props?.animal === "" ? "" : "Animal:"}</strong>
                 {props?.animal}
               </p>
               <p>
-                <strong>{props?.breed === "" ? "" : "Raza:"}</strong>{" "}
+                <strong>{props?.breed === "" ? "" : "Raza:"}</strong>
                 {props?.breed}
               </p>
             </div>

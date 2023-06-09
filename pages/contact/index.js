@@ -126,7 +126,7 @@ export default function Contact() {
             <div className="email">
               <HiMail size={20} color={`${colors.primary}`} />
               <p className={global.text}>
-                A través del siguiente correo electrónico:{" "}
+                A través del siguiente correo electrónico:
                 <a
                   title="Enviar correo"
                   aria-label="Enlace a correo de atención al cliente"
@@ -140,13 +140,13 @@ export default function Contact() {
             <div className="phone">
               <HiPhone size={20} color={`${colors.primary}`} />
               <p className={global.text}>
-                A través del teléfono de contacto: +34 XXX XX XX XX.{" "}
+                A través del teléfono de contacto: +34 XXX XX XX XX.
               </p>
             </div>
             <div className="account">
               <AiFillMessage size={20} color={`${colors.primary}`} />
               <p className={global.text}>
-                O envía un mensaje a la cuenta de:{" "}
+                O envía un mensaje a la cuenta de:
                 <a
                   title="Cuenta de atención al cliente"
                   aria-label="Enviar mensaje a cuenta de atención al cliente"
@@ -160,7 +160,7 @@ export default function Contact() {
               <HiQuestionMarkCircle size={20} color={`${colors.primary}`} />
               <p className={global.text}>
                 Puedes consultar las preguntas frecuentes en el siguiente
-                enlace:{" "}
+                enlace:
                 <a
                   title="Preguntas frecuentes"
                   aria-label="Ir a preguntas frecuentes"

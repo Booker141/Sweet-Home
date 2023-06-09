@@ -69,7 +69,7 @@ export default function UserCard(props) {
             href={`/profile/${props?.username}`}
             aria-label={`Ir a perfil de ${props?.username}`}
           >
-            <strong>@{props?.username}</strong>{" "}
+            <strong>@{props?.username}</strong>
             {isShelter && <BsPatchCheckFill size={18} color={colors.primary} />}
             {isVet && <MdHealthAndSafety size={18} color={colors.primary} />}
           </a>

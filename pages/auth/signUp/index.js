@@ -531,15 +531,15 @@ export default function SignUp() {
                     <div className="tooltiptext">
                       <p> - La contraseña debe tener al menos 8 caracteres.</p>
                       <p>
-                        {" "}
+                        
                         - La contraseña debe tener al menos una letra mayúscula.
                       </p>
                       <p>
-                        {" "}
+                        
                         - La contraseña debe tener al menos una letra minúscula.
                       </p>
                       <p>
-                        {" "}
+                        
                         - La contraseña debe tener al menos un carácter
                         especial.
                       </p>
@@ -551,22 +551,22 @@ export default function SignUp() {
               <div className="form__conditions">
                 <p>
                   Al confirmar, aceptará las condiciones de la empresa. En los
-                  apartados{" "}
+                  apartados
                   <a
                     className="form__link"
                     aria-label="Ir a Condiciones"
                     href="/conditions"
                   >
                     Condiciones
-                  </a>{" "}
-                  y{" "}
+                  </a>
+                  y
                   <a
                     className="form__link"
                     aria-label="Ir a Privacidad"
                     href="/privacity"
                   >
                     Privacidad
-                  </a>{" "}
+                  </a>
                   encontrará más información.
                 </p>
               </div>

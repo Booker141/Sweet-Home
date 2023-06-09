@@ -266,7 +266,7 @@ export default function Header(props) {
                     width={40}
                     style={{ borderRadius: "70px" }}
                   />
-                  @{session.user.username}{" "}
+                  @{session.user.username}
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
                 {isMenuOpen && (
@@ -549,7 +549,7 @@ export default function Header(props) {
                     style={{ borderRadius: "70px" }}
                   />
                   @{session.user.username}
-                  <MdPets size={30} color={colors.secondary} />{" "}
+                  <MdPets size={30} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
                 {isMenuOpen && (
@@ -767,7 +767,7 @@ export default function Header(props) {
                     width={40}
                     style={{ borderRadius: "70px" }}
                   />
-                  @{session?.user.username}{" "}
+                  @{session?.user.username}
                   <BsPatchCheckFill size={18} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
@@ -983,7 +983,7 @@ export default function Header(props) {
                     width={40}
                     style={{ borderRadius: "70px" }}
                   />
-                  @{session?.user.username}{" "}
+                  @{session?.user.username}
                   <BsPatchCheckFill size={18} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
@@ -1273,7 +1273,7 @@ export default function Header(props) {
                     <MdHealthAndSafety
                       size={20}
                       color={colors.secondary}
-                    />{" "}
+                    />
                     <MdKeyboardArrowDown size={20} color={colors.secondary} />
                   </button>
                   {isMenuOpen && (

@@ -76,15 +76,15 @@ export default function Abandoned({ posts }) {
                   onChange={(e) => sortByFilters(e.target.value)}
                 >
                   <option default value="default">
-                    Selecciona un filtro{" "}
+                    Selecciona un filtro
                     <HiFilter size={15} color={colors.secondary} />
                   </option>
                   <option value="activity">
-                    Ordenar por popularidad{" "}
+                    Ordenar por popularidad
                     <BsFilter size={15} color={colors.secondary} />
                   </option>
                   <option value="date">
-                    Ordenar por fecha{" "}
+                    Ordenar por fecha
                     <BsFilter size={15} color={colors.secondary} />
                   </option>
                 </select>

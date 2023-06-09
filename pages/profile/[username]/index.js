@@ -148,12 +148,12 @@ export default function Username({ posts, users }) {
             {!isBlocked && (
               <div className="profile__dates">
                 <div className={global.text}>
-                  <strong className={global.strong}>Miembro desde:</strong>{" "}
+                  <strong className={global.strong}>Miembro desde:</strong>
                   {new Date(users?.createdAt).toLocaleDateString().slice(0, 10)}
                   <FaUserAlt color={`${colors.primary}`} />
                 </div>
                 <div className={global.text}>
-                  <strong className={global.strong}>Cumpleaños:</strong>{" "}
+                  <strong className={global.strong}>Cumpleaños:</strong>
                   {new Date(users?.birthdate).toLocaleDateString().slice(0, 10)}
                   <MdCake color={`${colors.primary}`} />
                 </div>

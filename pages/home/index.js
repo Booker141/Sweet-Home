@@ -85,7 +85,7 @@ export default function Home({ posts }) {
               onChange={(e) => sortByFilters(e.target.value)}
             >
               <option default value="default">
-                Selecciona un filtro{" "}
+                Selecciona un filtro
               </option>
               <option value="activity">Ordenar por popularidad</option>
               <option value="user">Ordenar por usuario</option>

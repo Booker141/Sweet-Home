@@ -262,14 +262,14 @@ export default function MyProfile({ posts, users }) {
             </div>
             <div className="profile__dates">
               <div className={global.text}>
-                <strong className={global.strong}>Miembro desde:</strong>{" "}
+                <strong className={global.strong}>Miembro desde:</strong>
                 {new Date(profileUser?.createdAt)
                   .toLocaleDateString()
                   .slice(0, 10)}
                 <FaUserAlt color={`${colors.primary}`} />
               </div>
               <div className={global.text}>
-                <strong className={global.strong}>Cumpleaños:</strong>{" "}
+                <strong className={global.strong}>Cumpleaños:</strong>
                 {new Date(profileUser?.birthdate)
                   .toLocaleDateString()
                   .slice(0, 10)}

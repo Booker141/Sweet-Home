@@ -133,7 +133,7 @@ export default function Chat() {
           <div className="default__message">
             {messagesList.length === 0 && (
               <div className={global.loading2}>No hay ningún mensaje.</div>
-            )}{" "}
+            )}
           </div>
           {messagesList.map((message) => {
             return (

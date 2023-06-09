@@ -88,14 +88,14 @@ export default function Principal() {
           </div>
           <div className="container1__text">
             <p className={global.text2}>
-              Somos una empresa dedicada a la{" "}
+              Somos una empresa dedicada a la
               <span className={global.colorized}>
-                {" "}
+                
                 &nbsp; atención de mascotas
               </span>
-              , brindando servicios de cuidado y hospedaje para{" "}
+              , brindando servicios de cuidado y hospedaje para
               <span className={global.colorized}>
-                {" "}
+                
                 &nbsp; todo tipos de mascotas
               </span>
               .
@@ -137,14 +137,14 @@ export default function Principal() {
         <div className="content__container2">
           <div className="container2__column1">
             <h1>
-              ¡Únete ahora a nuestra{" "}
+              ¡Únete ahora a nuestra
               <span className={global.colorized}>comunidad</span>!
             </h1>
             <p className={global.text}>
-              ¡Disfruta de todos los beneficios que te ofrece{" "}
+              ¡Disfruta de todos los beneficios que te ofrece
               <span className={global.colorized}>
-                &nbsp; Sweet Home &nbsp;{" "}
-              </span>{" "}
+                &nbsp; Sweet Home &nbsp;
+              </span>
               creándote una cuenta ahora mismo!
             </p>
             <button
@@ -248,8 +248,8 @@ export default function Principal() {
         <div className="content__container5">
           <h2 className="title2">Rompemos las limitaciones</h2>
           <p className={global.text}>
-            Nuestra red social rompe las limitaciones en cuanto a los{" "}
-            <span className={global.colorized}> &nbsp;dispositivos&nbsp; </span>{" "}
+            Nuestra red social rompe las limitaciones en cuanto a los
+            <span className={global.colorized}> &nbsp;dispositivos&nbsp; </span>
             en las que se puede utilizar:
           </p>
           <div className="container5__column1">

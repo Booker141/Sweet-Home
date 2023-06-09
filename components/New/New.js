@@ -104,7 +104,7 @@ export default function New(props) {
           <div className="new__time">
             <HiOutlineClock size={17} color={`${colors.secondary}`} />
             <h3 className={global.date2}>
-              Publicada el{" "}
+              Publicada el
               {new Date(props?.date).toLocaleDateString().slice(0, 10)}
             </h3>
           </div>

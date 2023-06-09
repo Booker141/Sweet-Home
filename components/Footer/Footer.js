@@ -80,7 +80,7 @@ export default function Footer() {
               <div className="columns__column1">
                 <h3 className="column1__title">
                   <GiDogHouse size={20} color={`${colors.secondary}`} />
-                  Sweet Home{" "}
+                  Sweet Home
                 </h3>
                 <div className="column1__links">
                   <Link className={global.link} href="/about" prefetch={false}>
@@ -100,7 +100,7 @@ export default function Footer() {
               <div className="columns__column2">
                 <h3 className="column2__title">
                   <HiDocumentSearch size={20} color={`${colors.secondary}`} />
-                  Ayuda{" "}
+                  Ayuda
                 </h3>
                 <div className="column2__links">
                   <Link className={global.link} href="/faq" prefetch={false}>
@@ -118,7 +118,7 @@ export default function Footer() {
               <div className="columns__column3">
                 <h3 className="column3__title">
                   <HiSearch size={20} color={`${colors.secondary}`} />
-                  Encuentra en Sweet Home{" "}
+                  Encuentra en Sweet Home
                 </h3>
                 <div className="column3__links">
                   <Link
@@ -138,7 +138,7 @@ export default function Footer() {
             <div className="columns__column4">
               <h3 className="column4__title">
                 <FaUserPlus size={20} color={`${colors.secondary}`} />
-                Síguenos{" "}
+                Síguenos
               </h3>
               <div className="column4__icons">
                 <a aria-label="Ir a Instagram" className="icons__instagram">

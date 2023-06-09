@@ -45,13 +45,13 @@ export default function About() {
         <div className="banner">
           <p className={global.text}>
             Sweet Home es una red social que abarca el mundo animal y trata de
-            facilitar su{" "}
+            facilitar su
             <span className={global.colorized}>
               adaptación a nuevos cuidados
             </span>
             , <span className={global.colorized}>a nuevos dueños </span> y a
             <span className={global.colorized}>
-              {" "}
+              
               &nbsp; una mejora diaria de su vida.
             </span>
           </p>
@@ -90,25 +90,25 @@ export default function About() {
           <p className={global.text3}>
             El objetivo principal de Sweet Home es
             <strong>
-              {" "}
+              
               &nbsp; mejorar la calidad de vida de los animales
-            </strong>{" "}
+            </strong>
             facilitándole a los dueños funcionalidades que usar en su día a día.
           </p>
 
           <p className={global.text3}>Entre ellas están: </p>
           <ul className={global.list2}>
             <li className={global.list__item2}>
-              {" "}
+              
               Publicar fotos e información de los animales.
             </li>
             <li className={global.list__item2}>
-              {" "}
+              
               Permitir el contacto inmediato con el usuario que ha realizado una
               publicación.
             </li>
             <li className={global.list__item2}>
-              {" "}
+              
               Seguir a los centros de acogida de animales que sean de interés.
             </li>
           </ul>
@@ -139,8 +139,8 @@ export default function About() {
             <p className={global.text}>
               <span className={global.colorized}>
                 La libertad y los derechos de los animales
-              </span>{" "}
-              son la base de Sweet Home.{" "}
+              </span>
+              son la base de Sweet Home.
             </p>
             <p className={global.text}>
               En nuestro planeta habitan una gran variedad de animales pero solo
@@ -156,8 +156,8 @@ export default function About() {
               Compartir de forma rápida y segura
             </h2>
             <p className={global.text}>
-              Con Sweet Home puedes{" "}
-              <span className={global.colorized}> compartir información</span>{" "}
+              Con Sweet Home puedes
+              <span className={global.colorized}> compartir información</span>
               sin tener que preocuparte de la inmediatez o de la seguridad.
             </p>
             <p className={global.text}>
@@ -171,7 +171,7 @@ export default function About() {
             </div>
             <h2 className={global.title2}>Chatea con gente de todo el mundo</h2>
             <p className={global.text}>
-              Dispones de una{" "}
+              Dispones de una
               <span className={global.colorized}> función de chat</span> para
               conectar con gente de tu mismo entorno o gente a kilómetros de
               distancia para preguntarles dudas o consejos.
@@ -183,9 +183,9 @@ export default function About() {
             </div>
             <h2 className={global.title2}>Modifica el perfil a tu gusto</h2>
             <p className={global.text}>
-              ¡Sweet Home permite modificar el perfil para que puedas{" "}
+              ¡Sweet Home permite modificar el perfil para que puedas
               <span className={global.colorized}>
-                añadir información sobre ti y tu mascota &nbsp;{" "}
+                añadir información sobre ti y tu mascota &nbsp;
               </span>
               a tu gusto!
             </p>

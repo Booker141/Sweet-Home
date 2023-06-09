@@ -44,7 +44,7 @@ export default function Dashboard() {
           <div className="dashboard__header">
             <h1 className={global.title}>Panel de administración</h1>
             <h2 className={global.secondary}>
-              ¡Bienvenido a tu panel{" "}
+              ¡Bienvenido a tu panel
               <span className={global.colorized}>{session?.user.username}</span>
               !
             </h2>

@@ -81,7 +81,7 @@ export default function Following(props) {
             href={`/profile/${user?.username}`}
             aria-label={`Ir a perfil de ${user?.username}`}
           >
-            <strong>@{user?.username}</strong>{" "}
+            <strong>@{user?.username}</strong>
           </a>
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary} />}
           {isVet && <MdHealthAndSafety size={18} color={colors.primary} />}

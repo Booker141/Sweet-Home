@@ -120,7 +120,7 @@ export default function CreateQuestion() {
       toast.success("Se ha publicado la pregunta", {
         position: "bottom-right",
         autoClose: 5000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

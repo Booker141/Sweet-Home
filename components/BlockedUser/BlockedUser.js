@@ -97,7 +97,7 @@ export default function BlockedUser(props) {
         <hr className={global.white__line}></hr>
         <div className="blocked__body">
           <p className={global.text}>
-            Este usuario ha sido denunciado{" "}
+            Este usuario ha sido denunciado
             <strong>{props?.complaints.length}</strong> veces
           </p>
         </div>
