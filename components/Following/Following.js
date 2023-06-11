@@ -55,12 +55,15 @@ export default function Following(props) {
 
     setUser(following);
 
+    console.log(user)
+
     if (following?.role.name === "veterinaria") setIsVet(true);
     else if (following?.role.name === "protectora") setIsShelter(true);
   }
 
   useEffect(() => {
     getFollowing();
+    console.log(user)
   }, []);
 
   return (
@@ -86,7 +89,7 @@ export default function Following(props) {
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary} />}
           {isVet && <MdHealthAndSafety size={18} color={colors.primary} />}
         </div>
-        {/*user*/props && (
+        {user != {} && (
           <FollowButton
             idFrom={session?.user.id}
             usernameFrom={session?.user.username}

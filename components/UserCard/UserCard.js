@@ -125,17 +125,17 @@ export default function UserCard(props) {
             border-radius: 70px;
           }
 
+
           .user__username {
             /*Box model*/
 
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: center;    
             text-align: center;
-            gap: 0.5rem;
-            padding: 0rem;
+            height: 3vh;
+
           }
 
           .text {
