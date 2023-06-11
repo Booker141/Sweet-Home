@@ -89,14 +89,14 @@ export default function Following(props) {
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary} />}
           {isVet && <MdHealthAndSafety size={18} color={colors.primary} />}
         </div>
-        {user != {} && (
+        {user != {} && user != undefined && 
           <FollowButton
             idFrom={session?.user.id}
             usernameFrom={session?.user.username}
-            idTo={user?._id}
-            usernameTo={user?.username}
+            idTo={user._id}
+            usernameTo={user.username}
           />
-        )}
+        }
       </div>
 
       <style jsx>

@@ -75,14 +75,14 @@ export default function UserCard(props) {
           </a>
         </div>
         <div className="follow__button">
-          {props && (
+          {props && 
             <FollowButton
               idFrom={session?.user.id}
               usernameFrom={session?.user.username}
               idTo={props?.id}
               usernameTo={props?.username}
             />
-          )}
+          }
         </div>
       </div>
       <style jsx>
