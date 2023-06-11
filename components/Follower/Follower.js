@@ -87,14 +87,16 @@ export default function Followers(props) {
             {isVet && <MdHealthAndSafety size={20} color={colors.primary} />}
           </a>
         </div>
-        <LazyLoad offset={100}>
+        {props && 
           <FollowButton
             idFrom={session?.user.id}
             usernameFrom={session?.user.username}
             idTo={user?._id}
             usernameTo={user?.username}
           />
-        </LazyLoad>
+        }
+          
+
       </div>
 
       <style jsx>

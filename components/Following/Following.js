@@ -86,7 +86,7 @@ export default function Following(props) {
           {isShelter && <BsPatchCheckFill size={18} color={colors.primary} />}
           {isVet && <MdHealthAndSafety size={18} color={colors.primary} />}
         </div>
-        {user && (
+        {/*user*/props && (
           <FollowButton
             idFrom={session?.user.id}
             usernameFrom={session?.user.username}
