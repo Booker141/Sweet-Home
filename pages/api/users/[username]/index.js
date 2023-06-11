@@ -55,6 +55,7 @@ export default async function handler(req, res) {
           saves: user.saves,
           pets: user.pets,
           posts: user.posts,
+          chats: user.chats,
           complaints: user.complaints,
           accountId: user.accountId,
           createdAt: user.createdAt,

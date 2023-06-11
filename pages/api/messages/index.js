@@ -14,14 +14,23 @@ export default async function handler(req, res) {
   const body = req.body;
   const messageId = new ObjectId();
 
+  if (req.method == "GET"){
+
+    const data = await db.collection("messages").find({}).limit(50).toArray();
+
+    const messages = JSON.parse(JSON.stringify(data));
+
+    res.status(200).json(messages);
+  }
+
   if (req.method == "POST") {
     await db
       .collection("messages")
       .insertOne({
         _id: messageId,
         chatId: ObjectId(body.chatId),
-        desription: body.description,
-        senderId: body.senderId,
+        description: body.description,
+        senderId: ObjectId(body.senderId),
         createdAt: new Date(),
       });
     await db

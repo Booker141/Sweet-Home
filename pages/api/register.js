@@ -60,6 +60,7 @@ export default async function handler(req, res) {
         pets: [],
         complaints: [],
         posts: [],
+        chats: [],
         accountId: null,
         createdAt: new Date(),
       });

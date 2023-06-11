@@ -1,43 +1,46 @@
 import { useSession, signIn } from "next-auth/react";
-import Head from "next/head";
-import Layout from "components/Layout/Layout";
 import global from "/styles/global.module.css";
 import InputEmoji from "react-input-emoji";
-import Loader from "components/Loader/Loader";
 import Message from "components/Message/Message";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useChannel } from "@ably-labs/react-hooks";
 import { server } from "/server";
 import { colors, fonts } from "/styles/frontend-conf";
-import io from "socket.io-client";
 import { toast } from "react-toastify";
 
 /**
  * @author Sergio García Navarro
- * @returns Abandoned page
+ * @returns Chat Room component
  * @version 1.0
- * @description Abandoned page
+ * @description Chat Room component
  */
-export default function Chat() {
+export default function ChatRoom(props) {
+  
   const { data: session, status } = useSession({ required: true });
   const [messagesList, setMessagesList] = useState([]);
+  const [chats, setChats] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
+  const [isConnected, setIsConnected] = useState(false)
   const [user, setUser] = useState({});
+  const messageEnd = useRef(null)
 
-  let socket;
 
   const chatServer = async () => {
-    await fetch("/api/socket/");
 
-    socket = io();
+    await fetch('/api/chatServer')
 
-    // send a message to the server
-    socket.on("receiveMessage", (message) => {
-      setMessagesList((pre) => [...pre, message]);
+    const [channel, ably] = useChannel('chat' + `${props?.username}`, (message) => {
+
+      const prevMessages = messagesList.slice(-199);
+      setMessagesList([...prevMessages, message]);
+
     });
+
+    console.log(messagesList)
   };
 
   const getMessages = async () => {
-    const res = await fetch(`${server}/messages/${chatId}`, {
+    const res = await fetch(`${server}/messages/${props?.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -63,15 +66,17 @@ export default function Chat() {
       return;
     }
 
+    
+
     const res = await fetch(`${server}/api/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chatId: "",
+        chatId: props?.id,
         description: chatMessage,
-        senderId: session.user.id,
+        senderId: session?.user.id,
       }),
     });
 
@@ -90,7 +95,8 @@ export default function Chat() {
         theme: "colored",
       });
     } else {
-      socket.emit("sendMessage", { chatMessage });
+
+      channel.publish({ name: "chat-message", data: chatMessage });
 
       toast.success("Se ha enviado el mensaje", {
         position: "bottom-right",
@@ -103,46 +109,39 @@ export default function Chat() {
         theme: "colored",
       });
 
+      setChatMessage("")
       getMessages();
     }
   };
 
   useEffect(() => {
     chatServer();
+
+    messageEnd.current.scrollIntoView({ behavior: 'smooth' })
   }, []);
 
-  if (status == "loading") {
     return (
-      <>
-        <div className={global.loading}>
-          <p>Cargando..</p>
-        </div>
-        <Loader />
-      </>
-    );
-  }
-  if (session) {
-    return (
-      <Layout>
-        <Head>
-          <title>Chat | Sweet Home</title>
-        </Head>
-        <h1 className={global.title4}>Mis chats</h1>
+        <>
 
+        {isConnected && <div className={global.text}>Conectado al servidor</div>}
         <div className="chat__container">
+        <div className="chat__header">
+          
+        </div>
           <div className="default__message">
-            {messagesList.length === 0 && (
+            {messagesList?.length === 0 && (
               <div className={global.loading2}>No hay ningún mensaje.</div>
             )}
+            
           </div>
           {messagesList.map((message) => {
             return (
               <>
-                <Message description={message.chatMessage} />
+                <Message description={message.description} createdAt={message.createdAt} senderId={message.senderId} />
               </>
             );
           })}
-
+          <div ref={messagesEndRef} />
           <div className="message__input">
             <InputEmoji
               title="Enviar un mensaje"
@@ -221,39 +220,8 @@ export default function Chat() {
             }
           
           `}</style>
-      </Layout>
+            
+          </>
     );
-  } else {
-    return (
-      <Layout>
-        <div className={global.content}>
-          <div className="message">
-            <h1 className={global.title}>
-              Para acceder a esta página debe ser administrador de Sweet Home
-            </h1>
-            <button className={global.buttonPrimary} onClick={() => signIn()}>
-              Iniciar sesión
-            </button>
-          </div>
-        </div>
-        <style jsx>
-          {`
-
-                        .message{
-
-                            /*Box model*/
-
-                            display: flex
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                            
-                            
-                        }
-                        
-                    `}
-        </style>
-      </Layout>
-    );
-  }
+  
 }

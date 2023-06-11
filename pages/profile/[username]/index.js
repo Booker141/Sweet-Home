@@ -4,7 +4,7 @@ import { useSession, getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { colors, fonts } from "styles/frontend-conf";
-import { BsPatchCheckFill } from "react-icons/bs";
+import { BsPatchCheckFill, BsFillChatFill } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 import {
   MdCake,
@@ -15,6 +15,7 @@ import {
 } from "react-icons/md";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { server } from "/server";
+import {toast} from "react-toastify"
 import Head from "next/head";
 import global from "styles/global.module.css";
 import dynamic from "next/dynamic";
@@ -58,6 +59,41 @@ export default function Username({ posts, users }) {
     users?.location === "" ? false : true
   );
   const router = useRouter();
+
+  const createChat = async() => {
+
+    //Si no existe chat 
+    //Crear chat
+
+    const res = await fetch(`${server}/chats`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        senderId: session?.user.id,
+        receiverId: users?._id
+      })
+    })
+
+    const data = await res.json()
+
+    if(data.message === "Error al crear el chat"){
+      toast.error(`Error al crear chat`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+    }
+
+    router.push(`${server}/chat/${users?.username}`)
+  }
 
   const handleClick = (e) => {
     const posts = document.querySelector(".posts");
@@ -130,6 +166,12 @@ export default function Username({ posts, users }) {
                   usernameTo={users?.username}
                 />
               )}
+              {!isBlocked && <button
+                  onClick={() => createChat()}
+                  aria-label={`Crear chat con ${router.query.username}`}
+                >
+                  <BsFillChatFill size={35} color={colors.primary} />
+                </button>}
               {!isBlocked && (
                 <a
                   className="profile__block"
@@ -139,6 +181,7 @@ export default function Username({ posts, users }) {
                   <MdReport size={35} color={colors.primary} />
                 </a>
               )}
+
             </div>
             {!isBlocked && (
               <div className="profile__biography">
@@ -624,6 +667,15 @@ export default function Username({ posts, users }) {
                         cursor: pointer;
                         color: ${colors.tertiary};
                         transition: 0.5s ease all;
+                    }
+
+                    button{
+
+                      /*Visuals*/
+
+                      cursor: pointer;
+                      background: transparent;
+                      border: none;
                     }
                 `}
         </style>

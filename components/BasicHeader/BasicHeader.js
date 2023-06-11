@@ -169,7 +169,7 @@ export default function BasicHeader(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/chat" as="/chat" prefetch={false}>
+                  <Link href={`/chat/${session?.user.username}`} as={`/chat/${session?.user.username}`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -452,7 +452,7 @@ export default function BasicHeader(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/chat" as="/chat" prefetch={false}>
+                  <Link href={`/chat/${session?.user.username}`} as={`/chat/${session?.user.username}`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -1169,7 +1169,7 @@ export default function BasicHeader(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/chat" as="/chat" prefetch={false}>
+                  <Link href={`/chat/${session?.user.username}`} as={`/chat/${session?.user.username}`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat

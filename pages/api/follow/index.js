@@ -13,6 +13,8 @@ export default async function handler(req, res) {
   const client = await clientPromise;
   const db = await client.db();
   const body = req.body;
+  const chatId = new ObjectId()
+  const isChat = await db.collection("chats").findOne({$or: [{receiverId: ObjectId(body.idFrom)}, {senderId: ObjectId(body.idFrom)}]})
 
   const user = await db
     .collection("users")
@@ -30,6 +32,27 @@ export default async function handler(req, res) {
         { _id: ObjectId(body.idFrom) },
         { $push: { following: ObjectId(body.idTo) } }
       );
+
+      if(!isChat){
+
+        await db
+        .collection("users")
+        .updateOne(
+          { _id: ObjectId(body.idFrom) },
+          { $push: { chats: chatId } }
+        );
+        await db
+        .collection("chats")
+        .insertOne(
+          { _id: chatId, 
+            senderId: ObjectId(body.idFrom),
+            receiverId: ObjectId(body.idTo),
+            messages: [],
+            createdAt: new Date()},
+        );
+        
+      }
+     
     await db
       .collection("users")
       .updateOne(

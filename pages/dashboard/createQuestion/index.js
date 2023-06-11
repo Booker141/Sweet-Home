@@ -129,10 +129,8 @@ export default function CreateQuestion() {
         theme: "colored",
       });
       
-      setTimeout(() => {
         Router.push(`${server}/faq`);
-      }, 3000)
-      
+
       setIsPosting(false)
     }
   };

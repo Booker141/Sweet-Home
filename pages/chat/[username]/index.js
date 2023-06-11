@@ -1,12 +1,26 @@
-import { useSession, signIn } from "next-auth/react";
+/* Static imports */
+
+import { useSession, getSession, signIn } from "next-auth/react";
+import {useRouter} from 'next/router'
+import { useEffect, useState } from "react";
+import { server } from "/server";
+import { toast } from "react-toastify";
+import {colors} from '/styles/frontend-conf'
+import {AiFillWechat} from 'react-icons/ai'
 import Head from "next/head";
 import Layout from "components/Layout/Layout";
 import global from "/styles/global.module.css";
 import Loader from "components/Loader/Loader";
-import { useEffect, useState } from "react";
-import { server } from "/server";
-import { toast } from "react-toastify";
+import ChatSidebar from '/components/ChatSidebar/ChatSidebar';
 import InputEmoji from "react-input-emoji";
+import dynamic from 'next/dynamic'
+
+
+/* Dynamic imports */
+
+const ChatRoom = dynamic(() =>
+import("/components/ChatRoom/ChatRoom", {ssr: false})
+);
 
 /**
  * @author Sergio García Navarro
@@ -14,10 +28,11 @@ import InputEmoji from "react-input-emoji";
  * @version 1.0
  * @description Abandoned page
  */
-export default function Chat() {
+export default function Chat({users}) {
   const { data: session, status } = useSession({ required: true });
-  const [messagesList, setMessagesList] = useState({});
-  const [chatMessage, setChatMessage] = useState("");
+
+
+  const Router = useRouter()
   
   if (status == "loading") {
     return (
@@ -35,35 +50,56 @@ export default function Chat() {
         <Head>
           <title>Chat | Sweet Home</title>
         </Head>
-        <h1 className={global.title}>Chat</h1>
-        <div className={global.chat}>
-          <div className="message__input">
-            <InputEmoji
-              title="Crear una publicación"
-              type="text"
-              name="text"
-              id="comment"
-              value={chatMessage}
-              onChange={(e) => setChatMessage(e)}
-              cleanOnEnter
-              placeholder={`Escribe un mensaje 😄`}
-              fontFamily={`${fonts.default}`}
-              borderColor={`${colors.primary}`}
-            />
+        {session.user.username === Router.query.username &&
+        <div className="chat__container">
+          <ChatSidebar users={users}/>
+          <div className="welcome__chat">
+            <h1>Bienvenidos a tus chats</h1>
+            <AiFillWechat size={150} color={colors.primary}/>
           </div>
-          <input
-            type="submit"
-            value="Enviar"
-            className={global.buttonPrimary}
-            onClick={(e) => sendMessage(e)}
-          />
+        </div>}
+        {session.user.username != Router.query.username && 
+          <div className="chat__container">
+          <ChatSidebar users={users}/>
+          <ChatRoom username={Router.query.username}/>
         </div>
+        }
         <style jsx>{`
+
+              .chat__container{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem
+                
+              }
+
+              .welcome__chat{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                width: 50vw;
+            
+
+                /*Visuals*/
+
+                border-radius: 20px;
+                border: 2px solid ${colors.primary};
+
+                }
             
               h1{
-                                        /*Text*/
+                        /*Text*/
 
-                                        font-size: 3.5rem;
+                        font-size: 3.5rem;
                         font-weight: 600;
                         background-color: ${colors.primary};
                         font-family: "Archivo Black", sans-serif;
@@ -113,4 +149,29 @@ export default function Chat() {
       </Layout>
     );
   }
+}
+
+export async function getServerSideProps(context){
+
+context.res.setHeader(
+  "Cache-Control",
+  "public, s-maxage=10, stale-while-revalidate=59"
+);
+
+const session = await getSession(context);
+
+const res = await fetch(`${server}/api/users/${session?.user.username}`, {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+const user = await res.json();
+
+return {
+  props: {
+    users: JSON.parse(JSON.stringify(user)),
+  },
+}
 }

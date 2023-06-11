@@ -234,6 +234,7 @@ export const authOptions = {
               pets: [],
               complaints: [],
               posts: [],
+              chats: [],
               accountId: accountInserted.insertedId,
               createdAt: new Date(),
             });
@@ -306,6 +307,7 @@ export const authOptions = {
               pets: [],
               complaints: [],
               posts: [],
+              chats: [],
               accountId: accountInserted.insertedId,
               createdAt: new Date(),
             });

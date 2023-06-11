@@ -71,6 +71,7 @@ export default async function handler(req, res) {
         pets: [],
         complaints: [],
         posts: [],
+        chats: [],
         accountId: ObjectId,
         createdAt: new Date(),
       });
