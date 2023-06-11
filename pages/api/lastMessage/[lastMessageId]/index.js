@@ -1,4 +1,4 @@
-import clientPromise from "../lib/MongoDB";
+import clientPromise from "../../lib/MongoDB";
 import { ObjectId } from "mongodb";
 
 export const config = {
