@@ -2,7 +2,7 @@
 
 import { ImArrowUp2 } from "react-icons/im";
 import dynamic from "next/dynamic";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import BasicHeader from "/components/BasicHeader/BasicHeader";
 
 /* Dynamic imports */

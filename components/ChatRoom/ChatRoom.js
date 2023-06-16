@@ -1,11 +1,11 @@
 import { useSession, signIn } from "next-auth/react";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import InputEmoji from "react-input-emoji";
-import Message from "components/Message/Message";
+import Message from "/components/Message/Message";
 import { useEffect, useState, useRef } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
-import { server } from "/server";
-import { colors, fonts } from "/styles/frontend-conf";
+import { server } from "../../server";
+import { colors, fonts } from "../../styles/frontend-conf";
 import { toast } from "react-toastify";
 
 /**
@@ -19,24 +19,33 @@ export default function ChatRoom(props) {
   const { data: session, status } = useSession({ required: true });
   const [messagesList, setMessagesList] = useState([]);
   const [chats, setChats] = useState([]);
+
   const [chatMessage, setChatMessage] = useState("");
   const [isConnected, setIsConnected] = useState(false)
   const [user, setUser] = useState({});
   const messageEnd = useRef(null)
+
+ 
+
+  
+
 
 
   const chatServer = async () => {
 
     await fetch('/api/chatServer')
 
-    const [channel, ably] = useChannel('chat' + `${props?.username}`, (message) => {
+    const [channel] = useChannel(props?.channel, (message) => {
 
       const prevMessages = messagesList.slice(-199);
       setMessagesList([...prevMessages, message]);
 
     });
 
+    messageEnd.current.scrollIntoView({ behavior: 'smooth' })
+
     console.log(messagesList)
+    
   };
 
   const getMessages = async () => {
@@ -52,6 +61,7 @@ export default function ChatRoom(props) {
   };
 
   const createMessage = async () => {
+
     if (chatMessage.trim() === "") {
       toast.error("Debe escribir un mensaje", {
         position: "bottom-right",
@@ -66,7 +76,8 @@ export default function ChatRoom(props) {
       return;
     }
 
-    
+    setChatMessage("")
+  
 
     const res = await fetch(`${server}/api/messages`, {
       method: "POST",
@@ -74,7 +85,7 @@ export default function ChatRoom(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chatId: props?.id,
+        channel: props?.channel,
         description: chatMessage,
         senderId: session?.user.id,
       }),
@@ -109,15 +120,13 @@ export default function ChatRoom(props) {
         theme: "colored",
       });
 
-      setChatMessage("")
       getMessages();
     }
   };
 
   useEffect(() => {
     chatServer();
-
-    messageEnd.current.scrollIntoView({ behavior: 'smooth' })
+    
   }, []);
 
     return (
@@ -131,17 +140,18 @@ export default function ChatRoom(props) {
           <div className="default__message">
             {messagesList?.length === 0 && (
               <div className={global.loading2}>No hay ningún mensaje.</div>
-            )}
-            
+            )}          
           </div>
-          {messagesList.map((message) => {
-            return (
-              <>
-                <Message description={message.description} createdAt={message.createdAt} senderId={message.senderId} />
-              </>
-            );
-          })}
-          <div ref={messagesEndRef} />
+          <div className="messages__list">
+            {messagesList.map((message) => {
+              return (
+                <>
+                  <Message description={message.description} createdAt={message.createdAt} senderId={message.senderId} />
+                </>
+              );
+            })}
+            <div ref={messageEnd} />
+          </div>
           <div className="message__input">
             <InputEmoji
               title="Enviar un mensaje"
@@ -173,7 +183,8 @@ export default function ChatRoom(props) {
           justify-content: flex-end;
           align-items: center;
           height: 100vh;
-          width: 70vw;
+          width: 50vw;
+          
 
           /*Visuals*/
 
@@ -190,12 +201,24 @@ export default function ChatRoom(props) {
           justify-content: flex-end;
           align-items: center;
           gap: 1rem;
-          padding: 4rem;
-          width: 70vw;
+          padding: 3rem;
+          width: 45vw;
+
+          /*Visuals*/
+
+          border-radius: 0 0 17px 17px;
+          background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
 
         }
 
         .default__message{
+
+          /*Position*/
+
+          position: relative:
+          left: 50%;
+          top: 50%;
+          transform: translate(50, 50);
 
           /*Box model*/
 

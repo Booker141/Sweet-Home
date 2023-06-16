@@ -25,15 +25,15 @@ import {
   GiCat,
 } from "react-icons/gi";
 import { TbReport } from "react-icons/tb";
-import { colors, statusColors } from "/styles/frontend-conf";
-import { fonts } from "/styles/frontend-conf";
+import { colors, statusColors } from "../../styles/frontend-conf";
+import { fonts } from "../../styles/frontend-conf";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { server } from "/server";
+import { server } from "../../server";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 
 /*Dynamic imports*/
 

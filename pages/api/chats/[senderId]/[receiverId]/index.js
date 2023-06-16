@@ -1,4 +1,4 @@
-import clientPromise from "../../lib/MongoDB";
+import clientPromise from "../../../lib/MongoDB";
 import { ObjectId } from "mongodb";
 
 export const config = {
@@ -12,13 +12,15 @@ export default async function handler(req, res) {
 
   const client = await clientPromise;
   const db = await client.db();
-  const id = new ObjectId(req.query.chatId);
 
   if (req.method === "GET") {
-    const data = await db.collection("chats").findOne({ _id: id });
+    const data = await db.collection("chats").findOne({ senderId: ObjectId(req.query.senderId), receiverId: ObjectId(req.query.receiverId)});
 
     const chat = JSON.parse(JSON.stringify(data));
 
-    res.status(200).json(chat);
+    if(chat === null)
+      return res.status(404).json({message: "No existe el chat"})
+
+    return res.status(200).json(chat);
   }
 }

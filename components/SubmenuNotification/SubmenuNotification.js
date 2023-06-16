@@ -1,12 +1,12 @@
 /* Static imports */
 
-import { server } from "/server";
+import { server } from "../../server";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FaUserPlus, FaComment } from "react-icons/fa";
 import { HiHeart, HiOutlineClock } from "react-icons/hi";
-import { colors } from "/styles/frontend-conf";
-import global from "styles/global.module.css";
+import { colors } from "../../styles/frontend-conf";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

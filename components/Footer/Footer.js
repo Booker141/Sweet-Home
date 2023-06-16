@@ -1,11 +1,11 @@
 /* Static imports */
 
-import { colors, fonts } from "styles/frontend-conf.js";
+import { colors, fonts } from "../../styles/frontend-conf.js";
 import { BsInstagram, BsFacebook, BsTwitter } from "react-icons/bs";
 import { GiDogHouse } from "react-icons/gi";
 import { HiDocumentSearch, HiSearch } from "react-icons/hi";
 import { FaUserPlus } from "react-icons/fa";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */

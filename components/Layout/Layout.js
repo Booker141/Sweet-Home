@@ -1,7 +1,7 @@
 /* Static imports */
 
 import { ImArrowUp2 } from "react-icons/im";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 import Header from "/components/Header/Header";
 import Sidebar from "/components/Sidebar/Sidebar";

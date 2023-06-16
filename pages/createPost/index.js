@@ -54,8 +54,8 @@ export default function CreatePost() {
   const createPost = async (e) => {
     e.preventDefault();
 
-    if (description.trim() === "") {
-      toast.error("El campo descripción es obligatorio", {
+    if (location.trim() === "") {
+      toast.error("El campo Ubicación es obligatorio", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -67,6 +67,22 @@ export default function CreatePost() {
       });
       return;
     }
+
+    if (description.trim() === "") {
+      toast.error("El campo Descripción es obligatorio", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+   
 
     setIsPosting(true);
 
@@ -156,10 +172,10 @@ export default function CreatePost() {
                 vienen indicados con un asterisco *:
               </p>
             </div>
-            <form action="/api/posts" id="form" enctype="multipart/form-data">
+            <form action="/api/posts" id="form">
               <div className="form-vertical__location">
                 <div className="label">
-                  <p className={global.text}>Ubicación</p>
+                  <p className={global.text}>Ubicación (*)</p>
                   <MdLocationOn size={18} color={colors.secondary} />
                 </div>
                 <div className="location__input">
@@ -168,6 +184,7 @@ export default function CreatePost() {
                     type="text"
                     name="location"
                     value={location}
+                    required
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="p. ej.: Cádiz"
                     className="input"

@@ -15,10 +15,11 @@ export default async function handler(req, res) {
 
   if (req.method == "POST") {
     await db
-      .collection("chat")
+      .collection("chats")
       .insertOne({
-        senderId: body.senderId,
-        receiverId: body.receiverId,
+        senderId: ObjectId(body.senderId),
+        receiverId: ObjectId(body.receiverId),
+        channel: 'chat:' + body.senderId + body.receiverId,
         messages: [],
         createdAt: new Date(),
       });

@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   const db = await client.db();
   const body = req.body;
   const chatId = new ObjectId()
-  const isChat = await db.collection("chats").findOne({$or: [{receiverId: ObjectId(body.idFrom)}, {senderId: ObjectId(body.idFrom)}]})
+  const isChat = await db.collection("chats").findOne({$or: [{receiverId: ObjectId(body.idTo)}, {senderId: ObjectId(body.idTo)}]})
 
   const user = await db
     .collection("users")

@@ -13,6 +13,7 @@ export default async function handler(req, res) {
   const db = await client.db();
   const body = req.body;
   const messageId = new ObjectId();
+  const chat = await db.collection('chats').findOne({channel: body.channel})
 
   if (req.method == "GET"){
 
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
       .collection("messages")
       .insertOne({
         _id: messageId,
-        chatId: ObjectId(body.chatId),
+        chatId: chat._id,
         description: body.description,
         senderId: ObjectId(body.senderId),
         createdAt: new Date(),
@@ -36,7 +37,7 @@ export default async function handler(req, res) {
     await db
       .collection("chat")
       .updateOne(
-        { _id: ObjectId(body.chatId) },
+        { _id: chat._id },
         { $push: { messages: messageId } }
       );
 

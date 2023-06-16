@@ -3,8 +3,8 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { colors } from "/styles/frontend-conf.js";
-import { fonts } from "styles/frontend-conf.js";
+import { colors } from "../../styles/frontend-conf.js";
+import { fonts } from "../../styles/frontend-conf.js";
 import { FaUserAlt, FaSignOutAlt } from "react-icons/fa";
 import { RiSettings4Fill, RiAdminFill, RiHealthBookFill } from "react-icons/ri";
 import {
@@ -31,8 +31,8 @@ import {
 import { VscCircleFilled } from "react-icons/vsc";
 import { GiDogBowl } from "react-icons/gi";
 import { GoGraph } from "react-icons/go";
-import { server } from "/server";
-import global from "styles/global.module.css";
+import { server } from "../../server";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */
@@ -174,7 +174,7 @@ export default function Header(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/chat/${session?.user.username}`} as={`/chat/${session?.user.username}`} prefetch={false}>
+                  <Link href={`/chat`} as={`/chat`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -456,7 +456,7 @@ export default function Header(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/chat/${session?.user.username}`} as={`/chat/${session?.user.username}`} prefetch={false}>
+                  <Link href={`/chat`} as={`/chat`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -1175,7 +1175,7 @@ export default function Header(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/chat/${session?.user.username}`} as={`/chat/${session?.user.username}`} prefetch={false}>
+                  <Link href={`/chat`} as={`/chat`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat

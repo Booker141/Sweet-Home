@@ -1,7 +1,7 @@
 /* Static imports */
 
 import { useState, useEffect } from "react";
-import { theme, colors } from "styles/frontend-conf.js";
+import { theme, colors } from "../../styles/frontend-conf.js";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 
 /** 
@@ -35,14 +35,14 @@ export default function ThemeButton() {
     <>
       {actualTheme === "dark" && (
         <div className="centered">
-          <button onClick={changeTheme} className="toggleButton">
+          <button onClick={changeTheme} className="toggleButton" data-testid="dark">
             <BsFillSunFill color={colors.secondary} size={18} />
           </button>
         </div>
       )}
       {actualTheme === "light" && (
         <div className="centered">
-          <button onClick={changeTheme} className="toggleButton">
+          <button onClick={changeTheme} className="toggleButton" data-testid="light">
             <BsFillMoonFill color={colors.secondary} size={18} />
           </button>
         </div>

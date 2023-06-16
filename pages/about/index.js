@@ -47,7 +47,7 @@ export default function About() {
             Sweet Home es una red social que abarca el mundo animal y trata de
             facilitar su
             <span className={global.colorized}>
-              adaptación a nuevos cuidados
+             &nbsp; adaptación a nuevos cuidados
             </span>
             , <span className={global.colorized}>a nuevos dueños </span> y a
             <span className={global.colorized}>
@@ -138,9 +138,9 @@ export default function About() {
             </h2>
             <p className={global.text}>
               <span className={global.colorized}>
-                La libertad y los derechos de los animales
+                La libertad y los derechos de los animales&nbsp;
               </span>
-              son la base de Sweet Home.
+               son la base de Sweet Home.
             </p>
             <p className={global.text}>
               En nuestro planeta habitan una gran variedad de animales pero solo
@@ -157,7 +157,7 @@ export default function About() {
             </h2>
             <p className={global.text}>
               Con Sweet Home puedes
-              <span className={global.colorized}> compartir información</span>
+              <span className={global.colorized}> compartir información </span>
               sin tener que preocuparte de la inmediatez o de la seguridad.
             </p>
             <p className={global.text}>
@@ -185,7 +185,7 @@ export default function About() {
             <p className={global.text}>
               ¡Sweet Home permite modificar el perfil para que puedas
               <span className={global.colorized}>
-                añadir información sobre ti y tu mascota &nbsp;
+                &nbsp;añadir información sobre ti y tu mascota &nbsp;
               </span>
               a tu gusto!
             </p>

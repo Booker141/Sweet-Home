@@ -1,4 +1,4 @@
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 
 /** 
   * @author Sergio García Navarro

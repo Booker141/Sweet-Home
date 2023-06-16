@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { server } from "/server";
-import { colors } from "/styles/frontend-conf.js";
+import { server } from "../../server";
+import { colors } from "../../styles/frontend-conf.js";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { MdHealthAndSafety, MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

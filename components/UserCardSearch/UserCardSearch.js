@@ -1,11 +1,11 @@
 /*Static colors*/
 
-import { colors } from "styles/frontend-conf";
+import { colors } from "../../styles/frontend-conf";
 import { useState, useEffect } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { MdHealthAndSafety } from "react-icons/md";
 import { useSession } from "next-auth/react";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

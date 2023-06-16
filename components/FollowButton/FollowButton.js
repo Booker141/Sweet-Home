@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
-import { server } from "/server";
-import global from "/styles/global.module.css";
+import { server } from "../../server";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

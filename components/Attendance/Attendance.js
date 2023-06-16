@@ -1,7 +1,7 @@
 /*Static imports*/
 
 import { useState, useEffect } from "react";
-import { colors } from "/styles/frontend-conf";
+import { colors } from "../../styles/frontend-conf.js";
 import {
   MdDeleteOutline,
   MdClose,
@@ -11,10 +11,9 @@ import {
 import { BsPatchCheckFill } from "react-icons/bs";
 import { HiOutlineClock } from "react-icons/hi";
 import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
-import { server } from "/server";
+import { server } from "../../server";
 import { useRouter } from "next/router";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/
@@ -43,11 +42,9 @@ export default function Attendance(props) {
   const [thread, setThread] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isImage, setIsImage] = useState(props?.image ? true : false);
-  const { data: session, status } = useSession();
   const Router = useRouter();
   const date = new Date(props.createdAt);
 
-  console.log(props);
 
   const getFull = (num) => {
     if (num < 10) {
@@ -125,7 +122,7 @@ export default function Attendance(props) {
             <div className="header__column2">
               <div className="column2__delete">
                 <p className={global.text2__bold}>{props?.location}</p>
-                {props?.username === session?.user.username && (
+                {props?.username === props?.session?.user.username && (
                   <button
                     className="delete__button"
                     onClick={() => setIsModalVisible(true)}
@@ -156,14 +153,14 @@ export default function Attendance(props) {
               >
                 <strong>{props.username}</strong>
               </a>
-              {(session?.user.role === "gerente" ||
-                session?.user.role === "administrador") && (
+              {(props?.session?.user.role === "gerente" ||
+                props?.session?.user.role === "administrador") && (
                 <BsPatchCheckFill color={`${colors.primary}`} size={18} />
               )}
-              {session?.user.role === "protectora" && (
+              {props?.session?.user.role === "protectora" && (
                 <MdPets color={`${colors.primary}`} size={18} />
               )}
-              {session?.user.role === "veterinaria" && (
+              {props?.session?.user.role === "veterinaria" && (
                 <MdHealthAndSafety color={`${colors.primary}`} size={18} />
               )}
               <p className={global.date}>- {date.toLocaleDateString()}</p>

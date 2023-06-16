@@ -132,7 +132,7 @@ export default function Contact() {
                   aria-label="Enlace a correo de atención al cliente"
                   href="mailto:atenciónSH@gmail.com"
                 >
-                  atenciónSH@gmail.com
+                  &nbsp;atenciónSH@gmail.com
                 </a>
                 .
               </p>
@@ -151,7 +151,7 @@ export default function Contact() {
                   title="Cuenta de atención al cliente"
                   aria-label="Enviar mensaje a cuenta de atención al cliente"
                 >
-                  atencion.sh
+                  &nbsp;atencion.sh
                 </a>
                 .
               </p>
@@ -166,7 +166,7 @@ export default function Contact() {
                   aria-label="Ir a preguntas frecuentes"
                   href={`${server}/faq`}
                 >
-                  FAQ
+                 &nbsp;FAQ
                 </a>
                 .
               </p>

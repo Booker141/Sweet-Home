@@ -9,11 +9,11 @@ import {
   MdPets,
 } from "react-icons/md";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { colors } from "/styles/frontend-conf";
-import { server } from "/server";
+import { colors } from "../../styles/frontend-conf";
+import { server } from "../../server";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */
@@ -35,7 +35,7 @@ const LazyLoad = dynamic(() => import("react-lazyload"));
  * @returns A thread created by user.
  */
 export default function Thread(props) {
-  const { data: session, status } = useSession({ required: true });
+
   const [date, setDate] = useState(new Date(props?.createdAt));
   const [numPosts, setNumPosts] = useState(0);
   const [lastAttendance, setLastAttendance] = useState({});
@@ -146,7 +146,7 @@ export default function Thread(props) {
           <div className="thread__header__title">
             <h2>{props.title}</h2>
             <div className="thread__delete">
-              {user?.username === session?.user.username && (
+              {user?.username === props?.session?.user.username && (
                 <button
                   className="delete__button"
                   onClick={() => setIsModalVisible(true)}
@@ -177,12 +177,12 @@ export default function Thread(props) {
             <p>
               <strong>Creado por:</strong> {props?.username}
             </p>
-            {(session?.user.role === "gerente" ||
-              session?.user.role === "administrador") && (
+            {(props?.session?.user.role === "gerente" ||
+              props?.session?.user.role === "administrador") && (
               <BsPatchCheckFill size={18} />
             )}
-            {session?.user.role === "protectora" && <MdPets size={18} />}
-            {session?.user.role === "veterinaria" && (
+            {props?.session?.user.role === "protectora" && <MdPets size={18} />}
+            {props?.session?.user.role === "veterinaria" && (
               <MdHealthAndSafety size={18} />
             )}
           </div>

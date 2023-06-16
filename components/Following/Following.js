@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { MdHealthAndSafety } from "react-icons/md";
-import { colors } from "styles/frontend-conf";
+import { colors } from "../../styles/frontend-conf";
 import { useSession } from "next-auth/react";
-import { server } from "/server";
-import global from "styles/global.module.css";
+import { server } from "../../server";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */
@@ -37,6 +37,7 @@ export default function Following(props) {
   const [isShelter, setIsShelter] = useState(false);
   const [isVet, setIsVet] = useState(false);
 
+
   const { data: session } = useSession({});
 
   console.log(props);
@@ -55,15 +56,12 @@ export default function Following(props) {
 
     setUser(following);
 
-    console.log(user)
-
     if (following?.role.name === "veterinaria") setIsVet(true);
     else if (following?.role.name === "protectora") setIsShelter(true);
   }
 
   useEffect(() => {
     getFollowing();
-    console.log(user)
   }, []);
 
   return (

@@ -1,12 +1,12 @@
 /* Static imports */
 
-import { colors, fonts } from "styles/frontend-conf";
+import { colors, fonts } from "../../styles/frontend-conf";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { server } from "/server";
+import { server } from "../../server";
 import { toast } from "react-toastify";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */

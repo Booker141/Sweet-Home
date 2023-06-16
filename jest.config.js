@@ -1,23 +1,4 @@
-// jest.config.js
-const nextJest = require('next/jest')
-
-const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: './',
-})
-
-// Add any custom config to be passed to Jest
-/** @type {import('jest').Config} */
-const customJestConfig = {
-  // Add more setup options before each test is run
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-
-  testEnvironment: 'jest-environment-jsdom',
-}
-
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig)
-
+// You can learn more about each option below in the Jest docs: https://jestjs.io/docs/configuration.
 module.exports = {
     collectCoverage: true,
     // on node 14.x coverage provider v8 offers good speed and more or less good report
@@ -31,18 +12,19 @@ module.exports = {
       '!<rootDir>/*.config.js',
       '!<rootDir>/coverage/**',
     ],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     moduleNameMapper: {
       // Handle CSS imports (with CSS modules)
       // https://jestjs.io/docs/webpack#mocking-css-modules
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
-  
+   
       // Handle CSS imports (without CSS modules)
       '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-  
+   
       // Handle image imports
       // https://jestjs.io/docs/webpack#handling-static-assets
       '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.js`,
-  
+   
       // Handle module aliases
       '^@/components/(.*)$': '<rootDir>/components/$1',
     },
@@ -54,6 +36,7 @@ module.exports = {
       // Use babel-jest to transpile tests with the next/babel preset
       // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
       '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+      '.+\\.(css|scss|png|jpg|svg)$': 'jest-transform-stub'
     },
     transformIgnorePatterns: [
       '/node_modules/',

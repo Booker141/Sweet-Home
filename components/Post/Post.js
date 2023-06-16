@@ -3,13 +3,13 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { fonts, colors } from "styles/frontend-conf";
+import { fonts, colors } from "../../styles/frontend-conf";
 import { MdDeleteOutline, MdClose, MdHealthAndSafety } from "react-icons/md";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { HiOutlineClock } from "react-icons/hi";
-import { server } from "/server";
+import { server } from "../../server";
 import { toast } from "react-toastify";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

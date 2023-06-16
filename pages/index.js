@@ -138,7 +138,7 @@ export default function Principal() {
           <div className="container2__column1">
             <h1>
               ¡Únete ahora a nuestra
-              <span className={global.colorized}>comunidad</span>!
+              <span className={global.colorized}> comunidad</span>!
             </h1>
             <p className={global.text}>
               ¡Disfruta de todos los beneficios que te ofrece
@@ -246,19 +246,15 @@ export default function Principal() {
         </div>
 
         <div className="content__container5">
-          <h2 className="title2">Rompemos las limitaciones</h2>
+          <h2 className="title2">Dispositivos de uso</h2>
           <p className={global.text}>
-            Nuestra red social rompe las limitaciones en cuanto a los
-            <span className={global.colorized}> &nbsp;dispositivos&nbsp; </span>
-            en las que se puede utilizar:
+            Nuestra red social solo puede ser utilizadas en
+            <span className={global.colorized}> &nbsp;ordenadores&nbsp; </span>,
+            aunque estamos trabajando en otras versiones:
           </p>
           <div className="container5__column1">
-            <h2 className={global.title2}>¿Qué dispositivos soporta?</h2>
+            <h2 className={global.title2}>¿En qué dispositivos se puede usar?</h2>
             <div className="icons">
-              <div style={{ color: "#f0810f" }} className="icon__item">
-                <AiOutlineMobile size={80} />
-                <p className={global.text}>Móviles</p>
-              </div>
               <div style={{ color: "#f0810f" }} className="icon__item">
                 <BsLaptop size={80} />
                 <p className={global.text}>Ordenadores</p>

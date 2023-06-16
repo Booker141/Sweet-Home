@@ -1,16 +1,15 @@
 /* Static imports */
 
-import { colors, statusColors } from "styles/frontend-conf";
+import { colors } from "../../styles/frontend-conf";
 import { FaUserPlus, FaComment } from "react-icons/fa";
 import { HiHeart, HiOutlineClock } from "react-icons/hi";
 import { MdDeleteOutline, MdClose } from "react-icons/md";
-import { server } from "/server";
+import { server } from "../../server";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { VscCircleFilled } from "react-icons/vsc";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

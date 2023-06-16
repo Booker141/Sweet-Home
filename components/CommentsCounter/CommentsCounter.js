@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { FiMessageCircle } from "react-icons/fi";
-import { colors } from "styles/frontend-conf";
-import global from "styles/global.module.css";
+import { colors } from "../../styles/frontend-conf";
+import global from "../../styles/global.module.css";
 
 /** 
   * @author Sergio García Navarro

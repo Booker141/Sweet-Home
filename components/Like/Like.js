@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { colors } from "styles/frontend-conf";
+import { colors } from "../../styles/frontend-conf";
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
-import { server } from "/server";
-import global from "/styles/global.module.css";
+import { server } from "../../server";
+import global from "../../styles/global.module.css";
 
 /** 
   * @author Sergio García Navarro

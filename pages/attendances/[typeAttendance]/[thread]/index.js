@@ -128,6 +128,7 @@ export default function Thread({ attendances }) {
                       username={username}
                       userId={userId}
                       threadId={threadId}
+                      session={session}
                     />
                   </LazyLoad>
                 </>
@@ -163,6 +164,7 @@ export default function Thread({ attendances }) {
                       username={username}
                       userId={userId}
                       threadId={threadId}
+                      session={session}
                     />
                   </LazyLoad>
                 </>

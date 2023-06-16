@@ -1,6 +1,6 @@
 /* Static imports */
 
-import { colors, fonts } from "/styles/frontend-conf";
+import { colors, fonts } from "../../styles/frontend-conf";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */

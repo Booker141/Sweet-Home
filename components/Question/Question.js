@@ -1,13 +1,13 @@
 /* Static imports */
 
-import { colors } from "styles/frontend-conf.js";
+import { colors } from "../../styles/frontend-conf.js";
 import { MdDeleteOutline, MdOutlineEdit, MdClose } from "react-icons/md";
 import { useState } from "react";
-import { server } from "server";
+import { server } from "../../server";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

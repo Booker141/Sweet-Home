@@ -3,12 +3,12 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { colors, fonts } from "styles/frontend-conf";
+import { colors, fonts } from "../../styles/frontend-conf";
 import { toast } from "react-toastify";
 import { MdDeleteOutline, MdHealthAndSafety } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
-import { server } from "/server";
-import global from "styles/global.module.css";
+import { server } from "../../server";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */

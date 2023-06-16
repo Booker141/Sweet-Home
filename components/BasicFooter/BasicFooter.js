@@ -1,7 +1,7 @@
 /* Static imports */
 
-import { fonts } from 'styles/frontend-conf.js'
-import global from 'styles/global.module.css'
+import { fonts } from '../../styles/frontend-conf.js'
+import global from '../../styles/global.module.css'
 import dynamic from 'next/dynamic'
 
 /* Dynamic imports */

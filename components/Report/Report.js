@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { MdDeleteOutline, MdClose } from "react-icons/md";
-import { server } from "/server";
-import { colors } from "/styles/frontend-conf";
+import { server } from "../../server";
+import { colors } from "../../styles/frontend-conf";
 import { HiOutlineClock } from "react-icons/hi";
 import { toast } from "react-toastify";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /*Dynamic imports*/

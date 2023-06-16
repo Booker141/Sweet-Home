@@ -6,6 +6,7 @@ import { useState } from "react";
 import { MdOutlineSubtitles } from "react-icons/md";
 import { colors, fonts } from "/styles/frontend-conf";
 import { server } from "/server";
+import {toast} from 'react-toastify'
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import global from "/styles/global.module.css";
@@ -96,7 +97,7 @@ export default function CreateThread() {
               <p className={global.text2}>Introduzca el título del hilo:</p>
             </div>
 
-            <form action="/api/posts" id="form">
+            <form action="/api/threads" id="form">
               <div className="form-vertical__title">
                 <label className="label">
                   <p className={global.text}>Título (*)</p>
@@ -108,6 +109,7 @@ export default function CreateThread() {
                     type="text"
                     name="title"
                     value={title}
+                    required
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="p. ej.: 10 consejos para el cuidado de mi mascota"
                     className="input"

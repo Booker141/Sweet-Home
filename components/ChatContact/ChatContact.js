@@ -1,13 +1,16 @@
+/* Static imports */
+
 import { useSession, signIn } from "next-auth/react";
-import Head from "next/head";
-import global from "/styles/global.module.css";
-import InputEmoji from "react-input-emoji";
-import Loader from "components/Loader/Loader";
-import FallbackImage from "components/FallbackImage/FallbackImage";
-import { useEffect, useState } from "react";
-import { server } from "/server";
+import { server } from "../../server";
 import { colors, fonts } from "/styles/frontend-conf";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import global from "../../styles/global.module.css";
+import Loader from "/components/Loader/Loader";
+import FallbackImage from "/components/FallbackImage/FallbackImage";
+
+/* Dynamic imports */
+
 
 /**
  * @author Sergio García Navarro

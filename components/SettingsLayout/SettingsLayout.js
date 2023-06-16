@@ -4,9 +4,9 @@ import { ImArrowUp2 } from "react-icons/im";
 import SettingsSidebar from "/components/SettingsSidebar/SettingsSidebar";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
-import { server } from "/server";
+import { server } from "../../server";
 import { useState, useEffect } from "react";
-import global from "/styles/global.module.css";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 import Header from "/components/Header/Header";
 

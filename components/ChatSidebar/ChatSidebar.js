@@ -3,11 +3,16 @@
 import { useSession, signIn } from "next-auth/react";
 import {useRouter} from 'next/router'
 import { useEffect, useState } from "react";
-import { server } from "/server";
+import { server } from "../../server";
 import { toast } from "react-toastify";
-import {colors} from '/styles/frontend-conf'
-import global from "/styles/global.module.css";
+import {colors} from '../../styles/frontend-conf'
+import dynamic from 'next/dynamic'
+import global from "../../styles/global.module.css";
 import InputEmoji from "react-input-emoji";
+
+/* Dynamic imports */
+
+const ChatContact = dynamic(() => import("/components/ChatContact/ChatContact"))
 
 /**
  * @author Sergio García Navarro

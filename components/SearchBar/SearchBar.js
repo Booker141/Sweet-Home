@@ -1,11 +1,11 @@
 /* Static imports */
 
-import { fonts, colors } from "styles/frontend-conf";
+import { fonts, colors } from "../../styles/frontend-conf";
 import { HiSearch, HiOutlineInformationCircle } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
-import { server } from "/server";
-import global from "styles/global.module.css";
+import { server } from "../../server";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 

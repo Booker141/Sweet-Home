@@ -1,13 +1,13 @@
 /* Static imports */
 
 import { useEffect, useState } from "react";
-import { colors, fonts } from "styles/frontend-conf.js";
+import { colors, fonts } from "../../styles/frontend-conf.js";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
 import { server } from "/server";
-import global from "styles/global.module.css";
+import global from "../../styles/global.module.css";
 import router from "next/router";
 import carousel from "../../public/carousel.svg";
 import dynamic from "next/dynamic";
@@ -266,7 +266,7 @@ export default function Carousel() {
           .text__paragraph {
             /*Text*/
 
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-family: ${fonts.default};
             color: ${colors.secondary};
             text-align: justify;

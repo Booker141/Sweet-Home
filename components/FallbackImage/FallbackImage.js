@@ -1,6 +1,6 @@
 /* Static imports */
 
-import fallbackImage from "public/fallbackImage.png";
+import fallbackImage from "../../public/fallbackImage.png";
 import Image from "next/image";
 
 /** 

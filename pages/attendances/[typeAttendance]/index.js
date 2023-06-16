@@ -140,7 +140,7 @@ export default function TypeAttendance({ threads, typeAttendance }) {
             }) => {
               return (
                 <>
-                  <LazyLoad offset={100}>
+
                     <Thread
                       key={_id}
                       id={_id}
@@ -150,8 +150,9 @@ export default function TypeAttendance({ threads, typeAttendance }) {
                       userId={userId}
                       username={username}
                       attendances={attendances}
+                      session={session}
                     />
-                  </LazyLoad>
+
                 </>
               );
             }
@@ -169,7 +170,7 @@ export default function TypeAttendance({ threads, typeAttendance }) {
             }) => {
               return (
                 <>
-                  <LazyLoad offset={100}>
+
                     <Thread
                       key={_id}
                       id={_id}
@@ -179,8 +180,9 @@ export default function TypeAttendance({ threads, typeAttendance }) {
                       userId={userId}
                       username={username}
                       attendances={attendances}
+                      session={session}
                     />
-                  </LazyLoad>
+
                 </>
               );
             }
@@ -198,7 +200,7 @@ export default function TypeAttendance({ threads, typeAttendance }) {
             }) => {
               return (
                 <>
-                  <LazyLoad offset={100}>
+
                     <Thread
                       key={_id}
                       id={_id}
@@ -208,8 +210,9 @@ export default function TypeAttendance({ threads, typeAttendance }) {
                       userId={userId}
                       username={username}
                       attendances={attendances}
+                      session={session}
                     />
-                  </LazyLoad>
+
                 </>
               );
             }
@@ -229,7 +232,6 @@ export default function TypeAttendance({ threads, typeAttendance }) {
             }) => {
               return (
                 <>
-                  <LazyLoad offset={100}>
                     <Thread
                       key={_id}
                       id={_id}
@@ -239,8 +241,8 @@ export default function TypeAttendance({ threads, typeAttendance }) {
                       userId={userId}
                       username={username}
                       attendances={attendances}
+                      session={session}
                     />
-                  </LazyLoad>
                 </>
               );
             }

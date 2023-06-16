@@ -160,7 +160,7 @@ export default function CreateAttendance() {
                 Introduzca los datos de la publicación. Los campos obligatorios
                 vienen indicados con un asterisco *:
               </p>
-              <form action="/api/posts" id="form">
+              <form action="/api/attendances" id="form">
                 <div className="form-vertical__email">
                   <div className="label">
                     <p className={global.text}>Ubicación</p>

@@ -1,8 +1,8 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { colors, fonts } from "styles/frontend-conf";
 import { BsPatchCheckFill, BsFillChatFill } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
@@ -62,21 +62,36 @@ export default function Username({ posts, users }) {
 
   const createChat = async() => {
 
-    //Si no existe chat 
-    //Crear chat
 
-    const res = await fetch(`${server}/chats`, {
+    const chatExist = await fetch(`${server}/api/chats/${session.user.id}/${users._id}`, 
+      {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+        },  
+      }
+    )
+
+    const data = await chatExist.json()
+
+    console.log(data)
+
+    if(data.message === 'No existe el chat'){
+
+    const res = await fetch(`${server}/api/chats`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         senderId: session?.user.id,
-        receiverId: users?._id
+        receiverId: users?._id,
       })
     })
 
     const data = await res.json()
+
+    console.log(data)
 
     if(data.message === "Error al crear el chat"){
       toast.error(`Error al crear chat`, {
@@ -90,9 +105,28 @@ export default function Username({ posts, users }) {
         theme: "colored",
       });
 
-    }
+    }else{
 
-    router.push(`${server}/chat/${users?.username}`)
+      const chatAfterPost = await fetch(`${server}/chats/${session.user.id}/${users._id}`, 
+      {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+        },  
+      }
+     )
+     const chat = await chatAfterPost.json()
+     console.log(chat)
+     router.push(`${server}/chat/${chat.channel}`)
+    }
+    
+  }else{
+
+    router.push(`${server}/chat/${data.channel}`)
+
+  }
+
+   
   }
 
   const handleClick = (e) => {

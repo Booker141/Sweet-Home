@@ -3,9 +3,9 @@
 import { HiBookmark, HiLockClosed, HiLockOpen } from "react-icons/hi";
 import { GiDogBowl } from "react-icons/gi";
 import { MdReport } from "react-icons/md";
-import { colors } from "/styles/frontend-conf";
-import { fonts } from "/styles/frontend-conf";
-import global from "/styles/global.module.css";
+import { colors } from "../../styles/frontend-conf";
+import { fonts } from "../../styles/frontend-conf";
+import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
 /* Dynamic imports */

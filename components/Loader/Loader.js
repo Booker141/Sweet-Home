@@ -13,8 +13,8 @@
 export default function Loader() {
   return (
     <>
-      <div className="loader__container">
-        <img src="/loader.svg" />
+      <div className="loader__container" data-testid="loader__container">
+        <img src="/loader.svg" alt="loader"/>
       </div>
       <style jsx>
         {`

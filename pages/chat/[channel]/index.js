@@ -2,17 +2,13 @@
 
 import { useSession, getSession, signIn } from "next-auth/react";
 import {useRouter} from 'next/router'
-import { useEffect, useState } from "react";
 import { server } from "/server";
-import { toast } from "react-toastify";
 import {colors} from '/styles/frontend-conf'
-import {AiFillWechat} from 'react-icons/ai'
 import Head from "next/head";
 import Layout from "components/Layout/Layout";
 import global from "/styles/global.module.css";
 import Loader from "components/Loader/Loader";
 import ChatSidebar from '/components/ChatSidebar/ChatSidebar';
-import InputEmoji from "react-input-emoji";
 import dynamic from 'next/dynamic'
 
 
@@ -28,9 +24,8 @@ import("/components/ChatRoom/ChatRoom", {ssr: false})
  * @version 1.0
  * @description Abandoned page
  */
-export default function Chat({users}) {
+export default function ChatChannel({users}) {
   const { data: session, status } = useSession({ required: true });
-
 
   const Router = useRouter()
   
@@ -44,26 +39,17 @@ export default function Chat({users}) {
       </>
     );
   }
-  if (session) {
+  if (session?.user.role === "usuario") {
     return (
       <Layout>
         <Head>
           <title>Chat | Sweet Home</title>
         </Head>
-        {session.user.username === Router.query.username &&
         <div className="chat__container">
           <ChatSidebar users={users}/>
-          <div className="welcome__chat">
-            <h1>Bienvenidos a tus chats</h1>
-            <AiFillWechat size={150} color={colors.primary}/>
-          </div>
-        </div>}
-        {session.user.username != Router.query.username && 
-          <div className="chat__container">
-          <ChatSidebar users={users}/>
-          <ChatRoom username={Router.query.username}/>
+          <ChatRoom channel={Router.query.channel}/>
         </div>
-        }
+        
         <style jsx>{`
 
               .chat__container{
@@ -142,7 +128,6 @@ export default function Chat({users}) {
                             
                         }
 
-                        .me
                         
                     `}
         </style>
