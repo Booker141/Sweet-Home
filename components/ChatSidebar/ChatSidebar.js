@@ -1,14 +1,9 @@
 /* Static imports */
 
-import { useSession, signIn } from "next-auth/react";
-import {useRouter} from 'next/router'
-import { useEffect, useState } from "react";
-import { server } from "../../server";
-import { toast } from "react-toastify";
-import {colors} from '../../styles/frontend-conf'
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 import dynamic from 'next/dynamic'
 import global from "../../styles/global.module.css";
-import InputEmoji from "react-input-emoji";
 
 /* Dynamic imports */
 
@@ -20,39 +15,58 @@ const ChatContact = dynamic(() => import("/components/ChatContact/ChatContact"))
  * @version 1.0
  * @description Chat Sidebar component
  */
-
+/**
+ * This function is a chat sidebar component that receive props from page and displays them
+ * in a sidebar with users
+ * @param props - props received from page.
+ * @returns A chat sidebar.
+ */
 export default function ChatSidebar({users}) {
 
-    const { data: session, status } = useSession({ required: true });
-    const [messagesList, setMessagesList] = useState([]);
-    const [chats, setChats] = useState(users?.chats);
-    const [chatMessage, setChatMessage] = useState("");
-    const [user, setUser] = useState({});
-  
-    console.log(chats)
+      const { data: session, status } = useSession({ required: true });
+      const [messagesList, setMessagesList] = useState([]);
+      const [chats, setChats] = useState(users?.chats);
+      const [following, setFollowing] = useState(users?.following)
+      const [chatMessage, setChatMessage] = useState("");
+      const [user, setUser] = useState({});
 
       return (
         <>
-
           <div className="chatSidebar__container">
-            <h1 className={global.title4}>Contactos</h1>
+            <h1 className={global.title5}>Contactos</h1>
             <div className="chats">
-              {chats?.length === 0 && (
-                <p className={global.text}>
+              {chats?.length === 0 && following?.length === 0 && (
+                <p className={global.text2}>
                   No tiene ningún chat abierto
                 </p>
               )}
-              {chats?.length > 0 && 
-                chats.map(
-                  ({
-                    _id
-                  }) => {
+              {following?.length > 0 && 
+                following.map(
+                  (
+                    following
+                  ) => {
                     return (
                       <>
-                        <ChatContact
-                          key={_id}
-                          id={_id}
-                        />
+                          <ChatContact
+                            key={following}
+                            followingId={following}
+                          />
+                      </>
+                    );
+                  }
+                )
+              }
+              {chats?.length > 0 && 
+                chats.map(
+                  (
+                    chat
+                  ) => {
+                    return (
+                      <>
+                          <ChatContact
+                            key={chat}
+                            id={chat}
+                          />
                       </>
                     );
                   }
@@ -61,7 +75,8 @@ export default function ChatSidebar({users}) {
           </div>
   
           <style jsx>{`
-  
+
+          
           .chatSidebar__container{
   
             /*Box model*/
@@ -69,39 +84,52 @@ export default function ChatSidebar({users}) {
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
+            height: 80vh;
             width: 20vw;
+            padding: 1rem;
   
             /*Visuals*/
   
-            border: 2px solid ${colors.primary};
             border-radius: 20px;
+            background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
+            scroll-margin: 50px 0 0 50px;
           }
+
+          ::-webkit-scrollbar {
+
+            width: 10px; 
+            left: 2rem;
+            border-radius: 20px;
+            
+
+          }
+
+          ::-webkit-scrollbar-track {
+
+            box-shadow: inset 0 0 10px 10px #fafafa;
+            border-radius: 20px;
+
+        }
+
+          ::-webkit-scrollbar-thumb {
+
+            background: rgba(240, 129, 15, 1);
+            border: 1px rgba(240, 129, 15, 1) solid;
+            border-radius: 20px;
+
+          }
+
+
   
           .chats{
   
             /*Box model*/
   
             overflow-y: auto;
+            padding: 1rem;
           }
   
-         
-              
-              h1{
-                      /*Text*/
-  
-                      font-size: 3rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
-                        text-align: center;
-              }
-            
+
             `}</style>
         </>
       );

@@ -4,6 +4,7 @@ import { colors } from "../../styles/frontend-conf";
 import { FaUserPlus, FaComment } from "react-icons/fa";
 import { HiHeart, HiOutlineClock } from "react-icons/hi";
 import { MdDeleteOutline, MdClose } from "react-icons/md";
+import {IoIosChatbubbles} from 'react-icons/io'
 import { server } from "../../server";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -131,6 +132,9 @@ export default function Notification(props) {
         )}
         {props?.type.name === "me gusta" && (
           <HiHeart color={`${colors.secondary}`} size={40} />
+        )}
+        {props?.type.name === "mensaje" && (
+          <IoIosChatbubbles color={`${colors.secondary}`} size={40} />
         )}
         <div className="notification__userFrom">
           <FallbackImage

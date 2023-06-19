@@ -63,7 +63,7 @@ export default function FAQ({ questions, users }) {
             <p className={global.loading}>Cargando..</p>
           </div>
         )}
-
+          <p className={global.text}>A continuación, hemos recogido preguntas que nos han hecho los usuarios y pueden resolver las dudas que tengas:</p>
         {questions.map(({ _id, title, answer }) => {
           return (
             <>
@@ -135,6 +135,12 @@ export default function FAQ({ questions, users }) {
 
                         border-radius: 10px;
 
+                    }
+
+                    p{
+                      /*Box model*/
+
+                      margin-bottom: 5rem;
                     }
 
                     button{

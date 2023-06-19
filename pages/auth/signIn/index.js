@@ -615,7 +615,7 @@ export default function SignIn({ providers, csrfToken, account }) {
             /*Text*/
 
             color: ${colors.secondary};
-            font-family: ${fonts.default} + "Light";
+            font-family: ${fonts.default};
             font-style: bold;
             font-size: 1rem;
 
@@ -649,7 +649,7 @@ export default function SignIn({ providers, csrfToken, account }) {
             /*Text*/
 
             color: ${colors.secondary};
-            font-family: ${fonts.default} + "Light";
+            font-family: ${fonts.default};
             font-style: bold;
             font-size: 1rem;
 

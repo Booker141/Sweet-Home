@@ -551,23 +551,8 @@ export default function SignUp() {
               <div className="form__conditions">
                 <p>
                   Al confirmar, aceptará las condiciones de la empresa. En los
-                  apartados
-                  <a
-                    className="form__link"
-                    aria-label="Ir a Condiciones"
-                    href="/conditions"
-                  >
-                    Condiciones
-                  </a>
-                  y
-                  <a
-                    className="form__link"
-                    aria-label="Ir a Privacidad"
-                    href="/privacity"
-                  >
-                    Privacidad
-                  </a>
-                  encontrará más información.
+                  apartados <a className="form__link" aria-label="Ir a Condiciones" href="/conditions"> Condiciones</a> y <a className="form__link" 
+                  aria-label="Ir a Privacidad" href="/privacy"> Privacidad</a> encontrará más información.
                 </p>
               </div>
               <input
@@ -1135,7 +1120,7 @@ export default function SignUp() {
             /*Text*/
 
             color: ${colors.secondary};
-            font-family: ${fonts.default} + "Light";
+            font-family: ${fonts.default};
             font-style: bold;
             font-size: 1rem;
 

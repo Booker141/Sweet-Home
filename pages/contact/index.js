@@ -140,7 +140,7 @@ export default function Contact() {
             <div className="phone">
               <HiPhone size={20} color={`${colors.primary}`} />
               <p className={global.text}>
-                A través del teléfono de contacto: +34 XXX XX XX XX.
+                A través del teléfono de contacto: +34 888 66 33 55.
               </p>
             </div>
             <div className="account">
@@ -148,6 +148,7 @@ export default function Contact() {
               <p className={global.text}>
                 O envía un mensaje a la cuenta de:
                 <a
+                  href={`${server}/profile/atencion.sh`}
                   title="Cuenta de atención al cliente"
                   aria-label="Enviar mensaje a cuenta de atención al cliente"
                 >

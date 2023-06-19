@@ -16,13 +16,11 @@ export default async function handler(req, res) {
 
     const data = await db
       .collection("messages")
-      .find({ chatId: ObjectId(req.query.chatId) })
+      .find({ chatChannel: req.query.chatChannel })
       .sort({ createdAt: 1 })
       .toArray();
 
     const messages = JSON.parse(JSON.stringify(data));
-
-    console.log(messages)
 
     res.status(200).json(messages);
   }

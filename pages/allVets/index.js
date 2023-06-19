@@ -55,6 +55,7 @@ export default function AllVets({ users }) {
           <title>Veterinarias | Sweet Home</title>
         </Head>
         <h1 className="title">Veterinarias</h1>
+        <p className={global.text}>Aquí encontrarás todas las clínicas veterinarias que se han registrado en la aplicación:</p>
         <div className="column1__buttons">
           <div className="filter__list">
             <select

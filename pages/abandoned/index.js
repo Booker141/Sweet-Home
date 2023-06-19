@@ -68,7 +68,9 @@ export default function Abandoned({ posts }) {
           <div className="container__column1">
             <div className="column1__header">
               <h1 className={global.title}>Animales abandonados</h1>
+              <p className={global.text}>Se muestran todas las publicaciones de animales abandonados:</p>
             </div>
+            
             <div className="column1__buttons">
               <div className="filter__list">
                 <select
@@ -217,10 +219,8 @@ export default function Abandoned({ posts }) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
-                gap: 1rem;
-                align-items: center;
-                width: 100%;
+                flex-direction: column;
+                width: 50vw;
               }
 
 

@@ -113,8 +113,7 @@ const sendEmail = async (to, username, subject) => {
             </div>
             <div class="email__message">
               <h1>¡Bienvenido a Sweet Home ${username}!</h1>
-              <p>Estás a un solo paso de poder utilizar toda la funcionalidad de la aplicación, para ello solo debes iniciar sesión a través del siguiente enlace:</p>
-              <a href='${server}/auth/signIn'>¡Accede a Sweet Home ahora!</a>
+              <p>Estás a un solo paso de poder utilizar toda la funcionalidad de la aplicación, para ello solo debes iniciar sesión a través del siguiente enlace: <a href='${server}/auth/signIn'>¡Accede a Sweet Home ahora!</a></p>  
             </div>
             <div class='email__footer'>
                 <p>Si tiene alguna duda, no dude en contactar con nosotros a través de esta dirección de correo electrónico,

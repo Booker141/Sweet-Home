@@ -76,22 +76,22 @@ export default function Username({ posts, users }) {
 
     console.log(data)
 
+
     if(data.message === 'No existe el chat'){
 
-    const res = await fetch(`${server}/api/chats`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        senderId: session?.user.id,
-        receiverId: users?._id,
+      const res = await fetch(`${server}/api/chats`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          senderId: session?.user.id,
+          receiverId: users?._id,
+        })
       })
-    })
 
-    const data = await res.json()
+      const data = await res.json()
 
-    console.log(data)
 
     if(data.message === "Error al crear el chat"){
       toast.error(`Error al crear chat`, {
@@ -117,12 +117,12 @@ export default function Username({ posts, users }) {
      )
      const chat = await chatAfterPost.json()
      console.log(chat)
-     router.push(`${server}/chat/${chat.channel}`)
+     router.push(`${server}/chat/${chat.channel}?username=${users?.username}`)
     }
     
   }else{
 
-    router.push(`${server}/chat/${data.channel}`)
+    router.push(`${server}/chat/${data.channel}?username=${users?.username}`)
 
   }
 
@@ -204,7 +204,7 @@ export default function Username({ posts, users }) {
                   onClick={() => createChat()}
                   aria-label={`Crear chat con ${router.query.username}`}
                 >
-                  <BsFillChatFill size={35} color={colors.primary} />
+                  <BsFillChatFill size={30} color={colors.primary} />
                 </button>}
               {!isBlocked && (
                 <a

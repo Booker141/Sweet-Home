@@ -1,10 +1,9 @@
 /* Static imports */
 
 import { useSession, getSession, signIn } from "next-auth/react";
-import {useRouter} from 'next/router'
 import { server } from "/server";
 import {colors} from '/styles/frontend-conf'
-import {AiFillWechat} from 'react-icons/ai'
+import chatImage from '/public/Chat-1.svg'
 import Head from "next/head";
 import Layout from "components/Layout/Layout";
 import global from "/styles/global.module.css";
@@ -15,8 +14,8 @@ import dynamic from 'next/dynamic'
 
 /* Dynamic imports */
 
-const ChatRoom = dynamic(() =>
-import("/components/ChatRoom/ChatRoom", {ssr: false})
+const FallbackImage = dynamic(() =>
+  import("/components/FallbackImage/FallbackImage")
 );
 
 /**
@@ -49,8 +48,14 @@ export default function Chat({users}) {
         <div className="chat__container">
           <ChatSidebar users={users}/>
           <div className="welcome__chat">
-            <h1>Bienvenido a tus chats</h1>
-            <AiFillWechat size={150} color={colors.primary}/>
+            <h1>Bienvenid@ a tus chats</h1>
+            <FallbackImage
+                src={chatImage}
+                style={{ borderRadius: "50px" }}
+                alt="Imagen de chat por defecto"
+                width={1000}
+                height={1000}
+              />
           </div>
         </div>
 
@@ -76,8 +81,9 @@ export default function Chat({users}) {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                height: 100vh;
+                height: 80vh;
                 width: 50vw;
+                padding: 1rem;
             
 
                 /*Visuals*/

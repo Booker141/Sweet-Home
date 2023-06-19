@@ -24,7 +24,7 @@ export default function Conditions() {
       <Head>
         <title>Condiciones | Sweet Home</title>
       </Head>
-      <h2 className="first-line">5 de agosto de 2022</h2>
+      <h2 className="first-line">17 de abril de 2023</h2>
       <hr className={global.line} />
       <h1 className={global.title}>Términos y condiciones de Sweet Home ☑︎</h1>
       <h2 className={global.secondary}>1. ¿Qué es Sweet Home?</h2>

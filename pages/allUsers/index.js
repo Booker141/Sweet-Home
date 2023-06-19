@@ -54,6 +54,7 @@ export default function AllUsers({ users }) {
           <title>Usuarios | Sweet Home</title>
         </Head>
         <h1 className="title">Usuarios</h1>
+        <p className={global.text}>Aquí encontrarás a todos los usuarios independientemente de su rol dentro de la aplicación:</p>
         <div className="column1__buttons">
           <div className="filter__list">
             <select

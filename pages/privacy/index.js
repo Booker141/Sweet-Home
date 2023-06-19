@@ -24,7 +24,7 @@ export default function Privacy() {
       </Head>
       <h1 className={global.title}>Privacidad ✎</h1>
       <h2 className="first-line">
-        Última actualización el 4 de agosto de 2022
+        Última actualización el 23 de mayo de 2023
       </h2>
       <hr className={global.line} />
       <div className="privacy__text1">

@@ -69,7 +69,9 @@ export default function Wild({ posts }) {
           <div className="container__column1">
             <div className="column1__header">
               <h1 className={global.title}>Fauna silvestre</h1>
+              <p className={global.text}>Se muestran todas las publicaciones de animales que pertenezcan a la fauna silvestre:</p>
             </div>
+            
             <div className="column1__buttons">
               <div className="filter__list">
                 <select
@@ -215,14 +217,9 @@ export default function Wild({ posts }) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
-                gap: 1rem;
-                align-items: center;
-                width: 100%;
+                flex-direction: column;
+                width: 50vw;
               }
-
-
-
 
 
               .column1__buttons{

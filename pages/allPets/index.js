@@ -82,7 +82,8 @@ export default function AllPets({ pets }) {
         <Head>
           <title>Todas las mascotas | Sweet Home</title>
         </Head>
-        <h1 className="title">Mascotas de otros usuarios</h1>
+        <h1 className="title">Mascotas</h1>
+        <p className={global.text}>Aquí encontrarás las mascotas que otros usuarios han registrado en la aplicación:</p>
         <div className="column1__buttons">
           <button
             className={global.buttonPrimary}

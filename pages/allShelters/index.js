@@ -54,6 +54,7 @@ export default function AllShelters({ users }) {
           <title>Protectoras | Sweet Home</title>
         </Head>
         <h1 className="title">Protectoras</h1>
+        <p className={global.text}>Aquí encontrarás las protectoras de animales que se han registrado en la aplicación:</p>
         <div className="column1__buttons">
           <div className="filter__list">
             <select

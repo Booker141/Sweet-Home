@@ -70,7 +70,9 @@ export default function Home({ posts }) {
         </Head>
         <div className="column1__header">
           <h1 className={global.title}>Reciente</h1>
+          <p className={global.text}>¡Interactúa con otros usuarios publicando tus ideas y muestra al mundo tu vida junto a tus mascotas!</p>
         </div>
+        
         <div className="column1__buttons">
           <button
             className={global.buttonPrimary}
@@ -92,6 +94,7 @@ export default function Home({ posts }) {
             </select>
           </div>
         </div>
+        
         <CreatePostCard />
         <div className="container">
           <div className="container__column1">
@@ -219,11 +222,11 @@ export default function Home({ posts }) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 gap: 1rem;
-                align-items: center;
                 margin-bottom: 2rem;
               }
+
 
 
               .column1__buttons{

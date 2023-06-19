@@ -121,10 +121,7 @@ export default function SearchBar() {
                 0 && (
                 <div className="results__submenu">
                   <p className={global.text4}>
-                    Se han encontrado
-                    {results?.usersByUsername.length +
-                      results?.typeAttendanceByTitle.length}
-                    resultados
+                    Se han encontrado {results?.usersByUsername.length + results?.typeAttendanceByTitle.length} resultados
                   </p>
                 </div>
               )}
@@ -133,10 +130,7 @@ export default function SearchBar() {
               1 && (
               <div className="results__submenu">
                 <p className={global.text4}>
-                  Se ha encontrado
-                  {results?.usersByUsername.length +
-                    results?.typeAttendanceByTitle.length}
-                  resultado
+                  Se ha encontrado {results?.usersByUsername.length + results?.typeAttendanceByTitle.length} resultado
                 </p>
               </div>
             )}

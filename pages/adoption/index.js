@@ -67,7 +67,8 @@ export default function Adoption({ posts }) {
           <div className="container__column1">
             <div className="column1__header">
               <h1 className={global.title}>Animales en adopción</h1>
-            </div>
+              <p className={global.text}>Se muestran todas las publicaciones de animales en adopción:</p>
+            </div> 
             <div className="column1__buttons">
               <div className="filter__list">
                 <select
@@ -216,10 +217,8 @@ export default function Adoption({ posts }) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
-                gap: 1rem;
-                align-items: center;
-                width: 100%;
+                flex-direction: column;
+                width: 50vw;
               }
 
 
