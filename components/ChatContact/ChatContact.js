@@ -47,7 +47,7 @@ export default function ChatContact(props) {
 
   const openChat = async () => {
 
-      Router.push(`${server}/chat/${chat.channel}`)
+      Router.push(`${server}/chat/${chat?.channel}?username=${user?.username}`)
     
   }
 

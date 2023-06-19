@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FaUserPlus, FaComment } from "react-icons/fa";
 import { HiHeart, HiOutlineClock } from "react-icons/hi";
+import {AiFillWechat} from 'react-icons/ai'
 import { colors } from "../../styles/frontend-conf";
 import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
@@ -71,6 +72,9 @@ export default function SubmenuNotification(props) {
           )}
           {notification?.type.name === "me gusta" && (
             <HiHeart color={`${colors.secondary}`} size={40} />
+          )}
+          {notification?.type.name === "mensaje" && (
+            <AiFillWechat color={`${colors.secondary}`} size={50} />
           )}
         </div>
         <div className={global.text2}>{notification?.description}</div>

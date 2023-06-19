@@ -1,8 +1,10 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import {useRouter} from 'next/router'
 import { server } from "/server";
+import { BsPatchCheckFill } from "react-icons/bs";
+import { MdHealthAndSafety, MdDeleteOutline, MdClose } from "react-icons/md";
 import { useState, useRef } from "react";
 import { colors, fonts } from "/styles/frontend-conf";
 import { toast } from "react-toastify";
@@ -22,8 +24,8 @@ import ChatSidebar from '/components/ChatSidebar/ChatSidebar';
 const FallbackImage = dynamic(() =>
   import("/components/FallbackImage/FallbackImage")
 );
+const Modal = dynamic(() => import("/components/Modal/Modal"));
 
-configureAbly({ key: process.env.ABLY_API_KEY, clientId: "sweet-home-chat" });
 
 /**
  * @author Sergio García Navarro
@@ -37,24 +39,91 @@ export default function ChatChannel({users, messages}) {
 
   const [messagesList, setMessagesList] = useState(messages);
   const [isMessage, setIsMessage] = useState(true)
-  const [chats, setChats] = useState([]);
-  const [author, setAuthor] = useState("")
+  const [isShelter, setIsShelter] = useState(users?.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
   const [chatMessage, setChatMessage] = useState("");
-  const [isConnected, setIsConnected] = useState(false)
-  const [user, setUser] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [user, setUser] = useState(users);
   const messageEnd = useRef(null)
   const Router = useRouter()
 
+  configureAbly({authUrl: `${server}/api/chatServer`})
+
   const [channel, ably] = useChannel(Router?.query.channel, (message) => {
+      const prevMessages = messagesList.slice(-199);
+      setMessagesList([...prevMessages, message]);
+  })
 
-    const prevMessages = messagesList.slice(-199);
-    setMessagesList([...prevMessages, message]);
+  const getFull = (num) => {
+    if (num < 10) {
+      return "0" + num;
+    } else {
+      return num;
+    }
+  };
 
-  });
+  const deleteChat = async () => {
+    await fetch(`${server}/api/chats`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        channel: Router?.query.channel
+      }),
+    });
+
+    toast.error(`Se ha eliminado la conversación con ${user?.username}`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+    setIsModalVisible(false);
+
+    Router.push(`${server}/chat`);
+  };
 
 
+  const sendMessageEnter = () => {
+
+    if (chatMessage.trim() === "") {
+      toast.error("Debe escribir un mensaje", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+    createMessage(chatMessage);
+
+  }
+
+  const getMessages = async () => {
+
+    const res = await fetch(`${server}/api/messagesByChannel/${Router?.query.channel}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    const newMessages = await res.json()
+    setMessagesList(newMessages)
 
 
+  }
 
   const createMessage = async () => {
 
@@ -82,7 +151,7 @@ export default function ChatChannel({users, messages}) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        channel: props?.channel,
+        channel: Router?.query.channel,
         description: chatMessage,
         senderId: session?.user.id,
         receiverId: user?._id,
@@ -107,20 +176,11 @@ export default function ChatChannel({users, messages}) {
     } else {
 
       channel.publish({ name: "chat-message", data: chatMessage });
-
-      toast.success("Se ha enviado el mensaje", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-
+      getMessages()
     }
   };
+
+
 
   
   if (status == "loading") {
@@ -141,8 +201,6 @@ export default function ChatChannel({users, messages}) {
         </Head>
         <div className="chat__container">
           <ChatSidebar users={users}/>
-          
-        {isConnected && <div className={global.text}>Conectado al servidor</div>}
         <div className="chatRoom__container">
           <div className="chat__header">
           <div className="user__info">
@@ -154,11 +212,21 @@ export default function ChatChannel({users, messages}) {
                   height={40}
                 />
                 <p className={global.text2__bold}>{user?.username}</p>
+                {isShelter && (
+                        <BsPatchCheckFill size={15} color={colors.secondary} />
+                      )}
+                {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
               </div>
-              <div className="profile__button">
+              <div className="buttons">
                 <button onClick={() => Router.push(`${server}/profile/${user?.username}`)} className={global.buttonTertiary}>
                   Ir al perfil
                 </button>
+                <button
+                    className="delete__button"
+                    onClick={() => setIsModalVisible(true)}
+                  >
+                    <MdDeleteOutline size={20} color={colors.secondary} />
+                  </button>
               </div>   
           </div>
           <div className="default__message">
@@ -171,16 +239,28 @@ export default function ChatChannel({users, messages}) {
           </div>
           <div className="messages__list">         
               {messagesList.map((message) => {
-                return (
+                if(session?.user.id === message.senderId){
+                  return (
+                    <>
+                      <div className="myMessages__container">
+                        <div className="myMessage">
+                          <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"me"}/>
+                        </div>  
+                          <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
+                      </div>       
+                    </>
+                  );}
+                if(user?._id === message.senderId){
+                  return (
                   <>
-                    <div className="message__container">
-                      <div className="message">
-                        <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} />
+                    <div className="otherMessages__container">
+                      <div className="otherMessage">
+                        <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"other"}/>
                       </div>  
                         <p className={global.date}>{new Date(message.createdAt).getHours().toLocaleString()}:{new Date(message.createdAt).getMinutes().toLocaleString()}</p>
                     </div>       
                   </>
-                );
+                );}           
               })}
               <div ref={messageEnd} />             
           </div>
@@ -191,7 +271,8 @@ export default function ChatChannel({users, messages}) {
               name="text"
               id="message"
               value={chatMessage}
-              onChange={setChatMessage}
+              onChange={(e) => setChatMessage(e)}
+              onEnter={(e) => sendMessageEnter(e)}
               cleanOnEnter
               placeholder={`Escribe un mensaje 😄`}
               fontFamily={`${fonts.default}`}
@@ -204,7 +285,37 @@ export default function ChatChannel({users, messages}) {
           </div>
         </div>
         </div>
-        
+        {isModalVisible && (
+        <Modal>
+          <button
+            className="close__modal"
+            onClick={() => setIsModalVisible(false)}
+          >
+            <MdClose size={30} color={`${colors.secondary}`} />
+          </button>
+          <h2 className={global.title3}>Eliminar chat</h2>
+          <p className={global.text2}>
+            Eliminando este chat, se eliminaran todos los mensajes que se hayan enviado a través de este
+          </p>
+          <p className={global.text2__bold}>
+            ¿Estás seguro de eliminar este chat?
+          </p>
+          <div className="buttons">
+            <button
+              className={global.buttonSecondary}
+              onClick={() => deleteChat()}
+            >
+              Sí
+            </button>
+            <button
+              className={global.buttonTertiary}
+              onClick={() => setIsModalVisible(false)}
+            >
+              No
+            </button>
+          </div>
+        </Modal>
+      )}
         <style jsx>{`
 
         .chatRoom__container{
@@ -225,7 +336,19 @@ export default function ChatChannel({users, messages}) {
 
         }
 
-        .message{
+        .buttons{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1.5rem;
+        }
+
+
+
+        .myMessage{
 
         /*Box model*/
 
@@ -234,13 +357,30 @@ export default function ChatChannel({users, messages}) {
         align-items: center;
         }
 
-        .message__container p {
+        .otherMessage{
+          /*Box model*/
+
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
+        .myMessages__container p {
 
         /*Box model*/
 
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        }
+
+        .otherMessages__container p {
+
+        /*Box model*/
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
         }
 
         .chat__header{
@@ -259,6 +399,40 @@ export default function ChatChannel({users, messages}) {
         border-radius: 17px 17px 0 0;
         background: linear-gradient(125deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
         }
+
+        .close__modal {
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-self: flex-end;
+            margin-right: 2rem;
+
+            /*Visuals*/
+
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+            border-radius: 70px;
+            padding: 1rem;
+          }
+
+          .delete__button {
+            /*Box model*/
+
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+
+            /*Visuals*/
+
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+            border-radius: 70px;
+          }
 
         .user__info{
 
@@ -283,6 +457,7 @@ export default function ChatChannel({users, messages}) {
         align-items: center;
         gap: 1rem;
         padding: 3rem;
+        height: 1vh;
         width: 45vw;
 
         /*Visuals*/
@@ -294,24 +469,25 @@ export default function ChatChannel({users, messages}) {
 
         .messages__list{
 
-        /*Box model*/
+          /*Box model*/
 
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto; 
-        padding: 1rem; 
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto; 
+          padding: 1rem; 
 
         }
 
         .default__message{
 
-        /*Box model*/
+          /*Box model*/
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        margin: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          margin: auto;
+
         }
 
         .default__message__container{
@@ -444,10 +620,8 @@ export async function getServerSideProps(context){
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  
-  const session = await getSession(context);
 
-  
+
     const data = await fetch(`${server}/api/messagesByChannel/${context?.query.channel}`, {
       method: "GET",
       headers: {
@@ -455,11 +629,12 @@ export async function getServerSideProps(context){
       },
     });
 
+    
     const messages = await data.json();
 
   
 
-  const res = await fetch(`${server}/api/users/${session?.user.username}`, {
+  const res = await fetch(`${server}/api/users/${context?.query.username}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

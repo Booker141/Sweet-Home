@@ -37,7 +37,7 @@ export default function ChatSidebar({users}) {
             <div className="chats">
               {chats?.length === 0 && following?.length === 0 && (
                 <p className={global.text2}>
-                  No tiene ningún chat abierto
+                  No tiene ningún chat abierto ni seguidores con los que establecer una conversación
                 </p>
               )}
               {following?.length > 0 && 

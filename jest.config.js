@@ -13,6 +13,7 @@ module.exports = {
       '!<rootDir>/coverage/**',
     ],
     setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+    verbose: false,
     moduleNameMapper: {
 
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',

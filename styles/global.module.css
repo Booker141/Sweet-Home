@@ -1154,32 +1154,7 @@
 
 }
 
-.message {
 
-  /*Box model*/
-
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  min-width: 3vw;
-  height: fit-content;
-  padding: 0.4rem;
-
-  /*Text*/
-
-  font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: white;
-
-  /*Visuals*/
-
-  border-radius: 20px;
-  background-color: #f0810f;
-
-
-
-}
 
 .notification{
 

@@ -93,15 +93,16 @@ export default async function handler(req, res) {
   if (req.method === "DELETE") {
     await db.collection("users").deleteOne({ username: req.query.username });
     await db.collection("accounts").deleteOne({ userId: user._id });
-    await db.collection("pets").remove({ ownerId: user._id });
-    await db.collection("posts").remove({ userId: user._id });
-    await db.collection("comments").remove({ userId: user._id });
-    await db.collection("notifications").remove({ receiver: user._id });
+    await db.collection("pets").deleteMany({ ownerId: user._id });
+    await db.collection("posts").deleteMany({ userId: user._id });
+    await db.collection("comments").deleteMany({ userId: user._id });
+    await db.collection("notifications").deleteMany({ receiver: user._id });
     await db
       .collection("complaints")
-      .remove({ usernameFrom: req.query.username });
-    await db.collection("attendances").remove({ userId: user._id });
-
+      .deleteMany({ usernameFrom: req.query.username });
+    await db.collection("attendances").deleteMany({ userId: user._id });
+    await db.collection("chats").deleteMany({$or: [{senderId: user._id}, {receiverId: user._id}]});
+    await db.collection("messages").deleteMany({senderId: user._id})
     res.status(200).json({ message: "Usuario eliminado correctamente" });
   }
 }

@@ -12,9 +12,7 @@
     "node": "^18.0.0"
   },
   "dependencies": {
-    "@ably-labs/react-hooks": "^2.1.1",
     "@next-auth/mongodb-adapter": "^1.1.1",
-    "ably": "^1.2.40",
     "bcrypt": "^5.1.0",
     "canvas": "^2.11.2",
     "chart.js": "^4.2.1",
@@ -47,12 +45,14 @@
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
+    "@ably-labs/react-hooks": "^2.1.1",
     "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "ably": "^1.2.40",
     "babel-jest": "^29.5.0",
     "file-loader": "^6.1.1",
     "identity-obj-proxy": "^3.0.0",

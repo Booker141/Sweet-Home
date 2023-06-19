@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   const body = req.body;
   const id = new ObjectId()
 
-  if (req.method == "POST") {
+  if (req.method === "POST") {
     await db
       .collection("chats")
       .insertOne({
@@ -30,5 +30,14 @@ export default async function handler(req, res) {
       await db.collection('users').updateOne({_id: ObjectId(body.receiverId)}, {$push: {chats: id}})
 
     res.status(200).json({ message: "Chat creado correctamente" });
+  }
+
+  if(req.method === "DELETE"){
+
+    await db.collection('chats').deleteOne({channel: body.channel});
+    await db.collection('messages').deleteMany({chatChannel: body.channel});
+
+    res.status(200).json({ message: "Chat eliminado correctamente" });
+
   }
 }
