@@ -1,91 +1,129 @@
 /* Static imports */
 
-
-import { useEffect, useState, useRef } from "react";
+import { useSession, getSession, signIn } from "next-auth/react";
 import {useRouter} from 'next/router'
-import { server } from "../../server";
-import { colors, fonts } from "../../styles/frontend-conf";
+import { server } from "/server";
+import { BsPatchCheckFill } from "react-icons/bs";
+import { MdHealthAndSafety, MdDeleteOutline, MdClose } from "react-icons/md";
+import { useState, useRef, useEffect } from "react";
+import { colors, fonts } from "/styles/frontend-conf";
 import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
-import { useChannel } from "@ably-labs/react-hooks";
+import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import {AiFillWechat} from 'react-icons/ai'
-import global from "../../styles/global.module.css";
 import InputEmoji from "react-input-emoji";
 import dynamic from 'next/dynamic'
 import Message from "/components/Message/Message";
+import Head from "next/head";
+import global from "/styles/global.module.css";
+
 
 /* Dynamic imports */
 
 const FallbackImage = dynamic(() =>
   import("/components/FallbackImage/FallbackImage")
 );
+const Modal = dynamic(() => import("/components/Modal/Modal"));
+
 
 /**
  * @author Sergio García Navarro
- * @returns Chat Room component
+ * @returns Chat Room component 
  * @version 1.0
  * @description Chat Room component
  */
+export default function ChatRoom({actualUser, otherUser, currentChannel}) {
 
-export default function ChatRoom(props) {
-
-  const { data: session, status } = useSession({ required: true });
+  const { data: session} = useSession({ required: true });
+  console.log(actualUser)
+  console.log(otherUser)
+  console.log(currentChannel)
   const [messagesList, setMessagesList] = useState([]);
   const [isMessage, setIsMessage] = useState(true)
-  const [chats, setChats] = useState([]);
-  const [author, setAuthor] = useState("")
+  const [isShelter, setIsShelter] = useState(otherUser?.role.name === "protectora" ? true : false)
+  const [isVet, setIsVet] = useState(otherUser?.role.name === "veterinaria" ? true : false)
   const [chatMessage, setChatMessage] = useState("");
-  const [isConnected, setIsConnected] = useState(false)
-  const [user, setUser] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [user, setUser] = useState(otherUser);
   const messageEnd = useRef(null)
 
-  const [channel] = useChannel(props?.channel, (message) => {
+  configureAbly({authUrl: `${server}/api/chatServer`})
 
-    const prevMessages = messagesList.slice(-199);
-    setMessagesList([...prevMessages, message]);
+  const [channel] = useChannel(currentChannel, (message) => {
+      setMessagesList([...messagesList.slice(-199), message]);
+  })
 
-  });
-  
-  const Router = useRouter()
-
-  const chatServer = async () => {
-
-    const res = await fetch('/api/chatServer')
-
-    messageEnd.current.scrollIntoView({ behavior: 'smooth' })
-
-    
+  const getFull = (num) => {
+    if (num < 10) {
+      return "0" + num;
+    } else {
+      return num;
+    }
   };
 
-  const getUser = async () => {
-    const res = await fetch(`${server}/api/users/${Router?.query.username}`, {
-      method: "GET",
+  const deleteChat = async () => {
+    await fetch(`${server}/api/chats`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        channel: currentChannel
+      }),
     });
 
-    const data = await res.json()
+    toast.error(`Se ha eliminado la conversación con ${user?.username}`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
-    setUser(data)
+    setIsModalVisible(false);
+
+    Router.push(`${server}/chat`);
+  };
+
+  
+
+
+  const sendMessageEnter = () => {
+
+    if (chatMessage.trim() === "") {
+      toast.error("Debe escribir un mensaje", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+    createMessage(chatMessage);
 
   }
 
-
   const getMessages = async () => {
-    const res = await fetch(`${server}/api/messagesByChannel/${props?.channel}`, {
+
+    const res = await fetch(`${server}/api/messagesByChannel/${currentChannel}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      },
+      }
     });
 
-    const messages = await res.json();
+    const newMessages = await res.json()
+    setMessagesList(newMessages)
 
-    setMessagesList(messages);
 
-      
-  };
+  }
 
   const createMessage = async () => {
 
@@ -113,11 +151,11 @@ export default function ChatRoom(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        channel: props?.channel,
+        channel: currentChannel,
         description: chatMessage,
-        senderId: session?.user.id,
+        senderId: actualUser?._id,
         receiverId: user?._id,
-        username: session?.user.username
+        username: actualUser?.username
       }),
     });
 
@@ -138,35 +176,27 @@ export default function ChatRoom(props) {
     } else {
 
       channel.publish({ name: "chat-message", data: chatMessage });
-
-      toast.success("Se ha enviado el mensaje", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-
-      getMessages();
+      getMessages()
     }
   };
 
   useEffect(() => {
+
     getMessages()
-    getUser()
-    chatServer();
-  }, []);
+  
+    messageEnd.current?.scrollIntoView({ behaviour: "smooth" });
+    
+  }, [])
 
     return (
-        <>
+      <>
+        <Head>
+          <title>Chat con {user?.username} | Sweet Home</title>
+        </Head>
 
-        {isConnected && <div className={global.text}>Conectado al servidor</div>}
-        <div className="chat__container">
+        <div className="chatRoom__container">
           <div className="chat__header">
-          <div className="user__info">
+            <div className="user__info">
               <FallbackImage
                   src={user?.image}
                   style={{ borderRadius: "50px" }}
@@ -175,11 +205,21 @@ export default function ChatRoom(props) {
                   height={40}
                 />
                 <p className={global.text2__bold}>{user?.username}</p>
+                {isShelter && (
+                        <BsPatchCheckFill size={15} color={colors.secondary} />
+                      )}
+                {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
               </div>
-              <div className="profile__button">
+              <div className="buttons">
                 <button onClick={() => Router.push(`${server}/profile/${user?.username}`)} className={global.buttonTertiary}>
                   Ir al perfil
                 </button>
+                <button
+                    className="delete__button"
+                    onClick={() => setIsModalVisible(true)}
+                  >
+                    <MdDeleteOutline size={20} color={colors.secondary} />
+                  </button>
               </div>   
           </div>
           <div className="default__message">
@@ -190,20 +230,39 @@ export default function ChatRoom(props) {
               </div>            
             )}          
           </div>
-          <div className="messages__list">         
+          <div className="messages__list">   
+                
               {messagesList.map((message) => {
-                return (
+                if(session?.user.id === message.senderId){
+                  return (
+                    <>
+                      <div className="myMessages__container">
+                        <div className="myMessage">
+                          <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"me"}/>
+                        </div>  
+                        <div className="myMessage__date">
+                          <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
+                          <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
+                        </div>
+                      </div>       
+                    </>
+                  );}
+                if(user?._id === message.senderId){
+                  return (
                   <>
-                    <div className="message__container">
-                      <div className="message">
-                        <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} />
+                    <div className="otherMessages__container">
+                      <div className="otherMessage">
+                        <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"other"}/>
                       </div>  
-                        <p className={global.date}>{new Date(message.createdAt).getHours().toLocaleString()}:{new Date(message.createdAt).getMinutes().toLocaleString()}</p>
+                      <div className="otherMessage__date">
+                          <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
+                          <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
+                      </div>
                     </div>       
                   </>
-                );
+                );}           
               })}
-              <div ref={messageEnd} />             
+              <div ref={messageEnd} />              
           </div>
           <div className="message__input">
             <InputEmoji
@@ -212,7 +271,8 @@ export default function ChatRoom(props) {
               name="text"
               id="message"
               value={chatMessage}
-              onChange={setChatMessage}
+              onChange={(e) => setChatMessage(e)}
+              onEnter={(e) => sendMessageEnter(e)}
               cleanOnEnter
               placeholder={`Escribe un mensaje 😄`}
               fontFamily={`${fonts.default}`}
@@ -225,9 +285,41 @@ export default function ChatRoom(props) {
           </div>
         </div>
 
+        {isModalVisible && (
+        <Modal>
+          <button
+            className="close__modal"
+            onClick={() => setIsModalVisible(false)}
+          >
+            <MdClose size={30} color={`${colors.secondary}`} />
+          </button>
+          <h2 className={global.title3}>Eliminar chat</h2>
+          <p className={global.text2}>
+            Eliminando este chat, se eliminaran todos los mensajes que se hayan enviado a través de este
+          </p>
+          <p className={global.text2__bold}>
+            ¿Estás seguro de eliminar este chat?
+          </p>
+          <div className="buttons">
+            <button
+              className={global.buttonSecondary}
+              onClick={() => deleteChat()}
+            >
+              Sí
+            </button>
+            <button
+              className={global.buttonTertiary}
+              onClick={() => setIsModalVisible(false)}
+            >
+              No
+            </button>
+          </div>
+        </Modal>
+      )}
         <style jsx>{`
 
-        .chat__container{
+
+        .chatRoom__container{
 
           /*Box model*/
 
@@ -236,16 +328,49 @@ export default function ChatRoom(props) {
           justify-content: flex-end;
           height: 83vh;
           width: 50vw;
-          
+
 
           /*Visuals*/
 
           border: 2px solid ${colors.primary};
           border-radius: 20px;
-          
+
         }
 
-        .message{
+        .myMessage__date{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 1rem;
+        }
+
+        .otherMessage__date{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
+        .buttons{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1.5rem;
+        }
+
+
+
+        .myMessage{
 
           /*Box model*/
 
@@ -254,40 +379,91 @@ export default function ChatRoom(props) {
           align-items: center;
         }
 
-        .message__container p {
-
+        .otherMessage{
           /*Box model*/
 
           display: flex;
+          justify-content: flex-start;
           align-items: center;
-          justify-content: flex-end;
+        }
+
+        .myMessages__container p {
+
+        /*Box model*/
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        }
+
+        .otherMessages__container p {
+
+        /*Box model*/
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
         }
 
         .chat__header{
 
-          /*Box model*/
+        /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1rem;
-          width: 48.5vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        width: 48.5vw;
 
-          /*Visuals*/
+        /*Visuals*/
 
-          border-radius: 17px 17px 0 0;
-          background: linear-gradient(125deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
+        border-radius: 17px 17px 0 0;
+        background: linear-gradient(125deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
         }
+
+        .close__modal {
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-self: flex-end;
+            margin-right: 2rem;
+
+            /*Visuals*/
+
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+            border-radius: 70px;
+            padding: 1rem;
+          }
+
+          .delete__button {
+            /*Box model*/
+
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+
+            /*Visuals*/
+
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
+            border-radius: 70px;
+          }
 
         .user__info{
 
-          /*Box model*/
+        /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
 
         }
 
@@ -295,22 +471,31 @@ export default function ChatRoom(props) {
 
         .message__input{
 
-          /*Box model*/
+        /*Box model*/
 
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
-          align-items: center;
-          gap: 1rem;
-          padding: 3rem;
-          width: 45vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+        padding: 3rem;
+        height: 5vh;
+        max-height: 5vh;
+        width: 45vw;
+        max-width: 45vw;
+        word-break: break-all;
+        overflow-wrap: break-word;
 
-          /*Visuals*/
 
-          border-radius: 0 0 17px 17px;
-          background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
+        /*Visuals*/
+
+        border-radius: 0 0 17px 17px;
+        background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
 
         }
+
+
+
 
         .messages__list{
 
@@ -332,64 +517,95 @@ export default function ChatRoom(props) {
           justify-content: center;
           text-align: center;
           margin: auto;
+
         }
 
         .default__message__container{
 
-          /*Box model*/
+        /*Box model*/
 
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         }
 
         .messages__list::-webkit-scrollbar {
 
-            /*Box model*/
+          /*Box model*/
 
-            width: 10px; 
-            left: 2rem;
+          width: 10px; 
+          left: 2rem;
 
 
-          }
+        }
 
-          .messages__list::-webkit-scrollbar-track {
+        .messages__list::-webkit-scrollbar-track {
 
-            /*Box model*/        
+          /*Box model*/        
 
-            box-shadow: inset 0 0 10px 10px #fafafa;
-            border-left: 2px solid ${colors.primary};
+          box-shadow: inset 0 0 10px 10px #fafafa;
+          border-left: 2px solid ${colors.primary};
 
-          }
+        }
 
-          .messages__list::-webkit-scrollbar-thumb {
+        .messages__list::-webkit-scrollbar-thumb {
 
-            /*Box model*/
+          /*Box model*/
 
-            background: ${colors.primary};
-            border: 2px ${colors.primary} solid;
-            border-radius: 20px;
+          background: ${colors.primary};
+          border: 2px ${colors.primary} solid;
+          border-radius: 20px;
 
-          }
-            
-            h1{
-                    /*Text*/
-
-                    font-size: 3.5rem;
-                      font-weight: 600;
-                      background-color: ${colors.primary};
-                      font-family: "Archivo Black", sans-serif;
-                      background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                      background-repeat: repeat;
-                      -webkit-background-clip: text;
-                      -webkit-text-fill-color: transparent; 
-                      background-size: 100%
-                      text-align: center;
-            }
+        }
           
-          `}</style>
+
+
+              .chat__container{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem
+                
+              }
+
+              .welcome__chat{
+
+                /*Box model*/
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                width: 50vw;
             
-          </>
+
+                /*Visuals*/
+
+                border-radius: 20px;
+                border: 2px solid ${colors.primary};
+
+                }
+            
+              h1{
+                        /*Text*/
+
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        background-color: ${colors.primary};
+                        font-family: "Archivo Black", sans-serif;
+                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                        background-repeat: repeat;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent; 
+                        background-size: 100%
+                        text-align: center;
+              }
+            
+            `}</style>
+      </>
     );
-  
-}
+  } 

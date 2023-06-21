@@ -37,8 +37,11 @@ export default async function handler(req, res) {
           { $pull: { chats: ObjectId(isChat._id) } }
         );
         await db
-          .collection('chats')
-          .deleteOne({_id: ObjectId(isChat._id)})
+        .collection("users")
+        .updateOne(
+          { _id: ObjectId(body.idTo) },
+          { $pull: { chats: ObjectId(isChat._id) } }
+        );
       }
 
     res.status(201).json({ message: "Eliminado con éxito." });

@@ -99,6 +99,10 @@ export default function SignIn({ providers, csrfToken, account }) {
     Router.push(`${server}/home`);
   };
 
+  useEffect(() => {
+    Router.prefetch(`${server}/home`)
+  },[])
+
   if (status == "loading") {
     return (
       <>

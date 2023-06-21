@@ -1,31 +1,24 @@
 /* Static imports */
 
-import { useSession, signIn } from "next-auth/react";
+import { useSession, getSession, signIn } from "next-auth/react";
 import {useRouter} from 'next/router'
 import { server } from "/server";
-import { BsPatchCheckFill } from "react-icons/bs";
-import { MdHealthAndSafety, MdDeleteOutline, MdClose } from "react-icons/md";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { colors, fonts } from "/styles/frontend-conf";
-import { toast } from "react-toastify";
-import { useChannel, configureAbly } from "@ably-labs/react-hooks";
-import {AiFillWechat} from 'react-icons/ai'
-import InputEmoji from "react-input-emoji";
 import dynamic from 'next/dynamic'
-import Message from "/components/Message/Message";
 import Head from "next/head";
 import Layout from "components/Layout/Layout";
 import global from "/styles/global.module.css";
 import Loader from "components/Loader/Loader";
-import ChatSidebar from '/components/ChatSidebar/ChatSidebar';
+import ChatRoom from '/components/ChatRoom/ChatRoom';
+import ChatContact from '/components/ChatContact/ChatContact'
+import chatImage from '/public/Chat-1.svg'
 
 /* Dynamic imports */
 
 const FallbackImage = dynamic(() =>
   import("/components/FallbackImage/FallbackImage")
 );
-const Modal = dynamic(() => import("/components/Modal/Modal"));
-
 
 /**
  * @author Sergio García Navarro
@@ -33,156 +26,83 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
  * @version 1.0
  * @description Abandoned page
  */
-export default function ChatChannel({users, messages}) {
+export default function ChatChannel({actualUser, otherUser}) {
 
   const { data: session, status } = useSession({ required: true });
 
-  const [messagesList, setMessagesList] = useState(messages);
-  const [isMessage, setIsMessage] = useState(true)
-  const [isShelter, setIsShelter] = useState(users?.role.name === "protectora" ? true : false)
-  const [isVet, setIsVet] = useState(users?.role.name === "veterinaria" ? true : false)
-  const [chatMessage, setChatMessage] = useState("");
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [user, setUser] = useState(users);
-  const messageEnd = useRef(null)
+  const [isShelter, setIsShelter] = useState(false)
+  const [isVet, setIsVet] = useState(false)
+  const [user, setUser] = useState(otherUser);
+  const [chats, setChats] = useState(actualUser?.chats)
+  const [currentChat, setCurrentChat] = useState({})
+  const [isUpdated, setIsUpdated] = useState(false)
   const Router = useRouter()
 
-  configureAbly({authUrl: `${server}/api/chatServer`})
-
-  const [channel, ably] = useChannel(Router?.query.channel, (message) => {
-      const prevMessages = messagesList.slice(-199);
-      setMessagesList([...prevMessages, message]);
-  })
-
-  const getFull = (num) => {
-    if (num < 10) {
-      return "0" + num;
-    } else {
-      return num;
-    }
-  };
-
-  const deleteChat = async () => {
-    await fetch(`${server}/api/chats`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        channel: Router?.query.channel
-      }),
-    });
-
-    toast.error(`Se ha eliminado la conversación con ${user?.username}`, {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-
-    setIsModalVisible(false);
-
-    Router.push(`${server}/chat`);
-  };
+  const [currentChannel, setCurrentChannel] = useState(Router?.query.channel)
 
 
-  const sendMessageEnter = () => {
+  const loadCurrentChat = async(chatId) => {
 
-    if (chatMessage.trim() === "") {
-      toast.error("Debe escribir un mensaje", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
 
-    createMessage(chatMessage);
-
-  }
-
-  const getMessages = async () => {
-
-    const res = await fetch(`${server}/api/messagesByChannel/${Router?.query.channel}`, {
+    const res = await fetch(`${server}/api/chatsById/${chatId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       }
     });
 
-    const newMessages = await res.json()
-    setMessagesList(newMessages)
+    const chat = await res.json()
+    console.log(chat)
+    setCurrentChat(chat)
+    setCurrentChannel(chat.channel)
+    
+    if(session?.user.id === chat?.receiverId){
+    
+      const res = await fetch(`${server}/api/usersById/${chat.senderId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const otherUser2 = await res.json();
+      console.log(otherUser2)
+
+      if(otherUser2?.role.name === "protectora")
+      setIsShelter(true)
+      if(otherUser2?.role.name === "veterinaria" )
+        setIsVet(true)
+      setUser(otherUser2)
+
+      Router.push(`${server}/chat/${chat.channel}?username=${otherUser2?.username}`)
+
+    }
+    if(session?.user.id === chat?.senderId){
+
+      const res = await fetch(`${server}/api/usersById/${chat.receiverId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const otherUser2 = await res.json();
+      console.log(otherUser2)
+
+      if(otherUser2?.role.name === "protectora")
+      setIsShelter(true)
+      if(otherUser2?.role.name === "veterinaria" )
+        setIsVet(true)
+      setUser(otherUser2)
+      Router.replace(`${server}/chat/${chat.channel}?username=${otherUser2?.username}`)
+      setIsUpdated(true)
+
+    }
 
 
   }
 
-  const createMessage = async () => {
 
-    if (chatMessage.trim() === "") {
-      toast.error("Debe escribir un mensaje", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
-
-
-    setChatMessage("")
-  
-
-    const res = await fetch(`${server}/api/messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        channel: Router?.query.channel,
-        description: chatMessage,
-        senderId: session?.user.id,
-        receiverId: user?._id,
-        username: session?.user.username
-      }),
-    });
-
-    const data = await res.json();
-
-    if (data.error) {
-      console.log(data.error);
-      toast.error("Ha ocurrido un error", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } else {
-
-      channel.publish({ name: "chat-message", data: chatMessage });
-      getMessages()
-    }
-  };
-
-
-
-  
   if (status == "loading") {
     return (
       <>
@@ -200,140 +120,138 @@ export default function ChatChannel({users, messages}) {
           <title>Chat | Sweet Home</title>
         </Head>
         <div className="chat__container">
-          <ChatSidebar users={users}/>
-        <div className="chatRoom__container">
-          <div className="chat__header">
-          <div className="user__info">
-              <FallbackImage
-                  src={user?.image}
-                  style={{ borderRadius: "50px" }}
-                  alt="Imagen de usuario"
-                  width={40}
-                  height={40}
-                />
-                <p className={global.text2__bold}>{user?.username}</p>
-                {isShelter && (
-                        <BsPatchCheckFill size={15} color={colors.secondary} />
-                      )}
-                {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+          <div className="chatSidebar__container">
+              <h1 className={global.title5}>Contactos</h1>
+              <div className="chats">
+                {chats?.length === 0 && (
+                  <p className={global.text2}>
+                    No tiene ningún chat abierto ni seguidores con los que establecer una conversación
+                  </p>
+                )}
+              
+                {chats?.length > 0 && 
+                  chats.map(
+                    (
+                      chat
+                    ) => {
+                      return (
+                        <>
+                          <div className="contact" onClick={() => loadCurrentChat(chat)}>
+                            <ChatContact
+                              key={chat}
+                              id={chat}
+                            />
+                          </div>     
+                        </>
+                      );
+                    }
+                  )}
               </div>
-              <div className="buttons">
-                <button onClick={() => Router.push(`${server}/profile/${user?.username}`)} className={global.buttonTertiary}>
-                  Ir al perfil
-                </button>
-                <button
-                    className="delete__button"
-                    onClick={() => setIsModalVisible(true)}
-                  >
-                    <MdDeleteOutline size={20} color={colors.secondary} />
-                  </button>
-              </div>   
+            </div>
+            {Router?.query.channel === 'welcome' && <div className="welcome__chat">
+            <h1>Bienvenid@ a tus chats</h1>
+            <FallbackImage
+                src={chatImage}
+                style={{ borderRadius: "50px" }}
+                alt="Imagen de chat por defecto"
+                width={1000}
+                height={1000}
+              />
+          </div>}
+          {isUpdated && <ChatRoom actualUser={actualUser} otherUser={user} currentChannel={currentChannel}/>}
           </div>
-          <div className="default__message">
-            {messagesList?.length === 0 && (
-              <div className="default__message__container">
-                <AiFillWechat size={150} color={colors.primary}/>
-                <p className={global.loading2}>No hay ningún mensaje.</p>
-              </div>            
-            )}          
-          </div>
-          <div className="messages__list">         
-              {messagesList.map((message) => {
-                if(session?.user.id === message.senderId){
-                  return (
-                    <>
-                      <div className="myMessages__container">
-                        <div className="myMessage">
-                          <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"me"}/>
-                        </div>  
-                          <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
-                      </div>       
-                    </>
-                  );}
-                if(user?._id === message.senderId){
-                  return (
-                  <>
-                    <div className="otherMessages__container">
-                      <div className="otherMessage">
-                        <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"other"}/>
-                      </div>  
-                        <p className={global.date}>{new Date(message.createdAt).getHours().toLocaleString()}:{new Date(message.createdAt).getMinutes().toLocaleString()}</p>
-                    </div>       
-                  </>
-                );}           
-              })}
-              <div ref={messageEnd} />             
-          </div>
-          <div className="message__input">
-            <InputEmoji
-              title="Enviar un mensaje"
-              type="text"
-              name="text"
-              id="message"
-              value={chatMessage}
-              onChange={(e) => setChatMessage(e)}
-              onEnter={(e) => sendMessageEnter(e)}
-              cleanOnEnter
-              placeholder={`Escribe un mensaje 😄`}
-              fontFamily={`${fonts.default}`}
-              borderColor={`${colors.primary}`}
-            />
-
-            <button onClick={createMessage} className={global.buttonTertiary}>
-              Enviar
-            </button>
-          </div>
-        </div>
-        </div>
-        {isModalVisible && (
-        <Modal>
-          <button
-            className="close__modal"
-            onClick={() => setIsModalVisible(false)}
-          >
-            <MdClose size={30} color={`${colors.secondary}`} />
-          </button>
-          <h2 className={global.title3}>Eliminar chat</h2>
-          <p className={global.text2}>
-            Eliminando este chat, se eliminaran todos los mensajes que se hayan enviado a través de este
-          </p>
-          <p className={global.text2__bold}>
-            ¿Estás seguro de eliminar este chat?
-          </p>
-          <div className="buttons">
-            <button
-              className={global.buttonSecondary}
-              onClick={() => deleteChat()}
-            >
-              Sí
-            </button>
-            <button
-              className={global.buttonTertiary}
-              onClick={() => setIsModalVisible(false)}
-            >
-              No
-            </button>
-          </div>
-        </Modal>
-      )}
+                  
+       
         <style jsx>{`
 
-        .chatRoom__container{
 
+        .chatSidebar__container{
+        
         /*Box model*/
 
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        height: 83vh;
-        width: 50vw;
-
+        align-items: center;
+        height: 80vh;
+        width: 20vw;
+        padding: 1rem;
 
         /*Visuals*/
 
-        border: 2px solid ${colors.primary};
+        border-radius: 20px;
+        background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
+        scroll-margin: 50px 0 0 50px;
+      }
+
+      ::-webkit-scrollbar {
+
+        width: 10px; 
+        left: 2rem;
+        border-radius: 20px;
+        
+
+      }
+
+      ::-webkit-scrollbar-track {
+
+        box-shadow: inset 0 0 10px 10px #fafafa;
         border-radius: 20px;
 
+      }
+
+      ::-webkit-scrollbar-thumb {
+
+        background: rgba(240, 129, 15, 1);
+        border: 1px rgba(240, 129, 15, 1) solid;
+        border-radius: 20px;
+
+      }
+
+      .contact{
+
+        /*Visuals*/
+
+        cursor: pointer;
+      }
+
+      
+      .contact:hover{
+
+        /*Visuals*/
+
+        transform: scale(1.07);
+        transition: 0.3s ease all;
+
+        }
+
+
+      .chats{
+
+        /*Box model*/
+
+        overflow-y: auto;
+        padding: 1rem;
+      }
+
+        .myMessage__date{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 1rem;
+        }
+
+        .otherMessage__date{
+
+        /*Box model*/
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
         }
 
         .buttons{
@@ -383,57 +301,7 @@ export default function ChatChannel({users, messages}) {
         justify-content: flex-start;
         }
 
-        .chat__header{
-
-        /*Box model*/
-
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-        width: 48.5vw;
-
-        /*Visuals*/
-
-        border-radius: 17px 17px 0 0;
-        background: linear-gradient(125deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
-        }
-
-        .close__modal {
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-self: flex-end;
-            margin-right: 2rem;
-
-            /*Visuals*/
-
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
-            border-radius: 70px;
-            padding: 1rem;
-          }
-
-          .delete__button {
-            /*Box model*/
-
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-
-            /*Visuals*/
-
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
-            border-radius: 70px;
-          }
-
+     
         .user__info{
 
         /*Box model*/
@@ -447,87 +315,7 @@ export default function ChatChannel({users, messages}) {
 
 
 
-        .message__input{
 
-        /*Box model*/
-
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 1rem;
-        padding: 3rem;
-        height: 1vh;
-        width: 45vw;
-
-        /*Visuals*/
-
-        border-radius: 0 0 17px 17px;
-        background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
-
-        }
-
-        .messages__list{
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: column;
-          overflow-y: auto; 
-          padding: 1rem; 
-
-        }
-
-        .default__message{
-
-          /*Box model*/
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          margin: auto;
-
-        }
-
-        .default__message__container{
-
-        /*Box model*/
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        }
-
-        .messages__list::-webkit-scrollbar {
-
-          /*Box model*/
-
-          width: 10px; 
-          left: 2rem;
-
-
-        }
-
-        .messages__list::-webkit-scrollbar-track {
-
-          /*Box model*/        
-
-          box-shadow: inset 0 0 10px 10px #fafafa;
-          border-left: 2px solid ${colors.primary};
-
-        }
-
-        .messages__list::-webkit-scrollbar-thumb {
-
-          /*Box model*/
-
-          background: ${colors.primary};
-          border: 2px ${colors.primary} solid;
-          border-radius: 20px;
-
-        }
-          
 
 
               .chat__container{
@@ -549,7 +337,7 @@ export default function ChatChannel({users, messages}) {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                height: 100vh;
+                height: 83vh;
                 width: 50vw;
             
 
@@ -559,21 +347,24 @@ export default function ChatChannel({users, messages}) {
                 border: 2px solid ${colors.primary};
 
                 }
-            
-              h1{
-                        /*Text*/
 
-                        font-size: 3.5rem;
-                        font-weight: 600;
-                        background-color: ${colors.primary};
-                        font-family: "Archivo Black", sans-serif;
-                        background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
-                        background-repeat: repeat;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent; 
-                        background-size: 100%
-                        text-align: center;
-              }
+                .welcome__chat h1{
+
+                  /*Text*/
+
+                  font-size: 3.5rem;
+                    font-weight: 600;
+                    background-color: ${colors.primary};
+                    font-family: "Archivo Black", sans-serif;
+                    background-image: linear-gradient(180deg, #f0810f, #ffe45c 170%);
+                    background-repeat: repeat;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent; 
+                    background-size: 100%
+                    text-align: center;
+                }
+            
+
             
             `}</style>
       </Layout>
@@ -621,19 +412,18 @@ export async function getServerSideProps(context){
     "public, s-maxage=10, stale-while-revalidate=59"
   );
 
+  const session = await getSession(context)
 
-    const data = await fetch(`${server}/api/messagesByChannel/${context?.query.channel}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const currentUser = await fetch(`${server}/api/users/${session?.user.username}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    
-    const messages = await data.json();
+  const actualUser = await currentUser.json();
 
   
-
   const res = await fetch(`${server}/api/users/${context?.query.username}`, {
     method: "GET",
     headers: {
@@ -641,11 +431,12 @@ export async function getServerSideProps(context){
     },
   });
 
-  const user = await res.json();
+  const otherUser = await res.json();
+
 
   return {
     props: {
-      users: JSON.parse(JSON.stringify(user)), messages: JSON.parse(JSON.stringify(messages))
+      actualUser: JSON.parse(JSON.stringify(actualUser)), otherUser: JSON.parse(JSON.stringify(otherUser))
     },
   }
 }

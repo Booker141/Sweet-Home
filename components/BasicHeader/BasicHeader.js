@@ -169,7 +169,7 @@ export default function BasicHeader(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/chat`} as={`/chat`} prefetch={false}>
+                  <Link href={`/chat/welcome`} as={`/chat/welcome`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -452,7 +452,7 @@ export default function BasicHeader(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/chat`} as={`/chat`} prefetch={false}>
+                  <Link href={`/chat/welcome`} as={`/chat/welcome`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -1169,7 +1169,7 @@ export default function BasicHeader(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/chat`} as={`/chat`} prefetch={false}>
+                  <Link href={`/chat/welcome`} as={`/chat/welcome`} prefetch={false}>
                     <a className="nav__link2" aria-label="Ir a Chat">
                       <BsFillChatFill size={20} />
                       Chat
@@ -1483,6 +1483,7 @@ export default function BasicHeader(props) {
               width: 20vw;
               height: 40vh;
               padding: 1rem;
+              overflow-x: hidden;
 
               /*Visuals*/
 

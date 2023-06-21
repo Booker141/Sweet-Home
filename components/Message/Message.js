@@ -1,6 +1,6 @@
 /* Static imports */
 
-import {colors, fonts} from '../../styles/frontend-conf'
+import {colors} from '../../styles/frontend-conf'
 
 /** 
   * @author Sergio García Navarro
@@ -20,18 +20,21 @@ export default function Message(props) {
   let backgroundColor
   let color
   let text 
+  let borderRadius
   
   if(props?.author === "me"){
 
     backgroundColor = colors.primary
-    text = 'flex-end'
+    text = 'center'
     color = colors.secondary
+    borderRadius = '20px 20px 0px 20px'
 
   }else if(props?.author === "other"){
 
     backgroundColor = '#e8e8e8'
     text = 'flex-start'
     color = colors.quaternary
+    borderRadius = '0px 20px 20px 20px'
 
   }
 
@@ -51,7 +54,9 @@ export default function Message(props) {
         flex-direction: column;
         width: fit-content;
         min-width: 3vw;
+        max-width: 20vw;
         height: fit-content;
+        word-wrap: break-word;
         padding: 0.4rem;
 
         /*Text*/
@@ -63,7 +68,7 @@ export default function Message(props) {
 
         /*Visuals*/
 
-        border-radius: 20px;
+        border-radius: ${borderRadius};
         background-color: ${backgroundColor};
 
 
@@ -75,8 +80,8 @@ export default function Message(props) {
           /*Box model*/
 
           display: flex;
-          justify-content: ${text};
-
+          word-break: break-all;
+          overflow-wrap: break-word;
         }
       
       

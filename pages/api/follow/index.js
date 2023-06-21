@@ -42,6 +42,12 @@ export default async function handler(req, res) {
           { $push: { chats: chatId } }
         );
         await db
+        .collection("users")
+        .updateOne(
+          { _id: ObjectId(body.idTo) },
+          { $push: { chats: chatId } }
+        );
+        await db
         .collection("chats")
         .insertOne(
           { _id: chatId, 
