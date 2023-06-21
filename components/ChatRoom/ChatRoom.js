@@ -1,6 +1,6 @@
 /* Static imports */
 
-import { useSession, getSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import {useRouter} from 'next/router'
 import { server } from "/server";
 import { BsPatchCheckFill } from "react-icons/bs";
@@ -31,26 +31,22 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
  * @version 1.0
  * @description Chat Room component
  */
-export default function ChatRoom({actualUser, otherUser, currentChannel}) {
+export default function ChatRoom({actualUser, otherUser, currentChannel, messages, chatId}) {
 
-  const { data: session} = useSession({ required: true });
-  console.log(actualUser)
-  console.log(otherUser)
-  console.log(currentChannel)
-  const [messagesList, setMessagesList] = useState([]);
-  const [isMessage, setIsMessage] = useState(true)
-  const [isShelter, setIsShelter] = useState(false)
-  const [isVet, setIsVet] = useState(false)
+  const { data: session } = useSession({ required: true });
+  console.log(messages)
+  const [messagesChat, setMessagesChat] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState(otherUser);
   const messageEnd = useRef(null)
+
   const Router = useRouter()
 
-  configureAbly({authUrl: `${server}/api/chatServer`})
+  configureAbly({authUrl: `${server}/api/chatServer`, log : {level:4}})
 
   const [channel] = useChannel(currentChannel, (message) => {
-      setMessagesList([...messagesList.slice(-199), message]);
+      setMessagesChat([...messages.slice(-199), message]);
   })
 
   const getFull = (num) => {
@@ -68,11 +64,13 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        channel: currentChannel
+        channel: currentChannel,
+        user: actualUser,
+        chatId: chatId
       }),
     });
 
-    toast.error(`Se ha eliminado la conversación con ${user?.username}`, {
+    toast.error(`Se ha eliminado la conversación con ${otherUser?.username}`, {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
@@ -85,7 +83,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
 
     setIsModalVisible(false);
 
-    Router.push(`${server}/chat`);
+    Router.push(`${server}/chat/welcome`);
   };
 
   
@@ -121,8 +119,8 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
     });
 
     const newMessages = await res.json()
-    console.log(newMessages)
-    setMessagesList(newMessages)
+
+    setMessagesChat(newMessages)
 
 
   }
@@ -177,21 +175,24 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
       });
     } else {
 
-      channel.publish({ name: "chat-message", data: chatMessage });
+      channel.publish({ name: "chat-message", data: chatMessage}, (err) => { 
+        if(!err){ 
+        console.log("message published successfully") 
+        } 
+        else { 
+        console.log(err) 
+        } 
+        });
+
       getMessages()
     }
   };
 
   useEffect(() => {
 
-    getMessages()
-    if(otherUser.role.name === "veterinaria")
-      setIsVet(true)
-    if(otherUser.role.name === "protectora")
-      setIsShelter(true)
-  
     messageEnd.current?.scrollIntoView({ behaviour: "smooth" });
-    
+    setMessagesChat(messages)
+
   }, [])
 
     return (
@@ -211,10 +212,10 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
                   height={40}
                 />
                 <p className={global.text2__bold}>{otherUser?.username}</p>
-                {isShelter && (
+                {otherUser?.role.name === "protectora" && (
                         <BsPatchCheckFill size={15} color={colors.secondary} />
                       )}
-                {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+                {otherUser?.role.name === "veterinaria" && <MdHealthAndSafety size={20} color={colors.secondary} />}
               </div>
               <div className="buttons">
                 <button onClick={() => Router.push(`${server}/profile/${otherUser?.username}`)} className={global.buttonTertiary}>
@@ -229,7 +230,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
               </div>   
           </div>
           <div className="default__message">
-            {messagesList?.length === 0 && (
+            {messagesChat?.length === 0 && (
               <div className="default__message__container">
                 <AiFillWechat size={150} color={colors.primary}/>
                 <p className={global.loading2}>No hay ningún mensaje.</p>
@@ -237,8 +238,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
             )}          
           </div>
           <div className="messages__list">   
-                
-              {messagesList.map((message) => {
+          {messagesChat?.length > 0 && messagesChat.map((message) => {
                 if(session?.user.id === message.senderId){
                   return (
                     <>
@@ -251,7 +251,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
                           <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
                         </div>
                       </div>   
-                      <div ref={messageEnd} />     
+                          
                     </>
                   );}
                 if(user?._id === message.senderId){
@@ -271,7 +271,8 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
                 );}           
               }  
               )}
-                           
+
+              <div ref={messageEnd} /> 
           </div>
           <div className="message__input">
             <InputEmoji

@@ -34,8 +34,11 @@ export default async function handler(req, res) {
 
   if(req.method === "DELETE"){
 
+    console.log(body.user)
+    console.log(body.chatId)
     await db.collection('chats').deleteOne({channel: body.channel});
     await db.collection('messages').deleteMany({chatChannel: body.channel});
+    await db.collection('users').updateOne({_id: ObjectId(body.user._id)},{$pull: {chats: ObjectId(body.chatId)}})
 
     res.status(200).json({ message: "Chat eliminado correctamente" });
 

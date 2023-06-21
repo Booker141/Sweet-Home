@@ -10,7 +10,6 @@ import Head from "next/head";
 import Layout from "components/Layout/Layout";
 import global from "/styles/global.module.css";
 import Loader from "components/Loader/Loader";
-import ChatRoom from '/components/ChatRoom/ChatRoom';
 import ChatContact from '/components/ChatContact/ChatContact'
 import chatImage from '/public/Chat-1.svg'
 
@@ -19,6 +18,8 @@ import chatImage from '/public/Chat-1.svg'
 const FallbackImage = dynamic(() =>
   import("/components/FallbackImage/FallbackImage")
 );
+
+const ChatRoom = dynamic(() => import('/components/ChatRoom/ChatRoom'), { ssr: false });
 
 /**
  * @author Sergio García Navarro
@@ -33,10 +34,10 @@ export default function ChatChannel({actualUser, otherUser}) {
   const [isShelter, setIsShelter] = useState(false)
   const [isVet, setIsVet] = useState(false)
   const [user, setUser] = useState(otherUser);
+  const [messagesList, setMessagesList] = useState([])
   const [chats, setChats] = useState(actualUser?.chats)
-  const [currentChat, setCurrentChat] = useState({})
+  const [chatId, setChatId] = useState(null)
   const Router = useRouter()
-
   const [currentChannel, setCurrentChannel] = useState(Router?.query.channel)
 
 
@@ -51,8 +52,19 @@ export default function ChatChannel({actualUser, otherUser}) {
     });
 
     const chat = await res.json()
-    setCurrentChat(chat)
     setCurrentChannel(chat.channel)
+    setChatId(chatId)
+
+    const message = await fetch(`${server}/api/messagesByChannel/${chat.channel}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    const newMessages = await message.json()
+
+    setMessagesList(newMessages)
     
     if(session?.user.id === chat?.receiverId){
     
@@ -94,9 +106,10 @@ export default function ChatChannel({actualUser, otherUser}) {
       setUser(otherUser2)
 
 
-      Router.replace(`${server}/chat/${chat.channel}?username=${otherUser2?.username}`)
+      Router.push(`${server}/chat/${chat.channel}?username=${otherUser2?.username}`)
 
     }
+
 
 
   }
@@ -122,13 +135,13 @@ export default function ChatChannel({actualUser, otherUser}) {
           <div className="chatSidebar__container">
               <h1 className={global.title5}>Contactos</h1>
               <div className="chats">
-                {chats?.length === 0 && (
+                {actualUser?.chats.length === 0 && (
                   <p className={global.text2}>
                     No tiene ningún chat abierto ni seguidores con los que establecer una conversación
                   </p>
                 )}
               
-                {chats?.length > 0 && 
+                {actualUser?.chats.length > 0 && 
                   chats.map(
                     (
                       chat
@@ -147,7 +160,7 @@ export default function ChatChannel({actualUser, otherUser}) {
                   )}
               </div>
             </div>
-            {Router?.query.channel === 'welcome' && <div className="welcome__chat">
+            {Router.asPath === '/chat/welcome' && <div className="welcome__chat">
             <h1>Bienvenid@ a tus chats</h1>
             <FallbackImage
                 src={chatImage}
@@ -157,7 +170,7 @@ export default function ChatChannel({actualUser, otherUser}) {
                 height={1000}
               />
           </div>}
-          <ChatRoom actualUser={actualUser} otherUser={user} currentChannel={currentChannel}/>
+          {Router.asPath != '/chat/welcome' && <ChatRoom actualUser={actualUser} otherUser={user} currentChannel={currentChannel} messages={messagesList} chatId={chatId}/>}
           </div>
                   
        
@@ -432,10 +445,20 @@ export async function getServerSideProps(context){
 
   const otherUser = await res.json();
 
+  const message = await fetch(`${server}/api/messagesByChannel/${context?.query.channel}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const messages = await message.json()
+  console.log(messages)
+
 
   return {
     props: {
-      actualUser: JSON.parse(JSON.stringify(actualUser)), otherUser: JSON.parse(JSON.stringify(otherUser))
+      actualUser: JSON.parse(JSON.stringify(actualUser)), otherUser: JSON.parse(JSON.stringify(otherUser)), messages: JSON.parse(JSON.stringify(messages))
     },
   }
 }

@@ -39,8 +39,6 @@ export default function ChatContact(props) {
   const [chat, setChat] = useState({});
   const [user, setUser] = useState({});
 
-  const Router = useRouter()
-
   
   const getFull = (num) => {
     if (num < 10) {
@@ -168,10 +166,10 @@ export default function ChatContact(props) {
                   {lastMessage?.description?.length > 25 && <p className={global.lastMessage}>{lastMessage?.description.substring(0, 18)}...</p>}
                   {Object.keys(lastMessage).length === 0 && <p className={global.date}>¡Chatea con <strong>{user?.username}</strong>!</p>}
               </div>
-                    <div className="lastMessage__hour">
+                    {Object.keys(lastMessage).length > 0 && <div className="lastMessage__hour">
                       <HiClock size={18} color={colors.primary} />
                       <p className={global.lastMessage}>{getFull(new Date(lastMessage?.createdAt).getHours())}:{getFull(new Date(lastMessage?.createdAt).getMinutes())}</p>
-                    </div>
+                    </div>}
           </div>
            
         </div>
@@ -187,7 +185,7 @@ export default function ChatContact(props) {
           flex-direction: row;
           align-items: center;
           gap: 1rem;
-          height: 8vh;
+          height: 11vh;
           width: 17vw;
           padding: 1rem;
           margin-bottom: 1rem;
