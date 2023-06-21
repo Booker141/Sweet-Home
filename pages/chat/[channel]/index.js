@@ -35,7 +35,6 @@ export default function ChatChannel({actualUser, otherUser}) {
   const [user, setUser] = useState(otherUser);
   const [chats, setChats] = useState(actualUser?.chats)
   const [currentChat, setCurrentChat] = useState({})
-  const [isUpdated, setIsUpdated] = useState(false)
   const Router = useRouter()
 
   const [currentChannel, setCurrentChannel] = useState(Router?.query.channel)
@@ -52,7 +51,6 @@ export default function ChatChannel({actualUser, otherUser}) {
     });
 
     const chat = await res.json()
-    console.log(chat)
     setCurrentChat(chat)
     setCurrentChannel(chat.channel)
     
@@ -74,6 +72,7 @@ export default function ChatChannel({actualUser, otherUser}) {
         setIsVet(true)
       setUser(otherUser2)
 
+
       Router.push(`${server}/chat/${chat.channel}?username=${otherUser2?.username}`)
 
     }
@@ -87,15 +86,15 @@ export default function ChatChannel({actualUser, otherUser}) {
       });
 
       const otherUser2 = await res.json();
-      console.log(otherUser2)
 
       if(otherUser2?.role.name === "protectora")
       setIsShelter(true)
       if(otherUser2?.role.name === "veterinaria" )
         setIsVet(true)
       setUser(otherUser2)
+
+
       Router.replace(`${server}/chat/${chat.channel}?username=${otherUser2?.username}`)
-      setIsUpdated(true)
 
     }
 
@@ -158,7 +157,7 @@ export default function ChatChannel({actualUser, otherUser}) {
                 height={1000}
               />
           </div>}
-          {isUpdated && <ChatRoom actualUser={actualUser} otherUser={user} currentChannel={currentChannel}/>}
+          <ChatRoom actualUser={actualUser} otherUser={user} currentChannel={currentChannel}/>
           </div>
                   
        

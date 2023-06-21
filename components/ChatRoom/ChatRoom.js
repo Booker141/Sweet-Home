@@ -39,12 +39,13 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
   console.log(currentChannel)
   const [messagesList, setMessagesList] = useState([]);
   const [isMessage, setIsMessage] = useState(true)
-  const [isShelter, setIsShelter] = useState(otherUser?.role.name === "protectora" ? true : false)
-  const [isVet, setIsVet] = useState(otherUser?.role.name === "veterinaria" ? true : false)
+  const [isShelter, setIsShelter] = useState(false)
+  const [isVet, setIsVet] = useState(false)
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState(otherUser);
   const messageEnd = useRef(null)
+  const Router = useRouter()
 
   configureAbly({authUrl: `${server}/api/chatServer`})
 
@@ -120,6 +121,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
     });
 
     const newMessages = await res.json()
+    console.log(newMessages)
     setMessagesList(newMessages)
 
 
@@ -183,6 +185,10 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
   useEffect(() => {
 
     getMessages()
+    if(otherUser.role.name === "veterinaria")
+      setIsVet(true)
+    if(otherUser.role.name === "protectora")
+      setIsShelter(true)
   
     messageEnd.current?.scrollIntoView({ behaviour: "smooth" });
     
@@ -191,27 +197,27 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
     return (
       <>
         <Head>
-          <title>Chat con {user?.username} | Sweet Home</title>
+          <title>Chat con {otherUser?.username} | Sweet Home</title>
         </Head>
 
         <div className="chatRoom__container">
           <div className="chat__header">
             <div className="user__info">
               <FallbackImage
-                  src={user?.image}
+                  src={otherUser?.image}
                   style={{ borderRadius: "50px" }}
                   alt="Imagen de usuario"
                   width={40}
                   height={40}
                 />
-                <p className={global.text2__bold}>{user?.username}</p>
+                <p className={global.text2__bold}>{otherUser?.username}</p>
                 {isShelter && (
                         <BsPatchCheckFill size={15} color={colors.secondary} />
                       )}
                 {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
               </div>
               <div className="buttons">
-                <button onClick={() => Router.push(`${server}/profile/${user?.username}`)} className={global.buttonTertiary}>
+                <button onClick={() => Router.push(`${server}/profile/${otherUser?.username}`)} className={global.buttonTertiary}>
                   Ir al perfil
                 </button>
                 <button
@@ -244,7 +250,8 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
                           <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
                           <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
                         </div>
-                      </div>       
+                      </div>   
+                      <div ref={messageEnd} />     
                     </>
                   );}
                 if(user?._id === message.senderId){
@@ -258,11 +265,13 @@ export default function ChatRoom({actualUser, otherUser, currentChannel}) {
                           <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
                           <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
                       </div>
-                    </div>       
+                    </div>  
+                    <div ref={messageEnd} />      
                   </>
                 );}           
-              })}
-              <div ref={messageEnd} />              
+              }  
+              )}
+                           
           </div>
           <div className="message__input">
             <InputEmoji
