@@ -13,7 +13,7 @@ describe("Avatar Component", () => {
   test("render Avatar component with props", () => {
     const image = "/avatar.png";
     const name = "Juan";
-    const message = "Hi!";
+    const message = "Hola!";
 
     const { getByText } = render(
       <Avatar image={image} name={name} message={message} />

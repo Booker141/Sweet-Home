@@ -261,6 +261,7 @@ export default function BasicHeader(props) {
                     height={40}
                     width={40}
                     style={{ borderRadius: "70px" }}
+                    alt="Imagen del usuario"
                   />
                   @{session?.user.username}
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
@@ -274,6 +275,7 @@ export default function BasicHeader(props) {
                         height={50}
                         width={50}
                         style={{ borderRadius: "70px" }}
+                        alt="Imagen del usuario en la tarjeta"
                       />
                       <div className="user__info">
                         <p className="info__text">{session?.user.username}</p>
@@ -545,6 +547,7 @@ export default function BasicHeader(props) {
                     height={40}
                     width={40}
                     style={{ borderRadius: "70px" }}
+                    alt="Imagen del usuario"
                   />
                   @{session?.user.username}
                   <MdPets size={18} color={colors.secondary} />
@@ -559,6 +562,7 @@ export default function BasicHeader(props) {
                         height={50}
                         width={50}
                         style={{ borderRadius: "70px" }}
+                        alt="Imagen del usuario en la tarjeta"
                       />
                       <div className="user__info">
                         <p className="info__text">{session?.user.username}</p>
@@ -764,6 +768,7 @@ export default function BasicHeader(props) {
                     height={40}
                     width={40}
                     style={{ borderRadius: "70px" }}
+                    alt="Imagen del usuario"
                   />
                   @{session.user.username}
                   <BsPatchCheckFill size={18} color={colors.secondary} />
@@ -778,6 +783,7 @@ export default function BasicHeader(props) {
                         height={50}
                         width={50}
                         style={{ borderRadius: "70px" }}
+                        alt="Imagen del usuario en la tarjeta"
                       />
                       <div className="user__info">
                         <p className="info__text">{session?.user.username}</p>
@@ -980,6 +986,7 @@ export default function BasicHeader(props) {
                     height={40}
                     width={40}
                     style={{ borderRadius: "70px" }}
+                    alt="Imagen del usuario"
                   />
                   @{session?.user.username}
                   <BsPatchCheckFill size={18} color={colors.secondary} />
@@ -994,6 +1001,7 @@ export default function BasicHeader(props) {
                         height={50}
                         width={50}
                         style={{ borderRadius: "70px" }}
+                        alt="Imagen del usuario en la tarjeta"
                       />
                       <div className="user__info">
                         <p className="info__text">{session?.user.username}</p>
@@ -1260,6 +1268,7 @@ export default function BasicHeader(props) {
                     height={40}
                     width={40}
                     style={{ borderRadius: "70px" }}
+                    alt="Imagen del usuario"
                   />
                   @{session?.user.username}
                   <MdHealthAndSafety size={20} color={colors.secondary} />
@@ -1274,6 +1283,7 @@ export default function BasicHeader(props) {
                         height={50}
                         width={50}
                         style={{ borderRadius: "70px" }}
+                        alt="Imagen del usuario en la tarjeta"
                       />
                       <div className="user__info">
                         <p className="info__text">{session?.user.username}</p>

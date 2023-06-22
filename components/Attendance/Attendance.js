@@ -144,6 +144,7 @@ export default function Attendance(props) {
                   style={{ borderRadius: "70px" }}
                   width={40}
                   height={40}
+                  alt="Imagen del usuario"
                 />
               </a>
               <a
@@ -195,6 +196,7 @@ export default function Attendance(props) {
                 style={{ borderRadius: "20px", maxWidth: "50vw" }}
                 width={1400}
                 height={800}
+                alt="Imagen de la publicación"
               />
             )}
           </div>

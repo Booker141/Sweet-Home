@@ -74,8 +74,6 @@ export default function Username({ posts, users }) {
 
     const data = await chatExist.json()
 
-    console.log(data)
-
 
     if(data.message === 'No existe el chat'){
 
@@ -115,14 +113,15 @@ export default function Username({ posts, users }) {
         },  
       }
      )
+     
      const chat = await chatAfterPost.json()
      console.log(chat)
-     router.push(`${server}/chat/${chat.channel}?username=${users?.username}`)
+     router.push(`${server}/chat/welcome`)
     }
     
   }else{
 
-    router.push(`${server}/chat/${data.channel}?username=${users?.username}`)
+    router.push(`${server}/chat/welcome`)
 
   }
 

@@ -27,8 +27,6 @@ export default function FollowButton(props) {
   const [isFollowedByMe, setIsFollowedByMe] = useState(false);
   const [user, setUser] = useState({});
 
-  console.log(props);
-
   async function getUser() {
     const res = await fetch(`${server}/api/users/${props?.usernameFrom}`, {
       method: "GET",
@@ -40,7 +38,6 @@ export default function FollowButton(props) {
     const data = await res.json();
 
     setUser(data);
-    console.log(data?.following.includes(props?.idTo));
 
     if (user) setIsFollowedByMe(data?.following.includes(props?.idTo));
   }

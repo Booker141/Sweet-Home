@@ -36,7 +36,7 @@ export default function ChatChannel({actualUser, otherUser}) {
   const [user, setUser] = useState(otherUser);
   const [messagesList, setMessagesList] = useState([])
   const [chats, setChats] = useState(actualUser?.chats)
-  const [chatId, setChatId] = useState(null)
+  const [chatId, setChatId] = useState("")
   const Router = useRouter()
   const [currentChannel, setCurrentChannel] = useState(Router?.query.channel)
 
@@ -63,7 +63,7 @@ export default function ChatChannel({actualUser, otherUser}) {
     });
 
     const newMessages = await message.json()
-
+    console.log(newMessages)
     setMessagesList(newMessages)
     
     if(session?.user.id === chat?.receiverId){
@@ -453,7 +453,6 @@ export async function getServerSideProps(context){
   });
 
   const messages = await message.json()
-  console.log(messages)
 
 
   return {

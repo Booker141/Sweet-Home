@@ -31,11 +31,18 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
  * @version 1.0
  * @description Chat Room component
  */
+
+/**
+ * This function is a chat room channel that receive props from page chat and displays them
+ * in a chat room format with user data
+ * @param props - props received from page.
+ * @returns A chat established by two users.
+ */
 export default function ChatRoom({actualUser, otherUser, currentChannel, messages, chatId}) {
 
   const { data: session } = useSession({ required: true });
   console.log(messages)
-  const [messagesChat, setMessagesChat] = useState([]);
+  const [messagesChat, setMessagesChat] = useState(messages);
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState(otherUser);
@@ -46,6 +53,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   configureAbly({authUrl: `${server}/api/chatServer`, log : {level:4}})
 
   const [channel] = useChannel(currentChannel, (message) => {
+      console.log(message)
       setMessagesChat([...messages.slice(-199), message]);
   })
 
@@ -142,7 +150,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
     }
 
 
-    setChatMessage("")
+    
   
 
     const res = await fetch(`${server}/api/messages`, {
@@ -177,21 +185,21 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
       channel.publish({ name: "chat-message", data: chatMessage}, (err) => { 
         if(!err){ 
-        console.log("message published successfully") 
+          console.log("Mensaje publicado correctamente") 
         } 
         else { 
-        console.log(err) 
+          console.log(err) 
         } 
         });
 
+      setChatMessage("")
       getMessages()
     }
   };
 
   useEffect(() => {
 
-    messageEnd.current?.scrollIntoView({ behaviour: "smooth" });
-    setMessagesChat(messages)
+    getMessages()
 
   }, [])
 
@@ -266,14 +274,13 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
                           <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
                       </div>
                     </div>  
-                    <div ref={messageEnd} />      
+                       
                   </>
                 );}           
               }  
-              )}
-
-              <div ref={messageEnd} /> 
+              )}            
           </div>
+          
           <div className="message__input">
             <InputEmoji
               title="Enviar un mensaje"
@@ -553,7 +560,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
           /*Box model*/        
 
-          box-shadow: inset 0 0 10px 10px #fafafa;
+          box-shadow: inset 0 0 10px 10px transparent;
           border-left: 2px solid ${colors.primary};
 
         }

@@ -26,6 +26,9 @@ export default async function handler(req, res) {
         createdAt: new Date(),
       });
 
+      console.log(id)
+      console.log('Aquí')
+      
       await db.collection('users').updateOne({_id: ObjectId(body.senderId)}, {$push: {chats: id}})
       await db.collection('users').updateOne({_id: ObjectId(body.receiverId)}, {$push: {chats: id}})
 

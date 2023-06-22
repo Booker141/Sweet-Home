@@ -80,7 +80,7 @@ export default function BlockedUser(props) {
             alt="Imagen de usuario"
             style={{ borderRadius: "50px" }}
             width={40}
-            height={40}
+            height={40}          
           />
           <a
             className={global.text__bold}

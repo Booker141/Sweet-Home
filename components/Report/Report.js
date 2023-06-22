@@ -106,6 +106,7 @@ export default function Report(props) {
               width={50}
               height={50}
               style={{ borderRadius: "70px" }}
+              alt="Imagen de usuario"
             />
             <p className={global.text2}>
               <strong>@{user?.username}</strong>
@@ -138,6 +139,7 @@ export default function Report(props) {
               width={1300}
               height={700}
               style={{ borderRadius: "20px" }}
+              alt="Imagen para reforzar informe"
             />
           )}
         </figure>

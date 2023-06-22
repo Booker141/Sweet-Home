@@ -102,7 +102,7 @@ export default function Carousel() {
               </button>
             </div>
             <div className="item__image">
-              <FallbackImage src={carousel} />
+              <FallbackImage src={carousel} alt="Imagen por defecto del carrusel"/>
             </div>
             <button className="arrow__right" onClick={after}>
               <div className="carousel__icon">

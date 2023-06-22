@@ -275,7 +275,7 @@ export default function Post(props) {
                 style={{ borderRadius: "20px", maxWidth: "50vw" }}
                 width={1300}
                 height={1050}
-                alt="Imagen del post"
+                alt="Imagen de la publicación"
               />
             )}
           </div>

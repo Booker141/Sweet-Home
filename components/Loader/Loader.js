@@ -14,7 +14,7 @@ export default function Loader() {
   return (
     <>
       <div className="loader__container" data-testid="loader__container">
-        <img src="/loader.svg" alt="loader"/>
+        <img src="/loader.svg" alt="Imagen de animación para cargar"/>
       </div>
       <style jsx>
         {`

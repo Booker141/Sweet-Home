@@ -25,7 +25,7 @@ export default function Trademark({ link }) {
     <>
       <div className="img">
         <a href={link} aria-label="Ir a Inicio">
-          <Image src={Logo} width={150} height={65} priority data-testid="img"/>
+          <Image src={Logo} width={150} height={65} priority alt="Logo de la aplicación" data-testid="img"/>
         </a>
       </div>
     </>
