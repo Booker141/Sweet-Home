@@ -41,6 +41,7 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
 export default function ChatRoom({actualUser, otherUser, currentChannel, messages, chatId}) {
 
   const { data: session } = useSession({ required: true });
+  console.log(otherUser)
   console.log(messages)
   const [messagesChat, setMessagesChat] = useState(messages);
   const [chatMessage, setChatMessage] = useState("");
@@ -200,8 +201,9 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   useEffect(() => {
 
     getMessages()
+    messageEnd.current?.scrollIntoView({behavior: "smooth"})
 
-  }, [])
+  }, [currentChannel])
 
     return (
       <>
@@ -280,7 +282,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
               }  
               )}            
           </div>
-          
+            <div ref={messageEnd} />
           <div className="message__input">
             <InputEmoji
               title="Enviar un mensaje"
