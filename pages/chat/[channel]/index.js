@@ -129,7 +129,7 @@ export default function ChatChannel({actualUser, otherUser}) {
       </>
     );
   }
-  if (session?.user.role === "usuario") {
+  if (session?.user.role === "usuario" || session?.user.role === "veterinaria" ||session?.user.role === "protectora") {
     return (
       <Layout>
         <Head>
@@ -390,8 +390,8 @@ export default function ChatChannel({actualUser, otherUser}) {
       <Layout>
         <div className={global.content}>
           <div className="message">
-            <h1 className={global.title}>
-              Para acceder a esta página debe ser administrador de Sweet Home
+            <h1 className={global.title7}>
+              Para acceder a esta página debe ser usuario de Sweet Home
             </h1>
             <button className={global.buttonPrimary} onClick={() => signIn()}>
               Iniciar sesión
