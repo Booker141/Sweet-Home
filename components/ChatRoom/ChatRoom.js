@@ -198,7 +198,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
         } 
       });
 
-      console.log(channel)
 
       setChatMessage("")
       getMessages()
@@ -207,24 +206,19 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
   useEffect(() => {
 
-      getMessages()
-      messageEnd.current?.addEventListener('DOMNodeInserted', event => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-      });
+    getMessages()
+
+      if(messageEnd){
+        messageEnd.current?.addEventListener('DOMNodeInserted', event => {
+          const { currentTarget: target } = event;
+          target.scroll({ top: target.scrollHeight, behavior: 'auto' });
+        });
+      }
+      
         
   }, [currentChannel])
 
-  useEffect(() => {
 
-      messageEnd.current?.addEventListener('DOMNodeInserted', event => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'auto' });
-      });
-
-      getMessages()
-      
-  },[messagesChat])
 
     return (
       <>

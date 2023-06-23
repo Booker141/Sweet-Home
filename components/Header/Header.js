@@ -1472,6 +1472,7 @@ export default function Header(props) {
               display: flex;
               flex-direction: row;
               align-items: center;
+              justify-content: flex-end;
               padding: 0.5rem;
               gap: 1rem;
 
@@ -1488,6 +1489,7 @@ export default function Header(props) {
               border: none;
               background: transparent;
             }
+
 
             .notifications__menu {
               /*Box model*/
@@ -1634,7 +1636,6 @@ export default function Header(props) {
               flex-direction: row;
               align-items: center;
               gap: 1rem;
-              margin-right: 4rem;
             }
 
             .search__button {

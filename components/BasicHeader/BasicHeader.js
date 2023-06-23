@@ -1635,7 +1635,6 @@ export default function BasicHeader(props) {
               flex-direction: row;
               align-items: center;
               gap: 1rem;
-              margin-right: 4rem;
             }
 
             .search__button {
