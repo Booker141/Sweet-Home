@@ -42,7 +42,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
   const { data: session } = useSession({ required: true });
   console.log(otherUser)
-  console.log(messages)
   const [messagesChat, setMessagesChat] = useState(messages);
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -75,9 +74,11 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
       body: JSON.stringify({
         channel: currentChannel,
         user: actualUser,
+        otherUser: otherUser,
         chatId: chatId
       }),
     });
+
 
     toast.error(`Se ha eliminado la conversación con ${otherUser?.username}`, {
       position: "bottom-right",
@@ -92,7 +93,11 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
     setIsModalVisible(false);
 
-    Router.push(`${server}/chat/welcome`);
+
+    Router.push(`${server}/chat/welcome`)
+    
+
+
   };
 
   
@@ -191,7 +196,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
         else { 
           console.log(err) 
         } 
-        });
+      });
 
       setChatMessage("")
       getMessages()
@@ -200,10 +205,23 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
   useEffect(() => {
 
-    getMessages()
-    messageEnd.current?.scrollIntoView({behavior: "smooth"})
-
+      getMessages()
+      messageEnd.current?.addEventListener('DOMNodeInserted', event => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
+    
+    
   }, [currentChannel])
+
+  useEffect(() => {
+    if(messageEnd){
+      messageEnd.current?.addEventListener('DOMNodeInserted', event => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'auto' });
+      });
+    }  
+  },[])
 
     return (
       <>
@@ -247,7 +265,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
               </div>            
             )}          
           </div>
-          <div className="messages__list">   
+          <div className="messages__list" ref={messageEnd}> 
           {messagesChat?.length > 0 && messagesChat.map((message) => {
                 if(session?.user.id === message.senderId){
                   return (
@@ -282,7 +300,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
               }  
               )}            
           </div>
-            <div ref={messageEnd} />
+            
           <div className="message__input">
             <InputEmoji
               title="Enviar un mensaje"

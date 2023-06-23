@@ -3,8 +3,8 @@
 import { useSession, getSession, signIn } from "next-auth/react";
 import {useRouter} from 'next/router'
 import { server } from "/server";
-import { useState, useRef, useEffect } from "react";
-import { colors, fonts } from "/styles/frontend-conf";
+import { useState, useEffect } from "react";
+import { colors } from "/styles/frontend-conf";
 import dynamic from 'next/dynamic'
 import Head from "next/head";
 import Layout from "components/Layout/Layout";
@@ -113,6 +113,10 @@ export default function ChatChannel({actualUser, otherUser}) {
 
 
   }
+
+  useEffect(() => {
+    setChats(actualUser?.chats)
+  },[Router.asPath])
 
 
   if (status == "loading") {
