@@ -63,7 +63,7 @@ export default function ChatChannel({actualUser, otherUser}) {
     });
 
     const newMessages = await message.json()
-    console.log(newMessages)
+
     setMessagesList(newMessages)
     
     if(session?.user.id === chat?.receiverId){
