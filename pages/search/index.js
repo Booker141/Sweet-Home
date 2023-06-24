@@ -34,7 +34,7 @@ const LazyLoad = dynamic(() => import("react-lazyload"));
  */
 export default function Search({ results }) {
   const { data: session, status } = useSession({ required: true });
-
+  console.log(results.typeAttendanceByName)
   const router = useRouter();
 
   if (status === "loading") {
@@ -331,7 +331,7 @@ export default function Search({ results }) {
           <div className="results__container">
             <p className={global.secondary__search}>Por nombre</p>
             <div className="results__typeAttendanceByName">
-              {results.typeAttendanceByName?.length === 0 && (
+              {results.typeAttendanceByTitle?.length === 0 && (
                 <div className={global.loading2}>
                   No se han encontrado resultados.
                 </div>

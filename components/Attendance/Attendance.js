@@ -176,11 +176,11 @@ export default function Attendance(props) {
             <div className="user__column2">
               <p>
                 <strong>{props?.animal === "" ? "" : "Animal:"}</strong>
-                {props?.animal}
+                &nbsp;{props?.animal}
               </p>
               <p>
                 <strong>{props?.breed === "" ? "" : "Raza:"}</strong>
-                {props?.breed}
+                &nbsp;{props?.breed}
               </p>
             </div>
           </div>
@@ -232,6 +232,7 @@ export default function Attendance(props) {
       )}
 
       <style jsx>{`
+
         .attendance__user {
           /*Box model*/
 
@@ -243,8 +244,11 @@ export default function Attendance(props) {
         }
 
         .attendance__description {
+
           /*Box model*/
 
+          word-wrap: break-word;
+          max-width: 70vw;
           padding: 1rem;
         }
 
@@ -315,6 +319,8 @@ export default function Attendance(props) {
           display: flex;
           flex-direction: row;
           align-items: center;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
           gap: 1rem;
         }
 

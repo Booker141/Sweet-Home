@@ -166,7 +166,7 @@ export default function Username({ posts, users }) {
           <div className="profile__banner">
             <FallbackImage
               src={isBlocked ? "" : userBanner}
-              style={{ borderRadius: "20px 20px 0 0", marginBottom: "1rem" }}
+              style={{ borderRadius: "17px 17px 0 0", marginBottom: "1rem" }}
               width={2500}
               height={600}
               alt="Imagen del banner"
@@ -371,6 +371,11 @@ export default function Username({ posts, users }) {
                       display: flex;
                       flex-direction: row;
                       align-items: center;
+                      width: fit-content;
+                      min-width: 3vw;
+                      max-width: 60vw;
+                      height: fit-content;
+                      word-wrap: break-word;
                       gap: 0.5rem;
                     }
 
@@ -391,6 +396,11 @@ export default function Username({ posts, users }) {
                         display: flex;
                         flex-direction: row;
                         justify-content: center;
+                        width: fit-content;
+                        min-width: 3vw;
+                        max-width: 40vw;
+                        height: fit-content;
+                        word-wrap: break-word;
                         margin-top: 1rem;
                         margin-bottom: 1rem;
 

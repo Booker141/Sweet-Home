@@ -1,6 +1,5 @@
 import { IncomingForm } from "formidable";
 import mv from "mv";
-import {server} from '/server'
 
 export const config = {
   api: {
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
       console.log(files);
       if (err) return reject(err);
       let oldPath = files.banner.filepath;
-      let newPath = `${server}/public/bannerPhotos/${files.banner.originalFilename}`;
+      let newPath = `./public/bannerPhotos/${files.banner.originalFilename}`;
       console.log(newPath);
       mv(oldPath, newPath, function (err) {});
       return res.status(200).json({ fields, files });

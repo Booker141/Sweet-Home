@@ -378,6 +378,11 @@ export default function CreateAttendance() {
 
               display: flex;
               flex-direction: row;
+              height: 1vh;
+              max-height: 1vh;
+              width: 45vw;
+              max-width: 45vw;
+              padding: 4rem 0 4rem 0;
               justify-content: center;
             }
 

@@ -404,6 +404,7 @@ export default function Comment(props) {
             justify-content: flex-start;
             margin-right: 1rem;
             width: 59vw;
+            max-width: 59vw;
 
             /*Text*/
 
@@ -501,7 +502,7 @@ export default function Comment(props) {
             /*Box model*/
 
             margin-left: 1rem;
-            max-width: 27rem;
+            max-width: 50vw;
           }
 
           .comment__date {

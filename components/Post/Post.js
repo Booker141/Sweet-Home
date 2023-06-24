@@ -420,7 +420,7 @@ export default function Post(props) {
 
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center;          
             gap: 0.8rem;
           }
 
@@ -462,7 +462,7 @@ export default function Post(props) {
             /*Box model*/
 
             word-wrap: break-word;
-            max-width: 28rem;
+            max-width: 55vw;
             align-items: center;
           }
 

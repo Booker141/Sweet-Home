@@ -2,7 +2,7 @@
 
 import { fonts, colors } from "../../styles/frontend-conf";
 import { HiSearch, HiOutlineInformationCircle } from "react-icons/hi";
-import { MdClose } from "react-icons/md";
+import { MdOutlineClose } from "react-icons/md";
 import { useState } from "react";
 import { server } from "../../server";
 import global from "../../styles/global.module.css";
@@ -106,7 +106,7 @@ export default function SearchBar() {
             <HiSearch size={18} color={`${colors.quaternary}`} />
             <h3 className={global.text4__bold}>Buscar {keyword}..</h3>
             <button className="close__submenu" onClick={() => setIsOpen(false)}>
-              <MdClose size={25} color={`${colors.primary}`} />
+              <MdOutlineClose size={25} color={`${colors.primary}`} />
             </button>
           </div>
           <hr className={global.line}></hr>
@@ -192,20 +192,7 @@ export default function SearchBar() {
             justify-content: center;
           }
 
-          .close__submenu {
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-end;
-
-            /*Visuals*/
-
-            cursor: pointer;
-            background: transparent;
-            border: none;
-          }
+          
 
           .submenu {
             /*Box model*/
@@ -262,8 +249,30 @@ export default function SearchBar() {
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
+            gap: 1rem;
             width: 100%;
+          }
+
+          .close__submenu {
+
+            /*Position*/
+
+            position: relative;
+            right: 0rem;
+            
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+
+            /*Visuals*/
+
+            cursor: pointer;
+            background: transparent;
+            border: none;
           }
 
           .submenu__results {

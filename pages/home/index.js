@@ -5,8 +5,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { colors, fonts } from "styles/frontend-conf";
 import { server } from "/server";
-import { HiFilter } from "react-icons/hi";
-import { BsFilter } from "react-icons/bs";
 import global from "styles/global.module.css";
 import Head from "next/head";
 import Layout from "/components/Layout/Layout";
@@ -32,6 +30,7 @@ export default function Home({ posts }) {
   const [isSortedByLikes, setIsSortedByLikes] = useState(false);
   const Router = useRouter();
 
+
   const sortByFilters = (e) => {
     if (e === "activity") {
       setIsSortedByLikes(!isSortedByLikes);
@@ -51,6 +50,7 @@ export default function Home({ posts }) {
       setPostList(sortedPosts);
     }
   };
+
 
   if (status == "loading") {
     return (

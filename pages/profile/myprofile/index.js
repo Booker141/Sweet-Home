@@ -195,7 +195,7 @@ export default function MyProfile({ posts, users }) {
             {isPreviewBanner && (
               <FallbackImage
                 src={previewBanner}
-                style={{ borderRadius: "20px 20px 0 0", marginBottom: "1rem" }}
+                style={{ borderRadius: "17px 17px 0 0", marginBottom: "1rem" }}
                 width={2500}
                 height={600}
                 alt="Imagen del banner"
@@ -278,7 +278,7 @@ export default function MyProfile({ posts, users }) {
             </div>
             {isLocation && (
               <div className="profile__location">
-                <MdLocationPin color={`${colors.primary}`} />
+                <MdLocationPin size={20} color={`${colors.primary}`} />
                 <p className={global.text}>{profileUser?.location}</p>
               </div>
             )}
@@ -381,6 +381,11 @@ export default function MyProfile({ posts, users }) {
               display: flex;
               flex-direction: row;
               justify-content: center;
+              width: fit-content;
+              min-width: 3vw;
+              max-width: 40vw;
+              height: fit-content;
+              word-wrap: break-word;
               margin-top: 1rem;
               margin-bottom: 1rem;
             }
@@ -400,6 +405,11 @@ export default function MyProfile({ posts, users }) {
               display: flex;
               flex-direction: row;
               align-items: center;
+              width: fit-content;
+              min-width: 3vw;
+              max-width: 60vw;
+              height: fit-content;
+              word-wrap: break-word;
               gap: 0.5rem;
             }
 

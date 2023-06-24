@@ -319,6 +319,7 @@ export default function CreatePost() {
               display: flex;
               flex-direction: row;
               align-items: center;
+              marin-bottom: 2rem;
             }
 
             .label p {
@@ -372,14 +373,23 @@ export default function CreatePost() {
               flex-direction: column;
               justify-content: center;
               width: 100%;
+
             }
 
             .description__input {
+
               /*Box model*/
 
               display: flex;
               flex-direction: row;
-              justify-content: center;
+              height: 1vh;
+              max-height: 1vh;
+              width: 45vw;
+              max-width: 45vw;
+              padding: 4rem 0 4rem 0;
+              word-break: break-all;
+              overflow-wrap: break-word;
+
             }
 
             .location__input {
@@ -485,21 +495,6 @@ export default function CreatePost() {
               display: none;
             }
 
-            input[type="email"]:focus {
-              /*Visuals*/
-
-              border: 2px solid #4d97f7;
-              outline: none;
-              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
-            }
-
-            input[type="password"]:focus {
-              /*Visuals*/
-
-              border: 2px solid #4d97f7;
-              outline: none;
-              box-shadow: 10px 10px 20px 0px rgba(176, 176, 176, 0.66);
-            }
 
             ::placeholder {
               /*Text*/
