@@ -1711,6 +1711,36 @@ export default function Header(props) {
               );
             }
 
+            ::-webkit-scrollbar {
+
+          /*Box model*/
+
+          width: 10px; 
+          left: 2rem;
+
+
+        }
+
+        ::-webkit-scrollbar-track {
+
+          /*Box model*/        
+
+          box-shadow: inset 0 0 10px 10px #e0e0e0;
+          border-radius: 20px;
+
+        }
+
+        ::-webkit-scrollbar-thumb {
+
+          /*Box model*/
+
+          background: ${colors.primary};
+          border: 2px ${colors.primary} solid;
+          border-radius: 20px;
+
+        }
+          
+
             .menu {
               /*Position*/
 

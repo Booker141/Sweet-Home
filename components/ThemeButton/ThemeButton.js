@@ -55,7 +55,7 @@ export default function ThemeButton() {
 
                     display: flex;
                     align-items: center;
-
+                    margin-left: 2rem;
                 }
 
                 .toggleButton{
