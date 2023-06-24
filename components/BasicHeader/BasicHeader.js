@@ -31,7 +31,7 @@ import {
 import { VscCircleFilled } from "react-icons/vsc";
 import { GiDogBowl } from "react-icons/gi";
 import { GoGraph } from "react-icons/go";
-import { server } from "/server";
+import { server } from "../../server";
 import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 

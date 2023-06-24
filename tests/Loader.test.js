@@ -8,7 +8,7 @@ describe("Loader component", () => {
     
     test("Loader component is rendered with an image", () => {
       render(<Loader />);
-      const loaderImage = screen.getByAltText("loader");
+      const loaderImage = screen.getByAltText("Imagen de animación para cargar");
       expect(loaderImage).toBeInTheDocument();
     });
   

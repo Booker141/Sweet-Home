@@ -6,7 +6,7 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
-import { server } from "/server";
+import { server } from "../../server";
 import global from "../../styles/global.module.css";
 import router from "next/router";
 import carousel from "../../public/carousel.svg";

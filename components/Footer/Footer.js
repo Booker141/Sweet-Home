@@ -34,7 +34,7 @@ const LazyLoad = dynamic(() => import("react-lazyload"));
 export default function Footer() {
   return (
     <>
-      <div className="content">
+      <div className="content" data-testid="footer">
         <div className="waves">
           <svg
             width="100%"
