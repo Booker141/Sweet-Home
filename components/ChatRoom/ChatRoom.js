@@ -208,12 +208,12 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
     getMessages()
 
-      if(messageEnd){
+
         messageEnd.current?.addEventListener('DOMNodeInserted', event => {
           const { currentTarget: target } = event;
           target.scroll({ top: target.scrollHeight, behavior: 'auto' });
         });
-      }
+
       
         
   }, [currentChannel])
@@ -390,6 +390,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
           flex-direction: row;
           align-items: center;
           justify-content: flex-start;
+          gap: 1rem;
         }
 
         .buttons{
