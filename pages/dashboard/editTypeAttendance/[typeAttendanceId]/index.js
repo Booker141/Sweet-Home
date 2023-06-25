@@ -153,7 +153,7 @@ export default function EditTypeAttendance({ typeAttendance }) {
                 obligatorios vienen indicados con un asterisco (*):
               </p>
             </div>
-            <form action="/api/typeAttendance" id="form">
+            <div className="form-vertical">
               <div className="form-vertical__name">
                 <label className="label">
                   <p className={global.text2}>Tipo de cuidado (*)</p>
@@ -188,7 +188,7 @@ export default function EditTypeAttendance({ typeAttendance }) {
                   />
                 </div>
               </div>
-            </form>
+            </div>
             <input
               className={global.buttonPrimary}
               type="submit"
@@ -217,6 +217,16 @@ export default function EditTypeAttendance({ typeAttendance }) {
               );
               background-size: 100% 110%;
               border-radius: 20px;
+            }
+
+            .form-vertical{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
             }
 
             .form__position {
@@ -293,8 +303,13 @@ export default function EditTypeAttendance({ typeAttendance }) {
             }
 
             .form-vertical__name {
+
               /*Box model*/
 
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 40vw;
               margin-top: 2rem;
             }
 

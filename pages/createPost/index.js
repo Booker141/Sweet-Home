@@ -172,10 +172,10 @@ export default function CreatePost() {
                 vienen indicados con un asterisco *:
               </p>
             </div>
-            <form action="/api/posts" id="form">
+            <div className="form-vertical">
               <div className="form-vertical__location">
                 <div className="label">
-                  <p className={global.text}>Ubicación (*)</p>
+                  <p className={global.text}>Ubicación</p>
                   <MdLocationOn size={18} color={colors.secondary} />
                 </div>
                 <div className="location__input">
@@ -184,7 +184,6 @@ export default function CreatePost() {
                     type="text"
                     name="location"
                     value={location}
-                    required
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="p. ej.: Cádiz"
                     className="input"
@@ -255,7 +254,7 @@ export default function CreatePost() {
                   <option value="Animal perdido">Animal perdido</option>
                 </select>
               </div>
-            </form>
+            </div>
             <input
               className={global.buttonPrimary}
               type="submit"
@@ -274,6 +273,7 @@ export default function CreatePost() {
               align-items: center;
               justify-content: center;
               width: 70vw;
+              padding: 2rem;
 
               /*Visuals*/
 
@@ -283,6 +283,16 @@ export default function CreatePost() {
                 rgba(249, 166, 3, 1) 200%
               );
               border-radius: 20px;
+            }
+
+            .form-vertical{
+
+              /*Box model*/
+
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
             }
 
             .form__position {
@@ -355,9 +365,19 @@ export default function CreatePost() {
               /*Box model*/
 
               margin-top: 2rem;
+              width: 100%;
             }
 
             .form-vertical__image {
+              /*Box model*/
+
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 100%;
+            }
+
+            .form-vertical__typePost {
               /*Box model*/
 
               display: flex;

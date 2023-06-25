@@ -97,7 +97,7 @@ export default function CreateThread() {
               <p className={global.text2}>Introduzca el título del hilo:</p>
             </div>
 
-            <form action="/api/threads" id="form">
+            <div className="form-vertical">
               <div className="form-vertical__title">
                 <label className="label">
                   <p className={global.text}>Título (*)</p>
@@ -116,7 +116,7 @@ export default function CreateThread() {
                   />
                 </div>
               </div>
-            </form>
+            </div>
             <input
               className={global.buttonPrimary}
               type="submit"
@@ -145,6 +145,16 @@ export default function CreateThread() {
               );
               background-size: 100% 110%;
               border-radius: 20px;
+            }
+
+            .form-vertical{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
             }
 
             .createThread__header {

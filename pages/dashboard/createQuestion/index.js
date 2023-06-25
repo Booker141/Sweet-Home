@@ -163,7 +163,7 @@ export default function CreateQuestion() {
                 vienen indicados con un asterisco *:
               </p>
             </div>
-            <form action="/api/questions" id="form">
+            <div className="form-vertical">
               <div className="form-vertical__title">
                 <label className="label">
                   <p className={global.text}>Título (*)</p>
@@ -212,7 +212,7 @@ export default function CreateQuestion() {
                   />
                 </div>
               </div>
-            </form>
+            </div>
             <input
               className={global.buttonPrimary}
               type="submit"
@@ -242,7 +242,16 @@ export default function CreateQuestion() {
               background-size: 100% 110%;
               border-radius: 20px;
             }
+            
+            .form-vertical{
 
+            /*Box model*/
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            }
             .form__position {
               /*Box model*/
 
