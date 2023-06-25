@@ -54,8 +54,11 @@ export default function Question(props) {
       progress: undefined,
       theme: "colored",
     });
-
+    setTimeout(() =>
+    {
       Router.reload();
+    }, 5000)
+      
   };
 
   return (
@@ -137,6 +140,7 @@ export default function Question(props) {
             margin-left: auto;
             text-align: center;
           }
+
 
           .delete__button {
             /*Box model*/

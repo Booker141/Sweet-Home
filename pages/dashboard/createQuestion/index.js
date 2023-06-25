@@ -128,9 +128,11 @@ export default function CreateQuestion() {
         progress: undefined,
         theme: "colored",
       });
-      
-        Router.push(`${server}/faq`);
 
+      setTimeout(() => {
+        Router.push(`${server}/faq`);
+      }, 5000)
+      
       setIsPosting(false)
     }
   };
