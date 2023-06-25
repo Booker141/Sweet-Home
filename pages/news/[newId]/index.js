@@ -53,12 +53,13 @@ export default function NewsId({ news }) {
                         display: flex;
                         flex-direction: column;
                         padding: 2rem;
+                        width: 70vw;
                         justify-content: center;
 
                         /*Visuals*/
 
                         border-radius: 20px;
-                        background-color: #f0810f;
+                        background-color: ${colors.primary};
                     }
                     .dialog{
 

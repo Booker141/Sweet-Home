@@ -104,14 +104,15 @@ export default function New(props) {
           <div className="new__time">
             <HiOutlineClock size={17} color={`${colors.secondary}`} />
             <h3 className={global.date2}>
-              Publicada el
-              {new Date(props?.date).toLocaleDateString().slice(0, 10)}
+              Publicada el {new Date(props?.date).toLocaleDateString().slice(0, 10)}
             </h3>
           </div>
-          <h3 className={global.text3__bold}>{props?.author}</h3>
-          <p className={global.text2}>{props?.introduction}</p>
-          <p className={global.text2}>{props?.body}</p>
-          <p className={global.text2}>{props?.conclusion}</p>
+          <div className="new__text">
+            <h3 className={global.text3__bold}>{props?.author}</h3>
+            <p className={global.text2}>{props?.introduction}</p>
+            <p className={global.text2}>{props?.body}</p>
+            <p className={global.text2}>{props?.conclusion}</p>
+          </div>
         </article>
       </div>
       {isModalVisible && (
@@ -145,13 +146,7 @@ export default function New(props) {
 
       <style jsx>
         {`
-          .buttons {
-            /*Box model*/
 
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-          }
 
           .close__modal {
             /*Box model*/
@@ -204,7 +199,7 @@ export default function New(props) {
             /*Visuals*/
 
             border: none;
-            background: ${colors.primary};
+            background: transparent;
             box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
             border-radius: 70px;
             cursor: pointer;
@@ -221,7 +216,7 @@ export default function New(props) {
             /*Visuals*/
 
             border: none;
-            background: ${colors.primary};
+            background: transparent;
             cursor: pointer;
             border-radius: 70px;
             box-shadow: 0px 5px 10px 0px rgba(168, 97, 20, 1);
@@ -237,12 +232,35 @@ export default function New(props) {
           }
 
           .new__title {
+
+            /*Box model*/
+
+            word-wrap: break-word;
+            max-width: 55vw;
+
             /*Text*/
 
             font-size: 2rem;
             font-weight: 600;
             font-family: ${fonts.default};
             color: ${colors.secondary};
+            
+          }
+
+          .new__text h3{
+
+            /*Box model*/
+            
+            word-wrap: break-word;
+            max-width: 70vw;
+          }
+
+          .new__text p{
+
+            /*Box model*/
+
+            word-wrap: break-word;
+            max-width: 70vw;
           }
 
           .new__header {

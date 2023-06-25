@@ -50,7 +50,7 @@ export default function News({ news, users }) {
               className={global.buttonPrimary}
               onClick={() => router.push(`${server}/dashboard/createNew`)}
             >
-              Crear
+              Crear noticia
             </button>
           )}
         </div>

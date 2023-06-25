@@ -6,7 +6,6 @@ import { useState } from "react";
 import { MdTitle, MdOutlineError } from "react-icons/md";
 import {
   BsFillChatLeftTextFill,
-  BsFillXCircleFill,
   BsFillCheckCircleFill,
 } from "react-icons/bs";
 import { statusColors, colors, fonts } from "/styles/frontend-conf";
@@ -142,7 +141,7 @@ export default function EditQuestion({ question }) {
       });
       setTimeout(() => {
         Router.push(`${server}/faq`);
-      }, 5000);
+      }, 7000);
     }
   };
 

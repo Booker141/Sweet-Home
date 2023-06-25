@@ -55,7 +55,7 @@ export default function Question(props) {
       theme: "colored",
     });
 
-      Router.push(`${server}/faq`);
+      Router.reload();
   };
 
   return (
@@ -123,14 +123,29 @@ export default function Question(props) {
             flex-direction: row;
             justify-content: center;
             align-items: center;
+            width: 100%;
+          }
+
+          .question__header > h2{
+
+            /*Box models*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            text-align: center;
           }
 
           .delete__button {
             /*Box model*/
 
             display: flex;
-            align-items: flex-end;
-            margin-bottom: 0.5rem;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+
 
             /*Visuals*/
 
@@ -162,7 +177,9 @@ export default function Question(props) {
 
             display: flex;
             align-items: center;
-            margin-bottom: 0.5rem;
+            justify-content: flex-end;
+            margin-left: auto;
+            
 
             /*Visuals*/
 
@@ -177,7 +194,7 @@ export default function Question(props) {
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-left: 1rem;
+            margin-left: auto;
             gap: 1rem;
 
             margin-top: 0.5rem;
