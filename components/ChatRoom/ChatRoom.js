@@ -41,7 +41,7 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
 export default function ChatRoom({actualUser, otherUser, currentChannel, messages, chatId}) {
 
   const { data: session } = useSession({ required: true });
-  const [messagesChat, setMessagesChat] = useState(messages);
+  const [messagesChat, setMessagesChat] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState(otherUser);
@@ -52,7 +52,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   configureAbly({authUrl: `${server}/api/chatServer`})
 
   const [channel] = useChannel(currentChannel, (message) => {
-      setMessagesChat((messagesChat) =>[...messagesChat, message]);
+      setMessagesChat((messages) =>[...messages, message]);
   })
 
 
@@ -282,8 +282,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
                           <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
                           <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
                       </div>
-                    </div>  
-                       
+                    </div>                 
                   </>
                 );}           
               }  
