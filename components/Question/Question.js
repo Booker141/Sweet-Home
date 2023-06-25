@@ -54,10 +54,9 @@ export default function Question(props) {
       progress: undefined,
       theme: "colored",
     });
-    setTimeout(() =>
-    {
-      Router.reload();
-    }, 5000)
+
+    Router.reload();
+
       
   };
 

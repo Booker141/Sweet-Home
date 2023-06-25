@@ -139,9 +139,9 @@ export default function EditQuestion({ question }) {
         progress: undefined,
         theme: "colored",
       });
-      setTimeout(() => {
+
         Router.push(`${server}/faq`);
-      }, 7000);
+
     }
   };
 
