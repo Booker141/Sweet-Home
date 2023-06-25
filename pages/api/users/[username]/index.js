@@ -100,6 +100,7 @@ export default async function handler(req, res) {
     await db
       .collection("complaints")
       .deleteMany({ usernameFrom: req.query.username });
+    await db.collection('users').updateMany({}, {$pull: {followers: user._id, following: user._id}})
     await db.collection("attendances").deleteMany({ userId: user._id });
     await db.collection("chats").deleteMany({$or: [{senderId: user._id}, {receiverId: user._id}]});
     await db.collection("messages").deleteMany({senderId: user._id})

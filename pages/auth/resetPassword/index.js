@@ -138,7 +138,7 @@ export default function ResetPassword() {
         <div className={global.content}>
           <div className="form">
             <h1 className="form__title">Restablecer contraseña</h1>
-            <form className="form-vertical">
+            <div className="form-vertical">
               <div className="form-vertical__email">
                 <div className="label">
                   <p className={global.text}>Email</p>
@@ -174,7 +174,7 @@ export default function ResetPassword() {
                   </p>
                 </div>
               </div>
-            </form>
+            </div>
             <input
               className={global.buttonPrimary}
               type="submit"
