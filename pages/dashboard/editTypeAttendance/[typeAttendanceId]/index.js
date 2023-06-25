@@ -82,6 +82,7 @@ export default function EditTypeAttendance({ typeAttendance }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          primaryName: typeAttendance?.name,
           name: name,
           description: description,
         }),
