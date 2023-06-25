@@ -41,7 +41,6 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
 export default function ChatRoom({actualUser, otherUser, currentChannel, messages, chatId}) {
 
   const { data: session } = useSession({ required: true });
-  console.log(otherUser)
   const [messagesChat, setMessagesChat] = useState(messages);
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -53,8 +52,8 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   configureAbly({authUrl: `${server}/api/chatServer`, log : {level:4}})
 
   const [channel] = useChannel(currentChannel, (message) => {
-      console.log(message)
-      setMessagesChat([...messages.slice(-199), message]);
+      setMessagesChat([...messagesChat.slice(-199), message]);
+
   })
 
   const getFull = (num) => {
@@ -95,8 +94,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
 
     Router.push(`${server}/chat/welcome`)
-    
-
+  
 
   };
 
@@ -155,10 +153,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
       return;
     }
 
-
-    
-  
-
     const res = await fetch(`${server}/api/messages`, {
       method: "POST",
       headers: {
@@ -198,25 +192,24 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
         } 
       });
 
+      getMessages()
 
       setChatMessage("")
-      getMessages()
     }
   };
 
   useEffect(() => {
 
-    getMessages()
-
-
+      getMessages()
+      if(messageEnd)
         messageEnd.current?.addEventListener('DOMNodeInserted', event => {
           const { currentTarget: target } = event;
           target.scroll({ top: target.scrollHeight, behavior: 'auto' });
         });
 
-      
-        
+         
   }, [currentChannel])
+
 
 
 
