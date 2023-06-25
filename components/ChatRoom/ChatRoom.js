@@ -49,12 +49,12 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
   const Router = useRouter()
 
-  configureAbly({authUrl: `${server}/api/chatServer`, log : {level:4}})
+  configureAbly({authUrl: `${server}/api/chatServer`})
 
   const [channel] = useChannel(currentChannel, (message) => {
-      setMessagesChat([...messagesChat.slice(-199), message]);
-
+      setMessagesChat((messagesChat) =>[...messagesChat, message]);
   })
+
 
   const getFull = (num) => {
     if (num < 10) {
@@ -134,7 +134,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
     setMessagesChat(newMessages)
 
-
   }
 
   const createMessage = async () => {
@@ -193,8 +192,8 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
       });
 
       getMessages()
-
       setChatMessage("")
+
     }
   };
 
@@ -204,11 +203,11 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
       if(messageEnd)
         messageEnd.current?.addEventListener('DOMNodeInserted', event => {
           const { currentTarget: target } = event;
-          target.scroll({ top: target.scrollHeight, behavior: 'auto' });
+          target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
         });
-
          
   }, [currentChannel])
+
 
 
 
@@ -298,14 +297,13 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
               name="text"
               id="message"
               value={chatMessage}
-              onChange={(e) => setChatMessage(e)}
-              onEnter={(e) => sendMessageEnter(e)}
+              onChange={setChatMessage}
+              onEnter={sendMessageEnter}
               cleanOnEnter
               placeholder={`Escribe un mensaje 😄`}
               fontFamily={`${fonts.default}`}
               borderColor={`${colors.primary}`}
             />
-
             <button onClick={createMessage} className={global.buttonTertiary}>
               Enviar
             </button>

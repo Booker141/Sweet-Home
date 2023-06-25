@@ -72,9 +72,9 @@ export default function ChatContact(props) {
 
       const userInfo = await res2.json();
       setUser(userInfo)
-      if(userInfo.role.name === "protectora")
+      if(userInfo?.role.name === "protectora")
         setIsShelter(true)
-      if(userInfo.role.name === "veterinaria")
+      if(userInfo?.role.name === "veterinaria")
         setIsVet(true)
 
     }else{
@@ -88,9 +88,9 @@ export default function ChatContact(props) {
 
       const userInfo = await res3.json();
       setUser(userInfo)
-      if(userInfo.role.name === "protectora")
+      if(userInfo?.role.name === "protectora")
         setIsShelter(true)
-      if(userInfo.role.name === "veterinaria")
+      if(userInfo?.role.name === "veterinaria")
         setIsVet(true)
     }
 
@@ -112,8 +112,8 @@ export default function ChatContact(props) {
         },
       });
 
+
       const lastMessage = await res5.json();
-      console.log(lastMessage)
       setLastMessage(lastMessage);
 
     }
@@ -122,10 +122,9 @@ export default function ChatContact(props) {
 
 
   useEffect(() => { 
-    if(props?.id){
+    /*if(props?.id){*/
       getContactInfo()
-    }
-  
+   /* } */
   }, []);
 
   if (status == "loading") {

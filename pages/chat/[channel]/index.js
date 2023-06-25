@@ -38,6 +38,7 @@ export default function ChatChannel({actualUser, otherUser}) {
   const [chats, setChats] = useState(actualUser?.chats)
   const [chatId, setChatId] = useState("")
   const Router = useRouter()
+  console.log(Router)
   const [currentChannel, setCurrentChannel] = useState(Router?.query.channel)
 
 
@@ -54,6 +55,7 @@ export default function ChatChannel({actualUser, otherUser}) {
     const chat = await res.json()
     setCurrentChannel(chat.channel)
     setChatId(chatId)
+    setChats(actualUser?.chats)
 
     const message = await fetch(`${server}/api/messagesByChannel/${chat.channel}`, {
       method: "GET",
@@ -110,13 +112,11 @@ export default function ChatChannel({actualUser, otherUser}) {
 
     }
 
-
-
   }
 
   useEffect(() => {
     setChats(actualUser?.chats)
-  },[Router.asPath])
+  },[actualUser])
 
 
   if (status == "loading") {
