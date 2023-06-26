@@ -99,14 +99,12 @@ export default function Followers(props) {
               </a>}
           </div>
           {user && session?.user.id != user._id && 
-            <LazyLoad offset={100}>
               <FollowButton
                 idFrom={session?.user.id}
                 usernameFrom={session?.user.username}
                 idTo={user._id}
                 usernameTo={user.username}
               />
-            </LazyLoad>
           }
         </div>
 
