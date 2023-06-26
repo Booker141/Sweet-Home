@@ -7,6 +7,7 @@ export const config = {
   },
 };
 export default async function handler(req, res) {
+  
   res.setHeader("Cache-Control", "s-maxage=10");
 
   const client = await clientPromise;
@@ -14,8 +15,6 @@ export default async function handler(req, res) {
   const body = req.body;
   const messageId = new ObjectId();
   const chat = await db.collection('chats').findOne({channel: body.channel})
-
-  console.log(chat)
 
   const typeNotification = await db
   .collection("typeNotification")
@@ -36,10 +35,12 @@ export default async function handler(req, res) {
       .insertOne({
         _id: messageId,
         chatId: chat._id,
-        chatChannel: body.channel,
-        description: body.description,
-        senderId: ObjectId(body.senderId),
-        createdAt: new Date(),
+        data: {
+          description: body.description,
+          chatChannel: body.channel,
+          createdAt: new Date()
+        },  
+        senderId: ObjectId(body.senderId),   
       });
 
     await db

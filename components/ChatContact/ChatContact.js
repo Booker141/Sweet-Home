@@ -174,7 +174,7 @@ export default function ChatContact(props) {
               </div>
                     {Object.keys(lastMessage).length > 0 && <div className="lastMessage__hour">
                       <HiClock size={18} color={colors.primary} />
-                      <p className={global.lastMessage}>{getFull(new Date(lastMessage?.createdAt).getHours())}:{getFull(new Date(lastMessage?.createdAt).getMinutes())}</p>
+                      <p className={global.lastMessage}>{getFull(new Date(lastMessage?.data.createdAt).getHours())}:{getFull(new Date(lastMessage?.data.createdAt).getMinutes())}</p>
                     </div>}
           </div>
            

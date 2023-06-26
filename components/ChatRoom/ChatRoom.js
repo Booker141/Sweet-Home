@@ -41,7 +41,7 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
 export default function ChatRoom({actualUser, otherUser, currentChannel, messages, chatId}) {
 
   const { data: session } = useSession({ required: true });
-  const [messagesChat, setMessagesChat] = useState([]);
+  const [messagesChat, setMessagesChat] = useState(messages);
   const [chatMessage, setChatMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState(otherUser);
@@ -52,19 +52,14 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   configureAbly({authUrl: `${server}/api/chatServer`})
 
   const [channel] = useChannel(currentChannel, (message) => {
-      setMessagesChat((messages) =>[...messages, message]);
+      console.log(message)
+      setMessagesChat((messages) =>[...messages.slice(-199), message]);
   })
 
-
-  const getFull = (num) => {
-    if (num < 10) {
-      return "0" + num;
-    } else {
-      return num;
-    }
-  };
+ 
 
   const deleteChat = async () => {
+
     await fetch(`${server}/api/chats`, {
       method: "DELETE",
       headers: {
@@ -94,7 +89,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
 
     Router.push(`${server}/chat/welcome`)
-  
 
   };
 
@@ -178,18 +172,20 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
         progress: undefined,
         theme: "colored",
       });
-    } else {
+    }else{
 
-      channel.publish({ name: "chat-message", data: chatMessage}, (err) => { 
+
+      channel.publish({ name: "chat-message", data: {description: chatMessage, chatChannel: `${currentChannel}`, createdAt: new Date()}, } , async (err) => { 
         if(!err){ 
-          console.log("Mensaje publicado correctamente") 
+
+         console.log('Mensaje publicado correctamente')
+
         } 
         else { 
           console.log(err) 
         } 
       });
 
-      getMessages()
       setChatMessage("")
 
     }
@@ -198,6 +194,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   useEffect(() => {
 
       getMessages()
+
       if(messageEnd)
         messageEnd.current?.addEventListener('DOMNodeInserted', event => {
           const { currentTarget: target } = event;
@@ -256,38 +253,11 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
             )}          
           </div>
           <div className="messages__list" ref={messageEnd}> 
-          {messagesChat?.length > 0 && messagesChat.map((message) => {
-                if(session?.user.id === message.senderId){
-                  return (
-                    <>
-                      <div className="myMessages__container">
-                        <div className="myMessage">
-                          <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"me"}/>
-                        </div>  
-                        <div className="myMessage__date">
-                          <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
-                          <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
-                        </div>
-                      </div>   
-                          
-                    </>
-                  );}
-                if(user?._id === message.senderId){
-                  return (
-                  <>
-                    <div className="otherMessages__container">
-                      <div className="otherMessage">
-                        <Message key={message._id} id={message._id} description={message.description} senderId={message.senderId} author={"other"}/>
-                      </div>  
-                      <div className="otherMessage__date">
-                          <p className={global.date}>{new Date(message.createdAt).toLocaleDateString()}</p>
-                          <p className={global.date}>{getFull(new Date(message.createdAt).getHours()).toLocaleString()}:{getFull(new Date(message.createdAt).getMinutes()).toLocaleString()}</p>
-                      </div>
-                    </div>                 
-                  </>
-                );}           
-              }  
-              )}            
+            {messagesChat?.length > 0 && messagesChat.map((message) => {
+                const author = message.senderId === session?.user.id ? "me" : "other";
+                {console.log(message)}
+                <Message key={message._id} id={message._id} description={message.data.description} createdAt={message.data.createdAt} author={author} />             
+            })}        
           </div>
             
           <div className="message__input">

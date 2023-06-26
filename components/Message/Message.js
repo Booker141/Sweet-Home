@@ -1,6 +1,7 @@
 /* Static imports */
 
 import {colors} from '../../styles/frontend-conf'
+import global from '../../styles/global.module.css'
 
 /** 
   * @author Sergio García Navarro
@@ -17,16 +18,15 @@ import {colors} from '../../styles/frontend-conf'
  */
 export default function Message(props) {
 
-  let backgroundColor
-  let color
-  let text 
-  let borderRadius
+  let backgroundColor, color, text, borderRadius, messageLocation
+
   
   if(props?.author === "me"){
 
     backgroundColor = colors.primary
     text = 'center'
     color = colors.secondary
+    messageLocation = 'flex-end'
     borderRadius = '20px 20px 0px 20px'
 
   }else if(props?.author === "other"){
@@ -34,14 +34,24 @@ export default function Message(props) {
     backgroundColor = '#e8e8e8'
     text = 'flex-start'
     color = colors.quaternary
+    messageLocation = 'flex-start'
     borderRadius = '0px 20px 20px 20px'
 
   }
 
+  const getFull = (num) => {
+    if (num < 10) {
+      return "0" + num;
+    } else {
+      return num;
+    }
+  };
+
   return (
     <>
-      <div className="message__container">
+      <div key={props.id} className="message__container">
         <p className="message__text">{props?.description}</p>
+        <p className={global.date2}>{getFull(new Date(props?.createdAt).toLocaleDateString().getHours())}:{getFull(new Date(props?.createdAt).toLocaleDateString().getMinutes())}</p>
       </div>
 
       <style jsx>{`
@@ -52,6 +62,7 @@ export default function Message(props) {
 
         display: flex;
         flex-direction: column;
+        justify-content: ${messageLocation};
         width: fit-content;
         min-width: 3vw;
         max-width: 20vw;

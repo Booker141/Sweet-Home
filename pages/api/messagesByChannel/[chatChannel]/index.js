@@ -1,5 +1,4 @@
 import clientPromise from "../../lib/MongoDB";
-import { ObjectId } from "mongodb";
 
 export const config = {
   api: {
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
 
     const data = await db
       .collection("messages")
-      .find({ chatChannel: req.query.chatChannel })
+      .find({ "data.chatChannel": req.query.chatChannel})
       .sort({ createdAt: 1 })
       .toArray();
 
