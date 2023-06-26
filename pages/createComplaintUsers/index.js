@@ -28,7 +28,7 @@ export default function CreateComplaint({ users }) {
   const router = useRouter();
   const [reason, setReason] = useState("");
   const [reasonList, setReasonList] = useState("Spam");
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState("sergio14gn");
   const [isSending, setIsSending] = useState(false);
 
   const createComplaint = async (e) => {

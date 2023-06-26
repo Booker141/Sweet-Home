@@ -40,6 +40,8 @@ export default function Complaint(props) {
   const Router = useRouter();
   const { data: session } = useSession();
 
+  console.log(props)
+
   const [isAdmin, setIsAdmin] = useState(
     session?.user.role === "administrador" ? true : false
   );

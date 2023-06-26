@@ -65,9 +65,29 @@ export default function CreateThread() {
     const data = await res.json();
 
     if (data.error) {
+      toast.error("Ha ocurrido un error", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       console.log(data.error);
       setMessage("Introduzca los campos obligatorios");
     } else {
+      toast.success("Se ha creado el hilo correctamente", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       setMessage("Hilo creado correctamente");
       Router.push(`/attendances/${Router.query.typeAttendance}`);
     }

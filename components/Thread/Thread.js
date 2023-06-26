@@ -134,9 +134,9 @@ export default function Thread(props) {
     });
 
     setIsModalVisible(false);
-    setTimeout(() => {
-      Router.reload();
-    }, 5000);
+
+    Router.reload();
+
   };
 
   return (

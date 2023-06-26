@@ -141,9 +141,9 @@ export default function CreatePost() {
       });
 
       setIsPosting(false);
-      setTimeout(() => {
+
         Router.push(`${server}/home`);
-      }, 10000)
+
       
     }
   };

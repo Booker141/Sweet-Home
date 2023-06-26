@@ -131,11 +131,11 @@ export default function CreateAttendance() {
         theme: "colored",
       });
 
-      setTimeout(() => {
+  
         Router.push(
           `${server}/attendances/${Router.query.typeAttendance}/${Router.query.thread}`
         );
-      }, 10000)
+
       
     }
   };
