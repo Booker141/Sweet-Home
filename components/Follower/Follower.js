@@ -5,6 +5,7 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import { MdHealthAndSafety } from "react-icons/md";
 import { colors } from "../../styles/frontend-conf";
 import { useSession } from "next-auth/react";
+import {server} from '../../server'
 import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
@@ -37,11 +38,11 @@ export default function Followers(props) {
   const [isVet, setIsVet] = useState(false);
 
   const { data: session } = useSession({});
-  console.log(session);
+
 
   async function getFollowers() {
     const res = await fetch(
-      `http://localhost:3000/api/followers/${props?.id}`,
+      `${server}/api/followers/${props?.id}`,
       {
         method: "GET",
         headers: {
@@ -53,8 +54,6 @@ export default function Followers(props) {
     const follower = await res.json();
 
     setUser(follower);
-
-    console.log(user);
 
     if (follower?.role.name === "veterinaria") setIsVet(true);
     else if (follower?.role.name === "protectora") setIsShelter(true);
@@ -87,7 +86,7 @@ export default function Followers(props) {
             {isVet && <MdHealthAndSafety size={20} color={colors.primary} />}
           </a>
         </div>
-        {props && 
+        {user != {} && user != undefined && 
           <FollowButton
             idFrom={session?.user.id}
             usernameFrom={session?.user.username}

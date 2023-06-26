@@ -26,7 +26,7 @@ export default function FollowingUser({ user }) {
   const [following, setFollowing] = useState(user?.following);
   const numFollowing = following?.length;
 
-  if (status == "loading") {
+  if (status === "loading") {
     return (
       <>
         <div className={global.loading}>
@@ -141,7 +141,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      user,
+      user: JSON.parse(JSON.stringify(user)),
     },
   };
 }

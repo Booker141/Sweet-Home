@@ -26,7 +26,7 @@ export default function FollowerUser({ user }) {
   const [followers, setFollowers] = useState(user?.followers);
   const numFollowers = followers?.length;
 
-  if (status == "loading") {
+  if (status === "loading") {
     return (
       <>
         <div className={global.loading}>
@@ -50,8 +50,8 @@ export default function FollowerUser({ user }) {
           Le siguen actualmente {numFollowers} usuarios.
         </p>
         <div className="follower">
-          {followers.map((_id) => (
-            <Follower key={_id} id={_id} />
+          {followers.map((id) => (
+            <Follower key={id} id={id} />
           ))}
         </div>
         <style jsx>{`
@@ -141,7 +141,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      user,
+      user: JSON.parse(JSON.stringify(user)),
     },
   };
 }

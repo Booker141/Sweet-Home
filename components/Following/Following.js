@@ -40,7 +40,6 @@ export default function Following(props) {
 
   const { data: session } = useSession({});
 
-  console.log(props);
 
   async function getFollowing() {
     const res = await fetch(`${server}/api/usersById/${props.id}`, {
@@ -51,8 +50,6 @@ export default function Following(props) {
     });
 
     const following = await res.json();
-
-    console.log(following);
 
     setUser(following);
 

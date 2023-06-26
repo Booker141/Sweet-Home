@@ -34,7 +34,7 @@ const Modal = dynamic(() => import("/components/Modal/Modal"));
 
 /**
  * This function is a chat room channel that receive props from page chat and displays them
- * in a chat room format with user data
+ * in a chat room format with user data.
  * @param props - props received from page.
  * @returns A chat established by two users.
  */
@@ -97,8 +97,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
   
 
   };
-
-  
 
 
   const sendMessageEnter = () => {
@@ -207,9 +205,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
         });
          
   }, [currentChannel])
-
-
-
 
 
     return (
