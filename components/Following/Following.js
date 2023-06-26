@@ -59,7 +59,7 @@ export default function Following(props) {
 
   useEffect(() => {
     getFollowing();
-  }, []);
+  }, [props]);
 
   return (
     <>
@@ -70,8 +70,8 @@ export default function Following(props) {
               src={user?.image}
               style={{ borderRadius: "50px" }}
               alt="Imagen de usuario"
-              width={100}
-              height={100}
+              width={200}
+              height={200}
             />
           </div>
           <div className="following__info">
@@ -82,8 +82,8 @@ export default function Following(props) {
                   aria-label={`Ir a perfil de ${user?.username}`}
                 >
                   <strong>@{user?.username}</strong>
-                  {isShelter && <BsPatchCheckFill size={20} color={colors.secondary} />}
-                  {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+                  {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}
+                  {isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
                 </a>}
                 {session?.user.id === user?._id && 
                 <a
@@ -92,11 +92,11 @@ export default function Following(props) {
                   aria-label={`Ir a tu perfil`}
                 >
                   <strong>@{user?.username}</strong>
-                  {isShelter && <BsPatchCheckFill size={20} color={colors.secondary} />}
-                  {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+                  {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}
+                  {isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
                 </a>}
           </div>
-          {user && session?.user.id != user?._id && 
+          {user && session?.user.id != user._id && 
             <FollowButton
               idFrom={session?.user.id}
               usernameFrom={session?.user.username}
@@ -122,8 +122,8 @@ export default function Following(props) {
         .following__image {
             /*Box model*/
 
-            width: 2rem;
-            height: 2rem;
+            width: 3rem;
+            height: 3rem;
             margin-right: auto;
           }
 
@@ -148,6 +148,7 @@ export default function Following(props) {
             align-items: center;
             justify-content: center;
             text-align: center;
+            gap: 0.5rem;
           }
 
         `}
