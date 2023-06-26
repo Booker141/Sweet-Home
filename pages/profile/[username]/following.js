@@ -51,7 +51,9 @@ export default function FollowingUser({ user }) {
         </p>
         <div className="following">
           {following.map((id) => (
-            <Following key={id} id={id} />
+            <LazyLoad offset={100}>
+              <Following key={id} id={id} />
+            </LazyLoad>
           ))}
         </div>
         <style jsx>{`

@@ -51,7 +51,9 @@ export default function FollowerUser({ user }) {
         </p>
         <div className="follower">
           {followers.map((id) => (
-            <Follower key={id} id={id} />
+            <LazyLoad offset={100}>
+              <Follower key={id} id={id} />
+            </LazyLoad>
           ))}
         </div>
         <style jsx>{`
