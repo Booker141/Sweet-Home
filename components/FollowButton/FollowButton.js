@@ -25,7 +25,6 @@ const LazyLoad = dynamic(() => import("react-lazyload"));
  */
 export default function FollowButton(props) {
   const [isFollowedByMe, setIsFollowedByMe] = useState(false);
-  const [user, setUser] = useState({});
 
   async function getUser() {
     const res = await fetch(`${server}/api/users/${props?.usernameFrom}`, {
@@ -37,9 +36,7 @@ export default function FollowButton(props) {
 
     const data = await res.json();
 
-    setUser(data);
-
-    if (user) setIsFollowedByMe(data?.following.includes(props?.idTo));
+    if (data) setIsFollowedByMe(data?.following.includes(props?.idTo));
   }
 
   const followUser = async () => {
@@ -80,7 +77,7 @@ export default function FollowButton(props) {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [props]);
 
   return (
     <>
