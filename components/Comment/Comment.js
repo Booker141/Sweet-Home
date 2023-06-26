@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { colors, fonts } from "../../styles/frontend-conf";
 import { toast } from "react-toastify";
-import { MdDeleteOutline, MdHealthAndSafety } from "react-icons/md";
+import { MdDeleteOutline, MdHealthAndSafety, MdPets } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { server } from "../../server";
 import global from "../../styles/global.module.css";
@@ -267,7 +267,7 @@ export default function Comment(props) {
                       @{comment?.username}
                     </a>
                     {isShelter && (
-                      <BsPatchCheckFill size={18} color={colors.secondary} />
+                      <MdPets size={18} color={colors.secondary} />
                     )}
                     {isVet && (
                       <MdHealthAndSafety size={18} color={colors.secondary} />

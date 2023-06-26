@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import {HiClock} from 'react-icons/hi'
 import { BsFillChatFill, BsPatchCheckFill } from "react-icons/bs";
-import { MdHealthAndSafety } from 'react-icons/md'
+import { MdHealthAndSafety, MdPets } from 'react-icons/md'
 import global from "../../styles/global.module.css";
 import Loader from "/components/Loader/Loader";
 import FallbackImage from "/components/FallbackImage/FallbackImage";
@@ -35,6 +35,8 @@ export default function ChatContact(props) {
   const { data: session, status } = useSession({ required: true });
   const [lastMessage, setLastMessage] = useState({})
   const [isShelter, setIsShelter] = useState(false)
+  const [isManager, setIsManager] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [isVet, setIsVet] = useState(false)
   const [chat, setChat] = useState({});
   const [user, setUser] = useState({});
@@ -92,6 +94,10 @@ export default function ChatContact(props) {
         setIsShelter(true)
       if(userInfo?.role.name === "veterinaria")
         setIsVet(true)
+        if(userInfo?.role.name === "administrador")
+        setIsAdmin(true)
+        if(userInfo?.role.name === "gerente")
+        setIsManager(true)
     }
 
     const res4 = await fetch(`${server}/api/messages/${chatInfo._id}`, {
@@ -157,9 +163,10 @@ export default function ChatContact(props) {
                 <div className="user__username">
                     <p className={global.text4__bold}>{user?.username}</p>
                   {isShelter && (
-                        <BsPatchCheckFill size={15} color={colors.primary} />
+                        <MdPets size={15} color={colors.primary} />
                       )}
-                      {isVet && <MdHealthAndSafety size={20} color={colors.primary} />}
+                  {isVet && <MdHealthAndSafety size={20} color={colors.primary} />}
+                  {(isAdmin || isManager) && <BsPatchCheckFill size={20} color={colors.primary} />}
                 </div>                          
                   {/*Object.keys(lastMessage).length > 0 && lastMessage?.description.length <= 25 && <p className={global.lastMessage}>{lastMessage?.description}</p>*/}
                   {/*{lastMessage?.description?.length > 25 && <p className={global.lastMessage}>{lastMessage?.description.substring(0, 18)}...</p>}*/}

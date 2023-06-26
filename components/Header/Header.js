@@ -552,7 +552,7 @@ export default function Header(props) {
                     alt="Imagen de usuario"
                   />
                   @{session.user.username}
-                  <MdPets size={30} color={colors.secondary} />
+                  <MdPets size={20} color={colors.secondary} />
                   <MdKeyboardArrowDown size={20} color={colors.secondary} />
                 </button>
                 {isMenuOpen && (

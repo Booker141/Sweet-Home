@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { MdHealthAndSafety } from "react-icons/md";
+import { MdHealthAndSafety, MdPets } from "react-icons/md";
 import { colors } from "../../styles/frontend-conf";
 import { useSession } from "next-auth/react";
 import {server} from '../../server'
@@ -35,6 +35,8 @@ const LazyLoad = dynamic(() => import("react-lazyload"));
 export default function Followers(props) {
   const [user, setUser] = useState({});
   const [isShelter, setIsShelter] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isManager, setIsManager] = useState(false)
   const [isVet, setIsVet] = useState(false);
 
   const { data: session } = useSession({});
@@ -57,6 +59,8 @@ export default function Followers(props) {
 
     if (follower?.role.name === "veterinaria") setIsVet(true);
     else if (follower?.role.name === "protectora") setIsShelter(true);
+    else if (follower?.role.name === "administrador") setIsAdmin(true);
+    else if (follower?.role.name === "gerente") setIsManager(true);
   }
 
   useEffect(() => {
@@ -84,8 +88,9 @@ export default function Followers(props) {
                 aria-label={`Ir a perfil de ${user?.username}`}
               >
                 <strong>@{user?.username}</strong>
-                {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}
+                {isShelter && <MdPets size={18} color={colors.secondary} />}
                 {isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
+                {(isAdmin || isManager) && <BsPatchCheckFill size={18} color={colors.secondary} />}
               </a>}
               {session?.user.id === user?._id && 
               <a
@@ -94,8 +99,9 @@ export default function Followers(props) {
                 aria-label={`Ir a tu perfil`}
               >
                 <strong>@{user?.username}</strong>
-                {isShelter && <BsPatchCheckFill size={18} color={colors.secondary} />}
+                {isShelter && <MdPets size={18} color={colors.secondary} />}
                 {isVet && <MdHealthAndSafety size={18} color={colors.secondary} />}
+                {(isAdmin || isManager) && <BsPatchCheckFill size={18} color={colors.secondary} />}
               </a>}
           </div>
           {user && session?.user.id != user._id && 

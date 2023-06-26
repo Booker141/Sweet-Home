@@ -3,7 +3,7 @@
 import { colors } from "../../styles/frontend-conf";
 import { useState, useEffect } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { MdHealthAndSafety } from "react-icons/md";
+import { MdHealthAndSafety, MdPets } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
@@ -33,10 +33,14 @@ export default function UserCardSearch(props) {
 
   const [isShelter, setIsShelter] = useState(false);
   const [isVet, setIsVet] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isManager, setIsManager] = useState(false)
 
   useEffect(() => {
     if (props?.role.name === "protectora") setIsShelter(true);
     else if (props?.role.name === "veterinaria") setIsVet(true);
+    else if (props?.role.name === "administrador") setIsAdmin(true);
+    else if (props?.role.name === "gerente") setIsManager(true);
   }, []);
 
   return (
@@ -59,9 +63,10 @@ export default function UserCardSearch(props) {
           <div className="user__username">
             <strong>@{props?.username}</strong>
             {isShelter && (
-              <BsPatchCheckFill size={15} color={colors.secondary} />
+              <MdPets size={15} color={colors.secondary} />
             )}
             {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+            {(isAdmin || isManager) && <BsPatchCheckFill size={18} color={colors.secondary} />}
           </div>
         </div>
       </a>

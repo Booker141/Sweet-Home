@@ -10,6 +10,7 @@ import { FaUserAlt } from "react-icons/fa";
 import {
   MdOutlineEdit,
   MdCake,
+  MdPets,
   MdLocationPin,
   MdHealthAndSafety,
 } from "react-icons/md";
@@ -245,7 +246,7 @@ export default function MyProfile({ posts, users }) {
               </div>
               <div className={global.title2}>@{session?.user.username}</div>
               {isShelter && (
-                <BsPatchCheckFill size={30} color={colors.primary} />
+                <MdPets size={30} color={colors.primary} />
               )}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}
               <button

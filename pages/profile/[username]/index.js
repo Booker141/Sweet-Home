@@ -4,13 +4,13 @@ import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { colors, fonts } from "styles/frontend-conf";
-import { BsPatchCheckFill, BsFillChatFill } from "react-icons/bs";
+import { BsFillChatFill, BsPatchCheckFill } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 import {
   MdCake,
   MdLocationPin,
   MdHealthAndSafety,
-  MdOutlineBlock,
+  MdPets,
   MdReport,
 } from "react-icons/md";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -48,6 +48,12 @@ export default function Username({ posts, users }) {
   );
   const [isVet, setIsVet] = useState(
     users?.role.name === "veterinaria" ? true : false
+  );
+  const [isAdmin, setIsAdmin] = useState(
+    users?.role.name === "administrador" ? true : false
+  );
+  const [isManager, setIsManager] = useState(
+    users?.role.name === "gerente" ? true : false
   );
   const [userImage, setUserImage] = useState(users?.image);
   const [userBanner, setUserBanner] = useState(users?.banner);
@@ -115,7 +121,6 @@ export default function Username({ posts, users }) {
      )
      
      const chat = await chatAfterPost.json()
-     console.log(chat)
      router.push(`${server}/chat/welcome`)
     }
     
@@ -188,9 +193,10 @@ export default function Username({ posts, users }) {
                 @{isBlocked ? "Usuario bloqueado" : router.query.username}
               </div>
               {isShelter && (
-                <BsPatchCheckFill size={30} color={colors.primary} />
+                <MdPets size={30} color={colors.primary} />
               )}
               {isVet && <MdHealthAndSafety size={30} color={colors.primary} />}
+              {(isAdmin || isManager) && <BsPatchCheckFill size={30} color={colors.primary} />}
               {users && !isBlocked && (
                 <FollowButton
                   idFrom={session?.user.id}

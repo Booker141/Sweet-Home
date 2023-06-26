@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import {useRouter} from 'next/router'
 import { server } from "/server";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { MdHealthAndSafety, MdDeleteOutline, MdClose } from "react-icons/md";
+import { MdHealthAndSafety, MdDeleteOutline, MdClose, MdPets } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
 import { colors, fonts } from "/styles/frontend-conf";
 import { toast } from "react-toastify";
@@ -225,6 +225,12 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
                 />
                 <p className={global.text2__bold}>{otherUser?.username}</p>
                 {otherUser?.role.name === "protectora" && (
+                        <MdPets size={15} color={colors.secondary} />
+                      )}
+                {otherUser?.role.name === "administrador" && (
+                        <BsPatchCheckFill size={15} color={colors.secondary} />
+                      )}
+                {otherUser?.role.name === "gerente" && (
                         <BsPatchCheckFill size={15} color={colors.secondary} />
                       )}
                 {otherUser?.role.name === "veterinaria" && <MdHealthAndSafety size={20} color={colors.secondary} />}
