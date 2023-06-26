@@ -49,7 +49,7 @@ export default function Message(props) {
 
   return (
     <>
-      <div key={props.id} className="message__container">
+      <div className="message__container">
         <p className="message__text">{props?.description}</p>
         <p className={global.date2}>{getFull(new Date(props?.createdAt).toLocaleDateString().getHours())}:{getFull(new Date(props?.createdAt).toLocaleDateString().getMinutes())}</p>
       </div>

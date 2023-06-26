@@ -256,7 +256,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
             {messagesChat?.length > 0 && messagesChat.map((message) => {
                 const author = message.senderId === session?.user.id ? "me" : "other";
                 {console.log(message)}
-                <Message key={message._id} id={message._id} description={message.data.description} createdAt={message.data.createdAt} author={author} />             
+                <Message description={message.data.description} createdAt={message.data.createdAt} author={author} />             
             })}        
           </div>
             
