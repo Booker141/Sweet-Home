@@ -66,56 +66,98 @@ export default function Followers(props) {
   return (
     <>
       <div className={global.following}>
-        <div className="follower__image">
-          <FallbackImage
-            src={user?.image}
-            style={{ borderRadius: "50px" }}
-            alt="Imagen de usuario"
-            width={100}
-            height={100}
-          />
+        <div className="follower__container">
+          <div className="follower__image">
+            <FallbackImage
+              src={user?.image}
+              style={{ borderRadius: "50px" }}
+              alt="Imagen de usuario"
+              width={100}
+              height={100}
+            />
+          </div>
+          <div className="follower__info">
+            {session?.user.id != user?._id && 
+              <a
+                className={global.link3__bold}
+                href={`/profile/${user?.username}`}
+                aria-label={`Ir a perfil de ${user?.username}`}
+              >
+                <strong>@{user?.username}</strong>
+                {isShelter && <BsPatchCheckFill size={20} color={colors.secondary} />}
+                {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+              </a>}
+              {session?.user.id === user?._id && 
+              <a
+                className={global.link3__bold}
+                href={`/profile/myprofile`}
+                aria-label={`Ir a tu perfil`}
+              >
+                <strong>@{user?.username}</strong>
+                {isShelter && <BsPatchCheckFill size={20} color={colors.secondary} />}
+                {isVet && <MdHealthAndSafety size={20} color={colors.secondary} />}
+              </a>}
+          </div>
+          {user && session?.user.id != user?._id && 
+            <FollowButton
+              idFrom={session?.user.id}
+              usernameFrom={session?.user.username}
+              idTo={user._id}
+              usernameTo={user.username}
+            />
+          }
         </div>
-        <div className="follower__info">
-          <a
-            className={global.link}
-            href={`/profile/${user?.username}`}
-            aria-label={`Ir a perfil de ${user?.username}`}
-          >
-            <strong>@{user?.username}</strong>
-            {isShelter && <BsPatchCheckFill size={20} color={colors.primary} />}
-            {isVet && <MdHealthAndSafety size={20} color={colors.primary} />}
-          </a>
-        </div>
-        {user != {} && user != undefined && 
-          <FollowButton
-            idFrom={session?.user.id}
-            usernameFrom={session?.user.username}
-            idTo={user?._id}
-            usernameTo={user?.username}
-          />
-        }
-          
 
       </div>
 
       <style jsx>
         {`
+
+          .follower__container{
+
+            /*Box model*/
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 7vh;
+            width: 100%;
+
+          }
+
           .follower__image {
             /*Box model*/
 
             width: 2rem;
             height: 2rem;
-            margin-right: 0.5rem;
+            margin-right: auto;
           }
 
           .follower__info {
-            /*Box model*/
 
+            
+            /*Box model*/
+                    
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
+            margin-right: auto;
+
           }
+
+          .follower__info a{
+            /*Box model*/
+            
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+
+
         `}
       </style>
     </>

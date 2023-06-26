@@ -89,7 +89,7 @@ export default function FollowButton(props) {
           Seguido
         </button>
       ) : (
-        <button className={global.buttonTertiary2} onClick={() => followUser()}>
+        <button className={global.buttonTertiaryNoShadow} onClick={() => followUser()}>
           Seguir <AiOutlineCheck />
         </button>
       )}
