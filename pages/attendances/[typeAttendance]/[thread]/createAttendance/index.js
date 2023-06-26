@@ -130,9 +130,13 @@ export default function CreateAttendance() {
         progress: undefined,
         theme: "colored",
       });
-      Router.push(
-        `/attendances/${Router.query.typeAttendance}/${Router.query.thread}`
-      );
+
+      setTimeout(() => {
+        Router.push(
+          `${server}/attendances/${Router.query.typeAttendance}/${Router.query.thread}`
+        );
+      }, 10000)
+      
     }
   };
 

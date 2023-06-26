@@ -115,8 +115,10 @@ export default function Post(props) {
     });
 
     setIsModalVisible(false);
-
-    Router.reload();
+    setTimeout(() => {
+      Router.reload();
+    },10000)
+    
   };
 
   return (

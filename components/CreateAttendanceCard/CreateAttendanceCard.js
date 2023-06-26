@@ -105,8 +105,10 @@ export default function CreateAttendanceCard(props) {
         progress: undefined,
         theme: "colored",
       });
-
-      Router.reload();
+      setTimeout(() => {
+        Router.reload();
+      }, 10000)
+      
     }
   };
 

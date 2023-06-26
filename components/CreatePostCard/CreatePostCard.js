@@ -104,7 +104,9 @@ export default function CreatePostCard() {
         theme: "colored",
       });
 
-      Router.reload();
+      setTimeout(() => {
+        Router.reload();
+      }, 10000)
     }
   };
 
