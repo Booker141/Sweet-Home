@@ -126,9 +126,9 @@ export default function ChatContact(props) {
 
 
   useEffect(() => { 
-    /*if(props?.id){*/
+    if(props?.id){
       getContactInfo()
-   /* } */
+    } 
   }, []);
 
   if (status == "loading") {
@@ -168,7 +168,7 @@ export default function ChatContact(props) {
                 </div>                          
                   {/*Object.keys(lastMessage).length > 0 && lastMessage?.description.length <= 25 && <p className={global.lastMessage}>{lastMessage?.description}</p>*/}
                   {/*{lastMessage?.description?.length > 25 && <p className={global.lastMessage}>{lastMessage?.description.substring(0, 18)}...</p>}*/}
-                  <p className={global.date}>¡Chatea con <strong>{user?.username}</strong>!</p>
+                  <p className={global.lastMessage}>¡Chatea con <strong>{user?.username}</strong>!</p>
               </div>
                     {Object.keys(lastMessage).length > 0 && <div className="lastMessage__hour">
                       <HiClock size={18} color={colors.primary} />

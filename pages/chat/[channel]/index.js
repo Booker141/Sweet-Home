@@ -38,7 +38,7 @@ export default function ChatChannel({actualUser, otherUser}) {
   const [chats, setChats] = useState(actualUser?.chats)
   const [chatId, setChatId] = useState("")
   const Router = useRouter()
-  console.log(Router)
+
   const [currentChannel, setCurrentChannel] = useState(Router?.query.channel)
 
 
@@ -174,6 +174,7 @@ export default function ChatChannel({actualUser, otherUser}) {
                 height={1000}
               />
           </div>}
+          {console.log(messagesList)}
           {Router.asPath != '/chat/welcome' && <ChatRoom actualUser={actualUser} otherUser={user} currentChannel={currentChannel} messages={messagesList} chatId={chatId}/>}
           </div>
                   

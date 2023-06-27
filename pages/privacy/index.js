@@ -50,16 +50,12 @@ export default function Privacy() {
       <ul className={global.list}>
         <li className={global.list__item}> Información personal.</li>
         <li className={global.list__item}> Uso de la información.</li>
-        <li className={global.list__item}>
-         
-          Información sobre la privacidad de los niños.
+        <li className={global.list__item}> Información sobre la privacidad de los niños.
         </li>
         <li className={global.list__item}> Enlace a redes sociales.</li>
         <li className={global.list__item}> Seguridad de la información.</li>
         <li className={global.list__item}> Conservación.</li>
-        <li className={global.list__item}>
-          
-          Cambios en la política de privacidad.
+        <li className={global.list__item}> Cambios en la política de privacidad.
         </li>
       </ul>
 

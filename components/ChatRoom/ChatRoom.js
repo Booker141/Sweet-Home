@@ -123,6 +123,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
     });
 
     const newMessages = await res.json()
+    console.log(newMessages)
 
     setMessagesChat(newMessages)
 
@@ -253,12 +254,16 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
           </div>
           <div className="messages__list" ref={messageEnd}> 
             {messagesChat?.length > 0 && messagesChat.map((message) => {
-              const author = ((message.connectionId === ably.connection.id) || (message?.senderId === session.user.id)) ? "me" : "other"
+              const author = ((message.senderId === session.user.id) || (message?.connectionId === ably.connection.id) && ably.connection.id != undefined) ? "me" : "other" 
+              console.log(message.connectionId)
+              console.log(ably.connection.id)
+              console.log(session.user.id)
+              console.log(message.senderId)
+              console.log(author)
+              console.log(message)
                 return(
                   <>
-                    <LazyLoad offset={200}>
-                      <Message description={message.data.description} createdAt={message.data.createdAt} author={author} />
-                    </LazyLoad>
+                    <Message description={message.data.description} createdAt={message.data.createdAt} author={author} />
                   </>
                 )                           
             })}        
@@ -336,27 +341,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
         }
 
-        .myMessage__date{
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 1rem;
-        }
-
-        .otherMessage__date{
-
-          /*Box model*/
-
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
-          gap: 1rem;
-        }
 
         .buttons{
 
@@ -368,42 +352,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
           gap: 1.5rem;
         }
 
-
-
-        .myMessage{
-
-          /*Box model*/
-
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-        }
-
-        .otherMessage{
-          /*Box model*/
-
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-        }
-
-        .myMessages__container p {
-
-        /*Box model*/
-
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        }
-
-        .otherMessages__container p {
-
-        /*Box model*/
-
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        }
 
         .chat__header{
 
@@ -493,8 +441,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
         background: linear-gradient(45deg, rgba(240, 129, 15, 1) 35%, rgba(249, 166, 3, 1) 100%);
 
         }
-
-
 
 
         .messages__list{

@@ -3,6 +3,7 @@
 import {colors} from '../../styles/frontend-conf'
 import global from '../../styles/global.module.css'
 
+
 /** 
   * @author Sergio García Navarro
   * @returns Message component
@@ -18,29 +19,7 @@ import global from '../../styles/global.module.css'
  */
 export default function Message(props) {
 
-  let backgroundColor, color, text, borderRadius, messageLocation, margin
-
-  
-  if(props.author === "me"){
-
-    backgroundColor = colors.primary
-    text = 'center'
-    color = colors.secondary
-    messageLocation = 'flex-end'
-    margin = '0 0 0 auto'
-    borderRadius = '20px 20px 0px 20px'
-
-  }else if(props.author === "other"){
-
-    backgroundColor = '#e8e8e8'
-    text = 'flex-start'
-    color = colors.quaternary
-    messageLocation = 'flex-start'
-    margin = '0 auto 0 0'
-    borderRadius = '0px 20px 20px 20px'
-
-  }
-
+  console.log(props.author)
   const getFull = (num) => {
     if (num < 10) {
       return "0" + num;
@@ -51,24 +30,31 @@ export default function Message(props) {
 
   return (
     <>
-      <div className="message__container">
-        <p className="message__text">{props?.description}</p>
+      {props.author === "me" && <div className="myMessage__container">
+        <p className="message__text">{props.description}</p>
         <div className="message__date">
-          <p className="date">{getFull(new Date(props?.createdAt).toLocaleString()).slice(0, 9)}</p>
-          <p className="date">{getFull(new Date(props?.createdAt).getHours().toLocaleString())}:{getFull(new Date(props?.createdAt).getMinutes().toLocaleString())}</p>
+          <p className={global.date2}>{getFull(new Date(props.createdAt).toLocaleString()).slice(0, 9)}</p>
+          <p className={global.date2}>{getFull(new Date(props.createdAt).getHours().toLocaleString())}:{getFull(new Date(props.createdAt).getMinutes().toLocaleString())}</p>
         </div> 
-      </div>
+      </div>}
+      {props.author === "other"  && <div className="otherMessage__container">
+        <p className="message__text">{props.description}</p>
+        <div className="message__date">
+          <p className={global.date}>{getFull(new Date(props.createdAt).toLocaleString()).slice(0, 9)}</p>
+          <p className={global.date}>{getFull(new Date(props.createdAt).getHours().toLocaleString())}:{getFull(new Date(props.createdAt).getMinutes().toLocaleString())}</p>
+        </div> 
+      </div>}
 
       <style jsx>{`
 
-      .message__container {
+      .myMessage__container {
 
         /*Box model*/
 
         display: flex;
         flex-direction: column;
-        justify-content: ${messageLocation};
-        margin: ${margin};
+        justify-content: flex-end;
+        margin: 0 0 0 auto;
         width: fit-content;
         min-width: 5vw;
         max-width: 20vw;
@@ -81,12 +67,43 @@ export default function Message(props) {
         font-family: "Poppins", sans-serif;
         font-size: 0.9rem;
         font-weight: 400;
-        color: ${color};
+        color: ${colors.secondary};
 
         /*Visuals*/
 
-        border-radius: ${borderRadius};
-        background-color: ${backgroundColor};
+        border-radius: 20px 20px 0 20px;
+        background-color: ${colors.primary};
+
+
+
+        }
+
+        .otherMessage__container {
+
+        /*Box model*/
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin: 0 auto 0 0;
+        width: fit-content;
+        min-width: 7vw;
+        max-width: 20vw;
+        height: fit-content;
+        word-wrap: break-word;
+        padding: 0.3rem;
+
+        /*Text*/
+
+        font-family: "Poppins", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: ${colors.quaternary};
+
+        /*Visuals*/
+
+        border-radius: 0 20px 20px 20px;
+        background-color: #e8e8e8;
 
 
 
@@ -112,14 +129,6 @@ export default function Message(props) {
           overflow-wrap: break-word;
         }
 
-        .date{
-          /*Text*/
-
-          font-family: 'Poppins', sans-serif;
-          font-size: 0.7rem;
-          color: ${color};
-        }
-      
       
       `}</style>
     </>
