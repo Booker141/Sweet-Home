@@ -23,6 +23,7 @@ const FallbackImage = dynamic(() =>
   import("/components/FallbackImage/FallbackImage")
 );
 const Modal = dynamic(() => import("/components/Modal/Modal"));
+const LazyLoad = dynamic(() => import("react-lazyload"));
 
 
 /**
@@ -251,13 +252,15 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
             )}          
           </div>
           <div className="messages__list" ref={messageEnd}> 
-            {messagesChat?.length > 0 && messagesChat.map((message, index) => {
+            {messagesChat?.length > 0 && messagesChat.map((message) => {
+              const author = ((message.connectionId === ably.connection.id) || (message?.senderId === session.user.id)) ? "me" : "other"
                 return(
                   <>
-                    <Message key={index} description={message.data.description} createdAt={message.data.createdAt} author={(message.connectionId === ably.connection.id) || (message?.senderId === session.user.id) ? "me" : "other"} />
+                    <LazyLoad offset={200}>
+                      <Message description={message.data.description} createdAt={message.data.createdAt} author={author} />
+                    </LazyLoad>
                   </>
-                )
-                             
+                )                           
             })}        
           </div>
             

@@ -31,7 +31,6 @@ const FallbackImage = dynamic(() =>
 const FollowButton = dynamic(() =>
   import("/components/FollowButton/FollowButton")
 );
-const LazyLoad = dynamic(() => import("react-lazyload"));
 
 /**
  * @author Sergio García Navarro
@@ -119,8 +118,7 @@ export default function Username({ posts, users }) {
         },  
       }
      )
-     
-     const chat = await chatAfterPost.json()
+
      router.push(`${server}/chat/welcome`)
     }
     

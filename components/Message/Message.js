@@ -21,7 +21,7 @@ export default function Message(props) {
   let backgroundColor, color, text, borderRadius, messageLocation, margin
 
   
-  if(props?.author === "me"){
+  if(props.author === "me"){
 
     backgroundColor = colors.primary
     text = 'center'
@@ -30,7 +30,7 @@ export default function Message(props) {
     margin = '0 0 0 auto'
     borderRadius = '20px 20px 0px 20px'
 
-  }else if(props?.author === "other"){
+  }else if(props.author === "other"){
 
     backgroundColor = '#e8e8e8'
     text = 'flex-start'
