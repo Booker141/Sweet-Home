@@ -51,8 +51,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
   configureAbly({authUrl: `${server}/api/chatServer`})
 
-  const [channel] = useChannel(currentChannel, (message) => {
-      console.log(message)
+  const [channel, ably] = useChannel(currentChannel, (message) => {
       setMessagesChat((messages) =>[...messages.slice(-199), message]);
   })
 
@@ -109,7 +108,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
       return;
     }
 
-    createMessage(chatMessage);
+    createMessage();
 
   }
 
@@ -253,10 +252,13 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
             )}          
           </div>
           <div className="messages__list" ref={messageEnd}> 
-            {messagesChat?.length > 0 && messagesChat.map((message) => {
-                const author = message.senderId === session?.user.id ? "me" : "other";
-                {console.log(message)}
-                <Message description={message.data.description} createdAt={message.data.createdAt} author={author} />             
+            {messagesChat?.length > 0 && messagesChat.map((message, index) => {
+                return(
+                  <>
+                    <Message key={index} description={message.data.description} createdAt={message.data.createdAt} author={(message.connectionId === ably.connection.id) || (message?.senderId === session.user.id) ? "me" : "other"} />
+                  </>
+                )
+                             
             })}        
           </div>
             
@@ -499,6 +501,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
           display: flex;
           flex-direction: column;
+          gap: 1rem;
           overflow-y: auto; 
           padding: 1rem; 
 

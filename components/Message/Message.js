@@ -18,7 +18,7 @@ import global from '../../styles/global.module.css'
  */
 export default function Message(props) {
 
-  let backgroundColor, color, text, borderRadius, messageLocation
+  let backgroundColor, color, text, borderRadius, messageLocation, margin
 
   
   if(props?.author === "me"){
@@ -27,6 +27,7 @@ export default function Message(props) {
     text = 'center'
     color = colors.secondary
     messageLocation = 'flex-end'
+    margin = '0 0 0 auto'
     borderRadius = '20px 20px 0px 20px'
 
   }else if(props?.author === "other"){
@@ -35,6 +36,7 @@ export default function Message(props) {
     text = 'flex-start'
     color = colors.quaternary
     messageLocation = 'flex-start'
+    margin = '0 auto 0 0'
     borderRadius = '0px 20px 20px 20px'
 
   }
@@ -51,7 +53,10 @@ export default function Message(props) {
     <>
       <div className="message__container">
         <p className="message__text">{props?.description}</p>
-        <p className={global.date2}>{getFull(new Date(props?.createdAt).toLocaleDateString().getHours())}:{getFull(new Date(props?.createdAt).toLocaleDateString().getMinutes())}</p>
+        <div className="message__date">
+          <p className="date">{getFull(new Date(props?.createdAt).toLocaleString()).slice(0, 9)}</p>
+          <p className="date">{getFull(new Date(props?.createdAt).getHours().toLocaleString())}:{getFull(new Date(props?.createdAt).getMinutes().toLocaleString())}</p>
+        </div> 
       </div>
 
       <style jsx>{`
@@ -63,12 +68,13 @@ export default function Message(props) {
         display: flex;
         flex-direction: column;
         justify-content: ${messageLocation};
+        margin: ${margin};
         width: fit-content;
-        min-width: 3vw;
+        min-width: 5vw;
         max-width: 20vw;
         height: fit-content;
         word-wrap: break-word;
-        padding: 0.4rem;
+        padding: 0.3rem;
 
         /*Text*/
 
@@ -85,6 +91,17 @@ export default function Message(props) {
 
 
         }
+
+        .message__date{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.5rem;
+          justify-content: flex-end;
+        }
       
         .message__text {
 
@@ -93,6 +110,14 @@ export default function Message(props) {
           display: flex;
           word-break: break-all;
           overflow-wrap: break-word;
+        }
+
+        .date{
+          /*Text*/
+
+          font-family: 'Poppins', sans-serif;
+          font-size: 0.7rem;
+          color: ${color};
         }
       
       
