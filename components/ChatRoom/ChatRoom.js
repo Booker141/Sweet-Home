@@ -160,7 +160,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
     const data = await res.json();
 
     if (data.error) {
-      console.log(data.error);
       toast.error("Ha ocurrido un error", {
         position: "bottom-right",
         autoClose: 5000,

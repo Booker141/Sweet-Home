@@ -3,11 +3,9 @@
 import { useSession } from "next-auth/react";
 import { server } from "../../server";
 import { colors } from "/styles/frontend-conf";
-import { useRouter } from "next/router"
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import {HiClock} from 'react-icons/hi'
-import { BsFillChatFill, BsPatchCheckFill } from "react-icons/bs";
+import { BsPatchCheckFill } from "react-icons/bs";
 import { MdHealthAndSafety, MdPets } from 'react-icons/md'
 import global from "../../styles/global.module.css";
 import Loader from "/components/Loader/Loader";
