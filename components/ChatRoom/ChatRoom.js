@@ -195,7 +195,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
       getMessages()
 
-      if(messageEnd)
         messageEnd.current?.addEventListener('DOMNodeInserted', event => {
           const { currentTarget: target } = event;
           target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
@@ -255,12 +254,6 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
           <div className="messages__list" ref={messageEnd}> 
             {messagesChat?.length > 0 && messagesChat.map((message) => {
               const author = ((message.senderId === session.user.id) || (message?.connectionId === ably.connection.id) && ably.connection.id != undefined) ? "me" : "other" 
-              console.log(message.connectionId)
-              console.log(ably.connection.id)
-              console.log(session.user.id)
-              console.log(message.senderId)
-              console.log(author)
-              console.log(message)
                 return(
                   <>
                     <Message description={message.data.description} createdAt={message.data.createdAt} author={author} />
