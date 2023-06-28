@@ -44,6 +44,8 @@ export default function CreatePost() {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0];
 
+      console.log(imageUploaded)
+
       setPostImage(imageUploaded);
 
       setPreviewImage(URL.createObjectURL(imageUploaded));
@@ -77,9 +79,11 @@ export default function CreatePost() {
 
       const body = new FormData();
 
-      body.append("image", postImage);
+      console.log(postImage)
 
+      body.append("file", postImage);
 
+      
       if(server === 'http://localhost:3000'){
 
         setPreviewImage(`/postPhotos/${postImage.name}`)
@@ -89,13 +93,13 @@ export default function CreatePost() {
           body,
         });
 
-
       }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      //if(server === 'https://sweet-home-bay.vercel.app/'){
 
         body.append("upload_preset", "sweet-home-images")
 
+        console.log([...body])
         const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
           method: "POST",
           body,
@@ -107,7 +111,7 @@ export default function CreatePost() {
 
         setPreviewImage(imageCloudinary.secure_url)
 
-      }
+      //}
 
       
     }

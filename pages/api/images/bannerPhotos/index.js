@@ -4,6 +4,7 @@ import mv from "mv";
 export const config = {
   api: {
     bodyParser: false,
+    responseLimit: '15mb',
   },
 };
 
