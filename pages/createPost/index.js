@@ -109,7 +109,7 @@ export default function CreatePost() {
 
         console.log(imageCloudinary)
 
-        setPreviewImage(imageCloudinary.secure_url)
+        setPreviewImage(imageCloudinary.url)
 
       //}
 
