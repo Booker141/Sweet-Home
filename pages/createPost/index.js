@@ -40,6 +40,8 @@ export default function CreatePost() {
   const [isPosting, setIsPosting] = useState(false);
   const [message, setMessage] = useState("");
 
+  let imageCloudinary
+
   const uploadImage = (e) => {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0];
@@ -95,7 +97,7 @@ export default function CreatePost() {
 
       }
 
-      //if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app/'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -105,16 +107,18 @@ export default function CreatePost() {
           body,
         })
 
-        const imageCloudinary = await data.json()
+        imageCloudinary = await data.json()
 
         console.log(imageCloudinary)
 
-        setPreviewImage(imageCloudinary.url)
+        setPreviewImage(imageCloudinary.secure_url)
 
-      //}
+      }
 
       
     }
+
+    console.log(imageCloudinary)
 
     const res = await fetch(`${server}/api/posts`, {
       method: "POST",
@@ -126,7 +130,7 @@ export default function CreatePost() {
         location,
         description,
         username: session.user.username,
-        image: previewImage,
+        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : previewImage,
         type: typePost,
       }),
     }).catch((err) => console.log(err));
