@@ -81,8 +81,6 @@ export default function CreatePost() {
 
       const body = new FormData();
 
-      console.log(postImage)
-
       body.append("file", postImage);
 
       
@@ -101,15 +99,12 @@ export default function CreatePost() {
 
         body.append("upload_preset", "sweet-home-images")
 
-        console.log([...body])
         const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
           method: "POST",
           body,
         })
 
         imageCloudinary = await data.json()
-
-        console.log(imageCloudinary)
 
         setPreviewImage(imageCloudinary.secure_url)
 
@@ -118,7 +113,6 @@ export default function CreatePost() {
       
     }
 
-    console.log(imageCloudinary)
 
     const res = await fetch(`${server}/api/posts`, {
       method: "POST",
@@ -130,7 +124,7 @@ export default function CreatePost() {
         location,
         description,
         username: session.user.username,
-        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : previewImage,
+        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/postPhotos/${postImage?.name}`,
         type: typePost,
       }),
     }).catch((err) => console.log(err));

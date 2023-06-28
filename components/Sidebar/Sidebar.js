@@ -70,6 +70,7 @@ export default function Sidebar() {
   const [reportImage, setReportImage] = useState("");
   const { data: session, status } = useSession();
   const router = useRouter();
+  let imageCloudinary
 
   const uploadImage = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -90,14 +91,32 @@ export default function Sidebar() {
     }
 
     if (reportImage != "") {
+
       const body = new FormData();
+      
+      body.append("file", reportImage);
 
-      body.append("image", reportImage);
+      if(server === 'http://localhost:3000'){
 
-      await fetch(`${server}/api/images/reportPhotos`, {
-        method: "POST",
-        body,
-      });
+        await fetch(`${server}/api/images/reportPhotos`, {
+          method: "POST",
+          body,
+        });
+
+      }
+
+      if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+          method: "POST",
+          body,
+        })
+
+        imageCloudinary = await data.json()
+
+      }
     }
 
     const res = await fetch(`${server}/api/reports`, {
@@ -107,7 +126,7 @@ export default function Sidebar() {
       },
       body: JSON.stringify({
         report: report,
-        image: reportImage ? `/reportPhotos/${reportImage?.name}` : "",
+        image: 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/reportPhotos/${reportImage?.name}`,
         username: session.user.username,
       }),
     }).catch((err) => console.log(err));
