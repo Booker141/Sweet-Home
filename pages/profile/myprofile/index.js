@@ -83,7 +83,7 @@ export default function MyProfile({ posts, users }) {
 
       if(server === 'https://sweet-home-bay.vercel.app/'){
 
-        body.append("upload_preset", "sweet-home-images")
+        formBanner.append("upload_preset", "sweet-home-images")
 
         const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
           method: "POST",
