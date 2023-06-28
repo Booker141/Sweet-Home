@@ -54,19 +54,6 @@ export default function CreatePost() {
   const createPost = async (e) => {
     e.preventDefault();
 
-    if (location.trim() === "") {
-      toast.error("El campo Ubicación es obligatorio", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
 
     if (description.trim() === "") {
       toast.error("El campo Descripción es obligatorio", {
@@ -87,14 +74,40 @@ export default function CreatePost() {
     setIsPosting(true);
 
     if (postImage != "") {
+
       const body = new FormData();
 
       body.append("image", postImage);
 
-      await fetch(`${server}/api/images/postPhotos`, {
-        method: "POST",
-        body,
-      });
+
+      if(server === 'http://localhost:3000'){
+
+        setPreviewImage(`/postPhotos/${postImage.name}`)
+
+        await fetch(`${server}/api/images/postPhotos`, {
+          method: "POST",
+          body,
+        });
+
+
+      }
+
+      if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`, {
+          method: "POST",
+          body
+        })
+
+        const imageCloudinary = await data.json()
+
+        setPreviewImage(imageCloudinary.secure_url)
+
+      }
+
+      
     }
 
     const res = await fetch(`${server}/api/posts`, {
@@ -107,7 +120,7 @@ export default function CreatePost() {
         location,
         description,
         username: session.user.username,
-        image: postImage ? `/postPhotos/${postImage?.name}` : "",
+        image: previewImage,
         type: typePost,
       }),
     }).catch((err) => console.log(err));
