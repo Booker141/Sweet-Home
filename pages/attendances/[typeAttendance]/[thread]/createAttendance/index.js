@@ -41,6 +41,7 @@ export default function CreateAttendance() {
   const [isPosting, setIsPosting] = useState(false);
   const [isPreviewImage, setIsPreviewImage] = useState(false);
   const [message, setMessage] = useState("");
+  let imageCloudinary
 
   const uploadImage = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -73,12 +74,29 @@ export default function CreateAttendance() {
     if (attendanceImage != "") {
       const body = new FormData();
 
-      body.append("image", attendanceImage);
+      body.append("file", attendanceImage);
 
-      await fetch(`${server}/api/images/attendancePhotos`, {
-        method: "POST",
-        body,
-      });
+      if(server === 'http://localhost:3000'){
+        await fetch(`${server}/api/images/attendancePhotos`, {
+          method: "POST",
+          body,
+        });
+      }
+
+      if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+          method: "POST",
+          body,
+        })
+
+        imageCloudinary = await data.json()
+
+        setPreviewImage(imageCloudinary.secure_url)
+
+      }
     }
 
     setIsPosting(true);
@@ -97,9 +115,7 @@ export default function CreateAttendance() {
           animal,
           breed,
           username: session.user.username,
-          image: attendanceImage
-            ? `/attendancePhotos/${attendanceImage?.name}`
-            : "",
+          image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/attendancePhotos/${attendanceImage?.name}`,
         }),
       }
     ).catch((err) => console.log(err));
