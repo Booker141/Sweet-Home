@@ -87,7 +87,7 @@ export default function MyProfile({ posts, users }) {
 
         const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
           method: "POST",
-          body,
+          body: formBanner,
         })
 
         imageCloudinary = await data.json()
