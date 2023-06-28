@@ -42,6 +42,7 @@ export default function CreatePet() {
   const [previewImage, setPreviewImage] = useState("");
   const [isPreviewImage, setIsPreviewImage] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
+  let imageCloudinary
 
   let today = new Date();
 
@@ -51,7 +52,6 @@ export default function CreatePet() {
 
       setPetImage(imageUploaded);
 
-      console.log(imageUploaded);
 
       setPreviewImage(URL.createObjectURL(imageUploaded));
       setIsPreviewImage(true);
@@ -136,13 +136,32 @@ export default function CreatePet() {
     if (petImage != "") {
       const body = new FormData();
 
-      body.append("image", petImage);
+      body.append("file", petImage);
 
+    if(server === 'http://localhost:3000'){
       await fetch(`${server}/api/images/petPhotos`, {
         method: "POST",
         body,
       });
+
     }
+
+    if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+          method: "POST",
+          body,
+        })
+
+        imageCloudinary = await data.json()
+
+        setPreviewImage(imageCloudinary.secure_url)
+
+      }
+
+  }
     setIsPosting(true);
 
     const res = await fetch(`${server}/api/pets/${session.user.username}`, {
@@ -158,7 +177,7 @@ export default function CreatePet() {
         weight: weight,
         birthdate: birthdate,
         username: session.user.username,
-        image: petImage ? `/petPhotos/${petImage?.name}` : "",
+        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
       }),
     }).catch((err) =>
       toast.error(`${err}`, {

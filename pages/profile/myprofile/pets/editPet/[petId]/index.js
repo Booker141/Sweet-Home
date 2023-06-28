@@ -43,28 +43,23 @@ export default function EditPet({ pets }) {
   const [isPreviewImage, setIsPreviewImage] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isValidate, setIsValidate] = useState(true);
+  let imageCloudinary
 
   const uploadImage = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0];
 
-      const reader = new FileReader();
+      setPetImage(imageUploaded);
 
-      reader.readAsDataURL(imageUploaded);
 
-      reader.onload = () => {
-        setPreviewImage(reader.result);
-        const imageData = reader.result;
-
-        setPetImage(imageData);
-      };
+      setPreviewImage(URL.createObjectURL(imageUploaded));
+      setIsPreviewImage(true);
+      
     }
   };
 
   const editPet = async (e) => {
     e.preventDefault();
-
-    const regWeight = /^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/;
 
     if (name.trim() === "") {
       toast.error("El campo Nombre es obligatorio", {
@@ -108,33 +103,37 @@ export default function EditPet({ pets }) {
       return;
     }
 
-    if (weight.trim() === "") {
-      toast.error("El campo Peso es obligatorio", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
+
+    if (petImage != "") {
+
+      const body = new FormData();
+
+      body.append("file", petImage);
+
+    if(server === 'http://localhost:3000'){
+      await fetch(`${server}/api/images/petPhotos`, {
+        method: "POST",
+        body,
       });
-      return;
+
     }
 
-    if (!weight.match(regWeight)) {
-      toast.error("El peso debe ser un número positivo", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
+    if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+          method: "POST",
+          body,
+        })
+
+        imageCloudinary = await data.json()
+
+        setPreviewImage(imageCloudinary.secure_url)
+
+      }
+
+  }
 
     setIsEditing(true);
 
@@ -148,7 +147,7 @@ export default function EditPet({ pets }) {
         breed: breed,
         name: name,
         weight: weight,
-        image: petImage,
+        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
         ownerId: pets.ownerId,
         ownerUsername: pets.ownerUsername,
         birthdate: birthdate,
