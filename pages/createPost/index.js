@@ -103,6 +103,8 @@ export default function CreatePost() {
 
         const imageCloudinary = await data.json()
 
+        console.log(imageCloudinary)
+
         setPreviewImage(imageCloudinary.secure_url)
 
       }
