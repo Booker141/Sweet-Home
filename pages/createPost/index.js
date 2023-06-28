@@ -96,9 +96,9 @@ export default function CreatePost() {
 
         body.append("upload_preset", "sweet-home-images")
 
-        const data = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/image/upload`, {
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
           method: "POST",
-          body
+          body,
         })
 
         const imageCloudinary = await data.json()
