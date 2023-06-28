@@ -1639,6 +1639,7 @@
 
   background: transparent;
   border-radius: 40px;
+  
   border: 2px solid #e74c3c;
 
   /*Misc*/
@@ -1708,6 +1709,7 @@
   cursor: pointer;
 
   background: #e74c3c;
+  box-shadow: 0px 5px 10px 0px rgba(168,97,20,1);
   border-radius: 40px;
   border: none;
 

@@ -58,9 +58,12 @@ export default function MyProfile({ posts, users }) {
     users?.location === "" ? false : true
   );
   const router = useRouter();
+  let imageCloudinary
 
   const changeBanner = async (e) => {
+
     if (e.target.files && e.target.files[0]) {
+
       const bannerUploaded = e.target.files[0];
 
       setUserBanner(`/bannerPhotos/${bannerUploaded?.name}`);
@@ -69,12 +72,29 @@ export default function MyProfile({ posts, users }) {
 
       const formBanner = new FormData();
 
-      formBanner.append("banner", userBanner);
+      formBanner.append("file", bannerUploaded);
 
-      await fetch(`${server}/api/images/bannerPhotos`, {
-        method: "POST",
-        body: formBanner,
-      });
+      if(server === 'http://localhost:3000'){
+        await fetch(`${server}/api/images/bannerPhotos`, {
+          method: "POST",
+          body: formBanner,
+        });
+      }
+
+      if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+          method: "POST",
+          body,
+        })
+
+        imageCloudinary = await data.json()
+
+        setPreviewBanner(imageCloudinary.secure_url)
+
+      }
 
       await fetch(`${server}/api/users/${session?.user.username}`, {
         headers: {
@@ -83,9 +103,7 @@ export default function MyProfile({ posts, users }) {
         method: "PUT",
         body: JSON.stringify({
           image: userImage,
-          banner: bannerUploaded
-            ? `/bannerPhotos/${bannerUploaded?.name}`
-            : "/bannerPhotos/defaultBanner.svg",
+          banner: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/bannerPhotos/${bannerUploaded?.name}`,
           firstname: profileUser?.firstname,
           lastname: profileUser?.lastname,
           phone: profileUser?.phone,
@@ -110,6 +128,7 @@ export default function MyProfile({ posts, users }) {
 
   const changeProfilePic = async (e) => {
     if (e.target.files && e.target.files[0]) {
+
       const imageUploaded = e.target.files[0];
 
       setUserImage(`/userPhotos/${imageUploaded?.name}`);
@@ -118,12 +137,29 @@ export default function MyProfile({ posts, users }) {
 
       const body = new FormData();
 
-      body.append("image", imageUploaded);
+      body.append("file", imageUploaded);
 
-      await fetch(`${server}/api/images/userPhotos`, {
-        method: "POST",
-        body,
-      });
+      if(server === 'http://localhost:3000'){
+        await fetch(`${server}/api/images/userPhotos`, {
+          method: "POST",
+          body,
+        });
+      }
+
+      if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        body.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+          method: "POST",
+          body,
+        })
+
+        imageCloudinary = await data.json()
+
+        setPreviewBanner(imageCloudinary.secure_url)
+
+      }
 
       await fetch(`${server}/api/users/${session?.user.username}`, {
         headers: {
@@ -131,9 +167,7 @@ export default function MyProfile({ posts, users }) {
         },
         method: "PUT",
         body: JSON.stringify({
-          image: imageUploaded
-            ? `/userPhotos/${imageUploaded?.name}`
-            : "/userPhotos/default.png",
+          image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/userPhotos/${imageUploaded?.name}`,
           banner: userBanner,
           firstname: profileUser?.firstname,
           lastname: profileUser?.lastname,
@@ -198,7 +232,7 @@ export default function MyProfile({ posts, users }) {
                 src={previewBanner}
                 style={{ borderRadius: "17px 17px 0 0", marginBottom: "1rem" }}
                 width={2500}
-                height={600}
+                height={800}
                 alt="Imagen del banner"
               />
             )}

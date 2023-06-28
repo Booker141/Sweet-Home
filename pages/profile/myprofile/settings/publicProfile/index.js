@@ -2,7 +2,6 @@
 
 import { useSession, getSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { colors, statusColors, fonts } from "styles/frontend-conf.js";
 import { FaUserPlus, FaBirthdayCake } from "react-icons/fa";
 import { MdOutlineError, MdLocationOn, MdClose } from "react-icons/md";
@@ -60,7 +59,8 @@ export default function PublicProfile({ users }) {
   const [isPreviewBanner, setIsPreviewBanner] = useState(
     users?.banner != "" ? true : false
   );
-
+  let imageCloudinary
+  let bannerCloudinary
   let today = new Date();
 
   const uploadImage = async (e) => {
@@ -162,27 +162,70 @@ export default function PublicProfile({ users }) {
     e.preventDefault();
 
     if (isValidate) {
+
       setIsEditing(true);
 
-      if (e.target.files && e.target.files[0]) {
+      if (imageURL != users?.image){
+
         const body = new FormData();
+
+        body.append("file", image);
+  
+        if(server === 'http://localhost:3000'){
+  
+            await fetch(`${server}/api/images/userPhotos`, {
+              method: "POST",
+              body,
+            });
+        }
+
+        if(server === 'https://sweet-home-bay.vercel.app/'){
+          body.append("upload_preset", "sweet-home-images")
+  
+            const res = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
+              method: "POST",
+              body,
+            })
+  
+            imageCloudinary = await res.json()
+  
+            setPreviewImage(bannerCloudinary.secure_url)
+        }
+
+      }
+    
+
+      if (bannerURL != users?.banner) {
 
         const formBanner = new FormData();
 
-        formBanner.append("banner", banner);
+        formBanner.append("file", banner);
+   
+        if(server === 'http://localhost:3000'){
 
-        body.append("image", image);
+          await fetch(`${server}/api/images/bannerPhotos`, {
+            method: "POST",
+            body: formBanner,
+          });
 
-        await fetch(`${server}/api/images/userPhotos`, {
-          method: "POST",
-          body,
-        });
+        }
 
-        await fetch(`${server}/api/images/bannerPhotos`, {
+      if(server === 'https://sweet-home-bay.vercel.app/'){
+
+        formBanner.append("upload_preset", "sweet-home-images")
+
+        const data = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
           method: "POST",
           body: formBanner,
-        });
+        })
+
+        bannerCloudinary = await data.json()
+
+        setPreviewBanner(bannerCloudinary.secure_url)
+
       }
+
+    }
 
       await fetch(`${server}/api/users/${session?.user.username}`, {
         method: "PUT",
@@ -195,8 +238,8 @@ export default function PublicProfile({ users }) {
           biography: biography,
           location: location,
           birthdate: birthdate,
-          image: imageURL,
-          banner: bannerURL,
+          image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : imageURL,
+          banner: server === 'https://sweet-home-bay.vercel.app/' ? bannerCloudinary.secure_url : bannerURL,
         }),
       });
 
@@ -307,7 +350,7 @@ export default function PublicProfile({ users }) {
                   alt="Imagen de previsualización"
                   style={{ borderRadius: "20px" }}
                   width={2500}
-                  height={600}
+                  height={800}
                 />
               )}
               <div className="form-vertical__nameBlock">

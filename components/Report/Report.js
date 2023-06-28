@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MdDeleteOutline, MdClose } from "react-icons/md";
+import {useRouter} from 'next/router'
 import { server } from "../../server";
 import { colors } from "../../styles/frontend-conf";
 import { HiOutlineClock } from "react-icons/hi";
@@ -34,6 +35,8 @@ export default function Report(props) {
   const [user, setUser] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const date = new Date(props?.createdAt);
+
+  const Router = useRouter()
 
   const getUser = async () => {
     const res = await fetch(`${server}/api/users/${props?.username}`, {
@@ -79,9 +82,8 @@ export default function Report(props) {
 
     setIsModalVisible(false);
 
-    setTimeout(() => {
       Router.reload();
-    }, 5000);
+
   };
 
   const getFull = (num) => {

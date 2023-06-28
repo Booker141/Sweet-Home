@@ -126,7 +126,7 @@ export default function Sidebar() {
       },
       body: JSON.stringify({
         report: report,
-        image: 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/reportPhotos/${reportImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/reportPhotos/${reportImage?.name}`,
         username: session.user.username,
       }),
     }).catch((err) => console.log(err));
