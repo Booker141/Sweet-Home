@@ -67,9 +67,9 @@ export default function BlockedUser(props) {
     });
 
     setIsModalVisible(false);
-    setTimeout(() => {
+
       Router.reload();
-    }, 5000);
+
   };
 
   return (
@@ -221,7 +221,6 @@ export default function BlockedUser(props) {
           /*Visuals*/
 
           border: none;
-          background: transparent;
           cursor: pointer;
         }
 
