@@ -135,7 +135,7 @@ export default function Report(props) {
         <hr className={global.white__line2}></hr>
         <p className={global.text2}>{props?.reason}</p>
         <figure className="report__image">
-          {props?.image && (
+          {(props.image != "" && props.image != '/reportPhotos/undefined') && 
             <FallbackImage
               src={props?.image}
               width={1300}
@@ -143,7 +143,7 @@ export default function Report(props) {
               style={{ borderRadius: "20px" }}
               alt="Imagen para reforzar informe"
             />
-          )}
+          }
         </figure>
       </div>
       {isModalVisible && (
