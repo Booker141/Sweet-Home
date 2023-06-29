@@ -238,8 +238,8 @@ export default function PublicProfile({ users }) {
           biography: biography,
           location: location,
           birthdate: birthdate,
-          image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : imageURL,
-          banner: server === 'https://sweet-home-bay.vercel.app/' ? bannerCloudinary.secure_url : bannerURL,
+          image: server === 'https://sweet-home-bay.vercel.app/' && imageURL != users?.image ? imageCloudinary.secure_url : imageURL,
+          banner: server === 'https://sweet-home-bay.vercel.app/' && bannerURL != users?.banner ? bannerCloudinary.secure_url : bannerURL,
         }),
       });
 
