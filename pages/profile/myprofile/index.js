@@ -421,6 +421,8 @@ export default function MyProfile({ posts, users }) {
               max-width: 40vw;
               height: fit-content;
               word-wrap: break-word;
+              white-space: pre-wrap;
+              text-align: center;
               margin-top: 1rem;
               margin-bottom: 1rem;
             }

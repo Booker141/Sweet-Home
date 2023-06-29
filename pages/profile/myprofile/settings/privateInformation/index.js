@@ -31,7 +31,7 @@ export default function Settings({ users, account }) {
   const { data: session, status } = useSession({ required: true });
 
   const [phone, setPhone] = useState(users?.phone);
-  const [gender, setGender] = useState(users?.gender);
+  const [gender, setGender] = useState(users?.gender === "" ? 'masculino' : users?.gender);
   const [isEditing, setIsEditing] = useState(false);
   const [isValidate, setIsValidate] = useState(true);
 
@@ -71,8 +71,11 @@ export default function Settings({ users, account }) {
     if (isValidate) {
       setIsEditing(true);
 
+      console.log(phone)
+      console.log(gender)
+
       await fetch(
-        `${server}/api/usersPrivateInformation/${session?.user.username}`,
+        `${server}/api/usersPrivateInfo/${session?.user.username}`,
         {
           method: "PUT",
           headers: {
@@ -142,7 +145,7 @@ export default function Settings({ users, account }) {
             >
               <div className="form-vertical__phone">
                 <div className="label">
-                  <p className={global.text}>Teléfono</p>
+                  <p className={global.text}>Teléfono móvil</p>
                   <AiFillPhone size={18} color={colors.secondary} />
                 </div>
                 <div className="phone__input">
@@ -183,6 +186,7 @@ export default function Settings({ users, account }) {
                   name="gender"
                   id="gender"
                   className="selector"
+                  value={gender}
                   onChange={(e) => setGender(e.target.value)}
                 >
                   <option value="masculino">Masculino</option>

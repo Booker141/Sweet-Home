@@ -204,7 +204,7 @@ export default function SignIn({ providers, csrfToken, account }) {
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-vertical__email">
                 <label className="label">
-                  <p className={global.text}>Email o usuario</p>
+                  <p className={global.text}>Correo electrónico o usuario</p>
                   <HiUser size={18} color={colors.secondary} />
                 </label>
                 <div className="email__input">

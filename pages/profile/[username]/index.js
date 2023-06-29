@@ -203,7 +203,7 @@ export default function Username({ posts, users }) {
                   usernameTo={users?.username}
                 />
               )}
-              {!isBlocked && <button
+              {!isBlocked && session?.user.role != "administrador" && session?.user.role != "gerente" && <button
                   onClick={() => createChat()}
                   aria-label={`Crear chat con ${router.query.username}`}
                 >
@@ -405,6 +405,8 @@ export default function Username({ posts, users }) {
                         max-width: 40vw;
                         height: fit-content;
                         word-wrap: break-word;
+                        white-space: pre-wrap;
+                        text-align: center;
                         margin-top: 1rem;
                         margin-bottom: 1rem;
 

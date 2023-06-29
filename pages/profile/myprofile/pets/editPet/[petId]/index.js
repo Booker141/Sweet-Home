@@ -104,7 +104,7 @@ export default function EditPet({ pets }) {
     }
 
 
-    if (petImage != "") {
+    if (petImage != pets?.image) {
 
       const body = new FormData();
 
@@ -298,14 +298,16 @@ export default function EditPet({ pets }) {
                 <div className="weight__input">
                   <input
                     title="Introducir peso"
-                    type="text"
+                    type="number"
                     name="weight"
                     value={weight}
+                    step="0.01"
+                    min={0}
                     onChange={(e) => setWeight(Math.abs(e.target.value))}
                     placeholder="p. ej.: 16"
                     className="input"
                   />
-                  <p className={global.text2}>Kg</p>
+                  <p className={global.text2}> Kg</p>
                 </div>
               </div>
               <div className="form-vertical__birthdate">
@@ -490,6 +492,13 @@ export default function EditPet({ pets }) {
               flex-direction: row;
               align-items: center;
               gap: 1rem;
+            }
+
+            .weight__input p{
+
+              /*Box model*/
+
+              margin-bottom: 1rem;
             }
 
             .description__input {

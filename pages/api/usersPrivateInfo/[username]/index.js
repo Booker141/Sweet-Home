@@ -29,6 +29,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "PUT") {
+
     await db.collection("users").updateOne(
       { username: req.query.username },
       {
@@ -61,6 +62,7 @@ export default async function handler(req, res) {
         },
       }
     );
+
     await db.collection("accounts").updateOne(
       { username: req.query.username },
       {
@@ -75,8 +77,8 @@ export default async function handler(req, res) {
           refresh_token: account.refresh_token,
           providerAccountId: account.providerAccountId,
           email: user.email,
-          firstname: body.firstname,
-          lastname: body.lastname,
+          firstname: user.firstname,
+          lastname: user.lastname,
           username: user.username,
           createdAt: account.createdAt,
           userId: user._id,

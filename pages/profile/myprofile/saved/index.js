@@ -51,6 +51,7 @@ export default function Saved({ users }) {
           <div className="container__column1">
             <div className="column1__header">
               <h1 className={global.title}>Publicaciones guardadas</h1>
+              <p className={global.text}>A continuación, se muestran todas las publicaciones que ha guardado de otros usuarios:</p>
             </div>
 
             {saves?.length === 0 && (
@@ -81,16 +82,6 @@ export default function Saved({ users }) {
 
               }
 
-              .filter__list{
-
-            /*Box model*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            align-self: flex-end;
-
-            }
 
 
 
@@ -109,14 +100,11 @@ export default function Saved({ users }) {
                 /*Box model*/
 
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 gap: 1rem;
+                margin-bottom: 2rem;
                 width: 50rem;
-                align-items: center;
               }
-
-
-
 
 
               .column1__buttons{
