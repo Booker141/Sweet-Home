@@ -136,8 +136,9 @@ export default function Question(props) {
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            margin-left: auto;
             text-align: center;
+            margin-left: auto;
+            margin-right: auto;
           }
 
 
