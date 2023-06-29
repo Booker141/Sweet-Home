@@ -189,7 +189,7 @@ export default function PublicProfile({ users }) {
   
             imageCloudinary = await res.json()
   
-            setPreviewImage(bannerCloudinary.secure_url)
+            setPreviewImage(imageCloudinary.secure_url)
         }
 
       }
