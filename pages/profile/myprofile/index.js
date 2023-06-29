@@ -157,7 +157,7 @@ export default function MyProfile({ posts, users }) {
 
         imageCloudinary = await data.json()
 
-        setPreviewBanner(imageCloudinary.secure_url)
+        setPreviewImage(imageCloudinary.secure_url)
 
       }
 
