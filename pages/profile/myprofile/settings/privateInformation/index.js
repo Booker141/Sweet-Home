@@ -138,10 +138,8 @@ export default function Settings({ users, account }) {
               perfil público:
             </p>
 
-            <form
+            <div
               className="form-vertical"
-              action="/api/users"
-              enctype="multipart/form-data"
             >
               <div className="form-vertical__phone">
                 <div className="label">
@@ -208,7 +206,7 @@ export default function Settings({ users, account }) {
                     </button>
                   )}
               </div>
-            </form>
+            </div>
             <input
               className={global.buttonPrimary}
               type="submit"
