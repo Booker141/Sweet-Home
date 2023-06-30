@@ -271,7 +271,7 @@ export default function Post(props) {
             </div>
           </div>
           <div className="post__image">
-            {props.image != "" && (
+            {props.image != "" && props.image != '/postPhotos/undefined' && (
               <FallbackImage
                 src={props.image}
                 style={{ borderRadius: "20px", maxWidth: "50vw" }}

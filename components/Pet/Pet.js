@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import global from "../../styles/global.module.css";
+import fallbackImage from "../../public/fallbackImage.png";
 
 /*Dynamic imports*/
 
@@ -82,13 +83,22 @@ export default function Pet(props) {
       <div key={props?.id} className={global.pet}>
         <div className="pet__row1">
           <div className="pet__column1">
-            <FallbackImage
+            {props.image != "" && props.image != "/petPhotos/undefined" && <FallbackImage
               src={props?.image}
               style={{ borderRadius: "10px", maxWidth: "20vw" }}
               width={800}
               height={600}
               alt="Imagen de la mascota"
-            />
+            />}
+            {props.image === "/petPhotos/undefined" &&
+              <FallbackImage
+                src={fallbackImage}
+                style={{ borderRadius: "10px", maxWidth: "20vw" }}
+                width={800}
+                height={600}
+                alt="Imagen de la mascota"
+              />
+            }
           </div>
           <div className="pet__column2">
             <div className="pet__name">
