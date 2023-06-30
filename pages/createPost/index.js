@@ -124,7 +124,7 @@ export default function CreatePost() {
         location,
         description,
         username: session.user.username,
-        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/postPhotos/${postImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app/' && postImage != "" ? imageCloudinary.secure_url : `/postPhotos/${postImage?.name}`,
         type: typePost,
       }),
     }).catch((err) => console.log(err));

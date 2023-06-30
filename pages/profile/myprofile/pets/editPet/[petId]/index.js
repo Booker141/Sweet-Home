@@ -147,7 +147,7 @@ export default function EditPet({ pets }) {
         breed: breed,
         name: name,
         weight: weight,
-        image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app/' && petImage != pets.image ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
         ownerId: pets.ownerId,
         ownerUsername: pets.ownerUsername,
         birthdate: birthdate,
