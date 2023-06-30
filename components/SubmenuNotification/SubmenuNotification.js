@@ -1,21 +1,14 @@
 /* Static imports */
 
-import { server } from "../../server";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { FaUserPlus, FaComment } from "react-icons/fa";
-import { HiHeart, HiOutlineClock } from "react-icons/hi";
+import { HiHeart } from "react-icons/hi";
 import {AiFillWechat} from 'react-icons/ai'
 import { colors } from "../../styles/frontend-conf";
 import global from "../../styles/global.module.css";
 import dynamic from "next/dynamic";
 
-/*Dynamic imports*/
-
-const FallbackImage = dynamic(() =>
-  import("/components/FallbackImage/FallbackImage")
-);
-const LazyLoad = dynamic(() => import("react-lazyload"));
 
 /** 
   * @author Sergio García Navarro

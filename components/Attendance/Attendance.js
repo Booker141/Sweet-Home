@@ -41,7 +41,7 @@ export default function Attendance(props) {
   const [user, setUser] = useState({});
   const [thread, setThread] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isImage, setIsImage] = useState(props?.image ? true : false);
+  const [isImage, setIsImage] = useState(props?.image && props.image != `/attendancePhotos/undefined` ? true : false);
   const Router = useRouter();
   const date = new Date(props.createdAt);
 
