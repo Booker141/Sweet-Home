@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import {useRouter} from 'next/router'
-import { server } from "/server";
+import { server } from "/server"
 import { BsPatchCheckFill } from "react-icons/bs";
 import { MdHealthAndSafety, MdDeleteOutline, MdClose, MdPets } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
@@ -50,7 +50,7 @@ export default function ChatRoom({actualUser, otherUser, currentChannel, message
 
   const Router = useRouter()
 
-  configureAbly({authUrl: `${server}/api/chatServer`})
+  configureAbly({authUrl: `${server}/api/chatServer`, logs : {level: 4}})
 
   const [channel, ably] = useChannel(currentChannel, (message) => {
       setMessagesChat((messages) =>[...messages.slice(-199), message]);
