@@ -122,38 +122,40 @@ export default function Notification(props) {
   return (
     <>
       <div className={global.notification}>
-        {props?.type.name === "seguir" && (
-          <FaUserPlus color={`${colors.secondary}`} size={40} />
-        )}
-        {props?.type.name === "comentar" && (
-          <FaComment color={`${colors.secondary}`} size={35} />
-        )}
-        {props?.type.name === "me gusta" && (
-          <HiHeart color={`${colors.secondary}`} size={40} />
-        )}
-        {props?.type.name === "mensaje" && (
-          <AiFillWechat color={`${colors.secondary}`} size={50} />
-        )}
-        <div className="notification__userFrom">
-          <FallbackImage
-            src={user?.image}
-            style={{ borderRadius: "50px" }}
-            alt="Imagen de usuario"
-            width={70}
-            height={70}
-          />
+        <div className="notification__container">
+          {props?.type.name === "seguir" && (
+            <FaUserPlus color={`${colors.secondary}`} size={40} />
+          )}
+          {props?.type.name === "comentar" && (
+            <FaComment color={`${colors.secondary}`} size={35} />
+          )}
+          {props?.type.name === "me gusta" && (
+            <HiHeart color={`${colors.secondary}`} size={40} />
+          )}
+          {props?.type.name === "mensaje" && (
+            <AiFillWechat color={`${colors.secondary}`} size={50} />
+          )}
+          <div className="notification__userFrom">
+            <FallbackImage
+              src={user?.image}
+              style={{ borderRadius: "50px" }}
+              alt="Imagen de usuario"
+              width={70}
+              height={70}
+            />
+          </div>
+          <div className={global.text2}>{notification?.description}</div>
+          <div className="notification__time">
+            <HiOutlineClock color={`${colors.secondary}`} size={17} />
+            <p className={global.time}>Hace {calcTime()}</p>
+          </div>
+          <button
+            className="delete__button"
+            onClick={() => setIsModalVisible(true)}
+          >
+            <MdDeleteOutline size={20} color={colors.secondary} />
+          </button>
         </div>
-        <div className={global.text2}>{notification?.description}</div>
-        <div className="notification__time">
-          <HiOutlineClock color={`${colors.secondary}`} size={17} />
-          <p className={global.time}>Hace {calcTime()}</p>
-        </div>
-        <button
-          className="delete__button"
-          onClick={() => setIsModalVisible(true)}
-        >
-          <MdDeleteOutline size={20} color={colors.secondary} />
-        </button>
       </div>
       {isModalVisible && (
         <Modal>
@@ -187,6 +189,17 @@ export default function Notification(props) {
         </Modal>
       )}
       <style jsx>{`
+
+        .notification__container{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+        }
         .notification__time {
           /*Box model*/
 

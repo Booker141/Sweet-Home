@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { MdHealthAndSafety } from "react-icons/md";
+import { MdHealthAndSafety, MdPets } from "react-icons/md";
 import { colors } from "../../styles/frontend-conf";
 import { useSession } from "next-auth/react";
 import { server } from "../../server";

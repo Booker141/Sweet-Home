@@ -63,31 +63,51 @@ export default function SubmenuNotification(props) {
   return (
     <>
       <div className={global.submenuNotification}>
-        <div className="notification__userFrom">
-          {notification?.type.name === "seguir" && (
-            <FaUserPlus color={`${colors.secondary}`} size={40} />
-          )}
-          {notification?.type.name === "comentar" && (
-            <FaComment color={`${colors.secondary}`} size={35} />
-          )}
-          {notification?.type.name === "me gusta" && (
-            <HiHeart color={`${colors.secondary}`} size={40} />
-          )}
-          {notification?.type.name === "mensaje" && (
-            <AiFillWechat color={`${colors.secondary}`} size={50} />
-          )}
+        <div className="subnotification__container">
+          <div className="notification__userFrom">
+            {notification?.type.name === "seguir" && (
+              <FaUserPlus color={`${colors.secondary}`} size={40} />
+            )}
+            {notification?.type.name === "comentar" && (
+              <FaComment color={`${colors.secondary}`} size={35} />
+            )}
+            {notification?.type.name === "me gusta" && (
+              <HiHeart color={`${colors.secondary}`} size={40} />
+            )}
+            {notification?.type.name === "mensaje" && (
+              <AiFillWechat color={`${colors.secondary}`} size={50} />
+            )}
+          </div>
+          <div className={global.text2}>{notification?.description}</div>
         </div>
-        <div className={global.text2}>{notification?.description}</div>
       </div>
 
       <style jsx>{`
+
+        .subnotification__container{
+
+          /*Box model*/
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 2rem;
+          width: 100%;
+        }
+
+        .notification__userFrom{
+
+          display: flex;
+          justify-content: flex-start;
+        }
+
         .notification__time {
           /*Box model*/
 
           display: flex;
           flex-direction: row;
           align-items: center;
-          gap: 1rem;
+          gap: 2rem;
         }
       `}</style>
     </>

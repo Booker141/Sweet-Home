@@ -795,6 +795,7 @@ export default function PublicProfile({ users }) {
               display: flex;
               flex-direction: row;
               align-items: center;
+              gap: 1rem;
             }
 
             .form-vertical__image {
@@ -1114,7 +1115,6 @@ export default function PublicProfile({ users }) {
               /*Position*/
 
               position: relative;
-              right: 0.1rem;
               bottom: 0.9rem;
               z-index: 999;
 
