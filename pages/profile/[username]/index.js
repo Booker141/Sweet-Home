@@ -393,6 +393,7 @@ export default function Username({ posts, users }) {
                     }
 
 
+
                     .profile__biography{
 
                         /*Box model*/

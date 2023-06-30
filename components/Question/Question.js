@@ -64,7 +64,9 @@ export default function Question(props) {
     <>
       <div key={props?._id} className={global.question}>
         <div className="question__header">
-          <h2 className={global.secondary2}>{props?.title}</h2>
+          <div className="header__title">
+            <h2 className={global.secondary2}>{props?.title}</h2>
+          </div>
           {props?.isAdmin && (
             <div className="header__buttons">
               <button
@@ -128,18 +130,6 @@ export default function Question(props) {
             width: 100%;
           }
 
-          .question__header > h2{
-
-            /*Box models*/
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-          }
 
 
           .delete__button {
@@ -192,13 +182,22 @@ export default function Question(props) {
             cursor: pointer;
           }
 
+          .header__title{
+
+            display: flex;
+            justify-content: flex-end;
+            margin-left: auto;
+            margin-right: auto;
+          }
+
           .header__buttons {
             /*Box model*/
 
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-left: auto;
+            justify-content: flex-end;
+
             gap: 1rem;
 
             margin-top: 0.5rem;
