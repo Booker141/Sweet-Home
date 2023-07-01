@@ -31,6 +31,7 @@ export default function NewsId({ news }) {
       <div className="new">
         <New
           key={news?._id}
+          id={news?._id}
           title={news?.title}
           date={news?.date}
           author={news?.author}

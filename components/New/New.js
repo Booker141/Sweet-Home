@@ -87,7 +87,7 @@ export default function New(props) {
               <div className="buttons">
                 <button
                   className="edit__button"
-                  onClick={() => Router.push(`dashboard/editNew/${props?.id}`)}
+                  onClick={() => Router.push(`${server}/dashboard/editNew/${props?.id}`)}
                 >
                   <MdOutlineEdit size={20} color={colors.secondary} />
                 </button>
