@@ -42,8 +42,6 @@ export default function Comment(props) {
   const [isComment, setIsComment] = useState(false);
   const [post, setPost] = useState({});
   const [user, setUser] = useState({});
-  const [isShelter, setIsShelter] = useState(false);
-  const [isVet, setIsVet] = useState(false);
   const [moreComments, setMoreComments] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -109,8 +107,7 @@ export default function Comment(props) {
     const user = await res.json();
     setUser(user);
 
-    if (user?.role.name === "protectora") setIsShelter(true);
-    if (user?.role.name === "veterinaria") setIsVet(true);
+    
   }
 
   const Commentate = async () => {
@@ -264,15 +261,8 @@ export default function Comment(props) {
                       className={global.text2__bold}
                       href={`/profile/${comment?.username}`}
                     >
-                      @{comment?.username}
+                      @{comment?.username}:
                     </a>
-                    {isShelter && (
-                      <MdPets size={18} color={colors.secondary} />
-                    )}
-                    {isVet && (
-                      <MdHealthAndSafety size={18} color={colors.secondary} />
-                    )}
-                    <p className={global.text2}>:</p>
                   </div>
                   <div className="comment__description">
                     <p className={global.text2}>{comment?.description}</p>
@@ -317,15 +307,8 @@ export default function Comment(props) {
                       className={global.text2__bold}
                       href={`/profile/${comment?.username}`}
                     >
-                      @{comment?.username}
+                      @{comment?.username}:
                     </a>
-                    {isShelter && (
-                      <BsPatchCheckFill size={18} color={colors.secondary} />
-                    )}
-                    {isVet && (
-                      <MdHealthAndSafety size={18} color={colors.secondary} />
-                    )}
-                    <p className={global.text2}>:</p>
                   </div>
                   <div className="comment__description">
                     <p className={global.text2}>{comment?.description}</p>
@@ -501,7 +484,7 @@ export default function Comment(props) {
           .comment__description {
             /*Box model*/
 
-            margin-left: 1rem;
+            margin-left: 0.1rem;
             max-width: 50vw;
           }
 

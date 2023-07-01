@@ -45,9 +45,6 @@ export default function EditPet({ pets }) {
   const [isValidate, setIsValidate] = useState(true);
   let imageCloudinary
 
-  console.log(petImage)
-  console.log(pets.image)
-
   const uploadImage = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0];
