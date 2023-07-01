@@ -1,13 +1,12 @@
 /* Static imports */
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { colors, fonts, statusColors } from "styles/frontend-conf.js";
 import { FaUser, FaUserPlus, FaUserTag } from "react-icons/fa";
 import {
   BsFillLockFill,
   BsFillCheckCircleFill,
-  BsFillXCircleFill,
 } from "react-icons/bs";
 import { MdEmail, MdOutlineError } from "react-icons/md";
 import {
@@ -45,6 +44,8 @@ export default function SignUp() {
   const [role, setRole] = useState("");
   const [isValidate, setIsValidate] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const roleRef = useRef(null);
 
   const Router = useRouter();
 
@@ -170,60 +171,93 @@ export default function SignUp() {
   const signUp = async (e) => {
     e.preventDefault();
 
+    const radioElement = roleRef.current;
+
     if (isValidate) {
-      const res = await fetch(`${server}/api/registerShelterVet`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          name,
-          lastname: "",
-          username,
-          role,
-        }),
-      }).catch((err) => console.log(err));
 
-      const data = await res.json();
+      if(radioElement.checked){
 
-      setIsSignUp(true);
-
-      if (data.message == "Registrado con éxito.") {
-        setIsSignUp(true);
-        toast.success("Se ha registrado con éxito", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-
-        const res = await fetch(`${server}/api/sendEmail`, {
+        const res = await fetch(`${server}/api/registerShelterVet`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             email,
+            password,
             name,
+            lastname: "",
             username,
+            role,
           }),
         }).catch((err) => console.log(err));
 
-        if (res.error) console.log(res.error);
+        const data = await res.json();
 
-        Router.push(`${server}/auth/signIn`);
-      }
+        setIsSignUp(true);
 
-      if (data.message == "Ya está registrado con este nombre de usuario.") {
-        setIsSignUp(false);
+        if (data.message == "Registrado con éxito.") {
+          setIsSignUp(true);
+          toast.success("Se ha registrado con éxito", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
 
-        toast.error("Ya está registrado con este nombre de usuario", {
+          const res = await fetch(`${server}/api/sendEmail`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              name,
+              username,
+            }),
+          }).catch((err) => console.log(err));
+
+          if (res.error) console.log(res.error);
+
+          Router.push(`${server}/auth/signIn`);
+        }
+
+        if (data.message == "Ya está registrado con este nombre de usuario.") {
+          setIsSignUp(false);
+
+          toast.error("Ya está registrado con este nombre de usuario", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+
+        if (data.message == "Ya está registrado con este email.") {
+          setIsSignUp(false);
+
+          toast.error("Ya está registrado con este correo electrónico", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      }else{
+
+        toast.error("No ha seleccionado el tipo de usuario", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: true,
@@ -233,21 +267,7 @@ export default function SignUp() {
           progress: undefined,
           theme: "colored",
         });
-      }
-
-      if (data.message == "Ya está registrado con este email.") {
-        setIsSignUp(false);
-
-        toast.error("Ya está registrado con este correo electrónico", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        return;
       }
     } else {
       setIsSignUp(false);
@@ -318,6 +338,7 @@ export default function SignUp() {
                     type="radio"
                     id="vet"
                     name="radio"
+                    ref={roleRef}
                     value="veterinaria"
                     onChange={(e) => setRole(e.target.value)}
                   />
@@ -327,6 +348,7 @@ export default function SignUp() {
                     type="radio"
                     id="shelter"
                     name="radio"
+                    ref={roleRef}
                     value="protectora"
                     onChange={(e) => setRole(e.target.value)}
                   />
