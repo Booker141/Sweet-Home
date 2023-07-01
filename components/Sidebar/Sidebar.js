@@ -1022,6 +1022,8 @@ export default function Sidebar() {
           /*Box model*/
 
           display: flex;
+          align-items: center;
+          justify-content: center;
           flex-direction: column;
           gap: 1rem;
           margin-bottom: 2rem;
