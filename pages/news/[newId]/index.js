@@ -174,10 +174,7 @@ export default function NewsId({ news }) {
 }
 
 export async function getServerSideProps(context) {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
+
 
   const { newId } = context.query;
 

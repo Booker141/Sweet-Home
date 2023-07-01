@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
-  res.setHeader("Cache-Control", "s-maxage=10");
 
   if (req.method == "PUT") {
     const client = await clientPromise;

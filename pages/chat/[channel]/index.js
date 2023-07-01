@@ -424,10 +424,6 @@ export default function ChatChannel({actualUser, otherUser}) {
 
 export async function getServerSideProps(context){
 
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
 
   const session = await getSession(context)
 

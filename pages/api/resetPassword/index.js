@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import sendResetEmail from "../lib/sendResetEmail";
 
 export default async function handler(req, res) {
-  res.setHeader("Cache-Control", "s-maxage=10");
 
   if (req.method === "POST") {
     const client = await clientPromise;

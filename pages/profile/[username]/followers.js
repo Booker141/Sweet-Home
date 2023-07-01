@@ -125,10 +125,7 @@ export default function FollowerUser({ user }) {
 }
 
 export async function getServerSideProps(context) {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
+
 
   const res = await fetch(`${server}/api/users/${context.query.username}`, {
     method: "GET",

@@ -105,7 +105,7 @@ export default function Sidebar() {
 
       }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -126,7 +126,7 @@ export default function Sidebar() {
       },
       body: JSON.stringify({
         report: report,
-        image: server === 'https://sweet-home-bay.vercel.app/' && reportImage != "" ? imageCloudinary.secure_url : `/reportPhotos/${reportImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app' && reportImage != "" ? imageCloudinary.secure_url : `/reportPhotos/${reportImage?.name}`,
         username: session.user.username,
       }),
     }).catch((err) => console.log(err));

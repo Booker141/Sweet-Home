@@ -179,7 +179,7 @@ export default function PublicProfile({ users }) {
             });
         }
 
-        if(server === 'https://sweet-home-bay.vercel.app/'){
+        if(server === 'https://sweet-home-bay.vercel.app'){
           body.append("upload_preset", "sweet-home-images")
   
             const res = await fetch(`https://api.cloudinary.com/v1_1/dze6infst/image/upload`, {
@@ -210,7 +210,7 @@ export default function PublicProfile({ users }) {
 
         }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app'){
 
         formBanner.append("upload_preset", "sweet-home-images")
 
@@ -238,8 +238,8 @@ export default function PublicProfile({ users }) {
           biography: biography,
           location: location,
           birthdate: birthdate,
-          image: server === 'https://sweet-home-bay.vercel.app/' && imageURL != users?.image ? imageCloudinary.secure_url : imageURL,
-          banner: server === 'https://sweet-home-bay.vercel.app/' && bannerURL != users?.banner ? bannerCloudinary.secure_url : bannerURL,
+          image: server === 'https://sweet-home-bay.vercel.app' && imageURL != users?.image ? imageCloudinary.secure_url : imageURL,
+          banner: server === 'https://sweet-home-bay.vercel.app' && bannerURL != users?.banner ? bannerCloudinary.secure_url : bannerURL,
         }),
       });
 
@@ -1431,10 +1431,7 @@ export default function PublicProfile({ users }) {
 }
 
 export async function getServerSideProps(context) {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
+
 
   const session = await getSession(context);
 

@@ -118,7 +118,7 @@ export default function EditPet({ pets }) {
 
     }
 
-    if(server === 'https://sweet-home-bay.vercel.app/'){
+    if(server === 'https://sweet-home-bay.vercel.app'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -147,7 +147,7 @@ export default function EditPet({ pets }) {
         breed: breed,
         name: name,
         weight: weight,
-        image: server === 'https://sweet-home-bay.vercel.app/' && petImage != pets.image ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app' && petImage != pets.image ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
         ownerId: pets.ownerId,
         ownerUsername: pets.ownerUsername,
         birthdate: birthdate,
@@ -700,10 +700,7 @@ export default function EditPet({ pets }) {
 }
 
 export async function getServerSideProps(context) {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
+
 
   const res = await fetch(`${server}/api/petsById/${context.query.petId}`, {
     method: "GET",

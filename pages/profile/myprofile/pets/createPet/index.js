@@ -146,7 +146,7 @@ export default function CreatePet() {
 
     }
 
-    if(server === 'https://sweet-home-bay.vercel.app/'){
+    if(server === 'https://sweet-home-bay.vercel.app'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -177,7 +177,7 @@ export default function CreatePet() {
         weight: weight,
         birthdate: birthdate,
         username: session.user.username,
-        image: server === 'https://sweet-home-bay.vercel.app/' && petImage != "" ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app' && petImage != "" ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
       }),
     }).catch((err) =>
       toast.error(`${err}`, {

@@ -4,7 +4,6 @@ import Ably from "ably/promises";
 
 export default async function handler (req, res) {
 
-  res.setHeader('Cache-Control', 's-maxage=10'); 
 
   const rest = new Ably.Rest(process.env.ABLY_API_KEY);
 

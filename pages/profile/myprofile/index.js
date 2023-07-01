@@ -81,7 +81,7 @@ export default function MyProfile({ posts, users }) {
         });
       }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app'){
 
         formBanner.append("upload_preset", "sweet-home-images")
 
@@ -103,7 +103,7 @@ export default function MyProfile({ posts, users }) {
         method: "PUT",
         body: JSON.stringify({
           image: userImage,
-          banner: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/bannerPhotos/${bannerUploaded?.name}`,
+          banner: server === 'https://sweet-home-bay.vercel.app' ? imageCloudinary.secure_url : `/bannerPhotos/${bannerUploaded?.name}`,
           firstname: profileUser?.firstname,
           lastname: profileUser?.lastname,
           phone: profileUser?.phone,
@@ -146,7 +146,7 @@ export default function MyProfile({ posts, users }) {
         });
       }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -167,7 +167,7 @@ export default function MyProfile({ posts, users }) {
         },
         method: "PUT",
         body: JSON.stringify({
-          image: server === 'https://sweet-home-bay.vercel.app/' ? imageCloudinary.secure_url : `/userPhotos/${imageUploaded?.name}`,
+          image: server === 'https://sweet-home-bay.vercel.app' ? imageCloudinary.secure_url : `/userPhotos/${imageUploaded?.name}`,
           banner: userBanner,
           firstname: profileUser?.firstname,
           lastname: profileUser?.lastname,
@@ -728,10 +728,7 @@ export default function MyProfile({ posts, users }) {
 }
 
 export async function getServerSideProps(context) {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
+
 
   const session = await getSession(context);
 

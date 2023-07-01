@@ -95,7 +95,7 @@ export default function CreatePost() {
 
       }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -124,7 +124,7 @@ export default function CreatePost() {
         location,
         description,
         username: session.user.username,
-        image: server === 'https://sweet-home-bay.vercel.app/' && postImage != "" ? imageCloudinary.secure_url : `/postPhotos/${postImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app' && postImage != "" ? imageCloudinary.secure_url : `/postPhotos/${postImage?.name}`,
         type: typePost,
       }),
     }).catch((err) => console.log(err));

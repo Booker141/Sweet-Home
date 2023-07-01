@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
-  res.setHeader("Cache-Control", "s-maxage=10");
+
 
   if (req.method === "POST") {
     const client = await MongoClient.connect(process.env.MONGODB_URI, {

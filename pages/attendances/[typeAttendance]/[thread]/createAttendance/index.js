@@ -83,7 +83,7 @@ export default function CreateAttendance() {
         });
       }
 
-      if(server === 'https://sweet-home-bay.vercel.app/'){
+      if(server === 'https://sweet-home-bay.vercel.app'){
 
         body.append("upload_preset", "sweet-home-images")
 
@@ -115,7 +115,7 @@ export default function CreateAttendance() {
           animal,
           breed,
           username: session.user.username,
-          image: server === 'https://sweet-home-bay.vercel.app/' && attendanceImage != "" ? imageCloudinary.secure_url : `/attendancePhotos/${attendanceImage?.name}`,
+          image: server === 'https://sweet-home-bay.vercel.app' && attendanceImage != "" ? imageCloudinary.secure_url : `/attendancePhotos/${attendanceImage?.name}`,
         }),
       }
     ).catch((err) => console.log(err));
