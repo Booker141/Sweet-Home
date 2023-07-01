@@ -45,6 +45,9 @@ export default function EditPet({ pets }) {
   const [isValidate, setIsValidate] = useState(true);
   let imageCloudinary
 
+  console.log(petImage)
+  console.log(pets.image)
+
   const uploadImage = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const imageUploaded = e.target.files[0];
@@ -147,7 +150,7 @@ export default function EditPet({ pets }) {
         breed: breed,
         name: name,
         weight: weight,
-        image: server === 'https://sweet-home-bay.vercel.app' && petImage != pets.image ? imageCloudinary.secure_url : `/petPhotos/${petImage?.name}`,
+        image: server === 'https://sweet-home-bay.vercel.app' && petImage != pets.image ? imageCloudinary.secure_url : petImage,
         ownerId: pets.ownerId,
         ownerUsername: pets.ownerUsername,
         birthdate: birthdate,
